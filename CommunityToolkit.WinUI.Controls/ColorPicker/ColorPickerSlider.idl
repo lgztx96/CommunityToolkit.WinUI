@@ -1,0 +1,46 @@
+﻿import "ColorPicker/ColorPicker.idl";
+
+namespace CommunityToolkit.WinUI.Controls.Primitives
+{
+    [default_interface]
+    runtimeclass ColorPickerSlider : Microsoft.UI.Xaml.Controls.Slider
+    {
+        ColorPickerSlider();
+
+        Windows.UI.Color Color;
+
+        static Microsoft.UI.Xaml.DependencyProperty ColorProperty{ get; };
+
+        CommunityToolkit.WinUI.Controls.ColorChannel ColorChannel;
+
+        static Microsoft.UI.Xaml.DependencyProperty ColorChannelProperty{ get; };
+
+        CommunityToolkit.WinUI.Controls.ColorRepresentation ColorRepresentation;
+
+        static Microsoft.UI.Xaml.DependencyProperty ColorRepresentationProperty{ get; };
+
+        Microsoft.UI.Xaml.Media.Brush DefaultForeground;
+
+        static Microsoft.UI.Xaml.DependencyProperty DefaultForegroundProperty{ get; };
+
+        CommunityToolkit.WinUI.HsvColor HsvColor;
+
+        static Microsoft.UI.Xaml.DependencyProperty HsvColorProperty{ get; };
+
+        Boolean IsAlphaMaxForced;
+
+        static Microsoft.UI.Xaml.DependencyProperty IsAlphaMaxForcedProperty{ get; };
+
+        Boolean IsAutoUpdatingEnabled;
+
+        static Microsoft.UI.Xaml.DependencyProperty IsAutoUpdatingEnabledProperty{ get; };
+
+        Boolean IsSaturationValueMaxForced;
+
+        static Microsoft.UI.Xaml.DependencyProperty IsSaturationValueMaxForcedProperty{ get; };
+
+        void UpdateColors();
+
+        Windows.UI.Color CheckerBackgroundColor;
+    }
+}

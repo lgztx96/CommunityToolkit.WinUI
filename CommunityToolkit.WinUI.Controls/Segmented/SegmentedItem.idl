@@ -1,0 +1,13 @@
+﻿namespace CommunityToolkit.WinUI.Controls
+{
+    [bindable]
+    [default_interface]
+    [contentproperty("Content")]
+    runtimeclass SegmentedItem : Microsoft.UI.Xaml.Controls.ListViewItem
+    {
+        SegmentedItem();
+
+        Microsoft.UI.Xaml.Controls.IconElement Icon;
+        static Microsoft.UI.Xaml.DependencyProperty IconProperty{ get; };
+    }
+}

@@ -1,0 +1,22 @@
+﻿namespace CommunityToolkit.WinUI
+{
+    [default_interface]
+    unsealed runtimeclass TextIconExtension : Microsoft.UI.Xaml.Markup.MarkupExtension
+    {
+        TextIconExtension();
+
+        Double FontSize;
+
+        static Microsoft.UI.Xaml.Media.FontFamily SymbolThemeFontFamily();
+
+        Windows.UI.Text.FontWeight FontWeight;
+
+        Windows.UI.Text.FontStyle FontStyle;
+
+        Microsoft.UI.Xaml.Media.Brush Foreground;
+
+        Boolean IsTextScaleFactorEnabled;
+
+        Boolean MirroredWhenRightToLeft;
+    }
+}

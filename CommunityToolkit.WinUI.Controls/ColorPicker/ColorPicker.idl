@@ -1,0 +1,34 @@
+﻿
+namespace CommunityToolkit.WinUI.Controls
+{
+    enum ColorChannel
+    {
+        Alpha,
+        Channel1,
+        Channel2,
+        Channel3
+    };
+
+    enum ColorRepresentation
+    {
+        Hsva,
+        Rgba
+    };
+
+    interface IColorPalette
+    {
+        Int32 ColorCount { get; };
+
+        Int32 ShadeCount{ get; };
+
+        Windows.UI.Color GetColor(Int32 colorIndex, Int32 shadeIndex);
+    };
+
+    [default_interface]
+    runtimeclass ColorPicker : Microsoft.UI.Xaml.Controls.ColorPicker
+    {
+        ColorPicker();
+
+        Windows.UI.Color CheckerBackgroundColor;
+    }
+}

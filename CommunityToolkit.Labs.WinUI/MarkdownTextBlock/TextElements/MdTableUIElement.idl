@@ -1,0 +1,9 @@
+﻿namespace CommunityToolkit.Labs.WinUI
+{
+    [bindable]
+    [default_interface]
+    runtimeclass MdTableUIElement : Microsoft.UI.Xaml.Controls.Panel
+    {
+        MdTableUIElement();
+    }
+}

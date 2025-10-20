@@ -1,0 +1,18 @@
+namespace CommunityToolkit.WinUI
+{
+    [default_interface]
+    static runtimeclass FrameworkElementExtensions
+    {
+        static Microsoft.UI.Xaml.DependencyProperty AncestorProperty{ get; };
+
+        static Object GetAncestor(Microsoft.UI.Xaml.DependencyObject obj);
+
+        static void SetAncestor(Microsoft.UI.Xaml.DependencyObject obj, Object value);
+
+        static Microsoft.UI.Xaml.DependencyProperty AncestorTypeProperty{ get; };
+
+        static Windows.UI.Xaml.Interop.TypeName GetAncestorType(Microsoft.UI.Xaml.FrameworkElement obj);
+
+        static void SetAncestorType(Microsoft.UI.Xaml.FrameworkElement obj, Windows.UI.Xaml.Interop.TypeName value);
+    }
+}

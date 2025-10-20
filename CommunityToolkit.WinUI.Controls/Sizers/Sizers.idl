@@ -1,0 +1,103 @@
+﻿namespace CommunityToolkit.WinUI.Controls
+{
+	[bindable]
+	[default_interface]
+    unsealed runtimeclass SizerBase : Microsoft.UI.Xaml.Controls.Control
+    {
+        SizerBase();
+
+        overridable void OnLoaded(Microsoft.UI.Xaml.RoutedEventArgs e);
+        overridable void OnDragStarting();
+        overridable Boolean OnDragHorizontal(Double horizontalChange);
+        overridable Boolean OnDragVertical(Double verticalChange);
+
+        Microsoft.UI.Input.InputSystemCursorShape Cursor;
+        static Microsoft.UI.Xaml.DependencyProperty CursorProperty{ get; };
+
+        Double DragIncrement;
+        static Microsoft.UI.Xaml.DependencyProperty DragIncrementProperty{ get; };
+
+        Double KeyboardIncrement;
+        static Microsoft.UI.Xaml.DependencyProperty KeyboardIncrementProperty{ get; };
+
+        Microsoft.UI.Xaml.Controls.Orientation Orientation;
+        static Microsoft.UI.Xaml.DependencyProperty OrientationProperty{ get; };
+
+        Boolean IsThumbVisible;
+        static Microsoft.UI.Xaml.DependencyProperty IsThumbVisibleProperty{ get; };
+    }
+
+    [bindable]
+    [default_interface]
+    runtimeclass PropertySizer : SizerBase
+    {
+        PropertySizer();
+
+        Boolean IsDragInverted;
+        static Microsoft.UI.Xaml.DependencyProperty IsDragInvertedProperty{ get; };
+
+        Double Binding;
+        static Microsoft.UI.Xaml.DependencyProperty BindingProperty{ get; };
+
+        Double Minimum;
+        static Microsoft.UI.Xaml.DependencyProperty MinimumProperty{ get; };
+
+        Double Maximum;
+        static Microsoft.UI.Xaml.DependencyProperty MaximumProperty{ get; };
+    }
+
+    [bindable]
+    [default_interface]
+    runtimeclass ContentSizer : SizerBase
+    {
+        ContentSizer();
+
+        Boolean IsDragInverted;
+        static Microsoft.UI.Xaml.DependencyProperty IsDragInvertedProperty{ get; };
+
+        Microsoft.UI.Xaml.FrameworkElement TargetControl;
+        static Microsoft.UI.Xaml.DependencyProperty TargetControlProperty{ get; };
+    }
+
+    enum GridResizeDirection
+    {
+        Auto,
+
+        Columns,
+
+        Rows
+    };
+
+    enum GridResizeBehavior
+    {
+        BasedOnAlignment,
+    
+        CurrentAndNext,
+
+        PreviousAndCurrent,
+
+        PreviousAndNext
+    };
+
+    [bindable]
+    [default_interface]
+    runtimeclass GridSplitter : SizerBase
+    {
+        GridSplitter();
+
+        GridResizeDirection ResizeDirection;
+        static Microsoft.UI.Xaml.DependencyProperty ResizeDirectionProperty{ get; };
+
+        GridResizeBehavior ResizeBehavior;
+        static Microsoft.UI.Xaml.DependencyProperty ResizeBehaviorProperty{ get; };
+
+        Int32 ParentLevel;
+        static Microsoft.UI.Xaml.DependencyProperty ParentLevelProperty{ get; };
+    }
+
+    [default_interface]
+    unsealed runtimeclass SizerAutomationPeer : Microsoft.UI.Xaml.Automation.Peers.FrameworkElementAutomationPeer
+    {
+        SizerAutomationPeer(CommunityToolkit.WinUI.Controls.SizerBase owner);
+    }
+}

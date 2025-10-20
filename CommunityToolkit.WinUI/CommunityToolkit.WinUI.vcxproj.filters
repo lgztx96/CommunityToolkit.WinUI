@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resources">
+      <UniqueIdentifier>accd3aa8-1ba0-4223-9bbe-0c431709210b</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tga;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{926ab91d-31b4-48c3-b9a4-e681349f27f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Triggers">
+      <UniqueIdentifier>{c37de839-284d-47e2-8b78-c426705a4a52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Extensions">
+      <UniqueIdentifier>{64615418-9a65-4b82-8ec1-ed1622eb0a35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Extensions\Element">
+      <UniqueIdentifier>{39ab4378-911e-48a6-8f68-3fb26bb5d1e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Extensions\Text">
+      <UniqueIdentifier>{9446b2fb-407b-4b6d-b37d-d5ad2f69bc97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Extensions\Shadows">
+      <UniqueIdentifier>{98ff39c9-d15a-4646-af8e-d773d7a097dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Themes">
+      <UniqueIdentifier>{84bcf0f9-1793-40f4-bb6c-08984de91c09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Extensions\Markup">
+      <UniqueIdentifier>{9013cb88-380d-40d2-9d8d-5edb26ea9546}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Extensions\Media">
+      <UniqueIdentifier>{e2d09753-1726-4a47-9791-5ef0135853d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Extensions\Foundation">
+      <UniqueIdentifier>{4604d4b6-93f0-49e9-a223-b98b6c602ba3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
+    <ClCompile Include="Triggers\ControlSizeTrigger.cpp">
+      <Filter>Triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="Triggers\IsEqualStateTrigger.cpp">
+      <Filter>Triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="Triggers\IsNullOrEmptyStateTrigger.cpp">
+      <Filter>Triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="Extensions\Element\UIElementExtensions.cpp">
+      <Filter>Extensions\Element</Filter>
+    </ClCompile>
+    <ClCompile Include="Extensions\Shadows\AttachedShadowBase.cpp">
+      <Filter>Extensions\Shadows</Filter>
+    </ClCompile>
+    <ClCompile Include="Extensions\Shadows\AttachedShadowElementContext.cpp">
+      <Filter>Extensions\Shadows</Filter>
+    </ClCompile>
+    <ClCompile Include="Extensions\Shadows\Effects.cpp">
+      <Filter>Extensions\Shadows</Filter>
+    </ClCompile>
+    <ClCompile Include="Extensions\Text\StringExtensions.cpp">
+      <Filter>Extensions\Text</Filter>
+    </ClCompile>
+    <ClCompile Include="Extensions\Element\FrameworkElementExtensions.cpp">
+      <Filter>Extensions\Element</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="Triggers\ControlSizeTrigger.h">
+      <Filter>Triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="Triggers\IsEqualStateTrigger.h">
+      <Filter>Triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="Triggers\IsNullOrEmptyStateTrigger.h">
+      <Filter>Triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="Extensions\Element\UIElementExtensions.h">
+      <Filter>Extensions\Element</Filter>
+    </ClInclude>
+    <ClInclude Include="Extensions\Shadows\AttachedShadowBase.h">
+      <Filter>Extensions\Shadows</Filter>
+    </ClInclude>
+    <ClInclude Include="Extensions\Shadows\AttachedShadowElementContext.h">
+      <Filter>Extensions\Shadows</Filter>
+    </ClInclude>
+    <ClInclude Include="Extensions\Shadows\Effects.h">
+      <Filter>Extensions\Shadows</Filter>
+    </ClInclude>
+    <ClInclude Include="Extensions\Shadows\TypedResourceKey.h">
+      <Filter>Extensions\Shadows</Filter>
+    </ClInclude>
+    <ClInclude Include="Extensions\Text\StringExtensions.h">
+      <Filter>Extensions\Text</Filter>
+    </ClInclude>
+    <ClInclude Include="common.h" />
+    <ClInclude Include="Extensions\Tree\Predicates.h" />
+    <ClInclude Include="Extensions\Tree\DependencyObjectExtensions.h">
+      <Filter>Extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="Extensions\Tree\FrameworkElementExtensions.h">
+      <Filter>Extensions</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CommunityToolkit.WinUI.def" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="Triggers\ControlSizeTrigger.idl">
+      <Filter>Triggers</Filter>
+    </Midl>
+    <Midl Include="Triggers\IsEqualStateTrigger.idl">
+      <Filter>Triggers</Filter>
+    </Midl>
+    <Midl Include="Triggers\IsNullOrEmptyStateTrigger.idl">
+      <Filter>Triggers</Filter>
+    </Midl>
+    <Midl Include="component.idl" />
+    <Midl Include="Extensions\Markup\TextIconExtension.idl">
+      <Filter>Extensions\Markup</Filter>
+    </Midl>
+    <Midl Include="Extensions\Markup\FontIconExtension.idl">
+      <Filter>Extensions\Markup</Filter>
+    </Midl>
+    <Midl Include="Extensions\Media\MatrixExtensions.idl">
+      <Filter>Extensions\Media</Filter>
+    </Midl>
+    <Midl Include="Extensions\Media\TransformExtensions.idl">
+      <Filter>Extensions\Media</Filter>
+    </Midl>
+    <Midl Include="Extensions\Foundation\RectExtensions.idl">
+      <Filter>Extensions\Foundation</Filter>
+    </Midl>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Themes\Generic.xaml">
+      <Filter>Themes</Filter>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
+    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natstepfilter" />
+  </ItemGroup>
+</Project>

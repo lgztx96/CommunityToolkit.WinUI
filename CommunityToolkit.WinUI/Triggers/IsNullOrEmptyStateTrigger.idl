@@ -1,0 +1,11 @@
+namespace CommunityToolkit.WinUI
+{
+    [default_interface]
+    runtimeclass IsNullOrEmptyStateTrigger : Microsoft.UI.Xaml.StateTriggerBase
+    {
+        IsNullOrEmptyStateTrigger();
+
+        Object Value;
+        static Microsoft.UI.Xaml.DependencyProperty ValueProperty{ get; };
+    }
+}

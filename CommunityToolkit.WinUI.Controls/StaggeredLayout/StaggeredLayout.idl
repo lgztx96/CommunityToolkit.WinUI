@@ -1,0 +1,24 @@
+﻿namespace CommunityToolkit.WinUI.Controls
+{
+    enum StaggeredLayoutItemsStretch
+    {
+        None,
+        Fill
+    };
+
+    [default_interface]
+    runtimeclass StaggeredLayout : Microsoft.UI.Xaml.Controls.VirtualizingLayout
+    {
+        StaggeredLayout();
+
+        StaggeredLayoutItemsStretch ItemsStretch;
+        Double DesiredColumnWidth;
+        Double ColumnSpacing;
+        Double RowSpacing;
+
+        static Microsoft.UI.Xaml.DependencyProperty DesiredColumnWidthProperty{ get; };
+        static Microsoft.UI.Xaml.DependencyProperty ColumnSpacingProperty{ get; };
+        static Microsoft.UI.Xaml.DependencyProperty RowSpacingProperty{ get; };
+        static Microsoft.UI.Xaml.DependencyProperty ItemsStretchProperty{ get; };
+    }
+}

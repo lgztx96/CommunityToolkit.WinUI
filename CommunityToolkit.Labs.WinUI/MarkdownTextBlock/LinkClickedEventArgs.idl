@@ -1,0 +1,13 @@
+namespace CommunityToolkit.Labs.WinUI
+{
+    [bindable]
+    [default_interface]
+    runtimeclass LinkClickedEventArgs
+    {
+        LinkClickedEventArgs();
+        LinkClickedEventArgs(Windows.Foundation.Uri uri);
+
+        Windows.Foundation.Uri Uri { get; };
+        Boolean Handled { get; set; };
+    }
+}

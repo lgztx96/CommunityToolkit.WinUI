@@ -1,0 +1,12 @@
+import "SettingsControls/SettingsExpander/SettingsExpander.idl";
+
+namespace CommunityToolkit.WinUI.Controls
+{
+    [default_interface]
+    runtimeclass SettingsExpanderAutomationPeer : Microsoft.UI.Xaml.Automation.Peers.FrameworkElementAutomationPeer
+    {
+        SettingsExpanderAutomationPeer(CommunityToolkit.WinUI.Controls.SettingsExpander owner);
+
+        void RaiseExpandedChangedEvent(Boolean newValue);
+    }
+}

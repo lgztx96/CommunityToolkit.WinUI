@@ -1,0 +1,10 @@
+﻿import "SettingsControls/SettingsCard/SettingsCard.idl";
+
+namespace CommunityToolkit.WinUI.Controls
+{
+    [default_interface]
+    unsealed runtimeclass SettingsCardAutomationPeer : Microsoft.UI.Xaml.Automation.Peers.ButtonBaseAutomationPeer
+    {
+        SettingsCardAutomationPeer(CommunityToolkit.WinUI.Controls.SettingsCard owner);
+    }
+}

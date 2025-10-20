@@ -1,0 +1,15 @@
+﻿import "ColorPicker/ColorPicker.idl";
+
+namespace CommunityToolkit.WinUI.Controls
+{
+    [default_interface]
+    runtimeclass ColorPickerButton : Microsoft.UI.Xaml.Controls.DropDownButton
+    {
+        ColorPickerButton();
+        CommunityToolkit.WinUI.Controls.ColorPicker ColorPicker;
+
+        Windows.UI.Color SelectedColor;
+
+        static Microsoft.UI.Xaml.DependencyProperty SelectedColorProperty{ get; };
+    }
+}

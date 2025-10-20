@@ -1,0 +1,71 @@
+﻿name: Build CommunityToolkit.WinUI sln
+
+on:
+  release:
+    types: [ published ]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    strategy:
+      matrix:
+        arch: [ x64, arm64 ]
+
+    env:
+      VCPKG_DEFAULT_TRIPLET: ${{ matrix.arch }}-windows-static
+      SOLUTION_FILE: CommunityToolkit.WinUI.sln
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup MSVC environment
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: ${{ matrix.arch }}
+
+      - name: Install vcpkg
+        run: |
+          git clone https://github.com/microsoft/vcpkg.git C:\vcpkg
+          cd C:\vcpkg
+          .\bootstrap-vcpkg.bat
+
+      - name: Install dependencies (tree-sitter static)
+        run: |
+          cd C:\vcpkg
+          .\vcpkg install tree-sitter:${{ matrix.arch }}-windows-static
+
+      - name: Integrate vcpkg with MSBuild
+        run: |
+          C:\vcpkg\vcpkg integrate install
+
+      - name: Restore NuGet packages
+        working-directory: ${{env.GITHUB_WORKSPACE}}
+        run: nuget restore ${{env.SOLUTION_FILE_PATH}}
+
+      - name: Build solution
+        env:
+         VCPKG_ROOT: C:\vcpkg
+        run: |
+          msbuild ${{ env.SOLUTION_FILE_PATH }} `
+          /p:Configuration=Release `
+          /p:Platform=${{ matrix.arch }} `
+          /p:VcpkgTriplet=${{ matrix.arch }}-windows-static `
+          /p:VcpkgRoot=${{ env.VCPKG_ROOT }} `
+          /m
+
+      - name: Package artifacts
+        run: |
+          mkdir package
+          Compress-Archive -Path "${{ matrix.arch }}/Release/*" -DestinationPath "package/CommunityToolkit.WinUI-${{ matrix.arch }}.zip"
+
+      - name: Upload artifacts to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: package/*.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

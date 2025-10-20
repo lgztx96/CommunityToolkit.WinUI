@@ -1,0 +1,342 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resources">
+      <UniqueIdentifier>accd3aa8-1ba0-4223-9bbe-0c431709210b</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tga;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{926ab91d-31b4-48c3-b9a4-e681349f27f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SettingsControls">
+      <UniqueIdentifier>{d30e10cc-8d09-4478-bffa-1732426a4d2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Themes">
+      <UniqueIdentifier>{24ba378b-0a63-4a81-8fe2-09679ea640ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SettingsControls\SettingsCard">
+      <UniqueIdentifier>{df16533e-27a0-4e00-a827-f13198167b9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SettingsControls\SettingsExpander">
+      <UniqueIdentifier>{98e79373-3ddd-4b3e-b3ee-bc73844279c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SettingsControls\Helpers">
+      <UniqueIdentifier>{5ade536a-4397-4ec8-8207-4680976febda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Segmented">
+      <UniqueIdentifier>{bc34beae-1b0d-4a06-9c2e-a5f48acbdd04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sizers">
+      <UniqueIdentifier>{7bc2ae48-e522-40c3-9121-0e944ad46a7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sizers\ContentSizer">
+      <UniqueIdentifier>{13eaa1a9-ba39-4fb7-b297-e3fcaa122100}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sizers\GridSplitter">
+      <UniqueIdentifier>{cc99355a-3e72-4afc-b687-e8776562dd45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sizers\PropertySizer">
+      <UniqueIdentifier>{d606f91c-8fdb-4b9e-b78d-0ea6191891a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sizers\Strings">
+      <UniqueIdentifier>{ee29a2ec-2862-4173-8f0f-f7472e4ea4ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sizers\Strings\en-US">
+      <UniqueIdentifier>{af975ade-f5f6-4c78-b7da-10f542e9a176}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LayoutTransformControl">
+      <UniqueIdentifier>{c4afd767-6aa7-4097-b4dc-6150933b5624}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImageCropper">
+      <UniqueIdentifier>{cb0c8d8c-bf47-40d5-b2e7-b307eb813d69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StaggeredLayout">
+      <UniqueIdentifier>{6a371ef8-3f91-407d-b524-d56ea8250c4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ColorPicker">
+      <UniqueIdentifier>{0497af09-3850-46a8-bcc0-0a10c9ba0e4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SwitchPresenter">
+      <UniqueIdentifier>{375a5017-7fc0-428b-a8b9-b579153cfb95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UniformGrid">
+      <UniqueIdentifier>{7979abb8-b949-4755-bc5a-53e5cd35251e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
+    <ClCompile Include="SettingsControls\Helpers\CornerRadiusConverter.cpp">
+      <Filter>SettingsControls\Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingsControls\SettingsCard\SettingsCard.cpp">
+      <Filter>SettingsControls\SettingsCard</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingsControls\SettingsCard\SettingsCardAutomationPeer.cpp">
+      <Filter>SettingsControls\SettingsCard</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingsControls\Helpers\StyleExtensionResourceDictionary.cpp">
+      <Filter>SettingsControls\Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingsControls\Helpers\StyleExtensions.cpp">
+      <Filter>SettingsControls\Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingsControls\SettingsExpander\SettingsExpander.cpp">
+      <Filter>SettingsControls\SettingsExpander</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingsControls\SettingsExpander\SettingsExpanderAutomationPeer.cpp">
+      <Filter>SettingsControls\SettingsExpander</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingsControls\SettingsExpander\SettingsExpanderItemStyleSelector.cpp">
+      <Filter>SettingsControls\SettingsExpander</Filter>
+    </ClCompile>
+    <ClCompile Include="Segmented\Segmented.cpp">
+      <Filter>Segmented</Filter>
+    </ClCompile>
+    <ClCompile Include="Segmented\SegmentedItem.cpp">
+      <Filter>Segmented</Filter>
+    </ClCompile>
+    <ClCompile Include="Segmented\SegmentedMarginConverter.cpp">
+      <Filter>Segmented</Filter>
+    </ClCompile>
+    <ClCompile Include="Segmented\EqualPanel.cpp">
+      <Filter>Segmented</Filter>
+    </ClCompile>
+    <ClCompile Include="Sizers\SizerAutomationPeer.cpp">
+      <Filter>Sizers</Filter>
+    </ClCompile>
+    <ClCompile Include="Sizers\SizerBase.cpp">
+      <Filter>Sizers</Filter>
+    </ClCompile>
+    <ClCompile Include="Sizers\ContentSizer\ContentSizer.cpp">
+      <Filter>Sizers\ContentSizer</Filter>
+    </ClCompile>
+    <ClCompile Include="Sizers\GridSplitter\GridSplitter.cpp">
+      <Filter>Sizers\GridSplitter</Filter>
+    </ClCompile>
+    <ClCompile Include="Sizers\PropertySizer\PropertySizer.cpp">
+      <Filter>Sizers\PropertySizer</Filter>
+    </ClCompile>
+    <ClCompile Include="LayoutTransformControl\LayoutTransformControl.cpp">
+      <Filter>LayoutTransformControl</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageCropper\ImageCropper.cpp">
+      <Filter>ImageCropper</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageCropper\ImageCropperThumb.cpp">
+      <Filter>ImageCropper</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageCropper\ImageCropper.Helpers.cpp">
+      <Filter>ImageCropper</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageCropper\ImageCropper.Events.cpp">
+      <Filter>ImageCropper</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageCropper\ImageCropper.Animations.cpp">
+      <Filter>ImageCropper</Filter>
+    </ClCompile>
+    <ClCompile Include="StaggeredLayout\StaggeredLayout.cpp">
+      <Filter>StaggeredLayout</Filter>
+    </ClCompile>
+    <ClCompile Include="StaggeredLayout\StaggeredLayoutState.cpp">
+      <Filter>StaggeredLayout</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageCropper\ImageCropper.Logic.cpp">
+      <Filter>ImageCropper</Filter>
+    </ClCompile>
+    <ClCompile Include="ColorPicker\ColorPicker.cpp">
+      <Filter>ColorPicker</Filter>
+    </ClCompile>
+    <ClCompile Include="ColorPicker\ColorPreviewer.cpp">
+      <Filter>ColorPicker</Filter>
+    </ClCompile>
+    <ClCompile Include="ColorPicker\ColorPickerButton.cpp">
+      <Filter>ColorPicker</Filter>
+    </ClCompile>
+    <ClCompile Include="ColorPicker\ColorPickerSlider.cpp">
+      <Filter>ColorPicker</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="SettingsControls\Helpers\ControlHelper.h">
+      <Filter>SettingsControls\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingsControls\Helpers\CornerRadiusConverter.h">
+      <Filter>SettingsControls\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingsControls\Helpers\ResourceDictionaryExtensions.h">
+      <Filter>SettingsControls\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingsControls\SettingsCard\SettingsCard.h">
+      <Filter>SettingsControls\SettingsCard</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingsControls\SettingsCard\SettingsCardAutomationPeer.h">
+      <Filter>SettingsControls\SettingsCard</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingsControls\Helpers\StyleExtensionResourceDictionary.h">
+      <Filter>SettingsControls\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingsControls\Helpers\StyleExtensions.h">
+      <Filter>SettingsControls\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingsControls\SettingsExpander\SettingsExpander.h">
+      <Filter>SettingsControls\SettingsExpander</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingsControls\SettingsExpander\SettingsExpanderAutomationPeer.h">
+      <Filter>SettingsControls\SettingsExpander</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingsControls\SettingsExpander\SettingsExpanderItemStyleSelector.h">
+      <Filter>SettingsControls\SettingsExpander</Filter>
+    </ClInclude>
+    <ClInclude Include="Sizers\SizerAutomationPeer.h">
+      <Filter>Sizers</Filter>
+    </ClInclude>
+    <ClInclude Include="Sizers\SizerBase.h">
+      <Filter>Sizers</Filter>
+    </ClInclude>
+    <ClInclude Include="Sizers\ContentSizer\ContentSizer.h">
+      <Filter>Sizers\ContentSizer</Filter>
+    </ClInclude>
+    <ClInclude Include="Sizers\GridSplitter\GridSplitter.h">
+      <Filter>Sizers\GridSplitter</Filter>
+    </ClInclude>
+    <ClInclude Include="Sizers\PropertySizer\PropertySizer.h">
+      <Filter>Sizers\PropertySizer</Filter>
+    </ClInclude>
+    <ClInclude Include="LayoutTransformControl\PropertyChangeEventSource.h">
+      <Filter>LayoutTransformControl</Filter>
+    </ClInclude>
+    <ClInclude Include="StaggeredLayout\StaggeredItem.h">
+      <Filter>StaggeredLayout</Filter>
+    </ClInclude>
+    <ClInclude Include="StaggeredLayout\StaggeredColumnLayout.h">
+      <Filter>StaggeredLayout</Filter>
+    </ClInclude>
+    <ClInclude Include="StaggeredLayout\StaggeredLayoutState.h">
+      <Filter>StaggeredLayout</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorPicker\ColorPickerRenderingHelpers.h">
+      <Filter>ColorPicker</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorPicker\FluentColorPalette.h">
+      <Filter>ColorPicker</Filter>
+    </ClInclude>
+    <ClInclude Include="SwitchPresenter\SwitchHelpers.h">
+      <Filter>SwitchPresenter</Filter>
+    </ClInclude>
+    <ClInclude Include="UniformGrid\TakenSpotsReferenceHolder.h">
+      <Filter>UniformGrid</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="SettingsControls\Helpers\CornerRadiusConverter.idl">
+      <Filter>SettingsControls\Helpers</Filter>
+    </Midl>
+    <Midl Include="SettingsControls\SettingsCard\SettingsCard.idl">
+      <Filter>SettingsControls\SettingsCard</Filter>
+    </Midl>
+    <Midl Include="SettingsControls\SettingsCard\SettingsCardAutomationPeer.idl">
+      <Filter>SettingsControls\SettingsCard</Filter>
+    </Midl>
+    <Midl Include="SettingsControls\Helpers\StyleExtensionResourceDictionary.idl">
+      <Filter>SettingsControls\Helpers</Filter>
+    </Midl>
+    <Midl Include="SettingsControls\Helpers\StyleExtensions.idl">
+      <Filter>SettingsControls\Helpers</Filter>
+    </Midl>
+    <Midl Include="SettingsControls\SettingsExpander\SettingsExpander.idl">
+      <Filter>SettingsControls\SettingsExpander</Filter>
+    </Midl>
+    <Midl Include="SettingsControls\SettingsExpander\SettingsExpanderAutomationPeer.idl">
+      <Filter>SettingsControls\SettingsExpander</Filter>
+    </Midl>
+    <Midl Include="SettingsControls\SettingsExpander\SettingsExpanderItemStyleSelector.idl">
+      <Filter>SettingsControls\SettingsExpander</Filter>
+    </Midl>
+    <Midl Include="Sizers\Sizers.idl">
+      <Filter>Sizers</Filter>
+    </Midl>
+    <Midl Include="SwitchPresenter\SwitchConverter.idl">
+      <Filter>SwitchPresenter</Filter>
+    </Midl>
+    <Midl Include="SwitchPresenter\CaseCollection.idl">
+      <Filter>SwitchPresenter</Filter>
+    </Midl>
+    <Midl Include="SwitchPresenter\SwitchPresenter.idl">
+      <Filter>SwitchPresenter</Filter>
+    </Midl>
+    <Midl Include="SwitchPresenter\Case.idl">
+      <Filter>SwitchPresenter</Filter>
+    </Midl>
+    <Midl Include="ColorPicker\ColorToHexConverter.idl">
+      <Filter>ColorPicker</Filter>
+    </Midl>
+    <Midl Include="ColorPicker\AccentColorConverter.idl">
+      <Filter>ColorPicker</Filter>
+    </Midl>
+    <Midl Include="ColorPicker\NullToTransparentConverter.idl">
+      <Filter>ColorPicker</Filter>
+    </Midl>
+    <Midl Include="ColorPicker\ContrastBrushConverter.idl">
+      <Filter>ColorPicker</Filter>
+    </Midl>
+    <Midl Include="UniformGrid\UniformGrid.idl">
+      <Filter>UniformGrid</Filter>
+    </Midl>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CommunityToolkit.WinUI.Controls.def" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Themes\Generic.xaml">
+      <Filter>Themes</Filter>
+    </Page>
+    <Page Include="SettingsControls\SettingsCard\SettingsCard.xaml">
+      <Filter>SettingsControls\SettingsCard</Filter>
+    </Page>
+    <Page Include="SettingsControls\SettingsExpander\SettingsExpander.xaml">
+      <Filter>SettingsControls\SettingsExpander</Filter>
+    </Page>
+    <Page Include="Segmented\Segmented.xaml">
+      <Filter>Segmented</Filter>
+    </Page>
+    <Page Include="Segmented\SegmentedItem.xaml">
+      <Filter>Segmented</Filter>
+    </Page>
+    <Page Include="Sizers\SizerBase.xaml">
+      <Filter>Sizers</Filter>
+    </Page>
+    <Page Include="LayoutTransformControl\LayoutTransformControl.xaml">
+      <Filter>LayoutTransformControl</Filter>
+    </Page>
+    <Page Include="ImageCropper\ImageCropper.xaml">
+      <Filter>ImageCropper</Filter>
+    </Page>
+    <Page Include="ImageCropper\ImageCropperThumb.xaml">
+      <Filter>ImageCropper</Filter>
+    </Page>
+    <Page Include="ColorPicker\ColorPicker.xaml">
+      <Filter>ColorPicker</Filter>
+    </Page>
+    <Page Include="ColorPicker\ColorPickerButton.xaml">
+      <Filter>ColorPicker</Filter>
+    </Page>
+    <Page Include="ColorPicker\ColorPickerSlider.xaml">
+      <Filter>ColorPicker</Filter>
+    </Page>
+    <Page Include="ColorPicker\ColorPreviewer.xaml">
+      <Filter>ColorPicker</Filter>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
+    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natstepfilter" />
+  </ItemGroup>
+  <ItemGroup>
+    <PRIResource Include="Sizers\Strings\en-us\Resources.resw">
+      <Filter>Sizers\Strings\en-US</Filter>
+    </PRIResource>
+  </ItemGroup>
+</Project>

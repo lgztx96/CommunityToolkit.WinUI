@@ -1,0 +1,17 @@
+namespace CommunityToolkit.WinUI.Controls
+{
+    [default_interface]
+    runtimeclass SegmentedMarginConverter : Microsoft.UI.Xaml.DependencyObject, Microsoft.UI.Xaml.Data.IValueConverter
+    {
+        SegmentedMarginConverter();
+
+        Microsoft.UI.Xaml.Thickness LeftItemMargin;
+        static Microsoft.UI.Xaml.DependencyProperty LeftItemMarginProperty{ get; };
+
+        Microsoft.UI.Xaml.Thickness MiddleItemMargin;
+        static Microsoft.UI.Xaml.DependencyProperty MiddleItemMarginProperty{ get; };
+
+        Microsoft.UI.Xaml.Thickness RightItemMargin;
+        static Microsoft.UI.Xaml.DependencyProperty RightItemMarginProperty{ get; };
+    }
+}

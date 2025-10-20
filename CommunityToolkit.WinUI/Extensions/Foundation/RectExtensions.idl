@@ -1,0 +1,12 @@
+﻿namespace CommunityToolkit.WinUI
+{
+    [default_interface]
+    runtimeclass RectExtensions
+    {
+        static Boolean IntersectsWith(Windows.Foundation.Rect rect1, Windows.Foundation.Rect rect2);
+
+        static Windows.Foundation.Size ToSize(Windows.Foundation.Rect rect);
+
+        static Windows.Foundation.Rect Transform(Windows.Foundation.Rect rectangle, Microsoft.UI.Xaml.Media.Matrix matrix);
+    }
+}

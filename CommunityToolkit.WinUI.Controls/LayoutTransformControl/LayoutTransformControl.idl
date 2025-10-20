@@ -1,0 +1,15 @@
+﻿namespace CommunityToolkit.WinUI.Controls
+{
+    [bindable]
+    [default_interface]
+    [contentproperty("Child")]
+    runtimeclass LayoutTransformControl : Microsoft.UI.Xaml.Controls.Control
+    {
+        LayoutTransformControl();
+
+        Microsoft.UI.Xaml.FrameworkElement Child;
+        static Microsoft.UI.Xaml.DependencyProperty ChildProperty{ get; };
+        Microsoft.UI.Xaml.Media.Transform Transform;
+        static Microsoft.UI.Xaml.DependencyProperty TransformProperty{ get; };
+    }
+}

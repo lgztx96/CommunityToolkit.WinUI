@@ -1,0 +1,79 @@
+﻿namespace CommunityToolkit.WinUI.Controls
+{
+    enum CropShape
+    {
+        Rectangular,
+        Circular
+    };
+
+    enum ThumbPlacement
+    {
+        All,
+        Corners
+    };
+
+    enum BitmapFileFormat
+    {
+        Bmp,
+        Png,
+        Jpeg,
+        Tiff,
+        Gif,
+        JpegXR
+    };
+
+    [default_interface]
+    runtimeclass ImageCropper : Microsoft.UI.Xaml.Controls.Control
+    {
+        ImageCropper();
+
+        Windows.Foundation.IAsyncAction LoadImageFromFile(Windows.Storage.StorageFile imageFile);
+
+        Windows.Foundation.IAsyncAction SaveAsync(
+            Windows.Storage.Streams.IRandomAccessStream stream,
+            BitmapFileFormat bitmapFileFormat,
+            Boolean keepRectangularOutput);
+
+        void Reset();
+
+        Boolean TrySetCroppedRegion(Windows.Foundation.Rect rect);
+
+        Double MinCroppedPixelLength;
+
+        Double MinSelectedLength;
+
+        Windows.Foundation.Rect CroppedRegion{ get; };
+
+        Microsoft.UI.Xaml.Media.Imaging.WriteableBitmap Source;
+
+        Windows.Foundation.IReference<Double> AspectRatio;
+
+        CropShape CropShape;
+
+        Microsoft.UI.Xaml.Media.Brush Mask;
+
+        Microsoft.UI.Xaml.Media.Brush Overlay;
+
+        Microsoft.UI.Xaml.Style PrimaryThumbStyle;
+
+        Microsoft.UI.Xaml.Style SecondaryThumbStyle;
+
+        ThumbPlacement ThumbPlacement;
+
+		static Microsoft.UI.Xaml.DependencyProperty AspectRatioProperty{ get; };
+
+        static Microsoft.UI.Xaml.DependencyProperty SourceProperty{ get; };
+
+        static Microsoft.UI.Xaml.DependencyProperty CropShapeProperty{ get; };
+
+        static Microsoft.UI.Xaml.DependencyProperty MaskProperty{ get; };
+
+        static Microsoft.UI.Xaml.DependencyProperty OverlayProperty{ get; };
+
+        static Microsoft.UI.Xaml.DependencyProperty PrimaryThumbStyleProperty{ get; };
+
+        static Microsoft.UI.Xaml.DependencyProperty SecondaryThumbStyleProperty{ get; };
+
+        static Microsoft.UI.Xaml.DependencyProperty ThumbPlacementProperty{ get; };
+    }
+}

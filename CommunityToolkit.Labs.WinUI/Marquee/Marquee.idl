@@ -1,0 +1,49 @@
+﻿namespace CommunityToolkit.Labs.WinUI
+{
+    enum MarqueeBehavior
+    {
+        Ticker,
+        Looping,
+        Bouncing,
+    };
+
+    enum MarqueeDirection
+    {
+        Left,
+        Right,
+        Up,
+        Down,
+    };
+
+    [default_interface]
+    runtimeclass Marquee : Microsoft.UI.Xaml.Controls.ContentControl
+    {
+        Marquee();
+
+        void StartMarquee();
+
+        void StopMarquee();
+
+        event Windows.Foundation.TypedEventHandler<Marquee, Object> MarqueeBegan;
+
+        event Windows.Foundation.TypedEventHandler<Marquee, Object> MarqueeStopped;
+
+        event Windows.Foundation.TypedEventHandler<Marquee, Object> MarqueeCompleted;
+
+        Double Speed;
+
+        static Microsoft.UI.Xaml.DependencyProperty SpeedProperty{ get; };
+
+        Microsoft.UI.Xaml.Media.Animation.RepeatBehavior RepeatBehavior;
+
+        static Microsoft.UI.Xaml.DependencyProperty RepeatBehaviorProperty{ get; };
+
+        MarqueeBehavior Behavior;
+
+        static Microsoft.UI.Xaml.DependencyProperty BehaviorProperty{ get; };
+
+        MarqueeDirection Direction;
+
+        static Microsoft.UI.Xaml.DependencyProperty DirectionProperty{ get; };
+    }
+}

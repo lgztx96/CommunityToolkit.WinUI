@@ -1,0 +1,8 @@
+﻿namespace CommunityToolkit.WinUI.Controls
+{
+    [default_interface]
+    runtimeclass CaseCollection : Microsoft.UI.Xaml.DependencyObjectCollection
+    {
+        CaseCollection();
+    }
+}

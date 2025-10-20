@@ -1,0 +1,23 @@
+
+namespace CommunityToolkit.WinUI.Media
+{
+    enum InnerContentClipMode
+    {
+        None,
+        CompositionMaskBrush,
+        CompositionGeometricClip
+    };
+
+    [default_interface]
+    runtimeclass AttachedCardShadow : CommunityToolkit.WinUI.AttachedShadowBase
+    {
+        AttachedCardShadow();
+
+        static Microsoft.UI.Xaml.DependencyProperty CornerRadiusProperty{ get; };
+
+        static Microsoft.UI.Xaml.DependencyProperty InnerContentClipModeProperty{ get; };
+
+        Double CornerRadius;
+        InnerContentClipMode InnerContentClipMode;
+    }
+}

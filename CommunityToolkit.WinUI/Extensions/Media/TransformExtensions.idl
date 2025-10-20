@@ -1,0 +1,8 @@
+﻿namespace CommunityToolkit.WinUI
+{
+    [default_interface]
+    runtimeclass TransformExtensions 
+    {
+        static Microsoft.UI.Xaml.Media.Matrix GetMatrix(Microsoft.UI.Xaml.Media.Transform transform);
+    }
+}

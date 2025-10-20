@@ -1,0 +1,11 @@
+﻿namespace CommunityToolkit.Labs.WinUI
+{
+	[bindable]
+    [default_interface]
+    runtimeclass OpacityMaskView : Microsoft.UI.Xaml.Controls.ContentControl
+    {
+        OpacityMaskView();
+        Microsoft.UI.Xaml.UIElement OpacityMask;
+        Microsoft.UI.Xaml.DependencyProperty OpacityMaskProperty{ get; };
+    }
+}

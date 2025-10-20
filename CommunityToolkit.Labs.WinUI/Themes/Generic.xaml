@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CommunityToolkit.Labs.WinUI">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="ms-appx:///CommunityToolkit.Labs.WinUI/MarkdownTextBlock/MarkdownTextBlock.xaml" />
+        <ResourceDictionary Source="ms-appx:///CommunityToolkit.Labs.WinUI/OpacityMaskView/OpacityMaskView.xaml" />
+        <ResourceDictionary Source="ms-appx:///CommunityToolkit.Labs.WinUI/Marquee/Marquee.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

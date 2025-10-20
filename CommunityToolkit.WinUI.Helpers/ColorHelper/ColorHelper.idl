@@ -1,0 +1,18 @@
+﻿namespace CommunityToolkit.WinUI.Helpers
+{
+    [default_interface]
+    runtimeclass ColorHelper 
+    {
+        static Windows.UI.Color ToColor(String colorString);
+
+        static String ToHex(Windows.UI.Color color);
+
+        static CommunityToolkit.WinUI.HslColor ToHsl(Windows.UI.Color color);
+
+        static CommunityToolkit.WinUI.HsvColor ToHsv(Windows.UI.Color color);
+
+        static Windows.UI.Color FromHsl(Double hue, Double saturation, Double lightness, Double alpha);
+
+        static Windows.UI.Color FromHsv(Double hue, Double saturation, Double value, Double alpha);
+    }
+}

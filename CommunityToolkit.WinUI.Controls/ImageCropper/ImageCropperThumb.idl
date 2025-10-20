@@ -1,0 +1,25 @@
+﻿namespace CommunityToolkit.WinUI.Controls
+{
+    enum ThumbPosition
+    {
+        Top,
+        Bottom,
+        Left,
+        Right,
+        UpperLeft,
+        UpperRight,
+        LowerLeft,
+        LowerRight
+    };
+
+    [default_interface]
+    runtimeclass ImageCropperThumb : Microsoft.UI.Xaml.Controls.Control
+    {
+        ImageCropperThumb();
+        Double X;
+        Double Y;
+        ThumbPosition Position;
+        static Microsoft.UI.Xaml.DependencyProperty XProperty{ get; };
+        static Microsoft.UI.Xaml.DependencyProperty YProperty{ get; };
+    }
+}

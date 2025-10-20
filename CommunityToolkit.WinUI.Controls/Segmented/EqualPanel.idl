@@ -1,0 +1,12 @@
+﻿namespace CommunityToolkit.WinUI.Controls
+{
+    [bindable]
+    [default_interface]
+    runtimeclass EqualPanel : Microsoft.UI.Xaml.Controls.Panel
+    {
+        EqualPanel();
+
+        Double Spacing;
+        static Microsoft.UI.Xaml.DependencyProperty SpacingProperty{ get; };
+    }
+}

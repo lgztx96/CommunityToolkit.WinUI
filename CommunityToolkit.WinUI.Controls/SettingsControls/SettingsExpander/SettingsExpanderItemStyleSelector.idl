@@ -1,0 +1,12 @@
+namespace CommunityToolkit.WinUI.Controls
+{
+    [default_interface]
+    runtimeclass SettingsExpanderItemStyleSelector : Microsoft.UI.Xaml.Controls.StyleSelector
+    {
+        SettingsExpanderItemStyleSelector();
+
+        Microsoft.UI.Xaml.Style DefaultStyle{ get; set; };
+
+        Microsoft.UI.Xaml.Style ClickableStyle{ get; set; };
+    }
+}

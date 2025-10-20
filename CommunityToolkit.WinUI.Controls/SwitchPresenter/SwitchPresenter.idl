@@ -1,0 +1,25 @@
+﻿import "SwitchPresenter/Case.idl";
+import "SwitchPresenter/CaseCollection.idl";
+
+namespace CommunityToolkit.WinUI.Controls
+{
+    [default_interface]
+    [contentproperty("SwitchCases")]
+    runtimeclass SwitchPresenter : Microsoft.UI.Xaml.Controls.ContentPresenter
+    {
+        SwitchPresenter();
+
+        Case CurrentCase;
+        static Microsoft.UI.Xaml.DependencyProperty CurrentCaseProperty{ get; };
+
+        CaseCollection SwitchCases;
+        static Microsoft.UI.Xaml.DependencyProperty SwitchCasesProperty{ get; };
+
+        Windows.Foundation.IReference<Windows.UI.Xaml.Interop.TypeName> TargetType;
+
+        static Microsoft.UI.Xaml.DependencyProperty TargetTypeProperty{ get; };
+
+        Object Value;
+        static Microsoft.UI.Xaml.DependencyProperty ValueProperty{ get; };
+    }
+}

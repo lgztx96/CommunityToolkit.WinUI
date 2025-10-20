@@ -1,0 +1,9 @@
+﻿namespace CommunityToolkit.WinUI.Controls
+{
+    [bindable]
+    [default_interface]
+    runtimeclass NullToTransparentConverter : Microsoft.UI.Xaml.Data.IValueConverter
+    {
+        NullToTransparentConverter();
+    }
+}

@@ -1,0 +1,290 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resources">
+      <UniqueIdentifier>accd3aa8-1ba0-4223-9bbe-0c431709210b</UniqueIdentifier>
+      <Extensions>
+        rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tga;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{926ab91d-31b4-48c3-b9a4-e681349f27f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controls">
+      <UniqueIdentifier>{d0836658-c9f5-4615-8e34-db40a7a7457a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Themes">
+      <UniqueIdentifier>{784c3e52-fb0d-493f-baec-8ac506eeec14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controls\MarkdownTextBlock">
+      <UniqueIdentifier>{866a6f12-2e10-415e-8dad-fbe6363cd721}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controls\MarkdownTextBlock\Renderers">
+      <UniqueIdentifier>{e6d812fb-8e4a-41de-9674-3864595a2bb9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controls\MarkdownTextBlock\TextElements">
+      <UniqueIdentifier>{1f66107a-7adc-43c0-ab87-179e66ac4292}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controls\MarkdownTextBlock\TextElements\Html">
+      <UniqueIdentifier>{54426880-db2b-4038-8b89-8f63dc932ea5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controls\MarkdownTextBlock\Highight">
+      <UniqueIdentifier>{c7dcbed7-4535-4a59-bdff-6eea799c307a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controls\MarkdownTextBlock\Highight\cpp">
+      <UniqueIdentifier>{39abd8a8-ac92-444b-b95c-58bc6379e799}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controls\OpacityMaskView">
+      <UniqueIdentifier>{484709ad-47e5-446c-8af8-5e8602717e67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controls\MarkdownTextBlock\Highight\csharp">
+      <UniqueIdentifier>{14e4391b-0fe9-4831-ad6f-9e8495314961}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controls\MarkdownTextBlock\Highight\xml">
+      <UniqueIdentifier>{c9d2f476-2162-4e43-b4c9-e5b3656c522c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controls\MarkdownTextBlock\Highight\bash">
+      <UniqueIdentifier>{fc03315d-e191-44f6-be6b-4aba95711a0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controls\MarkdownTextBlock\Highight\json">
+      <UniqueIdentifier>{8c2194e5-1915-48a9-b782-f652919967b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controls\MarkdownTextBlock\md4c">
+      <UniqueIdentifier>{34738bd7-967d-4fa8-9a91-cc059fd3f8f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controls\Marquee">
+      <UniqueIdentifier>{0ea4d0a5-e3c3-4842-8d9b-93852d19e29f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
+    <ClCompile Include="MarkdownTextBlock\Highlight\cpp\cpp_parser.c">
+      <Filter>Controls\MarkdownTextBlock\Highight\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="MarkdownTextBlock\Highlight\cpp\cpp_scanner.c">
+      <Filter>Controls\MarkdownTextBlock\Highight\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="OpacityMaskView\OpacityMaskView.cpp">
+      <Filter>Controls\OpacityMaskView</Filter>
+    </ClCompile>
+    <ClCompile Include="MarkdownTextBlock\LinkClickedEventArgs.cpp">
+      <Filter>Controls\MarkdownTextBlock</Filter>
+    </ClCompile>
+    <ClCompile Include="MarkdownTextBlock\Highlight\csharp\csharp_parser.c">
+      <Filter>Controls\MarkdownTextBlock\Highight\csharp</Filter>
+    </ClCompile>
+    <ClCompile Include="MarkdownTextBlock\Highlight\csharp\csharp_scanner.c">
+      <Filter>Controls\MarkdownTextBlock\Highight\csharp</Filter>
+    </ClCompile>
+    <ClCompile Include="MarkdownTextBlock\Highlight\xml\xml_parser.c">
+      <Filter>Controls\MarkdownTextBlock\Highight\xml</Filter>
+    </ClCompile>
+    <ClCompile Include="MarkdownTextBlock\Highlight\xml\xml_scanner.c">
+      <Filter>Controls\MarkdownTextBlock\Highight\xml</Filter>
+    </ClCompile>
+    <ClCompile Include="MarkdownTextBlock\Highlight\bash\bash_parser.c">
+      <Filter>Controls\MarkdownTextBlock\Highight\bash</Filter>
+    </ClCompile>
+    <ClCompile Include="MarkdownTextBlock\Highlight\bash\bash_scanner.c">
+      <Filter>Controls\MarkdownTextBlock\Highight\bash</Filter>
+    </ClCompile>
+    <ClCompile Include="MarkdownTextBlock\Highlight\json\json_parser.c">
+      <Filter>Controls\MarkdownTextBlock\Highight\json</Filter>
+    </ClCompile>
+    <ClCompile Include="MarkdownTextBlock\TextElements\MdTableUIElement.cpp">
+      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+    </ClCompile>
+    <ClCompile Include="MarkdownTextBlock\Renderer\WinUIRenderer.cpp">
+      <Filter>Controls\MarkdownTextBlock\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="MarkdownTextBlock\Extension.cpp">
+      <Filter>Controls\MarkdownTextBlock</Filter>
+    </ClCompile>
+    <ClCompile Include="MarkdownTextBlock\Highlight\ISyntaxHighlighter.cpp">
+      <Filter>Controls\MarkdownTextBlock\Highight</Filter>
+    </ClCompile>
+    <ClCompile Include="MarkdownTextBlock\Highlight\cpp\cpp_scm.cpp">
+      <Filter>Controls\MarkdownTextBlock\Highight\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="MarkdownTextBlock\Highlight\bash\bash_scm.cpp">
+      <Filter>Controls\MarkdownTextBlock\Highight\bash</Filter>
+    </ClCompile>
+    <ClCompile Include="MarkdownTextBlock\Highlight\json\json_scm.cpp">
+      <Filter>Controls\MarkdownTextBlock\Highight\json</Filter>
+    </ClCompile>
+    <ClCompile Include="MarkdownTextBlock\Highlight\csharp\csharp_scm.cpp">
+      <Filter>Controls\MarkdownTextBlock\Highight\csharp</Filter>
+    </ClCompile>
+    <ClCompile Include="MarkdownTextBlock\Highlight\xml\xml_scm.cpp">
+      <Filter>Controls\MarkdownTextBlock\Highight\xml</Filter>
+    </ClCompile>
+    <ClCompile Include="MarkdownTextBlock\md4c\md4c.c">
+      <Filter>Controls\MarkdownTextBlock\md4c</Filter>
+    </ClCompile>
+    <ClCompile Include="Marquee\Marquee.cpp">
+      <Filter>Controls\Marquee</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="MarkdownTextBlock\TextElements\IAddChild.h">
+      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+    </ClInclude>
+    <ClInclude Include="MarkdownTextBlock\DefaultSVGRenderer.h">
+      <Filter>Controls\MarkdownTextBlock</Filter>
+    </ClInclude>
+    <ClInclude Include="MarkdownTextBlock\LinkClickedEventArgs.h">
+      <Filter>Controls\MarkdownTextBlock</Filter>
+    </ClInclude>
+    <ClInclude Include="MarkdownTextBlock\Highlight\ISyntaxHighlighter.h">
+      <Filter>Controls\MarkdownTextBlock\Highight</Filter>
+    </ClInclude>
+    <ClInclude Include="MarkdownTextBlock\TextElements\MdTableUIElement.h">
+      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+    </ClInclude>
+    <ClInclude Include="MarkdownTextBlock\TextElements\MdAutolinkInline.h">
+      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+    </ClInclude>
+    <ClInclude Include="MarkdownTextBlock\TextElements\MdBlockContainer.h">
+      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+    </ClInclude>
+    <ClInclude Include="MarkdownTextBlock\TextElements\MdCodeBlock.h">
+      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+    </ClInclude>
+    <ClInclude Include="MarkdownTextBlock\TextElements\MdEmphasisInline.h">
+      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+    </ClInclude>
+    <ClInclude Include="MarkdownTextBlock\TextElements\MdFlowDocument.h">
+      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+    </ClInclude>
+    <ClInclude Include="MarkdownTextBlock\TextElements\MdHeading.h">
+      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+    </ClInclude>
+    <ClInclude Include="MarkdownTextBlock\TextElements\MdHyperlink.h">
+      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+    </ClInclude>
+    <ClInclude Include="MarkdownTextBlock\TextElements\MdHyperlinkButton.h">
+      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+    </ClInclude>
+    <ClInclude Include="MarkdownTextBlock\TextElements\MdHyperlinkNode.h">
+      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+    </ClInclude>
+    <ClInclude Include="MarkdownTextBlock\TextElements\MdImage.h">
+      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+    </ClInclude>
+    <ClInclude Include="MarkdownTextBlock\TextElements\Html\MdInline.h">
+      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+    </ClInclude>
+    <ClInclude Include="MarkdownTextBlock\TextElements\MdInlineCode.h">
+      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+    </ClInclude>
+    <ClInclude Include="MarkdownTextBlock\TextElements\MdInlineText.h">
+      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+    </ClInclude>
+    <ClInclude Include="MarkdownTextBlock\TextElements\MdLineBreak.h">
+      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+    </ClInclude>
+    <ClInclude Include="MarkdownTextBlock\TextElements\MdList.h">
+      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+    </ClInclude>
+    <ClInclude Include="MarkdownTextBlock\TextElements\MdListItem.h">
+      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+    </ClInclude>
+    <ClInclude Include="MarkdownTextBlock\TextElements\MdParagraph.h">
+      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+    </ClInclude>
+    <ClInclude Include="MarkdownTextBlock\TextElements\MdQuote.h">
+      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+    </ClInclude>
+    <ClInclude Include="MarkdownTextBlock\TextElements\MdTable.h">
+      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+    </ClInclude>
+    <ClInclude Include="MarkdownTextBlock\TextElements\MdTableCell.h">
+      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+    </ClInclude>
+    <ClInclude Include="MarkdownTextBlock\TextElements\MdTableRow.h">
+      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+    </ClInclude>
+    <ClInclude Include="MarkdownTextBlock\TextElements\MdTaskListCheckBox.h">
+      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+    </ClInclude>
+    <ClInclude Include="MarkdownTextBlock\TextElements\MdThematicBreak.h">
+      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+    </ClInclude>
+    <ClInclude Include="MarkdownTextBlock\TextElements\Html\MdBlock.h">
+      <Filter>Controls\MarkdownTextBlock\TextElements\Html</Filter>
+    </ClInclude>
+    <ClInclude Include="MarkdownTextBlock\TextElements\Html\MdDetails.h">
+      <Filter>Controls\MarkdownTextBlock\TextElements\Html</Filter>
+    </ClInclude>
+    <ClInclude Include="MarkdownTextBlock\Renderer\WinUIRenderer.h">
+      <Filter>Controls\MarkdownTextBlock\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="MarkdownTextBlock\TextElements\HtmlElementType.h">
+      <Filter>Controls\MarkdownTextBlock\TextElements\Html</Filter>
+    </ClInclude>
+    <ClInclude Include="MarkdownTextBlock\Extension.h">
+      <Filter>Controls\MarkdownTextBlock</Filter>
+    </ClInclude>
+    <ClInclude Include="MarkdownTextBlock\md4c\md4c.h">
+      <Filter>Controls\MarkdownTextBlock\md4c</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="MarkdownTextBlock\MarkdownTextBlock.idl">
+      <Filter>Controls\MarkdownTextBlock</Filter>
+    </Midl>
+    <Midl Include="MarkdownTextBlock\MarkdownConfig.idl">
+      <Filter>Controls\MarkdownTextBlock</Filter>
+    </Midl>
+    <Midl Include="MarkdownTextBlock\LinkClickedEventArgs.idl">
+      <Filter>Controls\MarkdownTextBlock</Filter>
+    </Midl>
+    <Midl Include="MarkdownTextBlock\TextElements\MdTableUIElement.idl">
+      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+    </Midl>
+    <Midl Include="MarkdownTextBlock\MarkdownThemes.idl">
+      <Filter>Controls\MarkdownTextBlock</Filter>
+    </Midl>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CommunityToolkit.Labs.WinUI.def" />
+    <None Include="packages.config" />
+    <None Include="MarkdownTextBlock\Highlight\cpp\highlights.scm">
+      <Filter>Controls\MarkdownTextBlock\Highight\cpp</Filter>
+    </None>
+    <None Include="MarkdownTextBlock\Highlight\csharp\highlights.scm">
+      <Filter>Controls\MarkdownTextBlock\Highight\csharp</Filter>
+    </None>
+    <None Include="MarkdownTextBlock\Highlight\json\highlights.scm">
+      <Filter>Controls\MarkdownTextBlock\Highight\json</Filter>
+    </None>
+    <None Include="MarkdownTextBlock\Highlight\bash\highlights.scm">
+      <Filter>Controls\MarkdownTextBlock\Highight\bash</Filter>
+    </None>
+    <None Include="MarkdownTextBlock\Highlight\xml\highlights.scm">
+      <Filter>Controls\MarkdownTextBlock\Highight\xml</Filter>
+    </None>
+    <None Include="MarkdownTextBlock\md4c\LICENSE.md">
+      <Filter>Controls\MarkdownTextBlock\md4c</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Themes\Generic.xaml">
+      <Filter>Themes</Filter>
+    </Page>
+    <Page Include="OpacityMaskView\OpacityMaskView.xaml">
+      <Filter>Controls\OpacityMaskView</Filter>
+    </Page>
+    <Page Include="MarkdownTextBlock\MarkdownTextBlock.xaml">
+      <Filter>Controls\MarkdownTextBlock</Filter>
+    </Page>
+    <Page Include="Marquee\Marquee.xaml">
+      <Filter>Controls\Marquee</Filter>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
+    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natstepfilter" />
+  </ItemGroup>
+</Project>

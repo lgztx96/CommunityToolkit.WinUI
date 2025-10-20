@@ -1,0 +1,34 @@
+﻿namespace CommunityToolkit.WinUI
+{
+    [default_interface]
+    runtimeclass MatrixExtensions
+    {
+        static Boolean HasInverse(Microsoft.UI.Xaml.Media.Matrix matrix);
+
+        static Microsoft.UI.Xaml.Media.Matrix Multiply(Microsoft.UI.Xaml.Media.Matrix matrix1, Microsoft.UI.Xaml.Media.Matrix matrix2);
+
+        static Microsoft.UI.Xaml.Media.Matrix Round(Microsoft.UI.Xaml.Media.Matrix matrix, Int32 decimalsAfterRound);
+
+        static Microsoft.UI.Xaml.Media.Matrix Rotate(Microsoft.UI.Xaml.Media.Matrix matrix, Double angle);
+
+        static Microsoft.UI.Xaml.Media.Matrix RotateAt(Microsoft.UI.Xaml.Media.Matrix matrix, Double angle, Double centerX, Double centerY);
+
+        static Microsoft.UI.Xaml.Media.Matrix Scale(Microsoft.UI.Xaml.Media.Matrix matrix, Double scaleX, Double scaleY);
+
+        static Microsoft.UI.Xaml.Media.Matrix ScaleAt(Microsoft.UI.Xaml.Media.Matrix matrix, Double scaleX, Double scaleY, Double centerX, Double centerY);
+
+        static Microsoft.UI.Xaml.Media.Matrix Skew(Microsoft.UI.Xaml.Media.Matrix matrix, Double skewX, Double skewY);
+
+        static Microsoft.UI.Xaml.Media.Matrix Translate(Microsoft.UI.Xaml.Media.Matrix matrix, Double offsetX, Double offsetY);
+
+        static Microsoft.UI.Xaml.Media.Matrix CreateRotationRadians(Double angle);
+
+        static Microsoft.UI.Xaml.Media.Matrix CreateRotationRadians(Double angle, Double centerX, Double centerY);
+
+        static Microsoft.UI.Xaml.Media.Matrix CreateScaling(Double scaleX, Double scaleY);
+
+        static Microsoft.UI.Xaml.Media.Matrix CreateScaling(Double scaleX, Double scaleY, Double centerX, Double centerY);
+
+        static Microsoft.UI.Xaml.Media.Matrix CreateSkewRadians(Double skewX, Double skewY);
+    }
+}

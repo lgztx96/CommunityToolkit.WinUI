@@ -1,0 +1,11 @@
+namespace CommunityToolkit.WinUI.Controls
+{
+    [default_interface]
+    static runtimeclass StyleExtensions
+    {
+        static Microsoft.UI.Xaml.ResourceDictionary GetResources(Microsoft.UI.Xaml.Style obj);
+        static void SetResources(Microsoft.UI.Xaml.Style obj, Microsoft.UI.Xaml.ResourceDictionary value);
+
+        static Microsoft.UI.Xaml.DependencyProperty ResourcesProperty{ get; };
+    }
+}

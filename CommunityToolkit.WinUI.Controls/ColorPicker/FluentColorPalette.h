@@ -1,0 +1,173 @@
+﻿#pragma once
+#include <winrt/base.h>
+#include <winrt/CommunityToolkit.WinUI.Controls.h>
+#include <winrt/Windows.UI.h>
+
+namespace winrt::CommunityToolkit::WinUI::Controls
+{
+	struct FluentColorPalette : winrt::implements<FluentColorPalette, winrt::CommunityToolkit::WinUI::Controls::IColorPalette>
+	{
+		/* Values were taken from the Settings App, Personalization > Colors which match with
+		 * https://docs.microsoft.com/en-us/windows/uwp/whats-new/windows-docs-december-2017
+		 *
+		 * The default ordering and grouping of colors was undesirable so was modified.
+		 * Colors were transposed: the colors in rows within the Settings app became columns here.
+		 * This is because columns in an IColorPalette generally should contain different shades of
+		 * the same color. In the settings app this concept is somewhat loosely reversed.
+		 * The first 'column' ordering, after being transposed, was then reversed so 'red' colors
+		 * were near to each other.
+		 *
+		 * This new ordering most closely follows the Windows standard while:
+		 *
+		 *  1. Keeping colors in a 'spectrum' order
+		 *  2. Keeping like colors next to each both in rows and columns
+		 *     (which is unique for the windows palette).
+		 *     For example, similar red colors are next to each other in both
+		 *     rows within the same column and rows within the column next to it.
+		 *     This follows a 'snake-like' pattern as illustrated below.
+		 *  3. A downside of this ordering is colors don't follow strict 'shades'
+		 *     as in other palettes.
+		 *
+		 * The colors will be displayed in the below pattern.
+		 * This pattern follows a spectrum while keeping like-colors near to one
+		 * another across both rows and columns.
+		 *
+		 *      ┌Red───┐      ┌Blue──┐      ┌Gray──┐
+		 *      │      │      │      │      │      |
+		 *      │      │      │      │      │      |
+		 * Yellow      └Violet┘      └Green─┘      Brown
+		 */
+	private:
+		static inline const winrt::Windows::UI::Color colorChart[6][8]
+		{
+			{
+				// Ordering reversed for this section only
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 255, 185, 0), /* #ffb900 */
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 209, 52, 56), /* #d13438 */
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 227, 0, 140), /* #e3008c */
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 142, 140, 216), /* #8e8cd8 */
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 0, 153, 188), /* #0099bc */
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 0, 204, 106), /* #00cc6a */
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 86, 124, 115), /* #567c73 */
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 105, 121, 126), /* #69797e */
+			},
+			{
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 255, 140, 0), /* #ff8c00 */
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 255, 67, 67), /* #ff4343 */
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 191, 0, 119), /* #bf0077 */
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 107, 105, 214), /* #6b69d6 */
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 45, 125, 154), /* #2d7d9a */
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 16, 137, 62), /* #10893e */
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 72, 104, 96), /* #486860 */
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 74, 84, 89), /* #4a5459 */
+			},
+			{
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 247, 99, 12), /* #f7630c */
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 231, 72, 86), /* #e74856 */
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 194, 57, 179), /* #c239b3 */
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 135, 100, 184), /* #8764b8 */
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 0, 183, 195), /* #00b7c3 */
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 122, 117, 116), /* #7a7574 */
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 73, 130, 5), /* #498205 */
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 100, 124, 100), /* #647c64 */
+			},
+			{
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 202, 80, 16), /* #ca5010 */
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 232, 17, 35), /* #e81123 */
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 154, 0, 137), /* #9a0089 */
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 116, 77, 169), /* #744da9 */
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 3, 131, 135), /* #038387 */
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 93, 90, 88), /* #5d5a58 */
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 16, 124, 16), /* #107c10 */
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 82, 94, 84), /* #525e54 */
+			},
+			{
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 218, 59, 1), /* #da3b01 */
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 234, 0, 94), /* #ea005e */
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 0, 120, 212), /* #0078d4 */
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 177, 70, 194), /* #b146c2 */
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 0, 178, 148), /* #00b294 */
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 104, 118, 138), /* #68768a */
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 118, 118, 118), /* #767676 */
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 132, 117, 69), /* #847545 */
+			},
+			{
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 239, 105, 80), /* #ef6950 */
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 195, 0, 82), /* #c30052 */
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 0, 99, 177), /* #0063b1 */
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 136, 23, 152), /* #881798 */
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 1, 133, 116), /* #018574 */
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 81, 92, 107), /* #515c6b */
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 76, 74, 72), /* #4c4a48 */
+				winrt::Windows::UI::ColorHelper::FromArgb(255, 126, 115, 95), /* #7e735f */
+			}
+		};
+
+		/***************************************************************************************
+		 *
+		 * Color Indexes
+		 *
+		 ***************************************************************************************/
+
+		 /// <summary>
+		 /// Gets the index of the default shade of colors in this palette.
+		 /// This has little meaning in this palette as colors are not strictly separated by shade.
+		 /// </summary>
+	public:
+		const int DefaultShadeIndex = 0;
+
+		/***************************************************************************************
+		 *
+		 * Property Accessors
+		 *
+		 ***************************************************************************************/
+
+		 ///////////////////////////////////////////////////////////
+		 // Palette
+		 ///////////////////////////////////////////////////////////
+
+		 /// <summary>
+		 /// Gets the total number of colors in this palette.
+		 /// A color is not necessarily a single value and may be composed of several shades.
+		 /// This has little meaning in this palette as colors are not strictly separated.
+		 /// </summary>
+		int ColorCount()
+		{
+			return std::size(colorChart);
+		}
+
+		/// <summary>
+		/// Gets the total number of shades for each color in this palette.
+		/// Shades are usually a variation of the color lightening or darkening it.
+		/// This has little meaning in this palette as colors are not strictly separated by shade.
+		/// </summary>
+		int ShadeCount()
+		{
+			return std::size(colorChart[0]);
+		}
+
+		/***************************************************************************************
+		 *
+		 * Methods
+		 *
+		 ***************************************************************************************/
+
+		 /// <summary>
+		 /// Gets a color in the palette by index.
+		 /// </summary>
+		 /// <param name="colorIndex">The index of the color in the palette.
+		 /// The index must be between zero and <see cref="ColorCount"/>.</param>
+		 /// <param name="shadeIndex">The index of the color shade in the palette.
+		 /// The index must be between zero and <see cref="ShadeCount"/>.</param>
+		 /// <returns>The color at the specified index or an exception.</returns>
+		winrt::Windows::UI::Color GetColor(
+			int colorIndex,
+			int shadeIndex)
+		{
+			int row = std::clamp(colorIndex, 0, ColorCount() - 1);
+			int col = std::clamp(shadeIndex, 0, ShadeCount() - 1);
+
+			return colorChart[row][col];
+		}
+	};
+}

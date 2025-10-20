@@ -1,0 +1,11 @@
+﻿namespace CommunityToolkit.WinUI.Controls
+{
+    [bindable]
+    [default_interface]
+    runtimeclass AccentColorConverter : Microsoft.UI.Xaml.Data.IValueConverter
+    {
+        AccentColorConverter();
+
+        static CommunityToolkit.WinUI.HsvColor GetAccent(CommunityToolkit.WinUI.HsvColor hsvColor, Int32 accentStep);
+    }
+}

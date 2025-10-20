@@ -1,0 +1,18 @@
+﻿import "MarkdownTextBlock/MarkdownConfig.idl";
+
+namespace CommunityToolkit.Labs.WinUI
+{
+    [default_interface]
+    runtimeclass MarkdownTextBlock : Microsoft.UI.Xaml.Controls.Control
+    {
+        MarkdownTextBlock();
+
+        CommunityToolkit.Labs.WinUI.MarkdownConfig Config{ get; set; };
+        String Text{ get; set; };
+        Boolean IsTextSelectionEnabled{ get; set; };
+
+        static Microsoft.UI.Xaml.DependencyProperty ConfigProperty{ get; };
+        static Microsoft.UI.Xaml.DependencyProperty TextProperty{ get; };
+        static Microsoft.UI.Xaml.DependencyProperty IsTextSelectionEnabledProperty{ get; };
+    }
+}
