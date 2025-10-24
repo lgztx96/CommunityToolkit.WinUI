@@ -65,6 +65,9 @@
     <Filter Include="MetadataControl">
       <UniqueIdentifier>{87a98226-7fc3-4b89-b81b-c84523f80405}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TabbedCommandBar">
+      <UniqueIdentifier>{402e2b90-8893-4f2b-b50d-dfe53628bbbc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -161,6 +164,12 @@
     </ClCompile>
     <ClCompile Include="MetadataControl\MetadataControl.cpp">
       <Filter>MetadataControl</Filter>
+    </ClCompile>
+    <ClCompile Include="TabbedCommandBar\TabbedCommandBar.cpp">
+      <Filter>TabbedCommandBar</Filter>
+    </ClCompile>
+    <ClCompile Include="TabbedCommandBar\TabbedCommandBarItem.cpp">
+      <Filter>TabbedCommandBar</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -293,6 +302,9 @@
     <Midl Include="MetadataControl\MetadataItem.idl">
       <Filter>MetadataControl</Filter>
     </Midl>
+    <Midl Include="TabbedCommandBar\TabbedCommandBarItemTemplateSelector.idl">
+      <Filter>TabbedCommandBar</Filter>
+    </Midl>
   </ItemGroup>
   <ItemGroup>
     <None Include="CommunityToolkit.WinUI.Controls.def" />
@@ -340,6 +352,12 @@
     </Page>
     <Page Include="MetadataControl\MetadataControl.xaml">
       <Filter>MetadataControl</Filter>
+    </Page>
+    <Page Include="TabbedCommandBar\TabbedCommandBar.xaml">
+      <Filter>TabbedCommandBar</Filter>
+    </Page>
+    <Page Include="TabbedCommandBar\TabbedCommandBarItem.xaml">
+      <Filter>TabbedCommandBar</Filter>
     </Page>
   </ItemGroup>
   <ItemGroup>

@@ -251,6 +251,18 @@
       <DependentUpon>SwitchPresenter\SwitchPresenter.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="TabbedCommandBar\TabbedCommandBar.h">
+      <DependentUpon>TabbedCommandBar\TabbedCommandBar.cpp</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="TabbedCommandBar\TabbedCommandBarItem.h">
+      <DependentUpon>TabbedCommandBar\TabbedCommandBarItem.cpp</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="TabbedCommandBar\TabbedCommandBarItemTemplateSelector.h">
+      <DependentUpon>TabbedCommandBar\TabbedCommandBarItemTemplateSelector.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="UniformGrid\TakenSpotsReferenceHolder.h" />
     <ClInclude Include="UniformGrid\UniformGrid.h">
       <DependentUpon>UniformGrid\UniformGrid.idl</DependentUpon>
@@ -355,6 +367,16 @@
       <DependentUpon>SwitchPresenter\SwitchPresenter.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="TabbedCommandBar\TabbedCommandBar.cpp">
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="TabbedCommandBar\TabbedCommandBarItem.cpp">
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="TabbedCommandBar\TabbedCommandBarItemTemplateSelector.cpp">
+      <DependentUpon>TabbedCommandBar\TabbedCommandBarItemTemplateSelector.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="UniformGrid\UniformGrid.cpp">
       <DependentUpon>UniformGrid\UniformGrid.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -449,6 +471,17 @@
     <Midl Include="SwitchPresenter\SwitchPresenter.idl">
       <SubType>Designer</SubType>
     </Midl>
+    <Midl Include="TabbedCommandBar\TabbedCommandBar.idl">
+      <DependentUpon>TabbedCommandBar\TabbedCommandBar.cpp</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
+    <Midl Include="TabbedCommandBar\TabbedCommandBarItem.idl">
+      <DependentUpon>TabbedCommandBar\TabbedCommandBarItem.cpp</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
+    <Midl Include="TabbedCommandBar\TabbedCommandBarItemTemplateSelector.idl">
+      <SubType>Designer</SubType>
+    </Midl>
     <Midl Include="UniformGrid\UniformGrid.idl">
       <SubType>Designer</SubType>
     </Midl>
@@ -471,6 +504,8 @@
     <Page Include="SettingsControls\SettingsCard\SettingsCard.xaml" />
     <Page Include="SettingsControls\SettingsExpander\SettingsExpander.xaml" />
     <Page Include="Sizers\SizerBase.xaml" />
+    <Page Include="TabbedCommandBar\TabbedCommandBar.xaml" />
+    <Page Include="TabbedCommandBar\TabbedCommandBarItem.xaml" />
     <Page Include="Themes\Generic.xaml" />
   </ItemGroup>
   <ItemGroup>

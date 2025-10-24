@@ -1,0 +1,20 @@
+namespace CommunityToolkit.WinUI.Controls
+{
+	[default_interface]
+	runtimeclass TabbedCommandBarItem : Microsoft.UI.Xaml.Controls.CommandBar
+	{
+		TabbedCommandBarItem();
+
+		static Microsoft.UI.Xaml.DependencyProperty HeaderProperty{ get; };
+		Object Header;
+
+		static Microsoft.UI.Xaml.DependencyProperty IsContextualProperty{ get; };
+		Boolean IsContextual;
+
+		static Microsoft.UI.Xaml.DependencyProperty OverflowButtonAlignmentProperty{ get; };
+		Microsoft.UI.Xaml.HorizontalAlignment OverflowButtonAlignment;
+
+		static Microsoft.UI.Xaml.DependencyProperty CommandAlignmentProperty{ get; };
+		Microsoft.UI.Xaml.HorizontalAlignment CommandAlignment;
+	}
+}

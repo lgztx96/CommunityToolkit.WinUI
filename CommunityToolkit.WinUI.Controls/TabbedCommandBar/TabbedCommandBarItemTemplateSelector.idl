@@ -1,0 +1,12 @@
+namespace CommunityToolkit.WinUI.Controls
+{
+    [default_interface]
+    runtimeclass TabbedCommandBarItemTemplateSelector : Microsoft.UI.Xaml.Controls.DataTemplateSelector
+    {
+        TabbedCommandBarItemTemplateSelector();
+
+        Microsoft.UI.Xaml.DataTemplate Normal;
+
+        Microsoft.UI.Xaml.DataTemplate Contextual;
+    }
+}

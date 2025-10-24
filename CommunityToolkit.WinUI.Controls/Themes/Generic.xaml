@@ -13,5 +13,7 @@
         <ResourceDictionary Source="ms-appx:///CommunityToolkit.WinUI.Controls/ColorPicker/ColorPickerSlider.xaml" />
         <ResourceDictionary Source="ms-appx:///CommunityToolkit.WinUI.Controls/ColorPicker/ColorPreviewer.xaml" />
         <ResourceDictionary Source="ms-appx:///CommunityToolkit.WinUI.Controls/MetadataControl/MetadataControl.xaml" />
+        <ResourceDictionary Source="ms-appx:///CommunityToolkit.WinUI.Controls/TabbedCommandBar/TabbedCommandBar.xaml" />
+        <ResourceDictionary Source="ms-appx:///CommunityToolkit.WinUI.Controls/TabbedCommandBar/TabbedCommandBarItem.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

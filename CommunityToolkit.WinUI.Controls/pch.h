@@ -49,4 +49,6 @@
 #include "SwitchPresenter\Case.h"
 #include "SwitchPresenter\SwitchPresenter.h"
 #include "MetadataControl\MetadataControl.h"
+#include "TabbedCommandBar\TabbedCommandBar.h"
+#include "TabbedCommandBar\TabbedCommandBarItem.h"
 

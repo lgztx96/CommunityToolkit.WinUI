@@ -1,0 +1,8 @@
+namespace CommunityToolkit.WinUI.Controls
+{
+    [default_interface]
+    runtimeclass TabbedCommandBar : Microsoft.UI.Xaml.Controls.NavigationView
+    {
+        TabbedCommandBar();
+    }
+}
