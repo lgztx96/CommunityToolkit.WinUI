@@ -187,6 +187,14 @@
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="LayoutTransformControl\PropertyChangeEventSource.h" />
+    <ClInclude Include="MetadataControl\MetadataControl.h">
+      <DependentUpon>MetadataControl\MetadataControl.cpp</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="MetadataControl\MetadataItem.h">
+      <DependentUpon>MetadataControl\MetadataItem.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="pch.h" />
     <ClInclude Include="Segmented\EqualPanel.h">
       <DependentUpon>Segmented\EqualPanel.cpp</DependentUpon>
@@ -291,6 +299,13 @@
     <ClCompile Include="LayoutTransformControl\LayoutTransformControl.cpp">
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="MetadataControl\MetadataControl.cpp">
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="MetadataControl\MetadataItem.cpp">
+      <DependentUpon>MetadataControl\MetadataItem.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
@@ -386,6 +401,13 @@
       <DependentUpon>LayoutTransformControl\LayoutTransformControl.cpp</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
+    <Midl Include="MetadataControl\MetadataControl.idl">
+      <DependentUpon>MetadataControl\MetadataControl.cpp</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
+    <Midl Include="MetadataControl\MetadataItem.idl">
+      <SubType>Designer</SubType>
+    </Midl>
     <Midl Include="Segmented\EqualPanel.idl">
       <DependentUpon>Segmented\EqualPanel.cpp</DependentUpon>
       <SubType>Code</SubType>
@@ -443,6 +465,7 @@
     <Page Include="ImageCropper\ImageCropper.xaml" />
     <Page Include="ImageCropper\ImageCropperThumb.xaml" />
     <Page Include="LayoutTransformControl\LayoutTransformControl.xaml" />
+    <Page Include="MetadataControl\MetadataControl.xaml" />
     <Page Include="Segmented\Segmented.xaml" />
     <Page Include="Segmented\SegmentedItem.xaml" />
     <Page Include="SettingsControls\SettingsCard\SettingsCard.xaml" />

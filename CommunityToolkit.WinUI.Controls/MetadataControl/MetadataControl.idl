@@ -1,0 +1,26 @@
+import "MetadataControl/MetadataItem.idl";
+
+namespace CommunityToolkit.WinUI.Controls
+{
+	[default_interface]
+	runtimeclass MetadataControl : Microsoft.UI.Xaml.Controls.Control
+	{
+		MetadataControl();
+
+		static Microsoft.UI.Xaml.DependencyProperty SeparatorProperty{ get; };
+
+		static Microsoft.UI.Xaml.DependencyProperty AccessibleSeparatorProperty{ get; };
+
+		static Microsoft.UI.Xaml.DependencyProperty ItemsProperty{ get; };
+
+		static Microsoft.UI.Xaml.DependencyProperty TextBlockStyleProperty{ get; };
+
+		String Separator;
+
+		String AccessibleSeparator;
+
+		Windows.Foundation.Collections.IVector<MetadataItem> Items;
+
+		Microsoft.UI.Xaml.Style TextBlockStyle;
+	}
+}

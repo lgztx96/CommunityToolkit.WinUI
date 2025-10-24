@@ -28,7 +28,6 @@
 #include <SettingsControls/SettingsCard/SettingsCard.h>
 #include <SettingsControls/Helpers/StyleExtensions.h>
 #include <SettingsControls/Helpers/CornerRadiusConverter.h>
-
 #include <SettingsControls/SettingsExpander/SettingsExpander.h>
 #include <SettingsControls/SettingsExpander/SettingsExpanderItemStyleSelector.h>
 #include <Segmented/Segmented.h>
@@ -49,4 +48,5 @@
 #include "ColorPicker\ColorPickerSlider.h"
 #include "SwitchPresenter\Case.h"
 #include "SwitchPresenter\SwitchPresenter.h"
+#include "MetadataControl\MetadataControl.h"
 

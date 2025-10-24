@@ -62,6 +62,9 @@
     <Filter Include="UniformGrid">
       <UniqueIdentifier>{7979abb8-b949-4755-bc5a-53e5cd35251e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MetadataControl">
+      <UniqueIdentifier>{87a98226-7fc3-4b89-b81b-c84523f80405}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -155,6 +158,9 @@
     </ClCompile>
     <ClCompile Include="ColorPicker\ColorPickerSlider.cpp">
       <Filter>ColorPicker</Filter>
+    </ClCompile>
+    <ClCompile Include="MetadataControl\MetadataControl.cpp">
+      <Filter>MetadataControl</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -284,6 +290,9 @@
     <Midl Include="UniformGrid\UniformGrid.idl">
       <Filter>UniformGrid</Filter>
     </Midl>
+    <Midl Include="MetadataControl\MetadataItem.idl">
+      <Filter>MetadataControl</Filter>
+    </Midl>
   </ItemGroup>
   <ItemGroup>
     <None Include="CommunityToolkit.WinUI.Controls.def" />
@@ -329,10 +338,17 @@
     <Page Include="ColorPicker\ColorPreviewer.xaml">
       <Filter>ColorPicker</Filter>
     </Page>
+    <Page Include="MetadataControl\MetadataControl.xaml">
+      <Filter>MetadataControl</Filter>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <PRIResource Include="Sizers\Strings\en-us\Resources.resw">
       <Filter>Sizers\Strings\en-US</Filter>
     </PRIResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
+    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natstepfilter" />
   </ItemGroup>
 </Project>
