@@ -19,7 +19,7 @@ namespace winrt::CommunityToolkit::WinUI::Controls::implementation
 	using namespace Microsoft::UI::Xaml::Controls::Primitives;
 	using namespace Microsoft::UI::Xaml::Input;
 
-	SettingsExpander::SettingsExpander() : _itemsRepeater{ nullptr }, element_prepared_token{ 0 }
+	SettingsExpander::SettingsExpander() : _itemsRepeater{ nullptr }, _elementPreparedToken{ 0 }
 	{
 		DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
 		Items(winrt::single_threaded_vector<IInspectable>());
@@ -32,14 +32,14 @@ namespace winrt::CommunityToolkit::WinUI::Controls::implementation
 
 		if (_itemsRepeater != nullptr)
 		{
-			if (element_prepared_token) _itemsRepeater.ElementPrepared(element_prepared_token);
+			if (_elementPreparedToken) _itemsRepeater.ElementPrepared(_elementPreparedToken);
 		}
 
 		_itemsRepeater = GetTemplateChild(PART_ItemsRepeater).try_as<ItemsRepeater>();
 
 		if (_itemsRepeater != nullptr)
 		{
-			element_prepared_token = _itemsRepeater.ElementPrepared({ this, &SettingsExpander::ItemsRepeater_ElementPrepared });
+			_elementPreparedToken = _itemsRepeater.ElementPrepared({ this, &SettingsExpander::ItemsRepeater_ElementPrepared });
 
 			// Update it's source based on our current items properties.
 			OnItemsConnectedPropertyChanged(*this, nullptr); // Can't get it to accept type here? (DependencyPropertyChangedEventArgs)EventArgs.Empty

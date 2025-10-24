@@ -26,7 +26,7 @@ namespace winrt::CommunityToolkit::WinUI::Controls::implementation
     struct SettingsExpander : SettingsExpanderT<SettingsExpander>
     {
         static constexpr auto PART_ItemsRepeater = L"PART_ItemsRepeater";
-        winrt::event_token element_prepared_token;
+        winrt::event_token _elementPreparedToken;
         ItemsRepeater _itemsRepeater;
 
         wil::untyped_event<winrt::Windows::Foundation::IInspectable> Expanded;

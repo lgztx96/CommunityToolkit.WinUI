@@ -1097,8 +1097,6 @@ namespace winrt::CommunityToolkit::WinUI::Controls::implementation
 		if (auto selectedItem = segmented.SelectedItem().try_as<FrameworkElement>()) {
 			ContentContainer.Value(winrt::box_value(selectedItem.Name()));
 		}
-
-
 	}
 
 	/// <summary>

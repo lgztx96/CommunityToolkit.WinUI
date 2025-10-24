@@ -15,11 +15,7 @@ namespace winrt::CommunityToolkit::WinUI::implementation
 
 		FontIcon fontIcon;
 		fontIcon.Glyph(Glyph());
-		if (!FontFamily())
-		{
-			FontFamily(TextIconExtension::SymbolThemeFontFamily());
-		}
-		fontIcon.FontFamily(FontFamily());
+		fontIcon.FontFamily(FontFamily() ? FontFamily() : TextIconExtension::SymbolThemeFontFamily());
 		fontIcon.FontWeight(FontWeight());
 		fontIcon.FontStyle(FontStyle());
 		fontIcon.IsTextScaleFactorEnabled(IsTextScaleFactorEnabled());
