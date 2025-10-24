@@ -12,10 +12,13 @@ The goal is to allow seamless usage of these controls in WinUI 3 / C++ projects.
 ![MarkdownTextBlock](docs/images/MarkdownTextBlock.webp)
 
 ### Marquee
-![Marquee](docs/images/Marquee.png)
+![Marquee](docs/images/Marquee.webp)
 
 ### OpacityMaskView
 ![OpacityMaskView](docs/images/OpacityMaskView.png)
+
+### Shimmer
+![Shimmer](docs/images/Shimmer.webp)
 
 ### ColorPicker / ColorPickerButton
 ![ColorPicker](docs/images/ColorPicker.png)
@@ -25,6 +28,9 @@ The goal is to allow seamless usage of these controls in WinUI 3 / C++ projects.
 
 ### LayoutTransformControl
 ![LayoutTransformControl](docs/images/LayoutTransformControl.png)
+
+### MetadataControl
+![MetadataControl](docs/images/MetadataControl.png)
 
 ### Segmented
 ![Segmented](docs/images/Segmented.png)
@@ -40,6 +46,9 @@ The goal is to allow seamless usage of these controls in WinUI 3 / C++ projects.
 
 ### SwitchPresenter
 ![SwitchPresenter](docs/images/SwitchPresenter.png)
+
+### TabbedCommandBar
+![TabbedCommandBar](docs/images/TabbedCommandBar.png)
 
 ### UniformGrid
 ![UniformGrid](docs/images/UniformGrid.png)
