@@ -5,7 +5,13 @@
 
 namespace winrt::CommunityToolkit::WinUI 
 {
-	winrt::Windows::Foundation::Numerics::float2 ToVector2(std::wstring_view text);
+	using namespace winrt::Windows::Foundation::Numerics;
 
-	winrt::Windows::Foundation::Numerics::float3 ToVector3(std::wstring_view text);
+	float2 ToVector2(std::wstring_view text);
+
+	float3 ToVector3(std::wstring_view text);
+
+	winrt::hstring ToString(float2 const& value);
+
+	winrt::hstring ToString(float3 const& value);
 }

@@ -35,6 +35,9 @@
     <Filter Include="Extensions\Foundation">
       <UniqueIdentifier>{4604d4b6-93f0-49e9-a223-b98b6c602ba3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Extensions\Tree">
+      <UniqueIdentifier>{ce39a7c3-8f80-4fdd-b96a-51b333c39167}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -97,12 +100,14 @@
       <Filter>Extensions\Text</Filter>
     </ClInclude>
     <ClInclude Include="common.h" />
-    <ClInclude Include="Extensions\Tree\Predicates.h" />
     <ClInclude Include="Extensions\Tree\DependencyObjectExtensions.h">
-      <Filter>Extensions</Filter>
+      <Filter>Extensions\Tree</Filter>
     </ClInclude>
     <ClInclude Include="Extensions\Tree\FrameworkElementExtensions.h">
-      <Filter>Extensions</Filter>
+      <Filter>Extensions\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="Extensions\Tree\Predicates.h">
+      <Filter>Extensions\Tree</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -135,14 +140,13 @@
     <Midl Include="Extensions\Foundation\RectExtensions.idl">
       <Filter>Extensions\Foundation</Filter>
     </Midl>
+    <Midl Include="Extensions\Media\VisualExtensions.idl">
+      <Filter>Extensions\Media</Filter>
+    </Midl>
   </ItemGroup>
   <ItemGroup>
     <Page Include="Themes\Generic.xaml">
       <Filter>Themes</Filter>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
-    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natstepfilter" />
   </ItemGroup>
 </Project>

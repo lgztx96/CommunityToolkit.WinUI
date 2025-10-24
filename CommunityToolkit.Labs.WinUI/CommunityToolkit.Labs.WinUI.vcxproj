@@ -242,6 +242,10 @@
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Shimmer\Shimmer.h">
+      <DependentUpon>Shimmer\Shimmer.cpp</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MarkdownTextBlock\Extension.cpp" />
@@ -356,6 +360,9 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
+    <ClCompile Include="Shimmer\Shimmer.cpp">
+      <SubType>Code</SubType>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="CommunityToolkit.Labs.WinUI.def" />
@@ -387,11 +394,16 @@
       <DependentUpon>OpacityMaskView\OpacityMaskView.cpp</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
+    <Midl Include="Shimmer\Shimmer.idl">
+      <DependentUpon>Shimmer\Shimmer.cpp</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
   </ItemGroup>
   <ItemGroup>
     <Page Include="MarkdownTextBlock\MarkdownTextBlock.xaml" />
     <Page Include="Marquee\Marquee.xaml" />
     <Page Include="OpacityMaskView\OpacityMaskView.xaml" />
+    <Page Include="Shimmer\Shimmer.xaml" />
     <Page Include="Themes\Generic.xaml" />
   </ItemGroup>
   <ItemGroup>

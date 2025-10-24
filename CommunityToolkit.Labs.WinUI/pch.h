@@ -28,3 +28,4 @@
 #include <wil/cppwinrt_helpers.h>
 #include "OpacityMaskView\OpacityMaskView.h"
 #include "Marquee\Marquee.h"
+#include "Shimmer\Shimmer.h"

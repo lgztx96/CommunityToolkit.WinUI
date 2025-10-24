@@ -167,6 +167,10 @@
       <DependentUpon>Extensions\Media\TransformExtensions.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="Extensions\Media\VisualExtensions.h">
+      <DependentUpon>Extensions\Media\VisualExtensions.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="Extensions\Shadows\AttachedShadowBase.h" />
     <ClInclude Include="Extensions\Shadows\AttachedShadowElementContext.h" />
     <ClInclude Include="Extensions\Shadows\Effects.h" />
@@ -203,6 +207,10 @@
     </ClCompile>
     <ClCompile Include="Extensions\Media\TransformExtensions.cpp">
       <DependentUpon>Extensions\Media\TransformExtensions.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Extensions\Media\VisualExtensions.cpp">
+      <DependentUpon>Extensions\Media\VisualExtensions.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="Extensions\Shadows\AttachedShadowBase.cpp" />
@@ -243,6 +251,9 @@
       <SubType>Designer</SubType>
     </Midl>
     <Midl Include="Extensions\Media\TransformExtensions.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Extensions\Media\VisualExtensions.idl">
       <SubType>Designer</SubType>
     </Midl>
     <Midl Include="Triggers\ControlSizeTrigger.idl" />

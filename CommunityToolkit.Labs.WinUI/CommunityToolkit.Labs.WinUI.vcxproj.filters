@@ -54,6 +54,9 @@
     <Filter Include="Controls\Marquee">
       <UniqueIdentifier>{0ea4d0a5-e3c3-4842-8d9b-93852d19e29f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Controls\Shimmer">
+      <UniqueIdentifier>{791e5847-c159-4e1f-8fd4-ee797ec72587}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -123,6 +126,9 @@
     </ClCompile>
     <ClCompile Include="Marquee\Marquee.cpp">
       <Filter>Controls\Marquee</Filter>
+    </ClCompile>
+    <ClCompile Include="Shimmer\Shimmer.cpp">
+      <Filter>Controls\Shimmer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -282,9 +288,8 @@
     <Page Include="Marquee\Marquee.xaml">
       <Filter>Controls\Marquee</Filter>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
-    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natstepfilter" />
+    <Page Include="Shimmer\Shimmer.xaml">
+      <Filter>Controls\Shimmer</Filter>
+    </Page>
   </ItemGroup>
 </Project>

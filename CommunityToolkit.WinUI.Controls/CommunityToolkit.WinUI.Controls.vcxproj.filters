@@ -331,10 +331,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
-    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natstepfilter" />
-  </ItemGroup>
-  <ItemGroup>
     <PRIResource Include="Sizers\Strings\en-us\Resources.resw">
       <Filter>Sizers\Strings\en-US</Filter>
     </PRIResource>

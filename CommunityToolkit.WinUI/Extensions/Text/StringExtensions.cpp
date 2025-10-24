@@ -18,11 +18,11 @@ namespace winrt::CommunityToolkit::WinUI
 		return text;
 	}
 
-	winrt::Windows::Foundation::Numerics::float2 ToVector2(std::wstring_view text)
+	float2 ToVector2(std::wstring_view text)
 	{
 		if (text.empty())
 		{
-			winrt::Windows::Foundation::Numerics::float2::zero();
+			float2::zero();
 		}
 
 		text = Unbracket(text);
@@ -49,7 +49,7 @@ namespace winrt::CommunityToolkit::WinUI
 		throw winrt::hresult_invalid_argument(winrt::format(L"Cannot convert {} to Vector3. Use the format \"float, float\"", text));
 	}
 
-	winrt::Windows::Foundation::Numerics::float3 ToVector3(std::wstring_view text)
+	float3 ToVector3(std::wstring_view text)
 	{
 		if (text.empty())
 		{
@@ -61,7 +61,7 @@ namespace winrt::CommunityToolkit::WinUI
 		{
 			float result = std::wcstof(text.data(), nullptr);
 
-			return winrt::Windows::Foundation::Numerics::float3{ result };
+			return float3{ result };
 		}
 		else
 		{
@@ -74,14 +74,24 @@ namespace winrt::CommunityToolkit::WinUI
 				float result2 = std::wcstof(vec[0].data(), nullptr);
 				float result3 = std::wcstof(vec[1].data(), nullptr);
 				float result4 = std::wcstof(vec[2].data(), nullptr);
-				return winrt::Windows::Foundation::Numerics::float3(result2, result3, result4);
+				return float3(result2, result3, result4);
 			}
 			else if (vec.size() == 2)
 			{
-				return winrt::Windows::Foundation::Numerics::float3(ToVector2(text), 0.0f);
+				return float3(ToVector2(text), 0.0f);
 			}
 		}
 
 		throw winrt::hresult_invalid_argument(winrt::format(L"Cannot convert {} to Vector3. Use the format \"float, float\"", text));
+	}
+
+	winrt::hstring ToString(float2 const& value)
+	{
+		return winrt::format(L"<{}, {}>", value.x, value.y);
+	}
+
+	winrt::hstring ToString(float3 const& value)
+	{
+		return winrt::format(L"<{}, {}, {}>", value.x, value.y, value.z);
 	}
 }

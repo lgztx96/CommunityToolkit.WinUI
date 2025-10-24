@@ -1,0 +1,74 @@
+namespace CommunityToolkit.WinUI
+{
+    [default_interface]
+    runtimeclass VisualExtensions 
+    {
+		static Microsoft.UI.Composition.Visual GetVisual(Microsoft.UI.Xaml.UIElement element);
+
+		static String GetAnchorPoint(Microsoft.UI.Xaml.DependencyObject obj);
+
+		static void SetAnchorPoint(Microsoft.UI.Xaml.DependencyObject obj, String value);
+
+		static String GetCenterPoint(Microsoft.UI.Xaml.DependencyObject obj);
+
+		static void SetCenterPoint(Microsoft.UI.Xaml.DependencyObject obj, String value);
+
+		static String GetOffset(Microsoft.UI.Xaml.DependencyObject obj);
+
+		static void SetOffset(Microsoft.UI.Xaml.DependencyObject obj, String value);
+
+		static String GetTranslation(Microsoft.UI.Xaml.DependencyObject obj);
+
+		static void SetTranslation(Microsoft.UI.Xaml.DependencyObject obj, String value);
+
+		static Double GetOpacity(Microsoft.UI.Xaml.DependencyObject obj);
+
+		static void SetOpacity(Microsoft.UI.Xaml.DependencyObject obj, Double value);
+
+		static Double GetRotationAngle(Microsoft.UI.Xaml.DependencyObject obj);
+
+		static void SetRotationAngle(Microsoft.UI.Xaml.DependencyObject obj, Double value);
+
+		static Double GetRotationAngleInDegrees(Microsoft.UI.Xaml.DependencyObject obj);
+
+		static void SetRotationAngleInDegrees(Microsoft.UI.Xaml.DependencyObject obj, Double value);
+
+		static String GetRotationAxis(Microsoft.UI.Xaml.DependencyObject obj);
+
+		static void SetRotationAxis(Microsoft.UI.Xaml.DependencyObject obj, String value);
+
+		static String GetScale(Microsoft.UI.Xaml.DependencyObject obj);
+
+		static void SetScale(Microsoft.UI.Xaml.DependencyObject obj, String value);
+
+		static String GetSize(Microsoft.UI.Xaml.DependencyObject obj);
+
+		static void SetSize(Microsoft.UI.Xaml.DependencyObject obj, String value);
+
+		static String GetNormalizedCenterPoint(Microsoft.UI.Xaml.DependencyObject obj);
+
+		static void SetNormalizedCenterPoint(Microsoft.UI.Xaml.DependencyObject obj, String value);
+
+		static Microsoft.UI.Xaml.DependencyProperty AnchorPointProperty{ get; };
+
+		static Microsoft.UI.Xaml.DependencyProperty CenterPointProperty{ get; };
+
+		static Microsoft.UI.Xaml.DependencyProperty OffsetProperty{ get; };
+
+		static Microsoft.UI.Xaml.DependencyProperty TranslationProperty{ get; };
+
+		static Microsoft.UI.Xaml.DependencyProperty OpacityProperty{ get; };
+
+		static Microsoft.UI.Xaml.DependencyProperty RotationAngleProperty{ get; };
+
+		static Microsoft.UI.Xaml.DependencyProperty RotationAngleInDegreesProperty{ get; };
+
+		static Microsoft.UI.Xaml.DependencyProperty RotationAxisProperty{ get; };
+
+		static Microsoft.UI.Xaml.DependencyProperty ScaleProperty{ get; };
+
+		static Microsoft.UI.Xaml.DependencyProperty SizeProperty{ get; };
+
+		static Microsoft.UI.Xaml.DependencyProperty NormalizedCenterPointProperty{ get; };
+    }
+}
