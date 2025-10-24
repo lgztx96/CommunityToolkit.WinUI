@@ -1,0 +1,13 @@
+<Solution>
+  <Configurations>
+    <Platform Name="ARM64" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="CommunityToolkit.Labs.WinUI/CommunityToolkit.Labs.WinUI.vcxproj" Id="8dbdb115-b325-4d42-aecf-50cbf8b7ab3e" />
+  <Project Path="CommunityToolkit.WinUI.Controls/CommunityToolkit.WinUI.Controls.vcxproj" Id="ef5f53e1-2ddb-4936-a78f-517fc8be74ff" />
+  <Project Path="CommunityToolkit.WinUI.Converters/CommunityToolkit.WinUI.Converters.vcxproj" Id="5f5234f5-2630-47bf-94c7-b2c14301e00e" />
+  <Project Path="CommunityToolkit.WinUI.Helpers/CommunityToolkit.WinUI.Helpers.vcxproj" Id="f8087280-d16f-4d9d-9e17-58aac733d56d" />
+  <Project Path="CommunityToolkit.WinUI.Media/CommunityToolkit.WinUI.Media.vcxproj" Id="a8fa1b9a-b83c-408a-8132-c1576b9fcbd5" />
+  <Project Path="CommunityToolkit.WinUI/CommunityToolkit.WinUI.vcxproj" Id="17c20e50-8d62-4fc3-8feb-b64b03a893be" />
+</Solution>

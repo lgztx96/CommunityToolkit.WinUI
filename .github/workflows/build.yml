@@ -1,4 +1,4 @@
-﻿name: Build CommunityToolkit.WinUI sln
+﻿name: Build CommunityToolkit.WinUI
 
 on:
   release:
@@ -17,7 +17,7 @@ jobs:
 
     env:
       VCPKG_DEFAULT_TRIPLET: ${{ matrix.arch }}-windows-static
-      SOLUTION_FILE: CommunityToolkit.WinUI.sln
+      SOLUTION_FILE: CommunityToolkit.WinUI.slnx
 
     steps:
       - name: Checkout source
@@ -44,14 +44,14 @@ jobs:
           C:\vcpkg\vcpkg integrate install
 
       - name: Restore NuGet packages
-        working-directory: ${{env.GITHUB_WORKSPACE}}
-        run: nuget restore ${{env.SOLUTION_FILE_PATH}}
+        working-directory: ${{ env.GITHUB_WORKSPACE }}
+        run: msbuild -t:restore ${{ env.SOLUTION_FILE }} -p:RestorePackagesConfig=true
 
       - name: Build solution
         env:
          VCPKG_ROOT: C:\vcpkg
         run: |
-          msbuild ${{ env.SOLUTION_FILE_PATH }} `
+          msbuild ${{ env.SOLUTION_FILE }} `
           /p:Configuration=Release `
           /p:Platform=${{ matrix.arch }} `
           /p:VcpkgTriplet=${{ matrix.arch }}-windows-static `
