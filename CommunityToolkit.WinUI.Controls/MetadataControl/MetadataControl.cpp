@@ -98,11 +98,14 @@ namespace winrt::CommunityToolkit::WinUI::Controls::implementation
 				hyperLink.Foreground(_textContainer.Foreground());
 				hyperLink.Inlines().Append(unitToAppend);
 
-				hyperLink.Click([=]([[maybe_unused]] Hyperlink const& sender, [[maybe_unused]] HyperlinkClickEventArgs const& args)
+				hyperLink.Click([weakUnit{ winrt::make_weak(unit) }](auto const& sender, auto const& args)
 					{
-						if (unit.Command().CanExecute(unit.CommandParameter()))
+						if (auto strongUnit = weakUnit.get())
 						{
-							unit.Command().Execute(unit.CommandParameter());
+							if (strongUnit.Command().CanExecute(strongUnit.CommandParameter()))
+							{
+								strongUnit.Command().Execute(strongUnit.CommandParameter());
+							}
 						}
 					});
 
