@@ -1,0 +1,23 @@
+namespace CommunityToolkit.WinUI.Controls
+{
+    enum RangeSelectorProperty
+    {
+        MinimumValue,
+        MaximumValue
+    };
+
+    [default_interface]
+    runtimeclass RangeChangedEventArgs
+    {
+        RangeChangedEventArgs();
+
+        Double OldValue();
+
+        Double NewValue();
+
+        RangeSelectorProperty ChangedRangeProperty();
+
+        RangeChangedEventArgs(Double oldValue, Double newValue, RangeSelectorProperty changedRangeProperty);
+    }
+}
+

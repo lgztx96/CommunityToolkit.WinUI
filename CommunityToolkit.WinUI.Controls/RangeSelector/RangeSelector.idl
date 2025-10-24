@@ -1,0 +1,36 @@
+import "RangeSelector/RangeChangedEventArgs.idl";
+
+namespace CommunityToolkit.WinUI.Controls
+{
+    [default_interface]
+    runtimeclass RangeSelector : Microsoft.UI.Xaml.Controls.Control
+    {
+        RangeSelector();
+
+        event Microsoft.UI.Xaml.Controls.Primitives.DragStartedEventHandler ThumbDragStarted;
+
+        event Microsoft.UI.Xaml.Controls.Primitives.DragCompletedEventHandler ThumbDragCompleted;
+
+        event Windows.Foundation.EventHandler<RangeChangedEventArgs> ValueChanged;
+
+        Microsoft.UI.Xaml.DependencyProperty MinimumProperty{ get; };
+
+        Microsoft.UI.Xaml.DependencyProperty MaximumProperty{ get; };
+
+        Microsoft.UI.Xaml.DependencyProperty RangeStartProperty{ get; };
+
+        Microsoft.UI.Xaml.DependencyProperty RangeEndProperty{ get; };
+
+        Microsoft.UI.Xaml.DependencyProperty StepFrequencyProperty{ get; };
+
+        Double Minimum;
+
+        Double Maximum;
+
+        Double RangeStart;
+
+        Double RangeEnd;
+
+        Double StepFrequency;
+    }
+}

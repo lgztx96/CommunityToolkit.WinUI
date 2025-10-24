@@ -68,6 +68,9 @@
     <Filter Include="TabbedCommandBar">
       <UniqueIdentifier>{402e2b90-8893-4f2b-b50d-dfe53628bbbc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="RangeSelector">
+      <UniqueIdentifier>{91358104-709b-4b14-9987-f1ee00251994}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -170,6 +173,21 @@
     </ClCompile>
     <ClCompile Include="TabbedCommandBar\TabbedCommandBarItem.cpp">
       <Filter>TabbedCommandBar</Filter>
+    </ClCompile>
+    <ClCompile Include="RangeSelector\RangeSelector.cpp">
+      <Filter>RangeSelector</Filter>
+    </ClCompile>
+    <ClCompile Include="RangeSelector\RangeSelector.Input.Pointer.cpp">
+      <Filter>RangeSelector</Filter>
+    </ClCompile>
+    <ClCompile Include="RangeSelector\RangeSelector.Input.Key.cpp">
+      <Filter>RangeSelector</Filter>
+    </ClCompile>
+    <ClCompile Include="RangeSelector\RangeSelector.Input.Drag.cpp">
+      <Filter>RangeSelector</Filter>
+    </ClCompile>
+    <ClCompile Include="RangeSelector\RangeSelector.Events.cpp">
+      <Filter>RangeSelector</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -305,6 +323,9 @@
     <Midl Include="TabbedCommandBar\TabbedCommandBarItemTemplateSelector.idl">
       <Filter>TabbedCommandBar</Filter>
     </Midl>
+    <Midl Include="RangeSelector\RangeChangedEventArgs.idl">
+      <Filter>RangeSelector</Filter>
+    </Midl>
   </ItemGroup>
   <ItemGroup>
     <None Include="CommunityToolkit.WinUI.Controls.def" />
@@ -358,6 +379,9 @@
     </Page>
     <Page Include="TabbedCommandBar\TabbedCommandBarItem.xaml">
       <Filter>TabbedCommandBar</Filter>
+    </Page>
+    <Page Include="RangeSelector\RangeSelector.xaml">
+      <Filter>RangeSelector</Filter>
     </Page>
   </ItemGroup>
   <ItemGroup>

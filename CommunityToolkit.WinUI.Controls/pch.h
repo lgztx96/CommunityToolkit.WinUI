@@ -51,4 +51,5 @@
 #include "MetadataControl\MetadataControl.h"
 #include "TabbedCommandBar\TabbedCommandBar.h"
 #include "TabbedCommandBar\TabbedCommandBarItem.h"
+#include "RangeSelector\RangeSelector.h"
 

@@ -196,6 +196,14 @@
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="pch.h" />
+    <ClInclude Include="RangeSelector\RangeChangedEventArgs.h">
+      <DependentUpon>RangeSelector\RangeChangedEventArgs.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="RangeSelector\RangeSelector.h">
+      <DependentUpon>RangeSelector\RangeSelector.cpp</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="Segmented\EqualPanel.h">
       <DependentUpon>Segmented\EqualPanel.cpp</DependentUpon>
       <SubType>Code</SubType>
@@ -322,6 +330,17 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
+    <ClCompile Include="RangeSelector\RangeChangedEventArgs.cpp">
+      <DependentUpon>RangeSelector\RangeChangedEventArgs.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="RangeSelector\RangeSelector.cpp">
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="RangeSelector\RangeSelector.Events.cpp" />
+    <ClCompile Include="RangeSelector\RangeSelector.Input.Drag.cpp" />
+    <ClCompile Include="RangeSelector\RangeSelector.Input.Key.cpp" />
+    <ClCompile Include="RangeSelector\RangeSelector.Input.Pointer.cpp" />
     <ClCompile Include="Segmented\EqualPanel.cpp">
       <SubType>Code</SubType>
     </ClCompile>
@@ -430,6 +449,13 @@
     <Midl Include="MetadataControl\MetadataItem.idl">
       <SubType>Designer</SubType>
     </Midl>
+    <Midl Include="RangeSelector\RangeChangedEventArgs.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="RangeSelector\RangeSelector.idl">
+      <DependentUpon>RangeSelector\RangeSelector.cpp</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
     <Midl Include="Segmented\EqualPanel.idl">
       <DependentUpon>Segmented\EqualPanel.cpp</DependentUpon>
       <SubType>Code</SubType>
@@ -499,6 +525,7 @@
     <Page Include="ImageCropper\ImageCropperThumb.xaml" />
     <Page Include="LayoutTransformControl\LayoutTransformControl.xaml" />
     <Page Include="MetadataControl\MetadataControl.xaml" />
+    <Page Include="RangeSelector\RangeSelector.xaml" />
     <Page Include="Segmented\Segmented.xaml" />
     <Page Include="Segmented\SegmentedItem.xaml" />
     <Page Include="SettingsControls\SettingsCard\SettingsCard.xaml" />
