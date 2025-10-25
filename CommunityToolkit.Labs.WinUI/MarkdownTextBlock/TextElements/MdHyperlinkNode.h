@@ -9,7 +9,7 @@
 
 namespace winrt::CommunityToolkit::Labs::WinUI::TextElements
 {
-    class MyHyperlinkNode final : public IAddChild
+    class MdHyperlinkNode final : public IAddChild
     {
     private:
         std::unique_ptr<IAddChild> _hyperlink;
@@ -41,7 +41,7 @@ namespace winrt::CommunityToolkit::Labs::WinUI::TextElements
         //    //};
         //}
 
-        MyHyperlinkNode(std::wstring_view url, std::wstring_view baseUrl)
+        MdHyperlinkNode(std::wstring_view url, std::wstring_view baseUrl)
         {
             _url = url;
             _baseUrl = baseUrl;

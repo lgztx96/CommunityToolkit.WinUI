@@ -371,7 +371,7 @@ namespace winrt::CommunityToolkit::Labs::WinUI
 				renderer->BeginInlineContainer(autoLink);
 			}
 			else {
-				auto hyperlink = std::make_shared<TextElements::MyHyperlinkNode>(url, renderer->Config().BaseUrl());
+				auto hyperlink = std::make_shared<TextElements::MdHyperlinkNode>(url, renderer->Config().BaseUrl());
 				renderer->BeginInlineContainer(hyperlink);
 			}
 			break;
