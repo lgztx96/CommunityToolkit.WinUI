@@ -1,0 +1,12 @@
+namespace CommunityToolkit.WinUI.Helpers
+{
+    [default_interface]
+    runtimeclass DesignTimeHelpers
+    {
+        static Boolean IsRunningInLegacyDesignerMode();
+
+        static Boolean IsRunningInEnhancedDesignerMode();
+
+        static Boolean IsRunningInApplicationRuntimeMode();
+    }
+}

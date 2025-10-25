@@ -23,6 +23,8 @@
     <Midl Include="ColorHelper\ColorHelper.idl">
       <Filter>ColorHelper</Filter>
     </Midl>
+    <Midl Include="DesignTimeHelpers.idl" />
+    <Midl Include="ThemeListener.idl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CommunityToolkit.WinUI.Helpers.def" />
@@ -30,5 +32,9 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
+    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natstepfilter" />
   </ItemGroup>
 </Project>

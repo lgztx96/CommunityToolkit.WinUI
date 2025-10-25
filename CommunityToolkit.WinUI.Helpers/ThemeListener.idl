@@ -1,0 +1,15 @@
+namespace CommunityToolkit.WinUI.Helpers
+{
+    [default_interface]
+    runtimeclass ThemeListener 
+    {
+        ThemeListener();
+        ThemeListener(Microsoft.UI.Dispatching.DispatcherQueue dispatcherQueue);
+
+        Microsoft.UI.Xaml.ApplicationTheme CurrentTheme{ get; };
+        String CurrentThemeName{ get; };
+        Boolean IsHighContrast{ get; };
+
+        event Windows.Foundation.TypedEventHandler<ThemeListener, Object> ThemeChanged;
+    }
+}

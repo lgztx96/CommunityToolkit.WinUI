@@ -138,17 +138,33 @@
       <DependentUpon>ColorHelper\ColorHelper.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="DesignTimeHelpers.h">
+      <DependentUpon>DesignTimeHelpers.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="pch.h" />
+    <ClInclude Include="ThemeListener.h">
+      <DependentUpon>ThemeListener.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ColorHelper\ColorHelper.cpp">
       <DependentUpon>ColorHelper\ColorHelper.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="DesignTimeHelpers.cpp">
+      <DependentUpon>DesignTimeHelpers.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
+    <ClCompile Include="ThemeListener.cpp">
+      <DependentUpon>ThemeListener.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="CommunityToolkit.WinUI.Helpers.def" />
@@ -161,6 +177,12 @@
   </ItemGroup>
   <ItemGroup>
     <Midl Include="ColorHelper\ColorHelper.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="DesignTimeHelpers.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="ThemeListener.idl">
       <SubType>Designer</SubType>
     </Midl>
   </ItemGroup>
