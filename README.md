@@ -9,7 +9,9 @@ The goal is to allow seamless usage of these controls in WinUI 3 / C++ projects.
 ## Controls
 
 ### MarkdownTextBlock
+
 `MarkdownTextBlock` supports syntax highlighting for **C#, C++, XML, JSON, and Shell**.
+
 ![MarkdownTextBlock](docs/images/MarkdownTextBlock.webp)
 
 ### Marquee
@@ -37,7 +39,8 @@ The goal is to allow seamless usage of these controls in WinUI 3 / C++ projects.
 ![MetadataControl](docs/images/MetadataControl.png)
 
 ### RadialGauge
-:warning: The `ValueStringFormat` property **does not support .NET string format syntax** and only supports `std::format` syntax.
+:warning: The `ValueStringFormat` property **does not support .NET string format syntax** and only supports **std::format syntax**.
+
 ![RadialGauge](docs/images/RadialGauge.png)
 
 ### RangeSelector
