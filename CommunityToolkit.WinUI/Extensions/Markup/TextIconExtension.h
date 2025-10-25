@@ -8,7 +8,10 @@
 
 namespace winrt::CommunityToolkit::WinUI::implementation
 {
+	using namespace winrt::Windows::UI::Text;
+	using namespace winrt::Windows::Foundation;
 	using namespace winrt::Microsoft::UI::Text;
+	using namespace winrt::Microsoft::UI::Xaml;
 	using namespace winrt::Microsoft::UI::Xaml::Media;
 
 	struct TextIconExtension : TextIconExtensionT<TextIconExtension>
@@ -23,9 +26,9 @@ namespace winrt::CommunityToolkit::WinUI::implementation
 
 		static FontFamily SymbolThemeFontFamily();
 
-		wil::single_threaded_rw_property<winrt::Windows::UI::Text::FontWeight> FontWeight = Microsoft::UI::Text::FontWeights::Normal();
+		wil::single_threaded_rw_property<FontWeight> FontWeight = Microsoft::UI::Text::FontWeights::Normal();
 
-		wil::single_threaded_rw_property<winrt::Windows::UI::Text::FontStyle> FontStyle = Windows::UI::Text::FontStyle::Normal;
+		wil::single_threaded_rw_property<FontStyle> FontStyle = Windows::UI::Text::FontStyle::Normal;
 
 		wil::single_threaded_rw_property<Brush> Foreground{ nullptr };
 
@@ -33,9 +36,9 @@ namespace winrt::CommunityToolkit::WinUI::implementation
 
 		wil::single_threaded_rw_property<bool> MirroredWhenRightToLeft;
 
-		virtual winrt::Windows::Foundation::IInspectable ProvideValue();
+		virtual IInspectable ProvideValue();
 
-		virtual winrt::Windows::Foundation::IInspectable ProvideValue(winrt::Microsoft::UI::Xaml::IXamlServiceProvider const& provider);
+		virtual IInspectable ProvideValue(IXamlServiceProvider const& provider);
 	};
 }
 
