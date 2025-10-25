@@ -19,7 +19,6 @@
 #include <MarkdownTextBlock/TextElements/MdTableCell.h>
 #include <MarkdownTextBlock/TextElements/MdTaskListCheckBox.h>
 #include <MarkdownTextBlock/TextElements/MdThematicBreak.h>
-#include "../md4c/md4c.h"
 
 namespace winrt::CommunityToolkit::Labs::WinUI
 {
@@ -27,9 +26,15 @@ namespace winrt::CommunityToolkit::Labs::WinUI
 
 	WinUIRenderer::WinUIRenderer(
 		std::shared_ptr<TextElements::MdFlowDocument> const& document,
-		MarkdownConfig const& config) : _config(config), FlowDocument(document)
+		MarkdownConfig const& config, CommunityToolkit::Labs::WinUI::MarkdownTextBlock const& markdownTextBlock)
+		: _config(config), FlowDocument(document), _markdownTextBlock(markdownTextBlock)
 	{
 
+	}
+
+	winrt::weak_ref<CommunityToolkit::Labs::WinUI::MarkdownTextBlock> WinUIRenderer::MarkdownTextBlock()
+	{
+		return _markdownTextBlock;
 	}
 
 	void WinUIRenderer::AddChildToCurrent(TextElements::IAddChild* child)
@@ -142,7 +147,7 @@ namespace winrt::CommunityToolkit::Labs::WinUI
 		}
 	}
 
-	static int enter_block_callback(MD_BLOCKTYPE type, void* detail, void* userdata)
+	int WinUIRenderer::EnterBlockCallback(MD_BLOCKTYPE type, void* detail, void* userdata)
 	{
 		auto renderer = static_cast<WinUIRenderer*>(userdata);
 
@@ -272,7 +277,7 @@ namespace winrt::CommunityToolkit::Labs::WinUI
 		return 0;
 	}
 
-	static int leave_block_callback(MD_BLOCKTYPE type, [[maybe_unused]] void* detail, void* userdata)
+	int WinUIRenderer::LeaveBlockCallback(MD_BLOCKTYPE type, [[maybe_unused]] void* detail, void* userdata)
 	{
 		auto renderer = static_cast<WinUIRenderer*>(userdata);
 
@@ -334,7 +339,7 @@ namespace winrt::CommunityToolkit::Labs::WinUI
 		return 0;
 	}
 
-	static int enter_span_callback(MD_SPANTYPE type, void* detail, void* userdata)
+	int WinUIRenderer::EnterSpanCallback(MD_SPANTYPE type, void* detail, void* userdata)
 	{
 		auto renderer = static_cast<WinUIRenderer*>(userdata);
 
@@ -367,11 +372,11 @@ namespace winrt::CommunityToolkit::Labs::WinUI
 			std::wstring_view url{ spanADetail->href.text , spanADetail->href.size };
 			if (spanADetail->is_autolink) {
 
-				auto autoLink = std::make_shared<TextElements::MdAutolinkInline>(url, renderer->Config().BaseUrl());
+				auto autoLink = std::make_shared<TextElements::MdAutolinkInline>(url, renderer->Config().BaseUrl(), renderer);
 				renderer->BeginInlineContainer(autoLink);
 			}
 			else {
-				auto hyperlink = std::make_shared<TextElements::MdHyperlinkNode>(url, renderer->Config().BaseUrl());
+				auto hyperlink = std::make_shared<TextElements::MdHyperlinkNode>(url, renderer->Config().BaseUrl(), renderer);
 				renderer->BeginInlineContainer(hyperlink);
 			}
 			break;
@@ -407,7 +412,7 @@ namespace winrt::CommunityToolkit::Labs::WinUI
 		{
 			auto wikiDetail = static_cast<const struct MD_SPAN_WIKILINK*>(detail);
 			auto link = std::wstring_view{ wikiDetail->target.text, wikiDetail->target.size };
-			auto autoLink = std::make_shared<TextElements::MdAutolinkInline>(link, renderer->Config().BaseUrl());
+			auto autoLink = std::make_shared<TextElements::MdAutolinkInline>(link, renderer->Config().BaseUrl(), renderer);
 			renderer->BeginInlineContainer(autoLink);
 			break;
 		}
@@ -418,7 +423,7 @@ namespace winrt::CommunityToolkit::Labs::WinUI
 		return 0;
 	}
 
-	static int leave_span_callback(MD_SPANTYPE type, [[maybe_unused]] void* detail, void* userdata)
+	int WinUIRenderer::LeaveSpanCallback(MD_SPANTYPE type, [[maybe_unused]] void* detail, void* userdata)
 	{
 		auto renderer = static_cast<WinUIRenderer*>(userdata);
 
@@ -445,7 +450,7 @@ namespace winrt::CommunityToolkit::Labs::WinUI
 		return 0;
 	}
 
-	static int text_callback(MD_TEXTTYPE type, const MD_CHAR* text, MD_SIZE size, void* userdata)
+	int WinUIRenderer::MdTextCallback(MD_TEXTTYPE type, const MD_CHAR* text, MD_SIZE size, void* userdata)
 	{
 		auto renderer = static_cast<WinUIRenderer*>(userdata);
 
@@ -502,9 +507,9 @@ namespace winrt::CommunityToolkit::Labs::WinUI
 		return 0;
 	}
 
-	static void debug_log_callback(const char* msg, [[maybe_unused]] void* userdata)
+	static void DebugLogCallback([[maybe_unused]] const char* msg, [[maybe_unused]] void* userdata)
 	{
-		fprintf(stderr, "MD4C: %s\n", msg);
+		// fprintf(stderr, "MD4C: %s\n", msg);
 	}
 
 	void WinUIRenderer::Render(std::wstring_view text)
@@ -513,12 +518,12 @@ namespace winrt::CommunityToolkit::Labs::WinUI
 		{
 			.abi_version = 0,
 			.flags = MD_DIALECT_GITHUB | MD_FLAG_WIKILINKS,
-			.enter_block = enter_block_callback,
-			.leave_block = leave_block_callback,
-			.enter_span = enter_span_callback,
-			.leave_span = leave_span_callback,
-			.text = text_callback,
-			.debug_log = debug_log_callback,
+			.enter_block = EnterBlockCallback,
+			.leave_block = LeaveBlockCallback,
+			.enter_span = EnterSpanCallback,
+			.leave_span = LeaveSpanCallback,
+			.text = MdTextCallback,
+			.debug_log = DebugLogCallback,
 			.syntax = nullptr
 		};
 

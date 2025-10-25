@@ -27,7 +27,7 @@ namespace winrt::CommunityToolkit::Labs::WinUI::implementation
             DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
         }
 
-        wil::typed_event<class_type, LinkClickedEventArgs::class_type> OnLinkClicked;
+        wil::untyped_event<winrt::CommunityToolkit::Labs::WinUI::LinkClickedEventArgs> OnLinkClicked;
 
         bool RaiseLinkClickedEvent(winrt::Windows::Foundation::Uri const& uri);
 

@@ -7,6 +7,8 @@
 #include "Mdimage.h"
 #include "MdInlineText.h"
 #include <winrt/Windows.Foundation.Collections.h>
+#include "../Renderer/WinUIRenderer.h"
+#include "../MarkdownTextBlock.h"
 
 namespace winrt::CommunityToolkit::Labs::WinUI::TextElements
 {
@@ -17,7 +19,6 @@ namespace winrt::CommunityToolkit::Labs::WinUI::TextElements
 	{
 	private:
 		Hyperlink _hyperlink;
-		Hyperlink::Click_revoker _clickRevoker;
 
 	public:
 		Microsoft::UI::Xaml::Documents::TextElement TextElement() const override 
@@ -25,13 +26,29 @@ namespace winrt::CommunityToolkit::Labs::WinUI::TextElements
 			return _hyperlink;
 		}
 
-		wil::typed_event<Hyperlink, HyperlinkClickEventArgs> ClickEvent;
-
-		MdAutolinkInline(std::wstring_view url, std::wstring_view baseUrl)
+		MdAutolinkInline(std::wstring_view url, std::wstring_view baseUrl, WinUIRenderer* renderer)
 		{
 			_hyperlink.NavigateUri(Extensions::GetUri(url, baseUrl));
-			_clickRevoker = _hyperlink.Click(winrt::auto_revoke,
-				[this](auto& sender, auto& args) { ClickEvent.invoke(sender, args); });
+			_hyperlink.Click([weakMarkdown{ renderer->MarkdownTextBlock() }](auto& sender, auto&)
+				{
+					if (auto hyperlink = sender.template try_as<Hyperlink>())
+					{
+						const auto uri = hyperlink.NavigateUri();
+
+						if (auto markdown = weakMarkdown.get())
+						{
+							auto markdownStrong = winrt::get_self<
+								winrt::CommunityToolkit::Labs::WinUI::implementation::MarkdownTextBlock>(markdown)->get_strong();
+
+							const bool handled = markdownStrong->RaiseLinkClickedEvent(uri);
+
+							if (handled)
+							{
+								hyperlink.NavigateUri(nullptr);
+							}
+						}
+					}
+				});
 		}
 
 		void AddChild(TextElements::IAddChild* child) override

@@ -1,4 +1,5 @@
-﻿import "MarkdownTextBlock/MarkdownConfig.idl";
+﻿import "MarkdownTextBlock/LinkClickedEventArgs.idl";
+import "MarkdownTextBlock/MarkdownConfig.idl";
 
 namespace CommunityToolkit.Labs.WinUI
 {
@@ -14,5 +15,7 @@ namespace CommunityToolkit.Labs.WinUI
         static Microsoft.UI.Xaml.DependencyProperty ConfigProperty{ get; };
         static Microsoft.UI.Xaml.DependencyProperty TextProperty{ get; };
         static Microsoft.UI.Xaml.DependencyProperty IsTextSelectionEnabledProperty{ get; };
+
+        event Windows.Foundation.EventHandler<LinkClickedEventArgs> OnLinkClicked;
     }
 }

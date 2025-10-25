@@ -6,17 +6,6 @@
 
 namespace winrt::CommunityToolkit::Labs::WinUI::implementation
 {
-	bool MarkdownTextBlock::RaiseLinkClickedEvent(winrt::Windows::Foundation::Uri const& uri)
-	{
-		//if (!OnLinkClicked.m_handler)
-		//{
-		//    return false;
-		//}
-		auto args = winrt::make<LinkClickedEventArgs>(uri);
-		OnLinkClicked.invoke(*this, args);
-		return args.Handled();
-	}
-
 	void MarkdownTextBlock::OnApplyTemplate()
 	{
 		base_type::OnApplyTemplate();
@@ -50,10 +39,17 @@ namespace winrt::CommunityToolkit::Labs::WinUI::implementation
 		{
 			if (_renderer == nullptr)
 			{
-				_renderer = std::make_unique<WinUIRenderer>(_document, Config());
+				_renderer = std::make_unique<WinUIRenderer>(_document, Config(), *this);
 			}
 
 			ApplyText(Text(), false);
 		}
+	}
+
+	bool MarkdownTextBlock::RaiseLinkClickedEvent(winrt::Windows::Foundation::Uri const& uri)
+	{
+		auto args = winrt::make<LinkClickedEventArgs>(uri);
+		OnLinkClicked.invoke(*this, args);
+		return args.Handled();
 	}
 }

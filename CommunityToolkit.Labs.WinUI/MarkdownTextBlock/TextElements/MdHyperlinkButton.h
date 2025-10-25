@@ -6,6 +6,8 @@
 #include "IAddChild.h"
 #include "MdFlowDocument.h"
 #include <winrt/Microsoft.UI.Xaml.Controls.h>
+#include "../Renderer/WinUIRenderer.h"
+#include "../MarkdownTextBlock.h"
 
 namespace winrt::CommunityToolkit::Labs::WinUI::TextElements
 {
@@ -25,10 +27,10 @@ namespace winrt::CommunityToolkit::Labs::WinUI::TextElements
 			return _inlineUIContainer;
 		}
 
-		MdHyperlinkButton(std::wstring_view url, std::wstring_view baseUrl)
+		MdHyperlinkButton(std::wstring_view url, std::wstring_view baseUrl, WinUIRenderer* renderer)
 		{
 			_baseUrl = baseUrl;
-			Init(url, baseUrl);
+			Init(url, baseUrl, renderer);
 		}
 
 		//MdHyperlinkButton(std::wstring_view baseUrl)
@@ -39,7 +41,7 @@ namespace winrt::CommunityToolkit::Labs::WinUI::TextElements
 		//    Init({}, baseUrl);
 		//}
 
-		void Init(std::wstring_view url, std::wstring_view baseUrl)
+		void Init(std::wstring_view url, std::wstring_view baseUrl, WinUIRenderer* renderer)
 		{
 			_hyperLinkButton.NavigateUri(Extensions::GetUri(url, baseUrl));
 			_hyperLinkButton.Padding(winrt::Microsoft::UI::Xaml::Thickness(0, 0, 0, 0));
@@ -52,6 +54,26 @@ namespace winrt::CommunityToolkit::Labs::WinUI::TextElements
 			 {
 				 _flowDoc = std::make_unique<MdFlowDocument>(_linkInline);
 			 }*/
+			_hyperLinkButton.Click([weakMarkdown{ renderer->MarkdownTextBlock() }](auto& sender, auto&)
+				{
+					if (auto hyperlink = sender.template try_as<HyperlinkButton>())
+					{
+						const auto uri = hyperlink.NavigateUri();
+
+						if (auto markdown = weakMarkdown.get())
+						{
+							auto markdownStrong = winrt::get_self<
+								winrt::CommunityToolkit::Labs::WinUI::implementation::MarkdownTextBlock>(markdown)->get_strong();
+
+							const bool handled = markdownStrong->RaiseLinkClickedEvent(uri);
+
+							if (handled)
+							{
+								hyperlink.NavigateUri(nullptr);
+							}
+						}
+					}
+				});
 			_flowDoc = std::make_unique<MdFlowDocument>();
 			_inlineUIContainer.Child(_hyperLinkButton);
 			_flowDoc->RichTextBlock().Foreground(MarkdownConfig().Default().Themes().LinkForeground());

@@ -1,6 +1,5 @@
 namespace CommunityToolkit.Labs.WinUI
 {
-    [bindable]
     [default_interface]
     runtimeclass LinkClickedEventArgs
     {

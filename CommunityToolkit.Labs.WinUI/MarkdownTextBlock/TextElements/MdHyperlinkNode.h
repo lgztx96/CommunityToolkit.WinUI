@@ -15,6 +15,7 @@ namespace winrt::CommunityToolkit::Labs::WinUI::TextElements
         std::unique_ptr<IAddChild> _hyperlink;
         std::wstring_view _url;
         std::wstring_view _baseUrl;
+        WinUIRenderer* _renderer;
 
     public:
        // bool IsHtml() const { return _htmlNode != nullptr; }
@@ -41,10 +42,11 @@ namespace winrt::CommunityToolkit::Labs::WinUI::TextElements
         //    //};
         //}
 
-        MdHyperlinkNode(std::wstring_view url, std::wstring_view baseUrl)
+        MdHyperlinkNode(std::wstring_view url, std::wstring_view baseUrl, WinUIRenderer* renderer)
         {
             _url = url;
             _baseUrl = baseUrl;
+            _renderer = renderer;
             // auto url = htmlNode.GetAttributeValue("href", "#");
             // _htmlNode = htmlNode;
             //_hyperlink = Hyperlink();
@@ -58,12 +60,12 @@ namespace winrt::CommunityToolkit::Labs::WinUI::TextElements
             if (auto image = dynamic_cast<TextElements::MdImage*>(child))
             {
 				assert(_hyperlink == nullptr);
-                _hyperlink = std::make_unique<MdHyperlinkButton>(_url, _baseUrl);
+                _hyperlink = std::make_unique<MdHyperlinkButton>(_url, _baseUrl, _renderer);
                 _hyperlink->AddChild(child);
             }
             else if (child && child->TextElement().try_as<Inline>())
             {
-                if (!_hyperlink) _hyperlink = std::make_unique<MdHyperlink>(_url, _baseUrl);
+                if (!_hyperlink) _hyperlink = std::make_unique<MdHyperlink>(_url, _baseUrl, _renderer);
                 _hyperlink->AddChild(child);
             }
             else {

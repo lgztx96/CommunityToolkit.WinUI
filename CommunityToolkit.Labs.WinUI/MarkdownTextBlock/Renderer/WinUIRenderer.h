@@ -1,6 +1,7 @@
 ﻿
 #pragma once
 
+#include "../md4c/md4c.h"
 #include <MarkdownTextBlock/TextElements/IAddChild.h>
 #include <MarkdownTextBlock/TextElements/MdFlowDocument.h>
 #include <vector>
@@ -34,12 +35,30 @@ namespace winrt::CommunityToolkit::Labs::WinUI
 
 		TableContext(int colCount, int headRowCount, int bodyRowCount)
 			: colCount(colCount), headRowCount(headRowCount), bodyRowCount(bodyRowCount),
-			currentRow(0), currentColumn(0) {
-		}
+			currentRow(0), currentColumn(0) { }
 	};
 
 	struct WinUIRenderer
 	{
+		CommunityToolkit::Labs::WinUI::MarkdownConfig _config = MarkdownConfig::Default();
+
+		winrt::weak_ref<CommunityToolkit::Labs::WinUI::MarkdownTextBlock> MarkdownTextBlock();
+
+		wil::single_threaded_rw_property<std::shared_ptr<TextElements::MdFlowDocument>> FlowDocument;
+
+		CommunityToolkit::Labs::WinUI::MarkdownConfig Config() const noexcept { return _config; }
+		void Config(CommunityToolkit::Labs::WinUI::MarkdownConfig const& value) { _config = value; }
+
+		WinUIRenderer(
+			std::shared_ptr<TextElements::MdFlowDocument> const& document,
+			MarkdownConfig const& config,
+			CommunityToolkit::Labs::WinUI::MarkdownTextBlock const& markdownTextBlock);
+
+		void Render(std::wstring_view text);
+
+		void ReloadDocument();
+
+	private:
 		std::shared_ptr<TextElements::IAddChild> _lastImage;
 
 		std::vector<std::shared_ptr<TextElements::IAddChild>> _containerStack;
@@ -52,23 +71,10 @@ namespace winrt::CommunityToolkit::Labs::WinUI
 
 		std::vector<std::shared_ptr<TextElements::IAddChild>> _elementCache;
 
-		CommunityToolkit::Labs::WinUI::MarkdownConfig _config = MarkdownConfig::Default();
+		winrt::weak_ref<CommunityToolkit::Labs::WinUI::MarkdownTextBlock> _markdownTextBlock;
 
 		int _currentRow = 0;
 		int _currentColumn = 0;
-
-		wil::single_threaded_rw_property<std::shared_ptr<TextElements::MdFlowDocument>> FlowDocument;
-
-		CommunityToolkit::Labs::WinUI::MarkdownConfig Config() const noexcept { return _config; }
-		void Config(CommunityToolkit::Labs::WinUI::MarkdownConfig const& value) { _config = value; }
-
-		WinUIRenderer(
-			std::shared_ptr<TextElements::MdFlowDocument> const& document,
-			MarkdownConfig const& config);
-
-		void Render(std::wstring_view text);
-
-		void ReloadDocument();
 
 		std::shared_ptr<TextElements::IAddChild> Top();
 
@@ -105,6 +111,16 @@ namespace winrt::CommunityToolkit::Labs::WinUI
 		void PopTableContext();
 
 		TableContext* CurrentTable();
+
+		static int EnterBlockCallback(MD_BLOCKTYPE type, void* detail, void* userdata);
+
+		static int LeaveBlockCallback(MD_BLOCKTYPE type, void* detail, void* userdata);
+
+		static int EnterSpanCallback(MD_SPANTYPE type, void* detail, void* userdata);
+
+		static int LeaveSpanCallback(MD_SPANTYPE type, void* detail, void* userdata);
+
+		static int MdTextCallback(MD_TEXTTYPE type, const MD_CHAR* text, MD_SIZE size, void* userdata);
 	};
 }
 
