@@ -18,6 +18,12 @@ namespace winrt::CommunityToolkit::Labs::WinUI
 	class Extensions
 	{
 	public:
+		static void ToLower(std::wstring& str);
+
+		static void ToUpper(std::wstring& str);
+
+		static bool IsWhiteSpace(std::wstring_view sv);
+
 		static std::wstring ToAlphabetical(int index, bool upper = false);
 
 		static std::wstring ToRomanNumerals(int x, bool lower = false);

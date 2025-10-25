@@ -318,14 +318,14 @@ public:
 
 std::unique_ptr<IUtf16SyntaxHighlighter> IUtf16SyntaxHighlighter::Create(std::wstring_view language) {
 
-	if (language == L"csharp") return std::make_unique<CSharpHighlighter>();
+	if (language == L"csharp" || language == L"c#") return std::make_unique<CSharpHighlighter>();
 
 	if (language == L"json") return std::make_unique<JsonHighlighter>();
 
 	if (language == L"xml" || language == L"xaml")
 		return std::make_unique<XmlHighlighter>();
 
-	if (language == L"cpp" || language == L"c")
+	if (language == L"c" || language == L"c++" || language == L"cpp")
 		return std::make_unique<CPlusPlusHighlighter>();
 
 	if (language == L"bash" || language == L"shell")

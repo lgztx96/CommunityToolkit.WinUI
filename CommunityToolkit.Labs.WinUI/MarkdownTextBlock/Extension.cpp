@@ -2,27 +2,28 @@
 #include "Extension.h"
 #include <ranges>
 #include <regex>
+#include <cwctype>
 #include <winrt/Windows.Data.Xml.Dom.h>
 
 using namespace winrt::Windows::Data::Xml::Dom;
 
 namespace winrt::CommunityToolkit::Labs::WinUI
 {
-	static void tolower(std::wstring& s)
+	void Extensions::ToLower(std::wstring& str)
 	{
-		std::transform(s.begin(), s.end(), s.begin(),
-			[](wchar_t c) { return static_cast<wchar_t>(std::tolower(static_cast<int>(c))); });
+		std::transform(str.begin(), str.end(), str.begin(),
+			[](wchar_t c) { return static_cast<wchar_t>(std::towlower(c)); });
 	}
 
-	static void toupper(std::wstring& s)
+	void Extensions::ToUpper(std::wstring& str)
 	{
-		std::transform(s.begin(), s.end(), s.begin(),
-			[](wchar_t c) { return static_cast<wchar_t>(std::toupper(static_cast<int>(c))); });
+		std::transform(str.begin(), str.end(), str.begin(),
+			[](wchar_t c) { return static_cast<wchar_t>(std::towupper(c)); });
 	}
 
-	static bool isspace(std::wstring_view str)
+	bool Extensions::IsWhiteSpace(std::wstring_view sv)
 	{
-		return std::all_of(str.cbegin(), str.cend(), [](wchar_t c) { return iswspace(c); });
+		return std::all_of(sv.cbegin(), sv.cend(), [](wchar_t c) { return iswspace(c); });
 	}
 
 	std::wstring Extensions::ToAlphabetical(int index, bool upper)
@@ -47,7 +48,7 @@ namespace winrt::CommunityToolkit::Labs::WinUI
 		}
 
 		if (upper) {
-			toupper(stringBuilder);
+			ToUpper(stringBuilder);
 		}
 
 		return stringBuilder;
@@ -79,7 +80,7 @@ namespace winrt::CommunityToolkit::Labs::WinUI
 		auto ret = roman_digit(L'I', L'V', L'X', x);
 
 		if (lower) {
-			tolower(ret);
+			ToLower(ret);
 		}
 
 		return ret;
@@ -158,7 +159,7 @@ namespace winrt::CommunityToolkit::Labs::WinUI
 		}
 		catch (...) {}
 
-		if (!isspace(base)) {
+		if (!IsWhiteSpace(base)) {
 			//the url is relative, so append the base
 			//trim any trailing "/" from the base and any leading "/" from the url
 			base = base.substr(0, base.find_last_not_of(L'/') + 1);
@@ -196,7 +197,7 @@ namespace winrt::CommunityToolkit::Labs::WinUI
 	bool Extensions::IsHeading(std::wstring_view tag)
 	{
 		std::wstring copy{ tag };
-		tolower(copy);
+		ToLower(copy);
 		static constexpr std::array<std::wstring_view, 6> headings = { L"h1", L"h2", L"h3", L"h4", L"h5", L"h6" };
 		return std::ranges::contains(headings, std::wstring_view{ copy.data(), copy.size() });
 	}

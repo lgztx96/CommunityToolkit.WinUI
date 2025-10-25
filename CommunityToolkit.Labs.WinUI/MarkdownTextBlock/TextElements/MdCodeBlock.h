@@ -3,9 +3,9 @@
 // See the LICENSE file in the project root for more information.
 #pragma once
 
+#include "../Extension.h"
 #include "../Highlight/ISyntaxHighlighter.h"
 #include "IAddChild.h"
-#include <cwctype>
 #include <ranges>
 #include <winrt/CommunityToolkit.Labs.WinUI.h>
 #include <winrt/CommunityToolkit.WinUI.Helpers.h>
@@ -28,7 +28,7 @@ namespace winrt::CommunityToolkit::Labs::WinUI::TextElements
 		Paragraph _paragraph;
 		TextBlock _richTextBlock;
 		MarkdownConfig _config;
-		std::wstring_view _language;
+		std::wstring _language;
 		std::wstring _sourceCode;
 		bool _isDarkMode;
 
@@ -40,7 +40,10 @@ namespace winrt::CommunityToolkit::Labs::WinUI::TextElements
 	public:
 
 		MdCodeBlock(std::wstring_view lang, MarkdownConfig const& config, bool isDarkMode)
-			: _config(config), _language(lang), _isDarkMode(isDarkMode) { }
+			: _config(config), _language(lang), _isDarkMode(isDarkMode)
+		{
+			Extensions::ToLower(_language);
+		}
 
 		void Enter() override {
 			InlineUIContainer container;
@@ -80,8 +83,7 @@ namespace winrt::CommunityToolkit::Labs::WinUI::TextElements
 		}
 
 		void Leave() override {
-			if (_sourceCode.empty() || std::ranges::all_of(_sourceCode,
-				[](wchar_t ch) { return std::iswspace(ch); }))
+			if (_sourceCode.empty() || Extensions::IsWhiteSpace(_sourceCode))
 			{
 				return;
 			}
@@ -96,15 +98,6 @@ namespace winrt::CommunityToolkit::Labs::WinUI::TextElements
 			}
 
 			FormatInlines(_sourceCode, highlighter, _richTextBlock.Inlines());
-		}
-
-		bool ascill_queal(
-			std::string_view utf8, 
-			std::wstring_view utf16) {
-
-			return std::ranges::equal(utf16, std::views::transform(utf8, [](char c) {
-				return static_cast<wchar_t>(c);
-			}));
 		}
 
 		void FormatInlines(std::wstring_view source, const IUtf16SyntaxHighlighter* highlighter, InlineCollection const& inlines) const {
