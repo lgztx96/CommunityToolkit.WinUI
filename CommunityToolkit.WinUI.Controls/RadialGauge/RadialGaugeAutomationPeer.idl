@@ -1,0 +1,12 @@
+import "RadialGauge/RadialGauge.idl";
+
+namespace CommunityToolkit.WinUI.Controls
+{
+    [default_interface]
+    runtimeclass RadialGaugeAutomationPeer : Microsoft.UI.Xaml.Automation.Peers.RangeBaseAutomationPeer, Microsoft.UI.Xaml.Automation.Provider.IRangeValueProvider
+    {
+        RadialGaugeAutomationPeer(CommunityToolkit.WinUI.Controls.RadialGauge owner);
+
+        void RaiseValueChangedEvent(Double oldValue, Double newValue);
+    }
+}

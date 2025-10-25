@@ -52,4 +52,5 @@
 #include "TabbedCommandBar\TabbedCommandBar.h"
 #include "TabbedCommandBar\TabbedCommandBarItem.h"
 #include "RangeSelector\RangeSelector.h"
+#include "RadialGauge\RadialGauge.h"
 

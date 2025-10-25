@@ -16,13 +16,13 @@ namespace winrt::CommunityToolkit::WinUI::Controls::implementation
         keyDebounceTimer.IsRepeating(false);
         keyDebounceTimer.Interval(TimeToHideToolTipOnKeyUp);
 
-        keyDebounceTimer.Tick(keyDebounceTimerTick);
+        keyDebounceTimer.Tick(_keyDebounceTimerTickToken);
 
-        keyDebounceTimerTick = keyDebounceTimer.Tick({ get_weak(), [this](auto const& sender, auto const&)
+        _keyDebounceTimerTickToken = keyDebounceTimer.Tick({ get_weak(), [this](auto const& sender, auto const&)
         {
             if (auto timer = sender.template try_as<Microsoft::UI::Dispatching::DispatcherQueueTimer>())
             {
-                timer.Tick(this->keyDebounceTimerTick);
+                timer.Tick(this->_keyDebounceTimerTickToken);
                 timer.Stop();
                 this->_toolTip.Visibility(Visibility::Collapsed);
             }

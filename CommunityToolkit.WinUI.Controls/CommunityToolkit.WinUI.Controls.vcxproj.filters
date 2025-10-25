@@ -71,6 +71,9 @@
     <Filter Include="RangeSelector">
       <UniqueIdentifier>{91358104-709b-4b14-9987-f1ee00251994}</UniqueIdentifier>
     </Filter>
+    <Filter Include="RadialGauge">
+      <UniqueIdentifier>{b3818ae4-a732-4411-9545-417c5ed2f5e3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -188,6 +191,12 @@
     </ClCompile>
     <ClCompile Include="RangeSelector\RangeSelector.Events.cpp">
       <Filter>RangeSelector</Filter>
+    </ClCompile>
+    <ClCompile Include="RadialGauge\RadialGauge.cpp">
+      <Filter>RadialGauge</Filter>
+    </ClCompile>
+    <ClCompile Include="RadialGauge\RadialGauge.Input.cpp">
+      <Filter>RadialGauge</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -326,6 +335,9 @@
     <Midl Include="RangeSelector\RangeChangedEventArgs.idl">
       <Filter>RangeSelector</Filter>
     </Midl>
+    <Midl Include="RadialGauge\RadialGaugeAutomationPeer.idl">
+      <Filter>RadialGauge</Filter>
+    </Midl>
   </ItemGroup>
   <ItemGroup>
     <None Include="CommunityToolkit.WinUI.Controls.def" />
@@ -382,6 +394,9 @@
     </Page>
     <Page Include="RangeSelector\RangeSelector.xaml">
       <Filter>RangeSelector</Filter>
+    </Page>
+    <Page Include="RadialGauge\RadialGauge.xaml">
+      <Filter>RadialGauge</Filter>
     </Page>
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,62 @@
+namespace CommunityToolkit.WinUI.Controls
+{
+    [default_interface]
+    runtimeclass RadialGauge : Microsoft.UI.Xaml.Controls.Primitives.RangeBase
+    {
+        RadialGauge();
+
+        static Microsoft.UI.Xaml.DependencyProperty IsInteractiveProperty{ get; };
+        static Microsoft.UI.Xaml.DependencyProperty ScaleWidthProperty{ get; };
+        static Microsoft.UI.Xaml.DependencyProperty StepSizeProperty{ get; };
+        static Microsoft.UI.Xaml.DependencyProperty NeedleBrushProperty{ get; };
+        static Microsoft.UI.Xaml.DependencyProperty NeedleBorderBrushProperty{ get; };
+        static Microsoft.UI.Xaml.DependencyProperty UnitProperty{ get; };
+        static Microsoft.UI.Xaml.DependencyProperty TrailBrushProperty{ get; };
+        static Microsoft.UI.Xaml.DependencyProperty ScaleBrushProperty{ get; };
+        static Microsoft.UI.Xaml.DependencyProperty ScaleTickBrushProperty{ get; };
+        static Microsoft.UI.Xaml.DependencyProperty TickBrushProperty{ get; };
+        static Microsoft.UI.Xaml.DependencyProperty ValueStringFormatProperty{ get; };
+        static Microsoft.UI.Xaml.DependencyProperty NeedleLengthProperty{ get; };
+        static Microsoft.UI.Xaml.DependencyProperty NeedleBorderThicknessProperty{ get; };
+        static Microsoft.UI.Xaml.DependencyProperty NeedleWidthProperty{ get; };
+        static Microsoft.UI.Xaml.DependencyProperty ScalePaddingProperty{ get; };
+        static Microsoft.UI.Xaml.DependencyProperty ScaleTickWidthProperty{ get; };
+        static Microsoft.UI.Xaml.DependencyProperty ScaleTickLengthProperty{ get; };
+        static Microsoft.UI.Xaml.DependencyProperty ScaleTickCornerRadiusProperty{ get; };
+        static Microsoft.UI.Xaml.DependencyProperty TickSpacingProperty{ get; };
+        static Microsoft.UI.Xaml.DependencyProperty TickWidthProperty{ get; };
+        static Microsoft.UI.Xaml.DependencyProperty TickLengthProperty{ get; };
+        static Microsoft.UI.Xaml.DependencyProperty TickPaddingProperty{ get; };
+        static Microsoft.UI.Xaml.DependencyProperty TickCornerRadiusProperty{ get; };
+        static Microsoft.UI.Xaml.DependencyProperty MinAngleProperty{ get; };
+        static Microsoft.UI.Xaml.DependencyProperty MaxAngleProperty{ get; };
+        static Microsoft.UI.Xaml.DependencyProperty ValueAngleProperty{ get; };
+
+        Boolean IsInteractive;
+        Double ScaleWidth;
+        Double StepSize;
+        Microsoft.UI.Xaml.Media.SolidColorBrush NeedleBrush;
+        Microsoft.UI.Xaml.Media.SolidColorBrush NeedleBorderBrush;
+        String Unit;
+        Microsoft.UI.Xaml.Media.Brush TrailBrush;
+        Microsoft.UI.Xaml.Media.Brush ScaleBrush;
+        Microsoft.UI.Xaml.Media.SolidColorBrush ScaleTickBrush;
+        Microsoft.UI.Xaml.Media.SolidColorBrush TickBrush;
+        String ValueStringFormat;
+        Int32 TickSpacing;
+        Double NeedleLength;
+        Double NeedleBorderThickness;
+        Double NeedleWidth;
+        Double ScalePadding;
+        Double TickPadding;
+        Double ScaleTickWidth;
+        Double ScaleTickLength;
+        Double TickLength;
+        Double TickWidth;
+        Double ScaleTickCornerRadius;
+        Double TickCornerRadius;
+        Int32 MinAngle;
+        Int32 MaxAngle;
+        Double ValueAngle;
+    }
+}

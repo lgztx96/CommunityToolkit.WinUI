@@ -1,0 +1,138 @@
+<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:CommunityToolkit.WinUI.Controls">
+
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+            <StaticResource x:Key="RadialGaugeTrailBackground"
+                            ResourceKey="AccentFillColorTertiaryBrush" />
+            <StaticResource x:Key="RadialGaugeScaleBackground"
+                            ResourceKey="SubtleFillColorSecondaryBrush" />
+            <StaticResource x:Key="RadialGaugeTickBackground"
+                            ResourceKey="TextFillColorTertiaryBrush" />
+            <StaticResource x:Key="RadialGaugeScaleTickBackground"
+                            ResourceKey="TextFillColorTertiaryBrush" />
+            <StaticResource x:Key="RadialGaugeNeedleBackground"
+                            ResourceKey="AccentFillColorTertiaryBrush" />
+            <StaticResource x:Key="RadialGaugeNeedleBorderBrush"
+                            ResourceKey="ControlSolidFillColorDefaultBrush" />
+            <StaticResource x:Key="RadialGaugeValueForeground"
+                            ResourceKey="TextFillColorPrimaryBrush" />
+            <StaticResource x:Key="RadialGaugeUnitForeground"
+                            ResourceKey="TextFillColorSecondaryBrush" />
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Key="Dark">
+            <StaticResource x:Key="RadialGaugeTrailBackground"
+                            ResourceKey="AccentFillColorTertiaryBrush" />
+            <StaticResource x:Key="RadialGaugeScaleBackground"
+                            ResourceKey="SubtleFillColorSecondaryBrush" />
+            <StaticResource x:Key="RadialGaugeTickBackground"
+                            ResourceKey="TextFillColorTertiaryBrush" />
+            <StaticResource x:Key="RadialGaugeScaleTickBackground"
+                            ResourceKey="TextFillColorTertiaryBrush" />
+            <StaticResource x:Key="RadialGaugeNeedleBackground"
+                            ResourceKey="AccentFillColorTertiaryBrush" />
+            <StaticResource x:Key="RadialGaugeNeedleBorderBrush"
+                            ResourceKey="ControlSolidFillColorDefaultBrush" />
+            <StaticResource x:Key="RadialGaugeValueForeground"
+                            ResourceKey="TextFillColorPrimaryBrush" />
+            <StaticResource x:Key="RadialGaugeUnitForeground"
+                            ResourceKey="TextFillColorSecondaryBrush" />
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Key="HighContrast">
+            <StaticResource x:Key="RadialGaugeTrailBackground"
+                            ResourceKey="SystemControlHighlightAccentBrush" />
+            <StaticResource x:Key="RadialGaugeScaleBackground"
+                            ResourceKey="SystemControlForegroundBaseMediumLowBrush" />
+            <StaticResource x:Key="RadialGaugeTickBackground"
+                            ResourceKey="SystemControlForegroundBaseMediumLowBrush" />
+            <StaticResource x:Key="RadialGaugeScaleTickBackground"
+                            ResourceKey="SystemControlForegroundBaseMediumLowBrush" />
+            <StaticResource x:Key="RadialGaugeNeedleBackground"
+                            ResourceKey="SystemControlForegroundAccentBrush" />
+            <StaticResource x:Key="RadialGaugeNeedleBorderBrush"
+                            ResourceKey="SystemColorButtonTextColorBrush" />
+            <StaticResource x:Key="RadialGaugeValueForeground"
+                            ResourceKey="SystemColorWindowTextColor" />
+            <StaticResource x:Key="RadialGaugeUnitForeground"
+                            ResourceKey="SystemColorWindowTextColor" />
+        </ResourceDictionary>
+
+    </ResourceDictionary.ThemeDictionaries>
+
+    <Style TargetType="controls:RadialGauge">
+        <Setter Property="NeedleBrush" Value="{ThemeResource RadialGaugeNeedleBackground}" />
+        <Setter Property="NeedleBorderBrush" Value="{ThemeResource RadialGaugeNeedleBorderBrush}" />
+        <Setter Property="TrailBrush" Value="{ThemeResource RadialGaugeTrailBackground}" />
+        <Setter Property="ScaleBrush" Value="{ThemeResource RadialGaugeScaleBackground}" />
+        <Setter Property="ScaleTickBrush" Value="{ThemeResource RadialGaugeScaleTickBackground}" />
+        <Setter Property="TickBrush" Value="{ThemeResource RadialGaugeTickBackground}" />
+        <Setter Property="Foreground" Value="{ThemeResource RadialGaugeValueForeground}" />
+        <Setter Property="UseSystemFocusVisuals" Value="True" />
+        <Setter Property="FlowDirection" Value="LeftToRight" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:RadialGauge">
+                    <Grid x:Name="PART_RootGrid">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="Disabled">
+                                    <VisualState.Setters>
+                                        <Setter Target="PART_RootGrid.Opacity" Value="0.4" />
+                                    </VisualState.Setters>
+
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+
+                        <Viewbox>
+                            <Grid x:Name="PART_Container"
+                                  Width="200"
+                                  Height="200"
+                                  Background="Transparent">
+
+
+                                <!--  Scale  -->
+                                <Path Name="PART_Scale"
+                                      Stroke="{TemplateBinding ScaleBrush}"
+                                      StrokeEndLineCap="Round"
+                                      StrokeLineJoin="Round"
+                                      StrokeStartLineCap="Round"
+                                      StrokeThickness="{TemplateBinding ScaleWidth}" />
+
+                                <!--  Trail  -->
+                                <Path Name="PART_Trail"
+                                      Stroke="{TemplateBinding TrailBrush}"
+                                      StrokeEndLineCap="Round"
+                                      StrokeLineJoin="Round"
+                                      StrokeStartLineCap="Round"
+                                      StrokeThickness="{TemplateBinding ScaleWidth}" />
+
+                                <!--  Value and Unit  -->
+                                <StackPanel HorizontalAlignment="Center"
+                                            VerticalAlignment="Bottom"
+                                            Spacing="2">
+                                    <TextBlock Name="PART_ValueText"
+                                               FontSize="18"
+                                               FontWeight="SemiBold"
+                                               Foreground="{TemplateBinding Foreground}"
+                                               TextAlignment="Center" />
+                                    <TextBlock Name="PART_UnitText"
+                                               Margin="0"
+                                               Foreground="{ThemeResource RadialGaugeUnitForeground}"
+                                               Text="{TemplateBinding Unit}"
+                                               TextAlignment="Center" />
+                                </StackPanel>
+                            </Grid>
+                        </Viewbox>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

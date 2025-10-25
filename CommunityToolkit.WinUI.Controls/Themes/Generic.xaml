@@ -16,5 +16,6 @@
         <ResourceDictionary Source="ms-appx:///CommunityToolkit.WinUI.Controls/TabbedCommandBar/TabbedCommandBar.xaml" />
         <ResourceDictionary Source="ms-appx:///CommunityToolkit.WinUI.Controls/TabbedCommandBar/TabbedCommandBarItem.xaml" />
         <ResourceDictionary Source="ms-appx:///CommunityToolkit.WinUI.Controls/RangeSelector/RangeSelector.xaml" />
+        <ResourceDictionary Source="ms-appx:///CommunityToolkit.WinUI.Controls/RadialGauge/RadialGauge.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

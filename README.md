@@ -32,6 +32,9 @@ The goal is to allow seamless usage of these controls in WinUI 3 / C++ projects.
 ### MetadataControl
 ![MetadataControl](docs/images/MetadataControl.png)
 
+### RadialGauge
+![RadialGauge](docs/images/RadialGauge.png)
+
 ### RangeSelector
 ![RangeSelector](docs/images/RangeSelector.png)
 

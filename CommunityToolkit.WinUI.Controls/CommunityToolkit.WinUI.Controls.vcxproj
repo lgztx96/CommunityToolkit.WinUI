@@ -196,6 +196,14 @@
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="pch.h" />
+    <ClInclude Include="RadialGauge\RadialGauge.h">
+      <DependentUpon>RadialGauge\RadialGauge.cpp</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="RadialGauge\RadialGaugeAutomationPeer.h">
+      <DependentUpon>RadialGauge\RadialGaugeAutomationPeer.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="RangeSelector\RangeChangedEventArgs.h">
       <DependentUpon>RangeSelector\RangeChangedEventArgs.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -330,6 +338,14 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
+    <ClCompile Include="RadialGauge\RadialGauge.cpp">
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="RadialGauge\RadialGauge.Input.cpp" />
+    <ClCompile Include="RadialGauge\RadialGaugeAutomationPeer.cpp">
+      <DependentUpon>RadialGauge\RadialGaugeAutomationPeer.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="RangeSelector\RangeChangedEventArgs.cpp">
       <DependentUpon>RangeSelector\RangeChangedEventArgs.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -449,6 +465,13 @@
     <Midl Include="MetadataControl\MetadataItem.idl">
       <SubType>Designer</SubType>
     </Midl>
+    <Midl Include="RadialGauge\RadialGauge.idl">
+      <DependentUpon>RadialGauge\RadialGauge.cpp</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
+    <Midl Include="RadialGauge\RadialGaugeAutomationPeer.idl">
+      <SubType>Designer</SubType>
+    </Midl>
     <Midl Include="RangeSelector\RangeChangedEventArgs.idl">
       <SubType>Designer</SubType>
     </Midl>
@@ -525,6 +548,7 @@
     <Page Include="ImageCropper\ImageCropperThumb.xaml" />
     <Page Include="LayoutTransformControl\LayoutTransformControl.xaml" />
     <Page Include="MetadataControl\MetadataControl.xaml" />
+    <Page Include="RadialGauge\RadialGauge.xaml" />
     <Page Include="RangeSelector\RangeSelector.xaml" />
     <Page Include="Segmented\Segmented.xaml" />
     <Page Include="Segmented\SegmentedItem.xaml" />
