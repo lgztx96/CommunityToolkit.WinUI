@@ -14,8 +14,9 @@ namespace winrt::CommunityToolkit::WinUI
 	using namespace Microsoft::UI::Xaml::Media;
 	using namespace Microsoft::UI::Xaml::Controls;
 
-	class FrameworkElementExtensions
+	class FrameworkElementEx
 	{
+	public:
 		static FrameworkElement FindChild(FrameworkElement const& element, std::wstring_view name)
 		{
 			PredicateByName predicateByName(name);
@@ -27,9 +28,9 @@ namespace winrt::CommunityToolkit::WinUI
 		static T FindChild(FrameworkElement const& element)
 			requires winrt::derived_from<T, FrameworkElement>
 		{
-			PredicateByAny<T> predicateByAny = default;
+			PredicateByAny<T> predicateByAny;
 
-			return FindChild < T, PredicateByAny<T>(element, predicateByAny);
+			return FindChild<T, PredicateByAny<T>>(element, predicateByAny);
 		}
 
 		static FrameworkElement FindChild(FrameworkElement const& element, winrt::Windows::UI::Xaml::Interop::TypeName type)
@@ -40,21 +41,21 @@ namespace winrt::CommunityToolkit::WinUI
 		}
 
 		template <typename T>
-		static T FindChild<T>(FrameworkElement const& element, const std::function<bool(T)>& predicate)
+		static T FindChild(FrameworkElement const& element, const std::function<bool(T)>& predicate)
 			requires winrt::derived_from<T, FrameworkElement>
 		{
 			PredicateByFunc<T> predicateByFunc(predicate);
 
-			return FindChild < T, PredicateByFunc<T>(element, predicateByFunc);
+			return FindChild<T, PredicateByFunc<T>>(element, predicateByFunc);
 		}
 
 		template <typename T, typename TState>
-		static T FindChild<T, TState>(FrameworkElement const& element, TState state, const std::function<bool(T, TState)>& predicate)
+		static T FindChild(FrameworkElement const& element, TState state, const std::function<bool(T, TState)>& predicate)
 			requires winrt::derived_from<T, FrameworkElement>
 		{
 			PredicateByFunc<T, TState> predicateByFunc(state, predicate);
 
-			return FindChild < T, PredicateByFunc<T, TState>(element, predicateByFunc);
+			return FindChild<T, PredicateByFunc<T, TState>>(element, predicateByFunc);
 		}
 
 		template <typename T, IPredicate<T> TPredicate>
@@ -247,7 +248,7 @@ namespace winrt::CommunityToolkit::WinUI
 		}
 
 		template<typename T, typename TState>
-		static T FindChildOrSelf<T, TState>(FrameworkElement const& element, TState state, const std::function<bool(T, TState)>& predicate)
+		static T FindChildOrSelf(FrameworkElement const& element, TState state, const std::function<bool(T, TState)>& predicate)
 			requires winrt::derived_from<T, FrameworkElement>
 		{
 			if (auto result = element.try_as<T>(); result && predicate(result, state))
@@ -380,9 +381,9 @@ namespace winrt::CommunityToolkit::WinUI
 		static T FindParent(FrameworkElement element)
 			requires winrt::derived_from<T, FrameworkElement>
 		{
-			PredicateByAny<T> predicateByAny = default;
+			PredicateByAny<T> predicateByAny;
 
-			return FindParent < T, PredicateByAny<T>(element, predicateByAny);
+			return FindParent<T, PredicateByAny<T>>(element, predicateByAny);
 		}
 
 		static FrameworkElement FindParent(FrameworkElement const& element, winrt::Windows::UI::Xaml::Interop::TypeName type)
@@ -398,7 +399,7 @@ namespace winrt::CommunityToolkit::WinUI
 		{
 			PredicateByFunc<T> predicateByFunc(predicate);
 
-			return FindParent < T, PredicateByFunc<T>(element, predicateByFunc);
+			return FindParent<T, PredicateByFunc<T>>(element, predicateByFunc);
 		}
 
 		template<typename T, typename TState>
@@ -407,11 +408,11 @@ namespace winrt::CommunityToolkit::WinUI
 		{
 			PredicateByFunc<T, TState> predicateByFunc(state, predicate);
 
-			return FindParent < T, PredicateByFunc<T, TState>(element, predicateByFunc);
+			return FindParent<T, PredicateByFunc<T, TState>>(element, predicateByFunc);
 		}
 
 		template<typename T, IPredicate<T> TPredicate>
-		static T FindParent(FrameworkElement const& element, TPredicate predicate)
+		static T FindParent(FrameworkElement element, TPredicate predicate)
 			requires winrt::derived_from<T, FrameworkElement>
 		{
 			while (true)
@@ -555,8 +556,6 @@ namespace winrt::CommunityToolkit::WinUI
 
 		static Windows::Foundation::IInspectable TryFindResource(FrameworkElement const& element, Windows::Foundation::IInspectable resourceKey)
 		{
-			Windows::Foundation::IInspectable value{ nullptr };
-
 			FrameworkElement current = element;
 
 			// Look in our dictionary and then walk-up parents. We use a do-while loop here
@@ -573,9 +572,7 @@ namespace winrt::CommunityToolkit::WinUI
 			} while (current);
 
 			// Finally try application resources
-			auto value = Application::Current().Resources().TryLookup(resourceKey);
-
-			return value;
+			return Application::Current().Resources().TryLookup(resourceKey);
 		}
 
 		static bool TryFindResource(FrameworkElement const& element, Windows::Foundation::IInspectable const& resourceKey, Windows::Foundation::IInspectable& value)

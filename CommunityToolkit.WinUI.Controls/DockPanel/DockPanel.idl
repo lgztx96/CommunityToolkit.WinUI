@@ -1,0 +1,33 @@
+namespace CommunityToolkit.WinUI.Controls
+{
+	enum Dock
+	{
+		Left,
+		Top,
+		Right,
+		Bottom
+	};
+
+	[default_interface]
+	runtimeclass DockPanel : Microsoft.UI.Xaml.Controls.Panel
+	{
+		DockPanel();
+
+		static Microsoft.UI.Xaml.DependencyProperty DockProperty{ get; };
+
+		static Dock GetDock(Microsoft.UI.Xaml.FrameworkElement obj);
+		static void SetDock(Microsoft.UI.Xaml.FrameworkElement obj, Dock value);
+
+		static Microsoft.UI.Xaml.DependencyProperty LastChildFillProperty{ get; };
+		Boolean LastChildFill;
+
+		static Microsoft.UI.Xaml.DependencyProperty PaddingProperty{ get; };
+		Microsoft.UI.Xaml.Thickness Padding;
+
+		static Microsoft.UI.Xaml.DependencyProperty HorizontalSpacingProperty{ get; };
+		Double HorizontalSpacing;
+
+		static Microsoft.UI.Xaml.DependencyProperty VerticalSpacingProperty{ get; };
+		Double VerticalSpacing;
+	}
+}

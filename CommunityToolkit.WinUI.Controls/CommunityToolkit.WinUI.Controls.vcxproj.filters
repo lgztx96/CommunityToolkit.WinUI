@@ -74,6 +74,9 @@
     <Filter Include="RadialGauge">
       <UniqueIdentifier>{b3818ae4-a732-4411-9545-417c5ed2f5e3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DockPanel">
+      <UniqueIdentifier>{842ad735-50fc-4e31-8cf8-815aecd6c10c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -337,6 +340,9 @@
     </Midl>
     <Midl Include="RadialGauge\RadialGaugeAutomationPeer.idl">
       <Filter>RadialGauge</Filter>
+    </Midl>
+    <Midl Include="DockPanel\DockPanel.idl">
+      <Filter>DockPanel</Filter>
     </Midl>
   </ItemGroup>
   <ItemGroup>

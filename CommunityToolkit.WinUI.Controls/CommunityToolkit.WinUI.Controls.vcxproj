@@ -174,6 +174,10 @@
       <DependentUpon>ColorPicker\NullToTransparentConverter.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="DockPanel\DockPanel.h">
+      <DependentUpon>DockPanel\DockPanel.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="ImageCropper\ImageCropper.h">
       <DependentUpon>ImageCropper\ImageCropper.cpp</DependentUpon>
       <SubType>Code</SubType>
@@ -314,6 +318,10 @@
       <DependentUpon>ColorPicker\NullToTransparentConverter.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="DockPanel\DockPanel.cpp">
+      <DependentUpon>DockPanel\DockPanel.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="ImageCropper\ImageCropper.Animations.cpp" />
     <ClCompile Include="ImageCropper\ImageCropper.cpp">
       <SubType>Code</SubType>
@@ -444,6 +452,9 @@
       <SubType>Designer</SubType>
     </Midl>
     <Midl Include="ColorPicker\NullToTransparentConverter.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="DockPanel\DockPanel.idl">
       <SubType>Designer</SubType>
     </Midl>
     <Midl Include="ImageCropper\ImageCropper.idl">

@@ -23,6 +23,9 @@ The goal is to allow seamless usage of these controls in WinUI 3 / C++ projects.
 ### ColorPicker / ColorPickerButton
 ![ColorPicker](docs/images/ColorPicker.png)
 
+### DockPanel
+![DockPanel](docs/images/DockPanel.png)
+
 ### ImageCropper
 ![ImageCropper](docs/images/ImageCropper.png)
 
