@@ -19,12 +19,12 @@ namespace winrt::CommunityToolkit::WinUI::implementation
 	{
 		if (oldValue != nullptr)
 		{
-			oldValue.SizeChanged(size_changed_token);
+			_sizeChangedRevoker.revoke();
 		}
 
 		if (newValue != nullptr)
 		{
-			size_changed_token = newValue.SizeChanged({ this, &ControlSizeTrigger::OnTargetElementSizeChanged });
+			_sizeChangedRevoker = newValue.SizeChanged(winrt::auto_revoke, { this, &ControlSizeTrigger::OnTargetElementSizeChanged });
 		}
 
 		UpdateTrigger();

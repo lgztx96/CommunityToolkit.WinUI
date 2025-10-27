@@ -3,12 +3,12 @@
 // See the LICENSE file in the project root for more information.
 #pragma once
 
+#include "../MarkdownTextBlock.h"
+#include "../Renderer/WinUIRenderer.h"
 #include "IAddChild.h"
 #include "Mdimage.h"
 #include "MdInlineText.h"
 #include <winrt/Windows.Foundation.Collections.h>
-#include "../Renderer/WinUIRenderer.h"
-#include "../MarkdownTextBlock.h"
 
 namespace winrt::CommunityToolkit::Labs::WinUI::TextElements
 {
@@ -29,18 +29,18 @@ namespace winrt::CommunityToolkit::Labs::WinUI::TextElements
 		MdAutolinkInline(std::wstring_view url, std::wstring_view baseUrl, WinUIRenderer* renderer)
 		{
 			_hyperlink.NavigateUri(Extensions::GetUri(url, baseUrl));
-			_hyperlink.Click([weakMarkdown{ renderer->MarkdownTextBlock() }](auto& sender, auto&)
+			_hyperlink.Click([markdownWeak{ renderer->MarkdownTextBlock() }](auto& sender, auto&)
 				{
 					if (auto hyperlink = sender.template try_as<Hyperlink>())
 					{
-						const auto uri = hyperlink.NavigateUri();
+						auto uri = hyperlink.NavigateUri();
 
-						if (auto markdown = weakMarkdown.get())
+						if (auto markdown = markdownWeak.get())
 						{
 							auto markdownStrong = winrt::get_self<
 								winrt::CommunityToolkit::Labs::WinUI::implementation::MarkdownTextBlock>(markdown)->get_strong();
 
-							const bool handled = markdownStrong->RaiseLinkClickedEvent(uri);
+							bool handled = markdownStrong->RaiseLinkClickedEvent(uri);
 
 							if (handled)
 							{

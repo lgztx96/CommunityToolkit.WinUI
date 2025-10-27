@@ -49,9 +49,9 @@ namespace winrt::CommunityToolkit::WinUI::Controls::implementation
 		ContainerVisual _root{ nullptr };
 		CompositionSpriteShape _needle{ nullptr };
 
-        winrt::event_token _pointerReleasedToken;
-        winrt::event_token _isEnabledChangedToken;
-        winrt::event_token _unloadedToken;
+        UIElement::PointerReleased_revoker _pointerReleasedRevoker;
+        Control::IsEnabledChanged_revoker _isEnabledChangedRevoker;
+        FrameworkElement::Unloaded_revoker _unloadedRevoker;
 
         winrt::event_token _tappedToken;
         winrt::event_token _manipulationDeltaToken;

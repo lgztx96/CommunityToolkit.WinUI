@@ -26,8 +26,7 @@ namespace winrt::CommunityToolkit::WinUI::Controls::implementation
 		int _internalSelectedIndex = -1;
 		bool _hasLoaded = false;
 
-		winrt::event_token _previewKeyDownEventToken{};
-		winrt::event_token _loadedEventToken{};
+		UIElement::PreviewKeyDown_revoker _previewKeyDownRevoker;
 
 		Segmented();
 

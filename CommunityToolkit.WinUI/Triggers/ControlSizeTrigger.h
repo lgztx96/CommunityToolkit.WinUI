@@ -20,7 +20,7 @@ namespace winrt::CommunityToolkit::WinUI::implementation
     {
         ControlSizeTrigger() = default;
 
-        winrt::event_token size_changed_token;
+        FrameworkElement::SizeChanged_revoker _sizeChangedRevoker;
 
         bool CanTrigger() const { return winrt::unbox_value<bool>(GetValue(CanTriggerProperty)); }
         void CanTrigger(bool value) const { SetValue(CanTriggerProperty, winrt::box_value(value)); }

@@ -34,7 +34,7 @@ namespace winrt::CommunityToolkit::Labs::WinUI::implementation
         bool _initialized;
         bool _animationStarted;
 
-        winrt::event_token _actualThemeChangedToken;
+        FrameworkElement::ActualThemeChanged_revoker _actualThemeChangedRevoker;
     public:
 
         Shimmer();

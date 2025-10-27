@@ -18,9 +18,9 @@ namespace winrt::CommunityToolkit::WinUI::implementation
 	{
 		bool _isConnected;
 		std::map<winrt::hstring, IInspectable, std::less<>> _resources;
-		winrt::event_token _sizeChangedToken;
-		winrt::event_token _loadedToken;
-		winrt::event_token _unloadedToken;
+		FrameworkElement::SizeChanged_revoker _sizeChangedRevoker;
+		FrameworkElement::Loaded_revoker _loadedRevoker;
+		FrameworkElement::Unloaded_revoker _unloadedRevoker;
 
 		wil::single_threaded_property<CommunityToolkit::WinUI::AttachedShadowBase> Parent{ nullptr };
 
