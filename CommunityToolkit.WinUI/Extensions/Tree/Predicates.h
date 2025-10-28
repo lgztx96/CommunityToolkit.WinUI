@@ -32,7 +32,7 @@ namespace winrt::CommunityToolkit::WinUI
     {
         std::wstring_view name;
 
-        inline bool operator()(FrameworkElement element) const {
+        inline bool operator()(FrameworkElement const& element) const {
             return name == element.Name();
         }
     };
@@ -41,7 +41,7 @@ namespace winrt::CommunityToolkit::WinUI
     {
         winrt::Windows::UI::Xaml::Interop::TypeName type;
 
-        inline bool operator()(Windows::Foundation::IInspectable element) const {
+        inline bool operator()(Windows::Foundation::IInspectable const& element) const {
             return winrt::get_class_name(element) == type.Name;
         }
     };

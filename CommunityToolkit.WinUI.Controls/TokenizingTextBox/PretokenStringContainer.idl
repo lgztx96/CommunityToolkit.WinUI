@@ -1,0 +1,15 @@
+namespace CommunityToolkit.WinUI.Controls
+{
+	interface ITokenStringContainer
+	{
+		String Text;
+
+		Boolean IsLast{ get; };
+	}
+
+	[default_interface]
+	runtimeclass PretokenStringContainer : Microsoft.UI.Xaml.DependencyObject, Windows.Foundation.IStringable, ITokenStringContainer
+	{
+		PretokenStringContainer(Boolean isLast);
+	}
+}

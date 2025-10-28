@@ -1,0 +1,29 @@
+namespace CommunityToolkit.WinUI.Controls
+{
+    enum StretchChild
+    {
+        None = 0,
+        Last = 1,
+    };
+
+    [default_interface]
+    runtimeclass WrapPanel : Microsoft.UI.Xaml.Controls.Panel
+    {
+        WrapPanel();
+
+        Microsoft.UI.Xaml.Thickness Padding;
+        static Microsoft.UI.Xaml.DependencyProperty PaddingProperty{ get; };
+
+        Double HorizontalSpacing;
+        static Microsoft.UI.Xaml.DependencyProperty HorizontalSpacingProperty{ get; };
+
+        Double VerticalSpacing;
+        static Microsoft.UI.Xaml.DependencyProperty VerticalSpacingProperty{ get; };
+
+        Microsoft.UI.Xaml.Controls.Orientation Orientation;
+        static Microsoft.UI.Xaml.DependencyProperty OrientationProperty{ get; };
+
+        StretchChild StretchChild;
+        static Microsoft.UI.Xaml.DependencyProperty StretchChildProperty{ get; };
+    }
+}

@@ -1,0 +1,14 @@
+namespace CommunityToolkit.WinUI.Controls
+{
+    [default_interface]
+    runtimeclass InterspersedObservableVector : Windows.Foundation.Collections.IObservableVector<Object>
+    {
+        InterspersedObservableVector(Object source);
+
+        Windows.Foundation.Collections.IVector<Object> ItemsSource();
+
+        void Remove(Object value);
+
+        void Insert(UInt32 index, Object value);
+    }
+}

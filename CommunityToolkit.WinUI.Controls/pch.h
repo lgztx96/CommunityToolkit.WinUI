@@ -53,4 +53,6 @@
 #include "TabbedCommandBar\TabbedCommandBarItem.h"
 #include "RangeSelector\RangeSelector.h"
 #include "RadialGauge\RadialGauge.h"
+#include "TokenizingTextBox\TokenizingTextBox.h"
+#include "TokenizingTextBox\TokenizingTextBoxItem.h"
 

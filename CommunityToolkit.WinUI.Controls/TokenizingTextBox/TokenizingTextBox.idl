@@ -1,0 +1,80 @@
+import "TokenizingTextBox/TokenItemAddingEventArgs.idl";
+import "TokenizingTextBox/TokenItemRemovingEventArgs.idl";
+
+namespace CommunityToolkit.WinUI.Controls
+{
+    [default_interface]
+    runtimeclass TokenizingTextBox : Microsoft.UI.Xaml.Controls.ListViewBase
+    {
+        TokenizingTextBox();
+
+        static Microsoft.UI.Xaml.DependencyProperty AutoSuggestBoxStyleProperty{ get; };
+        Microsoft.UI.Xaml.Style AutoSuggestBoxStyle;
+
+        static Microsoft.UI.Xaml.DependencyProperty AutoSuggestBoxTextBoxStyleProperty{ get; };
+        Microsoft.UI.Xaml.Style AutoSuggestBoxTextBoxStyle;
+
+        static Microsoft.UI.Xaml.DependencyProperty TextMemberPathProperty{ get; };
+        String TextMemberPath;
+
+        static Microsoft.UI.Xaml.DependencyProperty TokenItemTemplateProperty{ get; };
+        Microsoft.UI.Xaml.DataTemplate TokenItemTemplate;
+
+        static Microsoft.UI.Xaml.DependencyProperty TokenItemTemplateSelectorProperty{ get; };
+        Microsoft.UI.Xaml.Controls.DataTemplateSelector TokenItemTemplateSelector;
+
+        static Microsoft.UI.Xaml.DependencyProperty TokenDelimiterProperty{ get; };
+        String TokenDelimiter;
+
+        static Microsoft.UI.Xaml.DependencyProperty TokenSpacingProperty{ get; };
+        Double TokenSpacing;
+
+        static Microsoft.UI.Xaml.DependencyProperty PlaceholderTextProperty{ get; };
+        String PlaceholderText;
+
+        static Microsoft.UI.Xaml.DependencyProperty QueryIconProperty{ get; };
+        Microsoft.UI.Xaml.Controls.IconSource QueryIcon;
+
+        String Text;
+
+        static Microsoft.UI.Xaml.DependencyProperty SuggestedItemsSourceProperty{ get; };
+
+        Object SuggestedItemsSource;
+
+        static Microsoft.UI.Xaml.DependencyProperty SuggestedItemTemplateProperty{ get; };
+
+        Microsoft.UI.Xaml.DataTemplate SuggestedItemTemplate;
+
+        static Microsoft.UI.Xaml.DependencyProperty SuggestedItemTemplateSelectorProperty{ get; };
+
+        Microsoft.UI.Xaml.Controls.DataTemplateSelector SuggestedItemTemplateSelector;
+
+        static Microsoft.UI.Xaml.DependencyProperty SuggestedItemContainerStyleProperty{ get; };
+
+        Microsoft.UI.Xaml.Style SuggestedItemContainerStyle;
+
+        static Microsoft.UI.Xaml.DependencyProperty TabNavigateBackOnArrowProperty{ get; };
+
+        Boolean TabNavigateBackOnArrow;
+
+        static Microsoft.UI.Xaml.DependencyProperty MaximumTokensProperty{ get; };
+
+        Int32 MaximumTokens;
+
+        event Windows.Foundation.TypedEventHandler<Microsoft.UI.Xaml.Controls.AutoSuggestBox, Microsoft.UI.Xaml.Controls.AutoSuggestBoxTextChangedEventArgs> TextChanged;
+
+        event Windows.Foundation.TypedEventHandler<Microsoft.UI.Xaml.Controls.AutoSuggestBox, Microsoft.UI.Xaml.Controls.AutoSuggestBoxSuggestionChosenEventArgs> SuggestionChosen;
+
+        event Windows.Foundation.TypedEventHandler<Microsoft.UI.Xaml.Controls.AutoSuggestBox, Microsoft.UI.Xaml.Controls.AutoSuggestBoxQuerySubmittedEventArgs> QuerySubmitted;
+
+        event Windows.Foundation.TypedEventHandler<TokenizingTextBox, TokenItemAddingEventArgs> TokenItemAdding;
+
+        event Windows.Foundation.TypedEventHandler<TokenizingTextBox, Object> TokenItemAdded;
+
+        event Windows.Foundation.TypedEventHandler<TokenizingTextBox, TokenItemRemovingEventArgs> TokenItemRemoving;
+
+        event Windows.Foundation.TypedEventHandler<TokenizingTextBox, Object> TokenItemRemoved;
+
+        static Microsoft.UI.Xaml.DependencyProperty TextProperty{ get; };
+    }
+}

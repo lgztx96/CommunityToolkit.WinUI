@@ -1,0 +1,12 @@
+namespace CommunityToolkit.WinUI.Controls
+{
+    [default_interface]
+    runtimeclass TokenizingTextBoxStyleSelector : Microsoft.UI.Xaml.Controls.StyleSelector
+    {
+        TokenizingTextBoxStyleSelector();
+
+        Microsoft.UI.Xaml.Style TokenStyle;
+
+        Microsoft.UI.Xaml.Style TextStyle;
+    }
+}

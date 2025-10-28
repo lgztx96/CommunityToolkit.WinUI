@@ -77,6 +77,12 @@
     <Filter Include="DockPanel">
       <UniqueIdentifier>{842ad735-50fc-4e31-8cf8-815aecd6c10c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TokenizingTextBox">
+      <UniqueIdentifier>{27ddcce2-44d4-4b7f-aba1-fc4da6db3352}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="WrapPanel">
+      <UniqueIdentifier>{78a513cf-0846-461a-bea3-c1c203937f95}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -201,6 +207,18 @@
     <ClCompile Include="RadialGauge\RadialGauge.Input.cpp">
       <Filter>RadialGauge</Filter>
     </ClCompile>
+    <ClCompile Include="TokenizingTextBox\TokenizingTextBox.Selection.cpp">
+      <Filter>TokenizingTextBox</Filter>
+    </ClCompile>
+    <ClCompile Include="TokenizingTextBox\TokenizingTextBox.cpp">
+      <Filter>TokenizingTextBox</Filter>
+    </ClCompile>
+    <ClCompile Include="TokenizingTextBox\TokenizingTextBoxItem.cpp">
+      <Filter>TokenizingTextBox</Filter>
+    </ClCompile>
+    <ClCompile Include="TokenizingTextBox\StringExtensions.cpp">
+      <Filter>TokenizingTextBox</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -273,6 +291,9 @@
     <ClInclude Include="UniformGrid\TakenSpotsReferenceHolder.h">
       <Filter>UniformGrid</Filter>
     </ClInclude>
+    <ClInclude Include="TokenizingTextBox\StringExtensions.h">
+      <Filter>TokenizingTextBox</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Midl Include="SettingsControls\Helpers\CornerRadiusConverter.idl">
@@ -344,6 +365,27 @@
     <Midl Include="DockPanel\DockPanel.idl">
       <Filter>DockPanel</Filter>
     </Midl>
+    <Midl Include="TokenizingTextBox\TokenItemAddingEventArgs.idl">
+      <Filter>TokenizingTextBox</Filter>
+    </Midl>
+    <Midl Include="TokenizingTextBox\TokenItemRemovingEventArgs.idl">
+      <Filter>TokenizingTextBox</Filter>
+    </Midl>
+    <Midl Include="TokenizingTextBox\InterspersedObservableVector.idl">
+      <Filter>TokenizingTextBox</Filter>
+    </Midl>
+    <Midl Include="TokenizingTextBox\TokenizingTextBoxStyleSelector.idl">
+      <Filter>TokenizingTextBox</Filter>
+    </Midl>
+    <Midl Include="WrapPanel\WrapPanel.idl">
+      <Filter>WrapPanel</Filter>
+    </Midl>
+    <Midl Include="TokenizingTextBox\PretokenStringContainer.idl">
+      <Filter>TokenizingTextBox</Filter>
+    </Midl>
+    <Midl Include="TokenizingTextBox\TokenizingTextBoxAutomationPeer.idl">
+      <Filter>TokenizingTextBox</Filter>
+    </Midl>
   </ItemGroup>
   <ItemGroup>
     <None Include="CommunityToolkit.WinUI.Controls.def" />
@@ -403,6 +445,15 @@
     </Page>
     <Page Include="RadialGauge\RadialGauge.xaml">
       <Filter>RadialGauge</Filter>
+    </Page>
+    <Page Include="TokenizingTextBox\TokenizingTextBox.xaml">
+      <Filter>TokenizingTextBox</Filter>
+    </Page>
+    <Page Include="TokenizingTextBox\TokenizingTextBoxItem.AutoSuggestBox.xaml">
+      <Filter>TokenizingTextBox</Filter>
+    </Page>
+    <Page Include="TokenizingTextBox\TokenizingTextBoxItem.Token.xaml">
+      <Filter>TokenizingTextBox</Filter>
     </Page>
   </ItemGroup>
   <ItemGroup>

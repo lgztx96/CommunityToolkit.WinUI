@@ -1,0 +1,16 @@
+namespace CommunityToolkit.WinUI.Controls
+{
+    [default_interface]
+    runtimeclass TokenItemAddingEventArgs 
+    {
+        TokenItemAddingEventArgs();
+
+        TokenItemAddingEventArgs(String token);
+
+        String TokenText;
+
+        Object Item;
+
+        Boolean Cancel;
+    }
+}

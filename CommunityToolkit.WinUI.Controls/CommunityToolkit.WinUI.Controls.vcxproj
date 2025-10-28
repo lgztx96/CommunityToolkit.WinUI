@@ -283,9 +283,46 @@
       <DependentUpon>TabbedCommandBar\TabbedCommandBarItemTemplateSelector.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="TokenizingTextBox\InterspersedObservableVector.h">
+      <DependentUpon>TokenizingTextBox\InterspersedObservableVector.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="TokenizingTextBox\PretokenStringContainer.h">
+      <DependentUpon>TokenizingTextBox\PretokenStringContainer.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="TokenizingTextBox\StringExtensions.h" />
+    <ClInclude Include="TokenizingTextBox\TokenItemAddingEventArgs.h">
+      <DependentUpon>TokenizingTextBox\TokenItemAddingEventArgs.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="TokenizingTextBox\TokenItemRemovingEventArgs.h">
+      <DependentUpon>TokenizingTextBox\TokenItemRemovingEventArgs.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="TokenizingTextBox\TokenizingTextBox.h">
+      <DependentUpon>TokenizingTextBox\TokenizingTextBox.cpp</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="TokenizingTextBox\TokenizingTextBoxAutomationPeer.h">
+      <DependentUpon>TokenizingTextBox\TokenizingTextBoxAutomationPeer.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="TokenizingTextBox\TokenizingTextBoxItem.h">
+      <DependentUpon>TokenizingTextBox\TokenizingTextBoxItem.cpp</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="TokenizingTextBox\TokenizingTextBoxStyleSelector.h">
+      <DependentUpon>TokenizingTextBox\TokenizingTextBoxStyleSelector.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="UniformGrid\TakenSpotsReferenceHolder.h" />
     <ClInclude Include="UniformGrid\UniformGrid.h">
       <DependentUpon>UniformGrid\UniformGrid.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="WrapPanel\WrapPanel.h">
+      <DependentUpon>WrapPanel\WrapPanel.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
   </ItemGroup>
@@ -420,8 +457,44 @@
       <DependentUpon>TabbedCommandBar\TabbedCommandBarItemTemplateSelector.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="TokenizingTextBox\InterspersedObservableVector.cpp">
+      <DependentUpon>TokenizingTextBox\InterspersedObservableVector.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="TokenizingTextBox\PretokenStringContainer.cpp">
+      <DependentUpon>TokenizingTextBox\PretokenStringContainer.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="TokenizingTextBox\StringExtensions.cpp" />
+    <ClCompile Include="TokenizingTextBox\TokenItemAddingEventArgs.cpp">
+      <DependentUpon>TokenizingTextBox\TokenItemAddingEventArgs.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="TokenizingTextBox\TokenItemRemovingEventArgs.cpp">
+      <DependentUpon>TokenizingTextBox\TokenItemRemovingEventArgs.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="TokenizingTextBox\TokenizingTextBox.cpp">
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="TokenizingTextBox\TokenizingTextBox.Selection.cpp" />
+    <ClCompile Include="TokenizingTextBox\TokenizingTextBoxAutomationPeer.cpp">
+      <DependentUpon>TokenizingTextBox\TokenizingTextBoxAutomationPeer.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="TokenizingTextBox\TokenizingTextBoxItem.cpp">
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="TokenizingTextBox\TokenizingTextBoxStyleSelector.cpp">
+      <DependentUpon>TokenizingTextBox\TokenizingTextBoxStyleSelector.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="UniformGrid\UniformGrid.cpp">
       <DependentUpon>UniformGrid\UniformGrid.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="WrapPanel\WrapPanel.cpp">
+      <DependentUpon>WrapPanel\WrapPanel.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
   </ItemGroup>
@@ -542,7 +615,36 @@
     <Midl Include="TabbedCommandBar\TabbedCommandBarItemTemplateSelector.idl">
       <SubType>Designer</SubType>
     </Midl>
+    <Midl Include="TokenizingTextBox\InterspersedObservableVector.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="TokenizingTextBox\PretokenStringContainer.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="TokenizingTextBox\TokenItemAddingEventArgs.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="TokenizingTextBox\TokenItemRemovingEventArgs.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="TokenizingTextBox\TokenizingTextBox.idl">
+      <DependentUpon>TokenizingTextBox\TokenizingTextBox.cpp</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
+    <Midl Include="TokenizingTextBox\TokenizingTextBoxAutomationPeer.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="TokenizingTextBox\TokenizingTextBoxItem.idl">
+      <DependentUpon>TokenizingTextBox\TokenizingTextBoxItem.cpp</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
+    <Midl Include="TokenizingTextBox\TokenizingTextBoxStyleSelector.idl">
+      <SubType>Designer</SubType>
+    </Midl>
     <Midl Include="UniformGrid\UniformGrid.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="WrapPanel\WrapPanel.idl">
       <SubType>Designer</SubType>
     </Midl>
   </ItemGroup>
@@ -569,6 +671,9 @@
     <Page Include="TabbedCommandBar\TabbedCommandBar.xaml" />
     <Page Include="TabbedCommandBar\TabbedCommandBarItem.xaml" />
     <Page Include="Themes\Generic.xaml" />
+    <Page Include="TokenizingTextBox\TokenizingTextBox.xaml" />
+    <Page Include="TokenizingTextBox\TokenizingTextBoxItem.AutoSuggestBox.xaml" />
+    <Page Include="TokenizingTextBox\TokenizingTextBoxItem.Token.xaml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommunityToolkit.WinUI.Converters\CommunityToolkit.WinUI.Converters.vcxproj">

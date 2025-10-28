@@ -1,0 +1,10 @@
+import "TokenizingTextBox/TokenizingTextBox.idl";
+
+namespace CommunityToolkit.WinUI.Controls
+{
+    [default_interface]
+    runtimeclass TokenizingTextBoxAutomationPeer : Microsoft.UI.Xaml.Automation.Peers.ListViewBaseAutomationPeer, Microsoft.UI.Xaml.Automation.Provider.IValueProvider
+    {
+        TokenizingTextBoxAutomationPeer(TokenizingTextBox owner);
+    }
+}

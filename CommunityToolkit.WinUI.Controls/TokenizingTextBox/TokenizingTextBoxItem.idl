@@ -1,0 +1,18 @@
+import "TokenizingTextBox/TokenizingTextBox.idl";
+
+namespace CommunityToolkit.WinUI.Controls
+{
+    [default_interface]
+    runtimeclass TokenizingTextBoxItem : Microsoft.UI.Xaml.Controls.ListViewItem
+    {
+        TokenizingTextBoxItem();
+
+	    static Microsoft.UI.Xaml.DependencyProperty ClearButtonStyleProperty{ get; };
+
+	    Microsoft.UI.Xaml.Style ClearButtonStyle;
+
+	    static Microsoft.UI.Xaml.DependencyProperty OwnerProperty{ get; };
+
+        TokenizingTextBox Owner;
+    }
+}

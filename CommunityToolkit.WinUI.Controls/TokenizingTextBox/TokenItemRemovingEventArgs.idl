@@ -1,0 +1,18 @@
+import "TokenizingTextBox/TokenizingTextBoxItem.idl";
+
+namespace CommunityToolkit.WinUI.Controls
+{
+    [default_interface]
+    runtimeclass TokenItemRemovingEventArgs
+    {
+        TokenItemRemovingEventArgs();
+
+        TokenItemRemovingEventArgs(Object item, TokenizingTextBoxItem token);
+
+        Object Item{ get; };
+
+        TokenizingTextBoxItem Token{ get; };
+
+        Boolean Cancel;
+    }
+}

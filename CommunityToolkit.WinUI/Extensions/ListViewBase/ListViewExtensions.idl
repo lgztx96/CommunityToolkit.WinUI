@@ -1,0 +1,10 @@
+namespace CommunityToolkit.WinUI
+{
+    [default_interface]
+    runtimeclass ListViewExtensions 
+    {
+        static void DeselectAll(Microsoft.UI.Xaml.Controls.ListViewBase list);
+
+        static void SelectAllSafe(Microsoft.UI.Xaml.Controls.ListViewBase list);
+    }
+}
