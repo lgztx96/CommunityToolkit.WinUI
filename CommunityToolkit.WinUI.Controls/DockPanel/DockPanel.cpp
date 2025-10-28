@@ -26,19 +26,22 @@ namespace winrt::CommunityToolkit::WinUI::Controls::implementation
 
 	Size DockPanel::ArrangeOverride(Size finalSize)
 	{
-		if (Children().Size() == 0)
+		auto children = Children();
+		if (children.Size() == 0)
 			return finalSize;
 
+		auto padding = Padding();
+
 		auto currentBounds = Rect(
-			static_cast<float>(Padding().Left),
-			static_cast<float>(Padding().Top),
-			static_cast<float>(std::max<double>(0, finalSize.Width - Padding().Left - Padding().Right)),
-			static_cast<float>(std::max<double>(0, finalSize.Height - Padding().Top - Padding().Bottom)));
-		auto childrenCount = LastChildFill() ? Children().Size() - 1 : Children().Size();
+			static_cast<float>(padding.Left),
+			static_cast<float>(padding.Top),
+			static_cast<float>(std::max<double>(0, finalSize.Width - padding.Left - padding.Right)),
+			static_cast<float>(std::max<double>(0, finalSize.Height - padding.Top - padding.Bottom)));
+		auto childrenCount = LastChildFill() ? children.Size() - 1 : children.Size();
 
 		for (auto index = 0; index < static_cast<int32_t>(childrenCount); ++index)
 		{
-			auto child = Children().GetAt(index);
+			auto child = children.GetAt(index);
 			if (child.Visibility() == Visibility::Collapsed)
 				continue;
 			auto dock = winrt::unbox_value<Dock>(child.GetValue(DockProperty));
@@ -82,9 +85,9 @@ namespace winrt::CommunityToolkit::WinUI::Controls::implementation
 			}
 		}
 
-		if (LastChildFill() && Children().Size() > 0)
+		if (LastChildFill() && children.Size() > 0)
 		{
-			auto child = Children().GetAt(Children().Size() - 1);
+			auto child = children.GetAt(children.Size() - 1);
 			child.Arrange(Rect(currentBounds.X, currentBounds.Y, currentBounds.Width, currentBounds.Height));
 		}
 
@@ -93,6 +96,7 @@ namespace winrt::CommunityToolkit::WinUI::Controls::implementation
 
 	Size DockPanel::MeasureOverride(Size availableSize)
 	{
+		auto children = Children();
 		auto parentWidth = 0.0;
 		auto parentHeight = 0.0;
 		auto accumulatedWidth = 0.0;
@@ -100,11 +104,11 @@ namespace winrt::CommunityToolkit::WinUI::Controls::implementation
 
 		auto horizontalSpacing = false;
 		auto verticalSpacing = false;
-		auto childrenCount = LastChildFill() ? Children().Size() - 1 : Children().Size();
+		auto childrenCount = LastChildFill() ? children.Size() - 1 : children.Size();
 
 		for (auto index = 0; index < static_cast<int32_t>(childrenCount); ++index)
 		{
-			auto child = Children().GetAt(index);
+			auto child = children.GetAt(index);
 			auto childConstraint = Size(
 				std::max<float>(0, availableSize.Width - static_cast<float>(accumulatedWidth)),
 				std::max<float>(0, availableSize.Height - static_cast<float>(accumulatedHeight)));
@@ -140,9 +144,9 @@ namespace winrt::CommunityToolkit::WinUI::Controls::implementation
 			}
 		}
 
-		if (LastChildFill() && Children().Size() > 0)
+		if (LastChildFill() && children.Size() > 0)
 		{
-			auto child = Children().GetAt(Children().Size() - 1);
+			auto child = children.GetAt(children.Size() - 1);
 			auto childConstraint = Size(
 				std::max<float>(0, availableSize.Width - static_cast<float>(accumulatedWidth)),
 				std::max<float>(0, availableSize.Height - static_cast<float>(accumulatedHeight)));
