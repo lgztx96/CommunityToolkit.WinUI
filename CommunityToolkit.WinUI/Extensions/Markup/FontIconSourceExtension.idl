@@ -1,0 +1,14 @@
+import "Extensions/Markup/TextIconExtension.idl";
+
+namespace CommunityToolkit.WinUI
+{
+    [default_interface]
+    runtimeclass FontIconSourceExtension : TextIconExtension
+    {
+        FontIconSourceExtension();
+
+        String Glyph;
+
+        Microsoft.UI.Xaml.Media.FontFamily FontFamily;
+    }
+}

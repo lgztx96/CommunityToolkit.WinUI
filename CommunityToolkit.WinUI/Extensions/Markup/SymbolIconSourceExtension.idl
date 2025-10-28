@@ -1,0 +1,12 @@
+import "Extensions/Markup/TextIconExtension.idl";
+
+namespace CommunityToolkit.WinUI
+{
+    [default_interface]
+    runtimeclass SymbolIconSourceExtension : TextIconExtension
+    {
+        SymbolIconSourceExtension();
+
+        Microsoft.UI.Xaml.Controls.Symbol Symbol;
+    }
+}

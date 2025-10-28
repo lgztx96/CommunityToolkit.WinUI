@@ -1,19 +1,19 @@
 ﻿#include "pch.h"
-#include "FontIconExtension.h"
-#if __has_include("FontIconExtension.g.cpp")
-#include "FontIconExtension.g.cpp"
+#include "FontIconSourceExtension.h"
+#if __has_include("FontIconSourceExtension.g.cpp")
+#include "FontIconSourceExtension.g.cpp"
 #endif
 
 namespace winrt::CommunityToolkit::WinUI::implementation
 {
-	winrt::Windows::Foundation::IInspectable FontIconExtension::ProvideValue() const
+	winrt::Windows::Foundation::IInspectable FontIconSourceExtension::ProvideValue() const
 	{
 		if (Glyph().empty()) {
 			throw hresult_invalid_argument(
-				L"Glyph property must be set on FontIconExtension before calling ProvideValue.");
+				L"Glyph property must be set on FontIconSourceExtension before calling ProvideValue.");
 		}
 
-		FontIcon fontIcon;
+		FontIconSource fontIcon;
 		fontIcon.Glyph(Glyph());
 		fontIcon.FontFamily(FontFamily() ? FontFamily() : TextIconExtension::SymbolThemeFontFamily());
 		fontIcon.FontWeight(FontWeight());
@@ -34,7 +34,7 @@ namespace winrt::CommunityToolkit::WinUI::implementation
 		return fontIcon;
 	}
 
-	IInspectable FontIconExtension::ProvideValue([[maybe_unused]] winrt::Microsoft::UI::Xaml::IXamlServiceProvider const& provider)
+	IInspectable FontIconSourceExtension::ProvideValue([[maybe_unused]] IXamlServiceProvider const& provider)
 	{
 		return ProvideValue();
 	}

@@ -151,8 +151,24 @@
       <DependentUpon>Extensions\Foundation\RectExtensions.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="Extensions\ListViewBase\ListViewExtensions.h">
+      <DependentUpon>Extensions\ListViewBase\ListViewExtensions.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="Extensions\Markup\FontIconExtension.h">
       <DependentUpon>Extensions\Markup\FontIconExtension.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Extensions\Markup\FontIconSourceExtension.h">
+      <DependentUpon>Extensions\Markup\FontIconSourceExtension.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Extensions\Markup\SymbolIconExtension.h">
+      <DependentUpon>Extensions\Markup\SymbolIconExtension.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Extensions\Markup\SymbolIconSourceExtension.h">
+      <DependentUpon>Extensions\Markup\SymbolIconSourceExtension.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="Extensions\Markup\TextIconExtension.h">
@@ -193,8 +209,24 @@
       <DependentUpon>Extensions\Foundation\RectExtensions.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="Extensions\ListViewBase\ListViewExtensions.cpp">
+      <DependentUpon>Extensions\ListViewBase\ListViewExtensions.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="Extensions\Markup\FontIconExtension.cpp">
       <DependentUpon>Extensions\Markup\FontIconExtension.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Extensions\Markup\FontIconSourceExtension.cpp">
+      <DependentUpon>Extensions\Markup\FontIconSourceExtension.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Extensions\Markup\SymbolIconExtension.cpp">
+      <DependentUpon>Extensions\Markup\SymbolIconExtension.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Extensions\Markup\SymbolIconSourceExtension.cpp">
+      <DependentUpon>Extensions\Markup\SymbolIconSourceExtension.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="Extensions\Markup\TextIconExtension.cpp">
@@ -241,7 +273,19 @@
     <Midl Include="Extensions\Foundation\RectExtensions.idl">
       <SubType>Designer</SubType>
     </Midl>
+    <Midl Include="Extensions\ListViewBase\ListViewExtensions.idl">
+      <SubType>Designer</SubType>
+    </Midl>
     <Midl Include="Extensions\Markup\FontIconExtension.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Extensions\Markup\FontIconSourceExtension.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Extensions\Markup\SymbolIconExtension.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Extensions\Markup\SymbolIconSourceExtension.idl">
       <SubType>Designer</SubType>
     </Midl>
     <Midl Include="Extensions\Markup\TextIconExtension.idl">

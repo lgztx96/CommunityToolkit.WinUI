@@ -6,6 +6,7 @@
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
 #include "TextIconExtension.h"
+
 namespace winrt::CommunityToolkit::WinUI::implementation
 {
 	using namespace winrt::Microsoft::UI::Text;
@@ -19,9 +20,9 @@ namespace winrt::CommunityToolkit::WinUI::implementation
 
 		wil::single_threaded_rw_property<FontFamily> FontFamily{ nullptr };
 
-		winrt::Windows::Foundation::IInspectable ProvideValue();
+		winrt::Windows::Foundation::IInspectable ProvideValue() const;
 
-		winrt::Windows::Foundation::IInspectable ProvideValue(winrt::Microsoft::UI::Xaml::IXamlServiceProvider const& provider);
+		IInspectable ProvideValue(IXamlServiceProvider const& provider);
 	};
 }
 

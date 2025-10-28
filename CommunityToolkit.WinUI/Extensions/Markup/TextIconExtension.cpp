@@ -20,8 +20,8 @@ namespace winrt::CommunityToolkit::WinUI::implementation
 
 	IInspectable TextIconExtension::ProvideValue() { return nullptr; }
 
-	IInspectable TextIconExtension::ProvideValue([[maybe_unused]] winrt::Microsoft::UI::Xaml::IXamlServiceProvider const& provider
-	) {
+	IInspectable TextIconExtension::ProvideValue([[maybe_unused]] IXamlServiceProvider const& provider)
+	{
 		return ProvideValue();
 	}
 }

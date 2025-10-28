@@ -38,6 +38,9 @@
     <Filter Include="Extensions\Tree">
       <UniqueIdentifier>{ce39a7c3-8f80-4fdd-b96a-51b333c39167}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Extensions\ListViewBase">
+      <UniqueIdentifier>{415f6bd5-5b11-4c3b-ac72-a3b980768a11}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -143,10 +146,26 @@
     <Midl Include="Extensions\Media\VisualExtensions.idl">
       <Filter>Extensions\Media</Filter>
     </Midl>
+    <Midl Include="Extensions\ListViewBase\ListViewExtensions.idl">
+      <Filter>Extensions\ListViewBase</Filter>
+    </Midl>
+    <Midl Include="Extensions\Markup\FontIconSourceExtension.idl">
+      <Filter>Extensions\Markup</Filter>
+    </Midl>
+    <Midl Include="Extensions\Markup\SymbolIconExtension.idl">
+      <Filter>Extensions\Markup</Filter>
+    </Midl>
+    <Midl Include="Extensions\Markup\SymbolIconSourceExtension.idl">
+      <Filter>Extensions\Markup</Filter>
+    </Midl>
   </ItemGroup>
   <ItemGroup>
     <Page Include="Themes\Generic.xaml">
       <Filter>Themes</Filter>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
+    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natstepfilter" />
   </ItemGroup>
 </Project>
