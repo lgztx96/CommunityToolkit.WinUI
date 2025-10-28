@@ -22,7 +22,7 @@ namespace winrt::CommunityToolkit::WinUI::Controls::implementation
     {
         if (ColorPicker())
         {
-            ColorPicker().ColorChanged(_colorChangedToken);
+            _colorChangedRevoker.revoke();
         }
 
         base_type::OnApplyTemplate();
@@ -39,7 +39,7 @@ namespace winrt::CommunityToolkit::WinUI::Controls::implementation
         }
 
         ColorPicker().Color(SelectedColor());
-        _colorChangedToken = ColorPicker().ColorChanged({ this, &ColorPickerButton::ColorPicker_ColorChanged });
+        _colorChangedRevoker = ColorPicker().ColorChanged(winrt::auto_revoke, { this, & ColorPickerButton::ColorPicker_ColorChanged });
 
         if (!Flyout())
         {
@@ -52,14 +52,14 @@ namespace winrt::CommunityToolkit::WinUI::Controls::implementation
 
         if (CheckeredBackgroundBorder)
         {
-            CheckeredBackgroundBorder.Loaded(_checkeredLoadedToken);
+            _checkeredLoadedRevoker.revoke();
         }
 
         CheckeredBackgroundBorder = GetTemplateChild(L"CheckeredBackgroundBorder").try_as<Border>();
 
         if (CheckeredBackgroundBorder)
         {
-            _checkeredLoadedToken = CheckeredBackgroundBorder.Loaded({ this, &ColorPickerButton::CheckeredBackgroundBorder_Loaded });
+            _checkeredLoadedRevoker = CheckeredBackgroundBorder.Loaded(winrt::auto_revoke, { this, & ColorPickerButton::CheckeredBackgroundBorder_Loaded });
         }
     }
 

@@ -26,17 +26,17 @@ namespace winrt::CommunityToolkit::WinUI::Controls::implementation
 		// TODO: We should just use a WeakEventListener for ThemeChanged here, but ours currently doesn't support it.
 		// See proposal for general helper here: https://github.com/CommunityToolkit/dotnet/issues/404
 		ThemeListener.ThemeChanged(_themeChangedToken);
-		PointerReleased(_pointerReleasedToken);
-		IsEnabledChanged(_isEnabledChangedToken);
-		Unloaded(_unloadedToken);
+		_pointerReleasedRevoker.revoke();
+		_isEnabledChangedRevoker.revoke();
+		_unloadedRevoker.revoke();
 	}
 
 	void RadialGauge::OnApplyTemplate()
 	{
 		ThemeListener.ThemeChanged(_themeChangedToken);
-		PointerReleased(_pointerReleasedToken);
-		IsEnabledChanged(_isEnabledChangedToken);
-		Unloaded(_unloadedToken);
+		_pointerReleasedRevoker.revoke();
+		_isEnabledChangedRevoker.revoke();
+		_unloadedRevoker.revoke();
 
 		// Remember local brushes.
 		_needleBrush = ReadLocalValue(NeedleBrushProperty).try_as<SolidColorBrush>();
@@ -47,10 +47,10 @@ namespace winrt::CommunityToolkit::WinUI::Controls::implementation
 		_tickBrush = ReadLocalValue(TickBrushProperty).try_as<SolidColorBrush>();
 		_foreground = ReadLocalValue(Control::ForegroundProperty()).try_as<SolidColorBrush>();
 
-		_pointerReleasedToken = PointerReleased({ this, &RadialGauge::RadialGauge_PointerReleased });
-		ThemeListener.ThemeChanged({ get_weak(), &RadialGauge::ThemeListener_ThemeChanged });
-		_isEnabledChangedToken = IsEnabledChanged({ this, &RadialGauge::RadialGauge_IsEnabledChanged });
-		_unloadedToken = Unloaded({ this, &RadialGauge::RadialGauge_Unloaded });
+		_pointerReleasedRevoker = PointerReleased(winrt::auto_revoke, { this, &RadialGauge::RadialGauge_PointerReleased });
+		_themeChangedToken = ThemeListener.ThemeChanged({ get_weak(), &RadialGauge::ThemeListener_ThemeChanged });
+		_isEnabledChangedRevoker= IsEnabledChanged(winrt::auto_revoke, { this, &RadialGauge::RadialGauge_IsEnabledChanged });
+		_unloadedRevoker = Unloaded(winrt::auto_revoke, { this, &RadialGauge::RadialGauge_Unloaded });
 
 		// Apply color scheme.
 		OnColorsChanged();
@@ -192,8 +192,8 @@ namespace winrt::CommunityToolkit::WinUI::Controls::implementation
 
 		if (radialGauge->IsInteractive())
 		{
-			radialGauge->Tapped({ radialGauge->get_weak(), &RadialGauge::RadialGauge_Tapped });
-			radialGauge->ManipulationDelta({ radialGauge->get_weak(), &RadialGauge::RadialGauge_ManipulationDelta });
+			radialGauge->_tappedToken = radialGauge->Tapped({ radialGauge->get_weak(), &RadialGauge::RadialGauge_Tapped });
+			radialGauge->_manipulationDeltaToken = radialGauge->ManipulationDelta({ radialGauge->get_weak(), &RadialGauge::RadialGauge_ManipulationDelta });
 			radialGauge->ManipulationMode(ManipulationModes::TranslateX | ManipulationModes::TranslateY);
 		}
 		else

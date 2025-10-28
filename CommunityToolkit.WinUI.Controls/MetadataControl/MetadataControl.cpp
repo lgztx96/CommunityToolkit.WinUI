@@ -29,16 +29,18 @@ namespace winrt::CommunityToolkit::WinUI::Controls::implementation
 
 			if (auto oldVec = e.OldValue().try_as<IObservableVector<IInspectable>>())
 			{
-				oldVec.VectorChanged(self->_vectorChangedToken);
+				self->_vectorChangedRevoker.revoke();
 			}
 
 			if (auto newVec = e.NewValue().try_as<IObservableVector<IInspectable>>())
 			{
-				self->_vectorChangedToken = newVec.VectorChanged(
-					[control](auto&, auto&)
+				self->_vectorChangedRevoker = newVec.VectorChanged(winrt::auto_revoke, [controlWeak{ winrt::make_weak(control) }](auto&, auto&)
 					{
-						auto self = winrt::get_self<MetadataControl>(control)->get_strong();
-						self->Update();
+						if (auto controlStrong = controlWeak.get()) 
+						{
+							auto self = winrt::get_self<MetadataControl>(controlStrong)->get_strong();
+							self->Update();
+						}
 					});
 			}
 

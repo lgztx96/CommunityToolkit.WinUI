@@ -10,7 +10,7 @@ namespace winrt::CommunityToolkit::WinUI::Controls
 	private:
 		winrt::Microsoft::UI::Xaml::DependencyObject _source{ nullptr };
 		winrt::Microsoft::UI::Xaml::DependencyProperty _property{ nullptr };
-		int64_t _token{};
+		int64_t _registrationToken{ 0 };
 
 	public:
 		winrt::event<winrt::Windows::Foundation::TypedEventHandler<
@@ -22,7 +22,7 @@ namespace winrt::CommunityToolkit::WinUI::Controls
 			winrt::Microsoft::UI::Xaml::DependencyProperty const& property)
 			: _source(source), _property(property)
 		{
-			_token = source.RegisterPropertyChangedCallback(property,
+			_registrationToken = source.RegisterPropertyChangedCallback(property,
 				[this](winrt::Microsoft::UI::Xaml::DependencyObject const& sender,
 					winrt::Microsoft::UI::Xaml::DependencyProperty const& dp)
 				{
@@ -33,10 +33,10 @@ namespace winrt::CommunityToolkit::WinUI::Controls
 
 		void Unregister()
 		{
-			if (_source && _property && _token)
+			if (_registrationToken)
 			{
-				_source.UnregisterPropertyChangedCallback(_property, _token);
-				_token = 0;
+				_source.UnregisterPropertyChangedCallback(_property, _registrationToken);
+				_registrationToken = 0;
 			}
 		}
 

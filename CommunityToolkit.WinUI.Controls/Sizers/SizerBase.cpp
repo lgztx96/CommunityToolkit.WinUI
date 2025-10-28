@@ -15,25 +15,15 @@ namespace winrt::CommunityToolkit::WinUI::Controls::implementation
     {
         base_type::OnApplyTemplate();
 
-        // Unregister Events
-        if (_loadedToken) Loaded(_loadedToken);
-        if (_enteredToken) PointerEntered(_enteredToken);
-        if (_exitedToken) PointerExited(_exitedToken);
-        if (_pressedToken) PointerPressed(_pressedToken);
-        if (_releasedToken) PointerReleased(_releasedToken);
-        if (_startedToken) ManipulationStarted(_startedToken);
-        if (_completedToken) ManipulationCompleted(_completedToken);
-        if (_enabledToken) IsEnabledChanged(_enabledToken);
-
         // Register Events
-        _loadedToken = Loaded({ this, &SizerBase::SizerBase_Loaded });
-        _enteredToken = PointerEntered({ this, &SizerBase::SizerBase_PointerEntered });
-        _exitedToken = PointerExited({ this, &SizerBase::SizerBase_PointerExited });
-        _pressedToken = PointerPressed({ this, &SizerBase::SizerBase_PointerPressed });
-        _releasedToken = PointerReleased({ this, &SizerBase::SizerBase_PointerReleased });
-        _startedToken = ManipulationStarted({ this, &SizerBase::SizerBase_ManipulationStarted });
-        _completedToken = ManipulationCompleted({ this, &SizerBase::SizerBase_ManipulationCompleted });
-        _enabledToken = IsEnabledChanged({ this, &SizerBase::SizerBase_IsEnabledChanged });
+        _loadedRevoker = Loaded(winrt::auto_revoke, { this, &SizerBase::SizerBase_Loaded });
+        _pointerEnteredRevoker = PointerEntered(winrt::auto_revoke, { this, &SizerBase::SizerBase_PointerEntered });
+        _pointerExitedRevoker = PointerExited(winrt::auto_revoke, { this, &SizerBase::SizerBase_PointerExited });
+        _pointerPressedRevoker = PointerPressed(winrt::auto_revoke, { this, &SizerBase::SizerBase_PointerPressed });
+        _pointerReleasedRevoker = PointerReleased(winrt::auto_revoke, { this, &SizerBase::SizerBase_PointerReleased });
+        _manipulationStartedRevoker = ManipulationStarted(winrt::auto_revoke, { this, &SizerBase::SizerBase_ManipulationStarted });
+        _manipulationCompletedRevoker = ManipulationCompleted(winrt::auto_revoke, { this, &SizerBase::SizerBase_ManipulationCompleted });
+        _isEnabledChangedRevoker = IsEnabledChanged(winrt::auto_revoke, { this, &SizerBase::SizerBase_IsEnabledChanged });
 
         // Trigger initial state transition based on if we're Enabled or not currently.
         SizerBase_IsEnabledChanged(*this, nullptr);
@@ -50,7 +40,7 @@ namespace winrt::CommunityToolkit::WinUI::Controls::implementation
 
     void SizerBase::SizerBase_Loaded([[maybe_unused]] IInspectable const& sender, RoutedEventArgs const& e)
     {
-        Loaded(_loadedToken);
+        _loadedRevoker.revoke();
 
         overridable().OnLoaded(e);
     }

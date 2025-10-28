@@ -36,17 +36,16 @@ namespace winrt::CommunityToolkit::WinUI::Controls::implementation
 			_hasLoaded = true;
 		}
 
-		if (_previewKeyDownEventToken) PreviewKeyDown(_previewKeyDownEventToken);
-		_previewKeyDownEventToken = PreviewKeyDown({ this, &Segmented::Segmented_PreviewKeyDown });
+		_previewKeyDownRevoker = PreviewKeyDown(winrt::auto_revoke, { this, &Segmented::Segmented_PreviewKeyDown });
 	}
 
 	void Segmented::PrepareContainerForItemOverride(DependencyObject const& element, IInspectable const& item)
 	{
 		base_type::PrepareContainerForItemOverride(element, item);
-		if (auto segmentedItem = element.try_as<CommunityToolkit::WinUI::Controls::SegmentedItem>())
-		{
-			_loadedEventToken = segmentedItem.Loaded({ this, &Segmented::SegmentedItem_Loaded });
-		}
+		//if (auto segmentedItem = element.try_as<CommunityToolkit::WinUI::Controls::SegmentedItem>())
+		//{
+		//	_loadedEventToken = segmentedItem.Loaded({ this, &Segmented::SegmentedItem_Loaded });
+		//}
 	}
 
 	void Segmented::Segmented_PreviewKeyDown([[maybe_unused]] IInspectable const& sender, KeyRoutedEventArgs const& e)
@@ -62,7 +61,7 @@ namespace winrt::CommunityToolkit::WinUI::Controls::implementation
 	{
 		if (auto segmentedItem = sender.try_as<CommunityToolkit::WinUI::Controls::SegmentedItem>())
 		{
-			if (_loadedEventToken) segmentedItem.Loaded(_loadedEventToken);
+			// if (_loadedEventToken) segmentedItem.Loaded(_loadedEventToken);
 		}
 	}
 

@@ -33,14 +33,14 @@ namespace winrt::CommunityToolkit::WinUI::Controls::implementation
         static constexpr auto VisibleState = L"Visible";
         static constexpr auto CollapsedState = L"Collapsed";
 
-        winrt::event_token _loadedToken{};
-        winrt::event_token _enteredToken{};
-        winrt::event_token _exitedToken{};
-        winrt::event_token _pressedToken{};
-        winrt::event_token _releasedToken{};
-        winrt::event_token _startedToken{};
-        winrt::event_token _completedToken{};
-        winrt::event_token _enabledToken{};
+        FrameworkElement::Loaded_revoker _loadedRevoker;
+        UIElement::PointerEntered_revoker _pointerEnteredRevoker;
+        UIElement::PointerExited_revoker _pointerExitedRevoker;
+        UIElement::PointerPressed_revoker _pointerPressedRevoker;
+        UIElement::PointerReleased_revoker _pointerReleasedRevoker;
+        UIElement::ManipulationStarted_revoker _manipulationStartedRevoker;
+        UIElement::ManipulationCompleted_revoker _manipulationCompletedRevoker;
+        Control::IsEnabledChanged_revoker _isEnabledChangedRevoker;
 
         bool _appliedTemplate = false;
 

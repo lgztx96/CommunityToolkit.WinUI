@@ -64,8 +64,8 @@ namespace winrt::CommunityToolkit::WinUI::Controls::implementation
 
 		winrt::Windows::Foundation::IAsyncAction CheckeredBackgroundBorder_Loaded(IInspectable const& sender, RoutedEventArgs const& e);
 
-		winrt::event_token _colorChangedToken;
-		winrt::event_token _checkeredLoadedToken;
+		ColorPicker::ColorChanged_revoker _colorChangedRevoker;
+		FrameworkElement::Loaded_revoker _checkeredLoadedRevoker;
 	};
 }
 

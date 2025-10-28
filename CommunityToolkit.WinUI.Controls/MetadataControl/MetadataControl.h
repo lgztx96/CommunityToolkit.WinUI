@@ -11,7 +11,7 @@ namespace winrt::CommunityToolkit::WinUI::Controls::implementation
 
 		TextBlock _textContainer;
 
-		winrt::event_token _vectorChangedToken;
+		IObservableVector<IInspectable>::VectorChanged_revoker _vectorChangedRevoker;
 
 	public:
 		static void OnMetadataItemsChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e);

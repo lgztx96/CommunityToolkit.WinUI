@@ -61,8 +61,6 @@ namespace winrt::CommunityToolkit::WinUI::Controls::implementation
 		winrt::event_token _canvasPointerReleasedToken;
 		winrt::event_token _canvasPointerExitedToken;
 
-		winrt::event_token _keyDebounceTimerTickToken;
-
 		winrt::event<winrt::Microsoft::UI::Xaml::Controls::Primitives::DragStartedEventHandler> _thumbDragStarted;
 		winrt::event<winrt::Microsoft::UI::Xaml::Controls::Primitives::DragCompletedEventHandler> _thumbDragCompleted;
 
