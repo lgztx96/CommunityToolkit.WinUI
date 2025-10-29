@@ -23,6 +23,9 @@ The goal is to allow seamless usage of these controls in WinUI 3 / C++ projects.
 ### Shimmer
 ![Shimmer](docs/images/Shimmer.webp)
 
+### TokenView
+![TokenView](docs/images/TokenView.png)
+
 ### ColorPicker / ColorPickerButton
 ![ColorPicker](docs/images/ColorPicker.png)
 
@@ -64,8 +67,14 @@ The goal is to allow seamless usage of these controls in WinUI 3 / C++ projects.
 ### TabbedCommandBar
 ![TabbedCommandBar](docs/images/TabbedCommandBar.png)
 
+### TokenizingTextBox
+![TokenizingTextBox](docs/images/TokenizingTextBox.png)
+
 ### UniformGrid
 ![UniformGrid](docs/images/UniformGrid.png)
+
+### WrapPanel
+![WrapPanel](docs/images/WrapPanel.png)
 
 ### AttachedCardShadow
 ![AttachedCardShadow](docs/images/AttachedCardShadow.png)
