@@ -1,10 +1,49 @@
 namespace CommunityToolkit.WinUI
 {
-    [default_interface]
-    runtimeclass ListViewExtensions 
+    enum ItemContainerStretchDirection
     {
+        Horizontal,
+        Vertical,
+        Both
+    };
+
+    enum ScrollItemPlacement
+    {
+        Default,
+        Left,
+        Top,
+        Center,
+        Right,
+        Bottom
+    };
+
+    [default_interface]
+    runtimeclass ListViewExtensions
+    {
+        static Microsoft.UI.Xaml.DependencyProperty AlternateColorProperty{ get; };
+
+        static Microsoft.UI.Xaml.DependencyProperty AlternateItemTemplateProperty{ get; };
+
+        static Microsoft.UI.Xaml.DependencyProperty CommandProperty{ get; };
+
+        static Microsoft.UI.Xaml.Media.Brush GetAlternateColor(Microsoft.UI.Xaml.Controls.ListViewBase obj);
+
+        static void SetAlternateColor(Microsoft.UI.Xaml.Controls.ListViewBase obj, Microsoft.UI.Xaml.Media.Brush value);
+
+        static Microsoft.UI.Xaml.DataTemplate GetAlternateItemTemplate(Microsoft.UI.Xaml.Controls.ListViewBase obj);
+
+        static void SetAlternateItemTemplate(Microsoft.UI.Xaml.Controls.ListViewBase obj, Microsoft.UI.Xaml.DataTemplate value);
+
+        // static Microsoft.UI.Xaml.Input.ICommand GetCommand(Microsoft.UI.Xaml.Controls.ListViewBase obj);
+
+        // static void SetCommand(Microsoft.UI.Xaml.Controls.ListViewBase obj, Microsoft.UI.Xaml.Input.ICommand value);
+
         static void DeselectAll(Microsoft.UI.Xaml.Controls.ListViewBase list);
 
         static void SelectAllSafe(Microsoft.UI.Xaml.Controls.ListViewBase list);
+
+        static Windows.Foundation.IAsyncAction SmoothScrollIntoViewWithIndexAsync(Microsoft.UI.Xaml.Controls.ListViewBase listViewBase, Int32 index, ScrollItemPlacement itemPlacement, Boolean disableAnimation, Boolean scrollIfVisible, Int32 additionalHorizontalOffset, Int32 additionalVerticalOffset);
+
+        static Windows.Foundation.IAsyncAction SmoothScrollIntoViewWithItemAsync(Microsoft.UI.Xaml.Controls.ListViewBase listViewBase, Object item, ScrollItemPlacement itemPlacement, Boolean disableAnimation, Boolean scrollIfVisible, Int32 additionalHorizontalOffset, Int32 additionalVerticalOffset);
     }
 }
