@@ -168,7 +168,7 @@ namespace winrt::CommunityToolkit::WinUI::Controls::implementation
 		MenuFlyoutItem selectAllMenuItem;
 		selectAllMenuItem.Text(L"Select all");
 
-		selectAllMenuItem.Click({ get_weak(), [this](auto&, auto&) { SelectAllTokensAndText(); }});
+		selectAllMenuItem.Click({ get_weak(), [this](auto&, auto&) { SelectAllTokensAndText(); } });
 
 		MenuFlyout menuFlyout;
 		menuFlyout.Items().Append(selectAllMenuItem);
@@ -201,16 +201,16 @@ namespace winrt::CommunityToolkit::WinUI::Controls::implementation
 		auto container = ContainerFromItem(_currentTextEdit).try_as<winrt::CommunityToolkit::WinUI::Controls::TokenizingTextBoxItem>();
 		if (container == nullptr) co_return;
 		auto self = winrt::get_self<TokenizingTextBoxItem>(container)->get_strong();
-		if (!(GetFocusedElement() == self->_autoSuggestTextBox) || ::iswcntrl(args.Character()))
+		auto character = args.Character();
+		if (!(GetFocusedElement() == self->_autoSuggestTextBox || ::iswcntrl(character)))
 		{
 			if (SelectedItems().Size() > 0)
 			{
 				uint32_t index;
 				_innerItemsSource.IndexOf(SelectedItems().First(), index);
-				auto character = args.Character();
 				co_await RemoveAllSelectedTokens();
 
-				std::ignore = this->DispatcherQueue().TryEnqueue(Microsoft::UI::Dispatching::DispatcherQueuePriority::Normal, [&]()
+				std::ignore = this->DispatcherQueue().TryEnqueue(Microsoft::UI::Dispatching::DispatcherQueuePriority::Normal, [=]()
 					{
 						// If we're before the last textbox and it's empty, redirect focus to that one instead
 						if (index == _innerItemsSource.Size() - 1 && IsNullOrWhiteSpace(_lastTextEdit.Text()))
@@ -220,7 +220,7 @@ namespace winrt::CommunityToolkit::WinUI::Controls::implementation
 								auto lastSelf = winrt::get_self<TokenizingTextBoxItem>(lastContainer)->get_strong();
 								lastSelf->UseCharacterAsUser(true); // Make sure we trigger a refresh of suggested items.
 
-								_lastTextEdit.Text(hstring{ character, 1 });
+								_lastTextEdit.Text(winrt::hstring{ reinterpret_cast<const wchar_t*>(&character), 1 });
 
 								UpdateCurrentTextEdit(_lastTextEdit);
 
@@ -239,7 +239,7 @@ namespace winrt::CommunityToolkit::WinUI::Controls::implementation
 							_innerItemsSource.InsertAt(index, _currentTextEdit);
 
 							std::ignore = DispatcherQueue().TryEnqueue(Microsoft::UI::Dispatching::DispatcherQueuePriority::Normal,
-								[&]()
+								[=]()
 								{
 									if (auto newContainer = ContainerFromIndex(index).try_as<Controls::TokenizingTextBoxItem>()) // Should be our last text box
 									{
@@ -261,7 +261,7 @@ namespace winrt::CommunityToolkit::WinUI::Controls::implementation
 
 													self->AutoSuggestTextBoxLoaded(*waitForLoadToken);
 												}
-												
+
 											};
 
 										*waitForLoadToken = newSelf->AutoSuggestTextBoxLoaded(WaitForLoad);
@@ -282,7 +282,7 @@ namespace winrt::CommunityToolkit::WinUI::Controls::implementation
 						std::wstring text{ lastSelf->_autoSuggestTextBox.Text() };
 						auto selectionStart = lastSelf->_autoSuggestTextBox.SelectionStart();
 						auto position = selectionStart > text.size() ? text.size() : selectionStart;
-						textToken.Text(text.substr(0, position) + static_cast<wchar_t>(args.Character()) +
+						textToken.Text(text.substr(0, position) + static_cast<wchar_t>(character) +
 							text.substr(position));
 
 						lastSelf->_autoSuggestTextBox.SelectionStart(static_cast<int>(position) + 1); // Set position to after our new character inserted
@@ -354,7 +354,7 @@ namespace winrt::CommunityToolkit::WinUI::Controls::implementation
 			MenuFlyoutItem selectAllMenuItem;
 			selectAllMenuItem.Text(L"Select all");
 
-			selectAllMenuItem.Click({ get_weak(), [this](auto&, auto&) { SelectAllTokensAndText(); }});
+			selectAllMenuItem.Click({ get_weak(), [this](auto&, auto&) { SelectAllTokensAndText(); } });
 
 			menuFlyout.Items().Append(selectAllMenuItem);
 
@@ -515,12 +515,12 @@ namespace winrt::CommunityToolkit::WinUI::Controls::implementation
 		{
 			auto renderingEventToken = std::make_shared<winrt::event_token>();
 			*renderingEventToken = CompositionTarget::Rendering([renderingEventToken, callback](auto&, auto&)
-			{
-				// Detach event or Rendering will keep calling us back.
-				CompositionTarget::Rendering(*renderingEventToken);
+				{
+					// Detach event or Rendering will keep calling us back.
+					CompositionTarget::Rendering(*renderingEventToken);
 
-				callback();
-			});
+					callback();
+				});
 		}
 		catch (winrt::hresult_error& e)
 		{
@@ -579,10 +579,10 @@ namespace winrt::CommunityToolkit::WinUI::Controls::implementation
 
 	void TokenizingTextBox::OnMaximumTokensChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e)
 	{
-		if (auto ttb = d.try_as<class_type>(); ttb 
+		if (auto ttb = d.try_as<class_type>(); ttb
 			&& ttb.ReadLocalValue(MaximumTokensProperty) != DependencyProperty::UnsetValue())
 		{
-			if (auto newMaxTokens = e.NewValue().try_as<int>()) 
+			if (auto newMaxTokens = e.NewValue().try_as<int>())
 			{
 				auto ttbSelf = winrt::get_self<TokenizingTextBox>(ttb)->get_strong();
 				auto tokenCount = static_cast<int>(ttbSelf->_innerItemsSource.ItemsSource().Size());
