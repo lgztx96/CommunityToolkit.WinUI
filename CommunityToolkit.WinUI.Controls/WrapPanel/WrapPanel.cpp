@@ -114,10 +114,7 @@ namespace winrt::CommunityToolkit::WinUI::Controls::implementation
                 }
 
                 // Stretch the last item to fill the available space
-                // if the parent measure is not infinite
-                if (isLast 
-                  /*  && !std::isinf(parentMeasure.U)*/
-                    )
+                if (isLast)
                 {
                     desiredMeasure.U = parentMeasure.U - position.U;
                 }

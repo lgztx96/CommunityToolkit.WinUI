@@ -57,6 +57,9 @@
     <Filter Include="Controls\Shimmer">
       <UniqueIdentifier>{791e5847-c159-4e1f-8fd4-ee797ec72587}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Controls\TokenView">
+      <UniqueIdentifier>{62cb0688-e3f5-4b12-bbb4-8a204cdc4302}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -129,6 +132,21 @@
     </ClCompile>
     <ClCompile Include="Shimmer\Shimmer.cpp">
       <Filter>Controls\Shimmer</Filter>
+    </ClCompile>
+    <ClCompile Include="TokenView\TokenView.cpp">
+      <Filter>Controls\TokenView</Filter>
+    </ClCompile>
+    <ClCompile Include="TokenView\TokenItem.cpp">
+      <Filter>Controls\TokenView</Filter>
+    </ClCompile>
+    <ClCompile Include="TokenView\TokenView.Events.cpp">
+      <Filter>Controls\TokenView</Filter>
+    </ClCompile>
+    <ClCompile Include="TokenView\TokenView.ItemsSource.cpp">
+      <Filter>Controls\TokenView</Filter>
+    </ClCompile>
+    <ClCompile Include="TokenView\TokenView.Selection.cpp">
+      <Filter>Controls\TokenView</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -235,6 +253,9 @@
     <ClInclude Include="MarkdownTextBlock\md4c\md4c.h">
       <Filter>Controls\MarkdownTextBlock\md4c</Filter>
     </ClInclude>
+    <ClInclude Include="ControlHelpers.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Midl Include="MarkdownTextBlock\MarkdownTextBlock.idl">
@@ -251,6 +272,9 @@
     </Midl>
     <Midl Include="MarkdownTextBlock\MarkdownThemes.idl">
       <Filter>Controls\MarkdownTextBlock</Filter>
+    </Midl>
+    <Midl Include="TokenView\TokenItemRemovingEventArgs.idl">
+      <Filter>Controls\TokenView</Filter>
     </Midl>
   </ItemGroup>
   <ItemGroup>
@@ -291,5 +315,15 @@
     <Page Include="Shimmer\Shimmer.xaml">
       <Filter>Controls\Shimmer</Filter>
     </Page>
+    <Page Include="TokenView\TokenItem.xaml">
+      <Filter>Controls\TokenView</Filter>
+    </Page>
+    <Page Include="TokenView\TokenView.xaml">
+      <Filter>Controls\TokenView</Filter>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
+    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natstepfilter" />
   </ItemGroup>
 </Project>

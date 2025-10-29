@@ -29,3 +29,5 @@
 #include "OpacityMaskView\OpacityMaskView.h"
 #include "Marquee\Marquee.h"
 #include "Shimmer\Shimmer.h"
+#include "TokenView\TokenView.h"
+#include "TokenView\TokenItem.h"

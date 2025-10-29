@@ -184,6 +184,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ControlHelpers.h" />
     <ClInclude Include="MarkdownTextBlock\Extension.h" />
     <ClInclude Include="MarkdownTextBlock\DefaultSVGRenderer.h" />
     <ClInclude Include="MarkdownTextBlock\Highlight\ISyntaxHighlighter.h" />
@@ -244,6 +245,18 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="Shimmer\Shimmer.h">
       <DependentUpon>Shimmer\Shimmer.cpp</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="TokenView\TokenItem.h">
+      <DependentUpon>TokenView\TokenItem.cpp</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="TokenView\TokenItemRemovingEventArgs.h">
+      <DependentUpon>TokenView\TokenItemRemovingEventArgs.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="TokenView\TokenView.h">
+      <DependentUpon>TokenView\TokenView.cpp</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
   </ItemGroup>
@@ -363,6 +376,19 @@
     <ClCompile Include="Shimmer\Shimmer.cpp">
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="TokenView\TokenItem.cpp">
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="TokenView\TokenItemRemovingEventArgs.cpp">
+      <DependentUpon>TokenView\TokenItemRemovingEventArgs.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="TokenView\TokenView.cpp">
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="TokenView\TokenView.Events.cpp" />
+    <ClCompile Include="TokenView\TokenView.ItemsSource.cpp" />
+    <ClCompile Include="TokenView\TokenView.Selection.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CommunityToolkit.Labs.WinUI.def" />
@@ -398,6 +424,17 @@
       <DependentUpon>Shimmer\Shimmer.cpp</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
+    <Midl Include="TokenView\TokenItem.idl">
+      <DependentUpon>TokenView\TokenItem.cpp</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
+    <Midl Include="TokenView\TokenItemRemovingEventArgs.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="TokenView\TokenView.idl">
+      <DependentUpon>TokenView\TokenView.cpp</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
   </ItemGroup>
   <ItemGroup>
     <Page Include="MarkdownTextBlock\MarkdownTextBlock.xaml" />
@@ -405,8 +442,13 @@
     <Page Include="OpacityMaskView\OpacityMaskView.xaml" />
     <Page Include="Shimmer\Shimmer.xaml" />
     <Page Include="Themes\Generic.xaml" />
+    <Page Include="TokenView\TokenItem.xaml" />
+    <Page Include="TokenView\TokenView.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CommunityToolkit.WinUI.Controls\CommunityToolkit.WinUI.Controls.vcxproj">
+      <Project>{ef5f53e1-2ddb-4936-a78f-517fc8be74ff}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\CommunityToolkit.WinUI.Helpers\CommunityToolkit.WinUI.Helpers.vcxproj">
       <Project>{f8087280-d16f-4d9d-9e17-58aac733d56d}</Project>
     </ProjectReference>

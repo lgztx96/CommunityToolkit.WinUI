@@ -8,5 +8,7 @@
         <ResourceDictionary Source="ms-appx:///CommunityToolkit.Labs.WinUI/OpacityMaskView/OpacityMaskView.xaml" />
         <ResourceDictionary Source="ms-appx:///CommunityToolkit.Labs.WinUI/Marquee/Marquee.xaml" />
         <ResourceDictionary Source="ms-appx:///CommunityToolkit.Labs.WinUI/Shimmer/Shimmer.xaml" />
+        <ResourceDictionary Source="ms-appx:///CommunityToolkit.Labs.WinUI/TokenView/TokenView.xaml" />
+        <ResourceDictionary Source="ms-appx:///CommunityToolkit.Labs.WinUI/TokenView/TokenItem.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

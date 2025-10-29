@@ -1,0 +1,16 @@
+import "TokenVIew/TokenItem.idl";
+
+namespace CommunityToolkit.Labs.WinUI
+{
+    [default_interface]
+    runtimeclass TokenItemRemovingEventArgs 
+    {
+        TokenItemRemovingEventArgs();
+
+        TokenItemRemovingEventArgs(Object item, TokenItem tokenItem);
+
+        Object Item{ get; };
+
+        TokenItem TokenItem{ get; };
+    }
+}

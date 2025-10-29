@@ -395,6 +395,7 @@ namespace winrt::CommunityToolkit::WinUI::Controls::implementation
         {
             return winrt::unbox_value<double>(GetValue(NeedleBorderThicknessProperty));
         }
+
         void NeedleBorderThickness(double value)
         {
             SetValue(NeedleBorderThicknessProperty, winrt::box_value(value));

@@ -1,0 +1,22 @@
+import "TokenVIew/TokenItemRemovingEventArgs.idl";
+
+namespace CommunityToolkit.Labs.WinUI
+{
+    [default_interface]
+    unsealed runtimeclass TokenItem : Microsoft.UI.Xaml.Controls.ListViewItem
+    {
+        TokenItem();
+
+        Boolean IsRemoveable;
+
+        static Microsoft.UI.Xaml.DependencyProperty IsRemoveableProperty{ get; };
+
+        Microsoft.UI.Xaml.Controls.IconElement Icon;
+
+        static Microsoft.UI.Xaml.DependencyProperty IconProperty{ get; };
+
+        event Windows.Foundation.EventHandler<TokenItemRemovingEventArgs> Removing;
+
+        overridable void OnIconPropertyChanged(Microsoft.UI.Xaml.Controls.IconElement oldValue, Microsoft.UI.Xaml.Controls.IconElement newValue);
+    }
+}
