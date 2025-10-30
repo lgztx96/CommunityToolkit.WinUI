@@ -129,7 +129,20 @@ namespace winrt::CommunityToolkit::WinUI::implementation
 		}
 
 	private:
-		static inline std::unordered_map<ListViewBase, std::unique_ptr<ListViewBase::ItemClick_revoker>> _commandTokens;
+		struct WeakListViewHash
+		{
+			size_t operator()(winrt::weak_ref<ListViewBase> const& wref) const noexcept
+			{
+				if (auto ref = wref.get())
+				{
+					return std::hash<void*>{}(winrt::get_abi(ref));
+				}
+
+				return 0;
+			}
+		};
+
+		static inline std::unordered_map<winrt::weak_ref<ListViewBase>, std::unique_ptr<ListViewBase::ItemClick_revoker>, WeakListViewHash> _commandTokens;
 
 		static void OnListViewBaseItemClick(IInspectable const& sender, ItemClickEventArgs const& e);
 #pragma endregion

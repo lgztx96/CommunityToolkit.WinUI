@@ -211,14 +211,12 @@ namespace winrt::CommunityToolkit::WinUI::implementation
 			return;
 		}
 
-		if (auto iter = _commandTokens.find(listViewBase); iter != _commandTokens.end())
-		{
-			_commandTokens.erase(iter);
-		}
-
 		if (auto oldCommand = args.OldValue().try_as<ICommand>())
 		{
-
+			if (auto iter = _commandTokens.find(listViewBase); iter != _commandTokens.end())
+			{
+				_commandTokens.erase(iter);
+			}
 		}
 
 		if (auto newCommand = args.NewValue().try_as<ICommand>())
@@ -226,7 +224,7 @@ namespace winrt::CommunityToolkit::WinUI::implementation
 			auto revoker = std::make_unique<ListViewBase::ItemClick_revoker>();
 			*revoker = listViewBase.ItemClick(winrt::auto_revoke, &ListViewExtensions::OnListViewBaseItemClick);
 			
-			_commandTokens.emplace(listViewBase, std::move(revoker));
+			_commandTokens.insert_or_assign(listViewBase, std::move(revoker));
 		}
 	}
 
