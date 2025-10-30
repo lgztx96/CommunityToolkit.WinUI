@@ -8,19 +8,17 @@
 namespace winrt::CommunityToolkit::WinUI::Controls
 {
 	using namespace winrt::Windows::Foundation;
+	using namespace winrt::Microsoft::UI::Xaml::Markup;
 
 	class SwitchHelpers
 	{
 	public:
 		static bool ValueEquals(IPropertyValue const& valueA, IPropertyValue const& valueB)
 		{
-			if (!valueA || !valueB)
-				return false;
-
 			auto typeA = valueA.Type();
 			auto typeB = valueB.Type();
 
-			auto get_double = [](IPropertyValue const& v) -> double
+			auto toDouble = [](IPropertyValue const& v) -> double
 			{
 				switch (v.Type()) {
 				case PropertyType::Single: return static_cast<double>(v.GetSingle());
@@ -32,20 +30,30 @@ namespace winrt::CommunityToolkit::WinUI::Controls
 			if ((typeA == PropertyType::Single || typeA == PropertyType::Double) &&
 				(typeB == PropertyType::Single || typeB == PropertyType::Double))
 			{
-				return std::fabs(get_double(valueA) - get_double(valueB)) < 1e-9;
+				return std::fabs(toDouble(valueA) - toDouble(valueB)) < 1e-9;
 			}
 
-			auto is_int = [](PropertyType t) 
+			auto isInteger = [](PropertyType t)
 			{
-				return t == PropertyType::UInt8 || t == PropertyType::Int16 ||
-					t == PropertyType::UInt16 || t == PropertyType::Int32 ||
-					t == PropertyType::UInt32 || t == PropertyType::Int64 ||
-					t == PropertyType::UInt64;
+				switch (t)
+				{
+				case PropertyType::UInt8:
+				case PropertyType::Int16:
+				case PropertyType::UInt16:
+				case PropertyType::Int32:
+				case PropertyType::UInt32:
+				case PropertyType::Int64:
+				case PropertyType::UInt64:
+					return true;
+				default:
+					return false;
+				}
 			};
 
-			auto get_int = [](IPropertyValue const& v) -> std::variant<int64_t, uint64_t> 
+			auto toInteger = [](IPropertyValue const& v) -> std::variant<int64_t, uint64_t>
 			{
-				switch (v.Type()) {
+				switch (v.Type()) 
+				{
 				case PropertyType::UInt8:  return static_cast<uint64_t>(v.GetUInt8());
 				case PropertyType::UInt16: return static_cast<uint64_t>(v.GetUInt16());
 				case PropertyType::UInt32: return static_cast<uint64_t>(v.GetUInt32());
@@ -53,16 +61,17 @@ namespace winrt::CommunityToolkit::WinUI::Controls
 				case PropertyType::Int16:  return static_cast<int64_t>(v.GetInt16());
 				case PropertyType::Int32:  return static_cast<int64_t>(v.GetInt32());
 				case PropertyType::Int64:  return v.GetInt64();
-				default: return int64_t(0);
+				default: std::unreachable();
 				}
 			};
 
-			if (is_int(typeA) && is_int(typeB))
+			if (isInteger(typeA) && isInteger(typeB))
 			{
-				auto i1 = get_int(valueA);
-				auto i2 = get_int(valueB);
+				auto i1 = toInteger(valueA);
+				auto i2 = toInteger(valueB);
 
-				return std::visit([](auto a, auto b) -> bool {
+				return std::visit([](auto a, auto b) -> bool 
+				{
 					using A = decltype(a);
 					using B = decltype(b);
 					if constexpr (std::signed_integral<A> && std::signed_integral<B>)
@@ -75,11 +84,24 @@ namespace winrt::CommunityToolkit::WinUI::Controls
 						return b >= 0 && a == static_cast<uint64_t>(b);
 					else
 						return false;
-					}, i1, i2);
+				}, i1, i2);
 			}
 
 			if (typeA != typeB)
 				return false;
+
+			if (typeA == PropertyType::OtherType)
+			{
+				if (winrt::get_class_name(valueA) == winrt::get_class_name(valueB))
+				{
+					auto maybeEnumA = valueA.try_as<uint64_t>();
+					auto maybeEnumB = valueB.try_as<uint64_t>();
+					if (maybeEnumA && maybeEnumB)
+					{
+						return *maybeEnumA == *maybeEnumB;
+					}
+				}
+			}
 
 			switch (typeA)
 			{
@@ -108,112 +130,6 @@ namespace winrt::CommunityToolkit::WinUI::Controls
 				return false;
 
 			return ValueEquals(valueA, valueB);
-		}
-
-		static IInspectable ConvertValue(std::optional<winrt::Windows::UI::Xaml::Interop::TypeName> const& targetType, IInspectable const& value)
-		{
-			if (!value)
-				return nullptr;
-
-			if (!targetType.has_value() || targetType->Name.empty())
-				return value;
-
-			if (targetType->Name == L"String")
-			{
-				if (auto pv = value.try_as<IPropertyValue>())
-				{
-					switch (pv.Type())
-					{
-					case PropertyType::String:
-						return value;
-					case PropertyType::Int32:
-						return box_value(to_hstring(pv.GetInt32()));
-					case PropertyType::Double:
-						return box_value(to_hstring(pv.GetDouble()));
-					case PropertyType::Boolean:
-						return box_value(pv.GetBoolean() ? L"True" : L"False");
-					default:
-						return box_value(to_hstring(L"[Unsupported Type]"));
-					}
-				}
-
-				try
-				{
-					return box_value(winrt::get_class_name(value));
-				}
-				catch (...)
-				{
-					return box_value(L"[Invalid]");
-				}
-			}
-
-			//---------------------------------------
-			// 如果输入是 String，则尝试解析字符串
-			//---------------------------------------
-			auto strValue = value.try_as<hstring>();
-			if (strValue)
-			{
-				std::wstring s = strValue->data();
-
-				if (targetType->Name == L"Int32")
-				{
-					int32_t v = std::stoi(s);
-					return box_value(v);
-				}
-				else if (targetType->Name == L"Double")
-				{
-					try { return box_value(std::stod(s)); }
-					catch (...) { return box_value(0.0); }
-				}
-				else if (targetType->Name == L"Boolean")
-				{
-					if (s == L"true" || s == L"1")
-						return box_value(true);
-					if (s == L"false" || s == L"0")
-						return box_value(false);
-					return box_value(false);
-				}
-				else if (targetType->Name == L"String")
-				{
-					return box_value(*strValue);
-				}
-			}
-
-			if (auto pv = value.try_as<IPropertyValue>())
-			{
-				switch (pv.Type())
-				{
-				case PropertyType::Int32:
-				{
-					int32_t v = pv.GetInt32();
-					if (targetType->Name == L"Double")
-						return box_value(static_cast<double>(v));
-					if (targetType->Name == L"String")
-						return box_value(to_hstring(v));
-					return value;
-				}
-				case PropertyType::Double:
-				{
-					double v = pv.GetDouble();
-					if (targetType->Name == L"Int32")
-						return box_value(static_cast<int32_t>(v));
-					if (targetType->Name == L"String")
-						return box_value(to_hstring(v));
-					return value;
-				}
-				case PropertyType::Boolean:
-				{
-					bool v = pv.GetBoolean();
-					if (targetType->Name == L"String")
-						return box_value(v ? L"True" : L"False");
-					return value;
-				}
-				default:
-					return value;
-				}
-			}
-
-			return value;
 		}
 
 		static Case EvaluateCases(CaseCollection const& switchCases, IInspectable const& value, std::optional<winrt::Windows::UI::Xaml::Interop::TypeName> const& targetType)
@@ -273,16 +189,16 @@ namespace winrt::CommunityToolkit::WinUI::Controls
 			{
 				// If we have a TargetType and the first value is the right type
 				// Then our 2nd value isn't, so convert to string and coerce.
-				auto valueBase2 = SwitchHelpers::ConvertValue(targetType, value);
+				auto valueBase2 = SwitchHelpers::ConvertValue(*targetType, value);
 
 				return SwitchHelpers::Equals(compare, valueBase2);
 			}
 
 			// Neither of our two values matches the type so
 			// we'll convert both to a String and try and coerce it to the proper type.
-			auto compareBase = SwitchHelpers::ConvertValue(targetType, compare);
+			auto compareBase = SwitchHelpers::ConvertValue(*targetType, compare);
 
-			auto valueBase = SwitchHelpers::ConvertValue(targetType, value);
+			auto valueBase = SwitchHelpers::ConvertValue(*targetType, value);
 
 			return SwitchHelpers::Equals(compareBase, valueBase);
 		}
@@ -293,30 +209,30 @@ namespace winrt::CommunityToolkit::WinUI::Controls
 		/// <param name="targetType">The target type</param>
 		/// <param name="value">The value to convert</param>
 		/// <returns>The converted value</returns>
-		//static IInspectable ConvertValue(winrt::Windows::UI::Xaml::Interop::TypeName targetType, IInspectable value)
-		//{
-		//    if (targetType.IsInstanceOfType(value))
-		//    {
-		//        return value;
-		//    }
-		//    else if (targetType.IsEnum && value is string str)
-		//    {
-		//        if (Enum.TryParse(targetType, str, out object ? result))
-		//        {
-		//            return result!;
-		//        }
+		static IInspectable ConvertValue(winrt::Windows::UI::Xaml::Interop::TypeName targetType, IInspectable const& value)
+		{
+		    //if (targetType.IsInstanceOfType(value))
+		    //{
+		    //    return value;
+		    //}
+		    //else if (targetType.IsEnum && value is string str)
+		    //{
+		    //    if (Enum.TryParse(targetType, str, out object ? result))
+		    //    {
+		    //        return result!;
+		    //    }
 
-		//        static auto ThrowExceptionForKeyNotFound = []() -> IInspectable
-		//            {
-		//                throw winrt::hresult_invalid_argument(L"The requested enum value was not present in the provided type.");
-		//            };
+		    //    static auto ThrowExceptionForKeyNotFound = []() -> IInspectable
+		    //        {
+		    //            throw winrt::hresult_invalid_argument(L"The requested enum value was not present in the provided type.");
+		    //        };
 
-		//        return ThrowExceptionForKeyNotFound();
-		//    }
-		//    else
-		//    {
-		//        return XamlBindingHelper::ConvertValue(targetType, value);
-		//    }
-		//}
+		    //    return ThrowExceptionForKeyNotFound();
+		    //}
+		    //else
+		    {
+		        return XamlBindingHelper::ConvertValue(targetType, value);
+		    }
+		}
 	};
 }
