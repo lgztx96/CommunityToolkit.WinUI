@@ -291,9 +291,11 @@ namespace winrt::CommunityToolkit::WinUI::implementation
 
 			try
 			{
+				winrt::apartment_context context;
 				viewChangedRevoker = scrollViewer.ViewChanged(winrt::auto_revoke, ViewChanged);
 				listViewBase.ScrollIntoView(items.GetAt(index), ScrollIntoViewAlignment::Leading);
 				co_await winrt::resume_on_signal(tcs->get());
+				co_await context;
 			}
 			catch (...)
 			{
@@ -450,15 +452,10 @@ namespace winrt::CommunityToolkit::WinUI::implementation
 				}
 			};
 
-		try
-		{
-			viewChangedRevoker = scrollViewer.ViewChanged(winrt::auto_revoke, ViewChanged);
-			scrollViewer.ChangeView(horizontalOffset, verticalOffset, zoomFactor, disableAnimation);
-			co_await winrt::resume_on_signal(tcs->get());
-		}
-		catch (...)
-		{
-
-		}
+		winrt::apartment_context context;
+		viewChangedRevoker = scrollViewer.ViewChanged(winrt::auto_revoke, ViewChanged);
+		scrollViewer.ChangeView(horizontalOffset, verticalOffset, zoomFactor, disableAnimation);
+		co_await winrt::resume_on_signal(tcs->get());
+		co_await context;
 	}
 }
