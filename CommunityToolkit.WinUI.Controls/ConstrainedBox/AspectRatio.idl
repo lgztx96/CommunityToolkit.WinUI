@@ -1,0 +1,19 @@
+namespace CommunityToolkit.WinUI.Controls
+{
+    [default_interface]
+    [createfromstring("CommunityToolkit.WinUI.Controls.AspectRatio.ConvertToAspectRatio")]
+    runtimeclass AspectRatio : Windows.Foundation.IStringable
+    {
+        AspectRatio(Double width, Double height);
+
+        AspectRatio(Double ratio);
+
+        Double Width{ get; };
+
+        Double Height{ get; };
+
+        Double Value();
+
+        static AspectRatio ConvertToAspectRatio(String rawString);
+    }
+}

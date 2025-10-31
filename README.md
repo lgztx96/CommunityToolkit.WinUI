@@ -44,6 +44,9 @@ The goal is to allow seamless usage of these controls in WinUI 3 / C++ projects.
 ### HeaderedContentControl / HeaderedItemsControl / HeaderedTreeView
 ![HeaderedContentControl](docs/images/HeaderedContentControl.png)
 
+### ConstrainedBox
+![ConstrainedBox](docs/images/ConstrainedBox.png)
+
 ### RadialGauge
 :warning: The `ValueStringFormat` property **does not support .NET string format syntax** and only supports **std::format syntax**.
 

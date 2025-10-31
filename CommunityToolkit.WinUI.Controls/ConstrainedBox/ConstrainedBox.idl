@@ -1,0 +1,25 @@
+import "ConstrainedBox/AspectRatio.idl";
+
+namespace CommunityToolkit.WinUI.Controls
+{
+    [default_interface]
+	runtimeclass ConstrainedBox : Microsoft.UI.Xaml.Controls.ContentPresenter
+    {
+        ConstrainedBox();
+
+		Microsoft.UI.Xaml.DependencyProperty ScaleXProperty{ get; };
+		Double ScaleX;
+
+		Microsoft.UI.Xaml.DependencyProperty ScaleYProperty{ get; };
+		Double ScaleY;
+
+		Microsoft.UI.Xaml.DependencyProperty MultipleXProperty{ get; };
+		Int32 MultipleX;
+
+		Microsoft.UI.Xaml.DependencyProperty MultipleYProperty{ get; };
+		Int32 MultipleY;
+
+		Microsoft.UI.Xaml.DependencyProperty AspectRatioProperty{ get; };
+		AspectRatio AspectRatio;
+    }
+}

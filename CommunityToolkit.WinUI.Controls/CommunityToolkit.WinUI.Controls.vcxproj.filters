@@ -86,6 +86,9 @@
     <Filter Include="HeaderedControls">
       <UniqueIdentifier>{54324a3f-b829-4354-99aa-79382879cc93}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ConstrainedBox">
+      <UniqueIdentifier>{53ed97fb-3694-463f-9987-f0f4e24a89d8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -397,6 +400,12 @@
     </Midl>
     <Midl Include="TokenizingTextBox\TokenizingTextBoxAutomationPeer.idl">
       <Filter>TokenizingTextBox</Filter>
+    </Midl>
+    <Midl Include="ConstrainedBox\ConstrainedBox.idl">
+      <Filter>ConstrainedBox</Filter>
+    </Midl>
+    <Midl Include="ConstrainedBox\AspectRatio.idl">
+      <Filter>ConstrainedBox</Filter>
     </Midl>
   </ItemGroup>
   <ItemGroup>
