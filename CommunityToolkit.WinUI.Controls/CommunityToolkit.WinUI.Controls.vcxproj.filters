@@ -83,6 +83,9 @@
     <Filter Include="WrapPanel">
       <UniqueIdentifier>{78a513cf-0846-461a-bea3-c1c203937f95}</UniqueIdentifier>
     </Filter>
+    <Filter Include="HeaderedControls">
+      <UniqueIdentifier>{54324a3f-b829-4354-99aa-79382879cc93}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -218,6 +221,15 @@
     </ClCompile>
     <ClCompile Include="TokenizingTextBox\StringExtensions.cpp">
       <Filter>TokenizingTextBox</Filter>
+    </ClCompile>
+    <ClCompile Include="HeaderedControls\HeaderedContentControl\HeaderedContentControl.cpp">
+      <Filter>HeaderedControls</Filter>
+    </ClCompile>
+    <ClCompile Include="HeaderedControls\HeaderedItemsControl\HeaderedItemsControl.cpp">
+      <Filter>HeaderedControls</Filter>
+    </ClCompile>
+    <ClCompile Include="HeaderedControls\HeaderedTreeView\HeaderedTreeView.cpp">
+      <Filter>HeaderedControls</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -454,6 +466,15 @@
     </Page>
     <Page Include="TokenizingTextBox\TokenizingTextBoxItem.Token.xaml">
       <Filter>TokenizingTextBox</Filter>
+    </Page>
+    <Page Include="HeaderedControls\HeaderedContentControl\HeaderedContentControl.xaml">
+      <Filter>HeaderedControls</Filter>
+    </Page>
+    <Page Include="HeaderedControls\HeaderedItemsControl\HeaderedItemsControl.xaml">
+      <Filter>HeaderedControls</Filter>
+    </Page>
+    <Page Include="HeaderedControls\HeaderedTreeView\HeaderedTreeView.xaml">
+      <Filter>HeaderedControls</Filter>
     </Page>
   </ItemGroup>
   <ItemGroup>

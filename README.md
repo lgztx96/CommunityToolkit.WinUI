@@ -41,6 +41,9 @@ The goal is to allow seamless usage of these controls in WinUI 3 / C++ projects.
 ### MetadataControl
 ![MetadataControl](docs/images/MetadataControl.png)
 
+### HeaderedContentControl / HeaderedItemsControl / HeaderedTreeView
+![HeaderedContentControl](docs/images/HeaderedContentControl.png)
+
 ### RadialGauge
 :warning: The `ValueStringFormat` property **does not support .NET string format syntax** and only supports **std::format syntax**.
 

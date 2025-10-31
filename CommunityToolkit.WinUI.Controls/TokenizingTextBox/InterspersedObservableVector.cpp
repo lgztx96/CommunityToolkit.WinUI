@@ -174,12 +174,12 @@ namespace winrt::CommunityToolkit::WinUI::Controls::implementation
 		RaiseVectorChanged(CollectionChange::ItemInserted, outer);
 	}
 
-	void InterspersedObservableVector::ReplaceAll(winrt::array_view<const IInspectable> newItems)
+	void InterspersedObservableVector::ReplaceAll([[maybe_unused]] winrt::array_view<const IInspectable> newItems)
 	{
 		throw hresult_not_implemented();
 	}
 
-	uint32_t InterspersedObservableVector::GetMany(uint32_t startIndex, array_view<IInspectable> values) const
+	uint32_t InterspersedObservableVector::GetMany([[maybe_unused]] uint32_t startIndex, [[maybe_unused]] winrt::array_view<IInspectable> values) const
 	{
 		throw hresult_not_implemented();
 	}

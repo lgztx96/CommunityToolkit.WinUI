@@ -1,0 +1,24 @@
+namespace CommunityToolkit.WinUI.Controls
+{
+    [default_interface]
+    runtimeclass HeaderedItemsControl : Microsoft.UI.Xaml.Controls.ItemsControl
+    {
+        HeaderedItemsControl();
+
+        static Microsoft.UI.Xaml.DependencyProperty HeaderProperty{ get; };
+        Object Header;
+
+        static Microsoft.UI.Xaml.DependencyProperty HeaderTemplateProperty{ get; };
+        Microsoft.UI.Xaml.DataTemplate HeaderTemplate;
+
+        static Microsoft.UI.Xaml.DependencyProperty FooterProperty{ get; };
+        Object Footer;
+
+        static Microsoft.UI.Xaml.DependencyProperty FooterTemplateProperty{ get; };
+        Microsoft.UI.Xaml.DataTemplate FooterTemplate;
+
+        overridable void OnFooterChanged(Object oldValue, Object newValue);
+
+        overridable void OnHeaderChanged(Object oldValue, Object newValue);
+    }
+}

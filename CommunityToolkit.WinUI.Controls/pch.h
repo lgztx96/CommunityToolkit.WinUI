@@ -55,4 +55,7 @@
 #include "RadialGauge\RadialGauge.h"
 #include "TokenizingTextBox\TokenizingTextBox.h"
 #include "TokenizingTextBox\TokenizingTextBoxItem.h"
+#include "HeaderedControls\HeaderedContentControl\HeaderedContentControl.h"
+#include "HeaderedControls\HeaderedItemsControl\HeaderedItemsControl.h"
+#include "HeaderedControls\HeaderedTreeView\HeaderedTreeView.h"
 

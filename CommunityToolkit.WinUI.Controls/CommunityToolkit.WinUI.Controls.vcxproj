@@ -178,6 +178,18 @@
       <DependentUpon>DockPanel\DockPanel.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="HeaderedControls\HeaderedContentControl\HeaderedContentControl.h">
+      <DependentUpon>HeaderedControls\HeaderedContentControl\HeaderedContentControl.cpp</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="HeaderedControls\HeaderedItemsControl\HeaderedItemsControl.h">
+      <DependentUpon>HeaderedControls\HeaderedItemsControl\HeaderedItemsControl.cpp</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="HeaderedControls\HeaderedTreeView\HeaderedTreeView.h">
+      <DependentUpon>HeaderedControls\HeaderedTreeView\HeaderedTreeView.cpp</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="ImageCropper\ImageCropper.h">
       <DependentUpon>ImageCropper\ImageCropper.cpp</DependentUpon>
       <SubType>Code</SubType>
@@ -359,6 +371,15 @@
       <DependentUpon>DockPanel\DockPanel.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="HeaderedControls\HeaderedContentControl\HeaderedContentControl.cpp">
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="HeaderedControls\HeaderedItemsControl\HeaderedItemsControl.cpp">
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="HeaderedControls\HeaderedTreeView\HeaderedTreeView.cpp">
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="ImageCropper\ImageCropper.Animations.cpp" />
     <ClCompile Include="ImageCropper\ImageCropper.cpp">
       <SubType>Code</SubType>
@@ -530,6 +551,18 @@
     <Midl Include="DockPanel\DockPanel.idl">
       <SubType>Designer</SubType>
     </Midl>
+    <Midl Include="HeaderedControls\HeaderedContentControl\HeaderedContentControl.idl">
+      <DependentUpon>HeaderedControls\HeaderedContentControl\HeaderedContentControl.cpp</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
+    <Midl Include="HeaderedControls\HeaderedItemsControl\HeaderedItemsControl.idl">
+      <DependentUpon>HeaderedControls\HeaderedItemsControl\HeaderedItemsControl.cpp</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
+    <Midl Include="HeaderedControls\HeaderedTreeView\HeaderedTreeView.idl">
+      <DependentUpon>HeaderedControls\HeaderedTreeView\HeaderedTreeView.cpp</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
     <Midl Include="ImageCropper\ImageCropper.idl">
       <DependentUpon>ImageCropper\ImageCropper.cpp</DependentUpon>
       <SubType>Code</SubType>
@@ -657,6 +690,9 @@
     <Page Include="ColorPicker\ColorPickerButton.xaml" />
     <Page Include="ColorPicker\ColorPickerSlider.xaml" />
     <Page Include="ColorPicker\ColorPreviewer.xaml" />
+    <Page Include="HeaderedControls\HeaderedContentControl\HeaderedContentControl.xaml" />
+    <Page Include="HeaderedControls\HeaderedItemsControl\HeaderedItemsControl.xaml" />
+    <Page Include="HeaderedControls\HeaderedTreeView\HeaderedTreeView.xaml" />
     <Page Include="ImageCropper\ImageCropper.xaml" />
     <Page Include="ImageCropper\ImageCropperThumb.xaml" />
     <Page Include="LayoutTransformControl\LayoutTransformControl.xaml" />

@@ -1,0 +1,19 @@
+namespace CommunityToolkit.WinUI.Controls
+{
+    [default_interface]
+    runtimeclass HeaderedContentControl : Microsoft.UI.Xaml.Controls.ContentControl
+    {
+        HeaderedContentControl();
+
+        static Microsoft.UI.Xaml.DependencyProperty HeaderProperty{ get; };
+        Object Header;
+
+        static Microsoft.UI.Xaml.DependencyProperty HeaderTemplateProperty{ get; };
+        Microsoft.UI.Xaml.DataTemplate HeaderTemplate;
+
+        static Microsoft.UI.Xaml.DependencyProperty OrientationProperty{ get; };
+        Microsoft.UI.Xaml.Controls.Orientation Orientation;
+
+        overridable void OnHeaderChanged(Object oldValue, Object newValue);
+    }
+}
