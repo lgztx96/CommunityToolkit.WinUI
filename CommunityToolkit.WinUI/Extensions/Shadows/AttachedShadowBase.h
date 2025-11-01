@@ -16,11 +16,25 @@ namespace winrt::CommunityToolkit::WinUI::implementation
 	using namespace Microsoft::UI::Composition;
 	using namespace Microsoft::UI::Xaml::Hosting;
 
+	template<typename T>
+	struct WeakElementHash
+	{
+		size_t operator()(winrt::weak_ref<T> const& wref) const noexcept
+		{
+			if (auto ref = wref.get())
+			{
+				return std::hash<void*>{}(winrt::get_abi(ref));
+			}
+
+			return 0;
+		}
+	};
+
 	struct AttachedShadowBase : AttachedShadowBaseT<AttachedShadowBase>
 	{
 		AttachedShadowBase() = default;
 
-		std::vector<CommunityToolkit::WinUI::AttachedShadowElementContext> ShadowElementContextTable;
+		std::unordered_map<winrt::weak_ref<FrameworkElement>, CommunityToolkit::WinUI::AttachedShadowElementContext, WeakElementHash<FrameworkElement>> ShadowElementContextTable;
 
 		static void OnDependencyPropertyChanged(IInspectable const& sender, DependencyPropertyChangedEventArgs const& args);
 
@@ -66,32 +80,32 @@ namespace winrt::CommunityToolkit::WinUI::implementation
 
 		CommunityToolkit::WinUI::AttachedShadowElementContext GetElementContext(FrameworkElement const& element);
 
-		bool SupportsOnSizeChangedEvent() const noexcept;
+		virtual bool SupportsOnSizeChangedEvent() const noexcept;
 
-		void OnSizeChanged(
+		virtual void OnSizeChanged(
 			CommunityToolkit::WinUI::AttachedShadowElementContext const& context,
 			Windows::Foundation::Size newSize,
 			Windows::Foundation::Size previousSize);
 
-		void OnElementContextInitialized(CommunityToolkit::WinUI::AttachedShadowElementContext const& context);
+		virtual void OnElementContextInitialized(CommunityToolkit::WinUI::AttachedShadowElementContext const& context);
 
-		void OnElementContextUninitialized(CommunityToolkit::WinUI::AttachedShadowElementContext const& context);
+		virtual void OnElementContextUninitialized(CommunityToolkit::WinUI::AttachedShadowElementContext const& context);
 
 		Windows::Foundation::Collections::IVector<CommunityToolkit::WinUI::AttachedShadowElementContext> EnumerateElementContexts();
 
-		void SetElementChildVisual(CommunityToolkit::WinUI::AttachedShadowElementContext const& context);
+		virtual void SetElementChildVisual(CommunityToolkit::WinUI::AttachedShadowElementContext const& context);
 
 		void CallPropertyChangedForEachElement(DependencyProperty const& property, IInspectable const& oldValue, IInspectable const& newValue);
 
-		CompositionBrush GetShadowMask(CommunityToolkit::WinUI::AttachedShadowElementContext const& context);
+		virtual CompositionBrush GetShadowMask(CommunityToolkit::WinUI::AttachedShadowElementContext const& context);
 
-		CompositionClip GetShadowClip(CommunityToolkit::WinUI::AttachedShadowElementContext const& context);
+		virtual CompositionClip GetShadowClip(CommunityToolkit::WinUI::AttachedShadowElementContext const& context);
 
 		void UpdateShadowMask(CommunityToolkit::WinUI::AttachedShadowElementContext const& context);
 
 		void UpdateShadowClip(CommunityToolkit::WinUI::AttachedShadowElementContext const& context);
 
-		void OnPropertyChanged(CommunityToolkit::WinUI::AttachedShadowElementContext const& context, DependencyProperty const& property, IInspectable const& oldValue, IInspectable const& newValue);
+		virtual void OnPropertyChanged(CommunityToolkit::WinUI::AttachedShadowElementContext const& context, DependencyProperty const& property, IInspectable const& oldValue, IInspectable const& newValue);
 	};
 }
 

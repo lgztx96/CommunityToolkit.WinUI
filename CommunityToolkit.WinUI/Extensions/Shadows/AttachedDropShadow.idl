@@ -1,0 +1,22 @@
+import "component.idl";
+
+namespace CommunityToolkit.WinUI
+{   
+	[default_interface]
+    runtimeclass AttachedDropShadow : AttachedShadowBase
+    {
+        AttachedDropShadow();
+
+		static Microsoft.UI.Xaml.DependencyProperty IsMaskedProperty{ get; };
+
+		Boolean IsMasked;
+
+		static Microsoft.UI.Xaml.DependencyProperty CornerRadiusProperty{ get; };
+
+		Double CornerRadius;
+
+		static Microsoft.UI.Xaml.DependencyProperty CastToProperty{ get; };
+
+		Microsoft.UI.Xaml.FrameworkElement CastTo;
+    }
+}

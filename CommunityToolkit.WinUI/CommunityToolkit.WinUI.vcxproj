@@ -187,6 +187,10 @@
       <DependentUpon>Extensions\Media\VisualExtensions.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="Extensions\Shadows\AttachedDropShadow.h">
+      <DependentUpon>Extensions\Shadows\AttachedDropShadow.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="Extensions\Shadows\AttachedShadowBase.h" />
     <ClInclude Include="Extensions\Shadows\AttachedShadowElementContext.h" />
     <ClInclude Include="Extensions\Shadows\Effects.h" />
@@ -245,6 +249,10 @@
       <DependentUpon>Extensions\Media\VisualExtensions.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="Extensions\Shadows\AttachedDropShadow.cpp">
+      <DependentUpon>Extensions\Shadows\AttachedDropShadow.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="Extensions\Shadows\AttachedShadowBase.cpp" />
     <ClCompile Include="Extensions\Shadows\AttachedShadowElementContext.cpp" />
     <ClCompile Include="Extensions\Shadows\Effects.cpp" />
@@ -298,6 +306,9 @@
       <SubType>Designer</SubType>
     </Midl>
     <Midl Include="Extensions\Media\VisualExtensions.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Extensions\Shadows\AttachedDropShadow.idl">
       <SubType>Designer</SubType>
     </Midl>
     <Midl Include="Triggers\ControlSizeTrigger.idl" />

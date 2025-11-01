@@ -21,6 +21,9 @@ namespace winrt::CommunityToolkit::WinUI::implementation
 		FrameworkElement::SizeChanged_revoker _sizeChangedRevoker;
 		FrameworkElement::Loaded_revoker _loadedRevoker;
 		FrameworkElement::Unloaded_revoker _unloadedRevoker;
+		FrameworkElement::LayoutUpdated_revoker _layoutUpdatedRevoker;
+
+		wil::single_threaded_rw_property<std::optional<uint64_t>> VisibilityToken;
 
 		wil::single_threaded_property<CommunityToolkit::WinUI::AttachedShadowBase> Parent{ nullptr };
 

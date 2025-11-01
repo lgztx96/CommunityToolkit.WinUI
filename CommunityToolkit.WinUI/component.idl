@@ -14,6 +14,13 @@ namespace CommunityToolkit.WinUI
         static Windows.Foundation.Point CoordinatesTo(Microsoft.UI.Xaml.UIElement parent, Microsoft.UI.Xaml.UIElement target);
     }
 
+    interface IAlphaMaskProvider
+    {
+        Boolean WaitUntilLoaded { get; };
+
+        Microsoft.UI.Composition.CompositionBrush GetAlphaMask();
+    }
+
     runtimeclass AttachedShadowElementContext
     {
         AttachedShadowElementContext();
@@ -35,6 +42,7 @@ namespace CommunityToolkit.WinUI
         Boolean IsInitialized();
 
         Object GetResource(String key);
+
         Object AddResource(String key, Object value);
 
         void RemoveAndDisposeResource(String key);
@@ -44,7 +52,22 @@ namespace CommunityToolkit.WinUI
         void DisconnectFromElement();
     }
 
-    unsealed runtimeclass AttachedShadowBase : Microsoft.UI.Xaml.DependencyObject
+    interface IAttachedShadow
+    {
+        Double BlurRadius;
+
+        Double Opacity;
+
+        String Offset;
+
+        Windows.UI.Color Color;
+
+        AttachedShadowElementContext GetElementContext(Microsoft.UI.Xaml.FrameworkElement element);
+
+        Windows.Foundation.Collections.IIterable<AttachedShadowElementContext> EnumerateElementContexts();
+    }
+
+    unsealed runtimeclass AttachedShadowBase : Microsoft.UI.Xaml.DependencyObject, IAttachedShadow
     {
         AttachedShadowBase();
         
@@ -56,12 +79,8 @@ namespace CommunityToolkit.WinUI
 
         static Microsoft.UI.Xaml.DependencyProperty OpacityProperty{ get; };
 
-        Double BlurRadius;
-        Windows.UI.Color Color;
-        String Offset;
-        Double Opacity;
-
         void ConnectElement(Microsoft.UI.Xaml.FrameworkElement element);
+
         void DisconnectElement(Microsoft.UI.Xaml.FrameworkElement element);
 
         static void OnDependencyPropertyChanged(Object sender, Microsoft.UI.Xaml.DependencyPropertyChangedEventArgs args);
@@ -72,16 +91,17 @@ namespace CommunityToolkit.WinUI
 
         overridable void OnElementContextUninitialized(AttachedShadowElementContext context);
 
-        overridable Boolean SupportsOnSizeChangedEvent{ get; };
+        overridable Boolean SupportsOnSizeChangedEvent();
 
         void UpdateShadowMask(AttachedShadowElementContext context);
 
         void UpdateShadowClip(AttachedShadowElementContext context);
 
         overridable Microsoft.UI.Composition.CompositionBrush GetShadowMask(CommunityToolkit.WinUI.AttachedShadowElementContext context);
+
         overridable Microsoft.UI.Composition.CompositionClip GetShadowClip(CommunityToolkit.WinUI.AttachedShadowElementContext context);
 
-        void SetElementChildVisual(AttachedShadowElementContext context);
+        overridable void SetElementChildVisual(AttachedShadowElementContext context);
 
         overridable void OnPropertyChanged(AttachedShadowElementContext context, Microsoft.UI.Xaml.DependencyProperty property, Object oldValue, Object newValue);
 

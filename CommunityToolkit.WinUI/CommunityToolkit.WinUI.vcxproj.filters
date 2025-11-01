@@ -158,6 +158,9 @@
     <Midl Include="Extensions\Markup\SymbolIconSourceExtension.idl">
       <Filter>Extensions\Markup</Filter>
     </Midl>
+    <Midl Include="Extensions\Shadows\AttachedDropShadow.idl">
+      <Filter>Extensions\Shadows</Filter>
+    </Midl>
   </ItemGroup>
   <ItemGroup>
     <Page Include="Themes\Generic.xaml">

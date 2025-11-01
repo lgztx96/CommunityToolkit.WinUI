@@ -82,7 +82,7 @@ The goal is to allow seamless usage of these controls in WinUI 3 / C++ projects.
 ### WrapPanel
 ![WrapPanel](docs/images/WrapPanel.png)
 
-### AttachedCardShadow
+### AttachedDropShadow / AttachedCardShadow
 ![AttachedCardShadow](docs/images/AttachedCardShadow.png)
 
 ---
