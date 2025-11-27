@@ -12,7 +12,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
     }
 
     IInspectable NullToTransparentConverter::ConvertBack([[maybe_unused]] IInspectable const& value, [[maybe_unused]] TypeName targetType, [[maybe_unused]] IInspectable const& parameter, [[maybe_unused]] winrt::hstring const& language)
-    {
+    {   
+        if (value == nullptr) return value;
+        
         if (auto colorValue = value.try_as<Color>()) {
             return value;
         }
