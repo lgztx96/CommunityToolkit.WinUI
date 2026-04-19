@@ -22,6 +22,8 @@ std::span<const uint8_t> xml_highlight_scm();
 
 std::span<const uint8_t> rust_highlight_scm();
 
+std::span<const uint8_t> midl3_highlight_scm();
+
 extern "C" const TSLanguage* tree_sitter_c_sharp();
 
 extern "C" const TSLanguage* tree_sitter_cpp();
@@ -33,6 +35,8 @@ extern "C" const TSLanguage* tree_sitter_bash();
 extern "C" const TSLanguage* tree_sitter_json();
 
 extern "C" const TSLanguage* tree_sitter_rust();
+
+extern "C" const TSLanguage* tree_sitter_midl3();
 
 class TreeSitterHighlighter : public IUtf16SyntaxHighlighter
 {
@@ -202,7 +206,10 @@ public:
 		{"comment.block", L"#6A9955"},            // Bash
 		{"comment.line", L"#6A9955"},             // Bash
 
-		{"string.special.key", L"#9CDCFE"}        // JSON
+		{"string.special.key", L"#9CDCFE"},       // JSON
+
+		{"property.accessor", L"#569CD6"},        // MIDL3 get/set
+		{"attribute", L"#569CD6"}                 // MIDL3 attribute name
 	};
 
 	static inline const std::unordered_map<std::string_view, std::wstring_view> HighlightLightTheme = {
@@ -282,7 +289,10 @@ public:
 		{"comment.block", L"#A0A1A7"},           // block comment
 		{"comment.line", L"#A0A1A7"},            // line comment
 
-		{"string.special.key", L"#986801"}       // JSON key
+		{"string.special.key", L"#986801"},      // JSON key
+
+		{"property.accessor", L"#A626A4"},       // MIDL3 get/set
+		{"attribute", L"#A626A4"}                // MIDL3 attribute name
 	};
 };
 
@@ -322,6 +332,12 @@ public:
 	RustHighlighter() : TreeSitterHighlighter(tree_sitter_rust(), rust_highlight_scm()) { }
 };
 
+class Midl3Highlighter : public TreeSitterHighlighter
+{
+public:
+	Midl3Highlighter() : TreeSitterHighlighter(tree_sitter_midl3(), midl3_highlight_scm()) { }
+};
+
 std::unique_ptr<IUtf16SyntaxHighlighter> IUtf16SyntaxHighlighter::Create(std::wstring_view language)
 {
 	if (language == L"csharp" || language == L"c#")
@@ -352,6 +368,11 @@ std::unique_ptr<IUtf16SyntaxHighlighter> IUtf16SyntaxHighlighter::Create(std::ws
 	if (language == L"rust")
 	{
 		return std::make_unique<RustHighlighter>();
+	}
+
+	if (language == L"midl3" || language == L"idl")
+	{
+		return std::make_unique<Midl3Highlighter>();
 	}
 
 	return nullptr;
