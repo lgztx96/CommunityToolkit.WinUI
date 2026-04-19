@@ -4,22 +4,24 @@
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Microsoft.UI.h>
 
+namespace winrt
+{
+	using namespace Windows::Foundation;
+	using namespace Windows::UI;
+	using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Xaml::Media;
+	using namespace Windows::UI::Xaml::Interop;
+}
+
 namespace winrt::XamlToolkit::WinUI::Converters::implementation
 {
-	using namespace winrt::Windows::Foundation;
-	using namespace winrt::Windows::UI;
-	using namespace winrt::Microsoft::UI;
-	using namespace winrt::Microsoft::UI::Xaml;
-	using namespace winrt::Microsoft::UI::Xaml::Media;
-	using namespace winrt::Windows::UI::Xaml::Interop;
-
     struct ColorToDisplayNameConverter : ColorToDisplayNameConverterT<ColorToDisplayNameConverter>
     {
         ColorToDisplayNameConverter() = default;
 
-        IInspectable Convert(IInspectable const& value, TypeName targetType, IInspectable const& parameter, winrt::hstring const& language);
+        winrt::IInspectable Convert(winrt::IInspectable const& value, winrt::TypeName targetType, winrt::IInspectable const& parameter, winrt::hstring const& language);
 
-        IInspectable ConvertBack(IInspectable const& value, TypeName targetType, IInspectable const& parameter, winrt::hstring const& language);
+        winrt::IInspectable ConvertBack(winrt::IInspectable const& value, winrt::TypeName targetType, winrt::IInspectable const& parameter, winrt::hstring const& language);
     };
 }
 

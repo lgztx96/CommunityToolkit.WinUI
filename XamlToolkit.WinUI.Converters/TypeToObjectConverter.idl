@@ -1,0 +1,44 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+namespace XamlToolkit.WinUI.Converters
+{
+    /// <summary>
+    /// This class returns an object or another, depending on whether the type of the provided value matches another provided Type.
+    /// </summary>
+    runtimeclass TypeToObjectConverter : Microsoft.UI.Xaml.DependencyObject, Microsoft.UI.Xaml.Data.IValueConverter
+    {
+        TypeToObjectConverter();
+
+        /// <summary>
+        /// Gets or sets the value to be returned when the type of the provided value matches Type.
+        /// </summary>
+        Object TrueValue;
+
+        /// <summary>
+        /// Gets or sets the value to be returned when the type of the provided value does not match Type.
+        /// </summary>
+        Object FalseValue;
+
+        /// <summary>
+        /// Gets or sets the Type used to compare the type of the provided value.
+        /// </summary>
+        Windows.UI.Xaml.Interop.TypeName Type;
+
+        /// <summary>
+        /// Identifies the TrueValue property.
+        /// </summary>
+        static Microsoft.UI.Xaml.DependencyProperty TrueValueProperty{ get; };
+
+        /// <summary>
+        /// Identifies the FalseValue property.
+        /// </summary>
+        static Microsoft.UI.Xaml.DependencyProperty FalseValueProperty{ get; };
+
+        /// <summary>
+        /// Identifies the Type property.
+        /// </summary>
+        static Microsoft.UI.Xaml.DependencyProperty TypeProperty{ get; };
+    }
+}

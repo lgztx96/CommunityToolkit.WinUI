@@ -1,0 +1,68 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+namespace XamlToolkit.WinUI.Converters
+{
+    /// <summary>
+    /// This class converts a double value into an other object.
+    /// Can be used to convert doubles to visibility, a couple of colors, couple of images, etc.
+    /// If GreaterThan and LessThan are both set, the logic looks for a value between the two values.
+    /// Otherwise the logic looks for the value to be GreaterThan or LessThan the specified value.
+    /// The ConverterParameter can be used to invert the logic.
+    /// </summary>
+    unsealed runtimeclass DoubleToObjectConverter : Microsoft.UI.Xaml.DependencyObject, Microsoft.UI.Xaml.Data.IValueConverter
+    {
+        DoubleToObjectConverter();
+
+        /// <summary>
+        /// Gets or sets the value to be returned when the expression is true.
+        /// </summary>
+        Object TrueValue;
+
+        /// <summary>
+        /// Gets or sets the value to be returned when the expression is false.
+        /// </summary>
+        Object FalseValue;
+
+        /// <summary>
+        /// Gets or sets the value to be returned when the value passed is null.
+        /// </summary>
+        Object NullValue;
+
+        /// <summary>
+        /// Gets or sets the value to check if the value is GreaterThan this value.
+        /// </summary>
+        Double GreaterThan;
+
+        /// <summary>
+        /// Gets or sets the value to check if the value is LessThan this value.
+        /// </summary>
+        Double LessThan;
+
+        /// <summary>
+        /// Identifies the TrueValue property.
+        /// </summary>
+        static Microsoft.UI.Xaml.DependencyProperty TrueValueProperty{ get; };
+
+        /// <summary>
+        /// Identifies the FalseValue property.
+        /// </summary>
+        static Microsoft.UI.Xaml.DependencyProperty FalseValueProperty{ get; };
+
+        /// <summary>
+        /// Identifies the NullValue property.
+        /// </summary>
+        static Microsoft.UI.Xaml.DependencyProperty NullValueProperty{ get; };
+
+        /// <summary>
+        /// Identifies the GreaterThan property.
+        /// </summary>
+        static Microsoft.UI.Xaml.DependencyProperty GreaterThanProperty{ get; };
+
+        /// <summary>
+        /// Identifies the LessThan property.
+        /// </summary>
+        static Microsoft.UI.Xaml.DependencyProperty LessThanProperty{ get; };
+    }
+}

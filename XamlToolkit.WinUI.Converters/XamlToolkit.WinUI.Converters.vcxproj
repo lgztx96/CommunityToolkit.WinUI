@@ -124,6 +124,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BoolNegationConverter.h">
+      <DependentUpon>BoolNegationConverter.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="BoolToObjectConverter.h">
       <DependentUpon>BoolToObjectConverter.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -132,14 +136,66 @@
       <DependentUpon>BoolToVisibilityConverter.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="CollectionVisibilityConverter.h">
+      <DependentUpon>CollectionVisibilityConverter.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="ColorToDisplayNameConverter.h">
       <DependentUpon>ColorToDisplayNameConverter.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="DoubleToObjectConverter.h">
+      <DependentUpon>DoubleToObjectConverter.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="DoubleToVisibilityConverter.h">
+      <DependentUpon>DoubleToVisibilityConverter.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="EmptyCollectionToObjectConverter.h">
+      <DependentUpon>EmptyCollectionToObjectConverter.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="EmptyObjectToObjectConverter.h">
+      <DependentUpon>EmptyObjectToObjectConverter.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="EmptyStringToObjectConverter.h">
+      <DependentUpon>EmptyStringToObjectConverter.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="FileSizeToFriendlyStringConverter.h">
+      <DependentUpon>FileSizeToFriendlyStringConverter.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="ResourceNameToResourceStringConverter.h">
+      <DependentUpon>ResourceNameToResourceStringConverter.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="StringFormatConverter.h">
+      <DependentUpon>StringFormatConverter.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="StringVisibilityConverter.h">
+      <DependentUpon>StringVisibilityConverter.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="TypeToObjectConverter.h">
+      <DependentUpon>TypeToObjectConverter.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="VisibilityToBoolConverter.h">
+      <DependentUpon>VisibilityToBoolConverter.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="ConverterTools.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BoolNegationConverter.cpp">
+      <DependentUpon>BoolNegationConverter.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="BoolToObjectConverter.cpp">
       <DependentUpon>BoolToObjectConverter.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -148,8 +204,56 @@
       <DependentUpon>BoolToVisibilityConverter.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="CollectionVisibilityConverter.cpp">
+      <DependentUpon>CollectionVisibilityConverter.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="ColorToDisplayNameConverter.cpp">
       <DependentUpon>ColorToDisplayNameConverter.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="DoubleToObjectConverter.cpp">
+      <DependentUpon>DoubleToObjectConverter.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="DoubleToVisibilityConverter.cpp">
+      <DependentUpon>DoubleToVisibilityConverter.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="EmptyCollectionToObjectConverter.cpp">
+      <DependentUpon>EmptyCollectionToObjectConverter.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="EmptyObjectToObjectConverter.cpp">
+      <DependentUpon>EmptyObjectToObjectConverter.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="EmptyStringToObjectConverter.cpp">
+      <DependentUpon>EmptyStringToObjectConverter.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="FileSizeToFriendlyStringConverter.cpp">
+      <DependentUpon>FileSizeToFriendlyStringConverter.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="ResourceNameToResourceStringConverter.cpp">
+      <DependentUpon>ResourceNameToResourceStringConverter.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="StringFormatConverter.cpp">
+      <DependentUpon>StringFormatConverter.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="StringVisibilityConverter.cpp">
+      <DependentUpon>StringVisibilityConverter.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="TypeToObjectConverter.cpp">
+      <DependentUpon>TypeToObjectConverter.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="VisibilityToBoolConverter.cpp">
+      <DependentUpon>VisibilityToBoolConverter.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="ConverterTools.cpp" />
@@ -168,13 +272,52 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
+    <Midl Include="BoolNegationConverter.idl">
+      <SubType>Designer</SubType>
+    </Midl>
     <Midl Include="BoolToObjectConverter.idl">
       <SubType>Designer</SubType>
     </Midl>
     <Midl Include="BoolToVisibilityConverter.idl">
       <SubType>Designer</SubType>
     </Midl>
+    <Midl Include="CollectionVisibilityConverter.idl">
+      <SubType>Designer</SubType>
+    </Midl>
     <Midl Include="ColorToDisplayNameConverter.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="DoubleToObjectConverter.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="DoubleToVisibilityConverter.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="EmptyCollectionToObjectConverter.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="EmptyObjectToObjectConverter.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="EmptyStringToObjectConverter.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="FileSizeToFriendlyStringConverter.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="ResourceNameToResourceStringConverter.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="StringFormatConverter.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="StringVisibilityConverter.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="TypeToObjectConverter.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="VisibilityToBoolConverter.idl">
       <SubType>Designer</SubType>
     </Midl>
   </ItemGroup>

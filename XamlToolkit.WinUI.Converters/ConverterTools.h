@@ -1,16 +1,25 @@
 #pragma once
 
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.UI.Xaml.Interop.h>
+
+namespace winrt
+{
+	using namespace Windows::Foundation;
+	using namespace Windows::UI::Xaml::Interop;
+}
+
 namespace winrt::XamlToolkit::WinUI::Converters::implementation
 {
-	using namespace winrt;
-	using namespace winrt::Windows::Foundation;
-	using namespace winrt::Windows::UI::Xaml::Interop;
-
 	class ConverterTools
 	{
 	public:
-		static bool TryParseBool(IInspectable const& parameter);
+		static bool TryParseBool(winrt::IInspectable const& parameter);
 
-		static IInspectable Convert(IInspectable const& value, TypeName const& targetType);
+		static winrt::IInspectable Convert(winrt::IInspectable const& value, winrt::TypeName const& targetType);
+
+		static std::optional<winrt::hstring> TryConvertToString(winrt::IInspectable const& value);
+
+		static bool ValueEquals(winrt::IPropertyValue const& valueA, winrt::IPropertyValue const& valueB);
 	};
 }

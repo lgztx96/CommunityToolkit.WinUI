@@ -3,15 +3,15 @@
 #include "BoolToVisibilityConverter.g.h"
 #include "BoolToObjectConverter.h"
 
+namespace winrt
+{
+	using namespace Windows::Foundation;
+	using namespace Microsoft::UI::Xaml;
+	using namespace Windows::UI::Xaml::Interop;
+}
+
 namespace winrt::XamlToolkit::WinUI::Converters::implementation
 {
-    using namespace winrt::Windows::Foundation;
-    using namespace winrt::Windows::UI;
-    using namespace winrt::Microsoft::UI;
-    using namespace winrt::Microsoft::UI::Xaml;
-    using namespace winrt::Microsoft::UI::Xaml::Media;
-    using namespace winrt::Windows::UI::Xaml::Interop;
-
     struct BoolToVisibilityConverter : BoolToVisibilityConverterT<BoolToVisibilityConverter, BoolToObjectConverter>
     {
         BoolToVisibilityConverter()

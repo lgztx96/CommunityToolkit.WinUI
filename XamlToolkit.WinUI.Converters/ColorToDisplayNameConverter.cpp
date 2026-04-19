@@ -6,29 +6,29 @@
 
 namespace winrt::XamlToolkit::WinUI::Converters::implementation
 {
-	IInspectable ColorToDisplayNameConverter::Convert(IInspectable const& value, [[maybe_unused]] TypeName targetType, [[maybe_unused]] IInspectable const& parameter, [[maybe_unused]] winrt::hstring const& language)
+	winrt::IInspectable ColorToDisplayNameConverter::Convert(winrt::IInspectable const& value, [[maybe_unused]] winrt::TypeName targetType, [[maybe_unused]] winrt::IInspectable const& parameter, [[maybe_unused]] winrt::hstring const& language)
 	{
-		Color color;
+		winrt::Color color;
 
-		if (auto valueColor = value.try_as<Color>())
+		if (auto valueColor = value.try_as<winrt::Color>())
 		{
 			color = *valueColor;
 		}
-		else if (auto valueBrush = value.try_as<SolidColorBrush>())
+		else if (auto valueBrush = value.try_as<winrt::SolidColorBrush>())
 		{
 			color = valueBrush.Color();
 		}
 		else
 		{
 			// Invalid color value provided
-			return DependencyProperty::UnsetValue();
+			return winrt::DependencyProperty::UnsetValue();
 		}
 
-		return winrt::box_value(Microsoft::UI::ColorHelper::ToDisplayName(color));
+		return winrt::box_value(winrt::ColorHelper::ToDisplayName(color));
 	}
 
-	IInspectable ColorToDisplayNameConverter::ConvertBack([[maybe_unused]] IInspectable const& value, [[maybe_unused]] TypeName targetType, [[maybe_unused]] IInspectable const& parameter, [[maybe_unused]] winrt::hstring const& language)
+	winrt::IInspectable ColorToDisplayNameConverter::ConvertBack([[maybe_unused]] winrt::IInspectable const& value, [[maybe_unused]] winrt::TypeName targetType, [[maybe_unused]] winrt::IInspectable const& parameter, [[maybe_unused]] winrt::hstring const& language)
 	{
-		return DependencyProperty::UnsetValue();
+		return winrt::DependencyProperty::UnsetValue();
 	}
 }
