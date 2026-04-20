@@ -6,26 +6,38 @@
 
 namespace winrt::XamlToolkit::WinUI::implementation
 {
-    void UIElementExtensions::OnClipToBoundsPropertyChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e)
+    const wil::single_threaded_property<winrt::DependencyProperty> UIElementExtensions::ClipToBoundsProperty =
+        winrt::DependencyProperty::RegisterAttached(L"ClipToBounds",
+            winrt::xaml_typename<bool>(),
+            winrt::xaml_typename<XamlToolkit::WinUI::UIElementExtensions>(),
+            winrt::PropertyMetadata(winrt::box_value(false), &UIElementExtensions::OnClipToBoundsPropertyChanged));
+
+    void UIElementExtensions::OnClipToBoundsPropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e)
     {
-        if (auto element = d.try_as<UIElement>())
+        if (auto element = d.try_as<winrt::UIElement>())
         {
             auto clipToBounds = winrt::unbox_value<bool>(e.NewValue());
-            auto visual = Microsoft::UI::Xaml::Hosting::ElementCompositionPreview::GetElementVisual(element);
+            auto visual = winrt::Microsoft::UI::Xaml::Hosting::ElementCompositionPreview::GetElementVisual(element);
             visual.Clip(clipToBounds ? visual.Compositor().CreateInsetClip() : nullptr);
         }
     }
 
-    bool UIElementExtensions::GetClipToBounds(UIElement const& element) { return winrt::unbox_value<bool>(element.GetValue(ClipToBoundsProperty)); }
+    bool UIElementExtensions::GetClipToBounds(winrt::UIElement const& element) 
+    { 
+        return winrt::unbox_value<bool>(element.GetValue(ClipToBoundsProperty()));
+    }
 
-    void UIElementExtensions::SetClipToBounds(UIElement const& element, bool value) { element.SetValue(ClipToBoundsProperty, winrt::box_value(value)); }
+    void UIElementExtensions::SetClipToBounds(winrt::UIElement const& element, bool value) 
+    { 
+        element.SetValue(ClipToBoundsProperty(), winrt::box_value(value));
+    }
 
-    Windows::Foundation::Point UIElementExtensions::CoordinatesFrom(UIElement const& target, UIElement const& parent)
+    winrt::Point UIElementExtensions::CoordinatesFrom(winrt::UIElement const& target, winrt::UIElement const& parent)
     {
         return target.TransformToVisual(parent).TransformPoint({ 0.0f, 0.0f });
     }
 
-    Windows::Foundation::Point UIElementExtensions::CoordinatesTo(UIElement const& parent, UIElement const& target)
+    winrt::Point UIElementExtensions::CoordinatesTo(winrt::UIElement const& parent, winrt::UIElement const& target)
     {
         return target.TransformToVisual(parent).TransformPoint({ 0.0f, 0.0f });
     }

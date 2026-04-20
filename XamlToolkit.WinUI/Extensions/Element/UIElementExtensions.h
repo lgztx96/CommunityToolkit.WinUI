@@ -7,30 +7,38 @@
 
 #include <winrt/Microsoft.UI.Xaml.Hosting.h>
 
-namespace winrt::XamlToolkit::WinUI::implementation
+namespace winrt
 {
     using namespace Microsoft::UI::Xaml;
-    using namespace Microsoft::UI::Xaml::Hosting;
+    using namespace Microsoft::UI::Input;
+    using namespace Windows::Foundation;
+}
 
+namespace winrt::XamlToolkit::WinUI::implementation
+{
     struct UIElementExtensions
     {
-    private:
-        static void OnClipToBoundsPropertyChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e);
+        static bool GetClipToBounds(winrt::UIElement const& element);
 
-    public:
-        static inline const wil::single_threaded_property<DependencyProperty> ClipToBoundsProperty =
-            DependencyProperty::RegisterAttached(L"ClipToBounds",
-                winrt::xaml_typename<bool>(),
-                winrt::xaml_typename<XamlToolkit::WinUI::UIElementExtensions>(),
-                PropertyMetadata(winrt::box_value(false), &UIElementExtensions::OnClipToBoundsPropertyChanged));
+        static void SetClipToBounds(winrt::UIElement const& element, bool value);
 
-        static bool GetClipToBounds(UIElement const& element);
+        static void OnClipToBoundsPropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 
-        static void SetClipToBounds(UIElement const& element, bool value);
+        static const wil::single_threaded_property<winrt::DependencyProperty> ClipToBoundsProperty;
 
-        static Windows::Foundation::Point CoordinatesFrom(UIElement const& target, UIElement const& parent);
+        static winrt::Point CoordinatesFrom(winrt::UIElement const& target, winrt::UIElement const& parent);
 
-        static Windows::Foundation::Point CoordinatesTo(UIElement const& parent, UIElement const& target);
+        static winrt::Point CoordinatesTo(winrt::UIElement const& parent, winrt::UIElement const& target);
+
+#pragma region Mouse
+        static winrt::InputSystemCursorShape GetCursor(winrt::FrameworkElement const& obj);
+
+        static void SetCursor(winrt::FrameworkElement const& obj, winrt::InputSystemCursorShape const& value);
+
+        static void CursorChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
+
+        static const wil::single_threaded_property<winrt::DependencyProperty> CursorProperty;
+#pragma endregion 
     };
 }
 

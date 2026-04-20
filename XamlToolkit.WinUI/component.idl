@@ -12,6 +12,12 @@ namespace XamlToolkit.WinUI
         static Windows.Foundation.Point CoordinatesFrom(Microsoft.UI.Xaml.UIElement target, Microsoft.UI.Xaml.UIElement parent);
 
         static Windows.Foundation.Point CoordinatesTo(Microsoft.UI.Xaml.UIElement parent, Microsoft.UI.Xaml.UIElement target);
+
+        static Microsoft.UI.Xaml.DependencyProperty CursorProperty{ get; };
+
+        static Microsoft.UI.Input.InputSystemCursorShape GetCursor(Microsoft.UI.Xaml.FrameworkElement obj);
+
+        static void SetCursor(Microsoft.UI.Xaml.FrameworkElement obj, Microsoft.UI.Input.InputSystemCursorShape value);
     }
 
     interface IAlphaMaskProvider
