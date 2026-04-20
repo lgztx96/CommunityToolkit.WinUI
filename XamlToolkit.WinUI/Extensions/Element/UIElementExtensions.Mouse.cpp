@@ -4,7 +4,7 @@
 namespace winrt::XamlToolkit::WinUI::implementation
 {
     const wil::single_threaded_property<winrt::DependencyProperty> UIElementExtensions::CursorProperty =
-        DependencyProperty::RegisterAttached(
+        winrt::DependencyProperty::RegisterAttached(
             L"Cursor", 
             winrt::xaml_typename<winrt::InputSystemCursorShape>(), 
             winrt::xaml_typename<winrt::XamlToolkit::WinUI::UIElementExtensions>(), 
@@ -32,7 +32,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
         auto cursor = winrt::InputSystemCursor::Create(shape);
 
-        if (const auto impl= element.try_as<winrt::IUIElementProtected>())
+        if (const auto impl = element.try_as<winrt::IUIElementProtected>())
         {
             impl.ProtectedCursor(cursor);
         }
