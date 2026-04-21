@@ -1,4 +1,4 @@
-﻿/*
+/*
  * MD4C: Markdown parser for C
  * (http://github.com/mity/md4c)
  *
@@ -26,6 +26,7 @@
 #ifndef MD4C_H
 #define MD4C_H
 #define MD4C_USE_UTF16
+
 #ifdef __cplusplus
     extern "C" {
 #endif
