@@ -22,7 +22,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 	using namespace winrt::Windows::Storage::Streams;
 	using namespace winrt::Windows::Web::Http;
 
-	class MdImage final : public IAddChild
+	class MdImage final : public IAddChild, public std::enable_shared_from_this<MdImage>
 	{
 	private:
 		InlineUIContainer _container;
@@ -102,6 +102,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 			if (_loaded) co_return;
 			try
 			{
+				auto self = shared_from_this();
 				// Track whether we have valid natural dimensions to constrain against
 				bool hasNaturalWidth = false;
 				bool hasNaturalHeight = false;
