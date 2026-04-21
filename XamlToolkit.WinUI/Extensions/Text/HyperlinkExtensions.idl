@@ -1,0 +1,17 @@
+namespace XamlToolkit.WinUI
+{
+    static runtimeclass HyperlinkExtensions 
+    {
+        static Microsoft.UI.Xaml.DependencyProperty CommandProperty{ get; };
+
+        static Microsoft.UI.Xaml.DependencyProperty CommandParameterProperty{ get; };
+
+        static Microsoft.UI.Xaml.Input.ICommand GetCommand(Microsoft.UI.Xaml.Documents.Hyperlink obj);
+
+        static void SetCommand(Microsoft.UI.Xaml.Documents.Hyperlink obj, Microsoft.UI.Xaml.Input.ICommand value);
+
+        static Object GetCommandParameter(Microsoft.UI.Xaml.Documents.Hyperlink obj);
+
+        static void SetCommandParameter(Microsoft.UI.Xaml.Documents.Hyperlink obj, Object value);
+    }
+}

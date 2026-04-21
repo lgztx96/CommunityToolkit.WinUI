@@ -69,6 +69,9 @@
     <ClCompile Include="Extensions\Element\FrameworkElementExtensions.cpp">
       <Filter>Extensions\Element</Filter>
     </ClCompile>
+    <ClCompile Include="Extensions\Element\UIElementExtensions.Mouse.cpp">
+      <Filter>Extensions\Element</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -158,5 +161,12 @@
     <Midl Include="Extensions\Shadows\AttachedDropShadow.idl">
       <Filter>Extensions\Shadows</Filter>
     </Midl>
+    <Midl Include="Extensions\Text\HyperlinkExtensions.idl">
+      <Filter>Extensions\Text</Filter>
+    </Midl>
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
+    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natstepfilter" />
   </ItemGroup>
 </Project>

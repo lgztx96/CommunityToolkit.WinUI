@@ -185,6 +185,10 @@
     <ClInclude Include="Extensions\Shadows\AttachedShadowElementContext.h" />
     <ClInclude Include="Extensions\Shadows\Effects.h" />
     <ClInclude Include="Extensions\Shadows\TypedResourceKey.h" />
+    <ClInclude Include="Extensions\Text\HyperlinkExtensions.h">
+      <DependentUpon>Extensions\Text\HyperlinkExtensions.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="Extensions\Text\StringExtensions.h" />
     <ClInclude Include="Extensions\Tree\DependencyObjectExtensions.h" />
     <ClInclude Include="Extensions\Tree\FrameworkElementExtensions.h" />
@@ -199,6 +203,7 @@
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="Extensions\Element\UIElementExtensions.cpp" />
+    <ClCompile Include="Extensions\Element\UIElementExtensions.Mouse.cpp" />
     <ClCompile Include="Extensions\Foundation\RectExtensions.cpp">
       <DependentUpon>Extensions\Foundation\RectExtensions.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -246,6 +251,10 @@
     <ClCompile Include="Extensions\Shadows\AttachedShadowBase.cpp" />
     <ClCompile Include="Extensions\Shadows\AttachedShadowElementContext.cpp" />
     <ClCompile Include="Extensions\Shadows\Effects.cpp" />
+    <ClCompile Include="Extensions\Text\HyperlinkExtensions.cpp">
+      <DependentUpon>Extensions\Text\HyperlinkExtensions.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="Extensions\Text\StringExtensions.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
@@ -296,6 +305,9 @@
       <SubType>Designer</SubType>
     </Midl>
     <Midl Include="Extensions\Shadows\AttachedDropShadow.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Extensions\Text\HyperlinkExtensions.idl">
       <SubType>Designer</SubType>
     </Midl>
     <Midl Include="Triggers\ControlSizeTrigger.idl" />
