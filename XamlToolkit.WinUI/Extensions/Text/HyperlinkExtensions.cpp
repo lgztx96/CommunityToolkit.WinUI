@@ -22,7 +22,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
     const wil::single_threaded_property<winrt::DependencyProperty> HyperlinkExtensions::ClickEventTokenProperty =
         DependencyProperty::RegisterAttached(
-            L"ClickToken",
+            L"ClickEventToken",
             winrt::xaml_typename<winrt::IInspectable>(),
             winrt::xaml_typename<winrt::XamlToolkit::WinUI::HyperlinkExtensions>(),
             winrt::PropertyMetadata(nullptr));
