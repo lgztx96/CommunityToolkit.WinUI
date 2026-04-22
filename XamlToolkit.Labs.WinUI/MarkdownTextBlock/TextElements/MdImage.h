@@ -114,15 +114,17 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 
 					// Capture natural dimensions as max constraints from the provider image
 					// Then clear fixed Width/Height so images can shrink responsively
-					if (_image.Width() > 0 && !std::isnan(_image.Width()) && !std::isinf(_image.Width()))
+					auto imageWidth = _image.Width();
+					auto imageHeight = _image.Height();
+					if (imageWidth > 0 && !std::isnan(imageWidth) && !std::isinf(imageWidth))
 					{
-						_image.MaxWidth(_image.Width());
+						_image.MaxWidth(imageWidth);
 						_image.Width(std::numeric_limits<double>::quiet_NaN()); // Clear fixed width to allow shrinking
 						hasNaturalWidth = true;
 					}
-					if (_image.Height() > 0 && !std::isnan(_image.Height()) && !std::isinf(_image.Height()))
+					if (imageHeight > 0 && !std::isnan(imageHeight) && !std::isinf(imageHeight))
 					{
-						_image.MaxHeight(_image.Height());
+						_image.MaxHeight(imageHeight);
 						_image.Height(std::numeric_limits<double>::quiet_NaN()); // Clear fixed height to allow shrinking
 						hasNaturalHeight = true;
 					}
@@ -136,12 +138,18 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 					// Download data from URL
 					HttpResponseMessage response = co_await client.GetAsync(_uri);
 
+					if (!response.IsSuccessStatusCode())
+					{
+						co_return;
+					}
+
 					// Get the Content-Type header
-					winrt::hstring contentType = response.Content().Headers().ContentType().MediaType();
+					auto content = response.Content();
+					winrt::hstring contentType = content.Headers().ContentType().MediaType();
 
 					if (contentType == L"image/svg+xml")
 					{
-						winrt::hstring svgString = co_await response.Content().ReadAsStringAsync();
+						winrt::hstring svgString = co_await content.ReadAsStringAsync();
 						if (const auto& resImage = co_await _svgRenderer.SvgToImage(svgString))
 						{
 							_image = resImage;
@@ -150,7 +158,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 					}
 					else
 					{
-						IBuffer data = co_await response.Content().ReadAsBufferAsync();
+						IBuffer data = co_await content.ReadAsBufferAsync();
 						// Create a BitmapImage for other supported formats
 						BitmapImage bitmap;
 						InMemoryRandomAccessStream stream;
@@ -200,13 +208,15 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 
 				// Apply theme constraints - only if we have a known dimension to constrain
 				// This prevents theme constraints from enlarging images with unknown natural size
-				if (_themes.ImageMaxWidth() > 0 && hasNaturalWidth && _themes.ImageMaxWidth() < _image.MaxWidth())
+				auto themeImageWidth = _themes.ImageMaxWidth();
+				auto themeImageHeight = _themes.ImageMaxHeight();
+				if (themeImageWidth > 0 && hasNaturalWidth && themeImageWidth < _image.MaxWidth())
 				{
-					_image.MaxWidth(_themes.ImageMaxWidth());
+					_image.MaxWidth(themeImageWidth);
 				}
-				if (_themes.ImageMaxHeight() > 0 && hasNaturalHeight && _themes.ImageMaxHeight() < _image.MaxHeight())
+				if (themeImageHeight > 0 && hasNaturalHeight && themeImageHeight < _image.MaxHeight())
 				{
-					_image.MaxHeight(_themes.ImageMaxHeight());
+					_image.MaxHeight(themeImageHeight);
 				}
 
 				_image.Stretch(_themes.ImageStretch());
