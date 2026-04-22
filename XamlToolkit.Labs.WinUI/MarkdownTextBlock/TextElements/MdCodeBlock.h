@@ -66,21 +66,30 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 			_paragraph.Inlines().Append(container);
 		}
 
-		IUtf16SyntaxHighlighter* GetOrCreate(std::wstring_view key) {
-			static std::unordered_map<std::wstring_view, std::unique_ptr<IUtf16SyntaxHighlighter>> pool;
+		IUtf16SyntaxHighlighter* GetOrCreate(std::wstring_view key) 
+		{
+			struct wstring_hash
+			{
+				using is_transparent = void;
+				size_t operator()(std::wstring_view str) const { return std::hash<std::wstring_view>{}(str); }
+				size_t operator()(const std::wstring& str) const { return std::hash<std::wstring_view>{}(str); }
+			};
 
-			auto it = pool.find(key);
-			if (it != pool.end()) {
+			static std::unordered_map<std::wstring, std::unique_ptr<IUtf16SyntaxHighlighter>, wstring_hash, std::equal_to<>> pool;
+
+			if (auto it = pool.find(key); it != pool.end())
+			{
 				return it->second.get();
 			}
 
-			auto highlighter = IUtf16SyntaxHighlighter::Create(key);
-			if (highlighter == nullptr) {
-				return nullptr;
+			if (auto highlighter = IUtf16SyntaxHighlighter::Create(key))
+			{
+				IUtf16SyntaxHighlighter* ptr = highlighter.get();
+				pool.emplace(key, std::move(highlighter));
+				return ptr;
 			}
-			IUtf16SyntaxHighlighter* ptr = highlighter.get();
-			pool.emplace(key, std::move(highlighter));
-			return ptr;
+			
+			return nullptr;
 		}
 
 		void Leave() override {
