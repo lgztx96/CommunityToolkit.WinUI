@@ -131,30 +131,77 @@ namespace winrt::XamlToolkit::Labs::WinUI
 		}
 	}
 
-	std::wstring Extensions::RemoveImageSize(std::wstring_view url)
+	std::wstring_view Extensions::RemoveImageSize(std::wstring_view url)
 	{
 		if (url.empty())
 		{
 			throw winrt::hresult_invalid_argument(L"URL must not be null or empty");
 		}
 
-		// Create a regex pattern to match the URL with width and height
-		static constexpr auto pattern = LR"(([^)\s]+)\s*=\s*\d+x\d+\s*)";
-		static const std::wregex re(pattern);
+		size_t pos = url.size();
 
-		// Replace the matched URL with the URL only
-		std::wstring result;
-		std::regex_replace(std::back_inserter(result), url.begin(), url.end(), re, L"$1");
+		// Scan from right to left to find the last valid "=WidthxHeight" parameter
+		while (true)
+		{
+			size_t eq = url.rfind(L'=', pos);
+			if (eq == std::wstring_view::npos)
+				break;
 
-		return result;
+			size_t i = eq + 1;
+
+			// Skip whitespace after '='
+			while (i < url.size() && iswspace(url[i])) ++i;
+
+			// Parse width
+			size_t w = i;
+			while (i < url.size() && iswdigit(url[i])) ++i;
+
+			if (i == w)
+			{
+				if (eq == 0) break;
+				pos = eq - 1;
+				continue;
+			}
+
+			if (i >= url.size() || url[i] != L'x')
+			{
+				if (eq == 0) break;
+				pos = eq - 1;
+				continue;
+			}
+			++i;
+
+			// Parse height
+			size_t h = i;
+			while (i < url.size() && iswdigit(url[i])) ++i;
+
+			if (i == h)
+			{
+				if (eq == 0) break;
+				pos = eq - 1;
+				continue;
+			}
+
+			// Skip trailing whitespace
+			while (i < url.size() && iswspace(url[i])) ++i;
+
+			// Trim whitespace before '='
+			size_t end = eq;
+			while (end > 0 && iswspace(url[end - 1]))
+				--end;
+
+			return url.substr(0, end);
+		}
+
+		return url;
 	}
 
 	Uri Extensions::GetUri(std::wstring_view url, std::wstring_view base) {
-		std::wstring validUrl = RemoveImageSize(url);
+		std::wstring_view validUrl = RemoveImageSize(url);
 
 		try {
 			//the url is already absolute
-			Uri result{ validUrl };
+			Uri result{ winrt::hstring(validUrl) };
 			return result;
 		}
 		catch (...) {}
@@ -162,15 +209,24 @@ namespace winrt::XamlToolkit::Labs::WinUI
 		if (!IsWhiteSpace(base)) {
 			//the url is relative, so append the base
 			//trim any trailing "/" from the base and any leading "/" from the url
-			base = base.substr(0, base.find_last_not_of(L'/') + 1);
-			validUrl.erase(0, validUrl.find_first_not_of(L'/'));
+			auto baseEnd = base.find_last_not_of(L'/');
+			if (baseEnd != std::wstring_view::npos)
+				base = base.substr(0, baseEnd + 1);
+
+			auto urlStart = validUrl.find_first_not_of(L'/');
+			if (urlStart != std::wstring_view::npos)
+				validUrl = validUrl.substr(urlStart);
+
 			return Uri(winrt::format(L"{}/{}", base, validUrl));
 		}
 		else {
 			//the url is relative to the file system
 			//add ms-appx
-			validUrl.erase(0, validUrl.find_first_not_of(L'/'));
-			return Uri(L"ms-appx:///" + validUrl);
+			auto urlStart = validUrl.find_first_not_of(L'/');
+			if (urlStart != std::wstring_view::npos)
+				validUrl = validUrl.substr(urlStart);
+
+			return Uri(winrt::format(L"ms-appx:///{}", validUrl));
 		}
 	}
 

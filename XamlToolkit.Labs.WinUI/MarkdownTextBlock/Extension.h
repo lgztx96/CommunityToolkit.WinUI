@@ -32,7 +32,7 @@ namespace winrt::XamlToolkit::Labs::WinUI
 
 		static TextPointer GetNextInsertionPosition(TextPointer const& position, LogicalDirection logicalDirection);
 
-		static std::wstring RemoveImageSize(std::wstring_view url);
+		static std::wstring_view RemoveImageSize(std::wstring_view url);
 
 		static Uri GetUri(std::wstring_view url, std::wstring_view base);
 
