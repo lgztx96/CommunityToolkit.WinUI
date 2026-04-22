@@ -37,30 +37,30 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
             // Lists are plain Paragraph_s, one per item.
             // This is so that you can select across list items.
             auto themes = _renderer->Config().Themes();
-            Thickness margin = themes.ParagraphMargin();
-
-            margin.Left += themes.ListGutterWidth() * bulletCount;
-            _paragraph.Margin(margin);
 
             if (themes.ParagraphLineHeight() > 0)
             {
                 _paragraph.LineHeight(themes.ParagraphLineHeight());
             }
 
-            if (bulletCount != 0)
+            double bulletSpacing = themes.ListBulletSpacing();
+            if (bulletSpacing < 0)
             {
-                double bulletSpacing = themes.ListBulletSpacing();
-                if (bulletSpacing < 0) 
-                {
-                    throw winrt::hresult_invalid_argument(L"ListBulletSpacing cannot be negative");
-                }
-                // Use spaces to create spacing between bullet and text based on ListBulletSpacing
-                winrt::hstring spacing(std::wstring(static_cast<size_t>(bulletSpacing), L' '));
-                Run bulletRun;
-                bulletRun.Text(bullet + spacing);
-                _paragraph.Inlines().Append(bulletRun);
-                _paragraph.TextIndent(-themes.ListGutterWidth());
+                throw winrt::hresult_invalid_argument(L"ListBulletSpacing cannot be negative");
             }
+            // Use spaces to create spacing between bullet and text based on ListBulletSpacing
+            winrt::hstring spacing(std::wstring(static_cast<size_t>(bulletSpacing), L' '));
+            Run bulletRun;
+            bulletRun.Text(bullet + spacing);
+            _paragraph.Inlines().Append(bulletRun);
+
+            Thickness margin = themes.ParagraphMargin();
+            if (bulletCount > 1) 
+            {
+                margin.Left += themes.ListGutterWidth();
+            }
+
+            _paragraph.Margin(margin);
         }
 
         void SetTaskListMask(wchar_t mask)

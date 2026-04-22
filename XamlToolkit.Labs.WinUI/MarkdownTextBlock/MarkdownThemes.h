@@ -111,7 +111,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         wil::single_threaded_rw_property<Thickness> ParagraphMargin = Thickness(0, 8, 0, 8);
         wil::single_threaded_rw_property<double> ParagraphLineHeight = 0.0; // 0 = default
         wil::single_threaded_rw_property<double> ListBulletSpacing = 4.0;
-        wil::single_threaded_rw_property<double> ListGutterWidth = 32.0;
+        wil::single_threaded_rw_property<double> ListGutterWidth = 8.0;
         wil::single_threaded_rw_property<Thickness> ListMargin = Thickness(0, 4, 0, 4);
 
         // Quote styling
