@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "EventTriggerBehavior.h"
 #include "EventManager.h"
 #include "../ActionCollection.h"

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "IVisualTreeHelper.h"
-#include <winrt/Microsoft.UI.Xaml.Media.h>
 
 namespace winrt::XamlToolkit::WinUI::Interactivity
 {

@@ -1,10 +1,11 @@
 #pragma once
 
 #include "EventManager.g.h"
-#include <map>
+
+#ifdef __INTELLISENSE__
 #include <string_view>
-#include <winrt/base.h>
 #include <winrt/Windows.Foundation.h>
+#endif
 
 namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 {

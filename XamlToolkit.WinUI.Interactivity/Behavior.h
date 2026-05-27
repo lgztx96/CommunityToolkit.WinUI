@@ -3,6 +3,12 @@
 #include "Behavior.g.h"
 #include "Core/ResourceHelper.h"
 
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.ApplicationModel.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#endif
+
 namespace winrt
 {
 	using namespace Microsoft::UI::Xaml;

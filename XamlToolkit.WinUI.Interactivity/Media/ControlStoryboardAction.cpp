@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "ControlStoryboardAction.h"
 #if __has_include("ControlStoryboardAction.g.cpp")
 #include "ControlStoryboardAction.g.cpp"

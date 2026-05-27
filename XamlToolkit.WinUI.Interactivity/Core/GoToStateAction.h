@@ -1,9 +1,12 @@
 #pragma once
 
 #include "GoToStateAction.g.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Microsoft.UI.Xaml.Controls.h>
-#include <wil/wistd_type_traits.h>
-#include <wil/cppwinrt_authoring.h>
+#endif
 
 namespace winrt
 {

@@ -1,4 +1,5 @@
 ﻿#include "pch.h"
+#include "winrt_module_imports.h"
 #include "IncrementalUpdateBehavior.h"
 #if __has_include("IncrementalUpdateBehavior.g.cpp")
 #include "IncrementalUpdateBehavior.g.cpp"

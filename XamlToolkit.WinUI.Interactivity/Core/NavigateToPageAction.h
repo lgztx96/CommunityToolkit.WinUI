@@ -2,10 +2,16 @@
 
 #include "NavigateToPageAction.g.h"
 #include "../Utility/IVisualTreeHelper.h"
+
+#ifdef __INTELLISENSE__
 #include <memory>
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
 #include <winrt/Microsoft.UI.Xaml.Markup.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
+#endif
 
 namespace winrt
 {

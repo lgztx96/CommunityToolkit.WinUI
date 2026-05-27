@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "Trigger.h"
 #include "ActionCollection.h"
 #if __has_include("Trigger.g.cpp")

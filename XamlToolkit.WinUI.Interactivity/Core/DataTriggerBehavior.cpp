@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "DataTriggerBehavior.h"
 #include "DataBindingHelper.h"
 #include "ResourceHelper.h"
