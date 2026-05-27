@@ -1,16 +1,20 @@
-﻿#pragma once
+#pragma once
 
 #include "SettingsExpanderAutomationPeer.g.h"
 
+#ifdef __INTELLISENSE__
 #include <winrt/Microsoft.UI.Xaml.Automation.h>
 #include <winrt/Microsoft.UI.Xaml.Automation.Peers.h>
+#endif
+
+namespace winrt
+{
+	using namespace Microsoft::UI::Xaml::Automation;
+	using namespace Microsoft::UI::Xaml::Automation::Peers;
+}
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-    using namespace winrt;
-    using namespace Microsoft::UI::Xaml::Automation;
-    using namespace Microsoft::UI::Xaml::Automation::Peers;
-
     struct SettingsExpanderAutomationPeer : SettingsExpanderAutomationPeerT<SettingsExpanderAutomationPeer>
     {
         using owner_type = XamlToolkit::WinUI::Controls::SettingsExpander;

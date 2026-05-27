@@ -1,15 +1,13 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <algorithm>
+#include <cmath>
+#include <memory>
+#endif
 #include "StaggeredPanel.h"
 #if __has_include("StaggeredPanel.g.cpp")
 #include "StaggeredPanel.g.cpp"
-#endif
-
-#ifdef min
-#undef min
-#endif
-
-#ifdef max
-#undef max
 #endif
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation

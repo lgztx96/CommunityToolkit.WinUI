@@ -1,11 +1,9 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
 #include "SettingsCardAutomationPeer.h"
 #if __has_include("SettingsCardAutomationPeer.g.cpp")
 #include "SettingsCardAutomationPeer.g.cpp"
 #endif
-
-using namespace winrt;
-using namespace Microsoft::UI::Xaml;
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {

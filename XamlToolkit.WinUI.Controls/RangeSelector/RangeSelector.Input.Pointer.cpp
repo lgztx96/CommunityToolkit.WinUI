@@ -1,4 +1,9 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <algorithm>
+#include <cmath>
+#endif
 #include "RangeSelector.h"
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation

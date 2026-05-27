@@ -258,6 +258,7 @@
     <ClCompile Include="CameraPreview\CameraPreview.cpp">
       <Filter>CameraPreview</Filter>
     </ClCompile>
+    <ClCompile Include="XamlTypeInfo.module.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -336,6 +337,8 @@
     <ClInclude Include="RichSuggestBox\RichSuggestQuery.h">
       <Filter>RichSuggestBox</Filter>
     </ClInclude>
+    <ClInclude Include="wil_cppwinrt_module.h" />
+    <ClInclude Include="winrt_module_imports.h" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="SettingsControls\Helpers\CornerRadiusConverter.idl">
@@ -544,5 +547,9 @@
     <PRIResource Include="Sizers\Strings\en-us\Resources.resw">
       <Filter>Sizers\Strings\en-US</Filter>
     </PRIResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
+    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natstepfilter" />
   </ItemGroup>
 </Project>

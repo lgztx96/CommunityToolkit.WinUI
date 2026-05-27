@@ -1,16 +1,29 @@
-﻿#pragma once
+#pragma once
 
 #include "Primitives.ColorPickerSlider.g.h"
-#include <winrt/XamlToolkit.WinUI.Helpers.h>
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.UI.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Media.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
+#endif
+
+namespace winrt
+{
+	using namespace Windows::Foundation;
+	using namespace Windows::UI;
+	using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Xaml::Media;
+	using namespace XamlToolkit::WinUI::Controls;
+}
+
+import winrt.XamlToolkit.WinUI.Controls;
 
 namespace winrt::XamlToolkit::WinUI::Controls::Primitives::implementation
 {
-	using namespace winrt::Windows::Foundation;
-	using namespace winrt::Windows::UI;
-	using namespace winrt::Microsoft::UI::Xaml::Media;
-
     struct ColorPickerSlider : ColorPickerSliderT<ColorPickerSlider>
     {
         wil::single_threaded_rw_property<Color> CheckerBackgroundColor = winrt::Windows::UI::ColorHelper::FromArgb(0x19, 0x80, 0x80, 0x80);

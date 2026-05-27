@@ -1,11 +1,16 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <chrono>
+#endif
 #include "ImageCropper.h"
-#include <winrt/Microsoft.UI.Xaml.Hosting.h>
 
-using namespace winrt;
-using namespace Microsoft::UI::Xaml;
-using namespace Microsoft::UI::Xaml::Hosting;
-using namespace Windows::Foundation::Numerics;
+namespace winrt
+{
+	using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Xaml::Hosting;
+	using namespace Windows::Foundation::Numerics;
+}
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {

@@ -1,6 +1,15 @@
-﻿#pragma once
+#pragma once
 
+#ifdef __INTELLISENSE__
 #include <winrt/Windows.Foundation.Metadata.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#endif
+
+namespace winrt
+{
+	using namespace Windows::Foundation::Metadata;
+	using namespace Microsoft::UI::Xaml;
+}
 
 namespace winrt::XamlToolkit::WinUI::Controls
 {
@@ -8,7 +17,7 @@ namespace winrt::XamlToolkit::WinUI::Controls
 	{
 		static bool IsXamlRootAvailable()
 		{
-			return Windows::Foundation::Metadata::ApiInformation::IsPropertyPresent(winrt::name_of<Windows::UI::Xaml::UIElement>(), L"XamlRoot");
+			return ApiInformation::IsPropertyPresent(winrt::name_of<UIElement>(), L"XamlRoot");
 		}
 	};
 }

@@ -1,6 +1,14 @@
-﻿#pragma once
+#pragma once
 
 #include "StaggeredColumnLayout.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
+#include <unordered_map>
+#include <vector>
+#endif
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {

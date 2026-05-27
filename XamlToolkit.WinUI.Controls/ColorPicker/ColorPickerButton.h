@@ -1,13 +1,24 @@
-﻿#pragma once
+#pragma once
 
 #include "ColorPickerButton.g.h"
-#include <wil/wistd_type_traits.h>
-#include <wil/cppwinrt_authoring.h>
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.UI.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.Primitives.h>
+#endif
+
+namespace winrt
+{
+	using namespace Windows::UI;
+	using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Xaml::Controls;
+	using namespace Microsoft::UI::Xaml::Controls::Primitives;
+}
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-	using namespace winrt::Microsoft::UI::Xaml;
-
 	struct ColorPickerButton : ColorPickerButtonT<ColorPickerButton>
 	{
 	private:

@@ -1,6 +1,21 @@
-﻿#pragma once
+#pragma once
 
 #include "RadialGaugeAutomationPeer.g.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.Foundation.Collections.h>
+#include <winrt/Microsoft.UI.Xaml.Automation.h>
+#include <winrt/Microsoft.UI.Xaml.Automation.Peers.h>
+#endif
+
+namespace winrt
+{
+    using namespace Windows::Foundation;
+	using namespace Windows::Foundation::Collections;
+    using namespace Microsoft::UI::Xaml::Automation;
+    using namespace Microsoft::UI::Xaml::Automation::Peers;
+}
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {

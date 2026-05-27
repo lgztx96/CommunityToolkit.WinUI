@@ -1,16 +1,20 @@
-﻿
+
 // Copyright (c) Microsoft Corporation and Contributors.
 // Licensed under the MIT License.
 
 #include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <algorithm>
+#include <cmath>
+#include <limits>
+#include <unordered_set>
+#endif
 #include "StaggeredLayout.h"
 #if __has_include("StaggeredLayout.g.cpp")
 #include "StaggeredLayout.g.cpp"
 #endif
 #include "StaggeredItem.h"
-#include <algorithm>
-#include <unordered_set>
-#include <iostream>
 
 #ifdef min
 #undef min

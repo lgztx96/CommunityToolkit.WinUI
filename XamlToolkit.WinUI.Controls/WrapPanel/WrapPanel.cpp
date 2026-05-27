@@ -1,4 +1,8 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <cmath>
+#endif
 #include "WrapPanel.h"
 #if __has_include("WrapPanel.g.cpp")
 #include "WrapPanel.g.cpp"

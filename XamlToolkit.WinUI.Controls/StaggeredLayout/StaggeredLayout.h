@@ -1,15 +1,23 @@
-﻿// Copyright (c) Microsoft Corporation and Contributors.
+// Copyright (c) Microsoft Corporation and Contributors.
 // Licensed under the MIT License.
 
 #pragma once
 
 #include "StaggeredLayout.g.h"
 #include "StaggeredLayoutState.h"
-#include <span>
 
-using namespace winrt;
-using namespace Microsoft::UI::Xaml;
-using namespace Microsoft::UI::Xaml::Controls;
+#ifdef __INTELLISENSE__
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
+#include <memory>
+#include <span>
+#endif
+
+namespace winrt
+{
+    using namespace Microsoft::UI::Xaml;
+    using namespace Microsoft::UI::Xaml::Controls;
+}
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {

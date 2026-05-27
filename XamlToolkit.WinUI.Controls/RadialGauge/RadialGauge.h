@@ -1,19 +1,41 @@
 #pragma once
 
 #include "RadialGauge.g.h"
-#include <numbers>
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.System.h>
+#include <winrt/Microsoft.UI.Composition.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Automation.h>
+#include <winrt/Microsoft.UI.Xaml.Automation.Peers.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
+#include <winrt/Microsoft.UI.Xaml.Hosting.h>
+#include <winrt/Microsoft.UI.Xaml.Input.h>
+#include <winrt/Microsoft.UI.Xaml.Media.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
-#include <winrt/XamlToolkit.WinUI.Helpers.h>
-#include <winrt/Microsoft.UI.Composition.h>
-#include <winrt/Microsoft.UI.Xaml.Hosting.h>
+#include <string_view>
+#include <numbers>
+#endif
+
+namespace winrt
+{
+	using namespace Windows::Foundation;
+	using namespace Windows::System;
+    using namespace Microsoft::UI::Xaml;
+    using namespace Microsoft::UI::Xaml::Input;
+    using namespace Microsoft::UI::Xaml::Hosting;
+    using namespace Microsoft::UI::Xaml::Controls;
+    using namespace Microsoft::UI::Xaml::Media;
+    using namespace Microsoft::UI::Composition;
+	using namespace Microsoft::UI::Xaml::Automation;
+	using namespace Microsoft::UI::Xaml::Automation::Peers;
+    using namespace XamlToolkit::WinUI::Helpers;
+}
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-	using namespace winrt::Microsoft::UI::Xaml::Hosting;
-	using namespace winrt::Microsoft::UI::Composition;
-	using namespace winrt::XamlToolkit::WinUI::Helpers;
-
 	struct RadialGauge : RadialGaugeT<RadialGauge>
 	{
 		// States

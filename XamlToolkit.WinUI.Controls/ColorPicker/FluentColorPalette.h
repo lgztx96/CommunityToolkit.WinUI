@@ -1,7 +1,4 @@
-﻿#pragma once
-#include <winrt/base.h>
-#include <winrt/XamlToolkit.WinUI.Controls.h>
-#include <winrt/Windows.UI.h>
+#pragma once
 
 namespace winrt::XamlToolkit::WinUI::Controls
 {

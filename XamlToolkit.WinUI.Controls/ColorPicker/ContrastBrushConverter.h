@@ -1,12 +1,22 @@
-﻿#pragma once
+#pragma once
 
 #include "ContrastBrushConverter.g.h"
 
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.UI.h>
+#include <winrt/Windows.UI.Xaml.Interop.h>
+#endif
+
+namespace winrt
+{
+	using namespace Windows::UI;
+	using namespace Windows::Foundation;
+	using namespace Windows::UI::Xaml::Interop;
+}
+
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-	using namespace winrt::Windows::Foundation;
-	using namespace winrt::Windows::UI::Xaml::Interop;
-
     struct ContrastBrushConverter : ContrastBrushConverterT<ContrastBrushConverter>
     {
         uint8_t AlphaThreshold = 128;

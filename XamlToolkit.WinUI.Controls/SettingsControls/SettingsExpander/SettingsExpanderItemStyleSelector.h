@@ -1,15 +1,20 @@
-﻿#pragma once
+#pragma once
 
 #include "SettingsExpanderItemStyleSelector.g.h"
 
+#ifdef __INTELLISENSE__
+#include <winrt/Microsoft.UI.Xaml.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
+#endif
+
+namespace winrt
+{
+	using namespace Microsoft::UI::Xaml;
+}
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-	using namespace winrt;
-	using namespace Microsoft::UI::Xaml;
-
 	struct SettingsExpanderItemStyleSelector : SettingsExpanderItemStyleSelectorT<SettingsExpanderItemStyleSelector>
 	{
 		wil::single_threaded_rw_property<Style> DefaultStyle{ nullptr };

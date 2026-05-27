@@ -1,4 +1,5 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
 #include "PropertySizer.h"
 #if __has_include("PropertySizer.g.cpp")
 #include "PropertySizer.g.cpp"

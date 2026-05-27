@@ -1,4 +1,5 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
 #include "RichSuggestToken.h"
 #if __has_include("RichSuggestToken.g.cpp")
 #include "RichSuggestToken.g.cpp"

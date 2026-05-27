@@ -1,12 +1,16 @@
-﻿#pragma once
+#pragma once
 
+#ifdef __INTELLISENSE__
 #include <winrt/Microsoft.UI.Xaml.h>
-#include <winrt/Windows.Foundation.Collections.h>
+#endif
+
+namespace winrt
+{
+	using namespace Microsoft::UI::Xaml;
+}
 
 namespace winrt::XamlToolkit::WinUI::Controls
 {
-	using namespace Microsoft::UI::Xaml;
-
 	struct ResourceDictionaryExtensions
 	{
 		ResourceDictionaryExtensions() = default;

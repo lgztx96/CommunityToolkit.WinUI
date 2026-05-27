@@ -2,9 +2,28 @@
 
 #include "RangeChangedEventArgs.h"
 #include "RangeSelector.g.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Microsoft.UI.Dispatching.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.Primitives.h>
+#include <winrt/Microsoft.UI.Xaml.Input.h>
+#include <winrt/Microsoft.UI.Xaml.Shapes.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
-#include <winrt/Microsoft.UI.Xaml.Controls.Primitives.h>
+#include <chrono>
+#include <string_view>
+#endif
+
+namespace winrt 
+{
+	using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Xaml::Input;
+	using namespace Microsoft::UI::Xaml::Controls;
+	using namespace Microsoft::UI::Xaml::Shapes;
+	using namespace Microsoft::UI::Xaml::Controls::Primitives;
+}
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {

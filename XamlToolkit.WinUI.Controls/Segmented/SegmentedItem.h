@@ -1,8 +1,19 @@
-﻿#pragma once
+#pragma once
 
 #include "SegmentedItem.g.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
+#endif
+
+namespace winrt
+{
+	using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Xaml::Controls;
+}
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
@@ -25,8 +36,6 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		void OnVisibilityChanged(DependencyObject const& sender, DependencyProperty const& dp);
 
 		void OnContentChanged(IInspectable const& oldContent, IInspectable const& newContent);
-
-		void ContentChanged();
 
 		void OnIconPropertyChanged(IconElement const& oldValue, IconElement const& newValue);
 

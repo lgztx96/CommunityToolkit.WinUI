@@ -1,14 +1,20 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <ranges>
+#include <vector>
+#endif
 #include "RichSuggestBox.h"
 #if __has_include("RichSuggestBox.g.cpp")
 #include "RichSuggestBox.g.cpp"
 #endif
 #include "../../XamlToolkit.WinUI/common.h"
-#include <winrt/Windows.ApplicationModel.DataTransfer.h>
-#include <ranges>
 
-using namespace winrt;
-using namespace Microsoft::UI::Xaml;
+namespace winrt
+{
+	using namespace Windows::System;
+	using namespace Microsoft::UI::Xaml;
+}
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {

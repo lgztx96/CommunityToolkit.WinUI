@@ -1,8 +1,11 @@
-﻿#pragma once
+#pragma once
 
 #include "Case.g.h"
+
+#ifdef __INTELLISENSE__
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
+#endif
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {

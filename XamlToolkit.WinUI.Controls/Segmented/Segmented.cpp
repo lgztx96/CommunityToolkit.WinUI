@@ -1,5 +1,7 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
 #include "Segmented.h"
+#include "../SettingsControls/Helpers/ControlHelper.h"
 #if __has_include("Segmented.g.cpp")
 #include "Segmented.g.cpp"
 #endif

@@ -1,14 +1,18 @@
-﻿#pragma once
+#pragma once
 
 #include "InterspersedObservableVector.g.h"
+
+#ifdef __INTELLISENSE__
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.Foundation.Collections.h>
 #include <map>
-#include <algorithm>
+#endif
 
-using namespace winrt;
-using namespace Windows::Foundation;
-using namespace Windows::Foundation::Collections;
+namespace winrt
+{
+    using namespace Windows::Foundation;
+    using namespace Windows::Foundation::Collections;
+}
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {

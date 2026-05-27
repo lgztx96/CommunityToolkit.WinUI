@@ -1,16 +1,32 @@
-﻿#pragma once
+#pragma once
 
 #include "UniformGrid.g.h"
 #include "TakenSpotsReferenceHolder.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.Foundation.Collections.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
+#include <wil/wistd_type_traits.h>
+#include <wil/cppwinrt_authoring.h>
 #include <generator>
+#include <memory>
+#include <span>
+#include <tuple>
+#include <vector>
+#endif
+
+namespace winrt
+{
+	using namespace Windows::Foundation;
+	using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Xaml::Controls;
+	using namespace Windows::Foundation::Collections;
+}
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-	using namespace winrt::Windows::Foundation;
-	using namespace winrt::Microsoft::UI::Xaml;
-	using namespace winrt::Microsoft::UI::Xaml::Controls;
-	using namespace winrt::Windows::Foundation::Collections;
-
     struct UniformGrid : UniformGridT<UniformGrid>
     {
     private:

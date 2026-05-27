@@ -1,8 +1,20 @@
-﻿#pragma once
+#pragma once
 
 #include "DockPanel.g.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Xaml.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
+#endif
+
+namespace winrt
+{
+	using namespace Windows::Foundation;
+	using namespace Microsoft::UI::Xaml;
+	using namespace XamlToolkit::WinUI::Controls;
+}
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
@@ -15,18 +27,18 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		static inline const wil::single_threaded_property<DependencyProperty> DockProperty =
 			DependencyProperty::RegisterAttached(
 				L"Dock",
-				winrt::xaml_typename<Dock>(),
+				winrt::xaml_typename<enum Dock>(),
 				winrt::xaml_typename<FrameworkElement>(),
-				PropertyMetadata{ winrt::box_value(Dock::Left), &DockPanel::DockChanged });
+				PropertyMetadata{ winrt::box_value(winrt::XamlToolkit::WinUI::Controls::Dock::Left), &DockPanel::DockChanged });
 
-		static Dock GetDock(FrameworkElement const& obj)
+		static winrt::XamlToolkit::WinUI::Controls::Dock GetDock(FrameworkElement const& obj)
 		{
-			return winrt::unbox_value<Dock>(obj.GetValue(DockProperty));
+			return winrt::unbox_value<winrt::XamlToolkit::WinUI::Controls::Dock>(obj.GetValue(DockProperty()));
 		}
 
-		static void SetDock(FrameworkElement const& obj, Dock const& value)
+		static void SetDock(FrameworkElement const& obj, winrt::XamlToolkit::WinUI::Controls::Dock const& value)
 		{
-			obj.SetValue(DockProperty, winrt::box_value(value));
+			obj.SetValue(DockProperty(), winrt::box_value(value));
 		}
 
 		static inline const wil::single_threaded_property<DependencyProperty> LastChildFillProperty =
@@ -38,12 +50,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		bool LastChildFill()
 		{
-			return winrt::unbox_value<bool>(GetValue(LastChildFillProperty));
+			return winrt::unbox_value<bool>(GetValue(LastChildFillProperty()));
 		}
 
 		void LastChildFill(bool value)
 		{
-			SetValue(LastChildFillProperty, winrt::box_value(value));
+			SetValue(LastChildFillProperty(), winrt::box_value(value));
 		}
 
 		static inline const wil::single_threaded_property<DependencyProperty> PaddingProperty =
@@ -55,12 +67,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		Thickness Padding()
 		{
-			return winrt::unbox_value<Thickness>(GetValue(PaddingProperty));
+			return winrt::unbox_value<Thickness>(GetValue(PaddingProperty()));
 		}
 
 		void Padding(Thickness const& value)
 		{
-			SetValue(PaddingProperty, box_value(value));
+			SetValue(PaddingProperty(), winrt::box_value(value));
 		}
 
 		static inline const wil::single_threaded_property<DependencyProperty> HorizontalSpacingProperty =
@@ -72,12 +84,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		double HorizontalSpacing()
 		{
-			return winrt::unbox_value<double>(GetValue(HorizontalSpacingProperty));
+			return winrt::unbox_value<double>(GetValue(HorizontalSpacingProperty()));
 		}
 
 		void HorizontalSpacing(double value)
 		{
-			SetValue(HorizontalSpacingProperty, winrt::box_value(value));
+			SetValue(HorizontalSpacingProperty(), winrt::box_value(value));
 		}
 
 		static inline const wil::single_threaded_property<DependencyProperty> VerticalSpacingProperty =
@@ -85,17 +97,16 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 				L"VerticalSpacing",
 				winrt::xaml_typename<double>(),
 				winrt::xaml_typename<class_type>(),
-				PropertyMetadata{
-					winrt::box_value(0.0), &DockPanel::OnPropertyChanged });
+				PropertyMetadata{ winrt::box_value(0.0), &DockPanel::OnPropertyChanged });
 
 		double VerticalSpacing()
 		{
-			return winrt::unbox_value<double>(GetValue(VerticalSpacingProperty));
+			return winrt::unbox_value<double>(GetValue(VerticalSpacingProperty()));
 		}
 
 		void VerticalSpacing(double value)
 		{
-			SetValue(VerticalSpacingProperty, winrt::box_value(value));
+			SetValue(VerticalSpacingProperty(), winrt::box_value(value));
 		}
 
 		Size ArrangeOverride(Size finalSize);

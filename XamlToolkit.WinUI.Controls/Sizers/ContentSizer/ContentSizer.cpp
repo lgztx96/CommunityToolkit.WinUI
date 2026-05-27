@@ -1,4 +1,5 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
 #include "ContentSizer.h"
 #if __has_include("ContentSizer.g.cpp")
 #include "ContentSizer.g.cpp"

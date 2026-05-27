@@ -1,8 +1,14 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
 #include "NullToTransparentConverter.h"
 #if __has_include("NullToTransparentConverter.g.cpp")
 #include "NullToTransparentConverter.g.cpp"
 #endif
+
+namespace winrt
+{
+	using namespace Windows::UI;
+}
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {

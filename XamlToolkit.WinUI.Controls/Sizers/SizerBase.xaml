@@ -33,14 +33,10 @@
     <x:Double x:Key="SizerBaseThumbRadius">2</x:Double>
     <Thickness x:Key="SizerBasePadding">4</Thickness>
 
-    <Style BasedOn="{StaticResource DefaultSizerBaseStyle}"
-           TargetType="controls:SizerBase" />
-    <Style BasedOn="{StaticResource DefaultContentSizerStyle}"
-           TargetType="controls:ContentSizer" />
-    <Style BasedOn="{StaticResource DefaultGridSplitterStyle}"
-           TargetType="controls:GridSplitter" />
-    <Style BasedOn="{StaticResource DefaultPropertySizerStyle}"
-           TargetType="controls:PropertySizer" />
+    <Style BasedOn="{StaticResource DefaultSizerBaseStyle}" TargetType="controls:SizerBase" />
+    <Style BasedOn="{StaticResource DefaultContentSizerStyle}" TargetType="controls:ContentSizer" />
+    <Style BasedOn="{StaticResource DefaultGridSplitterStyle}" TargetType="controls:GridSplitter" />
+    <Style BasedOn="{StaticResource DefaultPropertySizerStyle}" TargetType="controls:PropertySizer" />
 
     <Style x:Key="DefaultSizerBaseStyle" TargetType="controls:SizerBase">
         <Setter Property="IsTabStop" Value="True" />
@@ -122,16 +118,19 @@
         </Setter>
     </Style>
 
-    <Style x:Key="DefaultContentSizerStyle"
-           BasedOn="{StaticResource DefaultSizerBaseStyle}"
-           TargetType="controls:ContentSizer" />
+    <Style
+        x:Key="DefaultContentSizerStyle"
+        BasedOn="{StaticResource DefaultSizerBaseStyle}"
+        TargetType="controls:ContentSizer" />
 
-    <Style x:Key="DefaultGridSplitterStyle"
-           BasedOn="{StaticResource DefaultSizerBaseStyle}"
-           TargetType="controls:GridSplitter" />
+    <Style
+        x:Key="DefaultGridSplitterStyle"
+        BasedOn="{StaticResource DefaultSizerBaseStyle}"
+        TargetType="controls:GridSplitter" />
 
-    <Style x:Key="DefaultPropertySizerStyle"
-           BasedOn="{StaticResource DefaultSizerBaseStyle}"
-           TargetType="controls:PropertySizer" />
+    <Style
+        x:Key="DefaultPropertySizerStyle"
+        BasedOn="{StaticResource DefaultSizerBaseStyle}"
+        TargetType="controls:PropertySizer" />
 
 </ResourceDictionary>

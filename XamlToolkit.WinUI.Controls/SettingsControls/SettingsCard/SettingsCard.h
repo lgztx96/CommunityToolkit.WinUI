@@ -1,23 +1,30 @@
-﻿#pragma once
+#pragma once
 
 #include "SettingsCard.g.h"
 #include "../Helpers/ControlHelper.h"
 #include "SettingsCardAutomationPeer.h"
-#include <wil/wistd_type_traits.h>
-#include <wil/cppwinrt_authoring.h>
-#include <winrt/Microsoft.UI.Xaml.Automation.h>
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Microsoft.UI.Xaml.Controls.h>
 #include <winrt/Microsoft.UI.Xaml.Controls.Primitives.h>
 #include <winrt/Microsoft.UI.Xaml.Input.h>
+#include <wil/wistd_type_traits.h>
+#include <wil/cppwinrt_authoring.h>
+#endif
 
-namespace winrt::XamlToolkit::WinUI::Controls::implementation
+namespace winrt
 {
-	using namespace winrt;
+	using namespace Windows::Foundation;
 	using namespace Microsoft::UI::Xaml;
 	using namespace Microsoft::UI::Xaml::Controls;
 	using namespace Microsoft::UI::Xaml::Controls::Primitives;
 	using namespace Microsoft::UI::Xaml::Input;
+}
 
+namespace winrt::XamlToolkit::WinUI::Controls::implementation
+{
 	template <typename D, typename... I>
 	using SettingsCardT = SettingsCard_base<D, I...>;
 

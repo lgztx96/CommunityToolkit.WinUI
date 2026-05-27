@@ -1,5 +1,10 @@
 #pragma once
 
+#ifdef __INTELLISENSE__
+#include <ranges>
+#include <string_view>
+#endif
+
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
 	bool IsNullOrWhiteSpace(winrt::hstring const& str);

@@ -1,8 +1,6 @@
-﻿#pragma once
+#pragma once
 
 #include "ContentSizer.g.h"
-#include <wil/wistd_type_traits.h>
-#include <wil/cppwinrt_authoring.h>
 #include "../SizerBase.h"
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation

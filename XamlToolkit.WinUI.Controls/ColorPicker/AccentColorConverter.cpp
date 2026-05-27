@@ -1,8 +1,22 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <algorithm>
+#include <cmath>
+#include <optional>
+#endif
 #include "AccentColorConverter.h"
 #if __has_include("AccentColorConverter.g.cpp")
 #include "AccentColorConverter.g.cpp"
 #endif
+
+namespace winrt
+{
+	using namespace Windows::UI;
+	using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Xaml::Media;
+	using namespace XamlToolkit::WinUI;
+}
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
@@ -74,14 +88,14 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         if (hsvColor == std::nullopt &&
             rgbColor != std::nullopt)
         {
-            hsvColor = Helpers::ColorHelper::ToHsv(rgbColor.value());
+            hsvColor = winrt::XamlToolkit::WinUI::Helpers::ColorHelper::ToHsv(rgbColor.value());
         }
 
         if (hsvColor != std::nullopt)
         {
             auto hsv = AccentColorConverter::GetAccent(hsvColor.value(), accentStep);
 
-            return winrt::box_value(Helpers::ColorHelper::FromHsv(hsv.H, hsv.S, hsv.V, hsv.A));
+            return winrt::box_value(winrt::XamlToolkit::WinUI::Helpers::ColorHelper::FromHsv(hsv.H, hsv.S, hsv.V, hsv.A));
         }
         else
         {

@@ -1,7 +1,18 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <cstdlib>
+#include <string>
+#include <tuple>
+#endif
 #include "TokenizingTextBox.h"
 #include "TokenizingTextBoxItem.h"
-#include <winrt/Windows.ApplicationModel.DataTransfer.h>
+#include "../SettingsControls/Helpers/ControlHelper.h"
+
+namespace winrt
+{
+	using namespace XamlToolkit::WinUI;
+}
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {

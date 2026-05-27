@@ -1,11 +1,9 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "HeaderedContentControl.h"
 #if __has_include("HeaderedContentControl.g.cpp")
 #include "HeaderedContentControl.g.cpp"
 #endif
-
-using namespace winrt;
-using namespace Microsoft::UI::Xaml;
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {

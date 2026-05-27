@@ -1,18 +1,25 @@
-﻿#pragma once
+#pragma once
 
 #include "PropertySizer.g.h"
-#include <wil/wistd_type_traits.h>
-#include <wil/cppwinrt_authoring.h>
 #include "../SizerBase.h"
 
-namespace winrt::XamlToolkit::WinUI::Controls::implementation
+#ifdef __INTELLISENSE__
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.Primitives.h>
+#include <winrt/Microsoft.UI.Xaml.Input.h>
+#endif
+
+namespace winrt
 {
-	using namespace winrt;
 	using namespace Microsoft::UI::Xaml;
 	using namespace Microsoft::UI::Xaml::Controls;
 	using namespace Microsoft::UI::Xaml::Controls::Primitives;
 	using namespace Microsoft::UI::Xaml::Input;
+}
 
+namespace winrt::XamlToolkit::WinUI::Controls::implementation
+{
 	struct PropertySizer : PropertySizerT<PropertySizer, implementation::SizerBase>
 	{
 		PropertySizer();

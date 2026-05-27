@@ -1,8 +1,22 @@
-﻿#pragma once
+#pragma once
 
 #include "ImageCropperThumb.g.h"
-#include <wil/wistd_type_traits.h>
-#include <wil/cppwinrt_authoring.h>
+
+#ifdef __INTELLISENSE__
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
+#include <winrt/Microsoft.UI.Xaml.Input.h>
+#include <winrt/Microsoft.UI.Xaml.Media.h>
+#include <string_view>
+#endif
+
+namespace winrt
+{
+	using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Xaml::Input;
+	using namespace Microsoft::UI::Xaml::Controls;
+	using namespace Microsoft::UI::Xaml::Media;
+}
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
