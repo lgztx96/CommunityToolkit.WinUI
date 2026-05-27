@@ -286,6 +286,8 @@
     <ClInclude Include="Xaml\Abstract\ShadowAnimation{TValue,TKeyFrame}.h">
       <Filter>Xaml\Abstract</Filter>
     </ClInclude>
+    <ClInclude Include="wil_cppwinrt_module.h" />
+    <ClInclude Include="winrt_module_imports.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Builders\AnimationBuilder.cpp">
@@ -691,9 +693,5 @@
     <ClCompile Include="Expressions\ReferenceNodes\ReferenceNode.cpp">
       <Filter>Expressions\ReferenceNodes</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
-    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natstepfilter" />
   </ItemGroup>
 </Project>

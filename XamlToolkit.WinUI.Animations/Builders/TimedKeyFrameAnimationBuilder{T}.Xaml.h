@@ -1,16 +1,22 @@
 #pragma once
 
 #include "TimedKeyFrameAnimationBuilder{T}.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
 #include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
-#include <winrt/Windows.Foundation.h>
-#include <span>
+#include <optional>
+#endif
+
+namespace winrt
+{
+	using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Xaml::Media::Animation;
+}
 
 namespace winrt::XamlToolkit::WinUI::Animations
 {
-    using namespace winrt::Microsoft::UI::Xaml;
-    using namespace winrt::Microsoft::UI::Xaml::Media::Animation;
-
     /// <summary>
     /// Gets a <see cref="Timeline"/> instance representing the animation to start.
     /// </summary>

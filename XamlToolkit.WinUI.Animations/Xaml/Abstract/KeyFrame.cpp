@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "KeyFrame.h"
 #if __has_include("KeyFrame.g.cpp")
 #include "KeyFrame.g.cpp"
@@ -6,9 +7,6 @@
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
-    using namespace winrt::Microsoft::UI::Xaml;
-    using namespace winrt::Microsoft::UI::Xaml::Media::Animation;
-
     const wil::single_threaded_property<DependencyProperty> KeyFrame::KeyProperty = DependencyProperty::Register(
         L"Key",
         winrt::xaml_typename<double>(),

@@ -1,16 +1,21 @@
 #pragma once
-#include <winrt/Microsoft.UI.Xaml.Media.h>
-#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
-#include <wil/wistd_type_traits.h>
-#include <wil/result_macros.h>
-#include <wil/cppwinrt_authoring.h>
-#include <winrt/windows.foundation.numerics.h>
 #include "../Options/RepeatOptionHelper.h"
 #include "../Enums/Axis.h"
 #include "../Enums/Side.h"
 
-using namespace winrt::Windows::Foundation::Numerics;
-using namespace winrt::Microsoft::UI::Xaml::Media;
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.Foundation.Numerics.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Media.h>
+#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
+#endif
+
+namespace winrt
+{
+    using namespace Windows::Foundation::Numerics;
+    using namespace Microsoft::UI::Xaml::Media;
+}
 
 namespace winrt::XamlToolkit::WinUI::Animations
 {

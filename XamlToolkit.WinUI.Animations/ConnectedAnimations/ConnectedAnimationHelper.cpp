@@ -1,10 +1,10 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <memory>
+#endif
 #include "ConnectedAnimationHelper.h"
 #include "Connected.h"
-
-#include <algorithm>
-#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
-#include <winrt/Microsoft.UI.Xaml.Controls.h>
 
 namespace winrt::XamlToolkit::WinUI::Animations
 {

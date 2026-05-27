@@ -2,8 +2,11 @@
 
 #include "StopAnimationActivity.g.h"
 #include "Activity.h"
-#include <wil/wistd_type_traits.h>
-#include <wil/cppwinrt_authoring.h>
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#endif
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {

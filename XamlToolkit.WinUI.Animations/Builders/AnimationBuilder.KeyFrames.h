@@ -9,7 +9,15 @@
 #include "TimedKeyFrameAnimationBuilder{T}.Xaml.h"
 #include "Interfaces/INormalizedKeyFrameAnimationBuilder{T}.h"
 #include "Interfaces/ITimedKeyFrameAnimationBuilder{T}.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Composition.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
 #include <functional>
+#include <optional>
+#endif
 
 namespace winrt::XamlToolkit::WinUI::Animations
 {

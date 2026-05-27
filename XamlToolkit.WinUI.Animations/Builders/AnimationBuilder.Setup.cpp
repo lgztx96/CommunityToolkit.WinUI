@@ -3,6 +3,11 @@
 // See the LICENSE file in the project root for more information.
 
 #include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <memory>
+#include <optional>
+#endif
 #include "AnimationBuilder.h"
 #include "../Extensions/CompositorExtensions.h"
 #include "../Extensions/DependencyObjectExtensions.h"

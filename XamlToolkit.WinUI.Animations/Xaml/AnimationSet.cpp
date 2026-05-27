@@ -1,4 +1,9 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <atomic>
+#include <memory>
+#endif
 #include "AnimationSet.h"
 #if __has_include("AnimationSet.g.cpp")
 #include "AnimationSet.g.cpp"

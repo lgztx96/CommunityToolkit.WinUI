@@ -1,8 +1,11 @@
 #pragma once
 
 #include <initializer_list>
-#include <string_view>
 #include "ExpressionNode.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#endif
 
 namespace winrt::XamlToolkit::WinUI::Animations::Expressions
 {

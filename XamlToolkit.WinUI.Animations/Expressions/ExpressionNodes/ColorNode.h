@@ -2,7 +2,11 @@
 
 #include "ExpressionNode.h"
 #include "ExpressionNodeType.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.UI.h>
+#endif
 
 namespace winrt::XamlToolkit::WinUI::Animations::Expressions
 {

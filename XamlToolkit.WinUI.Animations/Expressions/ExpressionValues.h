@@ -22,6 +22,11 @@
 #include "ReferenceNodes/SurfaceBrushReferenceNode.h"
 #include "ReferenceNodes/VisualReferenceNode.h"
 
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.Foundation.Numerics.h>
+#endif
+
 namespace winrt::XamlToolkit::WinUI::Animations::Expressions
 {
     /// <summary>

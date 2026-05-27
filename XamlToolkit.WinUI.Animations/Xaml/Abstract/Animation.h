@@ -4,15 +4,18 @@
 #include "../Interfaces/ITimeline.h"
 #include "../Builders/AnimationBuilder.h"
 #include "../Options/RepeatOptionHelper.h"
-#include <winrt/Microsoft.UI.Composition.h>
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
 #include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
-#include <wil/wistd_type_traits.h>
-#include <wil/cppwinrt_authoring.h>
-#include <optional>
+#endif
 
-using namespace winrt::Microsoft::UI::Xaml;
-using namespace winrt::Microsoft::UI::Xaml::Media::Animation;
+namespace winrt
+{
+    using namespace Microsoft::UI::Xaml;
+    using namespace Microsoft::UI::Xaml::Media::Animation;
+}
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {

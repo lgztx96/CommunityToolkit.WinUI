@@ -2,16 +2,23 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 #pragma once
-#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
 #include <winrt/Microsoft.UI.Composition.h>
-#include <winrt/XamlToolkit.WinUI.Animations.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
 #include <tuple>
+#endif
+
+namespace winrt
+{
+	using namespace Microsoft::UI::Xaml::Media::Animation;
+	using namespace Microsoft::UI::Composition;
+}
 
 namespace winrt::XamlToolkit::WinUI::Animations
 {
-    using namespace winrt::Microsoft::UI::Xaml::Media::Animation;
-    using namespace winrt::Microsoft::UI::Composition;
-
     /// <summary>
     /// Helper functions for RepeatOption.
     /// </summary>

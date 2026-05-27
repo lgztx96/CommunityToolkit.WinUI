@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "ScalarKeyFrame.h"
 #if __has_include("ScalarKeyFrame.g.cpp")
 #include "ScalarKeyFrame.g.cpp"
@@ -6,8 +7,6 @@
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
-    using namespace winrt::Microsoft::UI::Xaml;
-
     const wil::single_threaded_property<DependencyProperty> ScalarKeyFrame::ValueProperty =
         DependencyProperty::Register(
             L"Value",

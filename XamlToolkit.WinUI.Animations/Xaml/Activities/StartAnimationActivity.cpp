@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "StartAnimationActivity.h"
 #if __has_include("StartAnimationActivity.g.cpp")
 #include "StartAnimationActivity.g.cpp"
@@ -7,8 +8,6 @@
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
-    using namespace winrt::Microsoft::UI::Xaml;
-
     const wil::single_threaded_property<DependencyProperty> StartAnimationActivity::AnimationProperty =
         DependencyProperty::Register(
             L"Animation",

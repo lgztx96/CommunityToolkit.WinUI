@@ -3,6 +3,10 @@
 #include "../Builders/Interfaces/ITimedKeyFrameAnimationBuilder{T}.h"
 #include "../Extensions/AnimationExtensions.h"
 
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#endif
+
 namespace winrt::XamlToolkit::WinUI::Animations
 {
     /// <summary>

@@ -1,17 +1,23 @@
 #pragma once
 
-#include <winrt/base.h>
-#include <winrt/Microsoft.UI.Composition.h>
-#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
 #include "../../Options/RepeatOptionHelper.h"
 #include "../../Extensions/AnimationExtensions.h"
 #include "../AnimationBuilder.h"
 
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Composition.h>
+#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
+#endif
+
+namespace winrt
+{
+	using namespace Microsoft::UI::Composition;
+	using namespace Microsoft::UI::Xaml::Media::Animation;
+}
+
 namespace winrt::XamlToolkit::WinUI::Animations
 {
-    using namespace winrt::Microsoft::UI::Composition;
-    using namespace winrt::Microsoft::UI::Xaml::Media::Animation;
-
     /// <summary>
     /// An interface for an animation builder using normalized keyframes.
     /// </summary>

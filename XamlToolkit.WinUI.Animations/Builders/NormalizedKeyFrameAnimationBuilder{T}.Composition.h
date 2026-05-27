@@ -1,15 +1,25 @@
 #pragma once
 
 #include "NormalizedKeyFrameAnimationBuilder{T}.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.Foundation.Numerics.h>
+#include <winrt/Microsoft.UI.Composition.h>
 #include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
+#endif
+
+namespace winrt
+{
+    using namespace Microsoft::UI::Composition;
+    using namespace Microsoft::UI::Xaml;
+    using namespace Microsoft::UI::Xaml::Media::Animation;
+    using namespace Windows::Foundation::Numerics;
+}
 
 namespace winrt::XamlToolkit::WinUI::Animations
 {
-    using namespace winrt::Microsoft::UI::Composition;
-    using namespace winrt::Microsoft::UI::Xaml;
-    using namespace winrt::Microsoft::UI::Xaml::Media::Animation;
-    using namespace winrt::Windows::Foundation::Numerics;
-
     /// <summary>
     /// Gets a <see cref="CompositionAnimation"/> instance representing the animation to start.
     /// </summary>

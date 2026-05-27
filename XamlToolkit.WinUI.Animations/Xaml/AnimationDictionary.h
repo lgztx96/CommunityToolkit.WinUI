@@ -1,8 +1,15 @@
 #pragma once
 
 #include "AnimationDictionary.g.h"
-#include <vector>
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.Foundation.Collections.h>
 #include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
+#include <vector>
+#include <memory>
+#endif
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {

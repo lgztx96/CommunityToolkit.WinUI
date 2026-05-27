@@ -4,10 +4,6 @@
 #include "../Abstract/ImplicitAnimation{TValue,TKeyFrame}.h"
 #include "../KeyFrames/Vector2KeyFrame.h"
 #include "../Extensions/AnimationExtensions.h"
-#include <winrt/Windows.Foundation.Collections.h>
-#include <winrt/Windows.Foundation.Numerics.h>
-#include <wil/wistd_type_traits.h>
-#include <wil/cppwinrt_authoring.h>
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {

@@ -3,7 +3,11 @@
 #include "ExpressionNode.h"
 #include "ExpressionNodeType.h"
 #include "../../Extensions/System/FloatExtensions.h"
-#include <windows.foundation.numerics.h>
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.Foundation.Numerics.h>
+#endif
 
 namespace winrt::XamlToolkit::WinUI::Animations::Expressions
 {

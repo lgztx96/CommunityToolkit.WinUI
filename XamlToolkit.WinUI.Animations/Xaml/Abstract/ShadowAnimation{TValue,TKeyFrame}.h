@@ -3,9 +3,14 @@
 #include "Animation{TValue,TKeyFrame}.h"
 #include "../Interfaces/IAttachedTimeline.h"
 #include "../Builders/NormalizedKeyFrameAnimationBuilder{T}.Composition.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
 #include <winrt/Microsoft.UI.Composition.h>
-#include <winrt/Microsoft.UI.Xaml.Hosting.h>
-#include <winrt/XamlToolkit.WinUI.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
+#include <optional>
+#endif
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {

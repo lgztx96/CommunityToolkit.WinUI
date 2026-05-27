@@ -1,6 +1,6 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "ExpressionFunctions.h"
-
 
 namespace winrt::XamlToolkit::WinUI::Animations::Expressions
 {

@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "AnimationScope.h"
 #if __has_include("AnimationScope.g.cpp")
 #include "AnimationScope.g.cpp"
@@ -9,8 +10,6 @@
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
-    using namespace winrt::Microsoft::UI::Xaml;
-
     const wil::single_threaded_property<DependencyProperty> AnimationScope::DelayProperty =
         DependencyProperty::Register(
             L"Delay",

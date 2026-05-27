@@ -4,18 +4,9 @@
 #include "../Abstract/ImplicitAnimation{TValue,TKeyFrame}.h"
 #include "../KeyFrames/Vector3KeyFrame.h"
 #include "../Extensions/AnimationExtensions.h"
-#include <winrt/Microsoft.UI.Composition.h>
-#include <winrt/Windows.Foundation.Numerics.h>
-#include <winrt/Windows.Foundation.Collections.h>
-#include <wil/wistd_type_traits.h>
-#include <wil/cppwinrt_authoring.h>
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
-    using namespace winrt::Microsoft::UI::Xaml;
-    using namespace winrt::Microsoft::UI::Composition;
-    using namespace winrt::Windows::Foundation::Numerics;
-
     struct TranslationAnimation;
 
     struct TranslationAnimationTraits

@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "StopAnimationActivity.h"
 #if __has_include("StopAnimationActivity.g.cpp")
 #include "StopAnimationActivity.g.cpp"
@@ -7,8 +8,6 @@
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
-    using namespace winrt::Microsoft::UI::Xaml;
-
     const wil::single_threaded_property<DependencyProperty> StopAnimationActivity::AnimationProperty =
         DependencyProperty::Register(
             L"Animation",
