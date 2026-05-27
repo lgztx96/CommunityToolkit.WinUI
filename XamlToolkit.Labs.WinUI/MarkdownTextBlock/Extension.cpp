@@ -10,12 +10,6 @@
 #endif
 #include "Extension.h"
 
-namespace winrt
-{
-	using namespace Windows::Data::Xml::Dom;
-	using namespace Windows::UI::ViewManagement;
-}
-
 namespace winrt::XamlToolkit::Labs::WinUI
 {
 	void Extensions::ToLower(std::wstring& str)
@@ -336,13 +330,13 @@ namespace winrt::XamlToolkit::Labs::WinUI
 		return { 0, 0 };
 	}
 
-	SolidColorBrush Extensions::GetAccentColorBrush(int32_t colorType)
+	SolidColorBrush Extensions::GetAccentColorBrush(UIColorType colorType)
 	{
 		// Create a UISettings object to get the accent color
 		UISettings uiSettings;
 
 		// Get the accent color as a Color value
-		auto accentColor = uiSettings.GetColorValue(static_cast<UIColorType>(colorType));
+		auto accentColor = uiSettings.GetColorValue(colorType);
 
 		// Create a SolidColorBrush from the accent color
 		SolidColorBrush accentBrush(accentColor);

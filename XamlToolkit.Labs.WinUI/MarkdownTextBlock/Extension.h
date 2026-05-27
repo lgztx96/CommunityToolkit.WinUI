@@ -2,9 +2,17 @@
 
 #include <MarkdownTextBlock/TextElements/HtmlElementType.h>
 
+#ifdef __INTELLISENSE__
+#include <winrt/Microsoft.UI.Xaml.Documents.h>
+#include <winrt/Windows.UI.ViewManagement.h>
+#include <winrt/Windows.Data.Xml.Dom.h>
+#endif
+
 namespace winrt 
 {
 	using namespace Windows::Foundation;
+	using namespace Windows::Data::Xml::Dom;
+	using namespace Windows::UI::ViewManagement;
 	using namespace Microsoft::UI::Xaml::Documents;
 	using namespace Microsoft::UI::Xaml::Media;
 	using namespace XamlToolkit::Labs::WinUI::TextElements;
@@ -41,7 +49,7 @@ namespace winrt::XamlToolkit::Labs::WinUI
 
 		static Size GetMarkdownImageSize(std::wstring_view link);
 
-		static SolidColorBrush GetAccentColorBrush(int32_t colorType = 5 /* UIColorType::Accent */);
+		static SolidColorBrush GetAccentColorBrush(UIColorType colorType = UIColorType::Accent);
 
 		static std::wstring_view EscapeHtmlEntity(std::wstring_view entity);
 	};
