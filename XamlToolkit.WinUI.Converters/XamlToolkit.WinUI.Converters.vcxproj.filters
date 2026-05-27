@@ -49,6 +49,8 @@
     <ClInclude Include="StringVisibilityConverter.h" />
     <ClInclude Include="TypeToObjectConverter.h" />
     <ClInclude Include="VisibilityToBoolConverter.h" />
+    <ClInclude Include="winrt_module_imports.h" />
+    <ClInclude Include="wil_cppwinrt_module.h" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="BoolNegationConverter.idl" />

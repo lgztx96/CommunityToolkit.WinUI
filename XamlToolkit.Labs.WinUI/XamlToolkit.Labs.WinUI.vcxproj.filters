@@ -253,6 +253,9 @@
     <ClCompile Include="MarkdownTextBlock\Highlight\midl3\midl3_scm.cpp">
       <Filter>Controls\MarkdownTextBlock\Highlight\midl3</Filter>
     </ClCompile>
+    <ClCompile Include="XamlTypeInfo.module.cpp" />
+    <ClCompile Include="XamlTypeInfo.Impl.module.cpp" />
+    <ClCompile Include="XamlMetaDataProvider.module.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -373,6 +376,8 @@
     <ClInclude Include="ColorAnalyzer\ColorPaletteSampler\ColorPaletteSampler.DBScan.h">
       <Filter>Controls\ColorAnalyzer\ColorPaletteSampler</Filter>
     </ClInclude>
+    <ClInclude Include="wil_cppwinrt_module.h" />
+    <ClInclude Include="winrt_module_imports.h" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="MarkdownTextBlock\MarkdownTextBlock.idl">

@@ -143,6 +143,8 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Behavior.h" />
+    <ClInclude Include="wil_cppwinrt_module.h" />
+    <ClInclude Include="winrt_module_imports.h" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="Select\AutoSelectBehavior.idl">

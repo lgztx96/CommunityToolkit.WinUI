@@ -165,6 +165,8 @@
     <ClInclude Include="Utility\WinUIVisualTreeHelper.h">
       <Filter>Utility</Filter>
     </ClInclude>
+    <ClInclude Include="winrt_module_imports.h" />
+    <ClInclude Include="wil_cppwinrt_module.h" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="IAction.idl" />

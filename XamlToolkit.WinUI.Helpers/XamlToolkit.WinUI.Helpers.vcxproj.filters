@@ -21,6 +21,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
+    <ClInclude Include="winrt_module_imports.h" />
+    <ClInclude Include="wil_cppwinrt_module.h" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="ColorHelper\ColorHelper.idl">

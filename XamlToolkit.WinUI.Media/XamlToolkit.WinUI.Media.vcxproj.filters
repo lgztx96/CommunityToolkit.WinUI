@@ -24,6 +24,8 @@
     <ClInclude Include="Shadows\AttachedCardShadow.h">
       <Filter>Shadows</Filter>
     </ClInclude>
+    <ClInclude Include="winrt_module_imports.h" />
+    <ClInclude Include="wil_cppwinrt_module.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="XamlToolkit.WinUI.Media.def" />
