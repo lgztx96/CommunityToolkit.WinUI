@@ -1,18 +1,24 @@
-﻿#pragma once
+#pragma once
 
 #include "CameraHelper.g.h"
-#include <winrt/Windows.Media.Capture.Frames.h>
-#include <wil/wistd_type_traits.h>
-#include <wil/cppwinrt_authoring.h>
+
+#ifdef __INTELLISENSE__
 #include <semaphore>
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.Foundation.Collections.h>
+#include <winrt/Windows.Media.Capture.Frames.h>
+#endif
+
+namespace winrt
+{
+    using namespace Windows::Foundation;
+    using namespace Windows::Foundation::Collections;
+    using namespace Windows::Media::Capture;
+    using namespace Windows::Media::Capture::Frames;
+}
 
 namespace winrt::XamlToolkit::WinUI::Helpers::implementation
 {
-	using namespace winrt::Windows::Foundation;
-	using namespace winrt::Windows::Foundation::Collections;
-    using namespace winrt::Windows::Media::Capture;
-    using namespace winrt::Windows::Media::Capture::Frames;
-
     struct CameraHelper : CameraHelperT<CameraHelper>
     {
         CameraHelper() = default;
@@ -50,7 +56,7 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
         bool _initialized = false;
         bool _disposed = false;
 
-		MediaFrameReader::FrameArrived_revoker _frameArrivedRevoker;
+        MediaFrameReader::FrameArrived_revoker _frameArrivedRevoker;
 
         IAsyncOperation<winrt::XamlToolkit::WinUI::Helpers::CameraHelperResult> InitializeMediaCaptureAsync();
 

@@ -1,4 +1,5 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
 #include "FrameEventArgs.h"
 #if __has_include("FrameEventArgs.g.cpp")
 #include "FrameEventArgs.g.cpp"
