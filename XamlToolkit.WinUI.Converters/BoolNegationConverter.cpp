@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "BoolNegationConverter.h"
 #if __has_include("BoolNegationConverter.g.cpp")
 #include "BoolNegationConverter.g.cpp"

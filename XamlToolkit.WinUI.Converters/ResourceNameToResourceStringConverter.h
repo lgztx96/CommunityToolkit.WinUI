@@ -1,7 +1,12 @@
 #pragma once
 
 #include "ResourceNameToResourceStringConverter.g.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.UI.Xaml.Interop.h>
 #include <winrt/Microsoft.Windows.ApplicationModel.Resources.h>
+#endif
 
 namespace winrt
 {

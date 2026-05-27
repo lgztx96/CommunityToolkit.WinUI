@@ -3,11 +3,11 @@
 // See the LICENSE file in the project root for more information.
 
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "EmptyCollectionToObjectConverter.h"
 #if __has_include("EmptyCollectionToObjectConverter.g.cpp")
 #include "EmptyCollectionToObjectConverter.g.cpp"
 #endif
-#include <winrt/Windows.Foundation.Collections.h>
 
 namespace winrt::XamlToolkit::WinUI::Converters::implementation
 {

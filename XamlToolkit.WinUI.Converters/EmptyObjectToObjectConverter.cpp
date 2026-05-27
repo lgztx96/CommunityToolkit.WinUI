@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "EmptyObjectToObjectConverter.h"
 #if __has_include("EmptyObjectToObjectConverter.g.cpp")
 #include "EmptyObjectToObjectConverter.g.cpp"

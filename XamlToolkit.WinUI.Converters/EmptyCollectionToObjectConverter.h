@@ -3,6 +3,10 @@
 #include "EmptyCollectionToObjectConverter.g.h"
 #include "EmptyObjectToObjectConverter.h"
 
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#endif
+
 namespace winrt
 {
     using namespace Windows::Foundation;

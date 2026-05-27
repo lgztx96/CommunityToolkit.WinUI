@@ -3,12 +3,15 @@
 // See the LICENSE file in the project root for more information.
 
 #include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <format>
+#endif
 #include "StringFormatConverter.h"
 #if __has_include("StringFormatConverter.g.cpp")
 #include "StringFormatConverter.g.cpp"
 #endif
 #include "ConverterTools.h"
-#include <format>
 
 namespace winrt::XamlToolkit::WinUI::Converters::implementation
 {

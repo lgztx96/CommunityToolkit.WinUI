@@ -1,8 +1,14 @@
 ﻿#pragma once
 
 #include "ColorToDisplayNameConverter.g.h"
+
+#ifdef __INTELLISENSE__
 #include <winrt/Windows.Foundation.h>
-#include <winrt/Microsoft.UI.h>
+#include <winrt/Windows.UI.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Media.h>
+#include <winrt/Windows.UI.Xaml.Interop.h>
+#endif
 
 namespace winrt
 {

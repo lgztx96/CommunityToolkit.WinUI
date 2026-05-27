@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "StringVisibilityConverter.h"
 #if __has_include("StringVisibilityConverter.g.cpp")
 #include "StringVisibilityConverter.g.cpp"
