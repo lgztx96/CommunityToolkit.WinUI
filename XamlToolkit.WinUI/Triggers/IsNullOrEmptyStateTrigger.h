@@ -9,7 +9,7 @@
 
 namespace winrt::XamlToolkit::WinUI::implementation
 {
-    using namespace Microsoft::UI::Xaml;
+    using namespace winrt::Microsoft::UI::Xaml;
 
     struct IsNullOrEmptyStateTrigger : IsNullOrEmptyStateTriggerT<IsNullOrEmptyStateTrigger>
     {

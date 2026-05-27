@@ -5,11 +5,6 @@
 #include "SymbolIconSourceExtension.g.cpp"
 #endif
 
-namespace winrt
-{
-	using namespace Microsoft::UI::Xaml::Controls;
-}
-
 namespace winrt::XamlToolkit::WinUI::implementation
 {
 	IInspectable SymbolIconSourceExtension::ProvideValue() const

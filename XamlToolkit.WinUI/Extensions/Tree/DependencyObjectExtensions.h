@@ -19,7 +19,6 @@ namespace winrt
 
 namespace winrt::XamlToolkit::WinUI
 {
-
 	class DependencyObjectEx {
 	public:
 		template <typename T, IPredicate<T> TPredicate>

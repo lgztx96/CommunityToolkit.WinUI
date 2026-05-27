@@ -8,11 +8,6 @@
 #include "AttachedDropShadow.g.cpp"
 #endif
 
-namespace winrt
-{
-    using namespace Windows::Foundation;
-}
-
 namespace winrt::XamlToolkit::WinUI::implementation
 {
 	static inline bool Contains(Microsoft::UI::Composition::VisualCollection const& collection, Visual const& visual)

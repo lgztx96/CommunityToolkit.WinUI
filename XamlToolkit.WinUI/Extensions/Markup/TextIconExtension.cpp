@@ -5,14 +5,8 @@
 #include "TextIconExtension.g.cpp"
 #endif
 
-namespace winrt
-{
-    using namespace Windows::Foundation;
-}
-
 namespace winrt::XamlToolkit::WinUI::implementation
 {
-
 	FontFamily TextIconExtension::SymbolThemeFontFamily()
 	{
 		if (!symbolThemeFontFamily)

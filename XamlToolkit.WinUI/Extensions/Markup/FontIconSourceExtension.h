@@ -14,6 +14,7 @@ namespace winrt
 {
     using namespace Microsoft::UI::Text;
     using namespace Microsoft::UI::Xaml::Media;
+    using namespace Microsoft::UI::Xaml::Controls;
 }
 
 namespace winrt::XamlToolkit::WinUI::implementation

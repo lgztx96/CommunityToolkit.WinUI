@@ -5,11 +5,6 @@
 #include "ControlSizeTrigger.g.cpp"
 #endif
 
-namespace winrt
-{
-    using namespace Microsoft::UI::Xaml;
-}
-
 namespace winrt::XamlToolkit::WinUI::implementation
 {
 	// Handle event to get current values

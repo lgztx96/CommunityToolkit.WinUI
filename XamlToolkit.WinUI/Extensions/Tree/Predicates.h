@@ -29,7 +29,6 @@ namespace winrt
 
 namespace winrt::XamlToolkit::WinUI
 {
-
     template <class F, typename Ret, class... Args> 
     concept Callable = std::invocable<F, Args...> && std::same_as<Ret, std::invoke_result_t<F, Args...>>;
 

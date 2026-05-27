@@ -25,7 +25,6 @@ namespace winrt
 
 namespace winrt::XamlToolkit::WinUI
 {
-
 	class FrameworkElementEx
 	{
 	public:

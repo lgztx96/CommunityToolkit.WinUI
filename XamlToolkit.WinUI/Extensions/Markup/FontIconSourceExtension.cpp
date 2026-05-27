@@ -5,11 +5,6 @@
 #include "FontIconSourceExtension.g.cpp"
 #endif
 
-namespace winrt
-{
-	using namespace Microsoft::UI::Xaml::Controls;
-}
-
 namespace winrt::XamlToolkit::WinUI::implementation
 {
 	winrt::Windows::Foundation::IInspectable FontIconSourceExtension::ProvideValue() const

@@ -1,7 +1,9 @@
 #include "pch.h"
 #include "winrt_module_imports.h"
 #ifdef __INTELLISENSE__
-#include <string>
+#include <winrt/Microsoft.UI.Xaml.Automation.h>
+#include <winrt/Microsoft.UI.Xaml.Automation.Peers.h>
+#include <winrt/Microsoft.UI.Xaml.Documents.h>
 #endif
 #include "MetadataControl.h"
 #if __has_include("MetadataControl.g.cpp")

@@ -9,6 +9,12 @@
 #include <winrt/Microsoft.UI.Xaml.Controls.h>
 #endif
 
+namespace winrt
+{
+    using namespace Microsoft::UI::Xaml;
+    using namespace Microsoft::UI::Xaml::Controls;
+}
+
 namespace winrt::XamlToolkit::WinUI::implementation
 {
     struct SymbolIconExtension : SymbolIconExtensionT<SymbolIconExtension, implementation::TextIconExtension>
