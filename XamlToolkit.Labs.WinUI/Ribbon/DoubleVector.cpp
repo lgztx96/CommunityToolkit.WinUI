@@ -1,9 +1,14 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <ranges>
+#include <string>
+#include <string_view>
+#endif
 #include "DoubleVector.h"
 #if __has_include("DoubleVector.g.cpp")
 #include "DoubleVector.g.cpp"
 #endif
-#include <ranges>
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {

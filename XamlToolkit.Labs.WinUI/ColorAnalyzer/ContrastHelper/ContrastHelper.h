@@ -1,16 +1,25 @@
-﻿#pragma once
+#pragma once
 
 #include "ContrastHelper.g.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.UI.h>
 #include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Microsoft.UI.Xaml.Media.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
+#endif
+
+namespace winrt
+{
+    using namespace Windows::Foundation;
+    using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Xaml::Media;
+    using namespace Microsoft::UI::Xaml::Controls;
+}
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
-	using namespace winrt::Microsoft::UI::Xaml;
-	using namespace winrt::Microsoft::UI::Xaml::Media;
-
     struct ContrastHelper : ContrastHelperT<ContrastHelper>
     {
         ContrastHelper() = default;

@@ -1,7 +1,18 @@
-﻿#pragma once
+#pragma once
 
 #include "DataTable.g.h"
-#include <unordered_set>
+
+#ifdef __INTELLISENSE__
+#include <wil/wistd_type_traits.h>
+#include <wil/cppwinrt_authoring.h>
+#include <set>
+#endif
+
+namespace winrt
+{
+	using namespace Windows::Foundation;
+	using namespace Microsoft::UI::Xaml;
+}
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
@@ -13,7 +24,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         bool IsAnyColumnAuto();
 
         // TODO: Check with Sergio if there's a better structure here, as I don't need a Dictionary like ConditionalWeakTable
-        std::unordered_set<winrt::XamlToolkit::Labs::WinUI::DataRow>& Rows();
+        std::set<winrt::XamlToolkit::Labs::WinUI::DataRow>& Rows();
 
         void ColumnResized();
 
@@ -28,7 +39,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         Size ArrangeOverride(Size finalSize);
 
     private:
-		std::unordered_set<winrt::XamlToolkit::Labs::WinUI::DataRow> _rows;
+		std::set<winrt::XamlToolkit::Labs::WinUI::DataRow> _rows;
     };
 }
 

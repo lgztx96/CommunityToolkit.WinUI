@@ -1,18 +1,26 @@
-﻿#pragma once
+#pragma once
 
 #include "Shimmer.g.h"
-#include <winrt/Microsoft.UI.Xaml.h>
-#include <winrt/Microsoft.UI.Composition.h>
-#include <winrt/Microsoft.UI.Xaml.Hosting.h>
-#include <winrt/Microsoft.UI.Xaml.Shapes.h>
 
-namespace winrt::XamlToolkit::Labs::WinUI::implementation
+#ifdef __INTELLISENSE__
+#include <wil/wistd_type_traits.h>
+#include <wil/cppwinrt_authoring.h>
+#include <chrono>
+#include <string_view>
+#endif
+
+namespace winrt
 {
     using namespace Microsoft::UI::Xaml;
+    using namespace Microsoft::UI::Xaml::Controls;
     using namespace Microsoft::UI::Composition;
     using namespace Microsoft::UI::Xaml::Hosting;
     using namespace Microsoft::UI::Xaml::Shapes;
 
+}
+
+namespace winrt::XamlToolkit::Labs::WinUI::implementation
+{
     struct Shimmer : ShimmerT<Shimmer>
     {
         private:

@@ -1,4 +1,8 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <cmath>
+#endif
 #include "ResizeThumb.h"
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation

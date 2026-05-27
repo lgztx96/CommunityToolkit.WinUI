@@ -1,12 +1,21 @@
 #pragma once
 #include "pch.h"
-#include <queue>
+
+#ifdef __INTELLISENSE__
 #include <winrt/Windows.Foundation.Numerics.h>
+#include <queue>
+#include <span>
+#include <vector>
+#endif
+
+namespace winrt
+{
+	using namespace Windows::Foundation;
+	using namespace Windows::Foundation::Numerics;
+}
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
-	using namespace winrt::Windows::Foundation::Numerics;
-
     struct DBScan
     {
         static constexpr int Unclassified = -1;

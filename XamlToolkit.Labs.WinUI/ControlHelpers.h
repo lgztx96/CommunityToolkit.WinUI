@@ -1,5 +1,4 @@
 #pragma once
-#include <winrt/Windows.Foundation.Metadata.h>
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
@@ -7,7 +6,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 	{
 		static bool IsXamlRootAvailable()
 		{
-			return Windows::Foundation::Metadata::ApiInformation::IsPropertyPresent(winrt::name_of<winrt::Windows::UI::Xaml::UIElement>(), L"XamlRoot");
+			return Windows::Foundation::Metadata::ApiInformation::IsPropertyPresent(winrt::name_of<winrt::Microsoft::UI::Xaml::UIElement>(), L"XamlRoot");
 		}
 	};
 }

@@ -1,9 +1,6 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "TokenView.h"
-
-using namespace winrt;
-using namespace Microsoft::UI::Xaml;
-using namespace Windows::Foundation::Collections;
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {

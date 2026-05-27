@@ -1,4 +1,5 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
 #include "MarkdownTextBlock.h"
 #if __has_include("MarkdownTextBlock.g.cpp")
 #include "MarkdownTextBlock.g.cpp"

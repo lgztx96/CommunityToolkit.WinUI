@@ -1,17 +1,21 @@
-﻿#pragma once
+#pragma once
 
 #include "OpacityMaskView.g.h"
-#include <winrt/Microsoft.UI.Composition.h>
-#include <winrt/Microsoft.UI.Xaml.h>
-#include <winrt/Microsoft.UI.Xaml.Hosting.h>
-#include <winrt/Microsoft.UI.Xaml.Shapes.h>
+
+#ifdef __INTELLISENSE__
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
+#include <string_view>
+#endif
+
+namespace winrt
+{
+    using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Composition;
+}
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
-	using namespace winrt::Microsoft::UI::Xaml;
-
     struct OpacityMaskView : OpacityMaskViewT<OpacityMaskView>
     {
         OpacityMaskView();
@@ -36,11 +40,11 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         static constexpr std::wstring_view MaskContainerTemplateName = L"PART_MaskContainer";
         static constexpr std::wstring_view RootGridTemplateName = L"PART_RootGrid";
 
-        winrt::Microsoft::UI::Composition::Compositor _compositor{ nullptr };
-        winrt::Microsoft::UI::Composition::CompositionBrush _mask{ nullptr };
-        winrt::Microsoft::UI::Composition::CompositionMaskBrush _maskBrush{ nullptr };
+        Compositor _compositor{ nullptr };
+        CompositionBrush _mask{ nullptr };
+        CompositionMaskBrush _maskBrush{ nullptr };
 
-        static winrt::Microsoft::UI::Composition::CompositionBrush GetVisualBrush(UIElement const& element);
+        static CompositionBrush GetVisualBrush(UIElement const& element);
     };
 }
 

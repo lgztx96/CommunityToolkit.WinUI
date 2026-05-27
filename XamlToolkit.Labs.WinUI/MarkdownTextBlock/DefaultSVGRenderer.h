@@ -1,11 +1,12 @@
-﻿#pragma once
-#include <winrt/Windows.Foundation.h>
-#include <winrt/XamlToolkit.Labs.WinUI.h>
-#include <winrt/Microsoft.UI.Xaml.h>
-#include <winrt/Windows.Storage.Streams.h>
-#include <winrt/Microsoft.UI.Xaml.Media.h>
-#include <winrt/Microsoft.UI.Xaml.Media.Imaging.h>
+#pragma once
 #include "Extension.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
+#include <winrt/Microsoft.UI.Xaml.Media.Imaging.h>
+#include <winrt/Windows.Storage.Streams.h>
+#include <string_view>
+#endif
 
 namespace winrt::XamlToolkit::Labs::WinUI
 {

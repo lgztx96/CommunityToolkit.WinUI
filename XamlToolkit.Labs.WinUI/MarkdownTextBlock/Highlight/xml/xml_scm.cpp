@@ -1,7 +1,9 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
 #include <array>
 #include <span>
-#include <cstdint>
+#endif
 
 std::span<const uint8_t> xml_highlight_scm()
 {

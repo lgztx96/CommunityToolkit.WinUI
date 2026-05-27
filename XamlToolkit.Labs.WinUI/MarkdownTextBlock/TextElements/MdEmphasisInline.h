@@ -1,18 +1,27 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 #pragma once
 
 #include "IAddChild.h"
 #include "MdInlineText.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Documents.h>
 #include <winrt/Microsoft.UI.Text.h>
-#include <winrt/Windows.Foundation.Collections.h>
-#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.UI.Text.h>
+#include <format>
+#include <optional>
+#endif
+
+namespace winrt
+{
+	using namespace Windows::UI::Text;
+}
 
 namespace winrt::XamlToolkit::Labs::WinUI::TextElements 
 {
-    using namespace winrt::Windows::UI::Text;
-
     class MdEmphasisInline final : public IAddChild
     {
     private:

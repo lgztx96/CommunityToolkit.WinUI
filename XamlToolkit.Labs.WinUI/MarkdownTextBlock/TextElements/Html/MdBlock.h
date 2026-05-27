@@ -1,18 +1,27 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 #pragma once
 
 #include "../IAddChild.h"
-#include <winrt/Windows.Foundation.Collections.h>
-#include <winrt/Microsoft.UI.Xaml.Controls.h>
 
-namespace winrt::XamlToolkit::Labs::WinUI::TextElements::Html 
+#ifdef __INTELLISENSE__
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
+#include <winrt/Microsoft.UI.Xaml.Documents.h>
+#include <winrt/Windows.UI.Text.h>
+#include <vector>
+#endif
+
+namespace winrt
 {
     using namespace Windows::UI::Text;
     using namespace Microsoft::UI::Xaml;
     using namespace Microsoft::UI::Xaml::Controls;
+}
 
+namespace winrt::XamlToolkit::Labs::WinUI::TextElements::Html 
+{
     class MdBlock : public IAddChild
     {
     private:

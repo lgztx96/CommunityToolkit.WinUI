@@ -1,6 +1,9 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <algorithm>
+#endif
 #include "ColorExtensions.h"
-#include <ranges>
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {

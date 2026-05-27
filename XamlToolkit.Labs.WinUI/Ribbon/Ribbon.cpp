@@ -1,11 +1,9 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "Ribbon.h"
 #if __has_include("Ribbon.g.cpp")
 #include "Ribbon.g.cpp"
 #endif
-
-using namespace winrt;
-using namespace Microsoft::UI::Xaml;
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {

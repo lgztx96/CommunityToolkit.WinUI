@@ -1,9 +1,9 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "Adorner.h"
 #if __has_include("Adorner.g.cpp")
 #include "Adorner.g.cpp"
 #endif
-#include <winrt/XamlToolkit.WinUI.h>
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {

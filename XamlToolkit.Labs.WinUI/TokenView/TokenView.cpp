@@ -1,14 +1,16 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "TokenView.h"
 #if __has_include("TokenView.g.cpp")
 #include "TokenView.g.cpp"
 #endif
-#include <winrt/Microsoft.UI.Xaml.Input.h>
 #include "../ControlHelpers.h"
 
-using namespace winrt;
-using namespace Microsoft::UI::Xaml;
-using namespace Microsoft::UI::Xaml::Data;
+namespace winrt
+{
+	using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Xaml::Data;
+}
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {

@@ -1,6 +1,6 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "ResizeThumb.h"
-#include <winrt/Microsoft.UI.Input.h>
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {

@@ -1,9 +1,13 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
 #include "Shimmer.h"
 #if __has_include("Shimmer.g.cpp")
 #include "Shimmer.g.cpp"
 #endif
+
+#ifdef __INTELLISENSE__
 #include <winrt/XamlToolkit.WinUI.h>
+#endif
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
@@ -80,7 +84,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
             return false;
         }
 
-        auto compositor = XamlToolkit::WinUI::VisualExtensions::GetVisual(_shape).Compositor();
+        auto compositor = winrt::XamlToolkit::WinUI::VisualExtensions::GetVisual(_shape).Compositor();
 
         _rectangleGeometry = compositor.CreateRoundedRectangleGeometry();
         _shapeVisual = compositor.CreateShapeVisual();
@@ -144,7 +148,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
             return;
         }
 
-        auto rootVisual = XamlToolkit::WinUI::VisualExtensions::GetVisual(_shape);
+        auto rootVisual = winrt::XamlToolkit::WinUI::VisualExtensions::GetVisual(_shape);
         _sizeAnimation = rootVisual.Compositor().CreateExpressionAnimation(L"rootVisual.Size");
         _sizeAnimation.SetReferenceParameter(L"rootVisual", rootVisual);
 

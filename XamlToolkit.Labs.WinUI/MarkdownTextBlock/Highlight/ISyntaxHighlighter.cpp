@@ -1,14 +1,14 @@
-﻿#pragma once
+#pragma once
 #include "pch.h"
-#include "ISyntaxHighlighter.h"
-#include <filesystem>
-#include <fstream>
-#include <memory>
-#include <sstream>
-#include <tree_sitter/api.h>
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <algorithm>
+#include <format>
+#include <span>
 #include <unordered_map>
-#include <unordered_set>
-#include <vector>
+#endif
+#include "ISyntaxHighlighter.h"
+#include <tree_sitter/api.h>
 
 std::span<const uint8_t> cpp_highlight_scm();
 

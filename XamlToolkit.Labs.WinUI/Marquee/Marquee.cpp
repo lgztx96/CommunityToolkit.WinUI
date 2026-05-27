@@ -1,4 +1,9 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <chrono>
+#include <cmath>
+#endif
 #include "Marquee.h"
 #if __has_include("Marquee.g.cpp")
 #include "Marquee.g.cpp"

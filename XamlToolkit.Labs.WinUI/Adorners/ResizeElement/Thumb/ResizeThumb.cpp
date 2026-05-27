@@ -1,9 +1,12 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <cmath>
+#endif
 #include "ResizeThumb.h"
 #if __has_include("ResizeThumb.g.cpp")
 #include "ResizeThumb.g.cpp"
 #endif
-#include <winrt/Microsoft.UI.Xaml.Input.h>
 #include "../XamlToolkit.WinUI/common.h"
 #include "TargetControlResizedEventArgs.h"
 

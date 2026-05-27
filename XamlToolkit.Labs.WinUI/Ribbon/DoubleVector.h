@@ -2,6 +2,10 @@
 
 #include "DoubleVector.g.h"
 
+#ifdef __INTELLISENSE__
+#include <vector>
+#endif
+
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
     struct DoubleVector : DoubleVectorT<DoubleVector, winrt::Windows::Foundation::Collections::IVectorView<double>>, winrt::vector_base<DoubleVector, double>

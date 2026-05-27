@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "ColorPaletteSampler.h"
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation

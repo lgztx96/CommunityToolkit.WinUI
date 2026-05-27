@@ -1,9 +1,20 @@
 #pragma once
 
 #include "Adorner.g.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Xaml.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
-#include <winrt/XamlToolkit.Labs.WinUI.h>
+#endif
+
+namespace winrt
+{
+    using namespace Windows::Foundation;
+    using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Xaml::Controls;
+}
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {

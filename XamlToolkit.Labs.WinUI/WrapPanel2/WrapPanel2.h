@@ -1,8 +1,22 @@
-﻿#pragma once
+#pragma once
 
 #include "WrapPanel2.g.h"
+
+#ifdef __INTELLISENSE__
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
+#include <algorithm>
+#include <cmath>
+#include <limits>
+#include <vector>
+#endif
+
+namespace winrt
+{
+	using namespace Windows::Foundation;
+	using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Xaml::Controls;
+}
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {

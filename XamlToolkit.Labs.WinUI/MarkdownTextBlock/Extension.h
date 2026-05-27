@@ -1,17 +1,14 @@
-﻿#pragma once
+#pragma once
 
-#include <winrt/Windows.Foundation.h>
-#include <winrt/Windows.Foundation.Collections.h> 
-#include <winrt/Microsoft.UI.Xaml.Documents.h> 
 #include <MarkdownTextBlock/TextElements/HtmlElementType.h>
-#include <winrt/Microsoft.UI.Xaml.Media.h>
-#include <winrt/Windows.UI.ViewManagement.h>
 
-using namespace winrt::Windows::Foundation;
-using namespace winrt::Microsoft::UI::Xaml::Documents;
-using namespace winrt::Microsoft::UI::Xaml::Media;
-using namespace winrt::Windows::UI::ViewManagement;
-using namespace winrt::XamlToolkit::Labs::WinUI::TextElements;
+namespace winrt 
+{
+	using namespace Windows::Foundation;
+	using namespace Microsoft::UI::Xaml::Documents;
+	using namespace Microsoft::UI::Xaml::Media;
+	using namespace XamlToolkit::Labs::WinUI::TextElements;
+}
 
 namespace winrt::XamlToolkit::Labs::WinUI
 {
@@ -44,7 +41,7 @@ namespace winrt::XamlToolkit::Labs::WinUI
 
 		static Size GetMarkdownImageSize(std::wstring_view link);
 
-		static SolidColorBrush GetAccentColorBrush(UIColorType colorType = UIColorType::Accent);
+		static SolidColorBrush GetAccentColorBrush(int32_t colorType = 5 /* UIColorType::Accent */);
 
 		static std::wstring_view EscapeHtmlEntity(std::wstring_view entity);
 	};

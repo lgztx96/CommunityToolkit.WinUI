@@ -1,20 +1,24 @@
-﻿#pragma once
+#pragma once
 
 #include "Marquee.g.h"
+
+#ifdef __INTELLISENSE__
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
-#include <winrt/Microsoft.UI.Xaml.Controls.h>
-#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
-#include <winrt/Microsoft.UI.Xaml.Media.h>
+#include <string_view>
+#endif
+
+namespace winrt
+{
+	using namespace Windows::Foundation;
+	using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Xaml::Controls;
+	using namespace Microsoft::UI::Xaml::Media;
+	using namespace Microsoft::UI::Xaml::Media::Animation;
+}
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
-	using namespace winrt::Microsoft::UI::Xaml;
-	using namespace winrt::Microsoft::UI::Xaml::Controls;
-	using namespace winrt::Microsoft::UI::Xaml::Media;
-	using namespace winrt::Microsoft::UI::Xaml::Media::Animation;
-	using namespace winrt::Windows::Foundation;
-
 	struct Marquee : MarqueeT<Marquee>
 	{
 	private:

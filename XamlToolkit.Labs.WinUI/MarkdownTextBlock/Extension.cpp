@@ -1,11 +1,20 @@
-﻿#include "pch.h"
-#include "Extension.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <algorithm>
+#include <array>
 #include <ranges>
-#include <regex>
-#include <cwctype>
-#include <winrt/Windows.Data.Xml.Dom.h>
+#include <string>
+#include <string_view>
+#include <unordered_map>
+#endif
+#include "Extension.h"
 
-using namespace winrt::Windows::Data::Xml::Dom;
+namespace winrt
+{
+	using namespace Windows::Data::Xml::Dom;
+	using namespace Windows::UI::ViewManagement;
+}
 
 namespace winrt::XamlToolkit::Labs::WinUI
 {
@@ -327,13 +336,13 @@ namespace winrt::XamlToolkit::Labs::WinUI
 		return { 0, 0 };
 	}
 
-	SolidColorBrush Extensions::GetAccentColorBrush(UIColorType colorType)
+	SolidColorBrush Extensions::GetAccentColorBrush(int32_t colorType)
 	{
 		// Create a UISettings object to get the accent color
 		UISettings uiSettings;
 
 		// Get the accent color as a Color value
-		auto accentColor = uiSettings.GetColorValue(colorType);
+		auto accentColor = uiSettings.GetColorValue(static_cast<UIColorType>(colorType));
 
 		// Create a SolidColorBrush from the accent color
 		SolidColorBrush accentBrush(accentColor);

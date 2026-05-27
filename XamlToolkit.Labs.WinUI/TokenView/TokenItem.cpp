@@ -1,12 +1,10 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "TokenItem.h"
 #if __has_include("TokenItem.g.cpp")
 #include "TokenItem.g.cpp"
 #endif
 #include "TokenItemRemovingEventArgs.h"
-
-using namespace winrt;
-using namespace Microsoft::UI::Xaml;
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {

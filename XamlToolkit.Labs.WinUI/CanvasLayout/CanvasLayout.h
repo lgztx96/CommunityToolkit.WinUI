@@ -2,6 +2,22 @@
 
 #include "CanvasLayout.g.h"
 
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.Foundation.Collections.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
+#include <wil/wistd_type_traits.h>
+#include <wil/cppwinrt_authoring.h>
+#endif
+
+namespace winrt
+{
+	using namespace Windows::Foundation;
+	using namespace Windows::Foundation::Collections;
+	using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Xaml::Controls;
+}
+
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
 	struct CanvasLayoutState : winrt::implements<CanvasLayoutState, ICanvasLayoutState>
