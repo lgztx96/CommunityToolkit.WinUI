@@ -1,20 +1,25 @@
 ﻿#pragma once
 
 #include "ControlSizeTrigger.g.h"
-#include <wil/wistd_type_traits.h>
-#include <wil/cppwinrt_authoring.h>
-#include <winrt/Microsoft.UI.Xaml.Automation.h>
+
+#ifdef __INTELLISENSE__
+#include <limits>
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Microsoft.UI.Xaml.Controls.h>
 #include <winrt/Microsoft.UI.Xaml.Controls.Primitives.h>
-#include <winrt/Microsoft.UI.Xaml.Input.h>
+#endif
 
-namespace winrt::XamlToolkit::WinUI::implementation
+namespace winrt
 {
-    using namespace winrt;
     using namespace Microsoft::UI::Xaml;
     using namespace Microsoft::UI::Xaml::Controls;
     using namespace Microsoft::UI::Xaml::Controls::Primitives;
     using namespace Microsoft::UI::Xaml::Input;
+}
+
+namespace winrt::XamlToolkit::WinUI::implementation
+{
 
     struct ControlSizeTrigger : ControlSizeTriggerT<ControlSizeTrigger>
     {

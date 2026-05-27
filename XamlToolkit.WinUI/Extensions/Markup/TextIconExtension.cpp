@@ -1,12 +1,17 @@
 ﻿#include "pch.h"
+#include "winrt_module_imports.h"
 #include "TextIconExtension.h"
 #if __has_include("TextIconExtension.g.cpp")
 #include "TextIconExtension.g.cpp"
 #endif
 
+namespace winrt
+{
+    using namespace Windows::Foundation;
+}
+
 namespace winrt::XamlToolkit::WinUI::implementation
 {
-	using namespace winrt::Windows::Foundation;
 
 	FontFamily TextIconExtension::SymbolThemeFontFamily()
 	{

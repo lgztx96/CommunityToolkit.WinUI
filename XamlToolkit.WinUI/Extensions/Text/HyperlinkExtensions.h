@@ -1,8 +1,13 @@
 ﻿#pragma once
 
 #include "HyperlinkExtensions.g.h"
-#include <wil/wistd_type_traits.h>
-#include <wil/cppwinrt_authoring.h>
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Input.h>
+#include <winrt/Microsoft.UI.Xaml.Documents.h>
+#endif
 
 namespace winrt
 {

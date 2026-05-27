@@ -1,7 +1,9 @@
 #pragma once
-#include <winrt/base.h>
-#include <wil/wistd_type_traits.h>
-#include <wil/cppwinrt_authoring.h>
+
+#ifdef __INTELLISENSE__
+#include <string_view>
+#include <winrt/Windows.Foundation.h>
+#endif
 
 template <typename TValue>
 struct TypedResourceKey

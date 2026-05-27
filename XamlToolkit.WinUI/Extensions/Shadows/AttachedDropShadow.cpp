@@ -1,8 +1,17 @@
 ﻿#include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <algorithm>
+#endif
 #include "AttachedDropShadow.h"
 #if __has_include("AttachedDropShadow.g.cpp")
 #include "AttachedDropShadow.g.cpp"
 #endif
+
+namespace winrt
+{
+    using namespace Windows::Foundation;
+}
 
 namespace winrt::XamlToolkit::WinUI::implementation
 {

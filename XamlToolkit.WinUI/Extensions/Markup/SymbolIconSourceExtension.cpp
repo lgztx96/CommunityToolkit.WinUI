@@ -1,8 +1,14 @@
 ﻿#include "pch.h"
+#include "winrt_module_imports.h"
 #include "SymbolIconSourceExtension.h"
 #if __has_include("SymbolIconSourceExtension.g.cpp")
 #include "SymbolIconSourceExtension.g.cpp"
 #endif
+
+namespace winrt
+{
+	using namespace Microsoft::UI::Xaml::Controls;
+}
 
 namespace winrt::XamlToolkit::WinUI::implementation
 {

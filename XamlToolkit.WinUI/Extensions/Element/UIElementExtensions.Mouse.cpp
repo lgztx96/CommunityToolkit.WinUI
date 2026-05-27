@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "UIElementExtensions.h"
 
 namespace winrt::XamlToolkit::WinUI::implementation

@@ -1,14 +1,17 @@
 ﻿#include "pch.h"
+#include "winrt_module_imports.h"
 #include "IsNullOrEmptyStateTrigger.h"
 #if __has_include("IsNullOrEmptyStateTrigger.g.cpp")
 #include "IsNullOrEmptyStateTrigger.g.cpp"
 #endif
 
-using namespace winrt;
-using namespace Microsoft::UI::Xaml;
-using namespace Microsoft::UI::Xaml::Interop;
-using namespace Windows::Foundation;
-using namespace Windows::Foundation::Collections;
+namespace winrt
+{
+    using namespace Microsoft::UI::Xaml;
+    using namespace Microsoft::UI::Xaml::Interop;
+    using namespace Windows::Foundation;
+    using namespace Windows::Foundation::Collections;
+}
 
 namespace winrt::XamlToolkit::WinUI::implementation
 {

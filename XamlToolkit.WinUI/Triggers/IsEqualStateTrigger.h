@@ -1,21 +1,23 @@
 ﻿#pragma once
 
 #include "IsEqualStateTrigger.g.h"
-#include <wil/wistd_type_traits.h>
-#include <wil/cppwinrt_authoring.h>
-#include <winrt/Microsoft.UI.Xaml.Automation.h>
-#include <winrt/Microsoft.UI.Xaml.Controls.h>
-#include <winrt/Microsoft.UI.Xaml.Controls.Primitives.h>
-#include <winrt/Microsoft.UI.Xaml.Input.h>
 
-namespace winrt::XamlToolkit::WinUI::implementation
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#endif
+
+namespace winrt
 {
-    using namespace winrt;
     using namespace Windows::Foundation;
     using namespace Microsoft::UI::Xaml;
     using namespace Microsoft::UI::Xaml::Controls;
     using namespace Microsoft::UI::Xaml::Controls::Primitives;
     using namespace Microsoft::UI::Xaml::Input;
+}
+
+namespace winrt::XamlToolkit::WinUI::implementation
+{
 
     struct IsEqualStateTrigger : IsEqualStateTriggerT<IsEqualStateTrigger>
     {

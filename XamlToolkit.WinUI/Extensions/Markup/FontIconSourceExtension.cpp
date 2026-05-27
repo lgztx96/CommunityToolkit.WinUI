@@ -1,8 +1,14 @@
 ﻿#include "pch.h"
+#include "winrt_module_imports.h"
 #include "FontIconSourceExtension.h"
 #if __has_include("FontIconSourceExtension.g.cpp")
 #include "FontIconSourceExtension.g.cpp"
 #endif
+
+namespace winrt
+{
+	using namespace Microsoft::UI::Xaml::Controls;
+}
 
 namespace winrt::XamlToolkit::WinUI::implementation
 {

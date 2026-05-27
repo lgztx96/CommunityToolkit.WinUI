@@ -1,10 +1,15 @@
 #pragma once
 
+#ifdef __INTELLISENSE__
+#include <concepts>
 #include <functional>
 #include <string_view>
+#include <winrt/Windows.Foundation.h>
 #include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Windows.UI.Xaml.Interop.h>
+#endif
 
-namespace winrt 
+namespace winrt
 {
     template <typename D, typename B>
     concept derived_from = std::is_base_of<impl::base_one<D, B>, D>::value || std::is_base_of<B, D>::value;
@@ -17,10 +22,13 @@ namespace winrt
     concept is_derived_from = std::derived_from<D, winrt::impl::base_one<D, B>>;
 }
 
+namespace winrt
+{
+    using namespace Microsoft::UI::Xaml;
+}
+
 namespace winrt::XamlToolkit::WinUI
 {
-    using namespace winrt;
-    using namespace Microsoft::UI::Xaml;
 
     template <class F, typename Ret, class... Args> 
     concept Callable = std::invocable<F, Args...> && std::same_as<Ret, std::invoke_result_t<F, Args...>>;

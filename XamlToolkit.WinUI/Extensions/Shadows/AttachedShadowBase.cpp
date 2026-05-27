@@ -1,4 +1,5 @@
 ﻿#include "pch.h"
+#include "winrt_module_imports.h"
 #include "AttachedShadowBase.h"
 #if __has_include("AttachedShadowBase.g.cpp")
 #include "AttachedShadowBase.g.cpp"
