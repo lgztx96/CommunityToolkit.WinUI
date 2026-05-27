@@ -2,10 +2,13 @@
 
 #include "VisualStateUtilities.g.h"
 
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.Foundation.Collections.h>
 #include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Microsoft.UI.Xaml.Controls.h>
 #include <winrt/Microsoft.UI.Xaml.Media.h>
-#include <winrt/Windows.Foundation.Collections.h>
+#endif
 
 namespace winrt
 {

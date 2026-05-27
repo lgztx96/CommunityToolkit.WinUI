@@ -1,11 +1,13 @@
 #include "pch.h"
-#include "ConverterTools.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <cmath>
+#include <concepts>
+#include <limits>
+#include <utility>
 #include <variant>
-
-namespace winrt
-{
-	using namespace Microsoft::UI::Xaml::Markup;
-}
+#endif
+#include "ConverterTools.h"
 
 namespace winrt::XamlToolkit::WinUI::Converters::implementation
 {

@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 #pragma once
@@ -6,16 +6,23 @@
 #include "../Extension.h"
 #include "IAddChild.h"
 #include "MdFlowDocument.h"
-#include <winrt/Microsoft.UI.Xaml.Controls.h>
-#include <winrt/Windows.Foundation.Collections.h>
-#include <winrt/Windows.Foundation.h>
 
-namespace winrt::XamlToolkit::Labs::WinUI::TextElements
+#ifdef __INTELLISENSE__
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
+#include <winrt/Microsoft.UI.Xaml.Documents.h>
+#endif
+
+namespace winrt
 {
 	using namespace Windows::Foundation;
 	using namespace Microsoft::UI::Xaml;
 	using namespace Microsoft::UI::Xaml::Controls;
 
+}
+
+namespace winrt::XamlToolkit::Labs::WinUI::TextElements
+{
 	enum class BulletType
 	{
 		Circle,

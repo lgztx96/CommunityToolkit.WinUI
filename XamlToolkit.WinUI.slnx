@@ -71,6 +71,7 @@
     <File Path="nuget/XamlToolkit.WinUI.Native.targets" />
     <File Path="nuget/XamlToolkit.WinUI.nuspec" />
   </Folder>
+  <Project Path="XamlToolkit.WinUI.ModuleBuilder/XamlToolkit.WinUI.ModuleBuilder.vcxproj" Id="f9871572-63b1-4f7c-a561-c1f39bb9143b" />
   <Project Path="XamlToolkit.Labs.WinUI/XamlToolkit.Labs.WinUI.vcxproj" Id="8dbdb115-b325-4d42-aecf-50cbf8b7ab3e" />
   <Project Path="XamlToolkit.WinUI.Animations/XamlToolkit.WinUI.Animations.vcxproj" Id="37cd7b40-3e54-41ce-af73-43c6746ef315" />
   <Project Path="XamlToolkit.WinUI.Behaviors/XamlToolkit.WinUI.Behaviors.vcxproj" Id="72f42e7f-edd4-4cde-b07d-e90d68039da9" />

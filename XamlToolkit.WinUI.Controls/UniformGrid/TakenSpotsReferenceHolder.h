@@ -1,6 +1,8 @@
-﻿#pragma once
-#include <algorithm>
+#pragma once
+
+#ifdef __INTELLISENSE__
 #include <vector>
+#endif
 
 namespace winrt::XamlToolkit::WinUI::Controls
 {

@@ -2,10 +2,22 @@
 
 #include "TokenItem.g.h"
 
+#ifdef __INTELLISENSE__
+#include <wil/wistd_type_traits.h>
+#include <wil/cppwinrt_authoring.h>
+#include <string_view>
+#endif
+
+namespace winrt
+{
+	using namespace Windows::Foundation;
+	using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Xaml::Controls;
+	using namespace Microsoft::UI::Xaml::Controls::Primitives;
+}
+
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
-	using namespace winrt::Microsoft::UI::Xaml::Controls::Primitives;
-
 	struct TokenItem : TokenItemT<TokenItem>
 	{
 		static constexpr std::wstring_view IconLeftState = L"IconLeft";
@@ -29,7 +41,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
 		virtual void OnIsRemoveablePropertyChanged(bool oldValue, bool newValue);
 
-		wil::untyped_event<TokenItemRemovingEventArgs> Removing;
+		wil::untyped_event<winrt::XamlToolkit::Labs::WinUI::TokenItemRemovingEventArgs> Removing;
 
 		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> IsRemoveableProperty =
 			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(

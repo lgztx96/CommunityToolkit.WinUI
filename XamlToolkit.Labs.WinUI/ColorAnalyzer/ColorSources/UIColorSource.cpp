@@ -1,16 +1,15 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <cmath>
+#endif
 #include "UIColorSource.h"
 #if __has_include("UIColorSource.g.cpp")
 #include "UIColorSource.g.cpp"
 #endif
-#include <winrt/Windows.Foundation.Numerics.h>
-#include <winrt/Microsoft.UI.Xaml.Media.Imaging.h>
-#include <winrt/Windows.Storage.Streams.h>
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
-	using namespace winrt::Windows::Foundation::Numerics;
-
     const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> UIColorSource::SourceProperty =
         winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
             L"Source",

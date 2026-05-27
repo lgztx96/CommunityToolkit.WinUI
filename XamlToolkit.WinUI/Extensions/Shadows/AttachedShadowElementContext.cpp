@@ -1,4 +1,5 @@
 ﻿#include "pch.h"
+#include "winrt_module_imports.h"
 #include "AttachedShadowElementContext.h"
 #if __has_include("AttachedShadowElementContext.g.cpp")
 #include "AttachedShadowElementContext.g.cpp"

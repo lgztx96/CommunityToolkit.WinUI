@@ -3,6 +3,10 @@
 #include "DoubleToVisibilityConverter.g.h"
 #include "DoubleToObjectConverter.h"
 
+#ifdef __INTELLISENSE__
+#include <winrt/Microsoft.UI.Xaml.h>
+#endif
+
 namespace winrt
 {
 	using namespace Microsoft::UI::Xaml;

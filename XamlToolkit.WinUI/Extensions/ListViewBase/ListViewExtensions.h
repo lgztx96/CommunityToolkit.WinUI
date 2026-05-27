@@ -2,11 +2,36 @@
 
 #include "ListViewExtensions.g.h"
 
+#ifdef __INTELLISENSE__
+#include <map>
+#include <memory>
+#include <optional>
+#include <unordered_map>
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.Foundation.Collections.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.Primitives.h>
+#include <winrt/Microsoft.UI.Xaml.Media.h>
+#include <winrt/Microsoft.UI.Xaml.Input.h>
+#include <winrt/Microsoft.UI.Xaml.Data.h>
+#endif
+
+namespace winrt
+{
+	using namespace Microsoft::UI::Xaml;
+	using namespace Windows::ApplicationModel;
+	using namespace Windows::Foundation;
+	using namespace Windows::Foundation::Collections;
+	using namespace Microsoft::UI::Xaml::Input;
+	using namespace Microsoft::UI::Xaml::Controls;
+	using namespace Microsoft::UI::Xaml::Media;
+	using namespace Microsoft::UI::Xaml::Data;
+	using namespace Microsoft::UI::Xaml::Controls::Primitives;
+}
+
 namespace winrt::XamlToolkit::WinUI::implementation
 {
-	using namespace winrt::Windows::Foundation::Collections;
-	using namespace winrt::Microsoft::UI::Xaml::Media;
-
 	struct ListViewExtensions : ListViewExtensionsT<ListViewExtensions>
 	{
 		static void OnItemContainerStretchDirectionPropertyChanged(
@@ -51,9 +76,9 @@ namespace winrt::XamlToolkit::WinUI::implementation
 			FrameworkElement::Unloaded_revoker _unloadedRevoker;
 		};
 
-		static inline std::unordered_map<IObservableVector<IInspectable>, std::unique_ptr<EventContext>> _trackedListViews;
+		static inline std::map<IObservableVector<IInspectable>, std::unique_ptr<EventContext>> _trackedListViews;
 
-		static inline std::unordered_map<ListViewBase, std::unique_ptr<EventContext>> _listViewEventContexts;
+		static inline std::map<ListViewBase, std::unique_ptr<EventContext>> _listViewEventContexts;
 
 	public:
 		static void OnAlternateColorPropertyChanged(DependencyObject const& sender, DependencyPropertyChangedEventArgs const& args);

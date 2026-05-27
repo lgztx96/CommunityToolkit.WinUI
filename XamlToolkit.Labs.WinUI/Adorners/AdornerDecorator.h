@@ -2,6 +2,13 @@
 
 #include "AdornerDecorator.g.h"
 
+#ifdef __INTELLISENSE__
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <wil/wistd_type_traits.h>
+#include <wil/cppwinrt_authoring.h>
+#include <string_view>
+#endif
+
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
     struct AdornerDecorator : AdornerDecoratorT<AdornerDecorator>

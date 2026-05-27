@@ -1,9 +1,14 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <algorithm>
+#include <cmath>
+#include <vector>
+#endif
 #include "RibbonPanel.h"
 #if __has_include("RibbonPanel.g.cpp")
 #include "RibbonPanel.g.cpp"
 #endif
-#include <ranges>
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {

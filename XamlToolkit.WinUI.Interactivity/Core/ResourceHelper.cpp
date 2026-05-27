@@ -1,6 +1,6 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "ResourceHelper.h"
-#include <winrt/Microsoft.Windows.ApplicationModel.Resources.h>
 
 namespace
 {

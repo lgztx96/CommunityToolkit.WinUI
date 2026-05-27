@@ -1,8 +1,6 @@
-﻿#pragma once
+#pragma once
 
 #include "TokenItemRemovingEventArgs.g.h"
-#include <wil/wistd_type_traits.h>
-#include <wil/cppwinrt_authoring.h>
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {

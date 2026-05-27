@@ -1,9 +1,12 @@
 #pragma once
 
-#include <string>
-#include <sstream>
-#include <iomanip>
+#ifdef __INTELLISENSE__
 #include <cmath>
+#include <sstream>
+#include <string>
+#endif
+
+#include <iomanip>
 
 namespace winrt::XamlToolkit::WinUI::Animations
 {

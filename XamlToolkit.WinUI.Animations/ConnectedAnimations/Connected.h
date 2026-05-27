@@ -3,16 +3,19 @@
 #include "Connected.g.h"
 #include "ConnectedAnimationHelper.h"
 #include "ConnectedAnimationProperties.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.Foundation.Collections.h>
 #include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Microsoft.UI.Xaml.Controls.h>
-#include <winrt/Windows.Foundation.Collections.h>
-#include <unordered_map>
+#include <winrt/Microsoft.UI.Xaml.Navigation.h>
 #include <map>
+#include <unordered_map>
 #include <vector>
 #include <memory>
 #include <functional>
-#include <wil/wistd_type_traits.h>
-#include <wil/cppwinrt_authoring.h>
+#endif
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {

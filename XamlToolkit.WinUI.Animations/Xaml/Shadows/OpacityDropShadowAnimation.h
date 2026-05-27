@@ -4,10 +4,6 @@
 #include "../Abstract/ShadowAnimation{TValue,TKeyFrame}.h"
 #include "../Builders/NormalizedKeyFrameAnimationBuilder{T}.Composition.h"
 #include "../KeyFrames/ScalarKeyFrame.h"
-#include <optional>
-#include <winrt/Windows.Foundation.Collections.h>
-#include <wil/wistd_type_traits.h>
-#include <wil/cppwinrt_authoring.h>
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {

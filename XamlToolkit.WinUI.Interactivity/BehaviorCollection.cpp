@@ -1,12 +1,11 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "BehaviorCollection.h"
 #if __has_include("BehaviorCollection.g.cpp")
 #include "BehaviorCollection.g.cpp"
 #endif
 
 #include "Core/ResourceHelper.h"
-#include <algorithm>
-#include <winrt/Windows.ApplicationModel.h>
 
 namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 {

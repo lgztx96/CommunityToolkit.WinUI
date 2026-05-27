@@ -1,4 +1,8 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <algorithm>
+#endif
 #include "CanvasLayout.h"
 #if __has_include("CanvasLayout.g.cpp")
 #include "CanvasLayout.g.cpp"

@@ -3,10 +3,22 @@
 #include "FontIconSourceExtension.g.h"
 #include "TextIconExtension.h"
 
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Xaml.Markup.h>
+#include <winrt/Microsoft.UI.Xaml.Media.h>
+#include <winrt/Microsoft.UI.Text.h>
+#endif
+
+namespace winrt
+{
+    using namespace Microsoft::UI::Text;
+    using namespace Microsoft::UI::Xaml::Media;
+    using namespace Microsoft::UI::Xaml::Controls;
+}
+
 namespace winrt::XamlToolkit::WinUI::implementation
 {
-    using namespace winrt::Microsoft::UI::Text;
-    using namespace winrt::Microsoft::UI::Xaml::Media;
 
     struct FontIconSourceExtension : FontIconSourceExtensionT<FontIconSourceExtension, implementation::TextIconExtension>
     {

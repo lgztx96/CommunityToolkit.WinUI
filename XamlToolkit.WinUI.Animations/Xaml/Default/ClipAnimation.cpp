@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "ClipAnimation.h"
 #if __has_include("ClipAnimation.g.cpp")
 #include "ClipAnimation.g.cpp"
@@ -6,9 +7,6 @@
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
-    using namespace winrt::Microsoft::UI::Xaml;
-    using namespace winrt::Microsoft::UI::Xaml::Media::Animation;
-
     Animations::AnimationBuilder& ClipAnimation::AppendToBuilder(
         Animations::AnimationBuilder& builder,
         std::optional<winrt::Windows::Foundation::TimeSpan> delayHint,

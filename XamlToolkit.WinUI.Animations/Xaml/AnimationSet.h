@@ -4,23 +4,10 @@
 #pragma once
 
 #include "AnimationSet.g.h"
-#include <winrt/base.h>
-#include <winrt/Microsoft.UI.Xaml.h>
-#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
-#include <algorithm>
-#include <atomic>
-#include <memory>
-#include <mutex>
-#include <unordered_map>
-#include <vector>
 #include "../Builders/AnimationBuilder.h"
-#include <wil/wistd_type_traits.h>
-#include <wil/cppwinrt_authoring.h>
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
-    using namespace winrt::Microsoft::UI::Xaml;
-
     /// <summary>
     /// A collection of animations that can be grouped together.
     /// </summary>

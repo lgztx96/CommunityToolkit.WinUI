@@ -1,4 +1,5 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
 #include "SwitchConverter.h"
 #if __has_include("SwitchConverter.g.cpp")
 #include "SwitchConverter.g.cpp"

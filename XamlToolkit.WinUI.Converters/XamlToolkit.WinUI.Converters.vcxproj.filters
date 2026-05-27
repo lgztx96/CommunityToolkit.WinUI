@@ -27,7 +27,6 @@
     <ClCompile Include="ResourceNameToResourceStringConverter.cpp" />
     <ClCompile Include="StringFormatConverter.cpp" />
     <ClCompile Include="StringVisibilityConverter.cpp" />
-    <ClCompile Include="TaskResultConverter.cpp" />
     <ClCompile Include="TypeToObjectConverter.cpp" />
     <ClCompile Include="VisibilityToBoolConverter.cpp" />
   </ItemGroup>
@@ -48,7 +47,6 @@
     <ClInclude Include="ResourceNameToResourceStringConverter.h" />
     <ClInclude Include="StringFormatConverter.h" />
     <ClInclude Include="StringVisibilityConverter.h" />
-    <ClInclude Include="TaskResultConverter.h" />
     <ClInclude Include="TypeToObjectConverter.h" />
     <ClInclude Include="VisibilityToBoolConverter.h" />
   </ItemGroup>

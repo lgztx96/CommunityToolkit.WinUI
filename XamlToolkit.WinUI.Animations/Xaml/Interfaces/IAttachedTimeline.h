@@ -4,15 +4,9 @@
 
 #pragma once
 #include "../../Builders/AnimationBuilder.h"
-#include <optional>
-#include <winrt/Microsoft.UI.Xaml.h>
-#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
-    using namespace winrt::Microsoft::UI::Xaml;
-    using namespace winrt::Microsoft::UI::Xaml::Media::Animation;
-
     /// <summary>
     /// An interface representing a XAML model for a custom animation that requires a specific parent UIElement context.
     /// </summary>

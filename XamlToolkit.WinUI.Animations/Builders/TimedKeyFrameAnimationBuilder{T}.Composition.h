@@ -2,14 +2,24 @@
 
 #include "TimedKeyFrameAnimationBuilder{T}.h"
 #include "NormalizedKeyFrameAnimationBuilder{T}.Composition.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Composition.h>
 #include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
+#include <optional>
+#endif
+
+namespace winrt 
+{
+	using namespace Microsoft::UI::Composition;
+	using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Xaml::Media::Animation;
+}
 
 namespace winrt::XamlToolkit::WinUI::Animations
 {
-    using namespace winrt::Microsoft::UI::Composition;
-    using namespace winrt::Microsoft::UI::Xaml;
-    using namespace winrt::Microsoft::UI::Xaml::Media::Animation;
-
     /// <summary>
     /// A custom <see cref="TimedKeyFrameAnimationBuilder{T}"/> class targeting the composition layer.
     /// </summary>

@@ -1,4 +1,8 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <string_view>
+#endif
 #include "SegmentedItem.h"
 #if __has_include("SegmentedItem.g.cpp")
 #include "SegmentedItem.g.cpp"

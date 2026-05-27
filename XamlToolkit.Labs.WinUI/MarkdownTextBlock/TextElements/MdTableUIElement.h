@@ -1,13 +1,18 @@
-﻿#pragma once
+#pragma once
 
 #include "MdTableUIElement.g.h"
-#include <execution>
-#include <vector>
-#include <winrt/Microsoft.UI.Xaml.Controls.h>
-#include <winrt/Microsoft.UI.Xaml.Shapes.h>
-#include <winrt/Windows.Foundation.Collections.h>
 
-namespace winrt::XamlToolkit::Labs::WinUI::implementation
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.Foundation.Collections.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
+#include <winrt/Microsoft.UI.Xaml.Media.h>
+#include <winrt/Microsoft.UI.Xaml.Shapes.h>
+#include <vector>
+#endif
+
+namespace winrt
 {
     using namespace Microsoft::UI::Xaml;
     using namespace Microsoft::UI::Xaml::Controls;
@@ -15,7 +20,10 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
     using namespace Microsoft::UI::Xaml::Media;
     using namespace Windows::Foundation;
     using namespace Windows::Foundation::Collections;
+}
 
+namespace winrt::XamlToolkit::Labs::WinUI::implementation
+{
     struct MdTableUIElement : MdTableUIElementT<MdTableUIElement>
     {
         MdTableUIElement() : _columnCount(0), _rowCount(0), _borderThickness(0.0f) {}

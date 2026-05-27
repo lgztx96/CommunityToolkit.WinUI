@@ -1,19 +1,27 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 #pragma once
 
 #include "IAddChild.h"
 #include <MarkdownTextBlock/MarkdownConfig.h>
+
+#ifdef __INTELLISENSE__
+#include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Microsoft.UI.Xaml.Controls.h>
+#include <winrt/Microsoft.UI.Xaml.Documents.h>
 #include <winrt/Microsoft.UI.Xaml.Media.Media3D.h>
+#endif
+
+namespace winrt
+{
+	using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Xaml::Controls;
+	using namespace Microsoft::UI::Xaml::Media::Media3D;
+}
 
 namespace winrt::XamlToolkit::Labs::WinUI::TextElements 
 {
-    using namespace Microsoft::UI::Xaml;
-    using namespace Microsoft::UI::Xaml::Controls;
-    using namespace Microsoft::UI::Xaml::Media::Media3D;
-
     class MdInlineCode final : public IAddChild
     {
         InlineUIContainer _inlineContainer;

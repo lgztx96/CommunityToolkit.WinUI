@@ -1,11 +1,10 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "FadeHeaderBehavior.h"
 #include "../Helper.h"
-#include <winrt/Microsoft.UI.Xaml.Hosting.h>
 #if __has_include("FadeHeaderBehavior.g.cpp")
 #include "FadeHeaderBehavior.g.cpp"
 #endif
-#include <winrt/Microsoft.UI.Composition.h>
 
 namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
 {

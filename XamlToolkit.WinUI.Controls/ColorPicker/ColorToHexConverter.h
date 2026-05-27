@@ -1,12 +1,21 @@
-﻿#pragma once
+#pragma once
 
 #include "ColorToHexConverter.g.h"
 
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.UI.Xaml.Interop.h>
+#include <winrt/XamlToolkit.WinUI.Helpers.h>
+#endif
+
+namespace winrt
+{
+	using namespace Windows::Foundation;
+	using namespace Windows::UI::Xaml::Interop;
+}
+
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-	using namespace winrt::Windows::Foundation;
-	using namespace winrt::Windows::UI::Xaml::Interop;
-
     struct ColorToHexConverter : ColorToHexConverterT<ColorToHexConverter>
     {
         ColorToHexConverter() = default;

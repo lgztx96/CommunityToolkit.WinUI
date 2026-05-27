@@ -1,4 +1,5 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
 #include "WinUIRenderer.h"
 #include <MarkdownTextBlock/TextElements/MdAutolinkInline.h>
 #include <MarkdownTextBlock/TextElements/MdBlockContainer.h>
@@ -22,17 +23,15 @@
 
 namespace winrt::XamlToolkit::Labs::WinUI
 {
-	using namespace winrt::XamlToolkit::Labs::WinUI::TextElements;
-
 	WinUIRenderer::WinUIRenderer(
 		std::shared_ptr<TextElements::MdFlowDocument> const& document,
-		MarkdownConfig const& config, XamlToolkit::Labs::WinUI::MarkdownTextBlock const& markdownTextBlock)
+		MarkdownConfig const& config, winrt::XamlToolkit::Labs::WinUI::MarkdownTextBlock const& markdownTextBlock)
 		: _config(config), FlowDocument(document), _markdownTextBlock(markdownTextBlock)
 	{
 
 	}
 
-	winrt::weak_ref<XamlToolkit::Labs::WinUI::MarkdownTextBlock> WinUIRenderer::MarkdownTextBlock()
+	winrt::weak_ref<winrt::XamlToolkit::Labs::WinUI::MarkdownTextBlock> WinUIRenderer::MarkdownTextBlock()
 	{
 		return _markdownTextBlock;
 	}

@@ -1,10 +1,15 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <algorithm>
+#include <cmath>
+#include <numeric>
+#include <ranges>
+#endif
 #include "UniformGrid.h"
 #if __has_include("UniformGrid.g.cpp")
 #include "UniformGrid.g.cpp"
 #endif
-#include <execution>
-#undef max
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {

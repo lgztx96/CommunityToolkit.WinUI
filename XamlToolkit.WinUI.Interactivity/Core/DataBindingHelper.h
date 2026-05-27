@@ -1,8 +1,12 @@
 #pragma once
 
-#include <vector>
-#include <winrt/Microsoft.UI.Xaml.Data.h>
 #include "ActionCollection.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Data.h>
+#endif
 
 namespace winrt
 {

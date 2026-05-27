@@ -1,9 +1,13 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <ranges>
+#include <span>
+#endif
 #include "WrapPanel2.h"
 #if __has_include("WrapPanel2.g.cpp")
 #include "WrapPanel2.g.cpp"
 #endif
-#include <ranges>
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {

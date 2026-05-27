@@ -1,4 +1,5 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
 #include "MetadataItem.h"
 #if __has_include("MetadataItem.g.cpp")
 #include "MetadataItem.g.cpp"

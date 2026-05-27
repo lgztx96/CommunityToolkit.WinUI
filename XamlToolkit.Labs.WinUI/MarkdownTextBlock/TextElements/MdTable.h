@@ -9,9 +9,6 @@
 
 namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 {
-    using namespace winrt::Microsoft::UI;
-    using namespace winrt::Microsoft::UI::Xaml::Media;
-
     class MdTable final : public IAddChild
     {
         Paragraph _paragraph;

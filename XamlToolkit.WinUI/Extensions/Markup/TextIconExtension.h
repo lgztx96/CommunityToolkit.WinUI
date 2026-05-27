@@ -1,18 +1,27 @@
 ﻿#pragma once
 
 #include "TextIconExtension.g.h"
-#include <wil/wistd_type_traits.h>
-#include <wil/cppwinrt_authoring.h>
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Markup.h>
 #include <winrt/Microsoft.UI.Xaml.Media.h>
 #include <winrt/Microsoft.UI.Text.h>
+#include <winrt/Windows.UI.Text.h>
+#endif
+
+namespace winrt
+{
+	using namespace Windows::UI::Text;
+	using namespace Windows::Foundation;
+	using namespace Microsoft::UI::Text;
+	using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Xaml::Media;
+}
 
 namespace winrt::XamlToolkit::WinUI::implementation
 {
-	using namespace winrt::Windows::UI::Text;
-	using namespace winrt::Windows::Foundation;
-	using namespace winrt::Microsoft::UI::Text;
-	using namespace winrt::Microsoft::UI::Xaml;
-	using namespace winrt::Microsoft::UI::Xaml::Media;
 
 	struct TextIconExtension : TextIconExtensionT<TextIconExtension>
 	{

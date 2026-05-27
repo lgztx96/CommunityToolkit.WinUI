@@ -1,14 +1,17 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
 #include "OpacityMaskView.h"
 #if __has_include("OpacityMaskView.g.cpp")
 #include "OpacityMaskView.g.cpp"
 #endif
 
-using namespace winrt;
-using namespace Microsoft::UI::Xaml;
-using namespace Microsoft::UI::Xaml::Controls;
-using namespace Microsoft::UI::Composition;
-using namespace Microsoft::UI::Xaml::Hosting;
+namespace winrt
+{
+	using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Xaml::Controls;
+	using namespace Microsoft::UI::Composition;
+	using namespace Microsoft::UI::Xaml::Hosting;
+}
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {

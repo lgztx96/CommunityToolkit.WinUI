@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "NavigateToPageAction.h"
 #include "../Utility/WinUIVisualTreeHelper.h"
 #if __has_include("NavigateToPageAction.g.cpp")

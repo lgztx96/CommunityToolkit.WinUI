@@ -3,6 +3,12 @@
 #include "QuickReturnHeaderBehavior.g.h"
 #include "HeaderBehaviorBase.h"
 
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
+#endif
+
 namespace winrt
 {
     using namespace Microsoft::UI::Xaml::Controls;

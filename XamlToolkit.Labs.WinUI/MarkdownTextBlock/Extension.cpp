@@ -1,11 +1,14 @@
-﻿#include "pch.h"
-#include "Extension.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <algorithm>
+#include <array>
 #include <ranges>
-#include <regex>
-#include <cwctype>
-#include <winrt/Windows.Data.Xml.Dom.h>
-
-using namespace winrt::Windows::Data::Xml::Dom;
+#include <string>
+#include <string_view>
+#include <unordered_map>
+#endif
+#include "Extension.h"
 
 namespace winrt::XamlToolkit::Labs::WinUI
 {

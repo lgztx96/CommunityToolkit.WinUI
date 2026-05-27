@@ -1,8 +1,18 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
 #include "ColorToHexConverter.h"
 #if __has_include("ColorToHexConverter.g.cpp")
 #include "ColorToHexConverter.g.cpp"
 #endif
+
+namespace winrt
+{
+	using namespace Windows::UI;
+	using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Xaml::Media;
+	using namespace XamlToolkit::WinUI;
+	using namespace XamlToolkit::WinUI::Helpers;
+}
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
@@ -36,7 +46,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         {
             try
             {
-                return winrt::box_value(Helpers::ColorHelper::ToColor(hexValue));
+                return winrt::box_value(winrt::XamlToolkit::WinUI::Helpers::ColorHelper::ToColor(hexValue));
             }
             catch(...)
             {
@@ -48,7 +58,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         {
             try
             {
-                return winrt::box_value(Helpers::ColorHelper::ToColor(L"#" + hexValue));
+                return winrt::box_value(winrt::XamlToolkit::WinUI::Helpers::ColorHelper::ToColor(L"#" + hexValue));
             }
             catch(...)
             {

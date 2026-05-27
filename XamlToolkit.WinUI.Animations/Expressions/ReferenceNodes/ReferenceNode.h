@@ -1,10 +1,15 @@
 #pragma once
 
-#include <memory>
 #include "../ExpressionNodes/ExpressionNode.h"
 #include "../ExpressionNodes/ExpressionNodeType.h"
 #include "../ExpressionForward.h"
-#include <winrt/Windows.UI.Composition.h>
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Composition.h>
+#include <optional>
+#include <memory>
+#endif
 
 namespace winrt::XamlToolkit::WinUI::Animations::Expressions
 {

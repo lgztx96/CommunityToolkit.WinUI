@@ -1,6 +1,10 @@
 #pragma once
 
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
 #include <winrt/Microsoft.UI.Text.h>
+#include <optional>
+#endif
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {

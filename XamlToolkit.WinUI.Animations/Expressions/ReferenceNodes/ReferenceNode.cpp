@@ -1,4 +1,8 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <optional>
+#endif
 
 #include "ReferenceNode.h"
 #include "../ExpressionNodes/BooleanNode.h"

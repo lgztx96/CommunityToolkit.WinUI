@@ -1,10 +1,13 @@
 #pragma once
 
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
 #include <winrt/Microsoft.UI.Xaml.h>
+#endif
 
-namespace winrt 
+namespace winrt
 {
-	using namespace winrt::Microsoft::UI::Xaml;
+    using namespace Microsoft::UI::Xaml;
 }
 
 namespace winrt::XamlToolkit::WinUI::Interactivity

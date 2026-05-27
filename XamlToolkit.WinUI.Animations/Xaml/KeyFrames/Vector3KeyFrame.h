@@ -3,15 +3,9 @@
 #include "Vector3KeyFrame.g.h"
 #include "../Abstract/KeyFrame{TValue,TKeyFrame}.h"
 #include "../Extensions/AnimationExtensions.h"
-#include <winrt/Windows.Foundation.Numerics.h>
-#include <optional>
-#include <wil/wistd_type_traits.h>
-#include <wil/cppwinrt_authoring.h>
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
-    using namespace winrt::Windows::Foundation::Numerics;
-
     struct Vector3KeyFrame : Vector3KeyFrameT<Vector3KeyFrame, KeyFrameBase<winrt::hstring, winrt::Windows::Foundation::Numerics::float3>>
     {
     public:

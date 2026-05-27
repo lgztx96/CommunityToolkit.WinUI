@@ -1,4 +1,5 @@
 ﻿#include "pch.h"
+#include "winrt_module_imports.h"
 #include "ColorToDisplayNameConverter.h"
 #if __has_include("ColorToDisplayNameConverter.g.cpp")
 #include "ColorToDisplayNameConverter.g.cpp"

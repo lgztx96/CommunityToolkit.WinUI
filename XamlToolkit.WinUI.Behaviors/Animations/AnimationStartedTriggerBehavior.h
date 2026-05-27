@@ -1,7 +1,11 @@
 #pragma once
 
 #include "AnimationStartedTriggerBehavior.g.h"
-#include <winrt/XamlToolkit.WinUI.Interactivity.h>
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/XamlToolkit.WinUI.Animations.h>
+#endif
 
 namespace winrt
 {

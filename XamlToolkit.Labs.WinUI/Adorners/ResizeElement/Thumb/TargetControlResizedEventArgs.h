@@ -1,7 +1,10 @@
 #pragma once
-#include <winrt/XamlToolkit.Labs.WinUI.h>
+
+#ifdef __INTELLISENSE__
+#include <winrt/base.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
+#endif
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {

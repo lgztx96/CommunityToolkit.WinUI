@@ -1,11 +1,14 @@
 #pragma once
 
+#include "ConnectedAnimationProperties.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
 #include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Microsoft.UI.Xaml.Controls.h>
 #include <winrt/Microsoft.UI.Xaml.Navigation.h>
 #include <map>
-#include <vector>
-#include "ConnectedAnimationProperties.h"
+#endif
 
 namespace winrt::XamlToolkit::WinUI::Animations
 {

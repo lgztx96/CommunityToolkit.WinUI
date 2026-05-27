@@ -2,11 +2,15 @@
 
 #include "ImplicitAnimationSet.g.h"
 #include "Interfaces/IImplicitTimeline.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.Foundation.Collections.h>
 #include <winrt/Microsoft.UI.Composition.h>
-#include <winrt/Microsoft.UI.Xaml.Hosting.h>
-#include <wil/wistd_type_traits.h>
-#include <wil/cppwinrt_authoring.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
 #include <unordered_map>
+#endif
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {

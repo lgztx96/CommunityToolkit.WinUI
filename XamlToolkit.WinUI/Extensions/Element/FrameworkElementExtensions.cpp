@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "FrameworkElementExtensions.h"
 #if __has_include("FrameworkElementExtensions.g.cpp")
 #include "FrameworkElementExtensions.g.cpp"

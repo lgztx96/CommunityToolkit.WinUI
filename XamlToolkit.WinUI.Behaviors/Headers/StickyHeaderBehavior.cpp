@@ -1,7 +1,7 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "StickyHeaderBehavior.h"
 #include "../Helper.h"
-#include <winrt/Microsoft.UI.Xaml.Hosting.h>
 #if __has_include("StickyHeaderBehavior.g.cpp")
 #include "StickyHeaderBehavior.g.cpp"
 #endif

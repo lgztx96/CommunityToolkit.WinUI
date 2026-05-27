@@ -1,6 +1,11 @@
 #include "pch.h"
-#include "ColorPaletteSampler.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <limits>
+#include <memory>
 #include <random>
+#endif
+#include "ColorPaletteSampler.h"
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {

@@ -1,4 +1,9 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <iterator>
+#include <vector>
+#endif
 #include "InterspersedObservableVector.h"
 #if __has_include("InterspersedObservableVector.g.cpp")
 #include "InterspersedObservableVector.g.cpp"

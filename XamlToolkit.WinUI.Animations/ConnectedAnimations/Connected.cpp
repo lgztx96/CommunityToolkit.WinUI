@@ -1,11 +1,16 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <functional>
+#include <map>
+#include <memory>
+#include <unordered_map>
+#include <vector>
+#endif
 #include "Connected.h"
 #if __has_include("Connected.g.cpp")
 #include "Connected.g.cpp"
 #endif
-#include <algorithm>
-#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
-#include <winrt/Microsoft.UI.Xaml.Media.h>
 
 namespace
 {

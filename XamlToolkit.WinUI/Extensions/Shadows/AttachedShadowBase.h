@@ -1,21 +1,27 @@
 ﻿#pragma once
 
 #include "AttachedShadowBase.g.h"
-#include <wil/wistd_type_traits.h>
-#include <wil/cppwinrt_authoring.h>
-
-#include <winrt/Microsoft.UI.Xaml.Hosting.h>
-#include <winrt/Microsoft.UI.Composition.h>
-#include <winrt/Windows.Foundation.Collections.h>
 #include "AttachedShadowElementContext.h"
 #include "Extensions/Text/StringExtensions.h"
 
-namespace winrt::XamlToolkit::WinUI::implementation
+#ifdef __INTELLISENSE__
+#include <unordered_map>
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Composition.h>
+#include <winrt/Microsoft.UI.Xaml.Hosting.h>
+#include <winrt/Windows.UI.h>
+#endif
+
+namespace winrt
 {
 	using namespace Microsoft::UI::Xaml;
 	using namespace Microsoft::UI::Composition;
 	using namespace Microsoft::UI::Xaml::Hosting;
+}
 
+namespace winrt::XamlToolkit::WinUI::implementation
+{
 	template<typename T>
 	struct WeakElementHash
 	{
@@ -60,7 +66,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 			DependencyProperty::Register(L"Offset",
 				winrt::xaml_typename<winrt::hstring>(),
 				winrt::xaml_typename<class_type>(),
-				PropertyMetadata(winrt::box_value({}), OnDependencyPropertyChanged));
+				PropertyMetadata(winrt::box_value(L""), OnDependencyPropertyChanged));
 
 		winrt::hstring Offset() const { return winrt::unbox_value<winrt::hstring>(GetValue(OffsetProperty)); }
 		void Offset(winrt::hstring value) const { SetValue(OffsetProperty, winrt::box_value(value)); }

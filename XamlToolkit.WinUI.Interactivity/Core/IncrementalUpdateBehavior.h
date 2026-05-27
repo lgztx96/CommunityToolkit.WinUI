@@ -2,8 +2,20 @@
 
 #include "IncrementalUpdateBehavior.g.h"
 #include "../Behavior.h"
+
+#ifdef __INTELLISENSE__
+#include <map>
+#include <memory>
+#include <vector>
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.Foundation.Collections.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.Primitives.h>
+#include <winrt/Microsoft.UI.Xaml.Media.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
+#endif
 
 namespace winrt
 {
@@ -68,7 +80,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
     private:
         winrt::ListViewBase _associatedListViewBase{ nullptr };
-        std::unordered_map<winrt::UIElement, std::unique_ptr<ElementCacheRecord>> _elementCache;
+        std::map<winrt::UIElement, std::unique_ptr<ElementCacheRecord>> _elementCache;
         winrt::ListViewBase::ContainerContentChanging_revoker _containerContentChangingRevoker;
     };
 

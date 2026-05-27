@@ -1,17 +1,30 @@
-﻿#pragma once
+#pragma once
 
 #include "Primitives.ColorPreviewer.g.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.UI.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
+#include <winrt/Microsoft.UI.Xaml.Input.h>
 #include <winrt/XamlToolkit.WinUI.Helpers.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
+#endif
+
+namespace winrt
+{
+	using namespace Windows::UI;
+	using namespace Windows::Foundation;
+	using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Xaml::Controls;
+	using namespace Microsoft::UI::Xaml::Input;
+	using namespace XamlToolkit::WinUI;
+}
 
 namespace winrt::XamlToolkit::WinUI::Controls::Primitives::implementation
 {
-	using namespace winrt::Windows::UI;
-	using namespace winrt::Windows::Foundation;
-	using namespace winrt::Microsoft::UI::Xaml;
-	using namespace winrt::Microsoft::UI::Xaml::Input;
-
 	struct ColorPreviewer : ColorPreviewerT<ColorPreviewer>
 	{
 	public:
@@ -88,7 +101,6 @@ namespace winrt::XamlToolkit::WinUI::Controls::Primitives::implementation
 		void OnApplyTemplate();
 
 	private:
-
 		void ConnectEvents(bool connected);
 
 	protected:

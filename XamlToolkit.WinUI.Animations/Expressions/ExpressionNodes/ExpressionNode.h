@@ -1,19 +1,22 @@
 #pragma once
 
-#include <map>
-#include <memory>
-#include <optional>
-#include <set>
-#include <string_view>
-#include <type_traits>
-#include <vector>
-#include <windows.foundation.numerics.h>
-#include <winrt/Windows.Foundation.h>
-#include <winrt/Windows.UI.Composition.h>
-#include <winrt/Windows.UI.h>
 #include "../ExpressionForward.h"
 #include "ExpressionNodeType.h"
 #include "ValueKeywordKind.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.Foundation.Numerics.h>
+#include <winrt/Windows.UI.h>
+#include <winrt/Microsoft.UI.Composition.h>
+#include <memory>
+#include <vector>
+#include <optional>
+#include <map>
+#include <set>
+#include <concepts>
+#include <functional>
+#endif
 
 namespace winrt::XamlToolkit::WinUI::Animations::Expressions
 {

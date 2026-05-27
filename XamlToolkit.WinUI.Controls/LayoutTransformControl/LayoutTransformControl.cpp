@@ -1,12 +1,20 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <algorithm>
+#include <cmath>
+#include <limits>
+#endif
 #include "LayoutTransformControl.h"
 #if __has_include("LayoutTransformControl.g.cpp")
 #include "LayoutTransformControl.g.cpp"
 #endif
-#include <winrt/XamlToolkit.WinUI.h>
-using namespace winrt;
-using namespace Microsoft::UI::Xaml;
-using namespace XamlToolkit::WinUI;
+
+namespace winrt
+{
+	using namespace Microsoft::UI::Xaml;
+	using namespace XamlToolkit::WinUI;
+}
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {

@@ -1,4 +1,5 @@
 ﻿#include "pch.h"
+#include "winrt_module_imports.h"
 #include "FontIconExtension.h"
 #if __has_include("FontIconExtension.g.cpp")
 #include "FontIconExtension.g.cpp"

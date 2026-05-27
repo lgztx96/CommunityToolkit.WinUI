@@ -1,11 +1,9 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
 #include "SettingsExpanderItemStyleSelector.h"
 #if __has_include("SettingsExpanderItemStyleSelector.g.cpp")
 #include "SettingsExpanderItemStyleSelector.g.cpp"
 #endif
-
-using namespace winrt;
-using namespace Microsoft::UI::Xaml;
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {

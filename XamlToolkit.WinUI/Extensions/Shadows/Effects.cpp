@@ -1,4 +1,5 @@
 ﻿#include "pch.h"
+#include "winrt_module_imports.h"
 #include "Effects.h"
 #if __has_include("Effects.g.cpp")
 #include "Effects.g.cpp"

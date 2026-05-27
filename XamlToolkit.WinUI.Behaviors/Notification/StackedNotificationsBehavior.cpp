@@ -1,4 +1,8 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <chrono>
+#endif
 #include "StackedNotificationsBehavior.h"
 #if __has_include("StackedNotificationsBehavior.g.cpp")
 #include "StackedNotificationsBehavior.g.cpp"

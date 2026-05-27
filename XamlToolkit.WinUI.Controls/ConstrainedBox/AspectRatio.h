@@ -1,13 +1,12 @@
-﻿#pragma once
+#pragma once
 
 #include "../TokenizingTextBox/StringExtensions.h"
 #include "AspectRatio.g.h"
-#include <ranges>
-#include <string>
-#include <vector>
-#include <winrt/base.h>
+
+#ifdef __INTELLISENSE__
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
+#endif
 
 using namespace std::literals;
 

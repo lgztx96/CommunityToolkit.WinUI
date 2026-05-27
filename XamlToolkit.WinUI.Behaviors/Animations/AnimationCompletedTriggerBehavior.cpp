@@ -1,9 +1,9 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "AnimationCompletedTriggerBehavior.h"
 #if __has_include("AnimationCompletedTriggerBehavior.g.cpp")
 #include "AnimationCompletedTriggerBehavior.g.cpp"
 #endif
-#include <winrt/XamlToolkit.WinUI.Animations.h>
 
 namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
 {

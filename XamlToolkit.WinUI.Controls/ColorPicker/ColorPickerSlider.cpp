@@ -1,12 +1,18 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <algorithm>
+#endif
 #include "ColorPickerSlider.h"
 #if __has_include("Primitives.ColorPickerSlider.g.cpp")
 #include "Primitives.ColorPickerSlider.g.cpp"
 #endif
 #include "ColorPickerRenderingHelpers.h"
 
-using namespace winrt;
-using namespace Microsoft::UI::Xaml;
+namespace winrt
+{
+	using namespace Microsoft::UI::Xaml;
+}
 
 namespace winrt::XamlToolkit::WinUI::Controls::Primitives::implementation
 {

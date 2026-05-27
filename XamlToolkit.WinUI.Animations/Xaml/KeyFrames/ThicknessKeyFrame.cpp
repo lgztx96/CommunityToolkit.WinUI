@@ -1,4 +1,5 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
 #include "ThicknessKeyFrame.h"
 #if __has_include("ThicknessKeyFrame.g.cpp")
 #include "ThicknessKeyFrame.g.cpp"
@@ -6,8 +7,6 @@
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
-    using namespace winrt::Microsoft::UI::Xaml;
-
     const wil::single_threaded_property<DependencyProperty> ThicknessKeyFrame::ValueProperty =
         DependencyProperty::Register(
             L"Value",

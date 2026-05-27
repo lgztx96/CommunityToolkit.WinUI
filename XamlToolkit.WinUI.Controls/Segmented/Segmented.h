@@ -1,10 +1,22 @@
-﻿#pragma once
+#pragma once
 
 #include "Segmented.g.h"
 #include "SegmentedItem.h"
 
-#include <winrt/Windows.Foundation.h>
-#include <winrt/Microsoft.UI.Xaml.Controls.h>
+#ifdef __INTELLISENSE__
+#include <wil/wistd_type_traits.h>
+#include <wil/cppwinrt_authoring.h>
+#endif
+
+namespace winrt 
+{
+	using namespace Windows::System;
+	using namespace Windows::Foundation;
+	using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Xaml::Input;
+	using namespace Microsoft::UI::Xaml::Controls;
+	using namespace Microsoft::UI::Xaml::Controls::Primitives;
+}
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
@@ -14,13 +26,6 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-	using namespace winrt;
-	using namespace Windows::System;
-	using namespace Windows::Foundation;
-	using namespace Microsoft::UI::Xaml;
-	using namespace Microsoft::UI::Xaml::Input;
-	using namespace Microsoft::UI::Xaml::Controls;
-
 	struct Segmented : SegmentedT<Segmented>
 	{
 		Segmented();

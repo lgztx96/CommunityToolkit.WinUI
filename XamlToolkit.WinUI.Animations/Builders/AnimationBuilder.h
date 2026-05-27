@@ -2,26 +2,35 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 #pragma once
-#include <winrt/Microsoft.UI.Composition.h>
-#include <winrt/Microsoft.UI.Xaml.Hosting.h>
-#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
-#include <winrt/Windows.Foundation.Numerics.h>
-#include <winrt/XamlToolkit.WinUI.Animations.h>
+
 #include "../Enums/Side.h"
 #include "../Enums/Axis.h"
-#include <functional>
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.Foundation.Numerics.h>
+#include <winrt/Microsoft.UI.Composition.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
 #include <memory>
-#include <optional>
-#include <type_traits>
-#include <utility>
 #include <vector>
+#include <optional>
+#include <functional>
+#include <type_traits>
+#include <concepts>
+#endif
+
+import winrt.XamlToolkit.WinUI.Animations;
+
+namespace winrt
+{
+	using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Composition;
+	using namespace Microsoft::UI::Xaml::Media::Animation;
+}
 
 namespace winrt::XamlToolkit::WinUI::Animations
 {
-    using namespace winrt::Microsoft::UI::Xaml;
-    using namespace winrt::Microsoft::UI::Composition;
-    using namespace winrt::Microsoft::UI::Xaml::Media::Animation;
-
     /// <summary>
     /// An interface for factories of XAML animations.
     /// </summary>
@@ -584,7 +593,6 @@ namespace winrt::XamlToolkit::WinUI::Animations
         /// Adds a new external XAML animation to the current schedule.
         /// </summary>
         AnimationBuilder& ExternalAnimation(Timeline const& animation);
-
 
         /// <summary>
         /// Starts the animations present in the current AnimationBuilder instance.

@@ -3,15 +3,9 @@
 #include "OpacityAnimation.g.h"
 #include "../Abstract/ImplicitAnimation{TValue,TKeyFrame}.h"
 #include "../KeyFrames/ScalarKeyFrame.h"
-#include <winrt/Microsoft.UI.Composition.h>
-#include <winrt/Windows.Foundation.Collections.h>
-#include <wil/wistd_type_traits.h>
-#include <wil/cppwinrt_authoring.h>
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
-    using namespace winrt::Microsoft::UI::Xaml;
-
     struct OpacityAnimation;
 
     struct OpacityAnimationTraits

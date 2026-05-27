@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "BooleanNode.h"
 #include "../ExpressionFunctions.h"
@@ -67,7 +67,6 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
     }
 
 
-
     /// <summary>
     /// Implements the == operator.
     /// </summary>
@@ -89,7 +88,6 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
     {
         return ExpressionFunctions::Function<BooleanNode>(ExpressionNodeType::NotEquals, left, right);
     }
-
 
 
     /// <summary>
@@ -168,7 +166,6 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
         return ExpressionFunctions::Function<BooleanNode>(ExpressionNodeType::NotEquals, left, right);
     }
 
-
     /// <summary>
         /// Implements the + operator.
         /// </summary>
@@ -245,7 +242,6 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
         return ExpressionFunctions::Function<BooleanNode>(ExpressionNodeType::NotEquals, left, right);
     }
 
-
     /// <summary>
         /// Implements the * operator.
         /// </summary>
@@ -300,7 +296,6 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
     {
         return ExpressionFunctions::Function<BooleanNode>(ExpressionNodeType::NotEquals, left, right);
     }
-
 
 
     /// <summary>
@@ -478,7 +473,6 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
         return ExpressionFunctions::Function<BooleanNode>(ExpressionNodeType::GreaterThan, left, right);
     }
 
-
     /// <summary>
         /// Implements the + operator.
         /// </summary>
@@ -578,8 +572,6 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
     }
 
 
-
-
     /// <summary>
         /// Implements the + operator.
         /// </summary>
@@ -677,7 +669,6 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
     {
         return ExpressionFunctions::Function<BooleanNode>(ExpressionNodeType::NotEquals, left, right);
     }
-
 
 
     /// <summary>

@@ -1,4 +1,8 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <algorithm>
+#endif
 #include "RadialGauge.h"
 
 #ifdef min
@@ -9,8 +13,11 @@
 #undef max
 #endif
 
-using namespace winrt;
-using namespace Microsoft::UI::Xaml;
+namespace winrt
+{
+    using namespace Microsoft::UI::Xaml;
+    using namespace Microsoft::UI::Xaml::Input;
+}
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {

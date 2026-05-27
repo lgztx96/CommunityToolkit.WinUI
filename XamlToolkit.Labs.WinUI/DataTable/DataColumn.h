@@ -1,10 +1,18 @@
 #pragma once
 
 #include "DataColumn.g.h"
+
+#ifdef __INTELLISENSE__
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
-#include <winrt/Microsoft.UI.Xaml.Input.h>
-#include <winrt/XamlToolkit.WinUI.Controls.h>
+#endif
+
+namespace winrt
+{
+	using namespace Windows::Foundation;
+	using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Xaml::Input;
+}
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {

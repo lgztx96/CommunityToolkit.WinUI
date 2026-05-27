@@ -1,17 +1,21 @@
 #pragma once
-#include <winrt/Microsoft.UI.Xaml.Media.h>
-#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
-#include <wil/wistd_type_traits.h>
-#include <wil/result_macros.h>
-#include <wil/cppwinrt_authoring.h>
-#include <windows.foundation.numerics.h>
 #include "../Options/RepeatOptionHelper.h"
 #include "AnimationExtensions.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.Foundation.Numerics.h>
+#include <winrt/Microsoft.UI.Composition.h>
+#endif
+
+namespace winrt
+{
+	using namespace Windows::Foundation::Numerics;
+}
 
 namespace winrt::XamlToolkit::WinUI::Animations
 {
     using TimeSpan = winrt::Windows::Foundation::TimeSpan;
-    using namespace winrt::Windows::Foundation::Numerics;
 
 	class CompositorExtensions {
 	public:

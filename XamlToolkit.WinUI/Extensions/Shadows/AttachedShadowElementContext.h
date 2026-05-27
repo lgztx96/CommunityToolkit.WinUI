@@ -1,19 +1,27 @@
 ﻿#pragma once
 
 #include "AttachedShadowElementContext.g.h"
-
-#include <winrt/Microsoft.UI.Xaml.Hosting.h>
-
-#include <wil/wistd_type_traits.h>
-#include <wil/cppwinrt_authoring.h>
 #include "TypedResourceKey.h"
+
+#ifdef __INTELLISENSE__
+#include <map>
+#include <optional>
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Composition.h>
+#include <winrt/Microsoft.UI.Xaml.Hosting.h>
+#endif
+
+namespace winrt
+{
+    using namespace Windows::Foundation;
+    using namespace Microsoft::UI::Xaml;
+    using namespace Microsoft::UI::Composition;
+    using namespace Microsoft::UI::Xaml::Hosting;
+}
 
 namespace winrt::XamlToolkit::WinUI::implementation
 {
-	using namespace Microsoft::UI::Xaml;
-	using namespace Microsoft::UI::Composition;
-	using namespace Microsoft::UI::Xaml::Hosting;
-
 	struct AttachedShadowElementContext : AttachedShadowElementContextT<AttachedShadowElementContext>
 	{
 		bool _isConnected;

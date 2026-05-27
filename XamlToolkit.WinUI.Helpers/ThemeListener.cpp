@@ -1,14 +1,17 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
 #include "ThemeListener.h"
 #if __has_include("ThemeListener.g.cpp")
 #include "ThemeListener.g.cpp"
 #endif
-#include <winrt/Windows.Foundation.Metadata.h>
+
+namespace winrt
+{
+    using namespace Windows::Foundation::Metadata;
+}
 
 namespace winrt::XamlToolkit::WinUI::Helpers::implementation
 {
-    using namespace winrt::Windows::Foundation::Metadata;
-
     ThemeListener::ThemeListener(struct DispatcherQueue const& dispatcherQueue)
     {
         CurrentTheme = Application::Current().RequestedTheme();

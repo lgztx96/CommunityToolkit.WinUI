@@ -1,16 +1,13 @@
 ﻿#include "pch.h"
+#include "winrt_module_imports.h"
 #include "VisualExtensions.h"
 #if __has_include("VisualExtensions.g.cpp")
 #include "VisualExtensions.g.cpp"
 #endif
-#include <winrt/Microsoft.UI.Xaml.Hosting.h>
 #include "../Text/StringExtensions.h"
 
 namespace winrt::XamlToolkit::WinUI::implementation
 {
-    using namespace winrt::Microsoft::UI::Xaml::Hosting;
-    using namespace winrt::Windows::Foundation::Numerics;
-
     Visual VisualExtensions::GetVisual(UIElement const& element)
     {
         return ElementCompositionPreview::GetElementVisual(element);

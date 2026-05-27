@@ -1,13 +1,28 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <algorithm>
+#include <cmath>
+#include <format>
+#endif
 #include "RadialGauge.h"
 #if __has_include("RadialGauge.g.cpp")
 #include "RadialGauge.g.cpp"
 #endif
 #include "RadialGaugeAutomationPeer.h"
 
-using namespace winrt;
-using namespace Microsoft::UI::Xaml;
-using namespace Windows::Foundation::Numerics;
+namespace winrt
+{
+	using namespace Windows::Foundation;
+	using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Xaml::Controls;
+	using namespace Microsoft::UI::Xaml::Media;
+	using namespace Microsoft::UI::Xaml::Shapes;
+	using namespace Windows::Foundation::Numerics;
+	using namespace XamlToolkit::WinUI::Helpers;
+	using namespace Microsoft::UI::Xaml::Automation;
+	using namespace Microsoft::UI::Xaml::Automation::Peers;
+}
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {

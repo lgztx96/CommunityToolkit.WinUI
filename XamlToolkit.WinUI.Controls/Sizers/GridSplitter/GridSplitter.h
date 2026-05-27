@@ -1,16 +1,21 @@
-﻿#pragma once
+#pragma once
 
 #include "GridSplitter.g.h"
-#include <wil/wistd_type_traits.h>
-#include <wil/cppwinrt_authoring.h>
 #include "../SizerBase.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
+#endif
+
+namespace winrt
+{
+	using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Xaml::Controls;
+}
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-	using namespace winrt;
-	using namespace Microsoft::UI::Xaml;
-	using namespace Microsoft::UI::Xaml::Controls;
-
 	struct GridSplitter : GridSplitterT<GridSplitter, implementation::SizerBase>
 	{
 		double _currentSize;

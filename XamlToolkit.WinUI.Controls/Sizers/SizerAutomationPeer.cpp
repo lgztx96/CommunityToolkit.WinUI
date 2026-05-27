@@ -1,4 +1,5 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
 #include "SizerAutomationPeer.h"
 #if __has_include("SizerAutomationPeer.g.cpp")
 #include "SizerAutomationPeer.g.cpp"

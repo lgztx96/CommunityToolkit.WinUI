@@ -5,7 +5,12 @@
 
 #include "IAddChild.h"
 
-namespace winrt::XamlToolkit::Labs::WinUI::TextElements 
+#ifdef __INTELLISENSE__
+#include <winrt/Microsoft.UI.Xaml.Documents.h>
+#include <string_view>
+#endif
+
+namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 {
     class MdInlineText final : public IAddChild
     {

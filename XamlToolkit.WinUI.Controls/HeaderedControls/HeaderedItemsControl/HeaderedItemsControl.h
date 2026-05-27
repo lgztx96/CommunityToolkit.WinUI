@@ -2,6 +2,19 @@
 
 #include "HeaderedItemsControl.g.h"
 
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <wil/wistd_type_traits.h>
+#include <wil/cppwinrt_authoring.h>
+#endif
+
+namespace winrt
+{
+	using namespace Windows::Foundation;
+	using namespace Microsoft::UI::Xaml;
+}
+
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
 	struct HeaderedItemsControl : HeaderedItemsControlT<HeaderedItemsControl>

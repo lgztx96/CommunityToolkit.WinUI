@@ -1,14 +1,21 @@
 #pragma once
 
+#include "../../Extensions/AnimationExtensions.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
 #include <winrt/Microsoft.UI.Composition.h>
 #include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
-#include "../../Extensions/AnimationExtensions.h"
+#endif
+
+namespace winrt
+{
+	using namespace Microsoft::UI::Composition;
+	using namespace Microsoft::UI::Xaml::Media::Animation;
+}
 
 namespace winrt::XamlToolkit::WinUI::Animations
 {
-    using namespace winrt::Microsoft::UI::Composition;
-    using namespace winrt::Microsoft::UI::Xaml::Media::Animation;
-
     /// <summary>
     /// An interface representing a generic model containing info for an abstract keyframe.
     /// </summary>

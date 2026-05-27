@@ -1,10 +1,9 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "ResizeElementAdorner.h"
 #if __has_include("ResizeElementAdorner.g.cpp")
 #include "ResizeElementAdorner.g.cpp"
 #endif
-#include <array>
-#include <winrt/Microsoft.UI.Xaml.Input.h>
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {

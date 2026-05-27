@@ -3,6 +3,10 @@
 // See the LICENSE file in the project root for more information.
 
 #include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <memory>
+#endif
 #include "AnimationBuilder.h"
 
 namespace winrt::XamlToolkit::WinUI::Animations

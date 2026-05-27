@@ -5,6 +5,13 @@
 #include "../ColorExtensions.h"
 #include "ColorPaletteSelectorExtensions.h"
 
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.Collections.h>
+#include <winrt/Windows.UI.h>
+#include <algorithm>
+#include <vector>
+#endif
+
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
     struct ColorWeightPaletteSelector : ColorWeightPaletteSelectorT<ColorWeightPaletteSelector, implementation::ColorPaletteSelector>

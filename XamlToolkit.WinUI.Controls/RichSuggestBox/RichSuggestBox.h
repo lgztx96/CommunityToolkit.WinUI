@@ -2,21 +2,42 @@
 
 #include "RichSuggestBox.g.h"
 #include "RichSuggestQuery.h"
-#include <mutex>
 #include "RichSuggestToken.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.Foundation.Collections.h>
+#include <winrt/Microsoft.UI.Input.h>
+#include <winrt/Microsoft.UI.Text.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.Primitives.h>
+#include <winrt/Microsoft.UI.Xaml.Input.h>
+#include <winrt/Microsoft.UI.Xaml.Media.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
+#include <functional>
+#include <memory>
+#include <mutex>
+#include <string_view>
+#include <unordered_map>
+#endif
+
+namespace winrt
+{
+	using namespace Windows::Foundation;
+	using namespace Windows::Foundation::Collections;
+	using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Xaml::Input;
+	using namespace Microsoft::UI::Xaml::Controls;
+	using namespace Microsoft::UI::Xaml::Media;
+	using namespace Microsoft::UI::Xaml::Controls::Primitives;
+	using namespace Microsoft::UI::Text;
+	using namespace Microsoft::UI::Input;
+}
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-	using namespace winrt::Microsoft::UI::Xaml;
-	using namespace winrt::Microsoft::UI::Xaml::Input;
-	using namespace winrt::Microsoft::UI::Xaml::Controls::Primitives;
-	using namespace winrt::Microsoft::UI::Text;
-	using namespace winrt::Microsoft::UI::Xaml::Controls;
-	using namespace winrt::Windows::Foundation;
-	using namespace winrt::Windows::Foundation::Collections;
-
 	struct RichSuggestBox : RichSuggestBoxT<RichSuggestBox>
 	{
 	private:

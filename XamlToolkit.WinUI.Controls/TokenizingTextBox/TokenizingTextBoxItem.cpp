@@ -1,4 +1,8 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <memory>
+#endif
 #include "TokenizingTextBoxItem.h"
 #if __has_include("TokenizingTextBoxItem.g.cpp")
 #include "TokenizingTextBoxItem.g.cpp"
@@ -6,9 +10,6 @@
 #include "../XamlToolkit.WinUI/common.h"
 #include "TokenizingTextBox.h"
 #include "StringExtensions.h"
-
-using namespace winrt;
-using namespace Microsoft::UI::Xaml;
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {

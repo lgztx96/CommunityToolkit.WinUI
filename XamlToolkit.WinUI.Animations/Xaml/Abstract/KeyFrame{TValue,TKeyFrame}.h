@@ -4,7 +4,13 @@
 #include "../Interfaces/IKeyFrame{T}.h"
 #include "../Builders/Interfaces/INormalizedKeyFrameAnimationBuilder{T}.h"
 #include "../Extensions/AnimationExtensions.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
 #include <optional>
+#endif
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {

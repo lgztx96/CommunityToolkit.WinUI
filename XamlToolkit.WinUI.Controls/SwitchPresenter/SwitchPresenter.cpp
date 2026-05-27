@@ -1,13 +1,11 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
 #include "SwitchPresenter.h"
 #if __has_include("SwitchPresenter.g.cpp")
 #include "SwitchPresenter.g.cpp"
 #endif
 #include "SwitchHelpers.h"
 #include "CaseCollection.h"
-
-using namespace winrt;
-using namespace Microsoft::UI::Xaml;
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {

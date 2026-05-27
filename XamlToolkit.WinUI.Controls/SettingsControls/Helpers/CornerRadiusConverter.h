@@ -1,14 +1,22 @@
-﻿#pragma once
+#pragma once
 
 #include "CornerRadiusConverter.g.h"
 
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.UI.Xaml.Interop.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#endif
+
+namespace winrt
+{
+	using namespace Windows::Foundation;
+	using namespace Windows::UI::Xaml::Interop;
+    using namespace Microsoft::UI::Xaml;
+}
+
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-    using namespace winrt;
-    using namespace Windows::Foundation;
-    using namespace Windows::UI::Xaml::Interop;
-    using namespace Microsoft::UI::Xaml;
-
     struct CornerRadiusConverter : CornerRadiusConverterT<CornerRadiusConverter>
     {
         CornerRadiusConverter() = default;

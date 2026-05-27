@@ -1,11 +1,9 @@
 ﻿#include "pch.h"
+#include "winrt_module_imports.h"
 #include "IsEqualStateTrigger.h"
 #if __has_include("IsEqualStateTrigger.g.cpp")
 #include "IsEqualStateTrigger.g.cpp"
 #endif
-
-using namespace winrt;
-using namespace Microsoft::UI::Xaml;
 
 namespace winrt::XamlToolkit::WinUI::implementation
 {

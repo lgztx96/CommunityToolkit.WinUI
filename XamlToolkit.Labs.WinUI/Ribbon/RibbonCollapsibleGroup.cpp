@@ -1,14 +1,21 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <algorithm>
+#endif
 #include "RibbonCollapsibleGroup.h"
 #if __has_include("RibbonCollapsibleGroup.g.cpp")
 #include "RibbonCollapsibleGroup.g.cpp"
 #endif
-#include <winrt/Microsoft.UI.Xaml.Input.h>
 #include "DoubleVector.h"
 
-using namespace winrt;
-using namespace Microsoft::UI::Xaml;
-using namespace winrt::Windows::System;
+namespace winrt
+{
+	using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Xaml::Controls::Primitives;
+	using namespace Microsoft::UI::Xaml::Media;
+	using namespace Windows::System;
+}
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {

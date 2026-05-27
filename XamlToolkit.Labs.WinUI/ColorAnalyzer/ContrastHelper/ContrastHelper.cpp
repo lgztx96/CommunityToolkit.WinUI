@@ -1,4 +1,5 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
 #include "ContrastHelper.h"
 #if __has_include("ContrastHelper.g.cpp")
 #include "ContrastHelper.g.cpp"
@@ -7,7 +8,6 @@
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
-	using namespace winrt::Windows::UI;
 
     void ContrastHelper::ApplyContrastCheck(DependencyObject const& d)
     {

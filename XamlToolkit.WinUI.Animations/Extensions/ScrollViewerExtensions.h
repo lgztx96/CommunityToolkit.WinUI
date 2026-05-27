@@ -1,18 +1,26 @@
 #pragma once
 
-#include <winrt/Microsoft.UI.Xaml.Controls.h>
-#include <winrt/Microsoft.UI.Xaml.Hosting.h>
-#include <winrt/Microsoft.UI.Composition.h>
 #include "../Enums/Axis.h"
 #include "../Enums/VisualProperty.h"
 
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Composition.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
+#include <winrt/Microsoft.UI.Xaml.Hosting.h>
+#endif
+
+namespace winrt
+{
+    using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Xaml::Controls;
+	using namespace Microsoft::UI::Xaml::Hosting;
+	using namespace Microsoft::UI::Composition;
+}
+
 namespace winrt::XamlToolkit::WinUI::Animations
 {
-    using namespace winrt::Microsoft::UI::Xaml;
-    using namespace winrt::Microsoft::UI::Xaml::Controls;
-    using namespace winrt::Microsoft::UI::Xaml::Hosting;
-    using namespace winrt::Microsoft::UI::Composition;
-
     /// <summary>
     /// Provides attached dependency properties and methods for the <see cref="ScrollViewer"/> control.
     /// </summary>

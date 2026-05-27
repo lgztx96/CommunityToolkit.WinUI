@@ -1,4 +1,5 @@
 ﻿#include "pch.h"
+#include "winrt_module_imports.h"
 #include "HyperlinkExtensions.h"
 #if __has_include("HyperlinkExtensions.g.cpp")
 #include "HyperlinkExtensions.g.cpp"

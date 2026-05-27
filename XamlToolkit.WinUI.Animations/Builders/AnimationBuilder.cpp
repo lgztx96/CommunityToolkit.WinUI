@@ -3,20 +3,17 @@
 // See the LICENSE file in the project root for more information.
 
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "AnimationBuilder.h"
 #include "AnimationBuilder.PropertyBuilders.h"
-#include <winrt/Microsoft.UI.Xaml.Hosting.h>
-#include <winrt/Microsoft.UI.Xaml.Media.h>
-#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
-#include <DirectXMath.h>
-#include <atomic>
-#include <memory>
-#include <numbers>
 
-using namespace winrt::Microsoft::UI::Xaml::Hosting;
-using namespace winrt::Microsoft::UI::Xaml::Media;
-using namespace winrt::Windows::Foundation;
-using namespace winrt::Windows::Foundation::Numerics;
+namespace winrt
+{
+	using namespace Microsoft::UI::Xaml::Hosting;
+	using namespace Microsoft::UI::Xaml::Media;
+	using namespace Windows::Foundation;
+	using namespace Windows::Foundation::Numerics;
+}
 
 namespace winrt::XamlToolkit::WinUI::Animations
 {

@@ -1,11 +1,10 @@
 ﻿#include "pch.h"
+#include "winrt_module_imports.h"
 #include "ListViewExtensions.h"
 #if __has_include("ListViewExtensions.g.cpp")
 #include "ListViewExtensions.g.cpp"
 #endif
 #include "../common.h"
-
-using namespace winrt::Microsoft::UI::Xaml::Data;
 
 namespace winrt::XamlToolkit::WinUI::implementation
 {

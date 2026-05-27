@@ -1,15 +1,25 @@
 #pragma once
 
 #include "TokenView.g.h"
+#include "TokenItem.h"
+
+#ifdef __INTELLISENSE__
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
-#include "TokenItem.h"
+#include <string_view>
+#endif
+
+namespace winrt
+{
+	using namespace Windows::Foundation;
+	using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Xaml::Controls;
+	using namespace Microsoft::UI::Xaml::Input;
+	using namespace Microsoft::UI::Xaml::Controls::Primitives;
+}
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
-	using namespace winrt::Microsoft::UI::Xaml::Input;
-	using namespace winrt::Microsoft::UI::Xaml::Controls::Primitives;
-
 	enum MoveDirection
 	{
 		Next,
@@ -37,7 +47,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 	public:
 		TokenView();
 
-		wil::untyped_event<TokenItemRemovingEventArgs> TokenItemRemoving;
+		wil::untyped_event<winrt::XamlToolkit::Labs::WinUI::TokenItemRemovingEventArgs> TokenItemRemoving;
 
 		DependencyObject GetContainerForItemOverride() { return winrt::make<TokenItem>(); }
 

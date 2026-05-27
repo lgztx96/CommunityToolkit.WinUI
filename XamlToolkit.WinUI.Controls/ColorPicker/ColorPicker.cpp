@@ -1,4 +1,11 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <algorithm>
+#include <chrono>
+#include <cmath>
+#include <limits>
+#endif
 #include "ColorPicker.h"
 #if __has_include("ColorPicker.g.cpp")
 #include "ColorPicker.g.cpp"
@@ -6,9 +13,6 @@
 #include "ColorToHexConverter.h"
 #include "ColorPickerRenderingHelpers.h"
 #include "FluentColorPalette.h"
-
-using namespace winrt;
-using namespace Microsoft::UI::Xaml;
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
@@ -96,7 +100,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		Channel3Slider = GetTemplateChild(L"Channel3Slider").try_as<Primitives::ColorPickerSlider>();
 		AlphaChannelSlider = GetTemplateChild(L"AlphaChannelSlider").try_as<Primitives::ColorPickerSlider>();
 
-		ColorPreviewer = GetTemplateChild(L"ColorPreviewer").try_as<Primitives::ColorPreviewer>();
+		ColorPreviewer = GetTemplateChild(L"ColorPreviewer").try_as<winrt::XamlToolkit::WinUI::Controls::Primitives::ColorPreviewer>();
 
 		CheckeredBackground1Border = GetTemplateChild(L"CheckeredBackground1Border").try_as<Border>();
 		CheckeredBackground2Border = GetTemplateChild(L"CheckeredBackground2Border").try_as<Border>();

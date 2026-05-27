@@ -1,15 +1,15 @@
 #pragma once
 
 #include "KeyFrame.g.h"
-#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
-#include <wil/wistd_type_traits.h>
-#include <wil/cppwinrt_authoring.h>
+
+namespace winrt
+{
+    using namespace Microsoft::UI::Xaml;
+    using namespace Microsoft::UI::Xaml::Media::Animation;
+}
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
-    using namespace winrt::Microsoft::UI::Xaml;
-    using namespace winrt::Microsoft::UI::Xaml::Media::Animation;
-
     /// <summary>
     /// A base model representing a keyframe that can be used in XAML.
     /// </summary>

@@ -1,8 +1,15 @@
-﻿#pragma once
+#pragma once
 
 #include "MetadataItem.g.h"
-#include <wil/wistd_type_traits.h>
-#include <wil/cppwinrt_authoring.h>
+
+#ifdef __INTELLISENSE__
+#include <winrt/Microsoft.UI.Xaml.Input.h>
+#endif
+
+namespace winrt
+{
+    using namespace Microsoft::UI::Xaml::Input;
+}
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {

@@ -1,13 +1,11 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "DataColumn.h"
 #if __has_include("DataColumn.g.cpp")
 #include "DataColumn.g.cpp"
 #endif
 #include "../../XamlToolkit.WinUI/common.h"
 #include "DataTable.h"
-
-using namespace winrt;
-using namespace Microsoft::UI::Xaml;
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {

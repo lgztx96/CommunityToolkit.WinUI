@@ -1,15 +1,25 @@
-﻿#pragma once
+#pragma once
 
+#ifdef __INTELLISENSE__
 #include <winrt/Windows.Foundation.h>
-#include <winrt/Windows.UI.Xaml.Interop.h>
-#include <winrt/XamlToolkit.WinUI.Controls.h>
+#include <winrt/Microsoft.UI.Xaml.Markup.h>
+#include <cmath>
+#include <concepts>
+#include <limits>
+#include <optional>
+#include <ranges>
+#include <utility>
 #include <variant>
+#endif
+
+namespace winrt
+{
+	using namespace Windows::Foundation;
+	using namespace Microsoft::UI::Xaml::Markup;
+}
 
 namespace winrt::XamlToolkit::WinUI::Controls
 {
-	using namespace winrt::Windows::Foundation;
-	using namespace winrt::Microsoft::UI::Xaml::Markup;
-
 	class SwitchHelpers
 	{
 	public:

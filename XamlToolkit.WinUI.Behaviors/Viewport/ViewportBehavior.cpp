@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "ViewportBehavior.h"
 #include "../Helper.h"
 #if __has_include("ViewportBehavior.g.cpp")

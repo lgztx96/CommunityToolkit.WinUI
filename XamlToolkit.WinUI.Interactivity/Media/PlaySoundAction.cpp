@@ -1,4 +1,8 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <string>
+#endif
 #include "PlaySoundAction.h"
 #if __has_include("PlaySoundAction.g.cpp")
 #include "PlaySoundAction.g.cpp"
@@ -10,12 +14,9 @@ namespace
 
 	winrt::Windows::Foundation::Uri TryCreateUri(winrt::hstring const& source)
 	{
-		using namespace winrt;
-		using namespace Windows::Foundation;
-
 		try
 		{
-			return Uri(source);
+			return winrt::Windows::Foundation::Uri(source);
 		}
 		catch (winrt::hresult_error const&)
 		{
@@ -26,7 +27,7 @@ namespace
 
 		try
 		{
-			return Uri(absoluteSource);
+			return winrt::Windows::Foundation::Uri(absoluteSource);
 		}
 		catch (winrt::hresult_error const&)
 		{

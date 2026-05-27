@@ -2,16 +2,15 @@
 
 #include "AnimationBuilder.h"
 #include "AnimationBuilder.PropertyBuilders.h"
-#include <DirectXMath.h>
-#include <cmath>
-#include <numbers>
-#include <optional>
+
+namespace winrt
+{
+    using namespace Microsoft::UI::Xaml;
+	using namespace Windows::Foundation::Numerics;
+}
 
 namespace winrt::XamlToolkit::WinUI::Animations
 {
-    using namespace winrt::Microsoft::UI::Xaml;
-    using namespace winrt::Windows::Foundation::Numerics;
-
     class AnimationBuilderDefault
     {
     private:

@@ -3,13 +3,6 @@
 // See the LICENSE file in the project root for more information.
 #pragma once
 #include "../../Builders/AnimationBuilder.h"
-#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
-#include <optional>
-
-namespace winrt::XamlToolkit::WinUI::Animations
-{
-    using namespace winrt::Microsoft::UI::Xaml::Media::Animation;
-}
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {

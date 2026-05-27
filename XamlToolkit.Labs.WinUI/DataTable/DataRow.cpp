@@ -1,9 +1,14 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <algorithm>
+#include <ranges>
+#endif
 #include "DataRow.h"
+#include "DataColumn.h"
 #if __has_include("DataRow.g.cpp")
 #include "DataRow.g.cpp"
 #endif
-#include <ranges>
 #include "../../XamlToolkit.WinUI/common.h"
 #include "DataTable.h"
 

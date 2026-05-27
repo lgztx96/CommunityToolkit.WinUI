@@ -1,12 +1,14 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <string>
+#endif
 #include "ColorPreviewer.h"
 #if __has_include("Primitives.ColorPreviewer.g.cpp")
 #include "Primitives.ColorPreviewer.g.cpp"
 #endif
 #include "ColorPickerRenderingHelpers.h"
-
-using namespace winrt;
-using namespace Microsoft::UI::Xaml;
+#include "AccentColorConverter.h"
 
 namespace winrt::XamlToolkit::WinUI::Controls::Primitives::implementation
 {
@@ -117,7 +119,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::Primitives::implementation
 			}
 			catch (...) {}
 
-			auto newHsvColor = AccentColorConverter::GetAccent(hsvColor, accentStep);
+			auto newHsvColor = winrt::XamlToolkit::WinUI::Controls::AccentColorConverter::GetAccent(hsvColor, accentStep);
 			OnColorChangeRequested(newHsvColor);
 		}
 	}

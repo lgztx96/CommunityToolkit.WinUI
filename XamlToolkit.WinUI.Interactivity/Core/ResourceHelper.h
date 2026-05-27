@@ -1,7 +1,10 @@
 #pragma once
 
-#include <winrt/Windows.Foundation.h>
+#ifdef __INTELLISENSE__
 #include <format>
+#include <string_view>
+#include <winrt/Windows.Foundation.h>
+#endif
 
 namespace winrt::XamlToolkit::WinUI::Interactivity
 {

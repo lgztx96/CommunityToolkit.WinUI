@@ -1,6 +1,6 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "WinUIVisualTreeHelper.h"
-#include <winrt/Microsoft.UI.Xaml.Media.h>
 
 namespace winrt::XamlToolkit::WinUI::Interactivity
 {

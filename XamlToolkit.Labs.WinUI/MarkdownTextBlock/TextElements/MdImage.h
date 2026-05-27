@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 #pragma once
@@ -6,22 +6,30 @@
 #include "../DefaultSVGRenderer.h"
 #include "../Extension.h"
 #include "IAddChild.h"
-#include <winrt/XamlToolkit.Labs.WinUI.h>
-#include <winrt/Microsoft.UI.Xaml.h>
-#include <winrt/Microsoft.UI.Xaml.Media.Imaging.h>
+
+#ifdef __INTELLISENSE__
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.Storage.Streams.h>
 #include <winrt/Windows.Web.Http.h>
-#include <winrt/Windows.Web.Http.Headers.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
+#include <winrt/Microsoft.UI.Xaml.Documents.h>
+#include <winrt/Microsoft.UI.Xaml.Media.Imaging.h>
+#include <cmath>
+#include <limits>
+#include <memory>
+#endif
+
+namespace winrt
+{
+	using namespace Microsoft::UI::Xaml::Media::Imaging;
+	using namespace Windows::Storage::Streams;
+	using namespace Windows::Web::Http;
+}
 
 #undef LoadImage
 
 namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 {
-	using namespace Microsoft::UI::Xaml::Media::Imaging;
-	using namespace winrt::Windows::Storage::Streams;
-	using namespace winrt::Windows::Web::Http;
-
 	class MdImage final : public IAddChild, public std::enable_shared_from_this<MdImage>
 	{
 	private:

@@ -1,10 +1,20 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <algorithm>
+#endif
 #include "ImageCropper.h"
 
-using namespace winrt;
-using namespace Windows::UI::Core;
-using namespace Microsoft::UI::Input;
-using namespace Microsoft::UI::Xaml;
+namespace winrt
+{
+	using namespace Windows::System;
+	using namespace Windows::Foundation;
+	using namespace Windows::UI::Core;
+	using namespace Microsoft::UI::Input;
+	using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Xaml::Input;
+	using namespace XamlToolkit::WinUI::Controls;
+}
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {

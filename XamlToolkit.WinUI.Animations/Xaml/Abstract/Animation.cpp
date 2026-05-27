@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "Animation.h"
 #if __has_include("Animation.g.cpp")
 #include "Animation.g.cpp"
@@ -7,9 +8,6 @@
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
-    using namespace winrt::Microsoft::UI::Xaml;
-    using namespace winrt::Microsoft::UI::Xaml::Media::Animation;
-
     const wil::single_threaded_property<DependencyProperty> Animation::DelayProperty =
         DependencyProperty::Register(
             L"Delay",

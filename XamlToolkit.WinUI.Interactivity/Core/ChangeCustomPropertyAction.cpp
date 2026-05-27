@@ -1,12 +1,11 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "ChangeCustomPropertyAction.h"
 #include "ResourceHelper.h"
 #include "TypeConverterHelper.h"
 #if __has_include("ChangeCustomPropertyAction.g.cpp")
 #include "ChangeCustomPropertyAction.g.cpp"
 #endif
-
-#include <sstream>
 
 namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 {

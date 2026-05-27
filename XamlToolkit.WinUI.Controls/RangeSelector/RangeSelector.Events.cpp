@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "RangeSelector.h"
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
