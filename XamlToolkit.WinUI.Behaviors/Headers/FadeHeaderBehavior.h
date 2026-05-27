@@ -2,8 +2,6 @@
 
 #include "FadeHeaderBehavior.g.h"
 #include "HeaderBehaviorBase.h"
-#include <wil/wistd_type_traits.h>
-#include <wil/cppwinrt_authoring.h>
 
 namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
 {

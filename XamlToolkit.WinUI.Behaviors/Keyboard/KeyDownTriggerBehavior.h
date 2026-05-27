@@ -1,9 +1,15 @@
 #pragma once
 
 #include "KeyDownTriggerBehavior.g.h"
-#include <winrt/XamlToolkit.WinUI.Interactivity.h>
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.System.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Input.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
+#endif
 
 namespace winrt
 {

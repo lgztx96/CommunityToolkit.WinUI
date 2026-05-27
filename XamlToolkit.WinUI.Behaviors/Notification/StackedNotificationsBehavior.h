@@ -3,8 +3,15 @@
 #include "StackedNotificationsBehavior.g.h"
 #include "Notification.h"
 #include "../BehaviorBase.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
 #include <winrt/Microsoft.UI.Dispatching.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
+#include <winrt/Microsoft.UI.Xaml.Input.h>
 #include <list>
+#endif
 
 namespace winrt
 {

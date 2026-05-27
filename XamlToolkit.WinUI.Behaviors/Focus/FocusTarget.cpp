@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "FocusTarget.h"
 #if __has_include("FocusTarget.g.cpp")
 #include "FocusTarget.g.cpp"

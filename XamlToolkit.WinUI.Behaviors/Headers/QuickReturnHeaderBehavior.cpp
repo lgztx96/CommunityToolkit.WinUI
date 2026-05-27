@@ -1,7 +1,7 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "QuickReturnHeaderBehavior.h"
 #include "../Helper.h"
-#include <winrt/Microsoft.UI.Xaml.Hosting.h>
 #if __has_include("QuickReturnHeaderBehavior.g.cpp")
 #include "QuickReturnHeaderBehavior.g.cpp"
 #endif

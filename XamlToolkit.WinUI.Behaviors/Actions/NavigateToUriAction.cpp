@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "NavigateToUriAction.h"
 #if __has_include("NavigateToUriAction.g.cpp")
 #include "NavigateToUriAction.g.cpp"

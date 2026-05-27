@@ -1,4 +1,8 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <chrono>
+#endif
 #include "FocusBehavior.h"
 #include "FocusTarget.h"
 #include "FocusTargetList.h"
