@@ -3,6 +3,10 @@
 #include "StringVisibilityConverter.g.h"
 #include "EmptyStringToObjectConverter.h"
 
+#ifdef __INTELLISENSE__
+#include <winrt/Microsoft.UI.Xaml.h>
+#endif
+
 namespace winrt
 {
     using namespace Microsoft::UI::Xaml;

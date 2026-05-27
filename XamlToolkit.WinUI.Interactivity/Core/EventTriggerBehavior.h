@@ -1,10 +1,15 @@
 #pragma once
 
 #include "EventTriggerBehavior.g.h"
-#include <wil/wistd_config.h>
+#include "../Trigger.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Media.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
-#include "../Trigger.h"
+#endif
 
 namespace winrt
 {

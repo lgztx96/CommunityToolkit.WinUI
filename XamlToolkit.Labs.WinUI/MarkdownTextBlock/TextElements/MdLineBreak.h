@@ -5,7 +5,11 @@
 
 #include "IAddChild.h"
 
-namespace winrt::XamlToolkit::Labs::WinUI::TextElements 
+#ifdef __INTELLISENSE__
+#include <winrt/Microsoft.UI.Xaml.Documents.h>
+#endif
+
+namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 {
     class MdLineBreak final : public IAddChild
     {

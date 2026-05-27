@@ -1,15 +1,35 @@
 #pragma once
 
 #include "CameraPreview.g.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.Foundation.Collections.h>
 #include <winrt/Windows.Media.Capture.Frames.h>
 #include <winrt/Windows.Media.Playback.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.Primitives.h>
+#include <winrt/XamlToolkit.WinUI.Helpers.h>
+#include <wil/wistd_type_traits.h>
+#include <wil/cppwinrt_authoring.h>
+#include <string_view>
+#endif
+
+namespace winrt
+{
+	using namespace Windows::Foundation;
+	using namespace Windows::Foundation::Collections;
+	using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Xaml::Controls;
+	using namespace Microsoft::UI::Xaml::Controls::Primitives;
+	using namespace Windows::Media::Capture::Frames;
+	using namespace Windows::Media::Playback;
+	using namespace XamlToolkit::WinUI::Helpers;
+}
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-	using namespace winrt::Windows::Media::Capture::Frames;
-	using namespace winrt::Windows::Media::Playback;
-	using namespace winrt::XamlToolkit::WinUI::Helpers;
-
 	struct CameraPreview : CameraPreviewT<CameraPreview>
 	{
 	private:
@@ -25,7 +45,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		ButtonBase::Click_revoker _frameSourceGroupButtonClickRevoker;
 
-		bool IsFrameSourceGroupButtonAvailable() { return _frameSourceGroups && _frameSourceGroups.Size() > 1; }
+		bool IsFrameSourceGroupButtonAvailable() const { return _frameSourceGroups && _frameSourceGroups.Size() > 1; }
 
 		static void IsFrameSourceGroupButtonVisibleChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e);
 

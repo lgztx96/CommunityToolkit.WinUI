@@ -1,8 +1,15 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.System.h>
+#include <memory>
+#endif
 #include "RangeSelector.h"
 
-using namespace winrt;
-using namespace Microsoft::UI::Xaml;
+namespace winrt
+{
+    using namespace Windows::System;
+}
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {

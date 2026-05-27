@@ -2,11 +2,15 @@
 
 #include "FocusBehavior.g.h"
 #include "../BehaviorBase.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
 #include <winrt/Microsoft.UI.Dispatching.h>
-#include <wil/wistd_type_traits.h>
-#include <wil/cppwinrt_authoring.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
 #include <vector>
-#include <algorithm>
+#include <utility>
+#endif
 
 namespace winrt
 {

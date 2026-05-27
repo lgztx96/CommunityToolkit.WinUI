@@ -1,6 +1,15 @@
 #pragma once
+
+#ifdef __INTELLISENSE__
 #include <winrt/Windows.Foundation.Collections.h>
 #include <winrt/Windows.UI.h>
+#endif
+
+namespace winrt
+{
+	using namespace Windows::Foundation::Collections;
+	using namespace Windows::UI;
+}
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {

@@ -1,4 +1,10 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <algorithm>
+#include <limits>
+#include <numeric>
+#endif
 #include "MdTableUIElement.h"
 #if __has_include("MdTableUIElement.g.cpp")
 #include "MdTableUIElement.g.cpp"

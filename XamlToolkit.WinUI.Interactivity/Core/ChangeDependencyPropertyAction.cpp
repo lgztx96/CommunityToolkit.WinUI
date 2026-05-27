@@ -1,4 +1,5 @@
 ﻿#include "pch.h"
+#include "winrt_module_imports.h"
 #include "ChangeDependencyPropertyAction.h"
 #if __has_include("ChangeDependencyPropertyAction.g.cpp")
 #include "ChangeDependencyPropertyAction.g.cpp"

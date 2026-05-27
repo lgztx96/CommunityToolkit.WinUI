@@ -1,23 +1,30 @@
 ﻿#pragma once
 
 #include "Predicates.h"
-#include <functional>
+
+#ifdef __INTELLISENSE__
+#include <vector>
 #include <generator>
+#include <winrt/Windows.Foundation.h>
 #include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
 #include <winrt/Microsoft.UI.Xaml.Media.h>
 #include <winrt/Microsoft.UI.Xaml.Markup.h>
+#endif
 
 #ifdef FindResource
 #undef FindResource
 #endif
 
+namespace winrt
+{
+    using namespace Microsoft::UI::Xaml;
+    using namespace Microsoft::UI::Xaml::Media;
+    using namespace Microsoft::UI::Xaml::Controls;
+}
+
 namespace winrt::XamlToolkit::WinUI
 {
-	using namespace winrt;
-	using namespace Microsoft::UI::Xaml;
-	using namespace Microsoft::UI::Xaml::Media;
-	using namespace Microsoft::UI::Xaml::Controls;
-
 	class FrameworkElementEx
 	{
 	public:

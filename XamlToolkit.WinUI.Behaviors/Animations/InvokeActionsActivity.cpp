@@ -1,4 +1,5 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
 #include "InvokeActionsActivity.h"
 #if __has_include("InvokeActionsActivity.g.cpp")
 #include "InvokeActionsActivity.g.cpp"

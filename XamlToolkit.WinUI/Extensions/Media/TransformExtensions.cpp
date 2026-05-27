@@ -1,4 +1,5 @@
 ﻿#include "pch.h"
+#include "winrt_module_imports.h"
 #include "TransformExtensions.h"
 #if __has_include("TransformExtensions.g.cpp")
 #include "TransformExtensions.g.cpp"

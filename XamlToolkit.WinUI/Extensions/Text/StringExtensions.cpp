@@ -1,8 +1,12 @@
 #pragma once
 
 #include "pch.h"
-#include "StringExtensions.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <cwchar>
 #include <ranges>
+#endif
+#include "StringExtensions.h"
 
 using std::operator""sv;
 

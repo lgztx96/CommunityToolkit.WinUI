@@ -1,16 +1,24 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <algorithm>
+#include <cmath>
+#endif
 #include "ImageCropper.h"
-#include <winrt/Windows.Graphics.Imaging.h>
-#include <winrt/Windows.Storage.Streams.h>
-#include <winrt/Microsoft.Graphics.Canvas.h>
-#include <winrt/Microsoft.Graphics.Canvas.Geometry.h>
-#include <winrt/Microsoft.Graphics.Canvas.Effects.h>
 
-using namespace winrt;
-using namespace Microsoft::UI::Xaml;
-using namespace Windows::Foundation::Numerics;
-using namespace Microsoft::Graphics::Canvas;
-using namespace Microsoft::Graphics::Canvas::Effects;
+import winrt.Microsoft.Graphics.Canvas;
+import winrt.Microsoft.Graphics.Canvas.Effects;
+import winrt.Microsoft.Graphics.Canvas.Geometry;
+
+namespace winrt
+{
+	using namespace Microsoft::UI::Xaml;
+	using namespace Windows::Foundation::Numerics;
+	using namespace Microsoft::Graphics::Canvas;
+	using namespace Microsoft::Graphics::Canvas::Effects;
+	using namespace Microsoft::Graphics::Canvas::Geometry;
+	using namespace Windows::Graphics::Imaging;
+}
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {

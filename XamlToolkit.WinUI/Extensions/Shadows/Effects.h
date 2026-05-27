@@ -4,9 +4,18 @@
 
 #include "AttachedShadowBase.h"
 
-namespace winrt::XamlToolkit::WinUI::implementation
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#endif
+
+namespace winrt
 {
     using namespace Microsoft::UI::Xaml;
+}
+
+namespace winrt::XamlToolkit::WinUI::implementation
+{
 
     struct Effects
     {

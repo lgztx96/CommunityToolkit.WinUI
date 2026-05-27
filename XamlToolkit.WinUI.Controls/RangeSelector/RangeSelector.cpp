@@ -1,4 +1,10 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <algorithm>
+#include <cmath>
+#include <limits>
+#endif
 #include "RangeSelector.h"
 #if __has_include("RangeSelector.g.cpp")
 #include "RangeSelector.g.cpp"
@@ -495,7 +501,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	{
 		_toolTipText.Text(winrt::format(L"{:.2f}", newValue));
 
-		_toolTip.Measure(Size{ std::numeric_limits<float>::infinity(), std::numeric_limits<float>::infinity() });
+		_toolTip.Measure(winrt::Windows::Foundation::Size{ std::numeric_limits<float>::infinity(), std::numeric_limits<float>::infinity() });
 		auto desiredSize = _toolTip.DesiredSize();
 
 		auto isHorizontal = IsHorizontal();

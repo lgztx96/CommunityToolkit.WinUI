@@ -1,10 +1,9 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
 #include "StreamColorSource.h"
 #if __has_include("StreamColorSource.g.cpp")
 #include "StreamColorSource.g.cpp"
 #endif
-#include <winrt/Windows.Graphics.Imaging.h>
-#include <winrt/Windows.Storage.Streams.h>
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {

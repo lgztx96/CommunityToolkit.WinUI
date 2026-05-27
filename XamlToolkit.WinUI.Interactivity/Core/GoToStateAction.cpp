@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "GoToStateAction.h"
 #include "EventTriggerBehavior.h"
 #include "ResourceHelper.h"

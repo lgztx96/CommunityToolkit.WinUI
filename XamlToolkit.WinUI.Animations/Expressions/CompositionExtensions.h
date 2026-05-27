@@ -1,7 +1,5 @@
 #pragma once
 
-#include <winrt/Windows.UI.Composition.Interactions.h>
-
 #include "ExpressionNodes/ExpressionNode.h"
 #include "ReferenceNodes/AmbientLightReferenceNode.h"
 #include "ReferenceNodes/ColorBrushReferenceNode.h"
@@ -18,11 +16,22 @@
 #include "ReferenceNodes/ManipulationPropertySetReferenceNode.h"
 #include "ReferenceNodes/PointerPositionPropertySetReferenceNode.h"
 
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.UI.Composition.h>
+#include <winrt/Windows.UI.Composition.Interactions.h>
+#include <type_traits>
+#include <concepts>
+#endif
+
+namespace winrt 
+{
+	using namespace Windows::UI::Composition;
+	using namespace Windows::UI::Composition::Interactions;
+}
+
 namespace winrt::XamlToolkit::WinUI::Animations::Expressions
 {
-    using namespace Windows::UI::Composition;
-    using namespace Windows::UI::Composition::Interactions;
-
     /// <summary>
     /// Connects expression nodes to composition APIs.
     /// </summary>

@@ -4,7 +4,6 @@
     
     <PropertyGroup>
 		<PlatformToolset>v145</PlatformToolset>
-		<PlatformToolset Condition="'$(VisualStudioVersion)' == '17.0'">v143</PlatformToolset>	  
 		<UseCrtSDKReference>false</UseCrtSDKReference>
         <UseCrtSDKReferenceStaticWarning>false</UseCrtSDKReferenceStaticWarning>
     </PropertyGroup>

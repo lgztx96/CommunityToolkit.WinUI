@@ -1,4 +1,5 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
 #include "ColorPaletteSelector.h"
 #if __has_include("ColorPaletteSelector.g.cpp")
 #include "ColorPaletteSelector.g.cpp"

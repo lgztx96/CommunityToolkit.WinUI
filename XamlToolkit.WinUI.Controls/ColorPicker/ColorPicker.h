@@ -1,20 +1,43 @@
-﻿#pragma once
+#pragma once
 
 #include "ColorPicker.g.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.Foundation.Collections.h>
 #include <winrt/Windows.UI.h>
+#include <winrt/Microsoft.UI.Dispatching.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.Primitives.h>
+#include <winrt/Microsoft.UI.Xaml.Input.h>
 #include <winrt/XamlToolkit.WinUI.Helpers.h>
 #include <winrt/XamlToolkit.WinUI.Controls.Primitives.h>
-#include <winrt/Windows.Foundation.Collections.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
+#include <optional>
+#include <initializer_list>
+#endif
+
+import winrt.XamlToolkit.WinUI.Controls;
+import winrt.XamlToolkit.WinUI.Controls.Primitives;
+
+namespace winrt
+{
+	using namespace Windows::UI;
+	using namespace Windows::Foundation;
+	using namespace Windows::Foundation::Collections;
+	using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Xaml::Input;
+	using namespace Microsoft::UI::Xaml::Controls;
+	using namespace Microsoft::UI::Xaml::Controls::Primitives;
+	using namespace XamlToolkit::WinUI;
+	using namespace XamlToolkit::WinUI::Helpers;
+	using namespace XamlToolkit::WinUI::Controls;
+}
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-	using namespace winrt::Windows::UI;
-	using namespace winrt::Windows::Foundation;
-	using namespace winrt::Microsoft::UI::Xaml::Controls;
-	using namespace winrt::XamlToolkit::WinUI::Helpers;
-
 	struct ColorPicker : ColorPickerT<ColorPicker>
 	{
 		wil::single_threaded_rw_property<winrt::Windows::UI::Color> CheckerBackgroundColor = Microsoft::UI::ColorHelper::FromArgb(0x19, 0x80, 0x80, 0x80); // Overridden later
@@ -33,7 +56,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		bool isInitialized = false;
 
 		// Color information for updates
-		std::optional<HsvColor> savedHsvColor;
+		std::optional<winrt::XamlToolkit::WinUI::HsvColor> savedHsvColor;
 		std::optional<winrt::Windows::UI::Color> savedHsvColorRgbEquivalent;
 		std::optional<winrt::Windows::UI::Color> updatedRgbColor;
 		std::optional<winrt::Microsoft::UI::Dispatching::DispatcherQueueTimer> dispatcherQueueTimer;
@@ -58,7 +81,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		Primitives::ColorPickerSlider Channel3Slider{ nullptr };
 		Primitives::ColorPickerSlider AlphaChannelSlider{ nullptr };
 
-		Primitives::ColorPreviewer ColorPreviewer{ nullptr };
+		winrt::XamlToolkit::WinUI::Controls::Primitives::ColorPreviewer ColorPreviewer{ nullptr };
 
 		// Up to 10 checkered backgrounds may be used by name anywhere in the template
 		Border CheckeredBackground1Border{ nullptr };

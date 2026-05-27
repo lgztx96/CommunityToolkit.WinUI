@@ -1,9 +1,9 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "StartAnimationAction.h"
 #if __has_include("StartAnimationAction.g.cpp")
 #include "StartAnimationAction.g.cpp"
 #endif
-#include <winrt/XamlToolkit.WinUI.Animations.h>
 
 namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
 {

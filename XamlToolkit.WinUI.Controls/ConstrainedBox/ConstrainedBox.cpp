@@ -1,4 +1,5 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
 #include "ConstrainedBox.h"
 #if __has_include("ConstrainedBox.g.cpp")
 #include "ConstrainedBox.g.cpp"

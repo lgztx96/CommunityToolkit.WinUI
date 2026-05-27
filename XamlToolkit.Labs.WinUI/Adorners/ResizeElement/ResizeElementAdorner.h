@@ -1,6 +1,22 @@
 #pragma once
 
 #include "ResizeElementAdorner.g.h"
+#include "../Adorner.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Input.h>
+#include <array>
+#include <string_view>
+#endif
+
+namespace winrt
+{
+	using namespace Windows::Foundation;
+	using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Xaml::Input;
+}
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {

@@ -6,14 +6,9 @@
 #include "../Builders/AnimationBuilder.h"
 #include "../Builders/NormalizedKeyFrameAnimationBuilder{T}.Composition.h"
 #include "../Extensions/AnimationExtensions.h"
-#include <winrt/Microsoft.UI.Composition.h>
-#include <wil/wistd_type_traits.h>
-#include <wil/cppwinrt_authoring.h>
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
-    using namespace winrt::Microsoft::UI::Xaml;
-
     struct ClipAnimation;
 
     struct ClipAnimationTraits

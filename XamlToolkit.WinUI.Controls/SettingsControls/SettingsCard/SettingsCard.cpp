@@ -1,4 +1,5 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
 #include "SettingsCard.h"
 #if __has_include("SettingsCard.g.cpp")
 #include "SettingsCard.g.cpp"
@@ -6,9 +7,6 @@
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-    using namespace winrt;
-    using namespace Microsoft::UI::Xaml;
-
 	SettingsCard::SettingsCard()
 	{
 		DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));

@@ -1,9 +1,13 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <memory>
+#endif
 #include "AdornerLayer.h"
 #if __has_include("AdornerLayer.g.cpp")
 #include "AdornerLayer.g.cpp"
 #endif
-#include <winrt/XamlToolkit.Labs.WinUI.h>
+#include "AdornerDecorator.h"
 #include "../XamlToolkit.WinUI/common.h"
 #include "Adorner.h"
 #include "Helpers/FrameworkElementExtensions.WaitUntilLoaded.h"

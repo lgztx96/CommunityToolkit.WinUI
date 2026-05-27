@@ -1,14 +1,25 @@
-﻿#pragma once
+#pragma once
 
 #include "ColorPaletteSampler.g.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.Foundation.Collections.h>
+#include <winrt/Windows.Foundation.Numerics.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
+#include <span>
+#include <vector>
+#endif
+
+namespace winrt
+{
+    using namespace Windows::Foundation;
+    using namespace Windows::Foundation::Numerics;
+}
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
-    using namespace winrt::Windows::Foundation;
-    using namespace winrt::Windows::Foundation::Numerics;
-
     struct ColorPaletteSampler : ColorPaletteSamplerT<ColorPaletteSampler>
     {
         ColorPaletteSampler();

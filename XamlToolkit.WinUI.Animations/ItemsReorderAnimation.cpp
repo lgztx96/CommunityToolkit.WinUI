@@ -1,19 +1,24 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "ItemsReorderAnimation.h"
 #if __has_include("ItemsReorderAnimation.g.cpp")
 #include "ItemsReorderAnimation.g.cpp"
 #endif
-#include <winrt/Microsoft.UI.Xaml.Controls.h>
-#include <winrt/Microsoft.UI.Xaml.Hosting.h>
-#include <winrt/Microsoft.UI.Xaml.Shapes.h>
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.ApplicationModel.h>
+#endif
+
+namespace winrt
+{
+	using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Xaml::Controls;
+	using namespace Microsoft::UI::Xaml::Hosting;
+	using namespace Microsoft::UI::Composition;
+}
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
-    using namespace winrt::Microsoft::UI::Xaml;
-    using namespace winrt::Microsoft::UI::Xaml::Controls;
-    using namespace winrt::Microsoft::UI::Xaml::Hosting;
-    using namespace winrt::Microsoft::UI::Composition;
-
     const wil::single_threaded_property<DependencyProperty> ItemsReorderAnimation::DurationProperty = DependencyProperty::RegisterAttached(
         L"Duration",
         winrt::xaml_typename<winrt::Windows::Foundation::TimeSpan>(),

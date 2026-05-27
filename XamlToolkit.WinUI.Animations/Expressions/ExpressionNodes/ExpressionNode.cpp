@@ -1,7 +1,10 @@
 #include "pch.h"
-
-#include <cwctype>
-#include <ranges>
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <map>
+#include <set>
+#include <vector>
+#endif
 
 #include "ExpressionNode.h"
 #include "../ExpressionFunctions.h"

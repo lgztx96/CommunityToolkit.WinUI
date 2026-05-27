@@ -1,17 +1,32 @@
-﻿#pragma once
+#pragma once
 
 #include "LinkClickedEventArgs.h"
 #include "MarkdownTextBlock.g.h"
 #include "Renderer\WinUIRenderer.h"
 #include "TextElements/MdFlowDocument.h"
 #include <MarkdownTextBlock/MarkdownConfig.h>
-#include <winrt/XamlToolkit.Labs.WinUI.h>
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
+#include <winrt/Microsoft.UI.Xaml.Media.h>
+#include <wil/wistd_type_traits.h>
+#include <wil/cppwinrt_authoring.h>
+#include <memory>
+#include <string_view>
+#endif
+
+namespace winrt
+{
+    using namespace Microsoft::UI::Xaml;
+    using namespace Microsoft::UI::Xaml::Controls;
+    using namespace Microsoft::UI::Xaml::Documents;
+    using namespace XamlToolkit::Labs::WinUI::TextElements;
+}
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
-    using namespace winrt::Microsoft::UI::Xaml::Controls;
-    using namespace winrt::XamlToolkit::Labs::WinUI::TextElements;
-
     struct MarkdownTextBlock : MarkdownTextBlockT<MarkdownTextBlock>
     {
     private:

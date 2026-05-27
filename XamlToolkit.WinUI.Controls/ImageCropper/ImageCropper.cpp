@@ -1,14 +1,14 @@
-﻿#include "pch.h"
-#include "ImageCropper.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <algorithm>
+#include <cmath>
+#include <optional>
+#endif
 #include "ImageCropper.h"
 #if __has_include("ImageCropper.g.cpp")
 #include "ImageCropper.g.cpp"
 #endif
-#include <winrt/Windows.Storage.Streams.h>
-
-using namespace winrt;
-using namespace Microsoft::UI::Xaml;
-using namespace Microsoft::UI::Xaml::Media;
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {

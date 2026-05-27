@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "Vector3KeyFrame.h"
 #if __has_include("Vector3KeyFrame.g.cpp")
 #include "Vector3KeyFrame.g.cpp"
@@ -6,8 +7,6 @@
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
-    using namespace winrt::Microsoft::UI::Xaml;
-
     const wil::single_threaded_property<DependencyProperty> Vector3KeyFrame::ValueProperty =
         DependencyProperty::Register(
             L"Value",

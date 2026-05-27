@@ -2,6 +2,13 @@
 
 #include "DataRow.g.h"
 
+namespace winrt
+{
+	using namespace Windows::Foundation;
+	using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Xaml::Controls;
+}
+
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
 	struct DataRow : DataRowT<DataRow>

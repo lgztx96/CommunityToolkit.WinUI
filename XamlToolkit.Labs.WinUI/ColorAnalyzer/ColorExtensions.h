@@ -1,13 +1,23 @@
 #pragma once
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.Numerics.h>
 #include <winrt/Windows.UI.h>
-#include <winrt/Windows.Foundation.h>
+#include <cmath>
+#include <concepts>
 #include <ranges>
+#include <span>
+#endif
+
+namespace winrt
+{
+	using namespace Windows::Foundation;
+    using namespace Windows::Foundation::Numerics;
+	using namespace Windows::UI;
+}
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
-	using namespace winrt::Windows::Foundation::Numerics;
-	using namespace winrt::Windows::UI;
-
     template<typename R, typename V>
     concept input_range_of = std::ranges::input_range<R> && std::common_reference_with<std::ranges::range_value_t<R>, V>;
 

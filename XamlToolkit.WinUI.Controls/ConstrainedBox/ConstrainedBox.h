@@ -1,8 +1,20 @@
-﻿#pragma once
+#pragma once
 
 #include "ConstrainedBox.g.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Xaml.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
+#include <cmath>
+#endif
+
+namespace winrt
+{
+	using namespace Windows::Foundation;
+	using namespace Microsoft::UI::Xaml;
+}
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
@@ -24,29 +36,29 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		ConstrainedBox() : _propertyUpdating(false) {}
 
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> ScaleXProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> ScaleXProperty =
+			winrt::DependencyProperty::Register(
 				L"ScaleX",
 				winrt::xaml_typename<double>(),
 				winrt::xaml_typename<class_type>(),
-				PropertyMetadata{ winrt::box_value(1.0), &ConstrainedBox::ConstraintPropertyChanged });
+				winrt::PropertyMetadata{ winrt::box_value(1.0), &ConstrainedBox::ConstraintPropertyChanged });
 
 		double ScaleX()
 		{
-			return GetValue(ScaleXProperty).as<double>();
+			return GetValue(ScaleXProperty()).as<double>();
 		}
 
 		void ScaleX(double value)
 		{
-			SetValue(ScaleXProperty, winrt::box_value(value));
+			SetValue(ScaleXProperty(), winrt::box_value(value));
 		}
 
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> ScaleYProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> ScaleYProperty =
+			winrt::DependencyProperty::Register(
 				L"ScaleY",
 				winrt::xaml_typename<double>(),
 				winrt::xaml_typename<class_type>(),
-				PropertyMetadata{ winrt::box_value(1.0), &ConstrainedBox::ConstraintPropertyChanged });
+				winrt::PropertyMetadata{ winrt::box_value(1.0), &ConstrainedBox::ConstraintPropertyChanged });
 
 		double ScaleY()
 		{
@@ -58,12 +70,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			SetValue(ScaleYProperty, winrt::box_value(value));
 		}
 
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> MultipleXProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> MultipleXProperty =
+			winrt::DependencyProperty::Register(
 				L"MultipleX",
 				winrt::xaml_typename<int>(),
 				winrt::xaml_typename<class_type>(),
-				winrt::Microsoft::UI::Xaml::PropertyMetadata{ nullptr, &ConstrainedBox::ConstraintPropertyChanged });
+				winrt::PropertyMetadata{ nullptr, &ConstrainedBox::ConstraintPropertyChanged });
 
 		int MultipleX()
 		{
@@ -75,12 +87,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			SetValue(MultipleXProperty, winrt::box_value(value));
 		}
 
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> MultipleYProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> MultipleYProperty =
+			winrt::DependencyProperty::Register(
 				L"MultipleY",
 				winrt::xaml_typename<int>(),
 				winrt::xaml_typename<class_type>(),
-				PropertyMetadata{ nullptr, PropertyChangedCallback{ &ConstrainedBox::ConstraintPropertyChanged } });
+				winrt::PropertyMetadata{ nullptr, PropertyChangedCallback{ &ConstrainedBox::ConstraintPropertyChanged } });
 
 		int MultipleY()
 		{
@@ -92,12 +104,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			SetValue(MultipleYProperty, winrt::box_value(value));
 		}
 
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> AspectRatioProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> AspectRatioProperty =
+			winrt::DependencyProperty::Register(
 				L"AspectRatio",
 				winrt::xaml_typename<winrt::XamlToolkit::WinUI::Controls::AspectRatio>(),
 				winrt::xaml_typename<class_type>(),
-				winrt::Microsoft::UI::Xaml::PropertyMetadata{ nullptr, &ConstrainedBox::ConstraintPropertyChanged });
+				winrt::PropertyMetadata{ nullptr, &ConstrainedBox::ConstraintPropertyChanged });
 
 		winrt::XamlToolkit::WinUI::Controls::AspectRatio AspectRatio()
 		{

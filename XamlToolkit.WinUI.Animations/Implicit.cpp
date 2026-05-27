@@ -1,10 +1,12 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <unordered_map>
+#endif
 #include "Implicit.h"
 #if __has_include("Implicit.g.cpp")
 #include "Implicit.g.cpp"
 #endif
-#include <unordered_map>
-#include <winrt/Microsoft.UI.Xaml.Hosting.h>
 
 namespace
 {

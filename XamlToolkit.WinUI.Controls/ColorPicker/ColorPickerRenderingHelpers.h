@@ -1,25 +1,33 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-#include "pch.h"
-#include <algorithm>
-#include <cmath>
-#include <winrt/XamlToolkit.WinUI.Helpers.h>
-#include <winrt/Microsoft.UI.Xaml.Controls.h>
-#include <winrt/Microsoft.UI.Xaml.Media.h>
-#include <winrt/Microsoft.UI.Xaml.Media.Imaging.h>
+#pragma once
+
+#ifdef __INTELLISENSE__
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.Storage.Streams.h>
 #include <winrt/Windows.UI.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
+#include <winrt/Microsoft.UI.Xaml.Media.h>
+#include <winrt/Microsoft.UI.Xaml.Media.Imaging.h>
+#include <optional>
+#include <vector>
+#include <algorithm>
+#endif
 
-using namespace winrt;
-using namespace Windows::UI;
-using namespace Microsoft::UI::Xaml;
-using namespace Microsoft::UI::Xaml::Media;
-using namespace Microsoft::UI::Xaml::Media::Imaging;
-using namespace Windows::Foundation;
-using namespace Windows::Storage::Streams;
+namespace winrt
+{
+    using namespace Windows::UI;
+    using namespace Microsoft::UI::Xaml;
+    using namespace Microsoft::UI::Xaml::Media;
+    using namespace Microsoft::UI::Xaml::Controls;
+    using namespace Microsoft::UI::Xaml::Media::Imaging;
+    using namespace Windows::Foundation;
+    using namespace Windows::Storage::Streams;
+	using namespace XamlToolkit::WinUI;
+}
 
 namespace winrt::XamlToolkit::WinUI::Controls
 {

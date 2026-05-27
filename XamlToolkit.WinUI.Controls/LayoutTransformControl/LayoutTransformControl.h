@@ -1,13 +1,29 @@
-﻿#pragma once
+#pragma once
 
 #include "LayoutTransformControl.g.h"
-#include <winrt/Microsoft.UI.Xaml.Media.h>
 #include "PropertyChangeEventSource.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
+#include <winrt/Microsoft.UI.Xaml.Media.h>
+#include <map>
+#include <memory>
+#include <optional>
+#include <vector>
+#endif
+
+namespace winrt
+{
+	using namespace Windows::Foundation;
+	using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Xaml::Controls;
+	using namespace Microsoft::UI::Xaml::Media;
+}
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-	using namespace winrt::Microsoft::UI::Xaml::Media;
-	using namespace winrt::Windows::Foundation;
 	using event_source = winrt::XamlToolkit::WinUI::Controls::PropertyChangeEventSource<double>;
 
 	struct event_source_registration
@@ -232,7 +248,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		/// <summary>
 		/// List of property change event sources for events when properties of the Transform tree change
 		/// </summary>
-		std::unordered_map<
+		std::map<
 			winrt::Microsoft::UI::Xaml::Media::Transform,
 			std::vector<std::unique_ptr<event_source_registration>>>
 			_transformPropertyChangeEventSources;

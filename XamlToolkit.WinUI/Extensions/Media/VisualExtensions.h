@@ -2,10 +2,23 @@
 
 #include "VisualExtensions.g.h"
 
+#ifdef __INTELLISENSE__
+#include <limits>
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Composition.h>
+#endif
+
+namespace winrt
+{
+	using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Composition;
+	using namespace Microsoft::UI::Xaml::Hosting;
+	using namespace Windows::Foundation::Numerics;
+}
+
 namespace winrt::XamlToolkit::WinUI::implementation
 {
-	using namespace winrt::Microsoft::UI::Composition;
-
 	struct VisualExtensions : VisualExtensionsT<VisualExtensions>
 	{
 		static Visual GetVisual(UIElement const& element);

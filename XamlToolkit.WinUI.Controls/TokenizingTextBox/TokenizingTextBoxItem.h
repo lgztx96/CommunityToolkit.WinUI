@@ -2,6 +2,23 @@
 
 #include "TokenizingTextBoxItem.g.h"
 
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
+#include <winrt/Microsoft.UI.Xaml.Input.h>
+#include <wil/wistd_type_traits.h>
+#include <wil/cppwinrt_authoring.h>
+#endif
+
+namespace winrt
+{
+	using namespace Windows::Foundation;
+	using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Xaml::Input;
+	using namespace Microsoft::UI::Xaml::Controls;
+}
+
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
 	struct TokenizingTextBoxItem : TokenizingTextBoxItemT<TokenizingTextBoxItem>
@@ -108,7 +125,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		void TokenizingTextBoxItem_KeyDown(IInspectable const& sender, KeyRoutedEventArgs const& e);
 
-		bool IsCaretAtStart() { return _autoSuggestTextBox && _autoSuggestTextBox.SelectionStart() == 0; }
+		bool IsCaretAtStart() const { return _autoSuggestTextBox && _autoSuggestTextBox.SelectionStart() == 0; }
 
 		bool IsCaretAtEnd()
 		{

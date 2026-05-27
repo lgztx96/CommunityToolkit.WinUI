@@ -1,7 +1,6 @@
-﻿#pragma once
+#pragma once
 
 #include "StyleExtensionResourceDictionary.g.h"
-#include <winrt/Microsoft.UI.Xaml.h>
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {

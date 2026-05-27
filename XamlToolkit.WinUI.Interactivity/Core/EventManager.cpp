@@ -1,13 +1,14 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <string>
+#include <unordered_map>
+#endif
 #include "EventManager.h"
 #include "ResourceHelper.h"
 #if __has_include("EventManager.g.cpp")
 #include "EventManager.g.cpp"
 #endif
-
-#include <unordered_map>
-#include <string>
-#include <string_view>
 
 namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 {

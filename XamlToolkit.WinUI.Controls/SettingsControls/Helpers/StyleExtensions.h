@@ -1,17 +1,20 @@
-﻿#pragma once
+#pragma once
 
 #include "StyleExtensions.g.h"
 #include "ResourceDictionaryExtensions.h"
 #include "StyleExtensionResourceDictionary.h"
-#include <winrt/Windows.Foundation.Collections.h>
-#include <wil/wistd_type_traits.h>
-#include <wil/cppwinrt_authoring.h>
+
+#ifdef __INTELLISENSE__
+#include <winrt/Microsoft.UI.Xaml.h>
+#endif
+
+namespace winrt
+{
+	using namespace Microsoft::UI::Xaml;
+}
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-	using namespace winrt;
-	using namespace Microsoft::UI::Xaml;
-
 	struct StyleExtensions : StyleExtensionsT<StyleExtensions>
 	{
 		static ResourceDictionary GetResources(Microsoft::UI::Xaml::Style obj);

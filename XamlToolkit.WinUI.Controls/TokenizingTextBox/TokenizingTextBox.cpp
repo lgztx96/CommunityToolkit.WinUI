@@ -1,9 +1,15 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <algorithm>
+#include <memory>
+#include <string>
+#include <tuple>
+#endif
 #include "TokenizingTextBox.h"
 #if __has_include("TokenizingTextBox.g.cpp")
 #include "TokenizingTextBox.g.cpp"
 #endif
-#include <wctype.h>
 #include "TokenizingTextBoxItem.h"
 #include "PretokenStringContainer.h"
 #include "TokenizingTextBoxAutomationPeer.h"
@@ -11,9 +17,7 @@
 #include "TokenItemRemovingEventArgs.h"
 #include "../XamlToolkit.WinUI/common.h"
 #include "StringExtensions.h"
-
-using namespace winrt;
-using namespace Microsoft::UI::Xaml;
+#include "../SettingsControls/Helpers/ControlHelper.h"
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {

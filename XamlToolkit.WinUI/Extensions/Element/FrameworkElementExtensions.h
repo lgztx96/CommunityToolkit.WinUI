@@ -1,17 +1,23 @@
 #pragma once
 
 #include "FrameworkElementExtensions.g.h"
-#include <wil/wistd_type_traits.h>
-#include <wil/cppwinrt_authoring.h>
+
+#ifdef __INTELLISENSE__
+#include <unordered_map>
+#include <winrt/Windows.Foundation.h>
 #include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Windows.UI.Xaml.Interop.h>
-#include <unordered_map>
+#endif
+
+namespace winrt
+{
+	using namespace Windows::Foundation;
+    using namespace Microsoft::UI::Xaml;
+    using namespace Windows::UI::Xaml::Interop;
+}
 
 namespace winrt::XamlToolkit::WinUI::implementation
 {
-    using namespace Microsoft::UI::Xaml;
-    using namespace Windows::UI::Xaml::Interop;
-
     struct FrameworkElementExtensions : FrameworkElementExtensionsT<FrameworkElementExtensions>
     {
     private:

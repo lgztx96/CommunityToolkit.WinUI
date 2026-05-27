@@ -1,16 +1,14 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
 #include "ColorPaletteSampler.h"
 #if __has_include("ColorPaletteSampler.g.cpp")
 #include "ColorPaletteSampler.g.cpp"
 #endif
-#include <winrt/Windows.Storage.Streams.h>
 #include "ColorPaletteSampler.DBScan.h"
 #include "../ColorExtensions.h"
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
-    using namespace winrt::Windows::Foundation::Numerics;
-
     ColorPaletteSampler::ColorPaletteSampler()
     {
         PaletteSelectors(winrt::single_threaded_vector<ColorPaletteSelector>());

@@ -3,9 +3,6 @@
 #include "RotationInDegreesAnimation.g.h"
 #include "../Abstract/ImplicitAnimation{TValue,TKeyFrame}.h"
 #include "../KeyFrames/ScalarKeyFrame.h"
-#include <wil/wistd_type_traits.h>
-#include <wil/cppwinrt_authoring.h>
-#include <optional>
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {

@@ -3,10 +3,21 @@
 #include "RibbonCollapsibleGroup.g.h"
 #include "RibbonGroup.h"
 
+#ifdef __INTELLISENSE__
+#include <wil/wistd_type_traits.h>
+#include <wil/cppwinrt_authoring.h>
+#endif
+
+namespace winrt
+{
+	using namespace Windows::Foundation;
+	using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Xaml::Controls;
+	using namespace Microsoft::UI::Xaml::Input;
+}
+
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
-	using namespace winrt::Microsoft::UI::Xaml::Input;
-
 	struct RibbonCollapsibleGroup : RibbonCollapsibleGroupT<RibbonCollapsibleGroup, implementation::RibbonGroup>
 	{
 	private:

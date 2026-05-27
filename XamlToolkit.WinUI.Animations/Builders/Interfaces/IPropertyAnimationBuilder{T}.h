@@ -1,20 +1,26 @@
 #pragma once
 
-#include <winrt/base.h>
-#include <winrt/Microsoft.UI.Composition.h>
-#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
-#include <winrt/XamlToolkit.WinUI.Animations.h>
 #include "../../Options/RepeatOptionHelper.h"
 #include "../AnimationBuilder.h"
 #include "INormalizedKeyFrameAnimationBuilder{T}.h"
 #include "ITimedKeyFrameAnimationBuilder{T}.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Composition.h>
+#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
 #include <functional>
+#include <optional>
+#endif
+
+namespace winrt
+{
+	using namespace Microsoft::UI::Composition;
+	using namespace Microsoft::UI::Xaml::Media::Animation;
+}
 
 namespace winrt::XamlToolkit::WinUI::Animations
 {
-    using namespace winrt::Microsoft::UI::Composition;
-    using namespace winrt::Microsoft::UI::Xaml::Media::Animation;
-
     /// <summary>
     /// An animation for an animation builder using keyframes, targeting a specific property.
     /// </summary>

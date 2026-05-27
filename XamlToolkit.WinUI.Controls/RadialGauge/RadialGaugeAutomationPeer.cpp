@@ -1,4 +1,9 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <algorithm>
+#include <string>
+#endif
 #include "RadialGaugeAutomationPeer.h"
 #if __has_include("RadialGaugeAutomationPeer.g.cpp")
 #include "RadialGaugeAutomationPeer.g.cpp"

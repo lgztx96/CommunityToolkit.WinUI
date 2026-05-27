@@ -4,21 +4,19 @@
 #include "AnimationBuilder.KeyFrames.h"
 #include "Interfaces/IPropertyAnimationBuilder{T}.h"
 #include "../Enums/Axis.h"
-#include <winrt/XamlToolkit.WinUI.Animations.h>
 #include "../Enums/Side.h"
-#include <winrt/Microsoft.UI.Composition.h>
-#include <winrt/Microsoft.UI.Xaml.Hosting.h>
-#include <winrt/Microsoft.UI.Xaml.Media.h>
-#include <functional>
+
+namespace winrt
+{
+    using namespace Microsoft::UI::Composition;
+    using namespace Microsoft::UI::Xaml;
+    using namespace Microsoft::UI::Xaml::Media;
+    using namespace Microsoft::UI::Xaml::Media::Animation;
+    using namespace Windows::Foundation::Numerics;
+}
 
 namespace winrt::XamlToolkit::WinUI::Animations
 {
-    using namespace winrt::Microsoft::UI::Composition;
-    using namespace winrt::Microsoft::UI::Xaml;
-    using namespace winrt::Microsoft::UI::Xaml::Media;
-    using namespace winrt::Microsoft::UI::Xaml::Media::Animation;
-    using namespace winrt::Windows::Foundation::Numerics;
-
     template<typename TFactory>
     class CompositionClipAnimationFactory final : public ICompositionAnimationFactory
     {

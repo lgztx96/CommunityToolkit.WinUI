@@ -1,4 +1,9 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <string>
+#include <vector>
+#endif
 #include "AspectRatio.h"
 #if __has_include("AspectRatio.g.cpp")
 #include "AspectRatio.g.cpp"

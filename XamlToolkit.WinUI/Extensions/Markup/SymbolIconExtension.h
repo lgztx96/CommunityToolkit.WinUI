@@ -3,6 +3,18 @@
 #include "SymbolIconExtension.g.h"
 #include "TextIconExtension.h"
 
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Xaml.Markup.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
+#endif
+
+namespace winrt
+{
+    using namespace Microsoft::UI::Xaml;
+    using namespace Microsoft::UI::Xaml::Controls;
+}
+
 namespace winrt::XamlToolkit::WinUI::implementation
 {
     struct SymbolIconExtension : SymbolIconExtensionT<SymbolIconExtension, implementation::TextIconExtension>

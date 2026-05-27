@@ -1,6 +1,13 @@
 #pragma once
 #include "../Extensions/AnimationExtensions.h"
 
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Media.h>
+#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
+#endif
+
 namespace winrt::XamlToolkit::WinUI::Animations
 {
     /// <summary>

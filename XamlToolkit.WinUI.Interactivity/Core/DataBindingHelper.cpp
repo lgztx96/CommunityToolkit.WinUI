@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "DataBindingHelper.h"
 #include "Core\InvokeCommandAction.h"
 #include "Core\ChangeCustomPropertyAction.h"

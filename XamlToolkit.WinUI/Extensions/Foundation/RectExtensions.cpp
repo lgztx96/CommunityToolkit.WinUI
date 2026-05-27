@@ -1,9 +1,12 @@
 ﻿#include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <algorithm>
+#endif
 #include "RectExtensions.h"
 #if __has_include("RectExtensions.g.cpp")
 #include "RectExtensions.g.cpp"
 #endif
-using namespace winrt::Microsoft::UI::Xaml;
 
 namespace winrt::XamlToolkit::WinUI::implementation
 {
@@ -39,10 +42,10 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		auto right = RectHelper::GetRight(rectangle);
 		auto bottom = RectHelper::GetBottom(rectangle);
 
-		Point leftTop = Media::MatrixHelper::Transform(matrix, Point(left, top));
-		Point rightTop = Media::MatrixHelper::Transform(matrix, Point(right, top));
-		Point leftBottom = Media::MatrixHelper::Transform(matrix, Point(left, bottom));
-		Point rightBottom = Media::MatrixHelper::Transform(matrix, Point(right, bottom));
+		Point leftTop = MatrixHelper::Transform(matrix, Point(left, top));
+		Point rightTop = MatrixHelper::Transform(matrix, Point(right, top));
+		Point leftBottom = MatrixHelper::Transform(matrix, Point(left, bottom));
+		Point rightBottom = MatrixHelper::Transform(matrix, Point(right, bottom));
 
 		left = std::min<float>(std::min<float>(leftTop.X, rightTop.X), std::min<float>(leftBottom.X, rightBottom.X));
 		top = std::min<float>(std::min<float>(leftTop.Y, rightTop.Y), std::min<float>(leftBottom.Y, rightBottom.Y));

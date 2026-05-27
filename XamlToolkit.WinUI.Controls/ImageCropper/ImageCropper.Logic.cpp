@@ -1,15 +1,20 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <algorithm>
+#include <cmath>
+#endif
 #include "ImageCropper.h"
-#include <winrt/Microsoft.UI.Xaml.Hosting.h>
 
-using namespace winrt;
-using namespace Microsoft::UI::Xaml;
-using namespace Windows::Foundation::Numerics;
+namespace winrt
+{
+	using namespace Microsoft::UI::Xaml;
+	using namespace Windows::Foundation::Numerics;
+	using namespace Microsoft::UI::Xaml::Hosting;
+}
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-	using namespace Microsoft::UI::Xaml::Hosting;
-
 	void ImageCropper::InitImageLayout(bool animate)
 	{
 		if (Source() != nullptr)

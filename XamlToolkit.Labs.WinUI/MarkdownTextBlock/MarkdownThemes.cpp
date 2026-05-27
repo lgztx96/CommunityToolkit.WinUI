@@ -1,4 +1,5 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
 #include "MarkdownThemes.h"
 #if __has_include("MarkdownThemes.g.cpp")
 #include "MarkdownThemes.g.cpp"

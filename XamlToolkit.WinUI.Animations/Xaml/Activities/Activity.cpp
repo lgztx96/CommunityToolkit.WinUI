@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "Activity.h"
 #if __has_include("Activity.g.cpp")
 #include "Activity.g.cpp"

@@ -1,11 +1,17 @@
-﻿#pragma once
+#pragma once
 
 #include "ColorHelper.g.h"
-#include <winrt/Windows.UI.h>
-#undef max
-#undef min
 
-using namespace winrt::Windows::UI;
+#ifdef __INTELLISENSE__
+#include <string_view>
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.UI.h>
+#endif
+
+namespace winrt
+{
+    using namespace Windows::UI;
+}
 
 namespace winrt::XamlToolkit::WinUI::Helpers::implementation
 {

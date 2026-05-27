@@ -1,4 +1,5 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
 #include "TokenizingTextBoxStyleSelector.h"
 #if __has_include("TokenizingTextBoxStyleSelector.g.cpp")
 #include "TokenizingTextBoxStyleSelector.g.cpp"

@@ -1,10 +1,13 @@
 #pragma once
 
+#include "Behavior.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
 #include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Microsoft.UI.Xaml.Input.h>
-#include <winrt/Microsoft.UI.Dispatching.h>
-#include <winrt/XamlToolkit.WinUI.Interactivity.h>
-#include "Behavior.h"
+#include <string_view>
+#endif
 
 namespace winrt
 {

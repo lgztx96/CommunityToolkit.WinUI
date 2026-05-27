@@ -1,11 +1,21 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <winrt/Microsoft.UI.Xaml.Automation.h>
+#include <winrt/Microsoft.UI.Xaml.Automation.Peers.h>
+#include <winrt/Microsoft.UI.Xaml.Documents.h>
+#endif
 #include "MetadataControl.h"
 #if __has_include("MetadataControl.g.cpp")
 #include "MetadataControl.g.cpp"
 #endif
-#include <winrt/Microsoft.UI.Xaml.Documents.h>
 
-using namespace Microsoft::UI::Xaml::Documents;
+namespace winrt
+{
+	using namespace Microsoft::UI::Xaml::Documents;
+	using namespace Microsoft::UI::Xaml::Automation;
+	using namespace Microsoft::UI::Xaml::Automation::Peers;
+}
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {

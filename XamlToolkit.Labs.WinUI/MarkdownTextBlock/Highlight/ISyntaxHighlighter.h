@@ -1,6 +1,11 @@
-﻿#pragma once
-#include <optional>
+#pragma once
+
+#ifdef __INTELLISENSE__
+#include <memory>
 #include <string>
+#include <string_view>
+#include <vector>
+#endif
 
 template<typename charT>
 struct HighlightedToken {
@@ -8,7 +13,7 @@ struct HighlightedToken {
     size_t length;
     std::wstring_view token;
     std::string_view scope;
-   
+
     std::wstring color;
 };
 

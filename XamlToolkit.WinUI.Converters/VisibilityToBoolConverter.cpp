@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "VisibilityToBoolConverter.h"
 #if __has_include("VisibilityToBoolConverter.g.cpp")
 #include "VisibilityToBoolConverter.g.cpp"

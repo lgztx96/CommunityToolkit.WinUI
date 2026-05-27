@@ -1,12 +1,11 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
 #include "ColorPickerButton.h"
 #if __has_include("ColorPickerButton.g.cpp")
 #include "ColorPickerButton.g.cpp"
 #endif
 #include "ColorPickerRenderingHelpers.h"
-
-using namespace winrt;
-using namespace Microsoft::UI::Xaml;
+#include "ColorPicker.h"
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {

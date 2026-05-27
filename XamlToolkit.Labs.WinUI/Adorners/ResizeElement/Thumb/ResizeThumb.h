@@ -1,8 +1,23 @@
 #pragma once
 
 #include "ResizeThumb.g.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Input.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Input.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
+#include <optional>
+#endif
+
+namespace winrt 
+{
+    using namespace Windows::Foundation;
+    using namespace Microsoft::UI::Xaml;
+    using namespace Microsoft::UI::Xaml::Input;
+}
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {

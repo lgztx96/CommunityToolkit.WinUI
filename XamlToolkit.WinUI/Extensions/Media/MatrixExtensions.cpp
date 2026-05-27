@@ -1,4 +1,9 @@
 ﻿#include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <cmath>
+#include <numbers>
+#endif
 #include "MatrixExtensions.h"
 #if __has_include("MatrixExtensions.g.cpp")
 #include "MatrixExtensions.g.cpp"

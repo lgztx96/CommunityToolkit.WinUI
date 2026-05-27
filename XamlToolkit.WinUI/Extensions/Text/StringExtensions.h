@@ -1,12 +1,18 @@
 ﻿#pragma once
 
-#include <winrt/base.h>
+#ifdef __INTELLISENSE__
 #include <string_view>
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.Foundation.Numerics.h>
+#endif
 
-namespace winrt::XamlToolkit::WinUI 
+namespace winrt
 {
-	using namespace winrt::Windows::Foundation::Numerics;
+	using namespace Windows::Foundation::Numerics;
+}
 
+namespace winrt::XamlToolkit::WinUI
+{
 	float2 ToVector2(std::wstring_view text);
 
 	float3 ToVector3(std::wstring_view text);

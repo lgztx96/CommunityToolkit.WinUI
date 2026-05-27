@@ -1,13 +1,5 @@
 #pragma once
 
-#include <winrt/base.h>
-#include <winrt/Microsoft.UI.Composition.h>
-#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
-#include <winrt/Windows.Foundation.Numerics.h>
-#include <vector>
-#include <optional>
-#include <functional>
-#include <algorithm>
 #include "../Options/RepeatOptionHelper.h"
 #include "../Extensions/AnimationExtensions.h"
 #include "../Extensions/CompositorExtensions.h"
@@ -16,12 +8,25 @@
 #include "Interfaces/IKeyFrameInfo.h"
 #include "AnimationBuilder.h"
 
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Composition.h>
+#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
+#include <optional>
+#include <vector>
+#include <span>
+#include <algorithm>
+#endif
+
+namespace winrt
+{
+	using namespace Microsoft::UI::Composition;
+	using namespace Microsoft::UI::Xaml::Media::Animation;
+	using namespace Windows::Foundation::Numerics;
+}
+
 namespace winrt::XamlToolkit::WinUI::Animations
 {
-    using namespace winrt::Microsoft::UI::Composition;
-    using namespace winrt::Microsoft::UI::Xaml::Media::Animation;
-    using namespace winrt::Windows::Foundation::Numerics;
-
     /// <summary>
     /// A generic keyframe animation builder using timed keyframes.
     /// </summary>

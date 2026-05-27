@@ -1,10 +1,11 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <algorithm>
+#endif
 #include "RichSuggestBox.h"
 #include "RichSuggestTokenSelectedEventArgs.h"
 #include "RichSuggestTokenPointerOverEventArgs.h"
-
-using namespace winrt;
-using namespace Microsoft::UI::Xaml;
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {

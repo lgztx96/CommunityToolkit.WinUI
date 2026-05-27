@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "Notification.h"
 #if __has_include("Notification.g.cpp")
 #include "Notification.g.cpp"

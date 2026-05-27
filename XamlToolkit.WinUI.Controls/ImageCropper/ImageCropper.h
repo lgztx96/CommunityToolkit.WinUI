@@ -1,29 +1,43 @@
-﻿#pragma once
+#pragma once
 
 #include "ImageCropper.g.h"
 #include "ImageCropperThumb.h"
-#include <wil/wistd_type_traits.h>
-#include <wil/cppwinrt_authoring.h>
-#include <winrt/Microsoft.Graphics.Canvas.Geometry.h>
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.Storage.Streams.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
+#include <winrt/Microsoft.UI.Xaml.Media.h>
 #include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
 #include <winrt/Microsoft.UI.Xaml.Media.Imaging.h>
 #include <winrt/Microsoft.UI.Xaml.Shapes.h>
+#include <wil/wistd_type_traits.h>
+#include <wil/cppwinrt_authoring.h>
+#include <string_view>
+#include <vector>
+#endif
+
+import winrt.Microsoft.Graphics.Canvas;
+import winrt.Microsoft.Graphics.Canvas.Geometry;
+
+namespace winrt
+{
+	using namespace Windows::Foundation;
+	using namespace Windows::Storage::Streams;
+	using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Xaml::Controls;
+	using namespace Microsoft::UI::Xaml::Shapes;
+	using namespace Microsoft::UI::Xaml::Media;
+	using namespace Microsoft::UI::Xaml::Media::Imaging;
+	using namespace Microsoft::UI::Xaml::Media::Animation;
+	using namespace XamlToolkit::WinUI::Controls;
+	using namespace Microsoft::Graphics::Canvas;
+	using namespace Microsoft::Graphics::Canvas::Geometry;
+}
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-	using namespace winrt;
-	using namespace winrt::Microsoft::UI::Xaml;
-	using namespace winrt::Microsoft::UI::Xaml::Controls;
-	using namespace winrt::Microsoft::UI::Xaml::Shapes;
-	using namespace winrt::Microsoft::UI::Xaml::Media;
-	using namespace winrt::Microsoft::UI::Xaml::Media::Imaging;
-	using namespace winrt::Microsoft::UI::Xaml::Media::Animation;
-	using namespace winrt::Windows::Storage::Streams;
-	using namespace winrt::Windows::Foundation;
-	using namespace winrt::Windows::Graphics::Imaging;
-	using namespace winrt::XamlToolkit::WinUI::Controls;
-	using namespace Microsoft::Graphics::Canvas;
-	using namespace Microsoft::Graphics::Canvas::Geometry;
 	using namespace std::chrono_literals;
 
 	struct ImageCropper : ImageCropperT<ImageCropper>

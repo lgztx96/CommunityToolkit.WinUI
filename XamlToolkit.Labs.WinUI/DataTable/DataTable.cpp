@@ -1,9 +1,15 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <algorithm>
+#include <ranges>
+#include <vector>
+#endif
 #include "DataTable.h"
+#include "DataColumn.h"
 #if __has_include("DataTable.g.cpp")
 #include "DataTable.g.cpp"
 #endif
-#include <ranges>
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
@@ -21,7 +27,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
             });
     }
 
-	std::unordered_set<winrt::XamlToolkit::Labs::WinUI::DataRow>& DataTable::Rows() { return _rows; }
+	std::set<winrt::XamlToolkit::Labs::WinUI::DataRow>& DataTable::Rows() { return _rows; }
 
     void DataTable::ColumnResized()
     {

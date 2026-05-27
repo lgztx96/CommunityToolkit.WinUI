@@ -1,9 +1,9 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "KeyDownTriggerBehavior.h"
 #if __has_include("KeyDownTriggerBehavior.g.cpp")
 #include "KeyDownTriggerBehavior.g.cpp"
 #endif
-#include <winrt/Microsoft.UI.Xaml.Input.h>
 
 namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
 {

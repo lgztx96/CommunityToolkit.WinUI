@@ -1,4 +1,8 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <vector>
+#endif
 #include "TokenizingTextBoxAutomationPeer.h"
 #if __has_include("TokenizingTextBoxAutomationPeer.g.cpp")
 #include "TokenizingTextBoxAutomationPeer.g.cpp"

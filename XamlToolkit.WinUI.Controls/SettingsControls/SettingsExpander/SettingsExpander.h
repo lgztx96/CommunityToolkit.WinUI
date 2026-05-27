@@ -1,25 +1,28 @@
-﻿#pragma once
+#pragma once
 
 #include "SettingsExpander.g.h"
 
-#include <wil/wistd_type_traits.h>
-#include <wil/cppwinrt_authoring.h>
-
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.Collections.h>
 #include <winrt/Microsoft.UI.Xaml.h>
-#include <winrt/Microsoft.UI.Xaml.Automation.h>
 #include <winrt/Microsoft.UI.Xaml.Controls.h>
 #include <winrt/Microsoft.UI.Xaml.Controls.Primitives.h>
 #include <winrt/Microsoft.UI.Xaml.Input.h>
+#include <wil/wistd_type_traits.h>
+#include <wil/cppwinrt_authoring.h>
+#endif
 
-namespace winrt::XamlToolkit::WinUI::Controls::implementation
+namespace winrt
 {
-    using namespace winrt;
     using namespace Microsoft::UI::Xaml;
     using namespace Windows::Foundation::Collections;
     using namespace Microsoft::UI::Xaml::Controls;
     using namespace Microsoft::UI::Xaml::Controls::Primitives;
     using namespace Microsoft::UI::Xaml::Input;
+}
 
+namespace winrt::XamlToolkit::WinUI::Controls::implementation
+{
     template <typename D, typename... I>
     using SettingsExpanderT = SettingsExpander_base<D, I...>;
 

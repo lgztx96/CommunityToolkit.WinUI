@@ -1,4 +1,5 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
 #include "SuggestionChosenEventArgs.h"
 #if __has_include("SuggestionChosenEventArgs.g.cpp")
 #include "SuggestionChosenEventArgs.g.cpp"

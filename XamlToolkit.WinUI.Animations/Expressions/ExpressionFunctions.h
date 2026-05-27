@@ -1,5 +1,4 @@
 #pragma once
-#include <functional>
 
 #include "ExpressionNodes/ExpressionNode.h"
 #include "OperationType.h"
@@ -13,6 +12,13 @@
 #include "ExpressionNodes/Matrix3x2Node.h"
 #include "ExpressionNodes/Matrix4x4Node.h"
 #include "ExpressionNodes/ExpressionNodeType.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <functional>
+#include <map>
+#include <optional>
+#endif
 
 namespace winrt::XamlToolkit::WinUI::Animations::Expressions
 {

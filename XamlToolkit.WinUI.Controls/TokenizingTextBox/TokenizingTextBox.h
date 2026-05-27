@@ -1,18 +1,41 @@
 #pragma once
 
 #include "TokenizingTextBox.g.h"
-#include <wil/common.h>
+#include "InterspersedObservableVector.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.System.h>
+#include <winrt/Windows.UI.Core.h>
+#include <winrt/Microsoft.UI.Dispatching.h>
+#include <winrt/Microsoft.UI.Input.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Automation.h>
+#include <winrt/Microsoft.UI.Xaml.Automation.Peers.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
+#include <winrt/Microsoft.UI.Xaml.Input.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
-#include "InterspersedObservableVector.h"
 #include <functional>
+#include <optional>
+#include <string_view>
+#endif
+
+namespace winrt
+{
+	using namespace Windows::System;
+	using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Xaml::Input;
+	using namespace Microsoft::UI::Xaml::Controls;
+	using namespace Microsoft::UI::Xaml::Automation;
+	using namespace Microsoft::UI::Xaml::Automation::Peers;
+	using namespace Windows::UI::Core;
+	using namespace Microsoft::UI::Input;
+	using namespace Microsoft::UI::Dispatching;
+}
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-	using namespace Microsoft::UI::Input;
-	using namespace Windows::UI::Core;
-	using namespace Microsoft::UI::Dispatching;
-
 	enum MoveDirection
 	{
 		Next,
@@ -267,11 +290,11 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		wil::typed_event<AutoSuggestBox, AutoSuggestBoxQuerySubmittedEventArgs> QuerySubmitted;
 
-		winrt::event_token TokenItemAdding(TypedEventHandler<Controls::TokenizingTextBox, TokenItemAddingEventArgs> const& handler);
+		winrt::event_token TokenItemAdding(TypedEventHandler<Controls::TokenizingTextBox, winrt::XamlToolkit::WinUI::Controls::TokenItemAddingEventArgs> const& handler);
 
 		void TokenItemAdding(winrt::event_token const& token) noexcept;
 
-		winrt::event_token TokenItemRemoving(TypedEventHandler<Controls::TokenizingTextBox, TokenItemRemovingEventArgs> const& handler);
+		winrt::event_token TokenItemRemoving(TypedEventHandler<Controls::TokenizingTextBox, winrt::XamlToolkit::WinUI::Controls::TokenItemRemovingEventArgs> const& handler);
 
 		void TokenItemRemoving(winrt::event_token const& token) noexcept;
 

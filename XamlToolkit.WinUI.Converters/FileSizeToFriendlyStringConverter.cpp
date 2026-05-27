@@ -3,6 +3,10 @@
 // See the LICENSE file in the project root for more information.
 
 #include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <array>
+#endif
 #include "FileSizeToFriendlyStringConverter.h"
 #if __has_include("FileSizeToFriendlyStringConverter.g.cpp")
 #include "FileSizeToFriendlyStringConverter.g.cpp"

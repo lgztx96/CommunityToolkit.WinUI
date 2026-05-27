@@ -3,6 +3,12 @@
 #include "BoolToVisibilityConverter.g.h"
 #include "BoolToObjectConverter.h"
 
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Windows.UI.Xaml.Interop.h>
+#endif
+
 namespace winrt
 {
 	using namespace Windows::Foundation;

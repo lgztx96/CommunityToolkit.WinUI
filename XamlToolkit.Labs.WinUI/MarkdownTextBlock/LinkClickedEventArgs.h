@@ -1,8 +1,11 @@
-﻿#pragma once
+#pragma once
 
 #include "LinkClickedEventArgs.g.h"
+
+#ifdef __INTELLISENSE__
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
+#endif
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {

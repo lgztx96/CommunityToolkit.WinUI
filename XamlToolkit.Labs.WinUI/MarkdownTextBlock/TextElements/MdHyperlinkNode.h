@@ -7,6 +7,12 @@
 #include "MdHyperlink.h"
 #include "MdHyperlinkButton.h"
 
+#ifdef __INTELLISENSE__
+#include <winrt/Microsoft.UI.Xaml.Documents.h>
+#include <memory>
+#include <string_view>
+#endif
+
 namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 {
     class MdHyperlinkNode final : public IAddChild

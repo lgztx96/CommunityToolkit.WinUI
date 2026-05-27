@@ -4,10 +4,15 @@
 #include "../Extensions/AnimationExtensions.h"
 #include "../Builders/NormalizedKeyFrameAnimationBuilder{T}.Composition.h"
 #include "../Builders/NormalizedKeyFrameAnimationBuilder{T}.Xaml.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
 #include <optional>
-#include <type_traits>
-#include <utility>
-#include <winrt/Microsoft.UI.Xaml.Hosting.h>
+#include <tuple>
+#include <concepts>
+#endif
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {

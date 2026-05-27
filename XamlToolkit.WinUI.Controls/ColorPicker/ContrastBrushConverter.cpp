@@ -1,8 +1,20 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <cmath>
+#include <optional>
+#endif
 #include "ContrastBrushConverter.h"
 #if __has_include("ContrastBrushConverter.g.cpp")
 #include "ContrastBrushConverter.g.cpp"
 #endif
+
+namespace winrt
+{
+    using namespace Windows::UI;
+    using namespace Microsoft::UI::Xaml;
+    using namespace Microsoft::UI::Xaml::Media;
+}
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {

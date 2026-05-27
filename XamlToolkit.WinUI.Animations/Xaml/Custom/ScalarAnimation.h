@@ -3,13 +3,9 @@
 #include "ScalarAnimation.g.h"
 #include "../Abstract/CustomAnimation{TValue,TKeyFrame}.h"
 #include "../KeyFrames/ScalarKeyFrame.h"
-#include <wil/wistd_type_traits.h>
-#include <wil/cppwinrt_authoring.h>
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
-    using namespace winrt::Microsoft::UI::Xaml;
-
     struct ScalarAnimation;
 
     struct ScalarAnimationTraits

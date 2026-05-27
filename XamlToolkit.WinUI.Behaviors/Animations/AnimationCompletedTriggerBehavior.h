@@ -1,9 +1,11 @@
 #pragma once
 
 #include "AnimationCompletedTriggerBehavior.g.h"
-#include <winrt/XamlToolkit.WinUI.Interactivity.h>
-#include <wil/wistd_type_traits.h>
-#include <wil/cppwinrt_authoring.h>
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/XamlToolkit.WinUI.Animations.h>
+#endif
 
 namespace winrt
 {

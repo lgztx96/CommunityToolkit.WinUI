@@ -1,4 +1,8 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <cmath>
+#endif
 #include "GridSplitter.h"
 #if __has_include("GridSplitter.g.cpp")
 #include "GridSplitter.g.cpp"

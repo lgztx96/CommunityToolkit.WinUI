@@ -1,18 +1,19 @@
-﻿
+
 #pragma once
 
 #include "../md4c/md4c.h"
 #include <MarkdownTextBlock/TextElements/IAddChild.h>
 #include <MarkdownTextBlock/TextElements/MdFlowDocument.h>
-#include <vector>
-#include <wil/cppwinrt_authoring.h>
-#include <wil/wistd_type_traits.h>
-#include <winrt/XamlToolkit.Labs.WinUI.h>
+
+import winrt.XamlToolkit.Labs.WinUI;
+
+namespace winrt 
+{
+	using namespace XamlToolkit::Labs::WinUI::TextElements;
+}
 
 namespace winrt::XamlToolkit::Labs::WinUI
 {
-	using namespace winrt::XamlToolkit::Labs::WinUI::TextElements;
-
 	struct ListContext {
 		bool ordered;
 		bool isTight;
@@ -40,19 +41,19 @@ namespace winrt::XamlToolkit::Labs::WinUI
 
 	struct WinUIRenderer
 	{
-		XamlToolkit::Labs::WinUI::MarkdownConfig _config = MarkdownConfig::Default();
+		MarkdownConfig _config = MarkdownConfig::Default();
 
-		winrt::weak_ref<XamlToolkit::Labs::WinUI::MarkdownTextBlock> MarkdownTextBlock();
+		winrt::weak_ref<winrt::XamlToolkit::Labs::WinUI::MarkdownTextBlock> MarkdownTextBlock();
 
 		wil::single_threaded_rw_property<std::shared_ptr<TextElements::MdFlowDocument>> FlowDocument;
 
-		XamlToolkit::Labs::WinUI::MarkdownConfig Config() const noexcept { return _config; }
-		void Config(XamlToolkit::Labs::WinUI::MarkdownConfig const& value) { _config = value; }
+		MarkdownConfig Config() const noexcept { return _config; }
+		void Config(MarkdownConfig const& value) { _config = value; }
 
 		WinUIRenderer(
 			std::shared_ptr<TextElements::MdFlowDocument> const& document,
 			MarkdownConfig const& config,
-			XamlToolkit::Labs::WinUI::MarkdownTextBlock const& markdownTextBlock);
+			winrt::XamlToolkit::Labs::WinUI::MarkdownTextBlock const& markdownTextBlock);
 
 		void Render(std::wstring_view text);
 
@@ -71,7 +72,7 @@ namespace winrt::XamlToolkit::Labs::WinUI
 
 		std::vector<std::shared_ptr<TextElements::IAddChild>> _elementCache;
 
-		winrt::weak_ref<XamlToolkit::Labs::WinUI::MarkdownTextBlock> _markdownTextBlock;
+		winrt::weak_ref<winrt::XamlToolkit::Labs::WinUI::MarkdownTextBlock> _markdownTextBlock;
 
 		int _currentRow = 0;
 		int _currentColumn = 0;

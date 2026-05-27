@@ -1,15 +1,13 @@
 #pragma once
 #include "../../Builders/AnimationBuilder.h"
-#include <winrt/Windows.Foundation.h>
-#include <winrt/Microsoft.UI.Composition.h>
-#include <winrt/Microsoft.UI.Xaml.h>
+
+#ifdef __INTELLISENSE__
+#include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
+#endif
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
-    using namespace winrt::Microsoft::UI::Composition;
-    using namespace winrt::Microsoft::UI::Xaml;
-
     /// <summary>
     /// An interface representing a XAML model for a custom implicit composition animation.
     /// Mirrors the C# IImplicitTimeline shape for internal C++ wiring.

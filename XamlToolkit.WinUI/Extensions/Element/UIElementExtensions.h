@@ -2,16 +2,19 @@
 
 #include "UIElementExtensions.g.h"
 
-#include <wil/wistd_type_traits.h>
-#include <wil/cppwinrt_authoring.h>
-
-#include <winrt/Microsoft.UI.Xaml.Hosting.h>
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Input.h>
+#include <winrt/Microsoft.UI.Composition.h>
+#endif
 
 namespace winrt
 {
+    using namespace Windows::Foundation;
     using namespace Microsoft::UI::Xaml;
     using namespace Microsoft::UI::Input;
-    using namespace Windows::Foundation;
+	using namespace Microsoft::UI::Composition;
 }
 
 namespace winrt::XamlToolkit::WinUI::implementation

@@ -1,19 +1,27 @@
 #pragma once
-#include <winrt/Microsoft.UI.Composition.h>
-#include <winrt/Microsoft.UI.Xaml.Media.h>
-#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
-#include <winrt/windows.foundation.numerics.h>
-#include <chrono>
-#include <tuple>
-#include <unordered_map>
 #include "../Options/RepeatOptionHelper.h"
 #include "../Enums/Axis.h"
 #include "../Enums/Side.h"
-#include <winrt/XamlToolkit.WinUI.Animations.h>
 
-using namespace winrt::Windows::Foundation::Numerics;
-using namespace winrt::Microsoft::UI::Composition;
-using namespace winrt::Microsoft::UI::Xaml::Media;
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.Foundation.Numerics.h>
+#include <winrt/Microsoft.UI.Composition.h>
+#include <winrt/Microsoft.UI.Xaml.Media.h>
+#include <winrt/XamlToolkit.WinUI.Animations.h>
+#include <chrono>
+#include <string_view>
+#include <tuple>
+#include <unordered_map>
+#include <cwchar>
+#endif
+
+namespace winrt
+{
+    using namespace Windows::Foundation::Numerics;
+    using namespace Microsoft::UI::Composition;
+    using namespace Microsoft::UI::Xaml::Media;
+}
 
 namespace winrt::XamlToolkit::WinUI::Animations
 {

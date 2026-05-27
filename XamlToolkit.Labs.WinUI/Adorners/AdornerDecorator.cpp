@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "AdornerDecorator.h"
 #if __has_include("AdornerDecorator.g.cpp")
 #include "AdornerDecorator.g.cpp"

@@ -1,4 +1,5 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
 #include "TabbedCommandBarItemTemplateSelector.h"
 #if __has_include("TabbedCommandBarItemTemplateSelector.g.cpp")
 #include "TabbedCommandBarItemTemplateSelector.g.cpp"

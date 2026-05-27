@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "Interaction.h"
 #if __has_include("Interaction.g.cpp")
 #include "Interaction.g.cpp"
@@ -6,8 +7,6 @@
 
 #include "ActionCollection.h"
 #include "BehaviorCollection.h"
-
-#include <winrt/Windows.ApplicationModel.h>
 
 namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 {

@@ -1,10 +1,14 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "ImplicitAnimationSet.h"
 #if __has_include("ImplicitAnimationSet.g.cpp")
 #include "ImplicitAnimationSet.g.cpp"
 #endif
 #include "Abstract/Animation.h"
-#include <winrt/Microsoft.UI.Xaml.Hosting.h>
+
+#ifdef __INTELLISENSE__
+#include "Xaml/Interfaces/IImplicitTimeline.h"
+#endif
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {

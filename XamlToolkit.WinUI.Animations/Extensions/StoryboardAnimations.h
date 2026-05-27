@@ -1,14 +1,20 @@
 #pragma once
 
-#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
+#ifdef __INTELLISENSE__
 #include <winrt/Windows.Foundation.h>
-#include <functional>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
+#endif
+
 #include <synchapi.h>
+
+namespace winrt
+{
+	using namespace Microsoft::UI::Xaml::Media::Animation;
+}
 
 namespace winrt::XamlToolkit::WinUI::Animations
 {
-    using namespace winrt::Microsoft::UI::Xaml::Media::Animation;
-
     /// <summary>
     /// An extension class for the <see cref="Storyboard"/> type.
     /// </summary>

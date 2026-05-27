@@ -1,24 +1,22 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
 #include "SettingsExpander.h"
 #if __has_include("SettingsExpander.g.cpp")
 #include "SettingsExpander.g.cpp"
 #endif
-#include <winrt/Microsoft.UI.Xaml.h>
-#include <winrt/Microsoft.UI.Xaml.Automation.h>
-#include <winrt/Microsoft.UI.Xaml.Controls.h>
-#include <winrt/Microsoft.UI.Xaml.Controls.Primitives.h>
-#include <winrt/Microsoft.UI.Xaml.Input.h>
 #include "SettingsExpanderAutomationPeer.h"
 
-namespace winrt::XamlToolkit::WinUI::Controls::implementation
+namespace winrt
 {
-	using namespace winrt;
 	using namespace Microsoft::UI::Xaml;
 	using namespace Windows::Foundation::Collections;
 	using namespace Microsoft::UI::Xaml::Controls;
 	using namespace Microsoft::UI::Xaml::Controls::Primitives;
 	using namespace Microsoft::UI::Xaml::Input;
+}
 
+namespace winrt::XamlToolkit::WinUI::Controls::implementation
+{
 	SettingsExpander::SettingsExpander() : _itemsRepeater{ nullptr }
 	{
 		DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));

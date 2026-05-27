@@ -1,4 +1,8 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
+#ifdef __INTELLISENSE__
+#include <string>
+#endif
 #include "TypeConverterHelper.h"
 
 namespace winrt::XamlToolkit::WinUI::Interactivity

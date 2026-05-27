@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "AnimationDictionary.h"
 #if __has_include("AnimationDictionary.g.cpp")
 #include "AnimationDictionary.g.cpp"
@@ -7,8 +8,6 @@
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
-    using namespace winrt::Microsoft::UI::Xaml;
-
     void AnimationDictionary::Parent(UIElement const& value)
     {
         parent = value ? winrt::make_weak(value) : nullptr;

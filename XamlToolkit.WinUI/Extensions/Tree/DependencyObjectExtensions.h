@@ -1,17 +1,24 @@
 ﻿#pragma once
 
 #include "Predicates.h"
+
+#ifdef __INTELLISENSE__
 #include <functional>
+#include <vector>
+#include <generator>
+#include <winrt/Windows.Foundation.h>
 #include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Microsoft.UI.Xaml.Media.h>
-#include <generator>
+#endif
+
+namespace winrt
+{
+    using namespace Microsoft::UI::Xaml;
+    using namespace Microsoft::UI::Xaml::Media;
+}
 
 namespace winrt::XamlToolkit::WinUI
 {
-	using namespace winrt;
-	using namespace Microsoft::UI::Xaml;
-	using namespace Microsoft::UI::Xaml::Media;
-
 	class DependencyObjectEx {
 	public:
 		template <typename T, IPredicate<T> TPredicate>

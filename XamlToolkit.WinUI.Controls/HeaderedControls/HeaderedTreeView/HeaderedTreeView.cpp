@@ -1,11 +1,9 @@
 #include "pch.h"
+#include "winrt_module_imports.h"
 #include "HeaderedTreeView.h"
 #if __has_include("HeaderedTreeView.g.cpp")
 #include "HeaderedTreeView.g.cpp"
 #endif
-
-using namespace winrt;
-using namespace Microsoft::UI::Xaml;
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {

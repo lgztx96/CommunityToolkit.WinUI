@@ -1,21 +1,25 @@
-﻿#pragma once
+#pragma once
 
 #include "MarkdownThemes.g.h"
+#include "Extension.h"
+
+#ifdef __INTELLISENSE__
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
-#include <winrt/Microsoft.UI.Xaml.h>
-#include <winrt/Microsoft.UI.Text.h>
-#include "Extension.h"
+#endif
+
+namespace winrt
+{
+    using namespace Windows::UI::Text;
+    using namespace Microsoft::UI;
+    using namespace Microsoft::UI::Text;
+    using namespace Microsoft::UI::Xaml;
+    using namespace Microsoft::UI::Xaml::Media;
+}
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
-    using namespace winrt::Windows::UI::Text;
-    using namespace winrt::Microsoft::UI;
-    using namespace winrt::Microsoft::UI::Text;
-    using namespace winrt::Microsoft::UI::Xaml;
-    using namespace winrt::Microsoft::UI::Xaml::Media;
-
-    using FontWeights = Microsoft::UI::Text::FontWeights;
+    using FontWeights = winrt::Microsoft::UI::Text::FontWeights;
 
     struct MarkdownThemes : MarkdownThemesT<MarkdownThemes>
     {

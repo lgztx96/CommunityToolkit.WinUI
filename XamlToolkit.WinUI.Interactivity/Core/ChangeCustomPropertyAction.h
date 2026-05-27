@@ -1,16 +1,20 @@
 #pragma once
 
 #include "ChangeCustomPropertyAction.g.h"
+
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.UI.Xaml.Interop.h>
+#include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Microsoft.UI.Xaml.Data.h>
-#include <winrt/Microsoft.UI.Xaml.Markup.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
+#endif
 
 namespace winrt
 {
     using namespace Microsoft::UI::Xaml;
     using namespace Microsoft::UI::Xaml::Data;
-    using namespace Microsoft::UI::Xaml::Markup;
     using namespace Windows::Foundation;
 }
 

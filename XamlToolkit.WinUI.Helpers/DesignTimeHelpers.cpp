@@ -1,4 +1,5 @@
-﻿#include "pch.h"
+#include "pch.h"
+#include "winrt_module_imports.h"
 #include "DesignTimeHelpers.h"
 #if __has_include("DesignTimeHelpers.g.cpp")
 #include "DesignTimeHelpers.g.cpp"

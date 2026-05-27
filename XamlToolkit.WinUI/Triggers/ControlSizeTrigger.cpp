@@ -1,11 +1,9 @@
 ﻿#include "pch.h"
+#include "winrt_module_imports.h"
 #include "ControlSizeTrigger.h"
 #if __has_include("ControlSizeTrigger.g.cpp")
 #include "ControlSizeTrigger.g.cpp"
 #endif
-
-using namespace winrt;
-using namespace Microsoft::UI::Xaml;
 
 namespace winrt::XamlToolkit::WinUI::implementation
 {
