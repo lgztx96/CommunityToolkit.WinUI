@@ -25,9 +25,6 @@ namespace winrt
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-	template <typename D, typename... I>
-	using SettingsCardT = SettingsCard_base<D, I...>;
-
 	struct SettingsCard : SettingsCardT<SettingsCard>
 	{
 		static constexpr auto CommonStates = L"CommonStates";
@@ -68,7 +65,6 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		SettingsCard();
 
-		/// <inheritdoc />
 		void OnApplyTemplate();
 
 		void CheckInitialVisualState();

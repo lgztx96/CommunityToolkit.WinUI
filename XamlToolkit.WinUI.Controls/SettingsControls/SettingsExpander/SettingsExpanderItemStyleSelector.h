@@ -10,6 +10,7 @@
 
 namespace winrt
 {
+	using namespace Windows::Foundation;
 	using namespace Microsoft::UI::Xaml;
 }
 
@@ -23,7 +24,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		SettingsExpanderItemStyleSelector() = default;
 
-		Style SelectStyleCore(winrt::Windows::Foundation::IInspectable const& item, DependencyObject const& container);
+		Style SelectStyleCore(IInspectable const& item, DependencyObject const& container);
 	};
 }
 

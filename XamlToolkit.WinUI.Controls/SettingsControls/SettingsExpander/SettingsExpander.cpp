@@ -6,15 +6,6 @@
 #endif
 #include "SettingsExpanderAutomationPeer.h"
 
-namespace winrt
-{
-	using namespace Microsoft::UI::Xaml;
-	using namespace Windows::Foundation::Collections;
-	using namespace Microsoft::UI::Xaml::Controls;
-	using namespace Microsoft::UI::Xaml::Controls::Primitives;
-	using namespace Microsoft::UI::Xaml::Input;
-}
-
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
 	SettingsExpander::SettingsExpander() : _itemsRepeater{ nullptr }
@@ -83,6 +74,20 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 				impl->_itemsRepeater.ItemsSource(datasource);
 			}
+		}
+	}
+
+	void SettingsExpander::OnIsExpandedPropertyChanged(bool oldValue, bool newValue)
+	{
+		OnIsExpandedChanged(oldValue, newValue);
+
+		if (newValue)
+		{
+			Expanded.invoke(*this, nullptr);
+		}
+		else
+		{
+			Collapsed.invoke(*this, nullptr);
 		}
 	}
 

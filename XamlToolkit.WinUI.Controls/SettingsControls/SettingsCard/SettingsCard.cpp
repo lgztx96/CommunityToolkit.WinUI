@@ -12,11 +12,10 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
 	}
 
-	/// <inheritdoc />
 	void SettingsCard::OnApplyTemplate()
 	{
 		base_type::OnApplyTemplate();
-		// if (m_isEnabledChanged) IsEnabledChanged(m_isEnabledChanged);
+
 		OnActionIconChanged();
 		OnHeaderChanged();
 		OnHeaderIconChanged();
@@ -34,7 +33,6 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		if (auto contentAlignmentStatesGroup = GetTemplateChild(ContentAlignmentStates).try_as<VisualStateGroup>())
 		{
-			// contentAlignmentStatesGroup.CurrentStateChanged(m_contentAlignmentStatesChanged);
 			CheckVerticalSpacingState(contentAlignmentStatesGroup.CurrentState());
 			_currentStateChangedRevoker = contentAlignmentStatesGroup.CurrentStateChanged(winrt::auto_revoke, { this, &SettingsCard::ContentAlignmentStates_Changed });
 		}
@@ -261,9 +259,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			return true;
 		}
 
-		if (auto objString = obj.try_as<winrt::hstring>(); objString && objString->empty())
+		if (auto objString = obj.try_as<winrt::hstring>())
 		{
-			return true;
+			return objString && objString->empty();
 		}
 
 		return false;

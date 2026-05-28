@@ -45,9 +45,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
     void SettingsExpanderAutomationPeer::RaiseExpandedChangedEvent(bool newValue)
     {
-        ExpandCollapseState newState = (newValue == true) ?
-            ExpandCollapseState::Expanded :
-            ExpandCollapseState::Collapsed;
+        ExpandCollapseState newState = newValue ? ExpandCollapseState::Expanded : ExpandCollapseState::Collapsed;
 
         ExpandCollapseState oldState = (newState == ExpandCollapseState::Expanded) ?
             ExpandCollapseState::Collapsed :
