@@ -7,9 +7,7 @@
 
 namespace winrt
 {
-	using namespace Microsoft::UI::Xaml;
 	using namespace Microsoft::UI::Xaml::Controls;
-	using namespace Microsoft::UI::Composition;
 	using namespace Microsoft::UI::Xaml::Hosting;
 }
 

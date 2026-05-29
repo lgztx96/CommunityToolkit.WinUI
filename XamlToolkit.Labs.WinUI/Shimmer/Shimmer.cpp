@@ -11,8 +11,6 @@
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
-    using namespace winrt::Windows::Foundation::Numerics;
-
     Shimmer::Shimmer() : _animationStarted(false), _initialized(false)
     {
         DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));

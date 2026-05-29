@@ -3,6 +3,7 @@
 #include "OpacityMaskView.g.h"
 
 #ifdef __INTELLISENSE__
+#include <winrt/Microsoft.UI.Xaml.Media.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
 #include <string_view>
@@ -35,7 +36,6 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         void OnApplyTemplate();
 
     private:
-
         static constexpr std::wstring_view ContentPresenterTemplateName = L"PART_ContentPresenter";
         static constexpr std::wstring_view MaskContainerTemplateName = L"PART_MaskContainer";
         static constexpr std::wstring_view RootGridTemplateName = L"PART_RootGrid";

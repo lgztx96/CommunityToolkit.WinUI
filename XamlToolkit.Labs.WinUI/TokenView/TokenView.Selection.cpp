@@ -6,7 +6,6 @@
 namespace winrt
 {
     using namespace XamlToolkit::WinUI;
-    using namespace Microsoft::UI::Xaml;
     using namespace Windows::System;
 }
 

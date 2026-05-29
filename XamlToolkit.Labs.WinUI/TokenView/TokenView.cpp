@@ -6,12 +6,6 @@
 #endif
 #include "../ControlHelpers.h"
 
-namespace winrt
-{
-	using namespace Microsoft::UI::Xaml;
-	using namespace Microsoft::UI::Xaml::Data;
-}
-
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
 	TokenView::TokenView()

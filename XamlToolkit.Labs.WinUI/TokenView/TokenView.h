@@ -4,6 +4,7 @@
 #include "TokenItem.h"
 
 #ifdef __INTELLISENSE__
+#include <winrt/Microsoft.UI.Xaml.Input.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
 #include <string_view>
@@ -14,6 +15,7 @@ namespace winrt
 	using namespace Windows::Foundation;
 	using namespace Microsoft::UI::Xaml;
 	using namespace Microsoft::UI::Xaml::Controls;
+	using namespace Microsoft::UI::Xaml::Data;
 	using namespace Microsoft::UI::Xaml::Input;
 	using namespace Microsoft::UI::Xaml::Controls::Primitives;
 }

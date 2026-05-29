@@ -3,6 +3,7 @@
 #include "Marquee.g.h"
 
 #ifdef __INTELLISENSE__
+#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
 #include <string_view>

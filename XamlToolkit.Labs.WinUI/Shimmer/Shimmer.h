@@ -16,7 +16,7 @@ namespace winrt
     using namespace Microsoft::UI::Composition;
     using namespace Microsoft::UI::Xaml::Hosting;
     using namespace Microsoft::UI::Xaml::Shapes;
-
+    using namespace winrt::Windows::Foundation::Numerics;
 }
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
