@@ -20,7 +20,6 @@ namespace winrt
 
 namespace winrt::XamlToolkit::WinUI::implementation
 {
-	
 	struct FontIconExtension : FontIconExtensionT<FontIconExtension, implementation::TextIconExtension>
 	{
 		FontIconExtension() = default;

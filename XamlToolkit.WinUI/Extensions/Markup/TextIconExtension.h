@@ -22,7 +22,6 @@ namespace winrt
 
 namespace winrt::XamlToolkit::WinUI::implementation
 {
-
 	struct TextIconExtension : TextIconExtensionT<TextIconExtension>
 	{
 	private:

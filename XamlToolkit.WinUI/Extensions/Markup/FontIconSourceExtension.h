@@ -19,7 +19,6 @@ namespace winrt
 
 namespace winrt::XamlToolkit::WinUI::implementation
 {
-
     struct FontIconSourceExtension : FontIconSourceExtensionT<FontIconSourceExtension, implementation::TextIconExtension>
     {
         FontIconSourceExtension() = default;

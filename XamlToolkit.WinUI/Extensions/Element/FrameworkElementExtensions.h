@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Media.h>
 #include <winrt/Windows.UI.Xaml.Interop.h>
 #endif
 
@@ -13,6 +14,7 @@ namespace winrt
 {
 	using namespace Windows::Foundation;
     using namespace Microsoft::UI::Xaml;
+    using namespace Microsoft::UI::Xaml::Media;
     using namespace Windows::UI::Xaml::Interop;
 }
 

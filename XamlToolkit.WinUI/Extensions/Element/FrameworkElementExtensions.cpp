@@ -52,7 +52,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
     {
         while (true)
         {
-            auto parent = winrt::Microsoft::UI::Xaml::Media::VisualTreeHelper::GetParent(element);
+            auto parent = winrt::VisualTreeHelper::GetParent(element);
 
             if (!parent || winrt::get_class_name(parent) == name.Name)
             {

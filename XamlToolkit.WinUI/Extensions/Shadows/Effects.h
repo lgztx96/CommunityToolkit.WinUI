@@ -16,7 +16,6 @@ namespace winrt
 
 namespace winrt::XamlToolkit::WinUI::implementation
 {
-
     struct Effects
     {
         static XamlToolkit::WinUI::AttachedShadowBase GetShadow(FrameworkElement const& obj)
