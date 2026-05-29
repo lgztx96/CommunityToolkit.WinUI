@@ -16,5 +16,7 @@
         <ResourceDictionary Source="ms-appx:///XamlToolkit.Labs.WinUI/Adorners/ResizeElement/Thumb/ResizeThumb.xaml" />
         <ResourceDictionary Source="ms-appx:///XamlToolkit.Labs.WinUI/Adorners/ResizeElement/ResizeElementAdorner.xaml" />
         <ResourceDictionary Source="ms-appx:///XamlToolkit.Labs.WinUI/DataTable/DataColumn.xaml" />
+        <ResourceDictionary Source="ms-appx:///XamlToolkit.Labs.WinUI/GradientSlider/GradientSliderStyle.xaml" />
+        <ResourceDictionary Source="ms-appx:///XamlToolkit.Labs.WinUI/GradientSlider/GradientSliderThumbStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

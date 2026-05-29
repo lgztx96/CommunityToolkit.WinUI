@@ -236,6 +236,14 @@
       <DependentUpon>DataTable\DataTable.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="GradientSlider\GradientSlider.h">
+      <DependentUpon>GradientSlider\GradientSlider.cpp</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="GradientSlider\GradientSliderThumb.h">
+      <DependentUpon>GradientSlider\GradientSliderThumb.cpp</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="MarkdownTextBlock\Extension.h" />
     <ClInclude Include="MarkdownTextBlock\DefaultSVGRenderer.h" />
     <ClInclude Include="MarkdownTextBlock\Highlight\ISyntaxHighlighter.h" />
@@ -416,6 +424,16 @@
       <DependentUpon>DataTable\DataTable.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="GradientSlider\GradientSlider.cpp">
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="GradientSlider\GradientSlider.Events.cpp" />
+    <ClCompile Include="GradientSlider\GradientSlider.Input.cpp" />
+    <ClCompile Include="GradientSlider\GradientSlider.Properties.cpp" />
+    <ClCompile Include="GradientSlider\GradientSliderThumb.cpp">
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="GradientSlider\GradientSliderThumb.Events.cpp" />
     <ClCompile Include="MarkdownTextBlock\Extension.cpp" />
     <ClCompile Include="MarkdownTextBlock\Highlight\bash\bash_parser.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -601,6 +619,14 @@
     <Midl Include="DataTable\DataTable.idl">
       <SubType>Designer</SubType>
     </Midl>
+    <Midl Include="GradientSlider\GradientSlider.idl">
+      <DependentUpon>GradientSlider\GradientSlider.cpp</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
+    <Midl Include="GradientSlider\GradientSliderThumb.idl">
+      <DependentUpon>GradientSlider\GradientSliderThumb.cpp</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
     <Midl Include="MarkdownTextBlock\LinkClickedEventArgs.idl" />
     <Midl Include="MarkdownTextBlock\MarkdownConfig.idl">
       <SubType>Designer</SubType>
@@ -663,6 +689,8 @@
     <Page Include="Adorners\ResizeElement\ResizeElementAdorner.xaml" />
     <Page Include="Adorners\ResizeElement\Thumb\ResizeThumb.xaml" />
     <Page Include="DataTable\DataColumn.xaml" />
+    <Page Include="GradientSlider\GradientSliderStyle.xaml" />
+    <Page Include="GradientSlider\GradientSliderThumbStyle.xaml" />
     <Page Include="MarkdownTextBlock\MarkdownTextBlock.xaml" />
     <Page Include="Marquee\Marquee.xaml" />
     <Page Include="OpacityMaskView\OpacityMaskView.xaml" />

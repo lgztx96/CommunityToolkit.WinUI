@@ -9,476 +9,492 @@
     <Filter Include="Generated Files">
       <UniqueIdentifier>{926ab91d-31b4-48c3-b9a4-e681349f27f0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Controls">
-      <UniqueIdentifier>{d0836658-c9f5-4615-8e34-db40a7a7457a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Themes">
       <UniqueIdentifier>{784c3e52-fb0d-493f-baec-8ac506eeec14}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Controls\MarkdownTextBlock">
+    <Filter Include="MarkdownTextBlock">
       <UniqueIdentifier>{866a6f12-2e10-415e-8dad-fbe6363cd721}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Controls\MarkdownTextBlock\Renderers">
+    <Filter Include="MarkdownTextBlock\Renderers">
       <UniqueIdentifier>{e6d812fb-8e4a-41de-9674-3864595a2bb9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Controls\MarkdownTextBlock\TextElements">
+    <Filter Include="MarkdownTextBlock\TextElements">
       <UniqueIdentifier>{1f66107a-7adc-43c0-ab87-179e66ac4292}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Controls\MarkdownTextBlock\TextElements\Html">
+    <Filter Include="MarkdownTextBlock\TextElements\Html">
       <UniqueIdentifier>{54426880-db2b-4038-8b89-8f63dc932ea5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Controls\OpacityMaskView">
+    <Filter Include="OpacityMaskView">
       <UniqueIdentifier>{484709ad-47e5-446c-8af8-5e8602717e67}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Controls\MarkdownTextBlock\md4c">
+    <Filter Include="MarkdownTextBlock\md4c">
       <UniqueIdentifier>{34738bd7-967d-4fa8-9a91-cc059fd3f8f7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Controls\Marquee">
+    <Filter Include="Marquee">
       <UniqueIdentifier>{0ea4d0a5-e3c3-4842-8d9b-93852d19e29f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Controls\Shimmer">
+    <Filter Include="Shimmer">
       <UniqueIdentifier>{791e5847-c159-4e1f-8fd4-ee797ec72587}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Controls\TokenView">
+    <Filter Include="TokenView">
       <UniqueIdentifier>{62cb0688-e3f5-4b12-bbb4-8a204cdc4302}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Controls\Ribbon">
+    <Filter Include="Ribbon">
       <UniqueIdentifier>{78144e16-b901-422e-bfde-777818ea3e75}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Controls\CanvasLayout">
+    <Filter Include="CanvasLayout">
       <UniqueIdentifier>{0aaea3e6-cbcb-4a8c-b667-a04cdbee12e2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Controls\Adorners">
+    <Filter Include="Adorners">
       <UniqueIdentifier>{2a89cc61-1f3f-4524-b18f-1cdc908e7b0f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Controls\Adorners\Helpers">
+    <Filter Include="Adorners\Helpers">
       <UniqueIdentifier>{6baa9119-43e7-4021-abef-0cedae44ca20}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Controls\Adorners\ResizeElement">
+    <Filter Include="Adorners\ResizeElement">
       <UniqueIdentifier>{2adaf538-e91b-4526-acfb-efd1d385edc7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Controls\Adorners\ResizeElement\Thumb">
+    <Filter Include="Adorners\ResizeElement\Thumb">
       <UniqueIdentifier>{9187c797-8e4f-4570-b186-7495088f6c0f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Controls\DataTable">
+    <Filter Include="DataTable">
       <UniqueIdentifier>{91eba54e-0dbc-46e3-ba96-9df36b9a1cdd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Controls\ColorAnalyzer">
+    <Filter Include="ColorAnalyzer">
       <UniqueIdentifier>{e72d3352-964f-417f-bea7-b1af28758087}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Controls\ColorAnalyzer\ContrastHelper">
+    <Filter Include="ColorAnalyzer\ContrastHelper">
       <UniqueIdentifier>{3050e2a4-927f-47bc-a45e-601037f7ede6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Controls\ColorAnalyzer\ColorPaletteSampler">
+    <Filter Include="ColorAnalyzer\ColorPaletteSampler">
       <UniqueIdentifier>{32bdd3a3-6df7-4b38-968d-a16ffbbd2ab7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Controls\ColorAnalyzer\ColorSources">
+    <Filter Include="ColorAnalyzer\ColorSources">
       <UniqueIdentifier>{35b821a0-6a94-4188-807a-29115ad251dd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Controls\ColorAnalyzer\PaletteSelectors">
+    <Filter Include="ColorAnalyzer\PaletteSelectors">
       <UniqueIdentifier>{a9ff7377-7a2f-46bd-a233-6ca5a5327dee}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Controls\WrapPanel2">
+    <Filter Include="WrapPanel2">
       <UniqueIdentifier>{ceabdae7-8da1-478e-a4e2-6333679f0be3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Controls\MarkdownTextBlock\Highlight">
+    <Filter Include="MarkdownTextBlock\Highlight">
       <UniqueIdentifier>{c7dcbed7-4535-4a59-bdff-6eea799c307a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Controls\MarkdownTextBlock\Highlight\cpp">
+    <Filter Include="MarkdownTextBlock\Highlight\cpp">
       <UniqueIdentifier>{39abd8a8-ac92-444b-b95c-58bc6379e799}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Controls\MarkdownTextBlock\Highlight\csharp">
+    <Filter Include="MarkdownTextBlock\Highlight\csharp">
       <UniqueIdentifier>{14e4391b-0fe9-4831-ad6f-9e8495314961}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Controls\MarkdownTextBlock\Highlight\xml">
+    <Filter Include="MarkdownTextBlock\Highlight\xml">
       <UniqueIdentifier>{c9d2f476-2162-4e43-b4c9-e5b3656c522c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Controls\MarkdownTextBlock\Highlight\bash">
+    <Filter Include="MarkdownTextBlock\Highlight\bash">
       <UniqueIdentifier>{fc03315d-e191-44f6-be6b-4aba95711a0b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Controls\MarkdownTextBlock\Highlight\json">
+    <Filter Include="MarkdownTextBlock\Highlight\json">
       <UniqueIdentifier>{8c2194e5-1915-48a9-b782-f652919967b0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Controls\MarkdownTextBlock\Highlight\rust">
+    <Filter Include="MarkdownTextBlock\Highlight\rust">
       <UniqueIdentifier>{3a7a3615-08d1-4ecd-9a19-212ff1c098a1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Controls\MarkdownTextBlock\Highlight\midl3">
+    <Filter Include="MarkdownTextBlock\Highlight\midl3">
       <UniqueIdentifier>{B1C2D3E4-7A3B-4B56-9C11-2D6E9A7F4C10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GradientSlider">
+      <UniqueIdentifier>{fc44c88e-0a41-479a-baef-c846857523d5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
     <ClCompile Include="MarkdownTextBlock\Highlight\cpp\cpp_parser.c">
-      <Filter>Controls\MarkdownTextBlock\Highlight\cpp</Filter>
+      <Filter>MarkdownTextBlock\Highlight\cpp</Filter>
     </ClCompile>
     <ClCompile Include="MarkdownTextBlock\Highlight\cpp\cpp_scanner.c">
-      <Filter>Controls\MarkdownTextBlock\Highlight\cpp</Filter>
+      <Filter>MarkdownTextBlock\Highlight\cpp</Filter>
     </ClCompile>
     <ClCompile Include="OpacityMaskView\OpacityMaskView.cpp">
-      <Filter>Controls\OpacityMaskView</Filter>
+      <Filter>OpacityMaskView</Filter>
     </ClCompile>
     <ClCompile Include="MarkdownTextBlock\LinkClickedEventArgs.cpp">
-      <Filter>Controls\MarkdownTextBlock</Filter>
+      <Filter>MarkdownTextBlock</Filter>
     </ClCompile>
     <ClCompile Include="MarkdownTextBlock\Highlight\csharp\csharp_parser.c">
-      <Filter>Controls\MarkdownTextBlock\Highlight\csharp</Filter>
+      <Filter>MarkdownTextBlock\Highlight\csharp</Filter>
     </ClCompile>
     <ClCompile Include="MarkdownTextBlock\Highlight\csharp\csharp_scanner.c">
-      <Filter>Controls\MarkdownTextBlock\Highlight\csharp</Filter>
+      <Filter>MarkdownTextBlock\Highlight\csharp</Filter>
     </ClCompile>
     <ClCompile Include="MarkdownTextBlock\Highlight\xml\xml_parser.c">
-      <Filter>Controls\MarkdownTextBlock\Highlight\xml</Filter>
+      <Filter>MarkdownTextBlock\Highlight\xml</Filter>
     </ClCompile>
     <ClCompile Include="MarkdownTextBlock\Highlight\xml\xml_scanner.c">
-      <Filter>Controls\MarkdownTextBlock\Highlight\xml</Filter>
+      <Filter>MarkdownTextBlock\Highlight\xml</Filter>
     </ClCompile>
     <ClCompile Include="MarkdownTextBlock\Highlight\bash\bash_parser.c">
-      <Filter>Controls\MarkdownTextBlock\Highlight\bash</Filter>
+      <Filter>MarkdownTextBlock\Highlight\bash</Filter>
     </ClCompile>
     <ClCompile Include="MarkdownTextBlock\Highlight\bash\bash_scanner.c">
-      <Filter>Controls\MarkdownTextBlock\Highlight\bash</Filter>
+      <Filter>MarkdownTextBlock\Highlight\bash</Filter>
     </ClCompile>
     <ClCompile Include="MarkdownTextBlock\Highlight\json\json_parser.c">
-      <Filter>Controls\MarkdownTextBlock\Highlight\json</Filter>
+      <Filter>MarkdownTextBlock\Highlight\json</Filter>
     </ClCompile>
     <ClCompile Include="MarkdownTextBlock\TextElements\MdTableUIElement.cpp">
-      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+      <Filter>MarkdownTextBlock\TextElements</Filter>
     </ClCompile>
     <ClCompile Include="MarkdownTextBlock\Renderer\WinUIRenderer.cpp">
-      <Filter>Controls\MarkdownTextBlock\Renderers</Filter>
+      <Filter>MarkdownTextBlock\Renderers</Filter>
     </ClCompile>
     <ClCompile Include="MarkdownTextBlock\Extension.cpp">
-      <Filter>Controls\MarkdownTextBlock</Filter>
+      <Filter>MarkdownTextBlock</Filter>
     </ClCompile>
     <ClCompile Include="MarkdownTextBlock\Highlight\ISyntaxHighlighter.cpp">
-      <Filter>Controls\MarkdownTextBlock\Highlight</Filter>
+      <Filter>MarkdownTextBlock\Highlight</Filter>
     </ClCompile>
     <ClCompile Include="MarkdownTextBlock\Highlight\cpp\cpp_scm.cpp">
-      <Filter>Controls\MarkdownTextBlock\Highlight\cpp</Filter>
+      <Filter>MarkdownTextBlock\Highlight\cpp</Filter>
     </ClCompile>
     <ClCompile Include="MarkdownTextBlock\Highlight\bash\bash_scm.cpp">
-      <Filter>Controls\MarkdownTextBlock\Highlight\bash</Filter>
+      <Filter>MarkdownTextBlock\Highlight\bash</Filter>
     </ClCompile>
     <ClCompile Include="MarkdownTextBlock\Highlight\json\json_scm.cpp">
-      <Filter>Controls\MarkdownTextBlock\Highlight\json</Filter>
+      <Filter>MarkdownTextBlock\Highlight\json</Filter>
     </ClCompile>
     <ClCompile Include="MarkdownTextBlock\Highlight\csharp\csharp_scm.cpp">
-      <Filter>Controls\MarkdownTextBlock\Highlight\csharp</Filter>
+      <Filter>MarkdownTextBlock\Highlight\csharp</Filter>
     </ClCompile>
     <ClCompile Include="MarkdownTextBlock\Highlight\xml\xml_scm.cpp">
-      <Filter>Controls\MarkdownTextBlock\Highlight\xml</Filter>
+      <Filter>MarkdownTextBlock\Highlight\xml</Filter>
     </ClCompile>
     <ClCompile Include="MarkdownTextBlock\md4c\md4c.c">
-      <Filter>Controls\MarkdownTextBlock\md4c</Filter>
+      <Filter>MarkdownTextBlock\md4c</Filter>
     </ClCompile>
     <ClCompile Include="Marquee\Marquee.cpp">
-      <Filter>Controls\Marquee</Filter>
+      <Filter>Marquee</Filter>
     </ClCompile>
     <ClCompile Include="Shimmer\Shimmer.cpp">
-      <Filter>Controls\Shimmer</Filter>
+      <Filter>Shimmer</Filter>
     </ClCompile>
     <ClCompile Include="TokenView\TokenView.cpp">
-      <Filter>Controls\TokenView</Filter>
+      <Filter>TokenView</Filter>
     </ClCompile>
     <ClCompile Include="TokenView\TokenItem.cpp">
-      <Filter>Controls\TokenView</Filter>
+      <Filter>TokenView</Filter>
     </ClCompile>
     <ClCompile Include="TokenView\TokenView.Events.cpp">
-      <Filter>Controls\TokenView</Filter>
+      <Filter>TokenView</Filter>
     </ClCompile>
     <ClCompile Include="TokenView\TokenView.ItemsSource.cpp">
-      <Filter>Controls\TokenView</Filter>
+      <Filter>TokenView</Filter>
     </ClCompile>
     <ClCompile Include="TokenView\TokenView.Selection.cpp">
-      <Filter>Controls\TokenView</Filter>
+      <Filter>TokenView</Filter>
     </ClCompile>
     <ClCompile Include="Ribbon\Ribbon.cpp">
-      <Filter>Controls\Ribbon</Filter>
+      <Filter>Ribbon</Filter>
     </ClCompile>
     <ClCompile Include="Ribbon\RibbonGroup.cpp">
-      <Filter>Controls\Ribbon</Filter>
+      <Filter>Ribbon</Filter>
     </ClCompile>
     <ClCompile Include="Ribbon\RibbonCollapsibleGroup.cpp">
-      <Filter>Controls\Ribbon</Filter>
+      <Filter>Ribbon</Filter>
     </ClCompile>
     <ClCompile Include="MarkdownTextBlock\Highlight\rust\rust_parser.c">
-      <Filter>Controls\MarkdownTextBlock\Highlight\rust</Filter>
+      <Filter>MarkdownTextBlock\Highlight\rust</Filter>
     </ClCompile>
     <ClCompile Include="MarkdownTextBlock\Highlight\rust\rust_scanner.c">
-      <Filter>Controls\MarkdownTextBlock\Highlight\rust</Filter>
+      <Filter>MarkdownTextBlock\Highlight\rust</Filter>
     </ClCompile>
     <ClCompile Include="MarkdownTextBlock\Highlight\rust\rust_scm.cpp">
-      <Filter>Controls\MarkdownTextBlock\Highlight\rust</Filter>
+      <Filter>MarkdownTextBlock\Highlight\rust</Filter>
     </ClCompile>
     <ClCompile Include="Adorners\Adorner.cpp">
-      <Filter>Controls\Adorners</Filter>
+      <Filter>Adorners</Filter>
     </ClCompile>
     <ClCompile Include="Adorners\AdornerDecorator.cpp">
-      <Filter>Controls\Adorners</Filter>
+      <Filter>Adorners</Filter>
     </ClCompile>
     <ClCompile Include="Adorners\ResizeElement\ResizeElementAdorner.cpp">
-      <Filter>Controls\Adorners\ResizeElement</Filter>
+      <Filter>Adorners\ResizeElement</Filter>
     </ClCompile>
     <ClCompile Include="Adorners\ResizeElement\Thumb\ResizeThumb.cpp">
-      <Filter>Controls\Adorners\ResizeElement\Thumb</Filter>
+      <Filter>Adorners\ResizeElement\Thumb</Filter>
     </ClCompile>
     <ClCompile Include="Adorners\ResizeElement\Thumb\ResizeThumb.Helpers.cpp">
-      <Filter>Controls\Adorners\ResizeElement\Thumb</Filter>
+      <Filter>Adorners\ResizeElement\Thumb</Filter>
     </ClCompile>
     <ClCompile Include="Adorners\ResizeElement\Thumb\ResizeThumb.Properties.cpp">
-      <Filter>Controls\Adorners\ResizeElement\Thumb</Filter>
+      <Filter>Adorners\ResizeElement\Thumb</Filter>
     </ClCompile>
     <ClCompile Include="DataTable\DataColumn.cpp">
-      <Filter>Controls\DataTable</Filter>
+      <Filter>DataTable</Filter>
     </ClCompile>
     <ClCompile Include="ColorAnalyzer\ColorExtensions.cpp">
-      <Filter>Controls\ColorAnalyzer</Filter>
+      <Filter>ColorAnalyzer</Filter>
     </ClCompile>
     <ClCompile Include="ColorAnalyzer\ContrastHelper\ContrastHelper.Callbacks.cpp">
-      <Filter>Controls\ColorAnalyzer\ContrastHelper</Filter>
+      <Filter>ColorAnalyzer\ContrastHelper</Filter>
     </ClCompile>
     <ClCompile Include="ColorAnalyzer\ContrastHelper\ContrastHelper.Properties.cpp">
-      <Filter>Controls\ColorAnalyzer\ContrastHelper</Filter>
+      <Filter>ColorAnalyzer\ContrastHelper</Filter>
     </ClCompile>
     <ClCompile Include="ColorAnalyzer\ColorPaletteSampler\ColorPaletteSampler.Properties.cpp">
-      <Filter>Controls\ColorAnalyzer\ColorPaletteSampler</Filter>
+      <Filter>ColorAnalyzer\ColorPaletteSampler</Filter>
     </ClCompile>
     <ClCompile Include="ColorAnalyzer\ColorPaletteSampler\ColorPaletteSampler.KMeans.cpp">
-      <Filter>Controls\ColorAnalyzer\ColorPaletteSampler</Filter>
+      <Filter>ColorAnalyzer\ColorPaletteSampler</Filter>
     </ClCompile>
     <ClCompile Include="MarkdownTextBlock\Highlight\midl3\midl3_parser.c">
-      <Filter>Controls\MarkdownTextBlock\Highlight\midl3</Filter>
+      <Filter>MarkdownTextBlock\Highlight\midl3</Filter>
     </ClCompile>
     <ClCompile Include="MarkdownTextBlock\Highlight\midl3\midl3_scm.cpp">
-      <Filter>Controls\MarkdownTextBlock\Highlight\midl3</Filter>
+      <Filter>MarkdownTextBlock\Highlight\midl3</Filter>
     </ClCompile>
     <ClCompile Include="XamlTypeInfo.module.cpp" />
     <ClCompile Include="XamlTypeInfo.Impl.module.cpp" />
     <ClCompile Include="XamlMetaDataProvider.module.cpp" />
+    <ClCompile Include="GradientSlider\GradientSlider.cpp">
+      <Filter>GradientSlider</Filter>
+    </ClCompile>
+    <ClCompile Include="GradientSlider\GradientSlider.Events.cpp">
+      <Filter>GradientSlider</Filter>
+    </ClCompile>
+    <ClCompile Include="GradientSlider\GradientSlider.Properties.cpp">
+      <Filter>GradientSlider</Filter>
+    </ClCompile>
+    <ClCompile Include="GradientSlider\GradientSliderThumb.cpp">
+      <Filter>GradientSlider</Filter>
+    </ClCompile>
+    <ClCompile Include="GradientSlider\GradientSliderThumb.Events.cpp">
+      <Filter>GradientSlider</Filter>
+    </ClCompile>
+    <ClCompile Include="GradientSlider\GradientSlider.Input.cpp">
+      <Filter>GradientSlider</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="MarkdownTextBlock\TextElements\IAddChild.h">
-      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+      <Filter>MarkdownTextBlock\TextElements</Filter>
     </ClInclude>
     <ClInclude Include="MarkdownTextBlock\DefaultSVGRenderer.h">
-      <Filter>Controls\MarkdownTextBlock</Filter>
+      <Filter>MarkdownTextBlock</Filter>
     </ClInclude>
     <ClInclude Include="MarkdownTextBlock\LinkClickedEventArgs.h">
-      <Filter>Controls\MarkdownTextBlock</Filter>
+      <Filter>MarkdownTextBlock</Filter>
     </ClInclude>
     <ClInclude Include="MarkdownTextBlock\Highlight\ISyntaxHighlighter.h">
-      <Filter>Controls\MarkdownTextBlock\Highlight</Filter>
+      <Filter>MarkdownTextBlock\Highlight</Filter>
     </ClInclude>
     <ClInclude Include="MarkdownTextBlock\TextElements\MdTableUIElement.h">
-      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+      <Filter>MarkdownTextBlock\TextElements</Filter>
     </ClInclude>
     <ClInclude Include="MarkdownTextBlock\TextElements\MdAutolinkInline.h">
-      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+      <Filter>MarkdownTextBlock\TextElements</Filter>
     </ClInclude>
     <ClInclude Include="MarkdownTextBlock\TextElements\MdBlockContainer.h">
-      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+      <Filter>MarkdownTextBlock\TextElements</Filter>
     </ClInclude>
     <ClInclude Include="MarkdownTextBlock\TextElements\MdCodeBlock.h">
-      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+      <Filter>MarkdownTextBlock\TextElements</Filter>
     </ClInclude>
     <ClInclude Include="MarkdownTextBlock\TextElements\MdEmphasisInline.h">
-      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+      <Filter>MarkdownTextBlock\TextElements</Filter>
     </ClInclude>
     <ClInclude Include="MarkdownTextBlock\TextElements\MdFlowDocument.h">
-      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+      <Filter>MarkdownTextBlock\TextElements</Filter>
     </ClInclude>
     <ClInclude Include="MarkdownTextBlock\TextElements\MdHeading.h">
-      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+      <Filter>MarkdownTextBlock\TextElements</Filter>
     </ClInclude>
     <ClInclude Include="MarkdownTextBlock\TextElements\MdHyperlink.h">
-      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+      <Filter>MarkdownTextBlock\TextElements</Filter>
     </ClInclude>
     <ClInclude Include="MarkdownTextBlock\TextElements\MdHyperlinkButton.h">
-      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+      <Filter>MarkdownTextBlock\TextElements</Filter>
     </ClInclude>
     <ClInclude Include="MarkdownTextBlock\TextElements\MdHyperlinkNode.h">
-      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+      <Filter>MarkdownTextBlock\TextElements</Filter>
     </ClInclude>
     <ClInclude Include="MarkdownTextBlock\TextElements\MdImage.h">
-      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+      <Filter>MarkdownTextBlock\TextElements</Filter>
     </ClInclude>
     <ClInclude Include="MarkdownTextBlock\TextElements\Html\MdInline.h">
-      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+      <Filter>MarkdownTextBlock\TextElements</Filter>
     </ClInclude>
     <ClInclude Include="MarkdownTextBlock\TextElements\MdInlineCode.h">
-      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+      <Filter>MarkdownTextBlock\TextElements</Filter>
     </ClInclude>
     <ClInclude Include="MarkdownTextBlock\TextElements\MdInlineText.h">
-      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+      <Filter>MarkdownTextBlock\TextElements</Filter>
     </ClInclude>
     <ClInclude Include="MarkdownTextBlock\TextElements\MdLineBreak.h">
-      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+      <Filter>MarkdownTextBlock\TextElements</Filter>
     </ClInclude>
     <ClInclude Include="MarkdownTextBlock\TextElements\MdList.h">
-      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+      <Filter>MarkdownTextBlock\TextElements</Filter>
     </ClInclude>
     <ClInclude Include="MarkdownTextBlock\TextElements\MdListItem.h">
-      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+      <Filter>MarkdownTextBlock\TextElements</Filter>
     </ClInclude>
     <ClInclude Include="MarkdownTextBlock\TextElements\MdParagraph.h">
-      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+      <Filter>MarkdownTextBlock\TextElements</Filter>
     </ClInclude>
     <ClInclude Include="MarkdownTextBlock\TextElements\MdQuote.h">
-      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+      <Filter>MarkdownTextBlock\TextElements</Filter>
     </ClInclude>
     <ClInclude Include="MarkdownTextBlock\TextElements\MdTable.h">
-      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+      <Filter>MarkdownTextBlock\TextElements</Filter>
     </ClInclude>
     <ClInclude Include="MarkdownTextBlock\TextElements\MdTableCell.h">
-      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+      <Filter>MarkdownTextBlock\TextElements</Filter>
     </ClInclude>
     <ClInclude Include="MarkdownTextBlock\TextElements\MdTableRow.h">
-      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+      <Filter>MarkdownTextBlock\TextElements</Filter>
     </ClInclude>
     <ClInclude Include="MarkdownTextBlock\TextElements\MdTaskListCheckBox.h">
-      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+      <Filter>MarkdownTextBlock\TextElements</Filter>
     </ClInclude>
     <ClInclude Include="MarkdownTextBlock\TextElements\MdThematicBreak.h">
-      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+      <Filter>MarkdownTextBlock\TextElements</Filter>
     </ClInclude>
     <ClInclude Include="MarkdownTextBlock\TextElements\Html\MdBlock.h">
-      <Filter>Controls\MarkdownTextBlock\TextElements\Html</Filter>
+      <Filter>MarkdownTextBlock\TextElements\Html</Filter>
     </ClInclude>
     <ClInclude Include="MarkdownTextBlock\TextElements\Html\MdDetails.h">
-      <Filter>Controls\MarkdownTextBlock\TextElements\Html</Filter>
+      <Filter>MarkdownTextBlock\TextElements\Html</Filter>
     </ClInclude>
     <ClInclude Include="MarkdownTextBlock\Renderer\WinUIRenderer.h">
-      <Filter>Controls\MarkdownTextBlock\Renderers</Filter>
+      <Filter>MarkdownTextBlock\Renderers</Filter>
     </ClInclude>
     <ClInclude Include="MarkdownTextBlock\TextElements\HtmlElementType.h">
-      <Filter>Controls\MarkdownTextBlock\TextElements\Html</Filter>
+      <Filter>MarkdownTextBlock\TextElements\Html</Filter>
     </ClInclude>
     <ClInclude Include="MarkdownTextBlock\Extension.h">
-      <Filter>Controls\MarkdownTextBlock</Filter>
+      <Filter>MarkdownTextBlock</Filter>
     </ClInclude>
     <ClInclude Include="MarkdownTextBlock\md4c\md4c.h">
-      <Filter>Controls\MarkdownTextBlock\md4c</Filter>
+      <Filter>MarkdownTextBlock\md4c</Filter>
     </ClInclude>
-    <ClInclude Include="ControlHelpers.h">
-      <Filter>Controls</Filter>
-    </ClInclude>
+    <ClInclude Include="ControlHelpers.h" />
     <ClInclude Include="Adorners\ResizeElement\Thumb\TargetControlResizedEventArgs.h">
-      <Filter>Controls\Adorners\ResizeElement\Thumb</Filter>
+      <Filter>Adorners\ResizeElement\Thumb</Filter>
     </ClInclude>
     <ClInclude Include="ColorAnalyzer\ColorExtensions.h">
-      <Filter>Controls\ColorAnalyzer</Filter>
+      <Filter>ColorAnalyzer</Filter>
     </ClInclude>
     <ClInclude Include="ColorAnalyzer\PaletteSelectors\ColorPaletteSelectorExtensions.h">
-      <Filter>Controls\ColorAnalyzer\PaletteSelectors</Filter>
+      <Filter>ColorAnalyzer\PaletteSelectors</Filter>
     </ClInclude>
     <ClInclude Include="ColorAnalyzer\ColorPaletteSampler\ColorPaletteSampler.DBScan.h">
-      <Filter>Controls\ColorAnalyzer\ColorPaletteSampler</Filter>
+      <Filter>ColorAnalyzer\ColorPaletteSampler</Filter>
     </ClInclude>
     <ClInclude Include="wil_cppwinrt_module.h" />
     <ClInclude Include="winrt_module_imports.h" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="MarkdownTextBlock\MarkdownTextBlock.idl">
-      <Filter>Controls\MarkdownTextBlock</Filter>
+      <Filter>MarkdownTextBlock</Filter>
     </Midl>
     <Midl Include="MarkdownTextBlock\MarkdownConfig.idl">
-      <Filter>Controls\MarkdownTextBlock</Filter>
+      <Filter>MarkdownTextBlock</Filter>
     </Midl>
     <Midl Include="MarkdownTextBlock\LinkClickedEventArgs.idl">
-      <Filter>Controls\MarkdownTextBlock</Filter>
+      <Filter>MarkdownTextBlock</Filter>
     </Midl>
     <Midl Include="MarkdownTextBlock\TextElements\MdTableUIElement.idl">
-      <Filter>Controls\MarkdownTextBlock\TextElements</Filter>
+      <Filter>MarkdownTextBlock\TextElements</Filter>
     </Midl>
     <Midl Include="MarkdownTextBlock\MarkdownThemes.idl">
-      <Filter>Controls\MarkdownTextBlock</Filter>
+      <Filter>MarkdownTextBlock</Filter>
     </Midl>
     <Midl Include="TokenView\TokenItemRemovingEventArgs.idl">
-      <Filter>Controls\TokenView</Filter>
+      <Filter>TokenView</Filter>
     </Midl>
     <Midl Include="Ribbon\RibbonPanel.idl">
-      <Filter>Controls\Ribbon</Filter>
+      <Filter>Ribbon</Filter>
     </Midl>
     <Midl Include="Ribbon\DoubleVector.idl">
-      <Filter>Controls\Ribbon</Filter>
+      <Filter>Ribbon</Filter>
     </Midl>
     <Midl Include="CanvasLayout\CanvasLayout.idl">
-      <Filter>Controls\CanvasLayout</Filter>
+      <Filter>CanvasLayout</Filter>
     </Midl>
     <Midl Include="Adorners\AdornerLayer.idl">
-      <Filter>Controls\Adorners</Filter>
+      <Filter>Adorners</Filter>
     </Midl>
     <Midl Include="DataTable\DataTable.idl">
-      <Filter>Controls\DataTable</Filter>
+      <Filter>DataTable</Filter>
     </Midl>
     <Midl Include="DataTable\DataRow.idl">
-      <Filter>Controls\DataTable</Filter>
+      <Filter>DataTable</Filter>
     </Midl>
     <Midl Include="ColorAnalyzer\ContrastHelper\ContrastHelper.idl">
-      <Filter>Controls\ColorAnalyzer\ContrastHelper</Filter>
+      <Filter>ColorAnalyzer\ContrastHelper</Filter>
     </Midl>
     <Midl Include="ColorAnalyzer\ColorPaletteSampler\ColorPaletteSampler.idl">
-      <Filter>Controls\ColorAnalyzer\ColorPaletteSampler</Filter>
+      <Filter>ColorAnalyzer\ColorPaletteSampler</Filter>
     </Midl>
     <Midl Include="ColorAnalyzer\ColorSources\ColorSource.idl">
-      <Filter>Controls\ColorAnalyzer\ColorSources</Filter>
+      <Filter>ColorAnalyzer\ColorSources</Filter>
     </Midl>
     <Midl Include="ColorAnalyzer\ColorSources\StreamColorSource.idl">
-      <Filter>Controls\ColorAnalyzer\ColorSources</Filter>
+      <Filter>ColorAnalyzer\ColorSources</Filter>
     </Midl>
     <Midl Include="ColorAnalyzer\ColorSources\UIColorSource.idl">
-      <Filter>Controls\ColorAnalyzer\ColorSources</Filter>
+      <Filter>ColorAnalyzer\ColorSources</Filter>
     </Midl>
     <Midl Include="ColorAnalyzer\ColorSources\UrlColorSource.idl">
-      <Filter>Controls\ColorAnalyzer\ColorSources</Filter>
+      <Filter>ColorAnalyzer\ColorSources</Filter>
     </Midl>
     <Midl Include="ColorAnalyzer\PaletteSelectors\ColorWeightPaletteSelector.idl">
-      <Filter>Controls\ColorAnalyzer\PaletteSelectors</Filter>
+      <Filter>ColorAnalyzer\PaletteSelectors</Filter>
     </Midl>
     <Midl Include="ColorAnalyzer\PaletteSelectors\BaseColorPaletteSelector.idl">
-      <Filter>Controls\ColorAnalyzer\PaletteSelectors</Filter>
+      <Filter>ColorAnalyzer\PaletteSelectors</Filter>
     </Midl>
     <Midl Include="ColorAnalyzer\PaletteSelectors\ColorPaletteSelector.idl">
-      <Filter>Controls\ColorAnalyzer\PaletteSelectors</Filter>
+      <Filter>ColorAnalyzer\PaletteSelectors</Filter>
     </Midl>
     <Midl Include="ColorAnalyzer\PaletteSelectors\AccentColorPaletteSelector.idl">
-      <Filter>Controls\ColorAnalyzer\PaletteSelectors</Filter>
+      <Filter>ColorAnalyzer\PaletteSelectors</Filter>
     </Midl>
     <Midl Include="WrapPanel2\WrapPanel2.idl">
-      <Filter>Controls\WrapPanel2</Filter>
+      <Filter>WrapPanel2</Filter>
     </Midl>
   </ItemGroup>
   <ItemGroup>
     <None Include="XamlToolkit.Labs.WinUI.def" />
     <None Include="packages.config" />
     <None Include="MarkdownTextBlock\Highlight\cpp\highlights.scm">
-      <Filter>Controls\MarkdownTextBlock\Highlight\cpp</Filter>
+      <Filter>MarkdownTextBlock\Highlight\cpp</Filter>
     </None>
     <None Include="MarkdownTextBlock\Highlight\csharp\highlights.scm">
-      <Filter>Controls\MarkdownTextBlock\Highlight\csharp</Filter>
+      <Filter>MarkdownTextBlock\Highlight\csharp</Filter>
     </None>
     <None Include="MarkdownTextBlock\Highlight\json\highlights.scm">
-      <Filter>Controls\MarkdownTextBlock\Highlight\json</Filter>
+      <Filter>MarkdownTextBlock\Highlight\json</Filter>
     </None>
     <None Include="MarkdownTextBlock\Highlight\bash\highlights.scm">
-      <Filter>Controls\MarkdownTextBlock\Highlight\bash</Filter>
+      <Filter>MarkdownTextBlock\Highlight\bash</Filter>
     </None>
     <None Include="MarkdownTextBlock\Highlight\xml\highlights.scm">
-      <Filter>Controls\MarkdownTextBlock\Highlight\xml</Filter>
+      <Filter>MarkdownTextBlock\Highlight\xml</Filter>
     </None>
     <None Include="MarkdownTextBlock\md4c\LICENSE.md">
-      <Filter>Controls\MarkdownTextBlock\md4c</Filter>
+      <Filter>MarkdownTextBlock\md4c</Filter>
     </None>
     <None Include="MarkdownTextBlock\Highlight\rust\highlights.scm">
-      <Filter>Controls\MarkdownTextBlock\Highlight\rust</Filter>
+      <Filter>MarkdownTextBlock\Highlight\rust</Filter>
     </None>
     <None Include="Adorners\Helpers\FrameworkElementExtensions.WaitUntilLoaded.h">
-      <Filter>Controls\Adorners\Helpers</Filter>
+      <Filter>Adorners\Helpers</Filter>
     </None>
     <None Include="MarkdownTextBlock\Highlight\midl3\highlights.scm">
-      <Filter>Controls\MarkdownTextBlock\Highlight\midl3</Filter>
+      <Filter>MarkdownTextBlock\Highlight\midl3</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -486,40 +502,46 @@
       <Filter>Themes</Filter>
     </Page>
     <Page Include="OpacityMaskView\OpacityMaskView.xaml">
-      <Filter>Controls\OpacityMaskView</Filter>
+      <Filter>OpacityMaskView</Filter>
     </Page>
     <Page Include="MarkdownTextBlock\MarkdownTextBlock.xaml">
-      <Filter>Controls\MarkdownTextBlock</Filter>
+      <Filter>MarkdownTextBlock</Filter>
     </Page>
     <Page Include="Marquee\Marquee.xaml">
-      <Filter>Controls\Marquee</Filter>
+      <Filter>Marquee</Filter>
     </Page>
     <Page Include="Shimmer\Shimmer.xaml">
-      <Filter>Controls\Shimmer</Filter>
+      <Filter>Shimmer</Filter>
     </Page>
     <Page Include="TokenView\TokenItem.xaml">
-      <Filter>Controls\TokenView</Filter>
+      <Filter>TokenView</Filter>
     </Page>
     <Page Include="TokenView\TokenView.xaml">
-      <Filter>Controls\TokenView</Filter>
+      <Filter>TokenView</Filter>
     </Page>
     <Page Include="Ribbon\RibbonStyle.xaml">
-      <Filter>Controls\Ribbon</Filter>
+      <Filter>Ribbon</Filter>
     </Page>
     <Page Include="Adorners\Adorner.xaml">
-      <Filter>Controls\Adorners</Filter>
+      <Filter>Adorners</Filter>
     </Page>
     <Page Include="Adorners\AdornerDecorator.xaml">
-      <Filter>Controls\Adorners</Filter>
+      <Filter>Adorners</Filter>
     </Page>
     <Page Include="Adorners\ResizeElement\Thumb\ResizeThumb.xaml">
-      <Filter>Controls\Adorners\ResizeElement\Thumb</Filter>
+      <Filter>Adorners\ResizeElement\Thumb</Filter>
     </Page>
     <Page Include="Adorners\ResizeElement\ResizeElementAdorner.xaml">
-      <Filter>Controls\Adorners\ResizeElement</Filter>
+      <Filter>Adorners\ResizeElement</Filter>
     </Page>
     <Page Include="DataTable\DataColumn.xaml">
-      <Filter>Controls\DataTable</Filter>
+      <Filter>DataTable</Filter>
+    </Page>
+    <Page Include="GradientSlider\GradientSliderStyle.xaml">
+      <Filter>GradientSlider</Filter>
+    </Page>
+    <Page Include="GradientSlider\GradientSliderThumbStyle.xaml">
+      <Filter>GradientSlider</Filter>
     </Page>
   </ItemGroup>
   <ItemGroup>

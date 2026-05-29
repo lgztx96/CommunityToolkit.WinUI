@@ -1,0 +1,17 @@
+namespace XamlToolkit.Labs.WinUI
+{
+    runtimeclass GradientSlider : Microsoft.UI.Xaml.Controls.Control
+    {
+        GradientSlider();
+
+        Microsoft.UI.Xaml.Media.GradientStopCollection GradientStops;
+        static Microsoft.UI.Xaml.DependencyProperty GradientStopsProperty{ get; };
+
+        Boolean IsAddStopsEnabled;
+        static Microsoft.UI.Xaml.DependencyProperty IsAddStopsEnabledProperty{ get; };
+
+        event Microsoft.UI.Xaml.Controls.Primitives.DragStartedEventHandler ThumbDragStarted;
+        event Microsoft.UI.Xaml.Controls.Primitives.DragCompletedEventHandler ThumbDragCompleted;
+        event Windows.Foundation.EventHandler<Object> ValueChanged;
+    }
+}

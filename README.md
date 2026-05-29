@@ -95,6 +95,9 @@ Rive support is available via [`XamlToolkit.WinUI.Rive`](https://github.com/lgzt
 ### RangeSelector
 ![RangeSelector](docs/images/RangeSelector.png)
 
+### GradientSlider
+![GradientSlider](docs/images/GradientSlider.png)
+
 ### RichSuggestBox
 ![RichSuggestBox](docs/images/RichSuggestBox.png)
 
@@ -164,7 +167,7 @@ This module ports the original C# WinUI XamlBehaviors implementation to C++/WinR
 
 ## Build Steps
 
-- Requires **Visual Studio 2022** or later for compilation.  
+- Requires **Visual Studio 2026** or later for compilation.  
 - To build `XamlToolkit.Labs.WinUI`, you need to install **tree-sitter** via vcpkg:
 
 ```powershell

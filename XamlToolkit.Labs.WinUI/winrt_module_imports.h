@@ -14,6 +14,7 @@
 #include <winrt/Microsoft.UI.Dispatching.h>
 #include <winrt/Microsoft.UI.Text.h>
 #include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Media.h>
 #include <winrt/Microsoft.UI.Xaml.Controls.h>
 #include <winrt/Microsoft.UI.Xaml.Hosting.h>
 #include <winrt/Microsoft.UI.Xaml.Markup.h>
@@ -42,6 +43,7 @@ import winrt.Microsoft.UI;
 import winrt.Microsoft.UI.Dispatching;
 import winrt.Microsoft.UI.Text;
 import winrt.Microsoft.UI.Xaml;
+import winrt.Microsoft.UI.Xaml.Media;
 import winrt.Microsoft.UI.Xaml.Controls;
 import winrt.Microsoft.UI.Xaml.Hosting;
 import winrt.Microsoft.UI.Xaml.Markup;

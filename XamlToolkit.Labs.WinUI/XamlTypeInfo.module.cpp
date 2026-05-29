@@ -38,6 +38,8 @@
 #include "TokenView/TokenItemRemovingEventArgs.h"
 #include "TokenView/TokenView.h"
 #include "WrapPanel2/WrapPanel2.h"
+#include "GradientSlider/GradientSlider.h"
+#include "GradientSlider/GradientSliderThumb.h"
 
 #if __has_include("Generated Files\\XamlTypeInfo.g.cpp")
 #include "Generated Files\\XamlTypeInfo.g.cpp"
