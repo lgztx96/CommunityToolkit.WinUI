@@ -55,6 +55,9 @@
     <File Path="nuget/XamlToolkit.WinUI.Animations.Managed.targets" />
     <File Path="nuget/XamlToolkit.WinUI.Animations.Native.targets" />
     <File Path="nuget/XamlToolkit.WinUI.Animations.nuspec" />
+    <File Path="nuget/XamlToolkit.WinUI.Behaviors.Managed.targets" />
+    <File Path="nuget/XamlToolkit.WinUI.Behaviors.Native.targets" />
+    <File Path="nuget/XamlToolkit.WinUI.Behaviors.nuspec" />
     <File Path="nuget/XamlToolkit.WinUI.Controls.Managed.targets" />
     <File Path="nuget/XamlToolkit.WinUI.Controls.Native.targets" />
     <File Path="nuget/XamlToolkit.WinUI.Controls.nuspec" />
@@ -64,6 +67,9 @@
     <File Path="nuget/XamlToolkit.WinUI.Helpers.Managed.targets" />
     <File Path="nuget/XamlToolkit.WinUI.Helpers.Native.targets" />
     <File Path="nuget/XamlToolkit.WinUI.Helpers.nuspec" />
+    <File Path="nuget/XamlToolkit.WinUI.Interactivity.Managed.targets" />
+    <File Path="nuget/XamlToolkit.WinUI.Interactivity.Native.targets" />
+    <File Path="nuget/XamlToolkit.WinUI.Interactivity.nuspec" />
     <File Path="nuget/XamlToolkit.WinUI.Managed.targets" />
     <File Path="nuget/XamlToolkit.WinUI.Media.Managed.targets" />
     <File Path="nuget/XamlToolkit.WinUI.Media.Native.targets" />
@@ -71,7 +77,6 @@
     <File Path="nuget/XamlToolkit.WinUI.Native.targets" />
     <File Path="nuget/XamlToolkit.WinUI.nuspec" />
   </Folder>
-  <Project Path="XamlToolkit.WinUI.ModuleBuilder/XamlToolkit.WinUI.ModuleBuilder.vcxproj" Id="f9871572-63b1-4f7c-a561-c1f39bb9143b" />
   <Project Path="XamlToolkit.Labs.WinUI/XamlToolkit.Labs.WinUI.vcxproj" Id="8dbdb115-b325-4d42-aecf-50cbf8b7ab3e" />
   <Project Path="XamlToolkit.WinUI.Animations/XamlToolkit.WinUI.Animations.vcxproj" Id="37cd7b40-3e54-41ce-af73-43c6746ef315" />
   <Project Path="XamlToolkit.WinUI.Behaviors/XamlToolkit.WinUI.Behaviors.vcxproj" Id="72f42e7f-edd4-4cde-b07d-e90d68039da9" />
@@ -80,5 +85,6 @@
   <Project Path="XamlToolkit.WinUI.Helpers/XamlToolkit.WinUI.Helpers.vcxproj" Id="f8087280-d16f-4d9d-9e17-58aac733d56d" />
   <Project Path="XamlToolkit.WinUI.Interactivity/XamlToolkit.WinUI.Interactivity.vcxproj" Id="70bc2fd9-1f86-48e5-b3d2-abd12a9e40dc" />
   <Project Path="XamlToolkit.WinUI.Media/XamlToolkit.WinUI.Media.vcxproj" Id="a8fa1b9a-b83c-408a-8132-c1576b9fcbd5" />
+  <Project Path="XamlToolkit.WinUI.ModuleBuilder/XamlToolkit.WinUI.ModuleBuilder.vcxproj" Id="f9871572-63b1-4f7c-a561-c1f39bb9143b" />
   <Project Path="XamlToolkit.WinUI/XamlToolkit.WinUI.vcxproj" Id="17c20e50-8d62-4fc3-8feb-b64b03a893be" />
 </Solution>

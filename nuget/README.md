@@ -30,7 +30,7 @@ enabling seamless use of these components in **WinUI 3 / C++ projects**.
 - **LayoutTransformControl**, **ContentSizer**, **PropertySizer**, **ConstrainedBox**  
 - **HeaderedContentControl**, **HeaderedItemsControl**, **HeaderedTreeView**  
 - **TokenView**, **TokenizingTextBox**, **RichSuggestBox**  
-- **Segmented**, **SwitchPresenter**, **RangeSelector**, **RadialGauge**  
+- **Segmented**, **SwitchPresenter**, **RangeSelector**, **GradientSlider**, **RadialGauge**  
 - **SettingsCard**, **SettingsExpander**, **TabbedCommandBar**  
 - **ImageCropper**, **CameraPreview**  
 - **RivePlayer**  
