@@ -24,7 +24,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	{
 		PropertySizer();
 
-		bool IsDragInverted() { return winrt::unbox_value<double>(GetValue(IsDragInvertedProperty)); }
+		bool IsDragInverted() { return winrt::unbox_value<bool>(GetValue(IsDragInvertedProperty)); }
 		void IsDragInverted(bool value) { SetValue(IsDragInvertedProperty, winrt::box_value(value)); }
 
 		static inline const wil::single_threaded_property<DependencyProperty> IsDragInvertedProperty =
