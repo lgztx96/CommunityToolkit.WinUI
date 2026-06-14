@@ -131,11 +131,18 @@ Rive support is available via [`XamlToolkit.WinUI.Rive`](https://github.com/lgzt
 ### AttachedDropShadow / AttachedCardShadow
 ![AttachedCardShadow](docs/images/AttachedCardShadow.png)
 
+### XamlCompositionEffectBrush
+
+![TilesBrush](docs/images/TilesBrush.png)
+
 ---
 
 ## XamlToolkit.WinUI.Animations
 ### ImplicitAnimations / ExplicitAnimations / ShadowAnimations
 ![Animations](docs/images/Animations.gif)
+
+### EffectAnimations (XamlToolkit.WinUI.Media.Animations)
+![EffectAnimations](docs/images/EffectAnimations.gif)
 
 ---
 
