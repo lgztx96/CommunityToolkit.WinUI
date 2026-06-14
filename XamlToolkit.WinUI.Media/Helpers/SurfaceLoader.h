@@ -5,7 +5,7 @@
 #pragma once
 
 #include "CompositionObjectCache.h"
-#include "../../Extensions/async_mutex.h"
+#include "../Extensions/async_mutex.h"
 #ifdef __INTELLISENSE__
 #include <winrt/Microsoft.UI.Composition.h>
 #include <winrt/Microsoft.Graphics.Canvas.h>
