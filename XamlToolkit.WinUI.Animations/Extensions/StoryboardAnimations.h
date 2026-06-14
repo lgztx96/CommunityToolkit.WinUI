@@ -4,9 +4,9 @@
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
+#include <memory>
+#include <wil/resource.h>
 #endif
-
-#include <synchapi.h>
 
 namespace winrt
 {
@@ -28,16 +28,15 @@ namespace winrt::XamlToolkit::WinUI::Animations
         /// <returns>An <see cref="IAsyncAction"/> that completes when <paramref name="storyboard"/> completes.</returns>
         static winrt::Windows::Foundation::IAsyncAction BeginAsync(Storyboard const& storyboard)
         {
-            winrt::event_token token;
-            auto tcs = std::make_shared<winrt::handle>(CreateEventW(nullptr, true, false, nullptr));
-            token = storyboard.Completed([=](auto&&...)
+            wil::shared_event completionEvent(wil::EventOptions::ManualReset);
+            winrt::event_token token = storyboard.Completed([=](auto&&...)
             {
-                SetEvent(tcs->get());
+                completionEvent.SetEvent();
             });
 
             winrt::apartment_context context;
             storyboard.Begin();
-            co_await winrt::resume_on_signal(tcs->get());
+            co_await winrt::resume_on_signal(completionEvent.get());
             co_await context;
             storyboard.Completed(token);
         }

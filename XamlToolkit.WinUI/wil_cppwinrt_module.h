@@ -20,5 +20,6 @@ import winrt.Windows.UI.Core;
 #include <wil/cppwinrt_helpers.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
+#include <wil/resource.h>
 
 #pragma warning(pop)

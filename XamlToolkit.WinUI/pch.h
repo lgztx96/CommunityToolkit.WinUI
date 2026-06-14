@@ -12,4 +12,5 @@
 #undef GetCurrentTime
 
 #include <generator>
-
+#include <iterator>
+#include <memory>

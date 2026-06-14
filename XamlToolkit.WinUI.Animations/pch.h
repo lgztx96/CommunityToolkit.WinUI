@@ -14,6 +14,7 @@
 // STL headers must be included before import std; to avoid redefinition errors
 #include <algorithm>
 #include <cmath>
+#include <memory>
 #include <string>
 #include <string_view>
 #include <istream>

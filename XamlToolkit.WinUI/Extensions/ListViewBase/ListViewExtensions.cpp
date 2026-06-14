@@ -4,6 +4,10 @@
 #if __has_include("ListViewExtensions.g.cpp")
 #include "ListViewExtensions.g.cpp"
 #endif
+#ifdef __INTELLISENSE__
+#include <memory>
+#include <wil/resource.h>
+#endif
 #include "../common.h"
 
 namespace winrt::XamlToolkit::WinUI::implementation
@@ -282,19 +286,19 @@ namespace winrt::XamlToolkit::WinUI::implementation
 			previousXOffset = scrollViewer.HorizontalOffset();
 			previousYOffset = scrollViewer.VerticalOffset();
 
-			auto tcs = std::make_shared<winrt::handle>(CreateEventW(nullptr, true, false, nullptr));
+			wil::shared_event completionEvent(wil::EventOptions::ManualReset);
 			ScrollViewer::ViewChanged_revoker viewChangedRevoker;
-			auto ViewChanged = [tcs](IInspectable const&, ScrollViewerViewChangedEventArgs const&)
-				{
-					SetEvent(tcs->get());
-				};
+			auto ViewChanged = [completionEvent](IInspectable const&, ScrollViewerViewChangedEventArgs const&)
+			{
+				completionEvent.SetEvent();
+			};
 
 			try
 			{
 				winrt::apartment_context context;
 				viewChangedRevoker = scrollViewer.ViewChanged(winrt::auto_revoke, ViewChanged);
 				listViewBase.ScrollIntoView(items.GetAt(index), ScrollIntoViewAlignment::Leading);
-				co_await winrt::resume_on_signal(tcs->get());
+				co_await winrt::resume_on_signal(completionEvent.get());
 				co_await context;
 			}
 			catch (...)
@@ -442,20 +446,20 @@ namespace winrt::XamlToolkit::WinUI::implementation
 			co_return;
 		}
 
-		auto tcs = std::make_shared<winrt::handle>(CreateEventW(nullptr, true, false, nullptr));
+		wil::shared_event completionEvent(wil::EventOptions::ManualReset);
 		ScrollViewer::ViewChanged_revoker viewChangedRevoker;
-		auto ViewChanged = [tcs](IInspectable const&, ScrollViewerViewChangedEventArgs const& e)
+		auto ViewChanged = [completionEvent](IInspectable const&, ScrollViewerViewChangedEventArgs const& e)
+		{
+			if (!e.IsIntermediate())
 			{
-				if (!e.IsIntermediate())
-				{
-					SetEvent(tcs->get());
-				}
-			};
+				completionEvent.SetEvent();
+			}
+		};
 
 		winrt::apartment_context context;
 		viewChangedRevoker = scrollViewer.ViewChanged(winrt::auto_revoke, ViewChanged);
 		scrollViewer.ChangeView(horizontalOffset, verticalOffset, zoomFactor, disableAnimation);
-		co_await winrt::resume_on_signal(tcs->get());
+		co_await winrt::resume_on_signal(completionEvent.get());
 		co_await context;
 	}
 }

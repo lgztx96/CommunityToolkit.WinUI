@@ -2,8 +2,9 @@
 #ifdef __INTELLISENSE__
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Microsoft.UI.Xaml.h>
+#include <memory>
+#include <wil/resource.h>
 #endif
-#include <synchapi.h>
 
 namespace winrt::XamlToolkit::WinUI::Future
 {
@@ -21,13 +22,13 @@ namespace winrt::XamlToolkit::WinUI::Future
 
 			winrt::Microsoft::UI::Xaml::FrameworkElement::Loaded_revoker loadedRevoker;
 
-			auto tcs = std::make_shared<winrt::handle>(CreateEventW(nullptr, true, false, nullptr));
-			loadedRevoker = element.Loaded(winrt::auto_revoke, [=](auto&&...)
-				{
-					SetEvent(tcs->get());
-				});
+			wil::shared_event completionEvent(wil::EventOptions::ManualReset);
+			loadedRevoker = element.Loaded(winrt::auto_revoke, [completionEvent](auto&&...)
+			{
+				completionEvent.SetEvent();
+			});
 
-			co_await winrt::resume_on_signal(tcs->get());
+			co_await winrt::resume_on_signal(completionEvent.get());
 
 			co_await context;
 
