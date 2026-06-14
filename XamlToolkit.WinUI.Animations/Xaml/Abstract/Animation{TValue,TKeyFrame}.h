@@ -18,7 +18,6 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
     template<typename TTraits>
     concept AnimationBaseTraits =
-        !std::is_void_v<TTraits> &&
         requires
         {
             typename TTraits::owner_type;

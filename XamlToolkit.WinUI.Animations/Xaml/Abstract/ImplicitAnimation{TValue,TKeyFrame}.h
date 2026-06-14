@@ -18,7 +18,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
     /// C++ counterpart for C# ImplicitAnimation<TValue, TKeyFrame>.
     /// </summary>
     template<AnimationBaseTraits TTraits>
-    struct ImplicitAnimationBase : AnimationBase<TTraits>, public IImplicitTimeline
+    struct ImplicitAnimationBase : AnimationBase<TTraits>, IImplicitTimeline
     {
         using traits_type = TTraits;
         using parsed_value_type = typename traits_type::parsed_value_type;

@@ -10,7 +10,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
     /// <summary>
     /// An interface representing a XAML model for a custom animation that requires a specific parent UIElement context.
     /// </summary>
-    class IAttachedTimeline
+    struct __declspec(uuid("F84C9A72-31E5-4D6B-B2F1-9C7E4A58D3F6")) IAttachedTimeline : ::IUnknown
     {
     public:
         /// <summary>

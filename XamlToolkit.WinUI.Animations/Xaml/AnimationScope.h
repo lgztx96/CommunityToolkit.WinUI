@@ -19,7 +19,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
     /// together and to assign shared properties to be applied to all the contained items automatically.
     /// Implements ITimeline as a C++ interface for AnimationBuilder integration.
     /// </summary>
-    struct AnimationScope : AnimationScopeT<AnimationScope>, public ITimeline
+    struct AnimationScope : AnimationScopeT<AnimationScope, ITimeline>
     {
     public:
         AnimationScope() = default;
@@ -72,9 +72,8 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
             SetValue(EasingModeProperty, winrt::box_value(value));
         }
 
-        /// <inheritdoc/>
-        Animations::AnimationBuilder& AppendToBuilder(
-            Animations::AnimationBuilder& builder,
+        winrt::XamlToolkit::WinUI::Animations::AnimationBuilder& AppendToBuilder(
+            winrt::XamlToolkit::WinUI::Animations::AnimationBuilder& builder,
             std::optional<Windows::Foundation::TimeSpan> delayHint = std::nullopt,
             std::optional<Windows::Foundation::TimeSpan> durationHint = std::nullopt,
             std::optional<enum EasingType> easingTypeHint = std::nullopt,

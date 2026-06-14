@@ -9,6 +9,8 @@
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
+#include <wil/wistd_type_traits.h>
+#include <wil/cppwinrt_authoring.h>
 #endif
 
 namespace winrt
@@ -23,7 +25,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
     /// A base model representing an animation that can be used in XAML.
     /// Implements ITimelineInternal as a C++ interface for AnimationBuilder integration.
     /// </summary>
-    struct Animation : AnimationT<Animation>, public ITimeline
+    struct Animation : AnimationT<Animation, ITimeline>
     {
     public:
         Animation() = default;

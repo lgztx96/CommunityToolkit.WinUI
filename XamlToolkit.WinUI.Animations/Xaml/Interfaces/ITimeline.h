@@ -10,7 +10,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
     /// A C++ interface representing a XAML model for a custom animation.
     /// This is a C++-only interface because it uses AnimationBuilder.
     /// </summary>
-    class ITimeline
+    struct __declspec(uuid("2B9F4D8C-76A1-43E7-91D5-E8C24F6AB173")) ITimeline : ::IUnknown
     {
     public:
         /// <summary>

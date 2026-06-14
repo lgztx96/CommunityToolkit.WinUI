@@ -3,6 +3,7 @@
 #ifdef __INTELLISENSE__
 #include <atomic>
 #include <memory>
+#include <mutex>
 #endif
 #include "AnimationSet.h"
 #if __has_include("AnimationSet.g.cpp")
@@ -10,6 +11,7 @@
 #endif
 #include "Abstract/Animation.h"
 #include "AnimationScope.h"
+#include "Interfaces/ITimeline.h"
 #include "Interfaces/IAttachedTimeline.h"
 
 namespace
@@ -21,18 +23,16 @@ namespace
     {
         if (auto animation = node.try_as<winrt::XamlToolkit::WinUI::Animations::Animation>())
         {
-            auto impl = winrt::get_self<winrt::XamlToolkit::WinUI::Animations::implementation::Animation>(animation);
-
-            if (auto attachedTimeline = dynamic_cast<winrt::XamlToolkit::WinUI::Animations::implementation::IAttachedTimeline*>(impl))
+            if (auto attachedTimeline = animation.try_as<winrt::XamlToolkit::WinUI::Animations::implementation::IAttachedTimeline>())
             {
                 attachedTimeline->AppendToBuilder(builder, element);
+                return true;
             }
-            else
+            else if (auto timeline = animation.try_as<winrt::XamlToolkit::WinUI::Animations::implementation::ITimeline>())
             {
-                impl->AppendToBuilder(builder);
+                timeline->AppendToBuilder(builder);
+                return true;
             }
-
-            return true;
         }
 
         if (auto scope = node.try_as<winrt::XamlToolkit::WinUI::Animations::AnimationScope>())

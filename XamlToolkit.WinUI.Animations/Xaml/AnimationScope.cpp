@@ -59,14 +59,15 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         {
             if (auto animation = element.try_as<winrt::XamlToolkit::WinUI::Animations::Animation>())
             {
-                auto impl = winrt::get_self<winrt::XamlToolkit::WinUI::Animations::implementation::Animation>(animation);
-
-                impl->AppendToBuilder(
-                    builder,
-                    effectiveDelay,
-                    effectiveDuration,
-                    effectiveEasingType,
-                    effectiveEasingMode);
+                if (auto impl = animation.try_as<ITimeline>())
+                {
+                    impl->AppendToBuilder(
+                        builder,
+                        effectiveDelay,
+                        effectiveDuration,
+                        effectiveEasingType,
+                        effectiveEasingMode);
+                }
             }
             else if (auto scope = element.try_as<winrt::XamlToolkit::WinUI::Animations::AnimationScope>())
             {
