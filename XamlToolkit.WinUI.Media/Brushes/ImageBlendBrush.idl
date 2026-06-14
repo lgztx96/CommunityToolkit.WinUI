@@ -1,0 +1,41 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+import "Enums/ImageBlendMode.idl";
+
+namespace XamlToolkit.WinUI.Media
+{
+    /// <summary>
+    /// Brush which blends a <see cref="BitmapImage"/> to the Backdrop in a given mode.
+    /// See http://microsoft.github.io/Win2D/html/T_Microsoft_Graphics_Canvas_Effects_BlendEffect.htm.
+    /// </summary>
+    runtimeclass ImageBlendBrush : Microsoft.UI.Xaml.Media.XamlCompositionBrushBase
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ImageBlendBrush"/> class.
+        /// </summary>
+        ImageBlendBrush();
+
+        /// <summary>
+        /// Gets or sets the <see cref="ImageSource"/> source of the image to composite.
+        /// </summary>
+        Microsoft.UI.Xaml.Media.ImageSource Source;
+
+        static Microsoft.UI.Xaml.DependencyProperty SourceProperty{ get; };
+
+        /// <summary>
+        /// Gets or sets how to stretch the image within the brush.
+        /// </summary>
+        Microsoft.UI.Xaml.Media.Stretch Stretch;
+
+        static Microsoft.UI.Xaml.DependencyProperty StretchProperty{ get; };
+
+        /// <summary>
+        /// Gets or sets how to blend the image with the backdrop.
+        /// </summary>
+        ImageBlendMode Mode;
+
+        static Microsoft.UI.Xaml.DependencyProperty ModeProperty{ get; };
+    };
+}

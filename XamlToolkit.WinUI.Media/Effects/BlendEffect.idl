@@ -1,0 +1,38 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+import "Effects/Abstract/PipelineEffect.idl";
+import "Pipelines/PipelineBuilder.idl";
+import "Enums/ImageBlendMode.idl";
+import "Enums/Placement.idl";
+
+namespace XamlToolkit.WinUI.Media
+{
+    /// <summary>
+    /// A blend effect that merges the current builder with an input one
+    /// </summary>
+    /// <remarks>This effect maps to the Win2D BlendEffect effect</remarks>
+    [contentproperty("Effects")]
+    runtimeclass BlendEffect : PipelineEffect
+    {
+        /// <summary>
+        /// Initializes a new instance of the BlendEffect class.
+        /// </summary>
+        BlendEffect();
+
+        XamlToolkit.WinUI.Media.Pipelines.PipelineBuilder Source;
+
+	    Windows.Foundation.Collections.IVector<IPipelineEffect> Effects;
+
+        /// <summary>
+        /// Gets or sets the blending mode to use (the default mode is Multiply)
+        /// </summary>
+        ImageBlendMode Mode;
+
+        /// <summary>
+        /// Gets or sets the placement of the input builder with respect to the current one (the default is Foreground)
+        /// </summary>
+        Placement Placement;
+    };
+}

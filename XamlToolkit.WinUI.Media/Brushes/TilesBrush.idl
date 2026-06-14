@@ -1,0 +1,33 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+import "Brushes/Base/XamlCompositionEffectBrushBase.idl";
+
+namespace XamlToolkit.WinUI.Media
+{
+    /// <summary>
+    /// A <see cref="XamlCompositionBrush"/> that displays a tiled image
+    /// </summary>
+    runtimeclass TilesBrush : XamlCompositionEffectBrushBase
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TilesBrush"/> class.
+        /// </summary>
+        TilesBrush();
+
+        /// <summary>
+        /// Gets or sets the <see cref="Uri"/> to the texture to use
+        /// </summary>
+        Windows.Foundation.Uri TextureUri;
+
+        static Microsoft.UI.Xaml.DependencyProperty TextureUriProperty{ get; };
+
+        /// <summary>
+        /// Gets or sets the DPI mode used to render the texture
+        /// </summary>
+        DpiMode DpiMode;
+
+        static Microsoft.UI.Xaml.DependencyProperty DpiModeProperty{ get; };
+    };
+}

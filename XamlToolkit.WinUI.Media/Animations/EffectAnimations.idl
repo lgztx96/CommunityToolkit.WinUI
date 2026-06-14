@@ -1,0 +1,335 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+import "Effects/BlurEffect.idl";
+import "Effects/CrossFadeEffect.idl";
+import "Effects/ExposureEffect.idl";
+import "Effects/HueRotationEffect.idl";
+import "Effects/OpacityEffect.idl";
+import "Effects/SaturationEffect.idl";
+import "Effects/SepiaEffect.idl";
+import "Effects/TintEffect.idl";
+
+namespace XamlToolkit.WinUI.Media.Animations
+{
+    /// <summary>
+    /// An effect animation that targets <see cref="BlurEffect.Amount"/>.
+    /// </summary>
+    runtimeclass BlurEffectAnimation : XamlToolkit.WinUI.Animations.Animation
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BlurEffectAnimation"/> class.
+        /// </summary>
+        BlurEffectAnimation();
+
+        /// <summary>
+        /// Gets or sets the linked <see cref="BlurEffect"/> instance to animate.
+        /// </summary>
+        XamlToolkit.WinUI.Media.BlurEffect Target;
+
+        static Microsoft.UI.Xaml.DependencyProperty TargetProperty{ get; };
+
+        /// <summary>
+        /// Gets or sets the final value for the animation.
+        /// </summary>
+        Windows.Foundation.IReference<Double> To;
+
+        static Microsoft.UI.Xaml.DependencyProperty ToProperty{ get; };
+
+        /// <summary>
+        /// Gets or sets the optional starting value for the animation.
+        /// </summary>
+        Windows.Foundation.IReference<Double> From;
+
+        static Microsoft.UI.Xaml.DependencyProperty FromProperty{ get; };
+
+        /// <summary>
+        /// Gets or sets the optional keyframe collection for the current animation.
+        /// Setting this will overwrite the <see cref="To"/> and <see cref="From"/> values.
+        /// </summary>
+        Windows.Foundation.Collections.IVector<XamlToolkit.WinUI.Animations.ScalarKeyFrame> KeyFrames;
+
+        static Microsoft.UI.Xaml.DependencyProperty KeyFramesProperty{ get; };
+    }
+
+    /// <summary>
+    /// An effect animation that targets <see cref="TintEffect.Color"/>.
+    /// </summary>
+    runtimeclass ColorEffectAnimation : XamlToolkit.WinUI.Animations.Animation
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ColorEffectAnimation"/> class.
+        /// </summary>
+        ColorEffectAnimation();
+
+        /// <summary>
+        /// Gets or sets the linked <see cref="TintEffect"/> instance to animate.
+        /// </summary>
+        XamlToolkit.WinUI.Media.TintEffect Target;
+
+        static Microsoft.UI.Xaml.DependencyProperty TargetProperty{ get; };
+
+        /// <summary>
+        /// Gets or sets the final value for the animation.
+        /// </summary>
+        Windows.Foundation.IReference<Windows.UI.Color> To;
+
+        static Microsoft.UI.Xaml.DependencyProperty ToProperty{ get; };
+
+        /// <summary>
+        /// Gets or sets the optional starting value for the animation.
+        /// </summary>
+        Windows.Foundation.IReference<Windows.UI.Color> From;
+
+        static Microsoft.UI.Xaml.DependencyProperty FromProperty{ get; };
+
+        /// <summary>
+        /// Gets or sets the optional keyframe collection for the current animation.
+        /// Setting this will overwrite the <see cref="To"/> and <see cref="From"/> values.
+        /// </summary>
+        Windows.Foundation.Collections.IVector<XamlToolkit.WinUI.Animations.ColorKeyFrame> KeyFrames;
+
+        static Microsoft.UI.Xaml.DependencyProperty KeyFramesProperty{ get; };
+    }
+
+    /// <summary>
+    /// An effect animation that targets <see cref="CrossFadeEffect.Factor"/>.
+    /// </summary>
+    runtimeclass CrossFadeEffectAnimation : XamlToolkit.WinUI.Animations.Animation
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CrossFadeEffectAnimation"/> class.
+        /// </summary>
+        CrossFadeEffectAnimation();
+
+        /// <summary>
+        /// Gets or sets the linked <see cref="CrossFadeEffect"/> instance to animate.
+        /// </summary>
+        XamlToolkit.WinUI.Media.CrossFadeEffect Target;
+
+        static Microsoft.UI.Xaml.DependencyProperty TargetProperty{ get; };
+
+        /// <summary>
+        /// Gets or sets the final value for the animation.
+        /// </summary>
+        Windows.Foundation.IReference<Double> To;
+
+        static Microsoft.UI.Xaml.DependencyProperty ToProperty{ get; };
+
+        /// <summary>
+        /// Gets or sets the optional starting value for the animation.
+        /// </summary>
+        Windows.Foundation.IReference<Double> From;
+
+        static Microsoft.UI.Xaml.DependencyProperty FromProperty{ get; };
+
+        /// <summary>
+        /// Gets or sets the optional keyframe collection for the current animation.
+        /// Setting this will overwrite the <see cref="To"/> and <see cref="From"/> values.
+        /// </summary>
+        Windows.Foundation.Collections.IVector<XamlToolkit.WinUI.Animations.ScalarKeyFrame> KeyFrames;
+
+        static Microsoft.UI.Xaml.DependencyProperty KeyFramesProperty{ get; };
+    }
+
+    /// <summary>
+    /// An effect animation that targets <see cref="ExposureEffect.Amount"/>.
+    /// </summary>
+    runtimeclass ExposureEffectAnimation : XamlToolkit.WinUI.Animations.Animation
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExposureEffectAnimation"/> class.
+        /// </summary>
+        ExposureEffectAnimation();
+
+        /// <summary>
+        /// Gets or sets the linked <see cref="ExposureEffect"/> instance to animate.
+        /// </summary>
+        XamlToolkit.WinUI.Media.ExposureEffect Target;
+
+        static Microsoft.UI.Xaml.DependencyProperty TargetProperty{ get; };
+
+        /// <summary>
+        /// Gets or sets the final value for the animation.
+        /// </summary>
+        Windows.Foundation.IReference<Double> To;
+
+        static Microsoft.UI.Xaml.DependencyProperty ToProperty{ get; };
+
+        /// <summary>
+        /// Gets or sets the optional starting value for the animation.
+        /// </summary>
+        Windows.Foundation.IReference<Double> From;
+
+        static Microsoft.UI.Xaml.DependencyProperty FromProperty{ get; };
+
+        /// <summary>
+        /// Gets or sets the optional keyframe collection for the current animation.
+        /// Setting this will overwrite the <see cref="To"/> and <see cref="From"/> values.
+        /// </summary>
+        Windows.Foundation.Collections.IVector<XamlToolkit.WinUI.Animations.ScalarKeyFrame> KeyFrames;
+
+        static Microsoft.UI.Xaml.DependencyProperty KeyFramesProperty{ get; };
+    }
+
+    /// <summary>
+    /// An effect animation that targets <see cref="HueRotationEffect.Angle"/>.
+    /// </summary>
+    runtimeclass HueRotationEffectAnimation : XamlToolkit.WinUI.Animations.Animation
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HueRotationEffectAnimation"/> class.
+        /// </summary>
+        HueRotationEffectAnimation();
+
+        /// <summary>
+        /// Gets or sets the linked <see cref="HueRotationEffect"/> instance to animate.
+        /// </summary>
+        XamlToolkit.WinUI.Media.HueRotationEffect Target;
+
+        static Microsoft.UI.Xaml.DependencyProperty TargetProperty{ get; };
+
+        /// <summary>
+        /// Gets or sets the final value for the animation.
+        /// </summary>
+        Windows.Foundation.IReference<Double> To;
+
+        static Microsoft.UI.Xaml.DependencyProperty ToProperty{ get; };
+
+        /// <summary>
+        /// Gets or sets the optional starting value for the animation.
+        /// </summary>
+        Windows.Foundation.IReference<Double> From;
+
+        static Microsoft.UI.Xaml.DependencyProperty FromProperty{ get; };
+
+        /// <summary>
+        /// Gets or sets the optional keyframe collection for the current animation.
+        /// Setting this will overwrite the <see cref="To"/> and <see cref="From"/> values.
+        /// </summary>
+        Windows.Foundation.Collections.IVector<XamlToolkit.WinUI.Animations.ScalarKeyFrame> KeyFrames;
+
+        static Microsoft.UI.Xaml.DependencyProperty KeyFramesProperty{ get; };
+    }
+
+    /// <summary>
+    /// An effect animation that targets <see cref="OpacityEffect.Value"/>.
+    /// </summary>
+    runtimeclass OpacityEffectAnimation : XamlToolkit.WinUI.Animations.Animation
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OpacityEffectAnimation"/> class.
+        /// </summary>
+        OpacityEffectAnimation();
+
+        /// <summary>
+        /// Gets or sets the linked <see cref="OpacityEffect"/> instance to animate.
+        /// </summary>
+        XamlToolkit.WinUI.Media.OpacityEffect Target;
+
+        static Microsoft.UI.Xaml.DependencyProperty TargetProperty{ get; };
+
+        /// <summary>
+        /// Gets or sets the final value for the animation.
+        /// </summary>
+        Windows.Foundation.IReference<Double> To;
+
+        static Microsoft.UI.Xaml.DependencyProperty ToProperty{ get; };
+
+        /// <summary>
+        /// Gets or sets the optional starting value for the animation.
+        /// </summary>
+        Windows.Foundation.IReference<Double> From;
+
+        static Microsoft.UI.Xaml.DependencyProperty FromProperty{ get; };
+
+        /// <summary>
+        /// Gets or sets the optional keyframe collection for the current animation.
+        /// Setting this will overwrite the <see cref="To"/> and <see cref="From"/> values.
+        /// </summary>
+        Windows.Foundation.Collections.IVector<XamlToolkit.WinUI.Animations.ScalarKeyFrame> KeyFrames;
+
+        static Microsoft.UI.Xaml.DependencyProperty KeyFramesProperty{ get; };
+    }
+
+    /// <summary>
+    /// An effect animation that targets <see cref="SaturationEffect.Value"/>.
+    /// </summary>
+    runtimeclass SaturationEffectAnimation : XamlToolkit.WinUI.Animations.Animation
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SaturationEffectAnimation"/> class.
+        /// </summary>
+        SaturationEffectAnimation();
+
+        /// <summary>
+        /// Gets or sets the linked <see cref="SaturationEffect"/> instance to animate.
+        /// </summary>
+        XamlToolkit.WinUI.Media.SaturationEffect Target;
+
+        static Microsoft.UI.Xaml.DependencyProperty TargetProperty{ get; };
+
+        /// <summary>
+        /// Gets or sets the final value for the animation.
+        /// </summary>
+        Windows.Foundation.IReference<Double> To;
+
+        static Microsoft.UI.Xaml.DependencyProperty ToProperty{ get; };
+
+        /// <summary>
+        /// Gets or sets the optional starting value for the animation.
+        /// </summary>
+        Windows.Foundation.IReference<Double> From;
+
+        static Microsoft.UI.Xaml.DependencyProperty FromProperty{ get; };
+
+        /// <summary>
+        /// Gets or sets the optional keyframe collection for the current animation.
+        /// Setting this will overwrite the <see cref="To"/> and <see cref="From"/> values.
+        /// </summary>
+        Windows.Foundation.Collections.IVector<XamlToolkit.WinUI.Animations.ScalarKeyFrame> KeyFrames;
+
+        static Microsoft.UI.Xaml.DependencyProperty KeyFramesProperty{ get; };
+    }
+
+    /// <summary>
+    /// An effect animation that targets <see cref="SepiaEffect.Intensity"/>.
+    /// </summary>
+    runtimeclass SepiaEffectAnimation : XamlToolkit.WinUI.Animations.Animation
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SepiaEffectAnimation"/> class.
+        /// </summary>
+        SepiaEffectAnimation();
+
+        /// <summary>
+        /// Gets or sets the linked <see cref="SepiaEffect"/> instance to animate.
+        /// </summary>
+        XamlToolkit.WinUI.Media.SepiaEffect Target;
+
+        static Microsoft.UI.Xaml.DependencyProperty TargetProperty{ get; };
+
+        /// <summary>
+        /// Gets or sets the final value for the animation.
+        /// </summary>
+        Windows.Foundation.IReference<Double> To;
+
+        static Microsoft.UI.Xaml.DependencyProperty ToProperty{ get; };
+
+        /// <summary>
+        /// Gets or sets the optional starting value for the animation.
+        /// </summary>
+        Windows.Foundation.IReference<Double> From;
+
+        static Microsoft.UI.Xaml.DependencyProperty FromProperty{ get; };
+
+        /// <summary>
+        /// Gets or sets the optional keyframe collection for the current animation.
+        /// Setting this will overwrite the <see cref="To"/> and <see cref="From"/> values.
+        /// </summary>
+        Windows.Foundation.Collections.IVector<XamlToolkit.WinUI.Animations.ScalarKeyFrame> KeyFrames;
+
+        static Microsoft.UI.Xaml.DependencyProperty KeyFramesProperty{ get; };
+    }
+}

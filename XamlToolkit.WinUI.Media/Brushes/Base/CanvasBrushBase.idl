@@ -1,0 +1,39 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+namespace XamlToolkit.WinUI.Media
+{
+    /// <summary>
+    /// Helper Brush class to interop with Win2D Canvas calls.
+    /// </summary>
+    unsealed runtimeclass CanvasBrushBase : Microsoft.UI.Xaml.Media.XamlCompositionBrushBase
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CanvasBrushBase"/> class.
+        /// </summary>
+        CanvasBrushBase();
+
+        /// <summary>
+        /// Gets or sets the internal surface render width.  Modify during construction.
+        /// </summary>
+        protected Single SurfaceWidth;
+
+        /// <summary>
+        /// Gets or sets the internal surface render height.  Modify during construction.
+        /// </summary>
+        protected Single SurfaceHeight;
+
+        /// <summary>
+        /// Implemented by parent class and called when canvas is being constructed for brush.
+        /// </summary>
+        /// <param name="device">Canvas device.</param>
+        /// <param name="session">Canvas drawing session.</param>
+        /// <param name="size">Size of surface to draw on.</param>
+        /// <returns>True if drawing was completed and the brush is ready, otherwise return False to not create brush yet.</returns>
+        overridable Boolean OnDraw(
+            Microsoft.Graphics.Canvas.CanvasDevice device,
+            Microsoft.Graphics.Canvas.CanvasDrawingSession session,
+            Windows.Foundation.Numerics.Vector2 size);
+    };
+}

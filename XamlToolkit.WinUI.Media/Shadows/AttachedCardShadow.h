@@ -9,7 +9,17 @@
 #include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Microsoft.UI.Composition.h>
 #include <winrt/Microsoft.UI.Xaml.Hosting.h>
+#include <wil/wistd_type_traits.h>
+#include <wil/cppwinrt_authoring.h>
 #endif
+
+import winrt.Windows.Foundation;
+import winrt.Windows.Foundation.Numerics;
+import winrt.Microsoft.UI.Xaml;
+import winrt.Microsoft.UI.Composition;
+import winrt.Microsoft.UI.Xaml.Hosting;
+import winrt.XamlToolkit.WinUI;
+import winrt.XamlToolkit.WinUI.Media;
 
 namespace winrt
 {

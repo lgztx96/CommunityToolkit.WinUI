@@ -1,0 +1,22 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+namespace XamlToolkit.WinUI.Media
+{
+    /// <summary>
+    /// A type responsible for creating <see cref="Visual"/> instances to attach to target elements.
+    /// </summary>
+    unsealed runtimeclass AttachedVisualFactoryBase : Microsoft.UI.Xaml.DependencyObject
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AttachedVisualFactoryBase"/> class.
+        /// </summary>
+        AttachedVisualFactoryBase();
+
+        /// <summary>
+        /// Creates a <see cref="Visual"/> to attach to the target element.
+        /// </summary>
+        Windows.Foundation.IAsyncOperation<Microsoft.UI.Composition.Visual> GetAttachedVisualAsync(Microsoft.UI.Xaml.UIElement element);
+    };
+}

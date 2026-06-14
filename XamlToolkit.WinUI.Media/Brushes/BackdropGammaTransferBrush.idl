@@ -1,0 +1,59 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+import "Brushes/Base/XamlCompositionEffectBrushBase.idl";
+
+namespace XamlToolkit.WinUI.Media
+{
+    /// <summary>
+    /// A brush which alters the colors of whatever is behind it in the application by applying a per-channel gamma transfer function.
+    /// </summary>
+    runtimeclass BackdropGammaTransferBrush : XamlCompositionEffectBrushBase
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BackdropGammaTransferBrush"/> class.
+        /// </summary>
+        BackdropGammaTransferBrush();
+
+        // Alpha channel
+        Double AlphaAmplitude;
+        static Microsoft.UI.Xaml.DependencyProperty AlphaAmplitudeProperty{ get; };
+        Boolean AlphaDisable;
+        static Microsoft.UI.Xaml.DependencyProperty AlphaDisableProperty{ get; };
+        Double AlphaExponent;
+        static Microsoft.UI.Xaml.DependencyProperty AlphaExponentProperty{ get; };
+        Double AlphaOffset;
+        static Microsoft.UI.Xaml.DependencyProperty AlphaOffsetProperty{ get; };
+
+        // Red channel
+        Double RedAmplitude;
+        static Microsoft.UI.Xaml.DependencyProperty RedAmplitudeProperty{ get; };
+        Boolean RedDisable;
+        static Microsoft.UI.Xaml.DependencyProperty RedDisableProperty{ get; };
+        Double RedExponent;
+        static Microsoft.UI.Xaml.DependencyProperty RedExponentProperty{ get; };
+        Double RedOffset;
+        static Microsoft.UI.Xaml.DependencyProperty RedOffsetProperty{ get; };
+
+        // Green channel
+        Double GreenAmplitude;
+        static Microsoft.UI.Xaml.DependencyProperty GreenAmplitudeProperty{ get; };
+        Boolean GreenDisable;
+        static Microsoft.UI.Xaml.DependencyProperty GreenDisableProperty{ get; };
+        Double GreenExponent;
+        static Microsoft.UI.Xaml.DependencyProperty GreenExponentProperty{ get; };
+        Double GreenOffset;
+        static Microsoft.UI.Xaml.DependencyProperty GreenOffsetProperty{ get; };
+
+        // Blue channel
+        Double BlueAmplitude;
+        static Microsoft.UI.Xaml.DependencyProperty BlueAmplitudeProperty{ get; };
+        Boolean BlueDisable;
+        static Microsoft.UI.Xaml.DependencyProperty BlueDisableProperty{ get; };
+        Double BlueExponent;
+        static Microsoft.UI.Xaml.DependencyProperty BlueExponentProperty{ get; };
+        Double BlueOffset;
+        static Microsoft.UI.Xaml.DependencyProperty BlueOffsetProperty{ get; };
+    };
+}

@@ -1,0 +1,20 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+import "Pipelines\PipelineBuilder.idl";
+
+namespace XamlToolkit.WinUI.Media
+{
+    /// <summary>
+    /// A backdrop effect that can sample from a specified source
+    /// </summary>
+    [default_interface]
+    runtimeclass BackdropSourceExtension : Microsoft.UI.Xaml.Markup.MarkupExtension
+    {
+        /// <summary>
+        /// Initializes a new instance of the BackdropSourceExtension class.
+        /// </summary>
+        BackdropSourceExtension();
+    };
+}

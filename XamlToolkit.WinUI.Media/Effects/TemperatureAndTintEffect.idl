@@ -1,0 +1,30 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+import "Effects/Abstract/PipelineEffect.idl";
+
+namespace XamlToolkit.WinUI.Media
+{
+    /// <summary>
+    /// A temperature and tint effect
+    /// </summary>
+    /// <remarks>This effect maps to the Win2D TemperatureAndTintEffect effect</remarks>
+    runtimeclass TemperatureAndTintEffect : PipelineEffect
+    {
+        /// <summary>
+        /// Initializes a new instance of the TemperatureAndTintEffect class.
+        /// </summary>
+        TemperatureAndTintEffect();
+
+        /// <summary>
+        /// Gets or sets the value of the temperature for the current effect (defaults to 0, should be in the [-1, 1] range)
+        /// </summary>
+        Double Temperature;
+
+        /// <summary>
+        /// Gets or sets the value of the tint for the current effect (defaults to 0, should be in the [-1, 1] range)
+        /// </summary>
+        Double Tint;
+    };
+}

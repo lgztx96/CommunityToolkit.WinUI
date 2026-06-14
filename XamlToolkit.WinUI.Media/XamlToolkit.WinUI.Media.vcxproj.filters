@@ -1,5 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!-- Filter Definitions -->
   <ItemGroup>
     <Filter Include="Resources">
       <UniqueIdentifier>accd3aa8-1ba0-4223-9bbe-0c431709210b</UniqueIdentifier>
@@ -11,29 +12,517 @@
     <Filter Include="Shadows">
       <UniqueIdentifier>{c9f5a0bb-dc08-4b80-896a-6c5a38e39e1e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Enums">
+      <UniqueIdentifier>{a1b2c3d4-1234-5678-9abc-def012345678}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pipelines">
+      <UniqueIdentifier>{b2c3d4e5-2345-6789-abcd-ef0123456789}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effects">
+      <UniqueIdentifier>{c3d4e5f6-3456-789a-bcde-f01234567890}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effects\Abstract">
+      <UniqueIdentifier>{d4e5f6a7-4567-89ab-cdef-012345678901}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effects\Interfaces">
+      <UniqueIdentifier>{e5f6a7b8-5678-9abc-def0-123456789012}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effects\Extensions">
+      <UniqueIdentifier>{f6a7b8c9-6789-abcd-ef01-234567890123}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Helpers">
+      <UniqueIdentifier>{a1b2c3d4-1234-5678-9abc-def012345679}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Animations">
+      <UniqueIdentifier>{b2c3d4e5-2345-6789-abcd-ef0123456780}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Extensions">
+      <UniqueIdentifier>{c3d4e5f6-3456-789a-bcde-f01234567891}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Extensions\Windows.UI.Composition">
+      <UniqueIdentifier>{d4e5f6a7-4567-89ab-cdef-012345678902}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Visuals">
+      <UniqueIdentifier>{e5f6a7b8-5678-9abc-def0-123456789013}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Brushes">
+      <UniqueIdentifier>{f6a7b8c9-6789-abcd-ef01-234567890124}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Brushes\Base">
+      <UniqueIdentifier>{a1b2c3d4-1234-5678-9abc-def012345680}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Extensions\System">
+      <UniqueIdentifier>{c509473f-79f9-433b-99fb-094876413121}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
+  <!-- ClCompile -->
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
     <ClCompile Include="Shadows\AttachedCardShadow.cpp">
       <Filter>Shadows</Filter>
     </ClCompile>
+    <ClCompile Include="Pipelines\PipelineBuilder.cpp">
+      <Filter>Pipelines</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipelines\PipelineBuilder.Initialization.cpp">
+      <Filter>Pipelines</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipelines\PipelineBuilder.Effects.cpp">
+      <Filter>Pipelines</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipelines\PipelineBuilder.Effects.Internals.cpp">
+      <Filter>Pipelines</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipelines\PipelineBuilder.Merge.cpp">
+      <Filter>Pipelines</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipelines\PipelineBuilder.Prebuilt.cpp">
+      <Filter>Pipelines</Filter>
+    </ClCompile>
+    <ClCompile Include="Effects\Abstract\PipelineEffect.cpp">
+      <Filter>Effects\Abstract</Filter>
+    </ClCompile>
+    <ClCompile Include="Effects\Abstract\ImageSourceBaseExtension.cpp">
+      <Filter>Effects\Abstract</Filter>
+    </ClCompile>
+    <ClCompile Include="Effects\BlurEffect.cpp">
+      <Filter>Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Effects\BlendEffect.cpp">
+      <Filter>Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Effects\CrossFadeEffect.cpp">
+      <Filter>Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Effects\ExposureEffect.cpp">
+      <Filter>Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Effects\GrayscaleEffect.cpp">
+      <Filter>Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Effects\HueRotationEffect.cpp">
+      <Filter>Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Effects\InvertEffect.cpp">
+      <Filter>Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Effects\LuminanceToAlphaEffect.cpp">
+      <Filter>Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Effects\OpacityEffect.cpp">
+      <Filter>Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Effects\SaturationEffect.cpp">
+      <Filter>Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Effects\SepiaEffect.cpp">
+      <Filter>Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Effects\ShadeEffect.cpp">
+      <Filter>Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Effects\TemperatureAndTintEffect.cpp">
+      <Filter>Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Effects\TintEffect.cpp">
+      <Filter>Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Effects\Extensions\BackdropSourceExtension.cpp">
+      <Filter>Effects\Extensions</Filter>
+    </ClCompile>
+    <ClCompile Include="Effects\Extensions\SolidColorSourceExtension.cpp">
+      <Filter>Effects\Extensions</Filter>
+    </ClCompile>
+    <ClCompile Include="Effects\Extensions\ImageSourceExtension.cpp">
+      <Filter>Effects\Extensions</Filter>
+    </ClCompile>
+    <ClCompile Include="Effects\Extensions\TileSourceExtension.cpp">
+      <Filter>Effects\Extensions</Filter>
+    </ClCompile>
+    <ClCompile Include="Extensions\UIElementExtensions.cpp">
+      <Filter>Extensions</Filter>
+    </ClCompile>
+    <Midl Include="Extensions\UIElementExtensions.idl">
+      <Filter>Extensions</Filter>
+    </Midl>
+    <ClCompile Include="Helpers\SurfaceLoader.cpp">
+      <Filter>Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="Animations\BlurEffectAnimation.cpp">
+      <Filter>Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="Animations\ColorEffectAnimation.cpp">
+      <Filter>Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="Animations\CrossFadeEffectAnimation.cpp">
+      <Filter>Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="Animations\ExposureEffectAnimation.cpp">
+      <Filter>Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="Animations\HueRotationEffectAnimation.cpp">
+      <Filter>Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="Animations\OpacityEffectAnimation.cpp">
+      <Filter>Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="Animations\SaturationEffectAnimation.cpp">
+      <Filter>Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="Animations\SepiaEffectAnimation.cpp">
+      <Filter>Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="Visuals\AttachedVisualFactoryBase.cpp">
+      <Filter>Visuals</Filter>
+    </ClCompile>
+    <ClCompile Include="Visuals\PipelineVisualFactoryBase.cpp">
+      <Filter>Visuals</Filter>
+    </ClCompile>
+    <ClCompile Include="Visuals\PipelineVisualFactory.cpp">
+      <Filter>Visuals</Filter>
+    </ClCompile>
+    <ClCompile Include="Brushes\Base\XamlCompositionEffectBrushBase.cpp">
+      <Filter>Brushes\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Brushes\Base\CanvasBrushBase.cpp">
+      <Filter>Brushes\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Brushes\PipelineBrush.cpp">
+      <Filter>Brushes</Filter>
+    </ClCompile>
+    <ClCompile Include="Brushes\BackdropBlurBrush.cpp">
+      <Filter>Brushes</Filter>
+    </ClCompile>
+    <ClCompile Include="Brushes\BackdropInvertBrush.cpp">
+      <Filter>Brushes</Filter>
+    </ClCompile>
+    <ClCompile Include="Brushes\BackdropSaturationBrush.cpp">
+      <Filter>Brushes</Filter>
+    </ClCompile>
+    <ClCompile Include="Brushes\BackdropSepiaBrush.cpp">
+      <Filter>Brushes</Filter>
+    </ClCompile>
+    <ClCompile Include="Brushes\AcrylicBrush.cpp">
+      <Filter>Brushes</Filter>
+    </ClCompile>
+    <ClCompile Include="Brushes\BackdropGammaTransferBrush.cpp">
+      <Filter>Brushes</Filter>
+    </ClCompile>
+    <ClCompile Include="Brushes\TilesBrush.cpp">
+      <Filter>Brushes</Filter>
+    </ClCompile>
+    <ClCompile Include="Brushes\XamlCompositionBrush.cpp">
+      <Filter>Brushes</Filter>
+    </ClCompile>
+    <ClCompile Include="Brushes\ImageBlendBrush.cpp">
+      <Filter>Brushes</Filter>
+    </ClCompile>
   </ItemGroup>
+  <!-- ClInclude -->
   <ItemGroup>
     <ClInclude Include="pch.h" />
+    <ClInclude Include="winrt_module_imports.h" />
+    <ClInclude Include="wil_cppwinrt_module.h" />
     <ClInclude Include="Shadows\AttachedCardShadow.h">
       <Filter>Shadows</Filter>
     </ClInclude>
-    <ClInclude Include="winrt_module_imports.h" />
-    <ClInclude Include="wil_cppwinrt_module.h" />
+    <ClInclude Include="Pipelines\PipelineBuilder.h">
+      <Filter>Pipelines</Filter>
+    </ClInclude>
+    <ClInclude Include="Pipelines\PipelineBuilderImpl.h">
+      <Filter>Pipelines</Filter>
+    </ClInclude>
+    <ClInclude Include="Effects\Abstract\PipelineEffect.h">
+      <Filter>Effects\Abstract</Filter>
+    </ClInclude>
+    <ClInclude Include="Effects\Abstract\ImageSourceBaseExtension.h">
+      <Filter>Effects\Abstract</Filter>
+    </ClInclude>
+    <ClInclude Include="Effects\BlurEffect.h">
+      <Filter>Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Effects\BlendEffect.h">
+      <Filter>Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Effects\CrossFadeEffect.h">
+      <Filter>Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Effects\ExposureEffect.h">
+      <Filter>Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Effects\GrayscaleEffect.h">
+      <Filter>Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Effects\HueRotationEffect.h">
+      <Filter>Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Effects\InvertEffect.h">
+      <Filter>Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Effects\LuminanceToAlphaEffect.h">
+      <Filter>Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Effects\OpacityEffect.h">
+      <Filter>Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Effects\SaturationEffect.h">
+      <Filter>Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Effects\SepiaEffect.h">
+      <Filter>Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Effects\ShadeEffect.h">
+      <Filter>Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Effects\TemperatureAndTintEffect.h">
+      <Filter>Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Effects\TintEffect.h">
+      <Filter>Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Effects\Extensions\BackdropSourceExtension.h">
+      <Filter>Effects\Extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="Effects\Extensions\SolidColorSourceExtension.h">
+      <Filter>Effects\Extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="Effects\Extensions\ImageSourceExtension.h">
+      <Filter>Effects\Extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="Effects\Extensions\TileSourceExtension.h">
+      <Filter>Effects\Extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="Helpers\CompositionObjectCache.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Helpers\SurfaceLoader.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Extensions\Windows.UI.Composition\CompositionObjectExtensions.h">
+      <Filter>Extensions\Windows.UI.Composition</Filter>
+    </ClInclude>
+    <ClInclude Include="Extensions\UIElementExtensions.h">
+      <Filter>Extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="Animations\EffectAnimationBase.h">
+      <Filter>Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="Animations\BlurEffectAnimation.h">
+      <Filter>Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="Animations\ColorEffectAnimation.h">
+      <Filter>Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="Animations\CrossFadeEffectAnimation.h">
+      <Filter>Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="Animations\ExposureEffectAnimation.h">
+      <Filter>Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="Animations\HueRotationEffectAnimation.h">
+      <Filter>Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="Animations\OpacityEffectAnimation.h">
+      <Filter>Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="Animations\SaturationEffectAnimation.h">
+      <Filter>Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="Animations\SepiaEffectAnimation.h">
+      <Filter>Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="Visuals\AttachedVisualFactoryBase.h">
+      <Filter>Visuals</Filter>
+    </ClInclude>
+    <ClInclude Include="Visuals\PipelineVisualFactoryBase.h">
+      <Filter>Visuals</Filter>
+    </ClInclude>
+    <ClInclude Include="Visuals\PipelineVisualFactory.h">
+      <Filter>Visuals</Filter>
+    </ClInclude>
+    <ClInclude Include="Brushes\Base\XamlCompositionEffectBrushBase.h">
+      <Filter>Brushes\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Brushes\Base\CanvasBrushBase.h">
+      <Filter>Brushes\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Brushes\PipelineBrush.h">
+      <Filter>Brushes</Filter>
+    </ClInclude>
+    <ClInclude Include="Brushes\BackdropBlurBrush.h">
+      <Filter>Brushes</Filter>
+    </ClInclude>
+    <ClInclude Include="Brushes\BackdropInvertBrush.h">
+      <Filter>Brushes</Filter>
+    </ClInclude>
+    <ClInclude Include="Brushes\BackdropSaturationBrush.h">
+      <Filter>Brushes</Filter>
+    </ClInclude>
+    <ClInclude Include="Brushes\BackdropSepiaBrush.h">
+      <Filter>Brushes</Filter>
+    </ClInclude>
+    <ClInclude Include="Brushes\AcrylicBrush.h">
+      <Filter>Brushes</Filter>
+    </ClInclude>
+    <ClInclude Include="Brushes\BackdropGammaTransferBrush.h">
+      <Filter>Brushes</Filter>
+    </ClInclude>
+    <ClInclude Include="Brushes\TilesBrush.h">
+      <Filter>Brushes</Filter>
+    </ClInclude>
+    <ClInclude Include="Brushes\XamlCompositionBrush.h">
+      <Filter>Brushes</Filter>
+    </ClInclude>
+    <ClInclude Include="Brushes\ImageBlendBrush.h">
+      <Filter>Brushes</Filter>
+    </ClInclude>
+    <ClInclude Include="Extensions\System\UriExtensions.h">
+      <Filter>Extensions\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Extensions\async_mutex.h">
+      <Filter>Extensions</Filter>
+    </ClInclude>
   </ItemGroup>
+  <!-- None -->
   <ItemGroup>
     <None Include="XamlToolkit.WinUI.Media.def" />
     <None Include="packages.config" />
   </ItemGroup>
+  <!-- Midl -->
   <ItemGroup>
     <Midl Include="component.idl" />
+    <Midl Include="Enums\AlphaMode.idl">
+      <Filter>Enums</Filter>
+    </Midl>
+    <Midl Include="Enums\CacheMode.idl">
+      <Filter>Enums</Filter>
+    </Midl>
+    <Midl Include="Enums\DpiMode.idl">
+      <Filter>Enums</Filter>
+    </Midl>
+    <Midl Include="Enums\ImageBlendMode.idl">
+      <Filter>Enums</Filter>
+    </Midl>
+    <Midl Include="Enums\Placement.idl">
+      <Filter>Enums</Filter>
+    </Midl>
+    <Midl Include="Pipelines\PipelineBuilder.idl">
+      <Filter>Pipelines</Filter>
+    </Midl>
+    <Midl Include="Effects\Interfaces\IPipelineEffect.idl">
+      <Filter>Effects\Interfaces</Filter>
+    </Midl>
+    <Midl Include="Effects\Abstract\PipelineEffect.idl">
+      <Filter>Effects\Abstract</Filter>
+    </Midl>
+    <Midl Include="Effects\Abstract\ImageSourceBaseExtension.idl">
+      <Filter>Effects\Abstract</Filter>
+    </Midl>
+    <Midl Include="Effects\BlurEffect.idl">
+      <Filter>Effects</Filter>
+    </Midl>
+    <Midl Include="Effects\BlendEffect.idl">
+      <Filter>Effects</Filter>
+    </Midl>
+    <Midl Include="Effects\CrossFadeEffect.idl">
+      <Filter>Effects</Filter>
+    </Midl>
+    <Midl Include="Effects\ExposureEffect.idl">
+      <Filter>Effects</Filter>
+    </Midl>
+    <Midl Include="Effects\GrayscaleEffect.idl">
+      <Filter>Effects</Filter>
+    </Midl>
+    <Midl Include="Effects\HueRotationEffect.idl">
+      <Filter>Effects</Filter>
+    </Midl>
+    <Midl Include="Effects\InvertEffect.idl">
+      <Filter>Effects</Filter>
+    </Midl>
+    <Midl Include="Effects\LuminanceToAlphaEffect.idl">
+      <Filter>Effects</Filter>
+    </Midl>
+    <Midl Include="Effects\OpacityEffect.idl">
+      <Filter>Effects</Filter>
+    </Midl>
+    <Midl Include="Effects\SaturationEffect.idl">
+      <Filter>Effects</Filter>
+    </Midl>
+    <Midl Include="Effects\SepiaEffect.idl">
+      <Filter>Effects</Filter>
+    </Midl>
+    <Midl Include="Effects\ShadeEffect.idl">
+      <Filter>Effects</Filter>
+    </Midl>
+    <Midl Include="Effects\TemperatureAndTintEffect.idl">
+      <Filter>Effects</Filter>
+    </Midl>
+    <Midl Include="Effects\TintEffect.idl">
+      <Filter>Effects</Filter>
+    </Midl>
+    <Midl Include="Effects\Extensions\BackdropSourceExtension.idl">
+      <Filter>Effects\Extensions</Filter>
+    </Midl>
+    <Midl Include="Effects\Extensions\SolidColorSourceExtension.idl">
+      <Filter>Effects\Extensions</Filter>
+    </Midl>
+    <Midl Include="Effects\Extensions\ImageSourceExtension.idl">
+      <Filter>Effects\Extensions</Filter>
+    </Midl>
+    <Midl Include="Effects\Extensions\TileSourceExtension.idl">
+      <Filter>Effects\Extensions</Filter>
+    </Midl>
+    <Midl Include="Animations\EffectAnimations.idl">
+      <Filter>Animations</Filter>
+    </Midl>
+    <Midl Include="Visuals\AttachedVisualFactoryBase.idl">
+      <Filter>Visuals</Filter>
+    </Midl>
+    <Midl Include="Visuals\PipelineVisualFactoryBase.idl">
+      <Filter>Visuals</Filter>
+    </Midl>
+    <Midl Include="Visuals\PipelineVisualFactory.idl">
+      <Filter>Visuals</Filter>
+    </Midl>
+    <Midl Include="Brushes\Base\XamlCompositionEffectBrushBase.idl">
+      <Filter>Brushes\Base</Filter>
+    </Midl>
+    <Midl Include="Brushes\Base\CanvasBrushBase.idl">
+      <Filter>Brushes\Base</Filter>
+    </Midl>
+    <Midl Include="Brushes\PipelineBrush.idl">
+      <Filter>Brushes</Filter>
+    </Midl>
+    <Midl Include="Brushes\BackdropBlurBrush.idl">
+      <Filter>Brushes</Filter>
+    </Midl>
+    <Midl Include="Brushes\BackdropInvertBrush.idl">
+      <Filter>Brushes</Filter>
+    </Midl>
+    <Midl Include="Brushes\BackdropSaturationBrush.idl">
+      <Filter>Brushes</Filter>
+    </Midl>
+    <Midl Include="Brushes\BackdropSepiaBrush.idl">
+      <Filter>Brushes</Filter>
+    </Midl>
+    <Midl Include="Brushes\AcrylicBrush.idl">
+      <Filter>Brushes</Filter>
+    </Midl>
+    <Midl Include="Brushes\BackdropGammaTransferBrush.idl">
+      <Filter>Brushes</Filter>
+    </Midl>
+    <Midl Include="Brushes\TilesBrush.idl">
+      <Filter>Brushes</Filter>
+    </Midl>
+    <Midl Include="Brushes\XamlCompositionBrush.idl">
+      <Filter>Brushes</Filter>
+    </Midl>
+    <Midl Include="Brushes\ImageBlendBrush.idl">
+      <Filter>Brushes</Filter>
+    </Midl>
   </ItemGroup>
+  <!-- Natvis -->
   <ItemGroup>
     <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
     <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natstepfilter" />

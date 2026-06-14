@@ -1,0 +1,32 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+import "Brushes/Base/XamlCompositionEffectBrushBase.idl";
+import "Pipelines/PipelineBuilder.idl";
+
+namespace XamlToolkit.WinUI.Media
+{
+    /// <summary>
+    /// A simple class that can be used to quickly create XAML brushes from arbitrary <see cref="PipelineBuilder"/> pipelines
+    /// </summary>
+    runtimeclass XamlCompositionBrush : XamlCompositionEffectBrushBase
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="XamlCompositionBrush"/> class.
+        /// </summary>
+        XamlCompositionBrush();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="XamlCompositionBrush"/> class with the specified pipeline.
+        /// </summary>
+        XamlCompositionBrush(XamlToolkit.WinUI.Media.Pipelines.PipelineBuilder pipeline);
+
+        /// <summary>
+        /// Gets the <see cref="PipelineBuilder"/> pipeline for the current instance
+        /// </summary>
+        XamlToolkit.WinUI.Media.Pipelines.PipelineBuilder Pipeline{ get; };
+
+		XamlCompositionBrush Clone();
+    };
+}

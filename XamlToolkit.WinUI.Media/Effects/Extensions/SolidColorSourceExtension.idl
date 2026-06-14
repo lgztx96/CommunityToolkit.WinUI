@@ -1,0 +1,24 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+import "Pipelines\PipelineBuilder.idl";
+
+namespace XamlToolkit.WinUI.Media
+{
+    /// <summary>
+    /// An effect that renders a standard 8bit SDR color on the available surface
+    /// </summary>
+    runtimeclass SolidColorSourceExtension : Microsoft.UI.Xaml.Markup.MarkupExtension
+    {
+        /// <summary>
+        /// Initializes a new instance of the SolidColorSourceExtension class.
+        /// </summary>
+        SolidColorSourceExtension();
+
+        /// <summary>
+        /// Gets or sets the color to display
+        /// </summary>
+        Windows.UI.Color Color;
+    };
+}

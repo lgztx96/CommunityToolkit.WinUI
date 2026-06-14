@@ -1,0 +1,17 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+import "Visuals/AttachedVisualFactoryBase.idl";
+
+namespace XamlToolkit.WinUI.Media
+{
+    static runtimeclass UIElementExtensions
+    {
+        static Microsoft.UI.Xaml.DependencyProperty VisualFactoryProperty{ get; };
+
+        static AttachedVisualFactoryBase GetVisualFactory(Microsoft.UI.Xaml.UIElement element);
+
+        static void SetVisualFactory(Microsoft.UI.Xaml.UIElement element, AttachedVisualFactoryBase value);
+    };
+}

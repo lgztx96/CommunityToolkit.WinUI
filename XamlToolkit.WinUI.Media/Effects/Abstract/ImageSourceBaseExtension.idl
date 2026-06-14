@@ -1,0 +1,35 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+import "Enums/DpiMode.idl";
+import "Enums/CacheMode.idl";
+
+namespace XamlToolkit.WinUI.Media
+{
+    /// <summary>
+    /// An image based effect that loads an image at the specified location
+    /// </summary>
+    unsealed runtimeclass ImageSourceBaseExtension : Microsoft.UI.Xaml.Markup.MarkupExtension
+    {
+        /// <summary>
+        /// Initializes a new instance of the ImageSourceBaseExtension class.
+        /// </summary>
+        ImageSourceBaseExtension();
+
+        /// <summary>
+        /// Gets or sets the Uri for the image to load
+        /// </summary>
+        Windows.Foundation.Uri Uri;
+
+        /// <summary>
+        /// Gets or sets the DPI mode used to render the image (the default is DisplayDpiWith96AsLowerBound)
+        /// </summary>
+        DpiMode DpiMode;
+
+        /// <summary>
+        /// Gets or sets the cache mode to use when loading the image (the default is Default)
+        /// </summary>
+        CacheMode CacheMode;
+    };
+}

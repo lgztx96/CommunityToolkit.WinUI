@@ -1,0 +1,191 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+import "Enums/DpiMode.idl";
+import "Enums/CacheMode.idl";
+import "Enums/Placement.idl";
+import "Brushes/XamlCompositionBrush.idl";
+
+namespace XamlToolkit.WinUI.Media.Pipelines
+{
+    /// <summary>
+    /// A class that allows to build custom effects pipelines and create CompositionBrush instances from them
+    /// </summary>
+    runtimeclass PipelineBuilder
+    {
+        /// <summary>
+        /// Initializes a new instance of the PipelineBuilder class.
+        /// </summary>
+        PipelineBuilder();
+
+        /// <summary>
+        /// Starts a new PipelineBuilder pipeline from the CompositionBrush returned by Compositor.CreateBackdropBrush
+        /// </summary>
+        /// <returns>A new PipelineBuilder instance to use to keep adding new effects</returns>
+        static PipelineBuilder FromBackdrop();
+
+        /// <summary>
+        /// Starts a new PipelineBuilder pipeline from a solid CompositionBrush with the specified color
+        /// </summary>
+        /// <param name="color">The desired color for the initial CompositionBrush</param>
+        /// <returns>A new PipelineBuilder instance to use to keep adding new effects</returns>
+        static PipelineBuilder FromColor(Windows.UI.Color color);
+
+        /// <summary>
+        /// Starts a new PipelineBuilder pipeline from a Win2D image
+        /// </summary>
+        /// <param name="uri">The path for the image to load</param>
+        /// <param name="dpiMode">Indicates the desired DPI mode to use when loading the image</param>
+        /// <param name="cacheMode">The cache mode to use to load the image</param>
+        /// <returns>A new PipelineBuilder instance to use to keep adding new effects</returns>
+        static PipelineBuilder FromImage(Windows.Foundation.Uri uri, XamlToolkit.WinUI.Media.DpiMode dpiMode, XamlToolkit.WinUI.Media.CacheMode cacheMode);
+
+        /// <summary>
+        /// Starts a new PipelineBuilder pipeline from a Win2D image tiled to cover the available space
+        /// </summary>
+        /// <param name="uri">The path for the image to load</param>
+        /// <param name="dpiMode">Indicates the desired DPI mode to use when loading the image</param>
+        /// <param name="cacheMode">The cache mode to use to load the image</param>
+        /// <returns>A new PipelineBuilder instance to use to keep adding new effects</returns>
+        static PipelineBuilder FromTiles(Windows.Foundation.Uri uri, XamlToolkit.WinUI.Media.DpiMode dpiMode, XamlToolkit.WinUI.Media.CacheMode cacheMode);
+
+        /// <summary>
+        /// Adds a new GaussianBlurEffect to the current pipeline
+        /// </summary>
+        /// <param name="blur">The blur amount to apply</param>
+        /// <returns>A new PipelineBuilder instance to use to keep adding new effects</returns>
+        [default_overload]
+        PipelineBuilder Blur(Single blur);
+
+        PipelineBuilder Blur(Single blur, out String id);
+
+        /// <summary>
+        /// Adds a new SaturationEffect to the current pipeline
+        /// </summary>
+        /// <param name="saturation">The saturation amount for the new effect (should be in the [0, 1] range)</param>
+        /// <returns>A new PipelineBuilder instance to use to keep adding new effects</returns>
+        [default_overload]
+        PipelineBuilder Saturation(Single saturation);
+
+        PipelineBuilder Saturation(Single saturation, out String id);
+
+        /// <summary>
+        /// Adds a new SepiaEffect to the current pipeline
+        /// </summary>
+        /// <param name="intensity">The sepia effect intensity for the new effect</param>
+        /// <returns>A new PipelineBuilder instance to use to keep adding new effects</returns>
+        [default_overload]
+        PipelineBuilder Sepia(Single intensity);
+        PipelineBuilder Sepia(Single intensity, out String id);
+
+        /// <summary>
+        /// Adds a new OpacityEffect to the current pipeline
+        /// </summary>
+        /// <param name="opacity">The opacity value to apply to the pipeline</param>
+        /// <returns>A new PipelineBuilder instance to use to keep adding new effects</returns>
+        [default_overload]
+        PipelineBuilder Opacity(Single opacity);
+        PipelineBuilder Opacity(Single opacity, out String id);
+
+        /// <summary>
+        /// Applies an exposure effect on the current pipeline
+        /// </summary>
+        /// <param name="amount">The amount of exposure to apply over the current effect (should be in the [-2, 2] range)</param>
+        /// <returns>A new PipelineBuilder instance to use to keep adding new effects</returns>
+        [default_overload]
+        PipelineBuilder Exposure(Single amount);
+        PipelineBuilder Exposure(Single amount, out String id);
+
+        /// <summary>
+        /// Applies a hue rotation effect on the current pipeline
+        /// </summary>
+        /// <param name="angle">The angle to rotate the hue, in radians</param>
+        /// <returns>A new PipelineBuilder instance to use to keep adding new effects</returns>
+        [default_overload]
+        PipelineBuilder HueRotation(Single angle);
+        PipelineBuilder HueRotation(Single angle, out String id);
+
+        /// <summary>
+        /// Applies a tint effect on the current pipeline
+        /// </summary>
+        /// <param name="color">The color to use</param>
+        /// <returns>A new PipelineBuilder instance to use to keep adding new effects</returns>
+        [default_overload]
+        PipelineBuilder Tint(Windows.UI.Color color);
+        PipelineBuilder Tint(Windows.UI.Color color, out String id);
+
+        /// <summary>
+        /// Applies a temperature and tint effect on the current pipeline
+        /// </summary>
+        /// <param name="temperature">The temperature value to use (should be in the [-1, 1] range)</param>
+        /// <param name="tint">The tint value to use (should be in the [-1, 1] range)</param>
+        /// <returns>A new PipelineBuilder instance to use to keep adding new effects</returns>
+        PipelineBuilder TemperatureAndTint(Single temperature, Single tint);
+
+        /// <summary>
+        /// Applies a shade effect on the current pipeline
+        /// </summary>
+        /// <param name="color">The color to use</param>
+        /// <param name="mix">The amount of mix to apply over the current effect (must be in the [0, 1] range)</param>
+        /// <returns>A new PipelineBuilder instance to use to keep adding new effects</returns>
+        PipelineBuilder Shade(Windows.UI.Color color, Single mix);
+
+        /// <summary>
+        /// Applies a luminance to alpha effect on the current pipeline
+        /// </summary>
+        /// <returns>A new PipelineBuilder instance to use to keep adding new effects</returns>
+        PipelineBuilder LuminanceToAlpha();
+
+        /// <summary>
+        /// Applies an invert effect on the current pipeline
+        /// </summary>
+        /// <returns>A new PipelineBuilder instance to use to keep adding new effects</returns>
+        PipelineBuilder Invert();
+
+        /// <summary>
+        /// Applies a grayscale on the current pipeline
+        /// </summary>
+        /// <returns>A new PipelineBuilder instance to use to keep adding new effects</returns>
+        PipelineBuilder Grayscale();
+
+        /// <summary>
+        /// Blends two pipelines using a BlendEffect instance with the specified mode
+        /// </summary>
+        /// <param name="pipeline">The second PipelineBuilder instance to blend</param>
+        /// <param name="mode">The desired BlendEffectMode to use to blend the input pipelines</param>
+        /// <param name="placement">The placement to use with the two input pipelines (the default is Foreground)</param>
+        /// <returns>A new PipelineBuilder instance to use to keep adding new effects</returns>
+        PipelineBuilder Blend(PipelineBuilder pipeline, Microsoft.Graphics.Canvas.Effects.BlendEffectMode mode, XamlToolkit.WinUI.Media.Placement placement);
+
+        /// <summary>
+        /// Cross fades two pipelines using a CrossFadeEffect instance
+        /// </summary>
+        /// <param name="pipeline">The second PipelineBuilder instance to cross fade</param>
+        /// <param name="factor">The cross fade factor to blend the input effects (default is 0.5, must be in the [0, 1] range)</param>
+        /// <returns>A new PipelineBuilder instance to use to keep adding new effects</returns>
+        [default_overload]
+        PipelineBuilder CrossFade(PipelineBuilder pipeline, Single factor);
+
+        PipelineBuilder CrossFade(PipelineBuilder pipeline, Single factor, out String id);
+
+        /// <summary>
+        /// Builds a CompositionBrush instance from the current effects pipeline
+        /// </summary>
+        /// <returns>A task that returns the final CompositionBrush instance to use</returns>
+        Windows.Foundation.IAsyncOperation<Microsoft.UI.Composition.CompositionBrush> BuildAsync();
+
+        /// <summary>
+        /// Builds the current pipeline and creates a <see cref="SpriteVisual"/> that is applied to the input <see cref="UIElement"/>
+        /// </summary>
+        /// <param name="target">The target <see cref="UIElement"/> to apply the brush to</param>
+        /// <param name="reference">An optional <see cref="UIElement"/> to use to bind the size of the created brush</param>
+        /// <returns>A <see cref="Task{T}"/> that returns the final <see cref="SpriteVisual"/> instance to use</returns>
+        Windows.Foundation.IAsyncOperation<Microsoft.UI.Composition.SpriteVisual> AttachAsync(Microsoft.UI.Xaml.UIElement target, Microsoft.UI.Xaml.UIElement reference);
+
+        /// <summary>
+        /// Creates a new <see cref="XamlCompositionBrush"/> from the current effects pipeline
+        /// </summary>
+        /// <returns>A <see cref="XamlCompositionBrush"/> instance ready to be displayed</returns>
+        XamlToolkit.WinUI.Media.XamlCompositionBrush AsBrush();
+    };
+}

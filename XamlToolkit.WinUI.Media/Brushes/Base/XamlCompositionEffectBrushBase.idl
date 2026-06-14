@@ -1,0 +1,37 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+import "Pipelines/PipelineBuilder.idl";
+
+namespace XamlToolkit.WinUI.Media
+{
+    /// <summary>
+    /// A custom <see cref="XamlCompositionBrushBase"/> that's ready to be used with a custom <see cref="PipelineBuilder"/> pipeline.
+    /// </summary>
+    unsealed runtimeclass XamlCompositionEffectBrushBase : Microsoft.UI.Xaml.Media.XamlCompositionBrushBase
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="XamlCompositionEffectBrushBase"/> class.
+        /// </summary>
+        XamlCompositionEffectBrushBase();
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the current brush is using the provided pipeline, or the fallback color.
+        /// </summary>
+        Boolean IsEnabled;
+
+        /// <summary>
+        /// A method that builds and returns the <see cref="PipelineBuilder"/> pipeline to use in the current instance.<para/>
+        /// This method can also be used to store any needed <see cref="EffectSetter{T}"/> or <see cref="EffectAnimation{T}"/>
+        /// instances in local fields, for later use (they will need to be called upon <see cref="XamlCompositionBrushBase.CompositionBrush"/>).
+        /// </summary>
+        /// <returns>A <see cref="PipelineBuilder"/> instance to create the brush to display.</returns>
+        overridable XamlToolkit.WinUI.Media.Pipelines.PipelineBuilder OnPipelineRequested();
+
+        /// <summary>
+        /// Invoked whenever the <see cref="XamlCompositionBrushBase.CompositionBrush"/> property is updated.
+        /// </summary>
+        overridable void OnCompositionBrushUpdated();
+    };
+}

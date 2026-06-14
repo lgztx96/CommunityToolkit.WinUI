@@ -1,0 +1,60 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+// Composition supported version of http://microsoft.github.io/Win2D/html/T_Microsoft_Graphics_Canvas_Effects_BlendEffectMode.htm.
+// See http://microsoft.github.io/Win2D/html/T_Microsoft_Graphics_Canvas_Effects_BlendEffectMode.htm for details.
+// Dissolve is not supported.
+
+namespace XamlToolkit.WinUI.Media
+{
+    /// <summary>
+    /// Blend mode to use when compositing effects.
+    /// See http://microsoft.github.io/Win2D/html/T_Microsoft_Graphics_Canvas_Effects_BlendEffectMode.htm for details.
+    /// Dissolve is not supported.
+    /// </summary>
+    enum ImageBlendMode
+    {
+        Multiply = 0,
+        Screen = 1,
+        Darken = 2,
+        Lighten = 3,
+        ColorBurn = 4,
+        LinearBurn = 5,
+        DarkerColor = 6,
+        LighterColor = 7,
+        ColorDodge = 8,
+        LinearDodge = 9,
+        Overlay = 10,
+        SoftLight = 11,
+        HardLight = 12,
+        VividLight = 13,
+        LinearLight = 14,
+        PinLight = 15,
+        HardMix = 16,
+        Difference = 17,
+        Exclusion = 18,
+
+        /// <summary>
+        /// Hue blend mode.
+        /// </summary>
+        Hue = 19,
+
+        /// <summary>
+        /// Saturation blend mode.
+        /// </summary>
+        Saturation = 20,
+
+        /// <summary>
+        /// Color blend mode.
+        /// </summary>
+        Color = 21,
+
+        /// <summary>
+        /// Luminosity blend mode.
+        /// </summary>
+        Luminosity = 22,
+        Subtract = 23,
+        Division = 24,
+    };
+}

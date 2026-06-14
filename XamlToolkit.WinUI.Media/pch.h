@@ -10,7 +10,14 @@
 // Undefine GetCurrentTime macro to prevent
 // conflict with Storyboard::GetCurrentTime
 #undef GetCurrentTime
+#undef DrawText
 
 // STL headers must be included before import std; to avoid redefinition errors
 #include <algorithm>
 #include <iterator>
+#include <memory>
+#include <string>
+#include <string_view>
+#include <stdexcept>
+
+#include <DirectXMath.h>

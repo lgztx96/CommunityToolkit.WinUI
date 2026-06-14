@@ -1,0 +1,34 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+import "Brushes/Base/XamlCompositionEffectBrushBase.idl";
+import "Effects/Interfaces/IPipelineEffect.idl";
+import "Pipelines/PipelineBuilder.idl";
+
+namespace XamlToolkit.WinUI.Media
+{
+    /// <summary>
+    /// A <see cref="Brush"/> that renders a customizable Composition/Win2D effects pipeline
+    /// </summary>
+    [contentproperty("Effects")]
+    runtimeclass PipelineBrush : XamlCompositionEffectBrushBase
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PipelineBrush"/> class.
+        /// </summary>
+        PipelineBrush();
+
+        /// <summary>
+        /// Gets or sets the source for the current pipeline.
+        /// </summary>
+        XamlToolkit.WinUI.Media.Pipelines.PipelineBuilder Source;
+
+        /// <summary>
+        /// Gets or sets the collection of effects to use in the current pipeline.
+        /// </summary>
+        Windows.Foundation.Collections.IVector<IPipelineEffect> Effects;
+
+        static Microsoft.UI.Xaml.DependencyProperty EffectsProperty{ get; };
+    };
+}

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\Microsoft.WindowsAppSDK.WinUI.1.8.260505002\build\native\Microsoft.WindowsAppSDK.WinUI.props" Condition="Exists('..\packages\Microsoft.WindowsAppSDK.WinUI.1.8.260505002\build\native\Microsoft.WindowsAppSDK.WinUI.props')" />
-  <Import Project="..\packages\Microsoft.WindowsAppSDK.Foundation.1.8.260505001\build\native\Microsoft.WindowsAppSDK.Foundation.props" Condition="Exists('..\packages\Microsoft.WindowsAppSDK.Foundation.1.8.260505001\build\native\Microsoft.WindowsAppSDK.Foundation.props')" />
-  <Import Project="..\packages\Microsoft.WindowsAppSDK.InteractiveExperiences.1.8.260430001\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.props" Condition="Exists('..\packages\Microsoft.WindowsAppSDK.InteractiveExperiences.1.8.260430001\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.props')" />
-  <Import Project="..\packages\Microsoft.Windows.SDK.BuildTools.MSIX.1.7.260518100\build\Microsoft.Windows.SDK.BuildTools.MSIX.props" Condition="Exists('..\packages\Microsoft.Windows.SDK.BuildTools.MSIX.1.7.260518100\build\Microsoft.Windows.SDK.BuildTools.MSIX.props')" />
+  <Import Project="..\packages\Microsoft.Windows.SDK.BuildTools.MSIX.1.7.260610101\build\Microsoft.Windows.SDK.BuildTools.MSIX.props" Condition="Exists('..\packages\Microsoft.Windows.SDK.BuildTools.MSIX.1.7.260610101\build\Microsoft.Windows.SDK.BuildTools.MSIX.props')" />
+  <Import Project="..\packages\Microsoft.WindowsAppSDK.Foundation.1.8.260527000\build\native\Microsoft.WindowsAppSDK.Foundation.props" Condition="Exists('..\packages\Microsoft.WindowsAppSDK.Foundation.1.8.260527000\build\native\Microsoft.WindowsAppSDK.Foundation.props')" />
+  <Import Project="..\packages\Microsoft.WindowsAppSDK.InteractiveExperiences.1.8.260525001\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.props" Condition="Exists('..\packages\Microsoft.WindowsAppSDK.InteractiveExperiences.1.8.260525001\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.props')" />
+  <Import Project="..\packages\Microsoft.WindowsAppSDK.WinUI.1.8.260528001\build\native\Microsoft.WindowsAppSDK.WinUI.props" Condition="Exists('..\packages\Microsoft.WindowsAppSDK.WinUI.1.8.260528001\build\native\Microsoft.WindowsAppSDK.WinUI.props')" />
   <Import Project="..\packages\Microsoft.Windows.SDK.BuildTools.10.0.28000.1839\build\Microsoft.Windows.SDK.BuildTools.props" Condition="Exists('..\packages\Microsoft.Windows.SDK.BuildTools.10.0.28000.1839\build\Microsoft.Windows.SDK.BuildTools.props')" />
   <Import Project="..\packages\Microsoft.Windows.CppWinRT.3.0.260520.1\build\native\Microsoft.Windows.CppWinRT.props" Condition="Exists('..\packages\Microsoft.Windows.CppWinRT.3.0.260520.1\build\native\Microsoft.Windows.CppWinRT.props')" />
   <Import Project="..\packages\Microsoft.WindowsAppSDK.Base.1.8.251216001\build\native\Microsoft.WindowsAppSDK.Base.props" Condition="Exists('..\packages\Microsoft.WindowsAppSDK.Base.1.8.251216001\build\native\Microsoft.WindowsAppSDK.Base.props')" />
@@ -24,7 +24,7 @@
     <DesktopCompatible>true</DesktopCompatible>
     <UseWinUI>true</UseWinUI>
     <CppWinRTBuildModule>true</CppWinRTBuildModule>
-    <CppWinRTModuleInclude>XamlToolkit.WinUI;XamlToolkit.WinUI.Media</CppWinRTModuleInclude>
+    <CppWinRTModuleInclude>XamlToolkit.WinUI;XamlToolkit.WinUI.Animations;XamlToolkit.WinUI.Media</CppWinRTModuleInclude>
     <CppWinRTModuleExclude>Microsoft.Graphics.Canvas</CppWinRTModuleExclude>
     <CppWinRTFastAbi>true</CppWinRTFastAbi>
     <CppWinRTProjectLanguage>C++/WinRT</CppWinRTProjectLanguage>
@@ -131,27 +131,563 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
+  <!-- Header Files -->
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="winrt_module_imports.h" />
     <ClInclude Include="wil_cppwinrt_module.h" />
     <ClInclude Include="Shadows\AttachedCardShadow.h" />
+    <ClInclude Include="Extensions\async_mutex.h" />
+    <ClInclude Include="Extensions\System\UriExtensions.h" />
+    <!-- Helpers -->
+    <ClInclude Include="Helpers\CompositionObjectCache.h" />
+    <ClInclude Include="Helpers\SurfaceLoader.h" />
+    <!-- Extensions -->
+    <ClInclude Include="Extensions\Windows.UI.Composition\CompositionObjectExtensions.h" />
+    <ClInclude Include="Extensions\UIElementExtensions.h">
+      <DependentUpon>Extensions\UIElementExtensions.idl</DependentUpon>
+    </ClInclude>
+    <!-- Pipelines -->
+    <ClInclude Include="Pipelines\PipelineBuilder.h" />
+    <ClInclude Include="Pipelines\PipelineBuilderImpl.h" />
+    <!-- Effects\Abstract -->
+    <ClInclude Include="Effects\Abstract\PipelineEffect.h">
+      <DependentUpon>Effects\Abstract\PipelineEffect.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Effects\Abstract\ImageSourceBaseExtension.h">
+      <DependentUpon>Effects\Abstract\ImageSourceBaseExtension.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <!-- Effects -->
+    <ClInclude Include="Effects\BlurEffect.h">
+      <DependentUpon>Effects\BlurEffect.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Effects\BlendEffect.h">
+      <DependentUpon>Effects\BlendEffect.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Effects\CrossFadeEffect.h">
+      <DependentUpon>Effects\CrossFadeEffect.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Effects\ExposureEffect.h">
+      <DependentUpon>Effects\ExposureEffect.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Effects\GrayscaleEffect.h">
+      <DependentUpon>Effects\GrayscaleEffect.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Effects\HueRotationEffect.h">
+      <DependentUpon>Effects\HueRotationEffect.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Effects\InvertEffect.h">
+      <DependentUpon>Effects\InvertEffect.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Effects\LuminanceToAlphaEffect.h">
+      <DependentUpon>Effects\LuminanceToAlphaEffect.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Effects\OpacityEffect.h">
+      <DependentUpon>Effects\OpacityEffect.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Effects\SaturationEffect.h">
+      <DependentUpon>Effects\SaturationEffect.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Effects\SepiaEffect.h">
+      <DependentUpon>Effects\SepiaEffect.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Effects\ShadeEffect.h">
+      <DependentUpon>Effects\ShadeEffect.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Effects\TemperatureAndTintEffect.h">
+      <DependentUpon>Effects\TemperatureAndTintEffect.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Effects\TintEffect.h">
+      <DependentUpon>Effects\TintEffect.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <!-- Effects\Extensions -->
+    <ClInclude Include="Effects\Extensions\BackdropSourceExtension.h">
+      <DependentUpon>Effects\Extensions\BackdropSourceExtension.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Effects\Extensions\SolidColorSourceExtension.h">
+      <DependentUpon>Effects\Extensions\SolidColorSourceExtension.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Effects\Extensions\ImageSourceExtension.h">
+      <DependentUpon>Effects\Extensions\ImageSourceExtension.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Effects\Extensions\TileSourceExtension.h">
+      <DependentUpon>Effects\Extensions\TileSourceExtension.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <!-- Animations -->
+    <ClInclude Include="Animations\EffectAnimationBase.h" />
+    <ClInclude Include="Animations\BlurEffectAnimation.h">
+      <DependentUpon>Animations\EffectAnimations.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Animations\ColorEffectAnimation.h">
+      <DependentUpon>Animations\EffectAnimations.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Animations\CrossFadeEffectAnimation.h">
+      <DependentUpon>Animations\EffectAnimations.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Animations\ExposureEffectAnimation.h">
+      <DependentUpon>Animations\EffectAnimations.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Animations\HueRotationEffectAnimation.h">
+      <DependentUpon>Animations\EffectAnimations.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Animations\OpacityEffectAnimation.h">
+      <DependentUpon>Animations\EffectAnimations.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Animations\SaturationEffectAnimation.h">
+      <DependentUpon>Animations\EffectAnimations.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Animations\SepiaEffectAnimation.h">
+      <DependentUpon>Animations\EffectAnimations.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <!-- Visuals -->
+    <ClInclude Include="Visuals\AttachedVisualFactoryBase.h">
+      <DependentUpon>Visuals\AttachedVisualFactoryBase.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Visuals\PipelineVisualFactoryBase.h">
+      <DependentUpon>Visuals\PipelineVisualFactoryBase.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Visuals\PipelineVisualFactory.h">
+      <DependentUpon>Visuals\PipelineVisualFactory.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <!-- Brushes\Base -->
+    <ClInclude Include="Brushes\Base\XamlCompositionEffectBrushBase.h">
+      <DependentUpon>Brushes\Base\XamlCompositionEffectBrushBase.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Brushes\Base\CanvasBrushBase.h">
+      <DependentUpon>Brushes\Base\CanvasBrushBase.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <!-- Brushes -->
+    <ClInclude Include="Brushes\PipelineBrush.h">
+      <DependentUpon>Brushes\PipelineBrush.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Brushes\BackdropBlurBrush.h">
+      <DependentUpon>Brushes\BackdropBlurBrush.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Brushes\BackdropInvertBrush.h">
+      <DependentUpon>Brushes\BackdropInvertBrush.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Brushes\BackdropSaturationBrush.h">
+      <DependentUpon>Brushes\BackdropSaturationBrush.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Brushes\BackdropSepiaBrush.h">
+      <DependentUpon>Brushes\BackdropSepiaBrush.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Brushes\AcrylicBrush.h">
+      <DependentUpon>Brushes\AcrylicBrush.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Brushes\BackdropGammaTransferBrush.h">
+      <DependentUpon>Brushes\BackdropGammaTransferBrush.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Brushes\TilesBrush.h">
+      <DependentUpon>Brushes\TilesBrush.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Brushes\XamlCompositionBrush.h">
+      <DependentUpon>Brushes\XamlCompositionBrush.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Brushes\ImageBlendBrush.h">
+      <DependentUpon>Brushes\ImageBlendBrush.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
   </ItemGroup>
+  <!-- Source Files -->
   <ItemGroup>
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
     <ClCompile Include="Shadows\AttachedCardShadow.cpp" />
+    <!-- Helpers -->
+    <ClCompile Include="Helpers\SurfaceLoader.cpp" />
+    <!-- Pipelines -->
+    <ClCompile Include="Pipelines\PipelineBuilder.cpp" />
+    <ClCompile Include="Pipelines\PipelineBuilder.Initialization.cpp" />
+    <ClCompile Include="Pipelines\PipelineBuilder.Effects.cpp" />
+    <ClCompile Include="Pipelines\PipelineBuilder.Effects.Internals.cpp" />
+    <ClCompile Include="Pipelines\PipelineBuilder.Merge.cpp" />
+    <ClCompile Include="Pipelines\PipelineBuilder.Prebuilt.cpp" />
+    <!-- Effects\Abstract -->
+    <ClCompile Include="Effects\Abstract\PipelineEffect.cpp">
+      <DependentUpon>Effects\Abstract\PipelineEffect.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Effects\Abstract\ImageSourceBaseExtension.cpp">
+      <DependentUpon>Effects\Abstract\ImageSourceBaseExtension.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <!-- Effects -->
+    <ClCompile Include="Effects\BlurEffect.cpp">
+      <DependentUpon>Effects\BlurEffect.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Effects\BlendEffect.cpp">
+      <DependentUpon>Effects\BlendEffect.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Effects\CrossFadeEffect.cpp">
+      <DependentUpon>Effects\CrossFadeEffect.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Effects\ExposureEffect.cpp">
+      <DependentUpon>Effects\ExposureEffect.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Effects\GrayscaleEffect.cpp">
+      <DependentUpon>Effects\GrayscaleEffect.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Effects\HueRotationEffect.cpp">
+      <DependentUpon>Effects\HueRotationEffect.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Effects\InvertEffect.cpp">
+      <DependentUpon>Effects\InvertEffect.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Effects\LuminanceToAlphaEffect.cpp">
+      <DependentUpon>Effects\LuminanceToAlphaEffect.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Effects\OpacityEffect.cpp">
+      <DependentUpon>Effects\OpacityEffect.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Effects\SaturationEffect.cpp">
+      <DependentUpon>Effects\SaturationEffect.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Effects\SepiaEffect.cpp">
+      <DependentUpon>Effects\SepiaEffect.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Effects\ShadeEffect.cpp">
+      <DependentUpon>Effects\ShadeEffect.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Effects\TemperatureAndTintEffect.cpp">
+      <DependentUpon>Effects\TemperatureAndTintEffect.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Effects\TintEffect.cpp">
+      <DependentUpon>Effects\TintEffect.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <!-- Effects\Extensions -->
+    <ClCompile Include="Effects\Extensions\BackdropSourceExtension.cpp">
+      <DependentUpon>Effects\Extensions\BackdropSourceExtension.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Effects\Extensions\SolidColorSourceExtension.cpp">
+      <DependentUpon>Effects\Extensions\SolidColorSourceExtension.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Effects\Extensions\ImageSourceExtension.cpp">
+      <DependentUpon>Effects\Extensions\ImageSourceExtension.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Effects\Extensions\TileSourceExtension.cpp">
+      <DependentUpon>Effects\Extensions\TileSourceExtension.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <!-- Extensions -->
+    <ClCompile Include="Extensions\UIElementExtensions.cpp">
+      <DependentUpon>Extensions\UIElementExtensions.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <!-- Animations -->
+    <ClCompile Include="Animations\BlurEffectAnimation.cpp">
+      <DependentUpon>Animations\EffectAnimations.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Animations\ColorEffectAnimation.cpp">
+      <DependentUpon>Animations\EffectAnimations.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Animations\CrossFadeEffectAnimation.cpp">
+      <DependentUpon>Animations\EffectAnimations.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Animations\ExposureEffectAnimation.cpp">
+      <DependentUpon>Animations\EffectAnimations.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Animations\HueRotationEffectAnimation.cpp">
+      <DependentUpon>Animations\EffectAnimations.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Animations\OpacityEffectAnimation.cpp">
+      <DependentUpon>Animations\EffectAnimations.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Animations\SaturationEffectAnimation.cpp">
+      <DependentUpon>Animations\EffectAnimations.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Animations\SepiaEffectAnimation.cpp">
+      <DependentUpon>Animations\EffectAnimations.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <!-- Visuals -->
+    <ClCompile Include="Visuals\AttachedVisualFactoryBase.cpp">
+      <DependentUpon>Visuals\AttachedVisualFactoryBase.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Visuals\PipelineVisualFactoryBase.cpp">
+      <DependentUpon>Visuals\PipelineVisualFactoryBase.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Visuals\PipelineVisualFactory.cpp">
+      <DependentUpon>Visuals\PipelineVisualFactory.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <!-- Brushes\Base -->
+    <ClCompile Include="Brushes\Base\XamlCompositionEffectBrushBase.cpp">
+      <DependentUpon>Brushes\Base\XamlCompositionEffectBrushBase.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Brushes\Base\CanvasBrushBase.cpp">
+      <DependentUpon>Brushes\Base\CanvasBrushBase.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <!-- Brushes -->
+    <ClCompile Include="Brushes\PipelineBrush.cpp">
+      <DependentUpon>Brushes\PipelineBrush.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Brushes\BackdropBlurBrush.cpp">
+      <DependentUpon>Brushes\BackdropBlurBrush.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Brushes\BackdropInvertBrush.cpp">
+      <DependentUpon>Brushes\BackdropInvertBrush.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Brushes\BackdropSaturationBrush.cpp">
+      <DependentUpon>Brushes\BackdropSaturationBrush.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Brushes\BackdropSepiaBrush.cpp">
+      <DependentUpon>Brushes\BackdropSepiaBrush.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Brushes\AcrylicBrush.cpp">
+      <DependentUpon>Brushes\AcrylicBrush.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Brushes\BackdropGammaTransferBrush.cpp">
+      <DependentUpon>Brushes\BackdropGammaTransferBrush.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Brushes\TilesBrush.cpp">
+      <DependentUpon>Brushes\TilesBrush.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Brushes\XamlCompositionBrush.cpp">
+      <DependentUpon>Brushes\XamlCompositionBrush.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Brushes\ImageBlendBrush.cpp">
+      <DependentUpon>Brushes\ImageBlendBrush.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
   </ItemGroup>
+  <!-- None Files -->
   <ItemGroup>
     <None Include="XamlToolkit.WinUI.Media.def" />
     <None Include="packages.config" />
   </ItemGroup>
+  <!-- IDL Files -->
   <ItemGroup>
     <Midl Include="component.idl" />
+    <!-- Extensions -->
+    <Midl Include="Extensions\UIElementExtensions.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <!-- Enums -->
+    <Midl Include="Enums\AlphaMode.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Enums\CacheMode.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Enums\DpiMode.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Enums\ImageBlendMode.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Enums\Placement.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <!-- Pipelines -->
+    <Midl Include="Pipelines\PipelineBuilder.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <!-- Effects\Interfaces -->
+    <Midl Include="Effects\Interfaces\IPipelineEffect.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <!-- Effects\Abstract -->
+    <Midl Include="Effects\Abstract\PipelineEffect.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Effects\Abstract\ImageSourceBaseExtension.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <!-- Effects -->
+    <Midl Include="Effects\BlurEffect.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Effects\BlendEffect.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Effects\CrossFadeEffect.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Effects\ExposureEffect.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Effects\GrayscaleEffect.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Effects\HueRotationEffect.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Effects\InvertEffect.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Effects\LuminanceToAlphaEffect.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Effects\OpacityEffect.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Effects\SaturationEffect.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Effects\SepiaEffect.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Effects\ShadeEffect.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Effects\TemperatureAndTintEffect.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Effects\TintEffect.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <!-- Effects\Extensions -->
+    <Midl Include="Effects\Extensions\BackdropSourceExtension.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Effects\Extensions\SolidColorSourceExtension.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Effects\Extensions\ImageSourceExtension.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Effects\Extensions\TileSourceExtension.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <!-- Animations -->
+    <Midl Include="Animations\EffectAnimations.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <!-- Visuals -->
+    <Midl Include="Visuals\AttachedVisualFactoryBase.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Visuals\PipelineVisualFactoryBase.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Visuals\PipelineVisualFactory.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <!-- Brushes\Base -->
+    <Midl Include="Brushes\Base\XamlCompositionEffectBrushBase.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Brushes\Base\CanvasBrushBase.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <!-- Brushes -->
+    <Midl Include="Brushes\PipelineBrush.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Brushes\BackdropBlurBrush.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Brushes\BackdropInvertBrush.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Brushes\BackdropSaturationBrush.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Brushes\BackdropSepiaBrush.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Brushes\AcrylicBrush.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Brushes\BackdropGammaTransferBrush.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Brushes\TilesBrush.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Brushes\XamlCompositionBrush.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Brushes\ImageBlendBrush.idl">
+      <SubType>Designer</SubType>
+    </Midl>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\XamlToolkit.WinUI.Animations\XamlToolkit.WinUI.Animations.vcxproj">
+      <Project>{37cd7b40-3e54-41ce-af73-43c6746ef315}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\XamlToolkit.WinUI\XamlToolkit.WinUI.vcxproj">
       <Project>{17c20e50-8d62-4fc3-8feb-b64b03a893be}</Project>
     </ProjectReference>
@@ -166,11 +702,11 @@
     <Import Project="..\packages\Microsoft.Graphics.Win2D.1.4.0\build\native\Microsoft.Graphics.Win2D.targets" Condition="Exists('..\packages\Microsoft.Graphics.Win2D.1.4.0\build\native\Microsoft.Graphics.Win2D.targets')" />
     <Import Project="..\packages\Microsoft.Windows.CppWinRT.3.0.260520.1\build\native\Microsoft.Windows.CppWinRT.targets" Condition="Exists('..\packages\Microsoft.Windows.CppWinRT.3.0.260520.1\build\native\Microsoft.Windows.CppWinRT.targets')" />
     <Import Project="..\packages\Microsoft.Windows.SDK.BuildTools.10.0.28000.1839\build\Microsoft.Windows.SDK.BuildTools.targets" Condition="Exists('..\packages\Microsoft.Windows.SDK.BuildTools.10.0.28000.1839\build\Microsoft.Windows.SDK.BuildTools.targets')" />
-    <Import Project="..\packages\Microsoft.Web.WebView2.1.0.3967.48\build\native\Microsoft.Web.WebView2.targets" Condition="Exists('..\packages\Microsoft.Web.WebView2.1.0.3967.48\build\native\Microsoft.Web.WebView2.targets')" />
-    <Import Project="..\packages\Microsoft.Windows.SDK.BuildTools.MSIX.1.7.260518100\build\Microsoft.Windows.SDK.BuildTools.MSIX.targets" Condition="Exists('..\packages\Microsoft.Windows.SDK.BuildTools.MSIX.1.7.260518100\build\Microsoft.Windows.SDK.BuildTools.MSIX.targets')" />
-    <Import Project="..\packages\Microsoft.WindowsAppSDK.InteractiveExperiences.1.8.260430001\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.targets" Condition="Exists('..\packages\Microsoft.WindowsAppSDK.InteractiveExperiences.1.8.260430001\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.targets')" />
-    <Import Project="..\packages\Microsoft.WindowsAppSDK.Foundation.1.8.260505001\build\native\Microsoft.WindowsAppSDK.Foundation.targets" Condition="Exists('..\packages\Microsoft.WindowsAppSDK.Foundation.1.8.260505001\build\native\Microsoft.WindowsAppSDK.Foundation.targets')" />
-    <Import Project="..\packages\Microsoft.WindowsAppSDK.WinUI.1.8.260505002\build\native\Microsoft.WindowsAppSDK.WinUI.targets" Condition="Exists('..\packages\Microsoft.WindowsAppSDK.WinUI.1.8.260505002\build\native\Microsoft.WindowsAppSDK.WinUI.targets')" />
+    <Import Project="..\packages\Microsoft.Windows.SDK.BuildTools.MSIX.1.7.260610101\build\Microsoft.Windows.SDK.BuildTools.MSIX.targets" Condition="Exists('..\packages\Microsoft.Windows.SDK.BuildTools.MSIX.1.7.260610101\build\Microsoft.Windows.SDK.BuildTools.MSIX.targets')" />
+    <Import Project="..\packages\Microsoft.WindowsAppSDK.InteractiveExperiences.1.8.260525001\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.targets" Condition="Exists('..\packages\Microsoft.WindowsAppSDK.InteractiveExperiences.1.8.260525001\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.targets')" />
+    <Import Project="..\packages\Microsoft.WindowsAppSDK.Foundation.1.8.260527000\build\native\Microsoft.WindowsAppSDK.Foundation.targets" Condition="Exists('..\packages\Microsoft.WindowsAppSDK.Foundation.1.8.260527000\build\native\Microsoft.WindowsAppSDK.Foundation.targets')" />
+    <Import Project="..\packages\Microsoft.Web.WebView2.1.0.4022.49\build\native\Microsoft.Web.WebView2.targets" Condition="Exists('..\packages\Microsoft.Web.WebView2.1.0.4022.49\build\native\Microsoft.Web.WebView2.targets')" />
+    <Import Project="..\packages\Microsoft.WindowsAppSDK.WinUI.1.8.260528001\build\native\Microsoft.WindowsAppSDK.WinUI.targets" Condition="Exists('..\packages\Microsoft.WindowsAppSDK.WinUI.1.8.260528001\build\native\Microsoft.WindowsAppSDK.WinUI.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -184,14 +720,14 @@
     <Error Condition="!Exists('..\packages\Microsoft.Windows.CppWinRT.3.0.260520.1\build\native\Microsoft.Windows.CppWinRT.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.CppWinRT.3.0.260520.1\build\native\Microsoft.Windows.CppWinRT.targets'))" />
     <Error Condition="!Exists('..\packages\Microsoft.Windows.SDK.BuildTools.10.0.28000.1839\build\Microsoft.Windows.SDK.BuildTools.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.SDK.BuildTools.10.0.28000.1839\build\Microsoft.Windows.SDK.BuildTools.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.Windows.SDK.BuildTools.10.0.28000.1839\build\Microsoft.Windows.SDK.BuildTools.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.SDK.BuildTools.10.0.28000.1839\build\Microsoft.Windows.SDK.BuildTools.targets'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.Web.WebView2.1.0.3967.48\build\native\Microsoft.Web.WebView2.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Web.WebView2.1.0.3967.48\build\native\Microsoft.Web.WebView2.targets'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.Windows.SDK.BuildTools.MSIX.1.7.260518100\build\Microsoft.Windows.SDK.BuildTools.MSIX.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.SDK.BuildTools.MSIX.1.7.260518100\build\Microsoft.Windows.SDK.BuildTools.MSIX.props'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.Windows.SDK.BuildTools.MSIX.1.7.260518100\build\Microsoft.Windows.SDK.BuildTools.MSIX.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.SDK.BuildTools.MSIX.1.7.260518100\build\Microsoft.Windows.SDK.BuildTools.MSIX.targets'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.WindowsAppSDK.InteractiveExperiences.1.8.260430001\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.WindowsAppSDK.InteractiveExperiences.1.8.260430001\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.props'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.WindowsAppSDK.InteractiveExperiences.1.8.260430001\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.WindowsAppSDK.InteractiveExperiences.1.8.260430001\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.targets'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.WindowsAppSDK.Foundation.1.8.260505001\build\native\Microsoft.WindowsAppSDK.Foundation.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.WindowsAppSDK.Foundation.1.8.260505001\build\native\Microsoft.WindowsAppSDK.Foundation.props'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.WindowsAppSDK.Foundation.1.8.260505001\build\native\Microsoft.WindowsAppSDK.Foundation.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.WindowsAppSDK.Foundation.1.8.260505001\build\native\Microsoft.WindowsAppSDK.Foundation.targets'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.WindowsAppSDK.WinUI.1.8.260505002\build\native\Microsoft.WindowsAppSDK.WinUI.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.WindowsAppSDK.WinUI.1.8.260505002\build\native\Microsoft.WindowsAppSDK.WinUI.props'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.WindowsAppSDK.WinUI.1.8.260505002\build\native\Microsoft.WindowsAppSDK.WinUI.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.WindowsAppSDK.WinUI.1.8.260505002\build\native\Microsoft.WindowsAppSDK.WinUI.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.WindowsAppSDK.InteractiveExperiences.1.8.260525001\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.WindowsAppSDK.InteractiveExperiences.1.8.260525001\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.WindowsAppSDK.InteractiveExperiences.1.8.260525001\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.WindowsAppSDK.InteractiveExperiences.1.8.260525001\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.WindowsAppSDK.Foundation.1.8.260527000\build\native\Microsoft.WindowsAppSDK.Foundation.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.WindowsAppSDK.Foundation.1.8.260527000\build\native\Microsoft.WindowsAppSDK.Foundation.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.WindowsAppSDK.Foundation.1.8.260527000\build\native\Microsoft.WindowsAppSDK.Foundation.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.WindowsAppSDK.Foundation.1.8.260527000\build\native\Microsoft.WindowsAppSDK.Foundation.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Windows.SDK.BuildTools.MSIX.1.7.260610101\build\Microsoft.Windows.SDK.BuildTools.MSIX.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.SDK.BuildTools.MSIX.1.7.260610101\build\Microsoft.Windows.SDK.BuildTools.MSIX.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Windows.SDK.BuildTools.MSIX.1.7.260610101\build\Microsoft.Windows.SDK.BuildTools.MSIX.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.SDK.BuildTools.MSIX.1.7.260610101\build\Microsoft.Windows.SDK.BuildTools.MSIX.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Web.WebView2.1.0.4022.49\build\native\Microsoft.Web.WebView2.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Web.WebView2.1.0.4022.49\build\native\Microsoft.Web.WebView2.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.WindowsAppSDK.WinUI.1.8.260528001\build\native\Microsoft.WindowsAppSDK.WinUI.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.WindowsAppSDK.WinUI.1.8.260528001\build\native\Microsoft.WindowsAppSDK.WinUI.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.WindowsAppSDK.WinUI.1.8.260528001\build\native\Microsoft.WindowsAppSDK.WinUI.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.WindowsAppSDK.WinUI.1.8.260528001\build\native\Microsoft.WindowsAppSDK.WinUI.targets'))" />
   </Target>
 </Project>
