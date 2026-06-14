@@ -11,6 +11,7 @@
 #include <winrt/Windows.Foundation.Numerics.h>
 #include <winrt/Microsoft.UI.Composition.h>
 #include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Hosting.h>
 #include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
 #include <memory>
 #include <vector>
@@ -18,15 +19,24 @@
 #include <functional>
 #include <type_traits>
 #include <concepts>
+#include <wil/resource.h>
 #endif
 
+import std;
 import winrt.XamlToolkit.WinUI.Animations;
+import winrt.Windows.Foundation;
+import winrt.Microsoft.UI.Composition;
+import winrt.Microsoft.UI.Xaml;
+import winrt.Microsoft.UI.Xaml.Hosting;
+import winrt.Microsoft.UI.Xaml.Media.Animation;
 
 namespace winrt
 {
+	using namespace Windows::Foundation;
 	using namespace Microsoft::UI::Xaml;
 	using namespace Microsoft::UI::Composition;
 	using namespace Microsoft::UI::Xaml::Media::Animation;
+	using namespace Microsoft::UI::Xaml::Hosting;
 }
 
 namespace winrt::XamlToolkit::WinUI::Animations
@@ -87,16 +97,6 @@ namespace winrt::XamlToolkit::WinUI::Animations
             winrt::hstring const& property,
             T const& to,
             std::optional<T> from,
-            std::optional<winrt::Windows::Foundation::TimeSpan> delay,
-            std::optional<winrt::Windows::Foundation::TimeSpan> duration,
-            std::optional<RepeatOption> repeat,
-            EasingType easingType,
-            EasingMode easingMode);
-
-        AnimationBuilder& AddCompositionClipAnimationFactory(
-            winrt::hstring const& property,
-            float to,
-            std::optional<float> from,
             std::optional<winrt::Windows::Foundation::TimeSpan> delay,
             std::optional<winrt::Windows::Foundation::TimeSpan> duration,
             std::optional<RepeatOption> repeat,
@@ -597,17 +597,260 @@ namespace winrt::XamlToolkit::WinUI::Animations
         /// <summary>
         /// Starts the animations present in the current AnimationBuilder instance.
         /// </summary>
-        void Start(UIElement const& element);
+        void Start(UIElement const& element)
+        {
+            if (!compositionAnimationFactories.empty())
+            {
+                ElementCompositionPreview::SetIsTranslationEnabled(element, true);
+
+                Visual visual = ElementCompositionPreview::GetElementVisual(element);
+
+                for (const auto& factory : compositionAnimationFactories)
+                {
+                    CompositionObject target{ nullptr };
+                    auto animation = factory->GetAnimation(visual, target);
+
+                    if (target == nullptr)
+                    {
+                        visual.StartAnimation(animation.Target(), animation);
+                    }
+                    else
+                    {
+                        target.StartAnimation(animation.Target(), animation);
+                    }
+                }
+            }
+
+            if (!xamlAnimationFactories.empty())
+            {
+                Storyboard storyboard;
+                auto children = storyboard.Children();
+                for (auto const& factory : xamlAnimationFactories)
+                {
+                    children.Append(factory->GetAnimation(element));
+                }
+
+                storyboard.Begin();
+            }
+        }
 
         /// <summary>
         /// Starts the animations present in the current AnimationBuilder instance.
         /// </summary>
-        void Start(UIElement const& element, std::function<void()> callback);
+        void Start(UIElement const& element, std::function<void()> callback)
+        {
+            // The point of this overload is to allow consumers to invoke a callback when an animation
+            // completes, without having to create an async state machine. There are three different possible
+            // scenarios to handle, and each can have a specialized code path to ensure the implementation
+            // is as lean and efficient as possible. Specifically, for a given AnimationBuilder instance:
+            //   1) There are only Composition animations
+            //   2) There are only XAML animations
+            //   3) There are both Composition and XAML animations
+            // The implementation details of each of these paths is described below.
+            if (!compositionAnimationFactories.empty())
+            {
+                if (xamlAnimationFactories.empty())
+                {
+                    // Only Composition animations
+                    ElementCompositionPreview::SetIsTranslationEnabled(element, true);
+
+                    Visual visual = ElementCompositionPreview::GetElementVisual(element);
+                    CompositionScopedBatch batch = visual.Compositor().CreateScopedBatch(CompositionBatchTypes::Animation);
+
+                    batch.Completed([callback](auto&&, auto&&) { callback(); });
+
+                    for (const auto& factory : compositionAnimationFactories)
+                    {
+                        CompositionObject target{ nullptr };
+                        auto animation = factory->GetAnimation(visual, target);
+
+                        if (target == nullptr)
+                        {
+                            visual.StartAnimation(animation.Target(), animation);
+                        }
+                        else
+                        {
+                            target.StartAnimation(animation.Target(), animation);
+                        }
+                    }
+
+                    batch.End();
+                }
+                else
+                {
+                    // In this case we need to wait for both the Composition and XAML animation groups to complete. These two
+                    // groups use different APIs and can have a different duration, so we need to synchronize between them
+                    // without creating an async state machine (as that'd defeat the point of this separate overload).
+                    //
+                    // The code below relies on a mutable boxed counter that's shared across the two closures for the Completed
+                    // events for both the Composition scoped batch and the XAML Storyboard. The counter is initialized to 2, and
+                    // when each group completes, the counter is decremented (we don't need an interlocked decrement as the delegates
+                    // will already be invoked on the current DispatcherQueue instance, which acts as the synchronization context here.
+                    // The handlers for the Composition batch and the Storyboard will never execute concurrently). If the counter has
+                    // reached zero, it means that both groups have completed, so the user-provided callback is triggered, otherwise
+                    // the handler just does nothing. This ensures that the callback is executed exactly once when all the animation
+                    // complete, but without the need to create TaskCompletionSource-s and an async state machine to await for that.
+                    //
+                    // Note: we're using StrongBox<T> here because that exposes a mutable field of the type we need (int).
+                    // We can't just mutate a boxed int in-place with Unsafe.Unbox<T> as that's against the ECMA spec, since
+                    // that API uses the unbox IL opcode (§III.4.32) which returns a "controlled-mutability managed pointer"
+                    // (§III.1.8.1.2.2), which is not "verifier-assignable-to" (ie. directly assigning to it is not legal).
+                    auto counter = std::make_shared<int>(2);
+
+                    ElementCompositionPreview::SetIsTranslationEnabled(element, true);
+
+                    Visual visual = ElementCompositionPreview::GetElementVisual(element);
+                    CompositionScopedBatch batch = visual.Compositor().CreateScopedBatch(CompositionBatchTypes::Animation);
+
+                    batch.Completed([counter, callback](auto&&, auto&&)
+                    {
+                        if (--(*counter) == 0)
+                        {
+                            callback();
+                        }
+                    });
+
+                    for (const auto& factory : compositionAnimationFactories)
+                    {
+                        CompositionObject target{ nullptr };
+                        auto animation = factory->GetAnimation(visual, target);
+
+                        if (target == nullptr)
+                        {
+                            visual.StartAnimation(animation.Target(), animation);
+                        }
+                        else
+                        {
+                            target.StartAnimation(animation.Target(), animation);
+                        }
+                    }
+
+                    batch.End();
+
+                    Storyboard storyboard;
+                    auto children = storyboard.Children();
+                    for (auto const& factory : xamlAnimationFactories)
+                    {
+                        children.Append(factory->GetAnimation(element));
+                    }
+
+                    storyboard.Completed([counter, callback](auto&&, auto&&) 
+                    {
+                        if (--(*counter) == 0)
+                        {
+                            callback();
+                        }
+                    });
+                    storyboard.Begin();
+                }
+            }
+            else
+            {
+                // There are only XAML animations. This case is extremely similar to that where we only have Composition
+                // animations, with the main difference being that the Completed event is directly exposed from the
+                // Storyboard type, so we don't need a separate type to track the animation completion. The same
+                // considerations regarding the closure to capture the provided callback apply here as well.
+                Storyboard storyboard;
+                auto children = storyboard.Children();
+                for (auto const& factory : xamlAnimationFactories)
+                {
+                    children.Append(factory->GetAnimation(element));
+                }
+
+                storyboard.Completed([callback](auto&&, auto&&) { callback(); });
+                storyboard.Begin();
+            }
+        }
 
         /// <summary>
         /// Starts the animations present in the current AnimationBuilder instance.
         /// </summary>
-        winrt::Windows::Foundation::IAsyncAction StartAsync(UIElement const& element);
+        winrt::Windows::Foundation::IAsyncAction StartAsync(UIElement const& element)
+        {
+            winrt::Windows::Foundation::IAsyncAction compositionTask{ nullptr };
+            winrt::Windows::Foundation::IAsyncAction xamlTask{ nullptr };
+            auto cancelation_token{ co_await winrt::get_cancellation_token() };
+
+            std::vector<std::tuple<CompositionObject, winrt::hstring>> compositionAnimations;
+
+            if (!compositionAnimationFactories.empty())
+            {
+                wil::shared_event completionEvent(wil::EventOptions::ManualReset);
+
+                ElementCompositionPreview::SetIsTranslationEnabled(element, true);
+
+                Visual visual = ElementCompositionPreview::GetElementVisual(element);
+                CompositionScopedBatch batch = visual.Compositor().CreateScopedBatch(CompositionBatchTypes::Animation);
+
+                batch.Completed([completionEvent](auto&&, auto&&)
+                {
+                    completionEvent.SetEvent();
+                });
+
+                for (const auto& factory : compositionAnimationFactories)
+                {
+                    CompositionObject target{ nullptr };
+                    auto animation = factory->GetAnimation(visual, target);
+
+                    if (target == nullptr)
+                    {
+                        visual.StartAnimation(animation.Target(), animation);
+                    }
+                    else
+                    {
+                        target.StartAnimation(animation.Target(), animation);
+                    }
+
+                    compositionAnimations.emplace_back(target ? target : visual, animation.Target());
+                }
+
+                batch.End();
+
+                compositionTask = [completionEvent]() -> winrt::Windows::Foundation::IAsyncAction
+                {
+                    co_await winrt::resume_on_signal(completionEvent.get());
+                }();
+            }
+
+            Storyboard storyboard{ nullptr };
+
+            if (!xamlAnimationFactories.empty())
+            {
+                storyboard = Storyboard();
+                wil::shared_event completionEvent(wil::EventOptions::ManualReset);
+
+                auto children = storyboard.Children();
+                for (auto const& factory : xamlAnimationFactories)
+                {
+                    children.Append(factory->GetAnimation(element));
+                }
+
+                storyboard.Completed([completionEvent](auto&&, auto&&)
+                {
+                     completionEvent.SetEvent();
+                });
+
+                storyboard.Begin();
+
+                xamlTask = [completionEvent]() -> winrt::Windows::Foundation::IAsyncAction
+                {
+                     co_await winrt::resume_on_signal(completionEvent.get());
+                }();
+            }
+
+            cancelation_token.callback([=]
+                {
+                    for (const auto& [target, path] : compositionAnimations)
+                    {
+                        target.StopAnimation(path);
+                    }
+
+                    if (storyboard) storyboard.Stop();
+                });
+
+            if (compositionTask) co_await compositionTask;
+            if (xamlTask) co_await xamlTask;
+        }
 
         /// <summary>
         /// Adds a composition animation factory.
@@ -656,59 +899,9 @@ namespace winrt::XamlToolkit::WinUI::Animations
     };
 }
 
+#include "AnimationBuilder.Default.h"
+#include "AnimationBuilder.External.h"
+#include "AnimationBuilder.Factories.h"
 #include "AnimationBuilder.KeyFrames.h"
-
-namespace winrt::XamlToolkit::WinUI::Animations
-{
-    template<typename T>
-    AnimationBuilder& AnimationBuilder::NormalizedKeyFrames(
-        winrt::hstring const& property,
-        std::function<void(INormalizedKeyFrameAnimationBuilder<T>&)> build,
-        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
-        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
-        std::optional<RepeatOption> repeatOption,
-        std::optional<AnimationDelayBehavior> delayBehavior,
-        FrameworkLayer layer)
-    {
-        return AnimationBuilderKeyFrames::NormalizedKeyFrames<T>(*this, property, std::move(build), delay, duration, repeatOption, delayBehavior, layer);
-    }
-
-    template<typename T, typename TState>
-    AnimationBuilder& AnimationBuilder::NormalizedKeyFrames(
-        winrt::hstring const& property,
-        TState state,
-        std::function<void(INormalizedKeyFrameAnimationBuilder<T>&, TState)> build,
-        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
-        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
-        std::optional<RepeatOption> repeatOption,
-        std::optional<AnimationDelayBehavior> delayBehavior,
-        FrameworkLayer layer)
-    {
-        return AnimationBuilderKeyFrames::NormalizedKeyFrames<T, TState>(*this, property, state, std::move(build), delay, duration, repeatOption, delayBehavior, layer);
-    }
-
-    template<typename T>
-    AnimationBuilder& AnimationBuilder::TimedKeyFrames(
-        winrt::hstring const& property,
-        std::function<void(ITimedKeyFrameAnimationBuilder<T>&)> build,
-        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
-        std::optional<RepeatOption> repeat,
-        std::optional<AnimationDelayBehavior> delayBehavior,
-        FrameworkLayer layer)
-    {
-        return AnimationBuilderKeyFrames::TimedKeyFrames<T>(*this, property, std::move(build), delay, repeat, delayBehavior, layer);
-    }
-
-    template<typename T, typename TState>
-    AnimationBuilder& AnimationBuilder::TimedKeyFrames(
-        winrt::hstring const& property,
-        TState state,
-        std::function<void(ITimedKeyFrameAnimationBuilder<T>&, TState)> build,
-        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
-        std::optional<RepeatOption> repeat,
-        std::optional<AnimationDelayBehavior> delayBehavior,
-        FrameworkLayer layer)
-    {
-        return AnimationBuilderKeyFrames::TimedKeyFrames<T, TState>(*this, property, state, std::move(build), delay, repeat, delayBehavior, layer);
-    }
-}
+#include "AnimationBuilder.PropertyBuilders.h"
+#include "AnimationBuilder.Setup.h"

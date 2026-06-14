@@ -8,6 +8,15 @@
 #include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
 #endif
 
+import winrt.Microsoft.UI.Xaml.Media.Animation;
+
+namespace winrt
+{
+    using namespace Microsoft::UI::Xaml;
+    using namespace Microsoft::UI::Xaml::Media;
+    using namespace Microsoft::UI::Xaml::Media::Animation;
+}
+
 namespace winrt::XamlToolkit::WinUI::Animations
 {
     /// <summary>

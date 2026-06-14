@@ -1,19 +1,12 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
+#pragma once
 
-#include "pch.h"
-#include "winrt_module_imports.h"
-#ifdef __INTELLISENSE__
-#include <memory>
-#include <optional>
-#endif
 #include "AnimationBuilder.h"
-#include "../Extensions/CompositorExtensions.h"
 #include "../Extensions/DependencyObjectExtensions.h"
+#include "../Extensions/CompositorExtensions.h"
 #include "../Extensions/EasingTypeExtensions.h"
-#include "../Extensions/AnimationExtensions.h"
-#include "../Options/RepeatOptionHelper.h"
 
 namespace winrt::XamlToolkit::WinUI::Animations
 {
@@ -40,8 +33,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
                 , repeat(repeat)
                 , easingType(easingType)
                 , easingMode(easingMode)
-            {
-            }
+            {}
 
             CompositionAnimation GetAnimation(CompositionObject const& targetHint, CompositionObject& target) override
             {
@@ -144,6 +136,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
             EasingType easingType;
             EasingMode easingMode;
         };
+
         class CompositionClipScalarAnimation final : public ICompositionAnimationFactory
         {
         public:
@@ -164,8 +157,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
                 , repeat(repeat)
                 , easingType(easingType)
                 , easingMode(easingMode)
-            {
-            }
+            {}
 
             CompositionAnimation GetAnimation(CompositionObject const& targetHint, CompositionObject& target) override
             {
@@ -219,8 +211,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
                 , repeat(repeat)
                 , easingType(easingType)
                 , easingMode(easingMode)
-            {
-            }
+            {}
 
             Timeline GetAnimation(DependencyObject const& targetHint) override
             {
@@ -254,105 +245,41 @@ namespace winrt::XamlToolkit::WinUI::Animations
             EasingType easingType;
             EasingMode easingMode;
         };
+
+        class ExternalCompositionAnimation final : public ICompositionAnimationFactory
+        {
+        public:
+            ExternalCompositionAnimation(CompositionObject const& target, CompositionAnimation const& animation)
+                : target(target), animation(animation)
+            {
+            }
+
+            CompositionAnimation GetAnimation(CompositionObject const&, CompositionObject& actualTarget) override
+            {
+                actualTarget = target;
+                return animation;
+            }
+
+        private:
+            CompositionObject target{ nullptr };
+            CompositionAnimation animation{ nullptr };
+        };
+
+        class ExternalXamlAnimation final : public IXamlAnimationFactory
+        {
+        public:
+            explicit ExternalXamlAnimation(Timeline const& animation)
+                : animation(animation)
+            {
+            }
+
+            Timeline GetAnimation(DependencyObject const&) override
+            {
+                return animation;
+            }
+
+        private:
+            Timeline animation{ nullptr };
+        };
     }
-
-    template<typename T>
-    AnimationBuilder& AnimationBuilder::AddCompositionAnimationFactory(
-        winrt::hstring const& property,
-        T const& to,
-        std::optional<T> from,
-        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
-        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
-        std::optional<RepeatOption> repeat,
-        EasingType easingType,
-        EasingMode easingMode)
-    {
-        return AddCompositionAnimationFactory(std::make_unique<AnimationFactory<T>>(
-            property,
-            to,
-            from,
-            delay.value_or(AnimationExtensions::DefaultDelay()),
-            duration.value_or(AnimationExtensions::DefaultDuration()),
-            repeat.value_or(RepeatOptionHelper::Once()),
-            easingType,
-            easingMode));
-    }
-
-    template<typename T>
-    AnimationBuilder& AnimationBuilder::AddXamlAnimationFactory(
-        winrt::hstring const& property,
-        T const& to,
-        std::optional<T> from,
-        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
-        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
-        std::optional<RepeatOption> repeat,
-        EasingType easingType,
-        EasingMode easingMode)
-    {
-        return AddXamlAnimationFactory(std::make_unique<AnimationFactory<T>>(
-            property,
-            to,
-            from,
-            delay.value_or(AnimationExtensions::DefaultDelay()),
-            duration.value_or(AnimationExtensions::DefaultDuration()),
-            repeat.value_or(RepeatOptionHelper::Once()),
-            easingType,
-            easingMode));
-    }
-
-    AnimationBuilder& AnimationBuilder::AddCompositionClipAnimationFactory(
-        winrt::hstring const& property,
-        float to,
-        std::optional<float> from,
-        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
-        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
-        std::optional<RepeatOption> repeat,
-        EasingType easingType,
-        EasingMode easingMode)
-    {
-        return AddCompositionAnimationFactory(std::make_unique<CompositionClipScalarAnimation>(
-            property,
-            to,
-            from,
-            delay.value_or(AnimationExtensions::DefaultDelay()),
-            duration.value_or(AnimationExtensions::DefaultDuration()),
-            repeat.value_or(RepeatOptionHelper::Once()),
-            easingType,
-            easingMode));
-    }
-
-    AnimationBuilder& AnimationBuilder::AddXamlTransformDoubleAnimationFactory(
-        winrt::hstring const& property,
-        double to,
-        std::optional<double> from,
-        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
-        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
-        std::optional<RepeatOption> repeat,
-        EasingType easingType,
-        EasingMode easingMode)
-    {
-        return AddXamlAnimationFactory(std::make_unique<XamlTransformDoubleAnimationFactory>(
-            property,
-            to,
-            from,
-            delay.value_or(AnimationExtensions::DefaultDelay()),
-            duration.value_or(AnimationExtensions::DefaultDuration()),
-            repeat.value_or(RepeatOptionHelper::Once()),
-            easingType,
-            easingMode));
-    }
-
-    template AnimationBuilder& AnimationBuilder::AddCompositionAnimationFactory<double>(
-        winrt::hstring const&, double const&, std::optional<double>, std::optional<winrt::Windows::Foundation::TimeSpan>, std::optional<winrt::Windows::Foundation::TimeSpan>, std::optional<RepeatOption>, EasingType, EasingMode);
-    template AnimationBuilder& AnimationBuilder::AddCompositionAnimationFactory<winrt::Windows::Foundation::Numerics::float2>(
-        winrt::hstring const&, winrt::Windows::Foundation::Numerics::float2 const&, std::optional<winrt::Windows::Foundation::Numerics::float2>, std::optional<winrt::Windows::Foundation::TimeSpan>, std::optional<winrt::Windows::Foundation::TimeSpan>, std::optional<RepeatOption>, EasingType, EasingMode);
-    template AnimationBuilder& AnimationBuilder::AddCompositionAnimationFactory<winrt::Windows::Foundation::Numerics::float3>(
-        winrt::hstring const&, winrt::Windows::Foundation::Numerics::float3 const&, std::optional<winrt::Windows::Foundation::Numerics::float3>, std::optional<winrt::Windows::Foundation::TimeSpan>, std::optional<winrt::Windows::Foundation::TimeSpan>, std::optional<RepeatOption>, EasingType, EasingMode);
-    template AnimationBuilder& AnimationBuilder::AddCompositionAnimationFactory<winrt::Windows::Foundation::Numerics::quaternion>(
-        winrt::hstring const&, winrt::Windows::Foundation::Numerics::quaternion const&, std::optional<winrt::Windows::Foundation::Numerics::quaternion>, std::optional<winrt::Windows::Foundation::TimeSpan>, std::optional<winrt::Windows::Foundation::TimeSpan>, std::optional<RepeatOption>, EasingType, EasingMode);
-    template AnimationBuilder& AnimationBuilder::AddCompositionAnimationFactory<winrt::Windows::UI::Color>(
-        winrt::hstring const&, winrt::Windows::UI::Color const&, std::optional<winrt::Windows::UI::Color>, std::optional<winrt::Windows::Foundation::TimeSpan>, std::optional<winrt::Windows::Foundation::TimeSpan>, std::optional<RepeatOption>, EasingType, EasingMode);
-
-    template AnimationBuilder& AnimationBuilder::AddXamlAnimationFactory<double>(
-        winrt::hstring const&, double const&, std::optional<double>, std::optional<winrt::Windows::Foundation::TimeSpan>, std::optional<winrt::Windows::Foundation::TimeSpan>, std::optional<RepeatOption>, EasingType, EasingMode);
 }

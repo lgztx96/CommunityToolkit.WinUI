@@ -2,6 +2,13 @@
 
 #include "AnimationBuilder.h"
 #include "AnimationBuilder.PropertyBuilders.h"
+#include "AnimationBuilder.Factories.h"
+
+#ifdef __INTELLISENSE__
+#include <numbers>
+#endif
+
+#include <Windowsnumerics.h>
 
 namespace winrt
 {
@@ -11,516 +18,437 @@ namespace winrt
 
 namespace winrt::XamlToolkit::WinUI::Animations
 {
-    class AnimationBuilderDefault
+    inline AnimationBuilder& AnimationBuilder::AnchorPoint(
+        Axis axis,
+        double to,
+        std::optional<double> from,
+        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
+        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        std::optional<RepeatOption> repeat,
+        EasingType easingType,
+        EasingMode easingMode)
     {
-    private:
-        template<typename T>
-        static AnimationBuilder& AddValueAnimation(
-            PropertyAnimationBuilder<T> propertyBuilder,
-            T const& to,
-            std::optional<T> const& from,
-            std::optional<TimeSpan> delay,
-            std::optional<TimeSpan> duration,
-            std::optional<RepeatOption> repeat,
-            EasingType easingType,
-            EasingMode easingMode)
-        {
-            return propertyBuilder.NormalizedKeyFrames(
-                [from, to, easingType, easingMode](INormalizedKeyFrameAnimationBuilder<T>& keyFrames)
-                {
-                    if (from.has_value())
-                    {
-                        keyFrames.KeyFrame(0.0, from.value());
-                    }
+        return AddCompositionAnimationFactory(AnimationExtensions::Properties::Composition::AnchorPoint(axis), to, from, delay, duration, repeat, easingType, easingMode);
+    }
 
-                    keyFrames.KeyFrame(1.0, to, easingType, easingMode);
-                },
-                delay,
-                duration,
-                repeat,
-                AnimationExtensions::DefaultDelayBehavior());
+    inline AnimationBuilder& AnimationBuilder::AnchorPoint(
+        float2 const& to,
+        std::optional<float2> from,
+        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
+        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        std::optional<RepeatOption> repeat,
+        EasingType easingType,
+        EasingMode easingMode)
+    {
+        return AddCompositionAnimationFactory(L"AnchorPoint", to, from, delay, duration, repeat, easingType, easingMode);
+    }
+
+    inline AnimationBuilder& AnimationBuilder::Opacity(
+        double to,
+        std::optional<double> from,
+        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
+        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        std::optional<RepeatOption> repeat,
+        EasingType easingType,
+        EasingMode easingMode,
+        FrameworkLayer layer)
+    {
+        return layer == FrameworkLayer::Composition ? AddCompositionAnimationFactory(L"Opacity", to, from, delay, duration, repeat, easingType, easingMode) : AddXamlAnimationFactory(L"Opacity", to, from, delay, duration, repeat, easingType, easingMode);
+    }
+
+    inline AnimationBuilder& AnimationBuilder::Translation(
+        Axis axis,
+        double to,
+        std::optional<double> from,
+        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
+        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        std::optional<RepeatOption> repeat,
+        EasingType easingType,
+        EasingMode easingMode,
+        FrameworkLayer layer)
+    {
+        return layer == FrameworkLayer::Composition
+            ? AddCompositionAnimationFactory(AnimationExtensions::Properties::Composition::Translation(axis), to, from, delay, duration, repeat, easingType, easingMode)
+            : AddXamlTransformDoubleAnimationFactory(AnimationExtensions::Properties::Xaml::Translation(axis), to, from, delay, duration, repeat, easingType, easingMode);
+    }
+
+    inline AnimationBuilder& AnimationBuilder::Translation(
+        float3 const& to,
+        std::optional<float3> from,
+        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
+        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        std::optional<RepeatOption> repeat,
+        EasingType easingType,
+        EasingMode easingMode)
+    {
+        return AddCompositionAnimationFactory(L"Translation", to, from, delay, duration, repeat, easingType, easingMode);
+    }
+
+    inline AnimationBuilder& AnimationBuilder::Scale(
+        Axis axis,
+        double to,
+        std::optional<double> from,
+        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
+        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        std::optional<RepeatOption> repeat,
+        EasingType easingType,
+        EasingMode easingMode,
+        FrameworkLayer layer)
+    {
+        return layer == FrameworkLayer::Composition
+            ? AddCompositionAnimationFactory(AnimationExtensions::Properties::Composition::Scale(axis), to, from, delay, duration, repeat, easingType, easingMode)
+            : AddXamlTransformDoubleAnimationFactory(AnimationExtensions::Properties::Xaml::Scale(axis), to, from, delay, duration, repeat, easingType, easingMode);
+    }
+
+    inline AnimationBuilder& AnimationBuilder::Scale(
+        double to,
+        std::optional<double> from,
+        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
+        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        std::optional<RepeatOption> repeat,
+        EasingType easingType,
+        EasingMode easingMode,
+        FrameworkLayer layer)
+    {
+        if (layer == FrameworkLayer::Composition)
+        {
+            float toValue = static_cast<float>(to);
+            std::optional<float3> fromValue = from ? std::optional<float3>(float3{ static_cast<float>(from.value()) }) : std::nullopt;
+
+            return AddCompositionAnimationFactory(L"Scale", float3{ toValue, toValue, toValue }, fromValue, delay, duration, repeat, easingType, easingMode);
         }
 
-        static bool TryDecomposeMatrix(float4x4 const& matrix, float3& scale, quaternion& rotation, float3& translation)
+        AddXamlTransformDoubleAnimationFactory(L"ScaleX", to, from, delay, duration, repeat, easingType, easingMode);
+        AddXamlTransformDoubleAnimationFactory(L"ScaleY", to, from, delay, duration, repeat, easingType, easingMode);
+
+        return *this;
+    }
+
+    inline AnimationBuilder& AnimationBuilder::Offset(
+        Axis axis,
+        double to,
+        std::optional<double> from,
+        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
+        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        std::optional<RepeatOption> repeat,
+        EasingType easingType,
+        EasingMode easingMode)
+    {
+        return AddCompositionAnimationFactory(AnimationExtensions::Properties::Composition::Offset(axis), to, from, delay, duration, repeat, easingType, easingMode);
+    }
+
+    inline AnimationBuilder& AnimationBuilder::Offset(
+        float3 const& to,
+        std::optional<float3> from,
+        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
+        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        std::optional<RepeatOption> repeat,
+        EasingType easingType,
+        EasingMode easingMode)
+    {
+        return AddCompositionAnimationFactory(L"Offset", to, from, delay, duration, repeat, easingType, easingMode);
+    }
+
+    inline AnimationBuilder& AnimationBuilder::CenterPoint(
+        Axis axis,
+        double to,
+        std::optional<double> from,
+        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
+        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        std::optional<RepeatOption> repeat,
+        EasingType easingType,
+        EasingMode easingMode,
+        FrameworkLayer layer)
+    {
+        return layer == FrameworkLayer::Composition
+            ? AddCompositionAnimationFactory(AnimationExtensions::Properties::Composition::CenterPoint(axis), to, from, delay, duration, repeat, easingType, easingMode)
+            : AddXamlTransformDoubleAnimationFactory(AnimationExtensions::Properties::Xaml::CenterPoint(axis), to, from, delay, duration, repeat, easingType, easingMode);
+    }
+
+    inline AnimationBuilder& AnimationBuilder::CenterPoint(
+        float3 const& to,
+        std::optional<float3> from,
+        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
+        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        std::optional<RepeatOption> repeat,
+        EasingType easingType,
+        EasingMode easingMode)
+    {
+        return AddCompositionAnimationFactory(L"CenterPoint", to, from, delay, duration, repeat, easingType, easingMode);
+    }
+
+    inline AnimationBuilder& AnimationBuilder::Rotation(
+        double to,
+        std::optional<double> from,
+        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
+        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        std::optional<RepeatOption> repeat,
+        EasingType easingType,
+        EasingMode easingMode,
+        FrameworkLayer layer)
+    {
+        if (layer == FrameworkLayer::Composition)
         {
-            DirectX::XMFLOAT4X4 m{
-                matrix.m11, matrix.m12, matrix.m13, matrix.m14,
-                matrix.m21, matrix.m22, matrix.m23, matrix.m24,
-                matrix.m31, matrix.m32, matrix.m33, matrix.m34,
-                matrix.m41, matrix.m42, matrix.m43, matrix.m44
-            };
+            return AddCompositionAnimationFactory(L"RotationAngle", to, from, delay, duration, repeat, easingType, easingMode);
+        }
 
-            DirectX::XMVECTOR scaleVec{};
-            DirectX::XMVECTOR rotVec{};
-            DirectX::XMVECTOR transVec{};
+        constexpr double radiansToDegrees = 180.0 / std::numbers::pi_v<double>;
+        std::optional<double> fromDegrees = from ? std::optional<double>(from.value() * radiansToDegrees) : std::nullopt;
+        double toDegrees = to * radiansToDegrees;
 
-            if (!DirectX::XMMatrixDecompose(&scaleVec, &rotVec, &transVec, DirectX::XMLoadFloat4x4(&m)))
+        return AddXamlTransformDoubleAnimationFactory(L"Rotation", toDegrees, fromDegrees, delay, duration, repeat, easingType, easingMode);
+    }
+
+    inline AnimationBuilder& AnimationBuilder::RotationInDegrees(
+        double to,
+        std::optional<double> from,
+        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
+        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        std::optional<RepeatOption> repeat,
+        EasingType easingType,
+        EasingMode easingMode,
+        FrameworkLayer layer)
+    {
+        if (layer == FrameworkLayer::Composition)
+        {
+            return AddCompositionAnimationFactory(L"RotationAngleInDegrees", to, from, delay, duration, repeat, easingType, easingMode);
+        }
+
+        return AddXamlTransformDoubleAnimationFactory(L"Rotation", to, from, delay, duration, repeat, easingType, easingMode);
+    }
+
+    inline AnimationBuilder& AnimationBuilder::Translation(
+        float2 const& to,
+        std::optional<float2> from,
+        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
+        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        std::optional<RepeatOption> repeat,
+        EasingType easingType,
+        EasingMode easingMode,
+        FrameworkLayer layer)
+    {
+        if (layer == FrameworkLayer::Composition)
+        {
+            return AddCompositionAnimationFactory(AnimationExtensions::Properties::Composition::TranslationXY(), to, from, delay, duration, repeat, easingType, easingMode);
+        }
+
+        AddXamlTransformDoubleAnimationFactory(L"TranslateX", to.x, from ? std::optional<double>(from->x) : std::nullopt, delay, duration, repeat, easingType, easingMode);
+        AddXamlTransformDoubleAnimationFactory(L"TranslateY", to.y, from ? std::optional<double>(from->y) : std::nullopt, delay, duration, repeat, easingType, easingMode);
+
+        return *this;
+    }
+
+    inline AnimationBuilder& AnimationBuilder::Scale(
+        float2 const& to,
+        std::optional<float2> from,
+        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
+        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        std::optional<RepeatOption> repeat,
+        EasingType easingType,
+        EasingMode easingMode,
+        FrameworkLayer layer)
+    {
+        if (layer == FrameworkLayer::Composition)
+        {
+            return AddCompositionAnimationFactory(AnimationExtensions::Properties::Composition::ScaleXY(), to, from, delay, duration, repeat, easingType, easingMode);
+        }
+
+        AddXamlTransformDoubleAnimationFactory(L"ScaleX", to.x, from ? std::optional<double>(from->x) : std::nullopt, delay, duration, repeat, easingType, easingMode);
+        AddXamlTransformDoubleAnimationFactory(L"ScaleY", to.y, from ? std::optional<double>(from->y) : std::nullopt, delay, duration, repeat, easingType, easingMode);
+
+        return *this;
+    }
+
+    inline AnimationBuilder& AnimationBuilder::Scale(
+        float3 const& to,
+        std::optional<float3> from,
+        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
+        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        std::optional<RepeatOption> repeat,
+        EasingType easingType,
+        EasingMode easingMode)
+    {
+        return AddCompositionAnimationFactory(L"Scale", to, from, delay, duration, repeat, easingType, easingMode);
+    }
+
+    inline AnimationBuilder& AnimationBuilder::Offset(
+        float2 const& to,
+        std::optional<float2> from,
+        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
+        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        std::optional<RepeatOption> repeat,
+        EasingType easingType,
+        EasingMode easingMode)
+    {
+        return AddCompositionAnimationFactory(AnimationExtensions::Properties::Composition::OffsetXY(), to, from, delay, duration, repeat, easingType, easingMode);
+    }
+
+    inline AnimationBuilder& AnimationBuilder::CenterPoint(
+        float2 const& to,
+        std::optional<float2> from,
+        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
+        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        std::optional<RepeatOption> repeat,
+        EasingType easingType,
+        EasingMode easingMode,
+        FrameworkLayer layer)
+    {
+        if (layer == FrameworkLayer::Composition)
+        {
+            return AddCompositionAnimationFactory(AnimationExtensions::Properties::Composition::CenterPointXY(), to, from, delay, duration, repeat, easingType, easingMode);
+        }
+
+        AddXamlTransformDoubleAnimationFactory(L"CenterX", to.x, from ? std::optional<double>(from->x) : std::nullopt, delay, duration, repeat, easingType, easingMode);
+        AddXamlTransformDoubleAnimationFactory(L"CenterY", to.y, from ? std::optional<double>(from->y) : std::nullopt, delay, duration, repeat, easingType, easingMode);
+
+        return *this;
+    }
+
+    inline AnimationBuilder& AnimationBuilder::RotationAxis(
+        float3 const& to,
+        std::optional<float3> from,
+        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
+        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        std::optional<RepeatOption> repeat,
+        EasingType easingType,
+        EasingMode easingMode)
+    {
+        return AddCompositionAnimationFactory(L"RotationAxis", to, from, delay, duration, repeat, easingType, easingMode);
+    }
+
+    inline AnimationBuilder& AnimationBuilder::Orientation(
+        quaternion const& to,
+        std::optional<quaternion> from,
+        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
+        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        std::optional<RepeatOption> repeat,
+        EasingType easingType,
+        EasingMode easingMode)
+    {
+        return AddCompositionAnimationFactory(L"Orientation", to, from, delay, duration, repeat, easingType, easingMode);
+    }
+
+    inline AnimationBuilder& AnimationBuilder::Transform(
+        float4x4 const& to,
+        std::optional<float4x4> from,
+        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
+        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        std::optional<RepeatOption> repeat,
+        EasingType easingType,
+        EasingMode easingMode)
+    {
+        float3 toScale{};
+        quaternion toRotation{};
+        float3 toTranslation{};
+
+        if (!decompose(to, &toScale, &toRotation, &toTranslation))
+        {
+            throw winrt::hresult_invalid_argument(L"The destination matrix could not be decomposed");
+        }
+
+        std::optional<float3> fromScale = std::nullopt;
+        std::optional<quaternion> fromRotation = std::nullopt;
+        std::optional<float3> fromTranslation = std::nullopt;
+
+        if (from.has_value())
+        {
+            float3 scale3{};
+            quaternion rotation4{};
+            float3 translation3{};
+
+            if (!decompose(from.value(), &scale3, &rotation4, &translation3))
             {
-                return false;
+                throw winrt::hresult_invalid_argument(L"The initial matrix could not be decomposed");
             }
 
-            DirectX::XMFLOAT3 s{};
-            DirectX::XMFLOAT4 r{};
-            DirectX::XMFLOAT3 t{};
-
-            DirectX::XMStoreFloat3(&s, scaleVec);
-            DirectX::XMStoreFloat4(&r, rotVec);
-            DirectX::XMStoreFloat3(&t, transVec);
-
-            scale = float3{ s.x, s.y, s.z };
-            rotation = quaternion{ r.x, r.y, r.z, r.w };
-            translation = float3{ t.x, t.y, t.z };
-
-            return true;
+            fromScale = scale3;
+            fromRotation = rotation4;
+            fromTranslation = translation3;
         }
 
-    public:
-        static AnimationBuilder& AnchorPoint(
-            AnimationBuilder& builder,
-            Axis axis,
-            double to,
-            std::optional<double> from = std::nullopt,
-            std::optional<TimeSpan> delay = std::nullopt,
-            std::optional<TimeSpan> duration = std::nullopt,
-            std::optional<RepeatOption> repeat = std::nullopt,
-            EasingType easingType = AnimationExtensions::DefaultEasingType(),
-            EasingMode easingMode = AnimationExtensions::DefaultEasingMode())
+        Scale(toScale, fromScale, delay, duration, repeat, easingType, easingMode);
+        Orientation(toRotation, fromRotation, delay, duration, repeat, easingType, easingMode);
+        Translation(toTranslation, fromTranslation, delay, duration, repeat, easingType, easingMode);
+
+        return *this;
+    }
+
+    inline AnimationBuilder& AnimationBuilder::Clip(
+        Side side,
+        double to,
+        std::optional<double> from,
+        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
+        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        std::optional<RepeatOption> repeat,
+        EasingType easingType,
+        EasingMode easingMode)
+    {
+         auto animation = std::make_unique<CompositionClipScalarAnimation>(
+            AnimationExtensions::Properties::Composition::Clip(side),
+            static_cast<float>(to),
+            from ? std::optional<float>(static_cast<float>(from.value())) : std::nullopt,
+            delay.value_or(AnimationExtensions::DefaultDelay()),
+            duration.value_or(AnimationExtensions::DefaultDuration()),
+            repeat.value_or(RepeatOptionHelper::Once()),
+            easingType,
+            easingMode);
+
+        compositionAnimationFactories.emplace_back(std::move(animation));
+
+        return *this;
+    }
+
+    inline AnimationBuilder& AnimationBuilder::Clip(
+        winrt::Microsoft::UI::Xaml::Thickness const& to,
+        std::optional<winrt::Microsoft::UI::Xaml::Thickness> from,
+        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
+        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        std::optional<RepeatOption> repeat,
+        EasingType easingType,
+        EasingMode easingMode)
+    {
+        Clip(Side::Left, to.Left, from ? std::optional<double>(from->Left) : std::nullopt, delay, duration, repeat, easingType, easingMode);
+        Clip(Side::Top, to.Top, from ? std::optional<double>(from->Top) : std::nullopt, delay, duration, repeat, easingType, easingMode);
+        Clip(Side::Right, to.Right, from ? std::optional<double>(from->Right) : std::nullopt, delay, duration, repeat, easingType, easingMode);
+        Clip(Side::Bottom, to.Bottom, from ? std::optional<double>(from->Bottom) : std::nullopt, delay, duration, repeat, easingType, easingMode);
+
+        return *this;
+    }
+
+    inline AnimationBuilder& AnimationBuilder::Size(
+        Axis axis,
+        double to,
+        std::optional<double> from,
+        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
+        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        std::optional<RepeatOption> repeat,
+        EasingType easingType,
+        EasingMode easingMode,
+        FrameworkLayer layer)
+    {
+        return layer == FrameworkLayer::Composition
+            ? AddCompositionAnimationFactory(AnimationExtensions::Properties::Composition::Size(axis), to, from, delay, duration, repeat, easingType, easingMode)
+            : AddXamlAnimationFactory(AnimationExtensions::Properties::Xaml::Size(axis), to, from, delay, duration, repeat, easingType, easingMode);
+    }
+
+    inline AnimationBuilder& AnimationBuilder::Size(
+        float2 const& to,
+        std::optional<float2> from,
+        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
+        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        std::optional<RepeatOption> repeat,
+        EasingType easingType,
+        EasingMode easingMode,
+        FrameworkLayer layer)
+    {
+        if (layer == FrameworkLayer::Composition)
         {
-            return AddValueAnimation<double>(AnimationBuilderPropertyBuilders::AnchorPoint(builder, axis), to, from, delay, duration, repeat, easingType, easingMode);
+            return AddCompositionAnimationFactory(L"Size", to, from, delay, duration, repeat, easingType, easingMode);
         }
 
-        static AnimationBuilder& AnchorPoint(
-            AnimationBuilder& builder,
-            float2 const& to,
-            std::optional<float2> from = std::nullopt,
-            std::optional<TimeSpan> delay = std::nullopt,
-            std::optional<TimeSpan> duration = std::nullopt,
-            std::optional<RepeatOption> repeat = std::nullopt,
-            EasingType easingType = AnimationExtensions::DefaultEasingType(),
-            EasingMode easingMode = AnimationExtensions::DefaultEasingMode())
-        {
-            return AddValueAnimation<float2>(AnimationBuilderPropertyBuilders::AnchorPoint(builder), to, from, delay, duration, repeat, easingType, easingMode);
-        }
+        AddXamlAnimationFactory(L"Width", static_cast<double>(to.x), from ? std::optional<double>(from->x) : std::nullopt, delay, duration, repeat, easingType, easingMode);
+        AddXamlAnimationFactory(L"Height", static_cast<double>(to.y), from ? std::optional<double>(from->y) : std::nullopt, delay, duration, repeat, easingType, easingMode);
 
-        static AnimationBuilder& Opacity(
-            AnimationBuilder& builder,
-            double to,
-            std::optional<double> from = std::nullopt,
-            std::optional<TimeSpan> delay = std::nullopt,
-            std::optional<TimeSpan> duration = std::nullopt,
-            std::optional<RepeatOption> repeat = std::nullopt,
-            EasingType easingType = AnimationExtensions::DefaultEasingType(),
-            EasingMode easingMode = AnimationExtensions::DefaultEasingMode(),
-            FrameworkLayer layer = FrameworkLayer::Composition)
-        {
-            return AddValueAnimation<double>(AnimationBuilderPropertyBuilders::Opacity(builder, layer), to, from, delay, duration, repeat, easingType, easingMode);
-        }
-
-        static AnimationBuilder& Translation(
-            AnimationBuilder& builder,
-            Axis axis,
-            double to,
-            std::optional<double> from = std::nullopt,
-            std::optional<TimeSpan> delay = std::nullopt,
-            std::optional<TimeSpan> duration = std::nullopt,
-            std::optional<RepeatOption> repeat = std::nullopt,
-            EasingType easingType = AnimationExtensions::DefaultEasingType(),
-            EasingMode easingMode = AnimationExtensions::DefaultEasingMode(),
-            FrameworkLayer layer = FrameworkLayer::Composition)
-        {
-            return AddValueAnimation<double>(AnimationBuilderPropertyBuilders::Translation(builder, axis, layer), to, from, delay, duration, repeat, easingType, easingMode);
-        }
-
-        static AnimationBuilder& Translation(
-            AnimationBuilder& builder,
-            float2 const& to,
-            std::optional<float2> from = std::nullopt,
-            std::optional<TimeSpan> delay = std::nullopt,
-            std::optional<TimeSpan> duration = std::nullopt,
-            std::optional<RepeatOption> repeat = std::nullopt,
-            EasingType easingType = AnimationExtensions::DefaultEasingType(),
-            EasingMode easingMode = AnimationExtensions::DefaultEasingMode(),
-            FrameworkLayer layer = FrameworkLayer::Composition)
-        {
-            if (layer == FrameworkLayer::Composition)
-            {
-                return AddValueAnimation<float2>(AnimationBuilderPropertyBuilders::TranslationXY(builder), to, from, delay, duration, repeat, easingType, easingMode);
-            }
-
-            Translation(builder, Axis::X, static_cast<double>(to.x), from ? std::optional<double>(from.value().x) : std::nullopt, delay, duration, repeat, easingType, easingMode, layer);
-            Translation(builder, Axis::Y, static_cast<double>(to.y), from ? std::optional<double>(from.value().y) : std::nullopt, delay, duration, repeat, easingType, easingMode, layer);
-
-            return builder;
-        }
-
-        static AnimationBuilder& Translation(
-            AnimationBuilder& builder,
-            float3 const& to,
-            std::optional<float3> from = std::nullopt,
-            std::optional<TimeSpan> delay = std::nullopt,
-            std::optional<TimeSpan> duration = std::nullopt,
-            std::optional<RepeatOption> repeat = std::nullopt,
-            EasingType easingType = AnimationExtensions::DefaultEasingType(),
-            EasingMode easingMode = AnimationExtensions::DefaultEasingMode())
-        {
-            return AddValueAnimation<float3>(AnimationBuilderPropertyBuilders::Translation(builder), to, from, delay, duration, repeat, easingType, easingMode);
-        }
-
-        static AnimationBuilder& Offset(
-            AnimationBuilder& builder,
-            Axis axis,
-            double to,
-            std::optional<double> from = std::nullopt,
-            std::optional<TimeSpan> delay = std::nullopt,
-            std::optional<TimeSpan> duration = std::nullopt,
-            std::optional<RepeatOption> repeat = std::nullopt,
-            EasingType easingType = AnimationExtensions::DefaultEasingType(),
-            EasingMode easingMode = AnimationExtensions::DefaultEasingMode())
-        {
-            return AddValueAnimation<double>(AnimationBuilderPropertyBuilders::Offset(builder, axis), to, from, delay, duration, repeat, easingType, easingMode);
-        }
-
-        static AnimationBuilder& Offset(
-            AnimationBuilder& builder,
-            float2 const& to,
-            std::optional<float2> from = std::nullopt,
-            std::optional<TimeSpan> delay = std::nullopt,
-            std::optional<TimeSpan> duration = std::nullopt,
-            std::optional<RepeatOption> repeat = std::nullopt,
-            EasingType easingType = AnimationExtensions::DefaultEasingType(),
-            EasingMode easingMode = AnimationExtensions::DefaultEasingMode())
-        {
-            return AddValueAnimation<float2>(AnimationBuilderPropertyBuilders::OffsetXY(builder), to, from, delay, duration, repeat, easingType, easingMode);
-        }
-
-        static AnimationBuilder& Offset(
-            AnimationBuilder& builder,
-            float3 const& to,
-            std::optional<float3> from = std::nullopt,
-            std::optional<TimeSpan> delay = std::nullopt,
-            std::optional<TimeSpan> duration = std::nullopt,
-            std::optional<RepeatOption> repeat = std::nullopt,
-            EasingType easingType = AnimationExtensions::DefaultEasingType(),
-            EasingMode easingMode = AnimationExtensions::DefaultEasingMode())
-        {
-            return AddValueAnimation<float3>(AnimationBuilderPropertyBuilders::Offset(builder), to, from, delay, duration, repeat, easingType, easingMode);
-        }
-
-        static AnimationBuilder& Scale(
-            AnimationBuilder& builder,
-            double to,
-            std::optional<double> from = std::nullopt,
-            std::optional<TimeSpan> delay = std::nullopt,
-            std::optional<TimeSpan> duration = std::nullopt,
-            std::optional<RepeatOption> repeat = std::nullopt,
-            EasingType easingType = AnimationExtensions::DefaultEasingType(),
-            EasingMode easingMode = AnimationExtensions::DefaultEasingMode(),
-            FrameworkLayer layer = FrameworkLayer::Composition)
-        {
-            if (layer == FrameworkLayer::Composition)
-            {
-                float toValue = static_cast<float>(to);
-                std::optional<float3> from3 = from ? std::optional<float3>(float3{ static_cast<float>(from.value()) }) : std::nullopt;
-
-                return AddValueAnimation<float3>(
-                    AnimationBuilderPropertyBuilders::Scale(builder),
-                    float3{ toValue, toValue, toValue },
-                    from3,
-                    delay,
-                    duration,
-                    repeat,
-                    easingType,
-                    easingMode);
-            }
-
-            Scale(builder, Axis::X, to, from, delay, duration, repeat, easingType, easingMode, layer);
-            Scale(builder, Axis::Y, to, from, delay, duration, repeat, easingType, easingMode, layer);
-
-            return builder;
-        }
-
-        static AnimationBuilder& Scale(
-            AnimationBuilder& builder,
-            Axis axis,
-            double to,
-            std::optional<double> from = std::nullopt,
-            std::optional<TimeSpan> delay = std::nullopt,
-            std::optional<TimeSpan> duration = std::nullopt,
-            std::optional<RepeatOption> repeat = std::nullopt,
-            EasingType easingType = AnimationExtensions::DefaultEasingType(),
-            EasingMode easingMode = AnimationExtensions::DefaultEasingMode(),
-            FrameworkLayer layer = FrameworkLayer::Composition)
-        {
-            return AddValueAnimation<double>(AnimationBuilderPropertyBuilders::Scale(builder, axis, layer), to, from, delay, duration, repeat, easingType, easingMode);
-        }
-
-        static AnimationBuilder& Scale(
-            AnimationBuilder& builder,
-            float2 const& to,
-            std::optional<float2> from = std::nullopt,
-            std::optional<TimeSpan> delay = std::nullopt,
-            std::optional<TimeSpan> duration = std::nullopt,
-            std::optional<RepeatOption> repeat = std::nullopt,
-            EasingType easingType = AnimationExtensions::DefaultEasingType(),
-            EasingMode easingMode = AnimationExtensions::DefaultEasingMode(),
-            FrameworkLayer layer = FrameworkLayer::Composition)
-        {
-            if (layer == FrameworkLayer::Composition)
-            {
-                return AddValueAnimation<float2>(AnimationBuilderPropertyBuilders::ScaleXY(builder), to, from, delay, duration, repeat, easingType, easingMode);
-            }
-
-            Scale(builder, Axis::X, static_cast<double>(to.x), from ? std::optional<double>(from.value().x) : std::nullopt, delay, duration, repeat, easingType, easingMode, layer);
-            Scale(builder, Axis::Y, static_cast<double>(to.y), from ? std::optional<double>(from.value().y) : std::nullopt, delay, duration, repeat, easingType, easingMode, layer);
-
-            return builder;
-        }
-
-        static AnimationBuilder& Scale(
-            AnimationBuilder& builder,
-            float3 const& to,
-            std::optional<float3> from = std::nullopt,
-            std::optional<TimeSpan> delay = std::nullopt,
-            std::optional<TimeSpan> duration = std::nullopt,
-            std::optional<RepeatOption> repeat = std::nullopt,
-            EasingType easingType = AnimationExtensions::DefaultEasingType(),
-            EasingMode easingMode = AnimationExtensions::DefaultEasingMode())
-        {
-            return AddValueAnimation<float3>(AnimationBuilderPropertyBuilders::Scale(builder), to, from, delay, duration, repeat, easingType, easingMode);
-        }
-
-        static AnimationBuilder& CenterPoint(
-            AnimationBuilder& builder,
-            Axis axis,
-            double to,
-            std::optional<double> from = std::nullopt,
-            std::optional<TimeSpan> delay = std::nullopt,
-            std::optional<TimeSpan> duration = std::nullopt,
-            std::optional<RepeatOption> repeat = std::nullopt,
-            EasingType easingType = AnimationExtensions::DefaultEasingType(),
-            EasingMode easingMode = AnimationExtensions::DefaultEasingMode(),
-            FrameworkLayer layer = FrameworkLayer::Composition)
-        {
-            return AddValueAnimation<double>(AnimationBuilderPropertyBuilders::CenterPoint(builder, axis, layer), to, from, delay, duration, repeat, easingType, easingMode);
-        }
-
-        static AnimationBuilder& CenterPoint(
-            AnimationBuilder& builder,
-            float2 const& to,
-            std::optional<float2> from = std::nullopt,
-            std::optional<TimeSpan> delay = std::nullopt,
-            std::optional<TimeSpan> duration = std::nullopt,
-            std::optional<RepeatOption> repeat = std::nullopt,
-            EasingType easingType = AnimationExtensions::DefaultEasingType(),
-            EasingMode easingMode = AnimationExtensions::DefaultEasingMode(),
-            FrameworkLayer layer = FrameworkLayer::Composition)
-        {
-            if (layer == FrameworkLayer::Composition)
-            {
-                return AddValueAnimation<float2>(AnimationBuilderPropertyBuilders::CenterPointXY(builder), to, from, delay, duration, repeat, easingType, easingMode);
-            }
-
-            CenterPoint(builder, Axis::X, static_cast<double>(to.x), from ? std::optional<double>(from.value().x) : std::nullopt, delay, duration, repeat, easingType, easingMode, layer);
-            CenterPoint(builder, Axis::Y, static_cast<double>(to.y), from ? std::optional<double>(from.value().y) : std::nullopt, delay, duration, repeat, easingType, easingMode, layer);
-
-            return builder;
-        }
-
-        static AnimationBuilder& CenterPoint(
-            AnimationBuilder& builder,
-            float3 const& to,
-            std::optional<float3> from = std::nullopt,
-            std::optional<TimeSpan> delay = std::nullopt,
-            std::optional<TimeSpan> duration = std::nullopt,
-            std::optional<RepeatOption> repeat = std::nullopt,
-            EasingType easingType = AnimationExtensions::DefaultEasingType(),
-            EasingMode easingMode = AnimationExtensions::DefaultEasingMode())
-        {
-            return AddValueAnimation<float3>(AnimationBuilderPropertyBuilders::CenterPoint(builder), to, from, delay, duration, repeat, easingType, easingMode);
-        }
-
-        static AnimationBuilder& Rotation(
-            AnimationBuilder& builder,
-            double to,
-            std::optional<double> from = std::nullopt,
-            std::optional<TimeSpan> delay = std::nullopt,
-            std::optional<TimeSpan> duration = std::nullopt,
-            std::optional<RepeatOption> repeat = std::nullopt,
-            EasingType easingType = AnimationExtensions::DefaultEasingType(),
-            EasingMode easingMode = AnimationExtensions::DefaultEasingMode(),
-            FrameworkLayer layer = FrameworkLayer::Composition)
-        {
-            if (layer == FrameworkLayer::Composition)
-            {
-                return AddValueAnimation<double>(AnimationBuilderPropertyBuilders::Rotation(builder), to, from, delay, duration, repeat, easingType, easingMode);
-            }
-
-            constexpr double ratio = std::numbers::pi / 180.0;
-            std::optional<double> fromDegrees = from ? std::optional<double>(from.value() * ratio) : std::nullopt;
-            return AddValueAnimation<double>(
-                AnimationBuilderPropertyBuilders::RotationInDegrees(builder, layer),
-                to * ratio,
-                fromDegrees,
-                delay,
-                duration,
-                repeat,
-                easingType,
-                easingMode);
-        }
-
-        static AnimationBuilder& RotationInDegrees(
-            AnimationBuilder& builder,
-            double to,
-            std::optional<double> from = std::nullopt,
-            std::optional<TimeSpan> delay = std::nullopt,
-            std::optional<TimeSpan> duration = std::nullopt,
-            std::optional<RepeatOption> repeat = std::nullopt,
-            EasingType easingType = AnimationExtensions::DefaultEasingType(),
-            EasingMode easingMode = AnimationExtensions::DefaultEasingMode(),
-            FrameworkLayer layer = FrameworkLayer::Composition)
-        {
-            return AddValueAnimation<double>(AnimationBuilderPropertyBuilders::RotationInDegrees(builder, layer), to, from, delay, duration, repeat, easingType, easingMode);
-        }
-
-        static AnimationBuilder& RotationAxis(
-            AnimationBuilder& builder,
-            float3 const& to,
-            std::optional<float3> from = std::nullopt,
-            std::optional<TimeSpan> delay = std::nullopt,
-            std::optional<TimeSpan> duration = std::nullopt,
-            std::optional<RepeatOption> repeat = std::nullopt,
-            EasingType easingType = AnimationExtensions::DefaultEasingType(),
-            EasingMode easingMode = AnimationExtensions::DefaultEasingMode())
-        {
-            return AddValueAnimation<float3>(AnimationBuilderPropertyBuilders::RotationAxis(builder), to, from, delay, duration, repeat, easingType, easingMode);
-        }
-
-        static AnimationBuilder& Orientation(
-            AnimationBuilder& builder,
-            quaternion const& to,
-            std::optional<quaternion> from = std::nullopt,
-            std::optional<TimeSpan> delay = std::nullopt,
-            std::optional<TimeSpan> duration = std::nullopt,
-            std::optional<RepeatOption> repeat = std::nullopt,
-            EasingType easingType = AnimationExtensions::DefaultEasingType(),
-            EasingMode easingMode = AnimationExtensions::DefaultEasingMode())
-        {
-            return AddValueAnimation<quaternion>(AnimationBuilderPropertyBuilders::Orientation(builder), to, from, delay, duration, repeat, easingType, easingMode);
-        }
-
-        static AnimationBuilder& Transform(
-            AnimationBuilder& builder,
-            float4x4 const& to,
-            std::optional<float4x4> from = std::nullopt,
-            std::optional<TimeSpan> delay = std::nullopt,
-            std::optional<TimeSpan> duration = std::nullopt,
-            std::optional<RepeatOption> repeat = std::nullopt,
-            EasingType easingType = AnimationExtensions::DefaultEasingType(),
-            EasingMode easingMode = AnimationExtensions::DefaultEasingMode())
-        {
-            float3 toScale{};
-            quaternion toRotation{};
-            float3 toTranslation{};
-
-            if (!TryDecomposeMatrix(to, toScale, toRotation, toTranslation))
-            {
-                throw winrt::hresult_invalid_argument(L"The destination matrix could not be decomposed");
-            }
-
-            std::optional<float3> fromScale;
-            std::optional<quaternion> fromRotation;
-            std::optional<float3> fromTranslation;
-
-            if (from.has_value())
-            {
-                float3 scale3{};
-                quaternion rotation4{};
-                float3 translation3{};
-
-                if (!TryDecomposeMatrix(from.value(), scale3, rotation4, translation3))
-                {
-                    throw winrt::hresult_invalid_argument(L"The initial matrix could not be decomposed");
-                }
-
-                fromScale = scale3;
-                fromRotation = rotation4;
-                fromTranslation = translation3;
-            }
-
-            Scale(builder, toScale, fromScale, delay, duration, repeat, easingType, easingMode);
-            Orientation(builder, toRotation, fromRotation, delay, duration, repeat, easingType, easingMode);
-            Translation(builder, toTranslation, fromTranslation, delay, duration, repeat, easingType, easingMode);
-
-            return builder;
-        }
-
-        static AnimationBuilder& Clip(
-            AnimationBuilder& builder,
-            Side side,
-            double to,
-            std::optional<double> from = std::nullopt,
-            std::optional<TimeSpan> delay = std::nullopt,
-            std::optional<TimeSpan> duration = std::nullopt,
-            std::optional<RepeatOption> repeat = std::nullopt,
-            EasingType easingType = AnimationExtensions::DefaultEasingType(),
-            EasingMode easingMode = AnimationExtensions::DefaultEasingMode())
-        {
-            return AddValueAnimation<double>(AnimationBuilderPropertyBuilders::Clip(builder, side), to, from, delay, duration, repeat, easingType, easingMode);
-        }
-
-        static AnimationBuilder& Clip(
-            AnimationBuilder& builder,
-            winrt::Microsoft::UI::Xaml::Thickness const& to,
-            std::optional<winrt::Microsoft::UI::Xaml::Thickness> from = std::nullopt,
-            std::optional<TimeSpan> delay = std::nullopt,
-            std::optional<TimeSpan> duration = std::nullopt,
-            std::optional<RepeatOption> repeat = std::nullopt,
-            EasingType easingType = AnimationExtensions::DefaultEasingType(),
-            EasingMode easingMode = AnimationExtensions::DefaultEasingMode())
-        {
-            Clip(builder, Side::Left, to.Left, from ? std::optional<double>(from.value().Left) : std::nullopt, delay, duration, repeat, easingType, easingMode);
-            Clip(builder, Side::Top, to.Top, from ? std::optional<double>(from.value().Top) : std::nullopt, delay, duration, repeat, easingType, easingMode);
-            Clip(builder, Side::Right, to.Right, from ? std::optional<double>(from.value().Right) : std::nullopt, delay, duration, repeat, easingType, easingMode);
-            Clip(builder, Side::Bottom, to.Bottom, from ? std::optional<double>(from.value().Bottom) : std::nullopt, delay, duration, repeat, easingType, easingMode);
-
-            return builder;
-        }
-
-        static AnimationBuilder& Size(
-            AnimationBuilder& builder,
-            Axis axis,
-            double to,
-            std::optional<double> from = std::nullopt,
-            std::optional<TimeSpan> delay = std::nullopt,
-            std::optional<TimeSpan> duration = std::nullopt,
-            std::optional<RepeatOption> repeat = std::nullopt,
-            EasingType easingType = AnimationExtensions::DefaultEasingType(),
-            EasingMode easingMode = AnimationExtensions::DefaultEasingMode(),
-            FrameworkLayer layer = FrameworkLayer::Composition)
-        {
-            return AddValueAnimation<double>(AnimationBuilderPropertyBuilders::Size(builder, axis, layer), to, from, delay, duration, repeat, easingType, easingMode);
-        }
-
-        static AnimationBuilder& Size(
-            AnimationBuilder& builder,
-            float2 const& to,
-            std::optional<float2> from = std::nullopt,
-            std::optional<TimeSpan> delay = std::nullopt,
-            std::optional<TimeSpan> duration = std::nullopt,
-            std::optional<RepeatOption> repeat = std::nullopt,
-            EasingType easingType = AnimationExtensions::DefaultEasingType(),
-            EasingMode easingMode = AnimationExtensions::DefaultEasingMode(),
-            FrameworkLayer layer = FrameworkLayer::Composition)
-        {
-            if (layer == FrameworkLayer::Composition)
-            {
-                return AddValueAnimation<float2>(AnimationBuilderPropertyBuilders::Size(builder), to, from, delay, duration, repeat, easingType, easingMode);
-            }
-
-            Size(builder, Axis::X, static_cast<double>(to.x), from ? std::optional<double>(from.value().x) : std::nullopt, delay, duration, repeat, easingType, easingMode, layer);
-            Size(builder, Axis::Y, static_cast<double>(to.y), from ? std::optional<double>(from.value().y) : std::nullopt, delay, duration, repeat, easingType, easingMode, layer);
-
-            return builder;
-        }
-    };
+        return *this;
+    }
 }
