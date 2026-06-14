@@ -323,9 +323,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Builders\AnimationBuilder.cpp" />
-    <ClCompile Include="Builders\AnimationBuilder.Factories.cpp" />
-    <ClCompile Include="Builders\AnimationBuilder.Setup.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

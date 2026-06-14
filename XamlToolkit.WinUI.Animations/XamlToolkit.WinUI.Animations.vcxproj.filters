@@ -290,15 +290,6 @@
     <ClInclude Include="winrt_module_imports.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Builders\AnimationBuilder.cpp">
-      <Filter>Builders</Filter>
-    </ClCompile>
-    <ClCompile Include="Builders\AnimationBuilder.Factories.cpp">
-      <Filter>Builders</Filter>
-    </ClCompile>
-    <ClCompile Include="Builders\AnimationBuilder.Setup.cpp">
-      <Filter>Builders</Filter>
-    </ClCompile>
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp">
       <Filter>Generated Files</Filter>
