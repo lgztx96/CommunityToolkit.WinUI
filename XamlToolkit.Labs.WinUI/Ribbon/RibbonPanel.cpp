@@ -2,6 +2,7 @@
 #include "winrt_module_imports.h"
 #ifdef __INTELLISENSE__
 #include <algorithm>
+#include <ranges>
 #include <cmath>
 #include <vector>
 #endif
@@ -21,14 +22,14 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		std::vector<UIElement> orderedChildren(children.Size(), { nullptr });
 		children.GetMany(0, orderedChildren);
 
-		std::ranges::sort(orderedChildren, [](UIElement const& a, UIElement const& b)
-			{
-				auto groupA = a.try_as<winrt::XamlToolkit::Labs::WinUI::RibbonCollapsibleGroup>();
-				auto groupB = b.try_as<winrt::XamlToolkit::Labs::WinUI::RibbonCollapsibleGroup>();
-				int priA = groupA ? groupA.Priority() : 0;
-				int priB = groupB ? groupB.Priority() : 0;
-				return priA < priB;
-			});
+		std::ranges::stable_sort(orderedChildren, [](UIElement const& a, UIElement const& b)
+		{
+			auto groupA = a.try_as<winrt::XamlToolkit::Labs::WinUI::RibbonCollapsibleGroup>();
+			auto groupB = b.try_as<winrt::XamlToolkit::Labs::WinUI::RibbonCollapsibleGroup>();
+			int priA = groupA ? groupA.Priority() : 0;
+			int priB = groupB ? groupB.Priority() : 0;
+			return priA < priB;
+		});
 
 		Size desiredSize{};
 
@@ -37,7 +38,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 			auto collapsibleGroup = child.try_as<winrt::XamlToolkit::Labs::WinUI::RibbonCollapsibleGroup>();
 			auto requestedWidths = collapsibleGroup ? collapsibleGroup.RequestedWidths() : nullptr;
 
-			if (!requestedWidths || collapsibleGroup && collapsibleGroup.State() == Visibility::Collapsed)
+			if (!requestedWidths || (collapsibleGroup && collapsibleGroup.State() == Visibility::Collapsed))
 			{
 				child.Measure(GroupAvailableSize);
 			}
@@ -45,17 +46,16 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 			{
 				// Get the closest match to remainingWidth or use infinite size if we do not have any match.
 				double remainingWidth = availableSize.Width - desiredSize.Width;
-				std::vector<double> matchingWidths;
 
+				double requestedWidth = std::numeric_limits<double>::infinity();
 				for (auto const& w : requestedWidths)
 				{
 					if (w <= remainingWidth)
 					{
-						matchingWidths.push_back(w);
+						requestedWidth = w;
 					}
 				}
 
-				double requestedWidth = matchingWidths.empty() ? std::numeric_limits<double>::infinity() : matchingWidths.back();
 				Size fixedSize{ static_cast<float>(requestedWidth), availableSize.Height };
 				child.Measure(fixedSize);
 			}
@@ -67,23 +67,16 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		if (desiredSize.Width > availableSize.Width)
 		{
 			// We need to collapse some groups.
-			 // If there is no priority order we assume that the last items are the one which should collapse first.
-			std::vector<winrt::XamlToolkit::Labs::WinUI::RibbonCollapsibleGroup> groups;
-			for (auto const& item : children)
+			// If there is no priority order we assume that the last items are the one which should collapse first.
+			for (auto const& item : orderedChildren | std::views::reverse)
 			{
 				auto group = item.try_as<winrt::XamlToolkit::Labs::WinUI::RibbonCollapsibleGroup>();
-				if (group && group.State() == Visibility::Visible)
-					groups.emplace_back(group);
-			}
 
-			std::ranges::reverse(groups);
-			std::ranges::sort(groups, [](auto const& a, auto const& b)
+				if (!group || group.State() != Visibility::Visible)
 				{
-					return a.Priority() > b.Priority();
-				});
+					continue;
+				}
 
-			for (auto const& group : groups)
-			{
 				group.State(Visibility::Collapsed);
 				auto previousSize = group.DesiredSize();
 				group.Measure(GroupAvailableSize);
@@ -109,21 +102,15 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		else if (desiredSize.Width < availableSize.Width)
 		{
 			// We have more space than needed, we check if we can expand some groups
-			std::vector<winrt::XamlToolkit::Labs::WinUI::RibbonCollapsibleGroup> groups;
-			for (auto const& item : children)
+			for (auto const& item : orderedChildren)
 			{
 				auto group = item.try_as<winrt::XamlToolkit::Labs::WinUI::RibbonCollapsibleGroup>();
-				if (group && group.State() == Visibility::Collapsed)
-					groups.emplace_back(group);
-			}
 
-			std::ranges::sort(groups, [](auto const& a, auto const& b)
+				if (!group || group.State() != Visibility::Collapsed)
 				{
-					return a.Priority() < b.Priority();
-				});
+					continue;
+				}
 
-			for (auto const& group : groups)
-			{
 				auto previousSize = group.DesiredSize();
 				group.State(Visibility::Visible);
 
@@ -136,14 +123,16 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 				{
 					// Get the closest match to remainingWidth or use infinite size if we do not have any match.
 					double remainingWidth = availableSize.Width + previousSize.Width - desiredSize.Width;
-					std::vector<double> matchingWidths;
+
+					double requestedWidth = std::numeric_limits<double>::infinity();
 					for (auto const& w : requestedWidths)
 					{
 						if (w <= remainingWidth)
-							matchingWidths.push_back(w);
+						{
+							requestedWidth = w;
+						}
 					}
 
-					double requestedWidth = matchingWidths.empty() ? std::numeric_limits<double>::infinity() : matchingWidths.back();
 					Size fixedSize{ static_cast<float>(requestedWidth), availableSize.Height };
 					group.Measure(fixedSize);
 				}
