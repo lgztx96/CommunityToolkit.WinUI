@@ -5,25 +5,28 @@
 #include "DesignTimeHelpers.g.cpp"
 #endif
 
+namespace winrt
+{
+	using namespace Windows::ApplicationModel;
+}
+
 namespace winrt::XamlToolkit::WinUI::Helpers::implementation
 {
     bool DesignTimeHelpers::IsRunningInLegacyDesignerMode()
     {
-        static bool legacy = winrt::Windows::ApplicationModel::DesignMode::DesignModeEnabled() &&
-                             !winrt::Windows::ApplicationModel::DesignMode::DesignMode2Enabled();
+        static bool legacy = winrt::DesignMode::DesignModeEnabled() && !winrt::DesignMode::DesignMode2Enabled();
         return legacy;
     }
 
     bool DesignTimeHelpers::IsRunningInEnhancedDesignerMode()
     {
-        static bool enhanced = winrt::Windows::ApplicationModel::DesignMode::DesignModeEnabled() &&
-                               winrt::Windows::ApplicationModel::DesignMode::DesignMode2Enabled();
+        static bool enhanced = winrt::DesignMode::DesignModeEnabled() && winrt::DesignMode::DesignMode2Enabled();
         return enhanced;
     }
 
     bool DesignTimeHelpers::IsRunningInApplicationRuntimeMode()
     {
-        static bool runtime = !winrt::Windows::ApplicationModel::DesignMode::DesignModeEnabled();
+        static bool runtime = !winrt::DesignMode::DesignModeEnabled();
         return runtime;
     }
 }

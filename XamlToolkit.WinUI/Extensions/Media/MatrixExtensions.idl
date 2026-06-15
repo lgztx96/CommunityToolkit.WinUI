@@ -1,7 +1,6 @@
 ﻿namespace XamlToolkit.WinUI
 {
-    [default_interface]
-    runtimeclass MatrixExtensions
+    static runtimeclass MatrixExtensions
     {
         static Boolean HasInverse(Microsoft.UI.Xaml.Media.Matrix matrix);
 

@@ -8,6 +8,8 @@
 #include <winrt/Windows.UI.h>
 #endif
 
+import winrt.XamlToolkit.WinUI;
+
 namespace winrt
 {
     using namespace Windows::UI;
@@ -15,7 +17,7 @@ namespace winrt
 
 namespace winrt::XamlToolkit::WinUI::Helpers::implementation
 {
-    struct ColorHelper : ColorHelperT<ColorHelper>
+    struct ColorHelper
     {
         static Color ToColor(winrt::hstring const& colorString);
 

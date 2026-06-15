@@ -19,7 +19,7 @@ namespace winrt
 
 namespace winrt::XamlToolkit::WinUI::implementation
 {
-	struct VisualExtensions : VisualExtensionsT<VisualExtensions>
+	struct VisualExtensions
 	{
 		static Visual GetVisual(UIElement const& element);
 
@@ -94,7 +94,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 			winrt::Microsoft::UI::Xaml::DependencyProperty::RegisterAttached(
 				L"AnchorPoint",
 				winrt::xaml_typename<hstring>(),
-				winrt::xaml_typename<class_type>(),
+				winrt::xaml_typename<winrt::XamlToolkit::WinUI::VisualExtensions>(),
 				winrt::Microsoft::UI::Xaml::PropertyMetadata{ nullptr, &VisualExtensions::OnAnchorPointChanged }
 			);
 
@@ -103,7 +103,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 			winrt::Microsoft::UI::Xaml::DependencyProperty::RegisterAttached(
 				L"CenterPoint",
 				winrt::xaml_typename<hstring>(),
-				winrt::xaml_typename<class_type>(),
+				winrt::xaml_typename<winrt::XamlToolkit::WinUI::VisualExtensions>(),
 				winrt::Microsoft::UI::Xaml::PropertyMetadata{ nullptr, &VisualExtensions::OnCenterPointChanged }
 			);
 
@@ -112,7 +112,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 			winrt::Microsoft::UI::Xaml::DependencyProperty::RegisterAttached(
 				L"Offset",
 				winrt::xaml_typename<hstring>(),
-				winrt::xaml_typename<class_type>(),
+				winrt::xaml_typename<winrt::XamlToolkit::WinUI::VisualExtensions>(),
 				winrt::Microsoft::UI::Xaml::PropertyMetadata{ nullptr, &VisualExtensions::OnOffsetChanged }
 			);
 
@@ -121,7 +121,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 			winrt::Microsoft::UI::Xaml::DependencyProperty::RegisterAttached(
 				L"Translation",
 				winrt::xaml_typename<hstring>(),
-				winrt::xaml_typename<class_type>(),
+				winrt::xaml_typename<winrt::XamlToolkit::WinUI::VisualExtensions>(),
 				winrt::Microsoft::UI::Xaml::PropertyMetadata{ nullptr, &VisualExtensions::OnTranslationChanged }
 			);
 
@@ -130,7 +130,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 			winrt::Microsoft::UI::Xaml::DependencyProperty::RegisterAttached(
 				L"Opacity",
 				winrt::xaml_typename<double>(),
-				winrt::xaml_typename<class_type>(),
+				winrt::xaml_typename<winrt::XamlToolkit::WinUI::VisualExtensions>(),
 				winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(std::numeric_limits<double>::quiet_NaN()), &VisualExtensions::OnOpacityChanged }
 			);
 
@@ -139,7 +139,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 			winrt::Microsoft::UI::Xaml::DependencyProperty::RegisterAttached(
 				L"RotationAngle",
 				winrt::xaml_typename<double>(),
-				winrt::xaml_typename<class_type>(),
+				winrt::xaml_typename<winrt::XamlToolkit::WinUI::VisualExtensions>(),
 				winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(std::numeric_limits<double>::quiet_NaN()), &VisualExtensions::OnRotationAngleChanged }
 			);
 
@@ -148,7 +148,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 			winrt::Microsoft::UI::Xaml::DependencyProperty::RegisterAttached(
 				L"RotationAngleInDegrees",
 				winrt::xaml_typename<double>(),
-				winrt::xaml_typename<class_type>(),
+				winrt::xaml_typename<winrt::XamlToolkit::WinUI::VisualExtensions>(),
 				winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(std::numeric_limits<double>::quiet_NaN()), &VisualExtensions::OnRotationAngleInDegreesChanged }
 			);
 
@@ -157,7 +157,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 			winrt::Microsoft::UI::Xaml::DependencyProperty::RegisterAttached(
 				L"RotationAxis",
 				winrt::xaml_typename<hstring>(),
-				winrt::xaml_typename<class_type>(),
+				winrt::xaml_typename<winrt::XamlToolkit::WinUI::VisualExtensions>(),
 				winrt::Microsoft::UI::Xaml::PropertyMetadata{ nullptr, &VisualExtensions::OnRotationAxisChanged }
 			);
 
@@ -166,7 +166,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 			winrt::Microsoft::UI::Xaml::DependencyProperty::RegisterAttached(
 				L"Scale",
 				winrt::xaml_typename<hstring>(),
-				winrt::xaml_typename<class_type>(),
+				winrt::xaml_typename<winrt::XamlToolkit::WinUI::VisualExtensions>(),
 				winrt::Microsoft::UI::Xaml::PropertyMetadata{ nullptr, &VisualExtensions::OnScaleChanged }
 			);
 
@@ -175,7 +175,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 			winrt::Microsoft::UI::Xaml::DependencyProperty::RegisterAttached(
 				L"Size",
 				winrt::xaml_typename<hstring>(),
-				winrt::xaml_typename<class_type>(),
+				winrt::xaml_typename<winrt::XamlToolkit::WinUI::VisualExtensions>(),
 				winrt::Microsoft::UI::Xaml::PropertyMetadata{ nullptr, &VisualExtensions::OnSizeChanged }
 			);
 
@@ -184,7 +184,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 			winrt::Microsoft::UI::Xaml::DependencyProperty::RegisterAttached(
 				L"NormalizedCenterPoint",
 				winrt::xaml_typename<bool>(),
-				winrt::xaml_typename<class_type>(),
+				winrt::xaml_typename<winrt::XamlToolkit::WinUI::VisualExtensions>(),
 				winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(false), &VisualExtensions::OnNormalizedCenterPointChanged }
 			);
 	private:

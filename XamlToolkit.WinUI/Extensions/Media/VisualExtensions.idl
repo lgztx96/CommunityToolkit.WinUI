@@ -1,7 +1,6 @@
 namespace XamlToolkit.WinUI
 {
-    [default_interface]
-    runtimeclass VisualExtensions 
+    static runtimeclass VisualExtensions 
     {
 		static Microsoft.UI.Composition.Visual GetVisual(Microsoft.UI.Xaml.UIElement element);
 

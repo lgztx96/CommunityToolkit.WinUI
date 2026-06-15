@@ -1,7 +1,6 @@
 namespace XamlToolkit.WinUI.Helpers
 {
-    [default_interface]
-    runtimeclass DesignTimeHelpers
+    static runtimeclass DesignTimeHelpers
     {
         static Boolean IsRunningInLegacyDesignerMode();
 

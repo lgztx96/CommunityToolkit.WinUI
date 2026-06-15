@@ -81,9 +81,9 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
         }
 
         static constexpr auto ThrowFormatException = []() -> Color
-            {
-                throw winrt::hresult_invalid_argument(L"The parameter \"colorString\" is not a recognized Color format.");
-            };
+        {
+            throw winrt::hresult_invalid_argument(L"The parameter \"colorString\" is not a recognized Color format.");
+        };
 
         if (colorView[0] == L'#')
         {

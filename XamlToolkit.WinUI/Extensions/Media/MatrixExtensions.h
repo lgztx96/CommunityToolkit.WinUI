@@ -15,7 +15,7 @@ namespace winrt
 
 namespace winrt::XamlToolkit::WinUI::implementation
 {
-    struct MatrixExtensions : MatrixExtensionsT<MatrixExtensions>
+    struct MatrixExtensions
     {
         static bool HasInverse(Matrix const& matrix);
 

@@ -4,7 +4,7 @@
 
 namespace winrt::XamlToolkit::WinUI::Helpers::implementation
 {
-    struct DesignTimeHelpers : DesignTimeHelpersT<DesignTimeHelpers>
+    struct DesignTimeHelpers
     {
         static bool IsRunningInLegacyDesignerMode();
 

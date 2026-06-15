@@ -15,7 +15,7 @@ namespace winrt
 
 namespace winrt::XamlToolkit::WinUI::implementation
 {
-    struct TransformExtensions : TransformExtensionsT<TransformExtensions>
+    struct TransformExtensions
     {
         static Matrix GetMatrix(RotateTransform const& transform);
 
