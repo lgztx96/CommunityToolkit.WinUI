@@ -154,6 +154,10 @@
       <DependentUpon>Extensions\Markup\FontIconSourceExtension.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="Extensions\Markup\NullableBoolExtension.h">
+      <DependentUpon>Extensions\Markup\NullableBoolExtension.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="Extensions\Markup\SymbolIconExtension.h">
       <DependentUpon>Extensions\Markup\SymbolIconExtension.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -223,6 +227,10 @@
       <DependentUpon>Extensions\Markup\FontIconSourceExtension.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="Extensions\Markup\NullableBoolExtension.cpp">
+      <DependentUpon>Extensions\Markup\NullableBoolExtension.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="Extensions\Markup\SymbolIconExtension.cpp">
       <DependentUpon>Extensions\Markup\SymbolIconExtension.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -287,6 +295,9 @@
       <SubType>Designer</SubType>
     </Midl>
     <Midl Include="Extensions\Markup\FontIconSourceExtension.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Extensions\Markup\NullableBoolExtension.idl">
       <SubType>Designer</SubType>
     </Midl>
     <Midl Include="Extensions\Markup\SymbolIconExtension.idl">

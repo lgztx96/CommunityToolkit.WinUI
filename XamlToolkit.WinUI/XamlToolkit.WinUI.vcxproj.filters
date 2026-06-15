@@ -166,6 +166,9 @@
     <Midl Include="Extensions\Text\HyperlinkExtensions.idl">
       <Filter>Extensions\Text</Filter>
     </Midl>
+    <Midl Include="Extensions\Markup\NullableBoolExtension.idl">
+      <Filter>Extensions\Markup</Filter>
+    </Midl>
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
