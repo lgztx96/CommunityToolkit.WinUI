@@ -839,14 +839,14 @@ namespace winrt::XamlToolkit::WinUI::Animations
             }
 
             cancelation_token.callback([=]
+            {
+                for (const auto& [target, path] : compositionAnimations)
                 {
-                    for (const auto& [target, path] : compositionAnimations)
-                    {
-                        target.StopAnimation(path);
-                    }
+                    target.StopAnimation(path);
+                }
 
-                    if (storyboard) storyboard.Stop();
-                });
+                if (storyboard) storyboard.Stop();
+            });
 
             if (compositionTask) co_await compositionTask;
             if (xamlTask) co_await xamlTask;

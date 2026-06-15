@@ -9,6 +9,7 @@
 
 #include <winrt/Microsoft.UI.h>
 #include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Composition.h>
 #include <winrt/Microsoft.UI.Xaml.Hosting.h>
 #include <winrt/Microsoft.UI.Xaml.Markup.h>
 #include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
@@ -29,6 +30,7 @@ import winrt.Windows.UI.Xaml.Interop;
 
 import winrt.Microsoft.UI;
 import winrt.Microsoft.UI.Xaml;
+import winrt.Microsoft.UI.Composition;
 import winrt.Microsoft.UI.Xaml.Hosting;
 import winrt.Microsoft.UI.Xaml.Markup;
 import winrt.Microsoft.UI.Xaml.Media.Animation;

@@ -6,6 +6,7 @@
 
 #include "UIElementExtensions.g.h"
 #ifdef __INTELLISENSE__
+#include <winrt/Microsoft.UI.Composition.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
 #endif
