@@ -26,7 +26,7 @@ namespace winrt::XamlToolkit::WinUI::Media::Animations::implementation
         using public_value_type = winrt::Windows::Foundation::IReference<double>;
         using parsed_value_type = double;
         using keyframe_type = winrt::XamlToolkit::WinUI::Animations::ScalarKeyFrame;
-        static std::optional<parsed_value_type> Parse(winrt::Windows::Foundation::IReference<double> const& value)
+        static std::optional<parsed_value_type> Parse(public_value_type const& value)
         {
             return value;
         }
