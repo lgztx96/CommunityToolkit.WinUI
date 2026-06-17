@@ -6,8 +6,6 @@
 #include <string>
 #endif
 
-#include <iomanip>
-
 namespace winrt::XamlToolkit::WinUI::Animations
 {
     /// <summary>

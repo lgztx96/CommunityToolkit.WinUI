@@ -1,6 +1,5 @@
 namespace XamlToolkit.WinUI
 {
-    [default_interface]
     static runtimeclass FrameworkElementExtensions
     {
         static Microsoft.UI.Xaml.DependencyProperty AncestorProperty{ get; };

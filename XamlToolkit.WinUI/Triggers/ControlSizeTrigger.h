@@ -20,7 +20,6 @@ namespace winrt
 
 namespace winrt::XamlToolkit::WinUI::implementation
 {
-
     struct ControlSizeTrigger : ControlSizeTriggerT<ControlSizeTrigger>
     {
         ControlSizeTrigger() = default;

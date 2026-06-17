@@ -18,7 +18,6 @@ namespace winrt
 
 namespace winrt::XamlToolkit::WinUI::implementation
 {
-
     struct IsEqualStateTrigger : IsEqualStateTriggerT<IsEqualStateTrigger>
     {
         IsEqualStateTrigger() = default;

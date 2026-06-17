@@ -6,7 +6,7 @@
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Microsoft.UI.Input.h>
-#include <winrt/Microsoft.UI.Meida.h>
+#include <winrt/Microsoft.UI.Xaml.Media.h>
 #include <winrt/Microsoft.UI.Composition.h>
 #endif
 
