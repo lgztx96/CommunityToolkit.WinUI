@@ -17,8 +17,7 @@ namespace XamlToolkit.WinUI
         Bottom
     };
 
-    [default_interface]
-    runtimeclass ListViewExtensions
+    static runtimeclass ListViewExtensions
     {
         static Microsoft.UI.Xaml.DependencyProperty AlternateColorProperty{ get; };
 

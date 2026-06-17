@@ -16,7 +16,7 @@ namespace winrt
 
 namespace winrt::XamlToolkit::WinUI::implementation
 {
-    struct RectExtensions : RectExtensionsT<RectExtensions>
+    struct RectExtensions
     {
         static bool IntersectsWith(Rect rect1, Rect rect2);
 

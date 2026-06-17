@@ -32,7 +32,7 @@ namespace winrt
 
 namespace winrt::XamlToolkit::WinUI::implementation
 {
-	struct ListViewExtensions : ListViewExtensionsT<ListViewExtensions>
+	struct ListViewExtensions
 	{
 		static void OnItemContainerStretchDirectionPropertyChanged(
 			Microsoft::UI::Xaml::DependencyObject const& d,
@@ -42,7 +42,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 			winrt::Microsoft::UI::Xaml::DependencyProperty::RegisterAttached(
 				L"ItemContainerStretchDirection",
 				winrt::xaml_typename<ItemContainerStretchDirection>(),
-				winrt::xaml_typename<class_type>(),
+				winrt::xaml_typename<winrt::XamlToolkit::WinUI::ListViewExtensions>(),
 				winrt::Microsoft::UI::Xaml::PropertyMetadata{ nullptr, &ListViewExtensions::OnItemContainerStretchDirectionPropertyChanged });
 
 		static std::optional<ItemContainerStretchDirection> GetItemContainerStretchDirection(
@@ -89,14 +89,14 @@ namespace winrt::XamlToolkit::WinUI::implementation
 			= DependencyProperty::RegisterAttached(
 				L"AlternateColor",
 				winrt::xaml_typename<Brush>(),
-				winrt::xaml_typename<class_type>(),
+				winrt::xaml_typename<winrt::XamlToolkit::WinUI::ListViewExtensions>(),
 				PropertyMetadata(nullptr, &ListViewExtensions::OnAlternateColorPropertyChanged));
 
 		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> AlternateItemTemplateProperty
 			= DependencyProperty::RegisterAttached(
 				L"AlternateItemTemplate",
 				winrt::xaml_typename<DataTemplate>(),
-				winrt::xaml_typename<class_type>(),
+				winrt::xaml_typename<winrt::XamlToolkit::WinUI::ListViewExtensions>(),
 				PropertyMetadata(nullptr, &ListViewExtensions::OnAlternateItemTemplatePropertyChanged));
 
 		static Brush GetAlternateColor(ListViewBase const& obj)
@@ -144,7 +144,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 			= DependencyProperty::RegisterAttached(
 				L"Command",
 				winrt::xaml_typename<ICommand>(),
-				winrt::xaml_typename<class_type>(),
+				winrt::xaml_typename<winrt::XamlToolkit::WinUI::ListViewExtensions>(),
 				PropertyMetadata(nullptr, &ListViewExtensions::OnCommandPropertyChanged));
 
 		static ICommand GetCommand(ListViewBase obj)

@@ -1,7 +1,6 @@
 ﻿namespace XamlToolkit.WinUI
 {
-    [default_interface]
-    runtimeclass RectExtensions
+    static runtimeclass RectExtensions
     {
         static Boolean IntersectsWith(Windows.Foundation.Rect rect1, Windows.Foundation.Rect rect2);
 
