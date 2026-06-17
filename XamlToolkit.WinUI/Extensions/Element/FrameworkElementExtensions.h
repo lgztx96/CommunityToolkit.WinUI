@@ -20,7 +20,7 @@ namespace winrt
 
 namespace winrt::XamlToolkit::WinUI::implementation
 {
-    struct FrameworkElementExtensions : FrameworkElementExtensionsT<FrameworkElementExtensions>
+    struct FrameworkElementExtensions
     {
     private:
         struct HandlerState
@@ -59,10 +59,18 @@ namespace winrt::XamlToolkit::WinUI::implementation
         static void SetAncestorType(FrameworkElement const& obj, TypeName const& value);
 
         static inline const wil::single_threaded_property<DependencyProperty> AncestorProperty =
-            DependencyProperty::RegisterAttached(L"Ancestor", winrt::xaml_typename<IInspectable>(), winrt::xaml_typename<class_type>(), PropertyMetadata(nullptr));
+            DependencyProperty::RegisterAttached(
+                L"Ancestor", 
+                winrt::xaml_typename<IInspectable>(), 
+                winrt::xaml_typename<winrt::XamlToolkit::WinUI::FrameworkElementExtensions>(), 
+                PropertyMetadata(nullptr));
 
         static inline const wil::single_threaded_property<DependencyProperty> AncestorTypeProperty =
-            DependencyProperty::RegisterAttached(L"AncestorType", winrt::xaml_typename<TypeName>(), winrt::xaml_typename<class_type>(), PropertyMetadata(nullptr, AncestorType_PropertyChanged));
+            DependencyProperty::RegisterAttached(
+                L"AncestorType", 
+                winrt::xaml_typename<TypeName>(), 
+                winrt::xaml_typename<winrt::XamlToolkit::WinUI::FrameworkElementExtensions>(), 
+                PropertyMetadata(nullptr, &FrameworkElementExtensions::AncestorType_PropertyChanged));
     };
 }
 
