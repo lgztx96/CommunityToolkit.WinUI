@@ -38,6 +38,9 @@
     <Filter Include="Extensions\ListViewBase">
       <UniqueIdentifier>{415f6bd5-5b11-4c3b-ac72-a3b980768a11}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Extensions\ScrollViewer">
+      <UniqueIdentifier>{d2354941-3607-462e-bfc0-04f7eca55a29}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -64,6 +67,30 @@
       <Filter>Extensions\Shadows</Filter>
     </ClCompile>
     <ClCompile Include="Extensions\Text\StringExtensions.cpp">
+      <Filter>Extensions\Text</Filter>
+    </ClCompile>
+    <ClCompile Include="Extensions\Text\HyperlinkExtensions.cpp">
+      <Filter>Extensions\Text</Filter>
+    </ClCompile>
+    <ClCompile Include="Extensions\Text\TextBoxExtensions.cpp">
+      <Filter>Extensions\Text</Filter>
+    </ClCompile>
+    <ClCompile Include="Extensions\Text\TextBoxExtensions.Mask.Internals.cpp">
+      <Filter>Extensions\Text</Filter>
+    </ClCompile>
+    <ClCompile Include="Extensions\Text\TextBoxExtensions.Mask.Properties.cpp">
+      <Filter>Extensions\Text</Filter>
+    </ClCompile>
+    <ClCompile Include="Extensions\Text\TextBoxExtensions.Regex.Internals.cpp">
+      <Filter>Extensions\Text</Filter>
+    </ClCompile>
+    <ClCompile Include="Extensions\Text\TextBoxExtensions.Regex.Properties.cpp">
+      <Filter>Extensions\Text</Filter>
+    </ClCompile>
+    <ClCompile Include="Extensions\Text\TextBoxExtensions.SurfaceDial.cpp">
+      <Filter>Extensions\Text</Filter>
+    </ClCompile>
+    <ClCompile Include="Extensions\Text\SurfaceDialOptions.cpp">
       <Filter>Extensions\Text</Filter>
     </ClCompile>
     <ClCompile Include="Extensions\Element\FrameworkElementExtensions.cpp">
@@ -100,6 +127,15 @@
       <Filter>Extensions\Shadows</Filter>
     </ClInclude>
     <ClInclude Include="Extensions\Text\StringExtensions.h">
+      <Filter>Extensions\Text</Filter>
+    </ClInclude>
+    <ClInclude Include="Extensions\Text\HyperlinkExtensions.h">
+      <Filter>Extensions\Text</Filter>
+    </ClInclude>
+    <ClInclude Include="Extensions\Text\TextBoxExtensions.h">
+      <Filter>Extensions\Text</Filter>
+    </ClInclude>
+    <ClInclude Include="Extensions\Text\SurfaceDialOptions.h">
       <Filter>Extensions\Text</Filter>
     </ClInclude>
     <ClInclude Include="common.h" />
@@ -166,8 +202,17 @@
     <Midl Include="Extensions\Text\HyperlinkExtensions.idl">
       <Filter>Extensions\Text</Filter>
     </Midl>
+    <Midl Include="Extensions\Text\TextBoxExtensions.idl">
+      <Filter>Extensions\Text</Filter>
+    </Midl>
+    <Midl Include="Extensions\Text\SurfaceDialOptions.idl">
+      <Filter>Extensions\Text</Filter>
+    </Midl>
     <Midl Include="Extensions\Markup\NullableBoolExtension.idl">
       <Filter>Extensions\Markup</Filter>
+    </Midl>
+    <Midl Include="Extensions\ScrollViewer\ScrollViewerExtensions.idl">
+      <Filter>Extensions\ScrollViewer</Filter>
     </Midl>
   </ItemGroup>
   <ItemGroup>

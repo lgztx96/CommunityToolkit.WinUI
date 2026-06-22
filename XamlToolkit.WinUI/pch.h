@@ -11,6 +11,12 @@
 // conflict with Storyboard::GetCurrentTime
 #undef GetCurrentTime
 
+#include <algorithm>
+#include <cmath>
+#include <format>
 #include <generator>
 #include <iterator>
 #include <memory>
+#include <regex>
+#include <string>
+#include <string_view>
