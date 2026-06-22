@@ -24,23 +24,23 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
         void UpdateTrigger();
 
-        static void OnValuePropertyChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e);
+        static void OnValuePropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 
-        static bool AreValuesEqual(IInspectable const& value1, IInspectable const& value2, bool convertType);
+        static bool AreValuesEqual(winrt::IInspectable const& value1, winrt::IInspectable const& value2, bool convertType);
 
-        static bool ConvertTypeEquals(IInspectable const& value1, IInspectable const& value2);
+        static bool ConvertTypeEquals(winrt::IInspectable const& value1, winrt::IInspectable const& value2);
 
-        IInspectable Value() const { return GetValue(ValueProperty); }
-        void Value(IInspectable const& value) const { SetValue(ValueProperty, value); }
+        winrt::IInspectable Value() const { return GetValue(ValueProperty); }
+        void Value(winrt::IInspectable const& value) const { SetValue(ValueProperty, value); }
 
-        static inline const wil::single_threaded_property<DependencyProperty> ValueProperty =
-            DependencyProperty::Register(L"Value", winrt::xaml_typename<IInspectable>(), winrt::xaml_typename<class_type>(), PropertyMetadata(nullptr, OnValuePropertyChanged));
+        static inline const wil::single_threaded_property<winrt::DependencyProperty> ValueProperty =
+            winrt::DependencyProperty::Register(L"Value", winrt::xaml_typename<winrt::IInspectable>(), winrt::xaml_typename<class_type>(), winrt::PropertyMetadata(nullptr, OnValuePropertyChanged));
 
-        IInspectable To() const { return GetValue(ToProperty); }
-        void To(IInspectable const& value) const { SetValue(ToProperty, value); }
+        winrt::IInspectable To() const { return GetValue(ToProperty); }
+        void To(winrt::IInspectable const& value) const { SetValue(ToProperty, value); }
 
-        static inline const wil::single_threaded_property<DependencyProperty> ToProperty =
-            DependencyProperty::Register(L"To", winrt::xaml_typename<IInspectable>(), winrt::xaml_typename<class_type>(), PropertyMetadata(nullptr, OnValuePropertyChanged));
+        static inline const wil::single_threaded_property<winrt::DependencyProperty> ToProperty =
+            winrt::DependencyProperty::Register(L"To", winrt::xaml_typename<winrt::IInspectable>(), winrt::xaml_typename<class_type>(), winrt::PropertyMetadata(nullptr, OnValuePropertyChanged));
     };
 }
 
