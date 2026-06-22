@@ -19,6 +19,8 @@
 #include <winrt/Microsoft.UI.Xaml.Controls.h>
 #include <winrt/Microsoft.UI.Xaml.Shapes.h>
 #include <winrt/Windows.ApplicationModel.DataTransfer.h>
+#include <winrt/Windows.Networking.Connectivity.h>
+#include <winrt/Microsoft.UI.Dispatching.h>
 
 #include <wil/cppwinrt.h>
 #include <wil/cppwinrt_helpers.h>
@@ -44,6 +46,8 @@ import winrt.Windows.UI.Input;
 import winrt.Microsoft.UI.Xaml.Controls;
 import winrt.Microsoft.UI.Xaml.Shapes;
 import winrt.Windows.ApplicationModel.DataTransfer;
+import winrt.Windows.Networking.Connectivity;
+import winrt.Microsoft.UI.Dispatching;
 
 #include <wil_cppwinrt_module.h>
 

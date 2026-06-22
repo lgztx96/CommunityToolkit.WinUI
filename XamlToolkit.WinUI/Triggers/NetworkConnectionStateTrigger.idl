@@ -1,0 +1,16 @@
+namespace XamlToolkit.WinUI
+{
+    enum ConnectionState
+    {
+        Connected,
+        Disconnected
+    };
+
+    runtimeclass NetworkConnectionStateTrigger : Microsoft.UI.Xaml.StateTriggerBase
+    {
+        NetworkConnectionStateTrigger();
+
+        ConnectionState ConnectionState;
+        static Microsoft.UI.Xaml.DependencyProperty ConnectionStateProperty{ get; };
+    }
+}

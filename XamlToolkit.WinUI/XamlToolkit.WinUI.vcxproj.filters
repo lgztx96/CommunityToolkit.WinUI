@@ -57,6 +57,9 @@
     <ClCompile Include="Triggers\RegexStateTrigger.cpp">
       <Filter>Triggers</Filter>
     </ClCompile>
+    <ClCompile Include="Triggers\NetworkConnectionStateTrigger.cpp">
+      <Filter>Triggers</Filter>
+    </ClCompile>
     <ClCompile Include="Extensions\Element\UIElementExtensions.cpp">
       <Filter>Extensions\Element</Filter>
     </ClCompile>
@@ -120,6 +123,9 @@
     <ClInclude Include="Triggers\RegexStateTrigger.h">
       <Filter>Triggers</Filter>
     </ClInclude>
+    <ClInclude Include="Triggers\NetworkConnectionStateTrigger.h">
+      <Filter>Triggers</Filter>
+    </ClInclude>
     <ClInclude Include="Extensions\Element\UIElementExtensions.h">
       <Filter>Extensions\Element</Filter>
     </ClInclude>
@@ -178,6 +184,9 @@
       <Filter>Triggers</Filter>
     </Midl>
     <Midl Include="Triggers\RegexStateTrigger.idl">
+      <Filter>Triggers</Filter>
+    </Midl>
+    <Midl Include="Triggers\NetworkConnectionStateTrigger.idl">
       <Filter>Triggers</Filter>
     </Midl>
     <Midl Include="component.idl" />
