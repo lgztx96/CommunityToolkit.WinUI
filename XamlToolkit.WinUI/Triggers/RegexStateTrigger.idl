@@ -1,0 +1,24 @@
+namespace XamlToolkit.WinUI
+{
+    enum RegexOptions
+    {
+        None = 0,
+        IgnoreCase = 1,
+        Multiline = 2,
+        Optimize = 4
+    };
+
+    runtimeclass RegexStateTrigger : Microsoft.UI.Xaml.StateTriggerBase
+    {
+        RegexStateTrigger();
+
+        String Value;
+        static Microsoft.UI.Xaml.DependencyProperty ValueProperty{ get; };
+
+        String Expression;
+        static Microsoft.UI.Xaml.DependencyProperty ExpressionProperty{ get; };
+
+        RegexOptions Options;
+        static Microsoft.UI.Xaml.DependencyProperty OptionsProperty{ get; };
+    }
+}

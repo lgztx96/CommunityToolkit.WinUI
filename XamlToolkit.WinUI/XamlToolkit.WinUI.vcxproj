@@ -217,9 +217,22 @@
     <ClInclude Include="winrt_module_imports.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="wil_cppwinrt_module.h" />
-    <ClInclude Include="Triggers\ControlSizeTrigger.h" />
-    <ClInclude Include="Triggers\IsEqualStateTrigger.h" />
-    <ClInclude Include="Triggers\IsNullOrEmptyStateTrigger.h" />
+    <ClInclude Include="Triggers\ControlSizeTrigger.h">
+      <DependentUpon>Triggers\ControlSizeTrigger.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Triggers\IsEqualStateTrigger.h">
+      <DependentUpon>Triggers\IsEqualStateTrigger.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Triggers\IsNullOrEmptyStateTrigger.h">
+      <DependentUpon>Triggers\IsNullOrEmptyStateTrigger.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Triggers\RegexStateTrigger.h">
+      <DependentUpon>Triggers\RegexStateTrigger.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Extensions\Element\FrameworkElementExtensions.cpp">
@@ -308,9 +321,22 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
-    <ClCompile Include="Triggers\ControlSizeTrigger.cpp" />
-    <ClCompile Include="Triggers\IsEqualStateTrigger.cpp" />
-    <ClCompile Include="Triggers\IsNullOrEmptyStateTrigger.cpp" />
+    <ClCompile Include="Triggers\ControlSizeTrigger.cpp">
+      <DependentUpon>Triggers\ControlSizeTrigger.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Triggers\IsEqualStateTrigger.cpp">
+      <DependentUpon>Triggers\IsEqualStateTrigger.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Triggers\IsNullOrEmptyStateTrigger.cpp">
+      <DependentUpon>Triggers\IsNullOrEmptyStateTrigger.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Triggers\RegexStateTrigger.cpp">
+      <DependentUpon>Triggers\RegexStateTrigger.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="XamlToolkit.WinUI.def" />
@@ -376,6 +402,9 @@
     <Midl Include="Triggers\ControlSizeTrigger.idl" />
     <Midl Include="Triggers\IsEqualStateTrigger.idl" />
     <Midl Include="Triggers\IsNullOrEmptyStateTrigger.idl" />
+    <Midl Include="Triggers\RegexStateTrigger.idl">
+      <SubType>Designer</SubType>
+    </Midl>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\XamlToolkit.WinUI.ModuleBuilder\XamlToolkit.WinUI.ModuleBuilder.vcxproj">
