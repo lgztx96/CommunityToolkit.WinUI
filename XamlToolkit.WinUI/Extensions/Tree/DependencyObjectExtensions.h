@@ -149,13 +149,9 @@ namespace winrt::XamlToolkit::WinUI
 			{
 				DependencyObject child = VisualTreeHelper::GetChild(element, i);
 
-				result.push_back(child);
+				result.emplace_back(child);
 
-				std::vector<DependencyObject> childrenOfChild;
-
-				FindDescendants(child, childrenOfChild);
-
-				result.append_range(childrenOfChild);
+				FindDescendants(child, result);
 			}
 		}
 

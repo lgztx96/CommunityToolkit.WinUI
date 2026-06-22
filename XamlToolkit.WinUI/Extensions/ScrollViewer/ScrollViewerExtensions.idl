@@ -1,0 +1,17 @@
+namespace XamlToolkit.WinUI
+{
+    static runtimeclass ScrollViewerExtensions
+    {
+        static Microsoft.UI.Xaml.DependencyProperty HorizontalScrollBarMarginProperty{ get; };
+
+        static Microsoft.UI.Xaml.DependencyProperty VerticalScrollBarMarginProperty{ get; };
+
+        static Microsoft.UI.Xaml.Thickness GetVerticalScrollBarMargin(Microsoft.UI.Xaml.FrameworkElement obj);
+
+        static void SetVerticalScrollBarMargin(Microsoft.UI.Xaml.FrameworkElement obj, Microsoft.UI.Xaml.Thickness value);
+
+        static Microsoft.UI.Xaml.Thickness GetHorizontalScrollBarMargin(Microsoft.UI.Xaml.FrameworkElement obj);
+
+        static void SetHorizontalScrollBarMargin(Microsoft.UI.Xaml.FrameworkElement obj, Microsoft.UI.Xaml.Thickness value);
+    }
+}
