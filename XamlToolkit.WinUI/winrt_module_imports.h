@@ -14,6 +14,7 @@
 #include <winrt/Microsoft.UI.Xaml.Hosting.h>
 #include <winrt/Microsoft.UI.Xaml.Interop.h>
 #include <winrt/Microsoft.UI.Xaml.Markup.h>
+#include <winrt/Windows.System.Profile.h>
 #include <winrt/Windows.UI.Input.h>
 #include <winrt/Microsoft.UI.Xaml.Controls.h>
 #include <winrt/Microsoft.UI.Xaml.Shapes.h>
@@ -38,6 +39,7 @@ import winrt.Microsoft.UI.Xaml;
 import winrt.Microsoft.UI.Xaml.Hosting;
 import winrt.Microsoft.UI.Xaml.Interop;
 import winrt.Microsoft.UI.Xaml.Markup;
+import winrt.Windows.System.Profile;
 import winrt.Windows.UI.Input;
 import winrt.Microsoft.UI.Xaml.Controls;
 import winrt.Microsoft.UI.Xaml.Shapes;

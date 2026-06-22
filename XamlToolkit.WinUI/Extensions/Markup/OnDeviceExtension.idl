@@ -1,0 +1,40 @@
+namespace XamlToolkit.WinUI
+{
+    /// <summary>
+    /// The OnDevice markup extension allows you to customize UI appearance on a per-DeviceFamily basis.
+    /// </summary>
+    runtimeclass OnDeviceExtension : Microsoft.UI.Xaml.Markup.MarkupExtension
+    {
+        OnDeviceExtension();
+
+        /// <summary>
+        /// Gets or sets the default value for this property
+        /// </summary>
+        Object Default;
+
+        /// <summary>
+        /// Gets or sets a value for this property on Desktop
+        /// </summary>
+        Object Desktop;
+
+        /// <summary>
+        /// Gets or sets a value for this property on Holographic
+        /// </summary>
+        Object Holographic;
+
+        /// <summary>
+        /// Gets or sets a value for this property on IoT
+        /// </summary>
+        Object IoT;
+
+        /// <summary>
+        /// Gets or sets a value for this property on Team
+        /// </summary>
+        Object Team;
+
+        /// <summary>
+        /// Gets or sets a value for this property on Xbox
+        /// </summary>
+        Object Xbox;
+    }
+}

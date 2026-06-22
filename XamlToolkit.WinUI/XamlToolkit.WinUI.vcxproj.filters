@@ -93,6 +93,9 @@
     <ClCompile Include="Extensions\Text\SurfaceDialOptions.cpp">
       <Filter>Extensions\Text</Filter>
     </ClCompile>
+    <ClCompile Include="Extensions\Markup\OnDeviceExtension.cpp">
+      <Filter>Extensions\Markup</Filter>
+    </ClCompile>
     <ClCompile Include="Extensions\Element\FrameworkElementExtensions.cpp">
       <Filter>Extensions\Element</Filter>
     </ClCompile>
@@ -137,6 +140,9 @@
     </ClInclude>
     <ClInclude Include="Extensions\Text\SurfaceDialOptions.h">
       <Filter>Extensions\Text</Filter>
+    </ClInclude>
+    <ClInclude Include="Extensions\Markup\OnDeviceExtension.h">
+      <Filter>Extensions\Markup</Filter>
     </ClInclude>
     <ClInclude Include="common.h" />
     <ClInclude Include="Extensions\Tree\DependencyObjectExtensions.h">
@@ -209,6 +215,9 @@
       <Filter>Extensions\Text</Filter>
     </Midl>
     <Midl Include="Extensions\Markup\NullableBoolExtension.idl">
+      <Filter>Extensions\Markup</Filter>
+    </Midl>
+    <Midl Include="Extensions\Markup\OnDeviceExtension.idl">
       <Filter>Extensions\Markup</Filter>
     </Midl>
     <Midl Include="Extensions\ScrollViewer\ScrollViewerExtensions.idl">

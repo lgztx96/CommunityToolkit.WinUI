@@ -158,6 +158,10 @@
       <DependentUpon>Extensions\Markup\NullableBoolExtension.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="Extensions\Markup\OnDeviceExtension.h">
+      <DependentUpon>Extensions\Markup\OnDeviceExtension.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="Extensions\Markup\SymbolIconExtension.h">
       <DependentUpon>Extensions\Markup\SymbolIconExtension.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -241,6 +245,10 @@
     </ClCompile>
     <ClCompile Include="Extensions\Markup\NullableBoolExtension.cpp">
       <DependentUpon>Extensions\Markup\NullableBoolExtension.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Extensions\Markup\OnDeviceExtension.cpp">
+      <DependentUpon>Extensions\Markup\OnDeviceExtension.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="Extensions\Markup\SymbolIconExtension.cpp">
@@ -327,6 +335,9 @@
       <SubType>Designer</SubType>
     </Midl>
     <Midl Include="Extensions\Markup\NullableBoolExtension.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Extensions\Markup\OnDeviceExtension.idl">
       <SubType>Designer</SubType>
     </Midl>
     <Midl Include="Extensions\Markup\SymbolIconExtension.idl">
