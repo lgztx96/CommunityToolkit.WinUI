@@ -2,7 +2,6 @@ import "Extensions/Markup/TextIconExtension.idl";
 
 namespace XamlToolkit.WinUI
 {
-    [default_interface]
     runtimeclass SymbolIconExtension : TextIconExtension
     {
         SymbolIconExtension();
