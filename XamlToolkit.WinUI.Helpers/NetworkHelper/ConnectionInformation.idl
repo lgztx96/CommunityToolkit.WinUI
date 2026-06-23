@@ -1,0 +1,88 @@
+namespace XamlToolkit.WinUI.Helpers
+{
+    /// <summary>
+    /// Enumeration denoting connection type.
+    /// </summary>
+    enum ConnectionType
+    {
+        /// <summary>
+        /// Connected to wired network
+        /// </summary>
+        Ethernet,
+
+        /// <summary>
+        /// Connected to wireless network
+        /// </summary>
+        WiFi,
+
+        /// <summary>
+        /// Connected to mobile data connection
+        /// </summary>
+        Data,
+
+        /// <summary>
+        /// Connection type not identified
+        /// </summary>
+        Unknown
+    };
+
+    /// <summary>
+    /// This class exposes information about the network connectivity.
+    /// </summary>
+    runtimeclass ConnectionInformation
+    {
+        ConnectionInformation();
+
+        /// <summary>
+        /// Updates the current object based on profile passed.
+        /// </summary>
+        /// <param name="profile">instance of <see cref="ConnectionProfile"/></param>
+        void UpdateConnectionInformation(Windows.Networking.Connectivity.ConnectionProfile profile);
+
+        /// <summary>
+        /// Resets the current object to default values.
+        /// </summary>
+        void Reset();
+
+        /// <summary>
+        /// Gets a value indicating whether if the current internet connection is metered.
+        /// </summary>
+        Boolean IsInternetOnMeteredConnection{ get; };
+
+        /// <summary>
+        /// Gets a value indicating whether internet is available across all connections.
+        /// </summary>
+        /// <returns>True if internet can be reached.</returns>
+        Boolean IsInternetAvailable{ get; };
+
+        /// <summary>
+        /// Gets connection type for the current Internet Connection Profile.
+        /// </summary>
+        /// <returns>value of <see cref="ConnectionType"/></returns>
+        ConnectionType ConnectionType{ get; };
+
+        /// <summary>
+        /// Gets connectivity level for the current Internet Connection Profile.
+        /// </summary>
+        /// <returns>value of <see cref="NetworkConnectivityLevel"/></returns>
+        Windows.Networking.Connectivity.NetworkConnectivityLevel ConnectivityLevel{ get; };
+
+        /// <summary>
+        /// Gets connection cost for the current Internet Connection Profile.
+        /// </summary>
+        /// <returns>value of <see cref="NetworkConnectivityLevel"/></returns>
+        Windows.Networking.Connectivity.ConnectionCost ConnectionCost{ get; };
+
+        /// <summary>
+        /// Gets signal strength for the current Internet Connection Profile.
+        /// </summary>
+        /// <returns>value of <see cref="NetworkConnectivityLevel"/></returns>
+        Windows.Foundation.IReference<UInt8> SignalStrength{ get; };
+
+        /// <summary>
+        /// Gets the network names associated with the current Internet Connection Profile.
+        /// </summary>
+        /// <returns>value of <see cref="IReadOnlyList{String}"/></returns>
+        Windows.Foundation.Collections.IVectorView<String> NetworkNames{ get; };
+    }
+}

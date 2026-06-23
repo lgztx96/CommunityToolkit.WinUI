@@ -1,0 +1,27 @@
+import "NetworkHelper/ConnectionInformation.idl";
+
+namespace XamlToolkit.WinUI.Helpers
+{
+    /// <summary>
+    /// This class exposes functionality of NetworkInformation through a singleton.
+    /// </summary>
+    runtimeclass NetworkHelper
+    {
+        NetworkHelper();
+
+        /// <summary>
+        /// Gets public singleton property.
+        /// </summary>
+        static NetworkHelper Instance{ get; };
+
+        /// <summary>
+        /// Gets instance of <see cref="ConnectionInformation"/>.
+        /// </summary>
+        ConnectionInformation ConnectionInformation{ get; };
+
+        /// <summary>
+        /// Event raised when the network changes.
+        /// </summary>
+        event Windows.Foundation.EventHandler<Object> NetworkChanged;
+    }
+}

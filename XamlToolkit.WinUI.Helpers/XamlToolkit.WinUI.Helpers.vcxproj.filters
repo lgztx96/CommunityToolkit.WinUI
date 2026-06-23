@@ -14,15 +14,30 @@
     <Filter Include="CameraHelper">
       <UniqueIdentifier>{ceff1c39-17d7-4f34-ab66-597cc16d250c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="NetworkHelper">
+      <UniqueIdentifier>{a1b2c3d4-e5f6-7890-abcd-ef1234567890}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
+    <ClCompile Include="NetworkHelper\ConnectionInformation.cpp">
+      <Filter>NetworkHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkHelper\NetworkHelper.cpp">
+      <Filter>NetworkHelper</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="winrt_module_imports.h" />
     <ClInclude Include="wil_cppwinrt_module.h" />
+    <ClInclude Include="NetworkHelper\ConnectionInformation.h">
+      <Filter>NetworkHelper</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkHelper\NetworkHelper.h">
+      <Filter>NetworkHelper</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Midl Include="ColorHelper\ColorHelper.idl">
@@ -35,6 +50,12 @@
     </Midl>
     <Midl Include="CameraHelper\FrameEventArgs.idl">
       <Filter>CameraHelper</Filter>
+    </Midl>
+    <Midl Include="NetworkHelper\ConnectionInformation.idl">
+      <Filter>NetworkHelper</Filter>
+    </Midl>
+    <Midl Include="NetworkHelper\NetworkHelper.idl">
+      <Filter>NetworkHelper</Filter>
     </Midl>
   </ItemGroup>
   <ItemGroup>

@@ -129,6 +129,14 @@
       <DependentUpon>CameraHelper\CameraHelper.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="NetworkHelper\ConnectionInformation.h">
+      <DependentUpon>NetworkHelper\ConnectionInformation.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="NetworkHelper\NetworkHelper.h">
+      <DependentUpon>NetworkHelper\NetworkHelper.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="CameraHelper\FrameEventArgs.h">
       <DependentUpon>CameraHelper\FrameEventArgs.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -152,6 +160,14 @@
   <ItemGroup>
     <ClCompile Include="CameraHelper\CameraHelper.cpp">
       <DependentUpon>CameraHelper\CameraHelper.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="NetworkHelper\ConnectionInformation.cpp">
+      <DependentUpon>NetworkHelper\ConnectionInformation.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="NetworkHelper\NetworkHelper.cpp">
+      <DependentUpon>NetworkHelper\NetworkHelper.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="CameraHelper\FrameEventArgs.cpp">
@@ -186,6 +202,12 @@
   </ItemGroup>
   <ItemGroup>
     <Midl Include="CameraHelper\CameraHelper.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="NetworkHelper\ConnectionInformation.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="NetworkHelper\NetworkHelper.idl">
       <SubType>Designer</SubType>
     </Midl>
     <Midl Include="CameraHelper\FrameEventArgs.idl">
