@@ -5,6 +5,10 @@
 #include "FrameEventArgs.g.cpp"
 #endif
 
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Graphics.Imaging.h>
+#endif
+
 namespace winrt::XamlToolkit::WinUI::Helpers::implementation
 {
     winrt::Windows::Media::VideoFrame FrameEventArgs::VideoFrame()

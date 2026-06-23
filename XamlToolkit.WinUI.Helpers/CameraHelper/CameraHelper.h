@@ -7,8 +7,11 @@
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.Foundation.Collections.h>
 #include <winrt/Windows.Media.Capture.Frames.h>
+#include <winrt/Windows.Devices.Enumeration.h>
+#include <winrt/Windows.Media.MediaProperties.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
+#include <wil/resource.h>
 #endif
 
 namespace winrt
@@ -25,46 +28,46 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
     {
         CameraHelper() = default;
 
-        MediaFrameSourceGroup FrameSourceGroup();
+        winrt::MediaFrameSourceGroup FrameSourceGroup();
 
-        void FrameSourceGroup(MediaFrameSourceGroup const& value);
+        void FrameSourceGroup(winrt::MediaFrameSourceGroup const& value);
 
-        IVectorView<MediaFrameFormat> FrameFormatsAvailable();
+        winrt::IVectorView<winrt::MediaFrameFormat> FrameFormatsAvailable();
 
-        MediaFrameSource PreviewFrameSource();
+        winrt::MediaFrameSource PreviewFrameSource();
 
         wil::untyped_event<winrt::XamlToolkit::WinUI::Helpers::FrameEventArgs> FrameArrived;
 
-        IAsyncOperation<winrt::XamlToolkit::WinUI::Helpers::CameraHelperResult> InitializeAndStartCaptureAsync();
+        winrt::IAsyncOperation<winrt::XamlToolkit::WinUI::Helpers::CameraHelperResult> InitializeAndStartCaptureAsync();
 
-        static IAsyncOperation<IVectorView<MediaFrameSourceGroup>> GetFrameSourceGroupsAsync();
+        static winrt::IAsyncOperation<winrt::IVectorView<winrt::MediaFrameSourceGroup>> GetFrameSourceGroupsAsync();
 
-        IAsyncAction CleanUpAsync();
+        winrt::IAsyncAction CleanUpAsync();
 
         void Close();
 
     private:
         std::binary_semaphore _semaphoreSlim{ 1 };
 
-        static inline IVectorView<MediaFrameSourceGroup> _frameSourceGroups{ nullptr };
+        static inline winrt::IVectorView<winrt::MediaFrameSourceGroup> _frameSourceGroups{ nullptr };
 
-        MediaCapture _mediaCapture{ nullptr };
-        MediaFrameReader _frameReader{ nullptr };
-        MediaFrameSourceGroup _group{ nullptr };
-        MediaFrameSource _previewFrameSource{ nullptr };
-        IVectorView<MediaFrameFormat> _frameFormatsAvailable{ nullptr };
+        winrt::MediaCapture _mediaCapture{ nullptr };
+        winrt::MediaFrameReader _frameReader{ nullptr };
+        winrt::MediaFrameSourceGroup _group{ nullptr };
+        winrt::MediaFrameSource _previewFrameSource{ nullptr };
+        winrt::IVectorView<winrt::MediaFrameFormat> _frameFormatsAvailable{ nullptr };
 
         bool _groupChanged = false;
         bool _initialized = false;
         bool _disposed = false;
 
-        MediaFrameReader::FrameArrived_revoker _frameArrivedRevoker;
+        winrt::MediaFrameReader::FrameArrived_revoker _frameArrivedRevoker;
 
-        IAsyncOperation<winrt::XamlToolkit::WinUI::Helpers::CameraHelperResult> InitializeMediaCaptureAsync();
+        winrt::IAsyncOperation<winrt::XamlToolkit::WinUI::Helpers::CameraHelperResult> InitializeMediaCaptureAsync();
 
-        winrt::Windows::Foundation::IAsyncAction StopReaderAsync();
+        winrt::IAsyncAction StopReaderAsync();
 
-        void Reader_FrameArrived(MediaFrameReader const& sender, MediaFrameArrivedEventArgs const& args);
+        void Reader_FrameArrived(winrt::MediaFrameReader const& sender, winrt::MediaFrameArrivedEventArgs const& args);
     };
 }
 

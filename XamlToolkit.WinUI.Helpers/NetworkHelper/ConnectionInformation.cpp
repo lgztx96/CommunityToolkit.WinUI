@@ -99,7 +99,7 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
 
     bool ConnectionInformation::IsInternetAvailable() { return _isInternetAvailable; }
 
-    winrt::XamlToolkit::WinUI::Helpers::ConnectionType ConnectionInformation::ConnectionType() const { return _connectionType; }
+    winrt::XamlToolkit::WinUI::Helpers::ConnectionType ConnectionInformation::ConnectionType() const noexcept { return _connectionType; }
 
     winrt::Windows::Networking::Connectivity::NetworkConnectivityLevel ConnectionInformation::ConnectivityLevel() const noexcept { return _connectivityLevel; }
 

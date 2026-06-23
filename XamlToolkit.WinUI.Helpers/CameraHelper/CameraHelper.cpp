@@ -19,23 +19,23 @@ namespace winrt
 
 namespace winrt::XamlToolkit::WinUI::Helpers::implementation
 {
-    IAsyncOperation<IVectorView<MediaFrameSourceGroup>> CameraHelper::GetFrameSourceGroupsAsync()
+    winrt::IAsyncOperation<winrt::IVectorView<winrt::MediaFrameSourceGroup>> CameraHelper::GetFrameSourceGroupsAsync()
     {
         if (!_frameSourceGroups)
         {
-            auto videoDevices = co_await DeviceInformation::FindAllAsync(DeviceClass::VideoCapture);
-            auto groups = co_await MediaFrameSourceGroup::FindAllAsync();
+            auto videoDevices = co_await winrt::DeviceInformation::FindAllAsync(winrt::DeviceClass::VideoCapture);
+            auto groups = co_await winrt::MediaFrameSourceGroup::FindAllAsync();
 
-            std::vector<MediaFrameSourceGroup> filtered;
+            std::vector<winrt::MediaFrameSourceGroup> filtered;
 
             for (auto const& g : groups)
             {
                 bool match = false;
                 for (auto const& s : g.SourceInfos())
                 {
-                    if (s.SourceKind() == MediaFrameSourceKind::Color &&
-                        (s.MediaStreamType() == MediaStreamType::VideoPreview ||
-                            s.MediaStreamType() == MediaStreamType::VideoRecord))
+                    if (s.SourceKind() == winrt::MediaFrameSourceKind::Color &&
+                        (s.MediaStreamType() == winrt::MediaStreamType::VideoPreview ||
+                            s.MediaStreamType() == winrt::MediaStreamType::VideoRecord))
                     {
                         for (auto const& vd : videoDevices)
                         {
@@ -51,44 +51,44 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
                     filtered.push_back(g);
             }
 
-            _frameSourceGroups = single_threaded_vector(std::move(filtered)).GetView();
+            _frameSourceGroups = winrt::single_threaded_vector(std::move(filtered)).GetView();
         }
 
         co_return _frameSourceGroups;
     }
 
-    MediaFrameSourceGroup CameraHelper::FrameSourceGroup() { return _group; }
+    winrt::MediaFrameSourceGroup CameraHelper::FrameSourceGroup() { return _group; }
 
-    void CameraHelper::FrameSourceGroup(MediaFrameSourceGroup const& value)
+    void CameraHelper::FrameSourceGroup(winrt::MediaFrameSourceGroup const& value)
     {
         _groupChanged = _group != value;
         _group = value;
     }
 
-    Collections::IVectorView<MediaFrameFormat> CameraHelper::FrameFormatsAvailable()
+    winrt::Collections::IVectorView<winrt::MediaFrameFormat> CameraHelper::FrameFormatsAvailable()
     {
         return _frameFormatsAvailable;
     }
 
-    MediaFrameSource CameraHelper::PreviewFrameSource() { return _previewFrameSource; }
+    winrt::MediaFrameSource CameraHelper::PreviewFrameSource() { return _previewFrameSource; }
 
-    IAsyncOperation<CameraHelperResult> CameraHelper::InitializeAndStartCaptureAsync()
+    winrt::IAsyncOperation<winrt::XamlToolkit::WinUI::Helpers::CameraHelperResult> CameraHelper::InitializeAndStartCaptureAsync()
     {
         _semaphoreSlim.acquire();
 
         auto cleanup = wil::scope_exit([this]
-            {
-                _semaphoreSlim.release();
-            });
+        {
+            _semaphoreSlim.release();
+        });
 
-        CameraHelperResult result = CameraHelperResult::Success;
+        winrt::XamlToolkit::WinUI::Helpers::CameraHelperResult result = winrt::XamlToolkit::WinUI::Helpers::CameraHelperResult::Success;
 
         try
         {
             // if FrameSourceGroup hasn't changed from last initialization, just return back.
             if (_initialized && _group && !_groupChanged)
             {
-                co_return CameraHelperResult::Success;
+                co_return winrt::XamlToolkit::WinUI::Helpers::CameraHelperResult::Success;
             }
 
             _groupChanged = false;
@@ -126,7 +126,7 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
             // If there is no camera source available, we can't proceed
             if (_group == nullptr)
             {
-                co_return CameraHelperResult::NoFrameSourceGroupAvailable;
+                co_return winrt::XamlToolkit::WinUI::Helpers::CameraHelperResult::NoFrameSourceGroupAvailable;
             }
 
             result = co_await InitializeMediaCaptureAsync();
@@ -136,28 +136,28 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
                 _frameReader = co_await _mediaCapture.CreateFrameReaderAsync(_previewFrameSource);
                 if (_frameReader == nullptr)
                 {
-                    result = CameraHelperResult::CreateFrameReaderFailed;
+                    result = winrt::XamlToolkit::WinUI::Helpers::CameraHelperResult::CreateFrameReaderFailed;
                 }
                 else
                 {
-                    _frameReader.AcquisitionMode(MediaFrameReaderAcquisitionMode::Realtime);
+                    _frameReader.AcquisitionMode(winrt::MediaFrameReaderAcquisitionMode::Realtime);
                     _frameArrivedRevoker = _frameReader.FrameArrived(winrt::auto_revoke, { this, &CameraHelper::Reader_FrameArrived });
                     auto status = co_await _frameReader.StartAsync();
-                    if (status != MediaFrameReaderStartStatus::Success)
+                    if (status != winrt::MediaFrameReaderStartStatus::Success)
                     {
-                        result = CameraHelperResult::StartFrameReaderFailed;
+                        result = winrt::XamlToolkit::WinUI::Helpers::CameraHelperResult::StartFrameReaderFailed;
                     }
                 }
             }
 
-            _initialized = (result == CameraHelperResult::Success);
+            _initialized = (result == winrt::XamlToolkit::WinUI::Helpers::CameraHelperResult::Success);
         }
         catch (...)
         {
-            result = CameraHelperResult::InitializationFailed_UnknownError;
+            result = winrt::XamlToolkit::WinUI::Helpers::CameraHelperResult::InitializationFailed_UnknownError;
         }
 
-        if (result != CameraHelperResult::Success)
+        if (result != winrt::XamlToolkit::WinUI::Helpers::CameraHelperResult::Success)
         {
             cleanup.reset();
             co_await CleanUpAsync();
@@ -166,19 +166,19 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
         co_return result;
     }
 
-    IAsyncOperation<CameraHelperResult> CameraHelper::InitializeMediaCaptureAsync()
+    winrt::IAsyncOperation<winrt::XamlToolkit::WinUI::Helpers::CameraHelperResult> CameraHelper::InitializeMediaCaptureAsync()
     {
         if (_mediaCapture == nullptr)
         {
-            _mediaCapture = MediaCapture();
+            _mediaCapture = winrt::MediaCapture();
         }
 
-        MediaCaptureInitializationSettings settings;
+        winrt::MediaCaptureInitializationSettings settings;
         settings.SourceGroup(_group);
-        settings.MemoryPreference(MediaCaptureMemoryPreference::Cpu);
-        settings.StreamingCaptureMode(StreamingCaptureMode::Video);
+        settings.MemoryPreference(winrt::MediaCaptureMemoryPreference::Cpu);
+        settings.StreamingCaptureMode(winrt::StreamingCaptureMode::Video);
 
-        CameraHelperResult result = CameraHelperResult::Success;
+        winrt::XamlToolkit::WinUI::Helpers::CameraHelperResult result = winrt::XamlToolkit::WinUI::Helpers::CameraHelperResult::Success;
 
         try
         {
@@ -188,8 +188,8 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
             {
                 auto const& value = kvp.Value();
                 auto const& info = value.Info();
-                if (info.MediaStreamType() == MediaStreamType::VideoPreview &&
-                    info.SourceKind() == MediaFrameSourceKind::Color)
+                if (info.MediaStreamType() == winrt::MediaStreamType::VideoPreview &&
+                    info.SourceKind() == winrt::MediaFrameSourceKind::Color)
                 {
                     _previewFrameSource = value;
                     break;
@@ -202,8 +202,8 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
                 {
                     auto const& value = kvp.Value();
                     auto const& info = value.Info();
-                    if (info.MediaStreamType() == MediaStreamType::VideoRecord &&
-                        info.SourceKind() == MediaFrameSourceKind::Color)
+                    if (info.MediaStreamType() == winrt::MediaStreamType::VideoRecord &&
+                        info.SourceKind() == winrt::MediaFrameSourceKind::Color)
                     {
                         _previewFrameSource = value;
                         break;
@@ -213,10 +213,10 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
 
             if (_previewFrameSource == nullptr)
             {
-                co_return CameraHelperResult::NoFrameSourceAvailable;
+                co_return winrt::XamlToolkit::WinUI::Helpers::CameraHelperResult::NoFrameSourceAvailable;
             }
 
-            std::vector<MediaFrameFormat> formats;
+            std::vector<winrt::MediaFrameFormat> formats;
 
             auto compare_ignore_case = [](std::wstring_view lhs, std::wstring_view rhs)
             {
@@ -228,10 +228,10 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
                 double fps = static_cast<double>(fmt.FrameRate().Numerator()) / fmt.FrameRate().Denominator();
                 auto subtype = fmt.Subtype();
                 if (fps >= 15 &&
-                    (compare_ignore_case(subtype, MediaEncodingSubtypes::Nv12()) ||
-                     compare_ignore_case(subtype, MediaEncodingSubtypes::Bgra8()) ||
-                     compare_ignore_case(subtype, MediaEncodingSubtypes::Yuy2()) ||
-                     compare_ignore_case(subtype, MediaEncodingSubtypes::Rgb32())))
+                    (compare_ignore_case(subtype, winrt::MediaEncodingSubtypes::Nv12()) ||
+                     compare_ignore_case(subtype, winrt::MediaEncodingSubtypes::Bgra8()) ||
+                     compare_ignore_case(subtype, winrt::MediaEncodingSubtypes::Yuy2()) ||
+                     compare_ignore_case(subtype, winrt::MediaEncodingSubtypes::Rgb32())))
                 {
                     formats.emplace_back(fmt);
                 }
@@ -239,7 +239,7 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
 
             if (formats.empty())
             {
-                co_return CameraHelperResult::NoCompatibleFrameFormatAvailable;
+                co_return winrt::XamlToolkit::WinUI::Helpers::CameraHelperResult::NoCompatibleFrameFormatAvailable;
             }
 
             std::sort(formats.begin(), formats.end(), [](auto const& a, auto const& b)
@@ -252,10 +252,10 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
         }
         catch (winrt::hresult_error const& e)
         {
-            result = e.code() == E_ACCESSDENIED ? CameraHelperResult::CameraAccessDenied : CameraHelperResult::InitializationFailed_UnknownError;
+            result = e.code() == E_ACCESSDENIED ? winrt::XamlToolkit::WinUI::Helpers::CameraHelperResult::CameraAccessDenied : winrt::XamlToolkit::WinUI::Helpers::CameraHelperResult::InitializationFailed_UnknownError;
         }
 
-        if (result != CameraHelperResult::Success)
+        if (result != winrt::XamlToolkit::WinUI::Helpers::CameraHelperResult::Success)
         {
             co_await StopReaderAsync();
 
@@ -269,7 +269,7 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
         co_return result;
     }
 
-    IAsyncAction CameraHelper::StopReaderAsync()
+    winrt::IAsyncAction CameraHelper::StopReaderAsync()
     {
         if (_frameReader)
         {
@@ -280,7 +280,7 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
         }
     }
 
-    void CameraHelper::Reader_FrameArrived(MediaFrameReader const& sender, MediaFrameArrivedEventArgs const&)
+    void CameraHelper::Reader_FrameArrived(winrt::MediaFrameReader const& sender, winrt::MediaFrameArrivedEventArgs const&)
     {
         // TryAcquireLatestFrame will return the latest frame that has not yet been acquired.
         // This can return null if there is no such frame, or if the reader is not in the
@@ -297,7 +297,7 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
         }
     }
 
-    IAsyncAction CameraHelper::CleanUpAsync()
+    winrt::IAsyncAction CameraHelper::CleanUpAsync()
     {
         _semaphoreSlim.acquire();
 
