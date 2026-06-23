@@ -7,6 +7,8 @@
 #include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Microsoft.UI.Dispatching.h>
 #include <winrt/Windows.UI.ViewManagement.h>
+#include <wil/wistd_type_traits.h>
+#include <wil/cppwinrt_authoring.h>
 #endif
 
 namespace winrt
@@ -21,34 +23,34 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
 {
     struct ThemeListener : ThemeListenerT<ThemeListener>
     {
-        wil::single_threaded_rw_property<ApplicationTheme> CurrentTheme;
+        wil::single_threaded_rw_property<winrt::ApplicationTheme> CurrentTheme;
 
         wil::single_threaded_rw_property<bool> IsHighContrast{ false };
 
-        wil::single_threaded_rw_property<struct DispatcherQueue> DispatcherQueue{ nullptr };
+        wil::single_threaded_rw_property<winrt::DispatcherQueue> DispatcherQueue{ nullptr };
 
-        winrt::event<ThemeChangedHandler> _themeChanged;
+        winrt::event<winrt::XamlToolkit::WinUI::Helpers::ThemeChangedHandler> _themeChanged;
 
-        winrt::event_token ThemeChanged(ThemeChangedHandler const& handler);
+        winrt::event_token ThemeChanged(winrt::XamlToolkit::WinUI::Helpers::ThemeChangedHandler const& handler);
 
         void ThemeChanged(winrt::event_token const& token) noexcept;
 
         ThemeListener() : ThemeListener(nullptr) {};
 
-        ThemeListener(struct DispatcherQueue const& dispatcherQueue);
+        ThemeListener(winrt::DispatcherQueue const& dispatcherQueue);
 
         void OnThemePropertyChangedAsync();
 
         winrt::hstring CurrentThemeName();
 
     private:
-        AccessibilitySettings _accessible;
-        UISettings _settings;
+        winrt::AccessibilitySettings _accessible;
+        winrt::UISettings _settings;
 
-        void Accessible_HighContrastChanged(AccessibilitySettings const& sender, IInspectable const& args);
+        void Accessible_HighContrastChanged(winrt::AccessibilitySettings const& sender, winrt::IInspectable const& args);
 
         // Note: This can get called multiple times during HighContrast switch, do we care?
-        void Settings_ColorValuesChanged(UISettings const& sender, IInspectable const& args);
+        void Settings_ColorValuesChanged(winrt::UISettings const& sender, winrt::IInspectable const& args);
 
         void UpdateProperties();
     };
