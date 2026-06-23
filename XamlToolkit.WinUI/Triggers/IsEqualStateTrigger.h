@@ -11,9 +11,6 @@ namespace winrt
 {
     using namespace Windows::Foundation;
     using namespace Microsoft::UI::Xaml;
-    using namespace Microsoft::UI::Xaml::Controls;
-    using namespace Microsoft::UI::Xaml::Controls::Primitives;
-    using namespace Microsoft::UI::Xaml::Input;
 }
 
 namespace winrt::XamlToolkit::WinUI::implementation
@@ -33,14 +30,12 @@ namespace winrt::XamlToolkit::WinUI::implementation
         winrt::IInspectable Value() const { return GetValue(ValueProperty); }
         void Value(winrt::IInspectable const& value) const { SetValue(ValueProperty, value); }
 
-        static inline const wil::single_threaded_property<winrt::DependencyProperty> ValueProperty =
-            winrt::DependencyProperty::Register(L"Value", winrt::xaml_typename<winrt::IInspectable>(), winrt::xaml_typename<class_type>(), winrt::PropertyMetadata(nullptr, OnValuePropertyChanged));
+        static const wil::single_threaded_property<winrt::DependencyProperty> ValueProperty;
 
         winrt::IInspectable To() const { return GetValue(ToProperty); }
         void To(winrt::IInspectable const& value) const { SetValue(ToProperty, value); }
 
-        static inline const wil::single_threaded_property<winrt::DependencyProperty> ToProperty =
-            winrt::DependencyProperty::Register(L"To", winrt::xaml_typename<winrt::IInspectable>(), winrt::xaml_typename<class_type>(), winrt::PropertyMetadata(nullptr, OnValuePropertyChanged));
+        static const wil::single_threaded_property<winrt::DependencyProperty> ToProperty;
     };
 }
 

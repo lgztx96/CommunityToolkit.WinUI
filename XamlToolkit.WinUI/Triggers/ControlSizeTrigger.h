@@ -14,8 +14,6 @@ namespace winrt
 {
     using namespace Windows::Foundation;
     using namespace Microsoft::UI::Xaml;
-    using namespace Microsoft::UI::Xaml::Controls;
-    using namespace Microsoft::UI::Xaml::Controls::Primitives;
 }
 
 namespace winrt::XamlToolkit::WinUI::implementation
@@ -67,7 +65,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
     private:
         static void OnTargetElementPropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 
-        static void OnSizeTriggerPropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const&);
+        static void OnValuePropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const&);
 
         winrt::FrameworkElement::SizeChanged_revoker _sizeChangedRevoker;
     };

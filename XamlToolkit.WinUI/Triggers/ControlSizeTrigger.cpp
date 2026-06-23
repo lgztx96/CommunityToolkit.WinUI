@@ -12,35 +12,35 @@ namespace winrt::XamlToolkit::WinUI::implementation
 			L"CanTrigger",
 			winrt::xaml_typename<bool>(),
 			winrt::xaml_typename<class_type>(),
-			winrt::PropertyMetadata(winrt::box_value(true), &ControlSizeTrigger::OnSizeTriggerPropertyChanged));
+			winrt::PropertyMetadata(winrt::box_value(true), &ControlSizeTrigger::OnValuePropertyChanged));
 
 	const wil::single_threaded_property<winrt::DependencyProperty> ControlSizeTrigger::MaxWidthProperty =
 		winrt::DependencyProperty::Register(
 			L"MaxWidth",
 			winrt::xaml_typename<double>(),
 			winrt::xaml_typename<class_type>(),
-			winrt::PropertyMetadata(winrt::box_value(std::numeric_limits<double>::infinity()), &ControlSizeTrigger::OnSizeTriggerPropertyChanged));
+			winrt::PropertyMetadata(winrt::box_value(std::numeric_limits<double>::infinity()), &ControlSizeTrigger::OnValuePropertyChanged));
 
 	const wil::single_threaded_property<winrt::DependencyProperty> ControlSizeTrigger::MinWidthProperty =
 		winrt::DependencyProperty::Register(
 			L"MinWidth",
 			winrt::xaml_typename<double>(),
 			winrt::xaml_typename<class_type>(),
-			winrt::PropertyMetadata(winrt::box_value(0.0), &ControlSizeTrigger::OnSizeTriggerPropertyChanged));
+			winrt::PropertyMetadata(winrt::box_value(0.0), &ControlSizeTrigger::OnValuePropertyChanged));
 
 	const wil::single_threaded_property<winrt::DependencyProperty> ControlSizeTrigger::MaxHeightProperty =
 		winrt::DependencyProperty::Register(
 			L"MaxHeight",
 			winrt::xaml_typename<double>(),
 			winrt::xaml_typename<class_type>(),
-			winrt::PropertyMetadata(winrt::box_value(std::numeric_limits<double>::infinity()), &ControlSizeTrigger::OnSizeTriggerPropertyChanged));
+			winrt::PropertyMetadata(winrt::box_value(std::numeric_limits<double>::infinity()), &ControlSizeTrigger::OnValuePropertyChanged));
 
 	const wil::single_threaded_property<winrt::DependencyProperty> ControlSizeTrigger::MinHeightProperty =
 		winrt::DependencyProperty::Register(
 			L"MinHeight",
 			winrt::xaml_typename<double>(),
 			winrt::xaml_typename<class_type>(),
-			winrt::PropertyMetadata(winrt::box_value(0.0), &ControlSizeTrigger::OnSizeTriggerPropertyChanged));
+			winrt::PropertyMetadata(winrt::box_value(0.0), &ControlSizeTrigger::OnValuePropertyChanged));
 
 	const wil::single_threaded_property<winrt::DependencyProperty> ControlSizeTrigger::TargetElementProperty =
 		winrt::DependencyProperty::Register(
@@ -55,7 +55,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		self->UpdateTargetElement(e.OldValue().as<winrt::FrameworkElement>(), e.NewValue().as<winrt::FrameworkElement>());
 	}
 
-	void ControlSizeTrigger::OnSizeTriggerPropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const&)
+	void ControlSizeTrigger::OnValuePropertyChanged(winrt::DependencyObject const& d, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& e)
 	{
 		auto self = winrt::get_self<ControlSizeTrigger>(d.as<class_type>())->get_strong();
 		self->UpdateTrigger();

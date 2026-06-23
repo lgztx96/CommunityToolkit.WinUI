@@ -1,32 +1,40 @@
-﻿#pragma once
+#pragma once
 
 #include "IsNullOrEmptyStateTrigger.g.h"
 
 #ifdef __INTELLISENSE__
 #include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.Foundation.Collections.h>
 #include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Interop.h>
 #endif
+
+namespace winrt
+{
+    using namespace Windows::Foundation;
+    using namespace Windows::Foundation::Collections;
+    using namespace Microsoft::UI::Xaml;
+    using namespace Microsoft::UI::Xaml::Interop;
+}
 
 namespace winrt::XamlToolkit::WinUI::implementation
 {
-    using namespace winrt::Microsoft::UI::Xaml;
-
     struct IsNullOrEmptyStateTrigger : IsNullOrEmptyStateTriggerT<IsNullOrEmptyStateTrigger>
     {
         IsNullOrEmptyStateTrigger();
 
-        IInspectable Value() const { return GetValue(ValueProperty); }
-        void Value(IInspectable const& value) const { SetValue(ValueProperty, value); }
+        winrt::IInspectable Value() const { return GetValue(ValueProperty); }
+        void Value(winrt::IInspectable const& value) const { SetValue(ValueProperty, value); }
 
-        static const wil::single_threaded_property<DependencyProperty> ValueProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> ValueProperty;
 
     private:
 
-        static void OnValuePropertyChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e);
+        static void OnValuePropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 
         void UpdateTrigger();
 
-        static bool IsNullOrEmpty(IInspectable const& val);
+        static bool IsNullOrEmpty(winrt::IInspectable const& val);
     };
 }
 

@@ -13,6 +13,20 @@
 
 namespace winrt::XamlToolkit::WinUI::implementation
 {
+    const wil::single_threaded_property<winrt::DependencyProperty> IsEqualStateTrigger::ValueProperty =
+        winrt::DependencyProperty::Register(
+            L"Value", 
+            winrt::xaml_typename<winrt::IInspectable>(), 
+            winrt::xaml_typename<class_type>(), 
+            winrt::PropertyMetadata(nullptr, &IsEqualStateTrigger::OnValuePropertyChanged));
+
+    const wil::single_threaded_property<winrt::DependencyProperty> IsEqualStateTrigger::ToProperty =
+        winrt::DependencyProperty::Register(
+            L"To", 
+            winrt::xaml_typename<winrt::IInspectable>(), 
+            winrt::xaml_typename<class_type>(), 
+            winrt::PropertyMetadata(nullptr, &IsEqualStateTrigger::OnValuePropertyChanged));
+
     void IsEqualStateTrigger::UpdateTrigger()
     {
         SetActive(AreValuesEqual(Value(), To(), true));
