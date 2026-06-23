@@ -214,6 +214,10 @@
     <ClInclude Include="Extensions\Tree\DependencyObjectExtensions.h" />
     <ClInclude Include="Extensions\Tree\FrameworkElementExtensions.h" />
     <ClInclude Include="Extensions\Tree\Predicates.h" />
+    <ClInclude Include="Triggers\UserHandPreferenceStateTrigger.h">
+      <DependentUpon>Triggers\UserHandPreferenceStateTrigger.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="winrt_module_imports.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="wil_cppwinrt_module.h" />
@@ -345,6 +349,10 @@
       <DependentUpon>Triggers\NetworkConnectionStateTrigger.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="Triggers\UserHandPreferenceStateTrigger.cpp">
+      <DependentUpon>Triggers\UserHandPreferenceStateTrigger.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="XamlToolkit.WinUI.def" />
@@ -414,6 +422,9 @@
       <SubType>Designer</SubType>
     </Midl>
     <Midl Include="Triggers\NetworkConnectionStateTrigger.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Triggers\UserHandPreferenceStateTrigger.idl">
       <SubType>Designer</SubType>
     </Midl>
   </ItemGroup>

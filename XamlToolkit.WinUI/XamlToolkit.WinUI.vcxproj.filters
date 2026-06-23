@@ -241,6 +241,9 @@
     <Midl Include="Extensions\ScrollViewer\ScrollViewerExtensions.idl">
       <Filter>Extensions\ScrollViewer</Filter>
     </Midl>
+    <Midl Include="Triggers\UserHandPreferenceStateTrigger.idl">
+      <Filter>Triggers</Filter>
+    </Midl>
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
