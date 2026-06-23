@@ -2,7 +2,6 @@ namespace XamlToolkit.WinUI.Helpers
 {
     delegate void ThemeChangedHandler(ThemeListener sender);
 
-    [default_interface]
     runtimeclass ThemeListener 
     {
         ThemeListener();

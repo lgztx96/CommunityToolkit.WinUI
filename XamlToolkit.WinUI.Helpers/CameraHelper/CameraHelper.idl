@@ -14,7 +14,6 @@ namespace XamlToolkit.WinUI.Helpers
         NoCompatibleFrameFormatAvailable
     };
 
-    [default_interface]
     runtimeclass CameraHelper : Windows.Foundation.IClosable
     {
         CameraHelper();
