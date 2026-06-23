@@ -2,10 +2,10 @@ namespace XamlToolkit.WinUI
 {
     enum RegexOptions
     {
-        None = 0,
-        IgnoreCase = 1,
-        Multiline = 2,
-        Optimize = 4
+        None,
+        IgnoreCase,
+        Multiline,
+        Optimize
     };
 
     runtimeclass RegexStateTrigger : Microsoft.UI.Xaml.StateTriggerBase
