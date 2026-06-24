@@ -1,11 +1,9 @@
 #include "pch.h"
 #include "winrt_module_imports.h"
 #include "TokenView.h"
-#include "../XamlToolkit.WinUI/common.h"
 
 namespace winrt
 {
-    using namespace XamlToolkit::WinUI;
     using namespace Windows::System;
 }
 
@@ -17,9 +15,9 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         if (auto currentItem = ItemFromContainer(GetCurrentContainerItem()).try_as<DependencyObject>())
         {
+            auto items = Items();
             uint32_t previousIndex;
-
-            if (!Items().IndexOf(currentItem, previousIndex))
+            if (!items.IndexOf(currentItem, previousIndex))
             {
                 return false;
             }
@@ -39,7 +37,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
             }
             else if (direction == MoveDirection::Next)
             {
-                if (previousIndex < Items().Size() - 1)
+                if (previousIndex < items.Size() - 1)
                 {
                     index += 1;
                 }
@@ -50,7 +48,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
             {
                 if (auto newItem = ContainerFromIndex(index).try_as<winrt::XamlToolkit::Labs::WinUI::TokenItem>())
                 {
-                    newItem.Focus(FocusState::Keyboard);
+                    newItem.Focus(winrt::FocusState::Keyboard);
                 }
                 retVal = true;
             }

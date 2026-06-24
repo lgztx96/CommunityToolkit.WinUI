@@ -8,18 +8,58 @@
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
+	const wil::single_threaded_property<winrt::DependencyProperty> TokenView::IsWrappedProperty{
+		winrt::DependencyProperty::Register(
+			L"IsWrapped",
+			winrt::xaml_typename<bool>(),
+			winrt::xaml_typename<winrt::XamlToolkit::Labs::WinUI::TokenView>(),
+			winrt::PropertyMetadata{
+				winrt::box_value(false),
+				[](auto& d, auto& e)
+				{
+					if (auto tokenView = d.template try_as<winrt::XamlToolkit::Labs::WinUI::TokenView>())
+					{
+						auto self = winrt::get_self<TokenView>(tokenView)->get_strong();
+						auto oldValue = winrt::unbox_value<bool>(e.OldValue());
+						auto newValue = winrt::unbox_value<bool>(e.NewValue());
+						self->OnIsWrappedPropertyChanged(oldValue, newValue);
+					}
+				}
+			})
+	};
+
+	const wil::single_threaded_property<winrt::DependencyProperty> TokenView::CanRemoveTokensProperty{
+		winrt::DependencyProperty::Register(
+			L"CanRemoveTokens",
+			winrt::xaml_typename<bool>(),
+			winrt::xaml_typename<winrt::XamlToolkit::Labs::WinUI::TokenView>(),
+			winrt::PropertyMetadata{
+				winrt::box_value(false),
+				[](auto& d, auto& e)
+				{
+					if (auto tokenView = d.template try_as<winrt::XamlToolkit::Labs::WinUI::TokenView>())
+					{
+						auto self = winrt::get_self<TokenView>(tokenView)->get_strong();
+						auto oldValue = winrt::unbox_value<bool>(e.OldValue());
+						auto newValue = winrt::unbox_value<bool>(e.NewValue());
+						self->OnCanRemoveTokensPropertyChanged(oldValue, newValue);
+					}
+				}
+			})
+	};
+
 	TokenView::TokenView()
 	{
 		DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
 
 		// Container Generation Hooks
-		//RegisterPropertyChangedCallback(ItemsControl::ItemsSourceProperty(), { get_weak(), &TokenView::ItemsSource_PropertyChanged });
-		RegisterPropertyChangedCallback(Selector::SelectedIndexProperty(), { get_weak(), &TokenView::SelectedIndex_PropertyChanged });
+		//RegisterPropertyChangedCallback(winrt::ItemsControl::ItemsSourceProperty(), { get_weak(), &TokenView::ItemsSource_PropertyChanged });
+		RegisterPropertyChangedCallback(winrt::Selector::SelectedIndexProperty(), { get_weak(), &TokenView::SelectedIndex_PropertyChanged });
 	}
 
-	bool TokenView::IsItemItsOwnContainerOverride(IInspectable const& item)
+	bool TokenView::IsItemItsOwnContainerOverride(winrt::IInspectable const& item)
 	{
-		return item.try_as<TokenItem>() != nullptr;
+		return static_cast<bool>(item.try_as<TokenItem>());
 	}
 
 	void TokenView::OnApplyTemplate()
@@ -32,7 +72,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 			_tokenViewScrollerLoadedRevoker.revoke();
 		}
 
-		_tokenViewScroller = GetTemplateChild(TokenViewScrollViewerName).try_as<ScrollViewer>();
+		_tokenViewScroller = GetTemplateChild(TokenViewScrollViewerName).try_as<winrt::ScrollViewer>();
 
 		if (_tokenViewScroller != nullptr)
 		{
@@ -43,7 +83,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		OnIsWrappedChanged();
 	}
 
-	void TokenView::PrepareContainerForItemOverride(DependencyObject const& element, IInspectable const& item)
+	void TokenView::PrepareContainerForItemOverride(winrt::DependencyObject const& element, winrt::IInspectable const& item)
 	{
 		base_type::PrepareContainerForItemOverride(element, item);
 
@@ -54,12 +94,12 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
 			tokenItem.Removing({ get_weak(), &TokenView::Token_Removing });
 
-			if (tokenItem.IsRemoveable() != true && tokenItem.ReadLocalValue(TokenItem::IsRemoveableProperty()) == DependencyProperty::UnsetValue())
+			if (!tokenItem.IsRemoveable() && tokenItem.ReadLocalValue(TokenItem::IsRemoveableProperty()) == winrt::DependencyProperty::UnsetValue())
 			{
-				Binding isRemovableBinding;
+				winrt::Binding isRemovableBinding;
 				isRemovableBinding.Source(*this);
-				isRemovableBinding.Path(PropertyPath(L"CanRemoveTokens"));
-				isRemovableBinding.Mode(BindingMode::OneWay);
+				isRemovableBinding.Path(winrt::PropertyPath(L"CanRemoveTokens"));
+				isRemovableBinding.Mode(winrt::BindingMode::OneWay);
 
 				tokenItem.SetBinding(TokenItem::IsRemoveableProperty(), isRemovableBinding);
 			}
@@ -99,28 +139,28 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		{
 			if (_tokenViewScroller.ScrollableWidth() > 0)
 			{
-				_tokenViewScrollForwardButton.Visibility(Visibility::Visible);
+				_tokenViewScrollForwardButton.Visibility(winrt::Visibility::Visible);
 			}
 			else
 			{
-				_tokenViewScrollForwardButton.Visibility(Visibility::Collapsed);
+				_tokenViewScrollForwardButton.Visibility(winrt::Visibility::Collapsed);
 			}
 		}
 	}
 
 	winrt::XamlToolkit::Labs::WinUI::TokenItem TokenView::GetCurrentContainerItem()
 	{
-		if (ControlHelpers::IsXamlRootAvailable() && XamlRoot() != nullptr)
+		if (ControlHelpers::IsXamlRootAvailable() && XamlRoot())
 		{
-			return FocusManager::GetFocusedElement(XamlRoot()).try_as<winrt::XamlToolkit::Labs::WinUI::TokenItem>();
+			return winrt::FocusManager::GetFocusedElement(XamlRoot()).try_as<winrt::XamlToolkit::Labs::WinUI::TokenItem>();
 		}
 		else
 		{
-			return FocusManager::GetFocusedElement().try_as<winrt::XamlToolkit::Labs::WinUI::TokenItem>();
+			return winrt::FocusManager::GetFocusedElement().try_as<winrt::XamlToolkit::Labs::WinUI::TokenItem>();
 		}
 	}
 
-	void TokenView::SelectedIndex_PropertyChanged([[maybe_unused]] DependencyObject const& sender, [[maybe_unused]] DependencyProperty const& dp)
+	void TokenView::SelectedIndex_PropertyChanged([[maybe_unused]] winrt::DependencyObject const& sender, [[maybe_unused]] winrt::DependencyProperty const& dp)
 	{
 		// This is a workaround for https://github.com/microsoft/microsoft-ui-xaml/issues/8257
 		if (_internalSelectedIndex == -1 && SelectedIndex() > -1)

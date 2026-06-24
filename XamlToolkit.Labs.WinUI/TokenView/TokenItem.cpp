@@ -8,6 +8,46 @@
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
+	const wil::single_threaded_property<winrt::DependencyProperty> TokenItem::IsRemoveableProperty{
+		winrt::DependencyProperty::Register(
+			L"IsRemoveable",
+			winrt::xaml_typename<bool>(),
+			winrt::xaml_typename<winrt::XamlToolkit::Labs::WinUI::TokenItem>(),
+			winrt::PropertyMetadata{
+				winrt::box_value(false),
+				[](auto& d, auto& e)
+				{
+					if (auto tokenItem = d.template try_as<winrt::XamlToolkit::Labs::WinUI::TokenItem>())
+					{
+						auto self = winrt::get_self<TokenItem>(tokenItem)->get_strong();
+						auto oldValue = winrt::unbox_value<bool>(e.OldValue());
+						auto newValue = winrt::unbox_value<bool>(e.NewValue());
+						self->OnIsRemoveablePropertyChanged(oldValue, newValue);
+					}
+				}
+			})
+	};
+
+	const wil::single_threaded_property<winrt::DependencyProperty> TokenItem::IconProperty{
+		winrt::DependencyProperty::Register(
+			L"Icon",
+			winrt::xaml_typename<winrt::IconElement>(),
+			winrt::xaml_typename<winrt::XamlToolkit::Labs::WinUI::TokenItem>(),
+			winrt::PropertyMetadata{
+				nullptr,
+				[](auto& d, auto& e)
+				{
+					if (auto tokenItem = d.template try_as<winrt::XamlToolkit::Labs::WinUI::TokenItem>())
+					{
+						auto self = winrt::get_self<TokenItem>(tokenItem)->get_strong();
+						auto oldValue = e.OldValue().try_as<winrt::IconElement>();
+						auto newValue = e.NewValue().try_as<winrt::IconElement>();
+						self->OnIconPropertyChanged(oldValue, newValue);
+					}
+				}
+			})
+	};
+
 	TokenItem::TokenItem()
 	{
 		DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
@@ -19,7 +59,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
 		_removeButtonClickRevoker.revoke();
 
-		_tokenItemRemoveButton = GetTemplateChild(TokenItemRemoveButtonName).try_as<ButtonBase>();
+		_tokenItemRemoveButton = GetTemplateChild(TokenItemRemoveButtonName).try_as<winrt::ButtonBase>();
 
 		if (_tokenItemRemoveButton != nullptr)
 		{
@@ -31,7 +71,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		IsRemoveableChanged();
 	}
 
-	void TokenItem::TokenItemRemoveButton_Click([[maybe_unused]] IInspectable const& sender, [[maybe_unused]] RoutedEventArgs const& e)
+	void TokenItem::TokenItemRemoveButton_Click([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
 	{
 		if (IsRemoveable())
 		{
@@ -39,7 +79,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		}
 	}
 
-	void TokenItem::OnContentChanged(IInspectable const& oldContent, IInspectable const& newContent)
+	void TokenItem::OnContentChanged(winrt::IInspectable const& oldContent, winrt::IInspectable const& newContent)
 	{
 		base_type::OnContentChanged(oldContent, newContent);
 		ContentChanged();
@@ -49,15 +89,15 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 	{
 		if (Content() != nullptr)
 		{
-			VisualStateManager::GoToState(*this, IconLeftState, true);
+			winrt::VisualStateManager::GoToState(*this, IconLeftState, true);
 		}
 		else
 		{
-			VisualStateManager::GoToState(*this, IconOnlyState, true);
+			winrt::VisualStateManager::GoToState(*this, IconOnlyState, true);
 		}
 	}
 
-	void TokenItem::OnIconPropertyChanged([[maybe_unused]] IconElement const& oldValue, [[maybe_unused]] IconElement const& newValue)
+	void TokenItem::OnIconPropertyChanged([[maybe_unused]] winrt::IconElement const& oldValue, [[maybe_unused]] winrt::IconElement const& newValue)
 	{
 		IconChanged();
 	}
@@ -66,11 +106,11 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 	{
 		if (Icon() != nullptr)
 		{
-			VisualStateManager::GoToState(*this, IconLeftState, true);
+			winrt::VisualStateManager::GoToState(*this, IconLeftState, true);
 		}
 		else
 		{
-			VisualStateManager::GoToState(*this, ContentOnlyState, true);
+			winrt::VisualStateManager::GoToState(*this, ContentOnlyState, true);
 		}
 	}
 
@@ -83,11 +123,11 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 	{
 		if (IsRemoveable())
 		{
-			VisualStateManager::GoToState(*this, RemoveButtonVisibleState, true);
+			winrt::VisualStateManager::GoToState(*this, RemoveButtonVisibleState, true);
 		}
 		else
 		{
-			VisualStateManager::GoToState(*this, RemoveButtonNotVisibleState, true);
+			winrt::VisualStateManager::GoToState(*this, RemoveButtonNotVisibleState, true);
 		}
 	}
 }

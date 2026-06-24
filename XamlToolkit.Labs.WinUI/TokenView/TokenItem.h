@@ -3,6 +3,9 @@
 #include "TokenItem.g.h"
 
 #ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.Primitives.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
 #include <string_view>
@@ -26,62 +29,22 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		static constexpr std::wstring_view RemoveButtonVisibleState = L"RemoveButtonVisible";
 		static constexpr std::wstring_view RemoveButtonNotVisibleState = L"RemoveButtonNotVisible";
 		static constexpr std::wstring_view TokenItemRemoveButtonName = L"PART_RemoveButton";
-		ButtonBase _tokenItemRemoveButton{ nullptr };
 
-		ButtonBase::Click_revoker _removeButtonClickRevoker;
-
-	public:
 		TokenItem();
 
 		void OnApplyTemplate();
 
-		void OnContentChanged(IInspectable const& oldContent, IInspectable const& newContent);
+		void OnContentChanged(winrt::IInspectable const& oldContent, winrt::IInspectable const& newContent);
 
-		virtual void OnIconPropertyChanged(IconElement const& oldValue, IconElement const& newValue);
+		virtual void OnIconPropertyChanged(winrt::IconElement const& oldValue, winrt::IconElement const& newValue);
 
 		virtual void OnIsRemoveablePropertyChanged(bool oldValue, bool newValue);
 
 		wil::untyped_event<winrt::XamlToolkit::Labs::WinUI::TokenItemRemovingEventArgs> Removing;
 
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> IsRemoveableProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
-				L"IsRemoveable",
-				winrt::xaml_typename<bool>(),
-				winrt::xaml_typename<class_type>(),
-				winrt::Microsoft::UI::Xaml::PropertyMetadata{
-					winrt::box_value(false),
-					[](auto& d, auto& e)
-					{
-						if (auto tokenItem = d.template try_as<class_type>())
-						{
-							auto self = winrt::get_self<TokenItem>(tokenItem)->get_strong();
-							auto oldValue = winrt::unbox_value<bool>(e.OldValue());
-							auto newValue = winrt::unbox_value<bool>(e.NewValue());
-							self->OnIsRemoveablePropertyChanged(oldValue, newValue);
-						}
-					}
-				}
-			);
+		static const wil::single_threaded_property<winrt::DependencyProperty> IsRemoveableProperty;
 
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> IconProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
-				L"Icon",
-				winrt::xaml_typename<winrt::Microsoft::UI::Xaml::Controls::IconElement>(),
-				winrt::xaml_typename<class_type>(),
-				winrt::Microsoft::UI::Xaml::PropertyMetadata{
-					nullptr,
-					[](auto& d, auto& e)
-					{
-						if (auto tokenItem = d.template try_as<class_type>())
-						{
-							auto self = winrt::get_self<TokenItem>(tokenItem)->get_strong();
-							auto oldValue = e.OldValue().try_as<IconElement>();
-							auto newValue = e.NewValue().try_as<IconElement>();
-							self->OnIconPropertyChanged(oldValue, newValue);
-						}
-					}
-				}
-			);
+		static const wil::single_threaded_property<winrt::DependencyProperty> IconProperty;
 
 		bool IsRemoveable() const
 		{
@@ -93,24 +56,28 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 			SetValue(IsRemoveableProperty, winrt::box_value(value));
 		}
 
-		winrt::Microsoft::UI::Xaml::Controls::IconElement Icon() const
+		winrt::IconElement Icon() const
 		{
-			return GetValue(IconProperty).try_as<winrt::Microsoft::UI::Xaml::Controls::IconElement>();
+			return GetValue(IconProperty).try_as<winrt::IconElement>();
 		}
 
-		void Icon(winrt::Microsoft::UI::Xaml::Controls::IconElement const& value)
+		void Icon(winrt::IconElement const& value)
 		{
 			SetValue(IconProperty, value);
 		}
 
 	private:
-		void TokenItemRemoveButton_Click(IInspectable const& sender, RoutedEventArgs const& e);
+		void TokenItemRemoveButton_Click(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
 
 		void ContentChanged();
 
 		void IconChanged();
 
 		void IsRemoveableChanged();
+
+		winrt::ButtonBase _tokenItemRemoveButton{ nullptr };
+
+		winrt::ButtonBase::Click_revoker _removeButtonClickRevoker;
 	};
 }
 

@@ -4,14 +4,14 @@
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
-    //void TokenView::OnItemsChanged(IInspectable const& e)
+    //void TokenView::OnItemsChanged(winrt::IInspectable const& e)
     //{
-    //    // auto args = e.try_as<IVectorChangedEventArgs>();
+    //    // auto args = e.try_as<winrt::IVectorChangedEventArgs>();
 
     //    base_type::OnItemsChanged(e);
     //}
 
-    //void TokenView::ItemsSource_PropertyChanged(DependencyObject const& sender, DependencyProperty const& dp)
+    //void TokenView::ItemsSource_PropertyChanged(winrt::DependencyObject const& sender, winrt::DependencyProperty const& dp)
     //{
     //    // Use reflection to store a 'Remove' method of any possible collection in ItemsSource
     //    // Cache for efficiency later.

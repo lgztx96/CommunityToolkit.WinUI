@@ -13,38 +13,38 @@ namespace winrt
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
-    void TokenView::TokenView_SizeChanged([[maybe_unused]] IInspectable const& sender, [[maybe_unused]] SizeChangedEventArgs const& e)
+    void TokenView::TokenView_SizeChanged([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::SizeChangedEventArgs const& e)
     {
         UpdateScrollButtonsVisibility();
     }
 
-    void TokenView::ScrollTabBackButton_Click([[maybe_unused]] IInspectable const& sender, [[maybe_unused]] RoutedEventArgs const& e)
+    void TokenView::ScrollTabBackButton_Click([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
     {
-        if (_tokenViewScroller != nullptr)
+        if (_tokenViewScroller)
         {
             _tokenViewScroller.ChangeView(_tokenViewScroller.HorizontalOffset() - _tokenViewScroller.ViewportWidth(), nullptr, nullptr);
         }
     }
 
-    void TokenView::ScrollTabForwardButton_Click([[maybe_unused]] IInspectable const& sender, [[maybe_unused]] RoutedEventArgs const& e)
+    void TokenView::ScrollTabForwardButton_Click([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
     {
-        if (_tokenViewScroller != nullptr)
+        if (_tokenViewScroller)
         {
             _tokenViewScroller.ChangeView(_tokenViewScroller.HorizontalOffset() + _tokenViewScroller.ViewportWidth(), nullptr, nullptr);
         }
     }
 
-    void TokenView::TokenViewScroller_ViewChanging([[maybe_unused]] IInspectable const& sender, ScrollViewerViewChangingEventArgs const& e)
+    void TokenView::TokenViewScroller_ViewChanging([[maybe_unused]] winrt::IInspectable const& sender, winrt::ScrollViewerViewChangingEventArgs const& e)
     {
         if (_tokenViewScrollBackButton != nullptr)
         {
             if (e.FinalView().HorizontalOffset() < 1)
             {
-                _tokenViewScrollBackButton.Visibility(Visibility::Collapsed);
+                _tokenViewScrollBackButton.Visibility(winrt::Visibility::Collapsed);
             }
             else if (e.FinalView().HorizontalOffset() > 1)
             {
-                _tokenViewScrollBackButton.Visibility(Visibility::Visible);
+                _tokenViewScrollBackButton.Visibility(winrt::Visibility::Visible);
             }
         }
 
@@ -54,17 +54,17 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
             {
                 if (e.FinalView().HorizontalOffset() > _tokenViewScroller.ScrollableWidth() - 1)
                 {
-                    _tokenViewScrollForwardButton.Visibility(Visibility::Collapsed);
+                    _tokenViewScrollForwardButton.Visibility(winrt::Visibility::Collapsed);
                 }
                 else if (e.FinalView().HorizontalOffset() < _tokenViewScroller.ScrollableWidth() - 1)
                 {
-                    _tokenViewScrollForwardButton.Visibility(Visibility::Visible);
+                    _tokenViewScrollForwardButton.Visibility(winrt::Visibility::Visible);
                 }
             }
         }
     }
 
-    void TokenView::ScrollViewer_Loaded([[maybe_unused]] IInspectable const& sender, [[maybe_unused]] RoutedEventArgs const& e)
+    void TokenView::ScrollViewer_Loaded([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
     {
         if (_tokenViewScroller != nullptr)
         {
@@ -85,8 +85,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         if (_tokenViewScroller != nullptr)
         {
             _scrollViewChangingClickRevoker = _tokenViewScroller.ViewChanging(winrt::auto_revoke, { get_weak(), &TokenView::TokenViewScroller_ViewChanging });
-            _tokenViewScrollBackButton = DependencyObjectEx::FindDescendant(_tokenViewScroller, TokenViewScrollBackButtonName).try_as<ButtonBase>();
-            _tokenViewScrollForwardButton = DependencyObjectEx::FindDescendant(_tokenViewScroller, TokenViewScrollForwardButtonName).try_as<ButtonBase>();
+            _tokenViewScrollBackButton = winrt::DependencyObjectEx::FindDescendant(_tokenViewScroller, TokenViewScrollBackButtonName).try_as<winrt::ButtonBase>();
+            _tokenViewScrollForwardButton = winrt::DependencyObjectEx::FindDescendant(_tokenViewScroller, TokenViewScrollForwardButtonName).try_as<winrt::ButtonBase>();
         }
 
         if (_tokenViewScrollBackButton != nullptr)
@@ -102,14 +102,14 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         UpdateScrollButtonsVisibility();
     }
 
-    void TokenView::Token_Removing([[maybe_unused]] IInspectable const& sender, winrt::XamlToolkit::Labs::WinUI::TokenItemRemovingEventArgs const& e)
+    void TokenView::Token_Removing([[maybe_unused]] winrt::IInspectable const& sender, winrt::XamlToolkit::Labs::WinUI::TokenItemRemovingEventArgs const& e)
     {
         if (auto item = ItemFromContainer(e.TokenItem()))
         {
-            auto args = winrt::make<TokenItemRemovingEventArgs>(item, e.TokenItem());
-            TokenItemRemoving.invoke(*this, args);
+            auto args = winrt::make_self<TokenItemRemovingEventArgs>(item, e.TokenItem());
+            TokenItemRemoving.invoke(*this, *args);
 
-            if (auto itemsSource = ItemsSource().try_as<winrt::Windows::Foundation::Collections::IVector<IInspectable>>())
+            if (auto itemsSource = ItemsSource().try_as<winrt::IVector<winrt::IInspectable>>())
             {
                 uint32_t index;
                 if (itemsSource.IndexOf(item, index))
@@ -138,7 +138,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         UpdateScrollButtonsVisibility();
     }
 
-    //void TokenView::Token_Loaded(IInspectable const& sender, RoutedEventArgs const& e)
+    //void TokenView::Token_Loaded(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e)
     //{
     //    if (auto token = sender.try_as<winrt::XamlToolkit::Labs::WinUI::TokenItem>())
     //    {
@@ -152,23 +152,23 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         {
             if (IsWrapped())
             {
-                _tokenViewScroller.HorizontalScrollBarVisibility(ScrollBarVisibility::Disabled);
+                _tokenViewScroller.HorizontalScrollBarVisibility(winrt::ScrollBarVisibility::Disabled);
             }
             else
             {
-                _tokenViewScroller.HorizontalScrollBarVisibility(ScrollBarVisibility::Hidden);
+                _tokenViewScroller.HorizontalScrollBarVisibility(winrt::ScrollBarVisibility::Hidden);
             }
         }
     }
 
-    void TokenView::TokenView_PreviewKeyDown([[maybe_unused]] IInspectable const& sender, KeyRoutedEventArgs const& e)
+    void TokenView::TokenView_PreviewKeyDown([[maybe_unused]] winrt::IInspectable const& sender, winrt::KeyRoutedEventArgs const& e)
     {
         switch (e.Key())
         {
-        case VirtualKey::Left: e.Handled(MoveFocus(MoveDirection::Previous)); break;
-        case VirtualKey::Right: e.Handled(MoveFocus(MoveDirection::Next)); break;
-        case VirtualKey::Back:
-        case VirtualKey::Delete: e.Handled(RemoveItem()); break;
+            case winrt::VirtualKey::Left: e.Handled(MoveFocus(MoveDirection::Previous)); break;
+            case winrt::VirtualKey::Right: e.Handled(MoveFocus(MoveDirection::Next)); break;
+            case winrt::VirtualKey::Back:
+            case winrt::VirtualKey::Delete: e.Handled(RemoveItem()); break;
         }
     }
 }
