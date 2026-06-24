@@ -7,16 +7,16 @@
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-	Style SettingsExpanderItemStyleSelector::SelectStyleCore(
-		[[maybe_unused]] winrt::Windows::Foundation::IInspectable const& item, DependencyObject const& container)
-	{
-		if (auto card = container.try_as<winrt::XamlToolkit::WinUI::Controls::SettingsCard>(); card && card.IsClickEnabled())
-		{
-			return ClickableStyle;
-		}
-		else
-		{
-			return DefaultStyle;
-		}
-	}
+    winrt::Style SettingsExpanderItemStyleSelector::SelectStyleCore(
+        [[maybe_unused]] winrt::IInspectable const& item, winrt::DependencyObject const& container)
+    {
+        if (auto card = container.try_as<winrt::XamlToolkit::WinUI::Controls::SettingsCard>(); card && card.IsClickEnabled())
+        {
+            return ClickableStyle;
+        }
+        else
+        {
+            return DefaultStyle;
+        }
+    }
 }

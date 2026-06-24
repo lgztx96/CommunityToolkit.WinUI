@@ -10,27 +10,27 @@
 
 namespace winrt
 {
-	using namespace Windows::Foundation;
-	using namespace Microsoft::UI::Xaml;
+    using namespace Windows::Foundation;
+    using namespace Microsoft::UI::Xaml;
 }
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-	struct SettingsExpanderItemStyleSelector : SettingsExpanderItemStyleSelectorT<SettingsExpanderItemStyleSelector>
-	{
-		wil::single_threaded_rw_property<Style> DefaultStyle{ nullptr };
+    struct SettingsExpanderItemStyleSelector : SettingsExpanderItemStyleSelectorT<SettingsExpanderItemStyleSelector>
+    {
+        wil::single_threaded_rw_property<winrt::Style> DefaultStyle{ nullptr };
 
-		wil::single_threaded_rw_property<Style> ClickableStyle{ nullptr };
+        wil::single_threaded_rw_property<winrt::Style> ClickableStyle{ nullptr };
 
-		SettingsExpanderItemStyleSelector() = default;
+        SettingsExpanderItemStyleSelector() = default;
 
-		Style SelectStyleCore(IInspectable const& item, DependencyObject const& container);
-	};
+        winrt::Style SelectStyleCore(winrt::IInspectable const& item, winrt::DependencyObject const& container);
+    };
 }
 
 namespace winrt::XamlToolkit::WinUI::Controls::factory_implementation
 {
-	struct SettingsExpanderItemStyleSelector : SettingsExpanderItemStyleSelectorT<SettingsExpanderItemStyleSelector, implementation::SettingsExpanderItemStyleSelector>
-	{
-	};
+    struct SettingsExpanderItemStyleSelector : SettingsExpanderItemStyleSelectorT<SettingsExpanderItemStyleSelector, implementation::SettingsExpanderItemStyleSelector>
+    {
+    };
 }

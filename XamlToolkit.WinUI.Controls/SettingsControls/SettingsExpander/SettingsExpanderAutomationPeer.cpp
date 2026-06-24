@@ -12,25 +12,25 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
     {
     }
 
-    AutomationControlType SettingsExpanderAutomationPeer::GetAutomationControlTypeCore()
+    winrt::AutomationControlType SettingsExpanderAutomationPeer::GetAutomationControlTypeCore()
     {
-        return AutomationControlType::Group;
+        return winrt::AutomationControlType::Group;
     }
 
-    hstring SettingsExpanderAutomationPeer::GetClassNameCore()
+    winrt::hstring SettingsExpanderAutomationPeer::GetClassNameCore()
     {
         return winrt::xaml_typename<owner_type>().Name;
     }
 
-    hstring SettingsExpanderAutomationPeer::GetNameCore()
+    winrt::hstring SettingsExpanderAutomationPeer::GetNameCore()
     {
-        hstring name = base_type::GetNameCore();
+        winrt::hstring name = base_type::GetNameCore();
 
         if (auto owner = Owner().try_as<owner_type>())
         {
-            if (!AutomationProperties::GetName(owner).empty())
+            if (!winrt::AutomationProperties::GetName(owner).empty())
             {
-                name = AutomationProperties::GetName(owner);
+                name = winrt::AutomationProperties::GetName(owner);
             }
             else
             {
@@ -45,12 +45,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
     void SettingsExpanderAutomationPeer::RaiseExpandedChangedEvent(bool newValue)
     {
-        ExpandCollapseState newState = newValue ? ExpandCollapseState::Expanded : ExpandCollapseState::Collapsed;
+        winrt::ExpandCollapseState newState = newValue ? winrt::ExpandCollapseState::Expanded : winrt::ExpandCollapseState::Collapsed;
 
-        ExpandCollapseState oldState = (newState == ExpandCollapseState::Expanded) ?
-            ExpandCollapseState::Collapsed :
-            ExpandCollapseState::Expanded;
+        winrt::ExpandCollapseState oldState = (newState == winrt::ExpandCollapseState::Expanded) ?
+            winrt::ExpandCollapseState::Collapsed :
+            winrt::ExpandCollapseState::Expanded;
 
-        RaisePropertyChangedEvent(ExpandCollapsePatternIdentifiers::ExpandCollapseStateProperty(), winrt::box_value(oldState), winrt::box_value(newState));
+        RaisePropertyChangedEvent(winrt::ExpandCollapsePatternIdentifiers::ExpandCollapseStateProperty(), winrt::box_value(oldState), winrt::box_value(newState));
     }
 }
