@@ -3,6 +3,7 @@
 #include "SettingsCardAutomationPeer.g.h"
 
 #ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
 #include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Microsoft.UI.Xaml.Automation.h>
 #include <winrt/Microsoft.UI.Xaml.Automation.Peers.h>
@@ -10,6 +11,7 @@
 
 namespace winrt
 {
+	using namespace Windows::Foundation;
 	using namespace Microsoft::UI::Xaml;
 	using namespace Microsoft::UI::Xaml::Automation;
 	using namespace Microsoft::UI::Xaml::Automation::Peers;
@@ -23,13 +25,13 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
         SettingsCardAutomationPeer(owner_type const& owner);
 
-        AutomationControlType GetAutomationControlTypeCore();
+        winrt::AutomationControlType GetAutomationControlTypeCore();
 
         winrt::hstring GetClassNameCore();
 
         winrt::hstring GetNameCore();
 
-        Windows::Foundation::IInspectable GetPatternCore(PatternInterface const& patternInterface);
+        winrt::IInspectable GetPatternCore(winrt::PatternInterface const& patternInterface);
     };
 }
 

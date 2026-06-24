@@ -7,8 +7,6 @@
         Vertical
     };
 
-    [bindable]
-    [default_interface]
     runtimeclass SettingsCard : Microsoft.UI.Xaml.Controls.Primitives.ButtonBase
     {
         SettingsCard();

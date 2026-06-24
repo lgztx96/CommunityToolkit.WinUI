@@ -6,6 +6,7 @@
 
 #ifdef __INTELLISENSE__
 #include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.System.h>
 #include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Microsoft.UI.Xaml.Controls.h>
 #include <winrt/Microsoft.UI.Xaml.Controls.Primitives.h>
@@ -17,6 +18,7 @@
 namespace winrt
 {
 	using namespace Windows::Foundation;
+	using namespace Windows::System;
 	using namespace Microsoft::UI::Xaml;
 	using namespace Microsoft::UI::Xaml::Controls;
 	using namespace Microsoft::UI::Xaml::Controls::Primitives;
@@ -53,16 +55,6 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		static constexpr auto DescriptionPresenter = L"PART_DescriptionPresenter";
 		static constexpr auto HeaderIconPresenterHolder = L"PART_HeaderIconPresenterHolder";
 
-		winrt::event_token _pointerEnteredToken{};
-		winrt::event_token _pointerExitedToken{};
-		winrt::event_token _pointerCaptureLostToken{};
-		winrt::event_token _pointerCanceledToken{};
-		winrt::event_token _previewKeyDownToken{};
-		winrt::event_token _previewKeyUpToken{};
-
-		class_type::IsEnabledChanged_revoker _enabledChangedRevoker;
-		VisualStateGroup::CurrentStateChanged_revoker _currentStateChangedRevoker;
-
 		SettingsCard();
 
 		void OnApplyTemplate();
@@ -76,27 +68,27 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		void DisableButtonInteraction();
 
-		void Control_PreviewKeyUp(IInspectable const& sender, KeyRoutedEventArgs const& e);
+		void Control_PreviewKeyUp(winrt::IInspectable const& sender, winrt::KeyRoutedEventArgs const& e);
 
-		void Control_PreviewKeyDown(IInspectable const& sender, KeyRoutedEventArgs const& e);
+		void Control_PreviewKeyDown(winrt::IInspectable const& sender, winrt::KeyRoutedEventArgs const& e);
 
-		void Control_PointerEntered(IInspectable const& sender, PointerRoutedEventArgs const& e);
+		void Control_PointerEntered(winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e);
 
-		void Control_PointerExited(IInspectable const& sender, PointerRoutedEventArgs const& e);
+		void Control_PointerExited(winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e);
 
-		void Control_PointerCaptureLost(IInspectable const& sender, PointerRoutedEventArgs const& e);
+		void Control_PointerCaptureLost(winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e);
 
-		void Control_PointerCanceled(IInspectable const& sender, PointerRoutedEventArgs const& e);
+		void Control_PointerCanceled(winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e);
 
-		void OnPointerPressed(PointerRoutedEventArgs const& e);
+		void OnPointerPressed(winrt::PointerRoutedEventArgs const& e);
 
-		void OnPointerReleased(PointerRoutedEventArgs const& e);
+		void OnPointerReleased(winrt::PointerRoutedEventArgs const& e);
 
 		winrt::Microsoft::UI::Xaml::Automation::Peers::AutomationPeer OnCreateAutomationPeer();
 
 		void OnIsClickEnabledChanged();
 
-		void OnIsEnabledChanged(IInspectable const& sender, DependencyPropertyChangedEventArgs const& e);
+		void OnIsEnabledChanged(winrt::IInspectable const& sender, winrt::DependencyPropertyChangedEventArgs const& e);
 
 		void CheckHeaderIconState();
 
@@ -108,107 +100,55 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		void OnHeaderChanged();
 
-		void ContentAlignmentStates_Changed(IInspectable const& sender, VisualStateChangedEventArgs const& e);
+		void ContentAlignmentStates_Changed(winrt::IInspectable const& sender, winrt::VisualStateChangedEventArgs const& e);
 
-		void CheckVerticalSpacingState(VisualState const& s);
+		void CheckVerticalSpacingState(winrt::VisualState const& s);
 
-		FrameworkElement GetFocusedElement();
+		winrt::FrameworkElement GetFocusedElement();
 
-		static bool IsNullOrEmptyString(IInspectable const& obj);
+		static bool IsNullOrEmptyString(winrt::IInspectable const& obj);
 
 		void OnIsClickEnabledPropertyChanged(bool oldValue, bool newValue);
 
-		void OnHeaderIconPropertyChanged(IconElement const& oldValue, IconElement const& newValue);
+		void OnHeaderIconPropertyChanged(winrt::IconElement const& oldValue, winrt::IconElement const& newValue);
 
-		void OnHeaderPropertyChanged(IInspectable const& oldValue, IInspectable const& newValue);
+		void OnHeaderPropertyChanged(winrt::IInspectable const& oldValue, winrt::IInspectable const& newValue);
 
-		void OnDescriptionPropertyChanged(IInspectable const& oldValue, IInspectable const& newValue);
+		void OnDescriptionPropertyChanged(winrt::IInspectable const& oldValue, winrt::IInspectable const& newValue);
 
 		void OnIsActionIconVisiblePropertyChanged(bool oldValue, bool newValue);
 
-		static inline const wil::single_threaded_property<DependencyProperty> HeaderProperty = DependencyProperty::Register(
-			L"Header",
-			winrt::xaml_typename<IInspectable>(),
-			winrt::xaml_typename<class_type>(),
-			PropertyMetadata(nullptr, [](auto&& d, auto&& e)
-				{ 
-					auto self = winrt::get_self<SettingsCard>(d.template as<class_type>())->get_strong();
-					self->OnHeaderPropertyChanged(e.OldValue().as<IInspectable>(), e.NewValue().as<IInspectable>());
-				}));
+		static const wil::single_threaded_property<winrt::DependencyProperty> HeaderProperty;
 
-		static inline const wil::single_threaded_property<DependencyProperty> DescriptionProperty = DependencyProperty::Register(
-			L"Description",
-			winrt::xaml_typename<IInspectable>(),
-			winrt::xaml_typename<class_type>(),
-			PropertyMetadata(nullptr, [](auto&& d, auto&& e)
-				{ 
-					auto self = winrt::get_self<SettingsCard>(d.template as<class_type>())->get_strong();
-					self->OnDescriptionPropertyChanged(e.OldValue().as<IInspectable>(), e.NewValue().as<IInspectable>());
-				}));
+		static const wil::single_threaded_property<winrt::DependencyProperty> DescriptionProperty;
 
-		static inline const wil::single_threaded_property<DependencyProperty> HeaderIconProperty = DependencyProperty::Register(
-			L"HeaderIcon",
-			winrt::xaml_typename<IconElement>(),
-			winrt::xaml_typename<class_type>(),
-			PropertyMetadata(nullptr, [](auto&& d, auto&& e)
-				{ 
-					auto self = winrt::get_self<SettingsCard>(d.template as<class_type>())->get_strong();
-					self->OnHeaderIconPropertyChanged(e.OldValue().as<IconElement>(), e.NewValue().as<IconElement>());
-				}));
+		static const wil::single_threaded_property<winrt::DependencyProperty> HeaderIconProperty;
 
-		static inline const wil::single_threaded_property<DependencyProperty> ActionIconProperty = DependencyProperty::Register(
-			L"ActionIcon",
-			winrt::xaml_typename<IconElement>(),
-			winrt::xaml_typename<class_type>(),
-			PropertyMetadata(nullptr));
+		static const wil::single_threaded_property<winrt::DependencyProperty> ActionIconProperty;
 
-		static inline const wil::single_threaded_property<DependencyProperty> ActionIconToolTipProperty = DependencyProperty::Register(
-			L"ActionIconToolTip",
-			winrt::xaml_typename<hstring>(),
-			winrt::xaml_typename<class_type>(),
-			PropertyMetadata(nullptr));
+		static const wil::single_threaded_property<winrt::DependencyProperty> ActionIconToolTipProperty;
 
-		static inline const wil::single_threaded_property<DependencyProperty> IsClickEnabledProperty = DependencyProperty::Register(
-			L"IsClickEnabled",
-			winrt::xaml_typename<bool>(),
-			winrt::xaml_typename<class_type>(),
-			PropertyMetadata(winrt::box_value(false), [](auto&& d, auto&& e)
-				{ 
-					auto self = winrt::get_self<SettingsCard>(d.template as<class_type>())->get_strong();
-					self->OnIsClickEnabledPropertyChanged(e.OldValue().as<bool>(), e.NewValue().as<bool>());
-				}));
+		static const wil::single_threaded_property<winrt::DependencyProperty> IsClickEnabledProperty;
 
-		static inline const wil::single_threaded_property<DependencyProperty> ContentAlignmentProperty = DependencyProperty::Register(
-			L"ContentAlignment",
-			winrt::xaml_typename<XamlToolkit::WinUI::Controls::ContentAlignment>(),
-			winrt::xaml_typename<class_type>(),
-			PropertyMetadata(winrt::box_value(XamlToolkit::WinUI::Controls::ContentAlignment::Right)));
+		static const wil::single_threaded_property<winrt::DependencyProperty> ContentAlignmentProperty;
 
-		static inline const wil::single_threaded_property<DependencyProperty> IsActionIconVisibleProperty = DependencyProperty::Register(
-			L"IsActionIconVisible",
-			winrt::xaml_typename<bool>(),
-			winrt::xaml_typename<class_type>(),
-			PropertyMetadata(winrt::box_value(true), [](auto&& d, auto&& e)
-				{ 
-					auto self = winrt::get_self<SettingsCard>(d.template as<class_type>())->get_strong();
-					self->OnIsActionIconVisiblePropertyChanged(e.OldValue().as<bool>(), e.NewValue().as<bool>());
-				}));
+		static const wil::single_threaded_property<winrt::DependencyProperty> IsActionIconVisibleProperty;
 
-		IInspectable Header() const { return GetValue(HeaderProperty); }
+		winrt::IInspectable Header() const { return GetValue(HeaderProperty); }
 
-		void Header(IInspectable const& value) const { SetValue(HeaderProperty, value); }
+		void Header(winrt::IInspectable const& value) const { SetValue(HeaderProperty, value); }
 
-		IInspectable Description() const { return GetValue(DescriptionProperty); }
+		winrt::IInspectable Description() const { return GetValue(DescriptionProperty); }
 
-		void Description(IInspectable const& value) const { SetValue(DescriptionProperty, value); }
+		void Description(winrt::IInspectable const& value) const { SetValue(DescriptionProperty, value); }
 
-		IconElement HeaderIcon() const { return winrt::unbox_value<IconElement>(GetValue(HeaderIconProperty)); }
+		winrt::IconElement HeaderIcon() const { return winrt::unbox_value<winrt::IconElement>(GetValue(HeaderIconProperty)); }
 
-		void HeaderIcon(IconElement const& value) const { SetValue(HeaderIconProperty, value); }
+		void HeaderIcon(winrt::IconElement const& value) const { SetValue(HeaderIconProperty, value); }
 
-		IconElement ActionIcon() const { return winrt::unbox_value<IconElement>(GetValue(ActionIconProperty)); }
+		winrt::IconElement ActionIcon() const { return winrt::unbox_value<winrt::IconElement>(GetValue(ActionIconProperty)); }
 
-		void ActionIcon(IconElement const& value) const { SetValue(ActionIconProperty, value); }
+		void ActionIcon(winrt::IconElement const& value) const { SetValue(ActionIconProperty, value); }
 
 		winrt::hstring ActionIconToolTip() const { return winrt::unbox_value<winrt::hstring>(GetValue(ActionIconToolTipProperty)); }
 
@@ -218,20 +158,31 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		void IsClickEnabled(bool value) const { SetValue(IsClickEnabledProperty, winrt::box_value(value)); }
 
-		winrt::XamlToolkit::WinUI::Controls::ContentAlignment ContentAlignment() const 
+		winrt::XamlToolkit::WinUI::Controls::ContentAlignment ContentAlignment() const
 		{
 			return winrt::unbox_value<winrt::XamlToolkit::WinUI::Controls::ContentAlignment>(
 				GetValue(ContentAlignmentProperty));
 		}
 
 		void ContentAlignment(winrt::XamlToolkit::WinUI::Controls::ContentAlignment value) const
-		{ 
+		{
 			SetValue(ContentAlignmentProperty, winrt::box_value(value));
 		}
 
 		bool IsActionIconVisible() const { return winrt::unbox_value<bool>(GetValue(IsActionIconVisibleProperty)); }
 
 		void IsActionIconVisible(bool value) const { SetValue(IsActionIconVisibleProperty, winrt::box_value(value)); }
+
+	private:
+		winrt::event_token _pointerEnteredToken{};
+		winrt::event_token _pointerExitedToken{};
+		winrt::event_token _pointerCaptureLostToken{};
+		winrt::event_token _pointerCanceledToken{};
+		winrt::event_token _previewKeyDownToken{};
+		winrt::event_token _previewKeyUpToken{};
+
+		class_type::IsEnabledChanged_revoker _enabledChangedRevoker;
+		winrt::VisualStateGroup::CurrentStateChanged_revoker _currentStateChangedRevoker;
 	};
 }
 

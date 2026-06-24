@@ -13,15 +13,15 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
     }
 
-    AutomationControlType SettingsCardAutomationPeer::GetAutomationControlTypeCore()
+    winrt::AutomationControlType SettingsCardAutomationPeer::GetAutomationControlTypeCore()
     {
         if (auto settingsCard = Owner().try_as<owner_type>(); settingsCard && settingsCard.IsClickEnabled())
         {
-            return AutomationControlType::Button;
+            return winrt::AutomationControlType::Button;
         }
         else
         {
-            return AutomationControlType::Group;
+            return winrt::AutomationControlType::Group;
         }
     }
 
@@ -35,7 +35,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         // We only want to announce the button card name if it is clickable, else it's just a regular card that does not receive focus
         if (auto owner = Owner().try_as<owner_type>(); owner && owner.IsClickEnabled())
         {
-            winrt::hstring name = AutomationProperties::GetName(owner);
+            winrt::hstring name = winrt::AutomationProperties::GetName(owner);
             if (!name.empty())
             {
                 return name;
@@ -52,9 +52,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         return base_type::GetNameCore();
     }
 
-    Windows::Foundation::IInspectable SettingsCardAutomationPeer::GetPatternCore(PatternInterface const& patternInterface)
+    winrt::IInspectable SettingsCardAutomationPeer::GetPatternCore(winrt::PatternInterface const& patternInterface)
     {
-        if (patternInterface == PatternInterface::Invoke)
+        if (patternInterface == winrt::PatternInterface::Invoke)
         {
             if (auto owner = Owner().try_as<owner_type>(); owner && owner.IsClickEnabled())
             {
