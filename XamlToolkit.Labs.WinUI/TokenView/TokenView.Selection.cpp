@@ -13,7 +13,13 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
     {
         bool retVal = false;
 
-        if (auto currentItem = ItemFromContainer(GetCurrentContainerItem()).try_as<DependencyObject>())
+        auto currentContainerItem = GetCurrentContainerItem();
+        if (!currentContainerItem)
+        {
+            return false;
+        }
+
+        if (auto currentItem = ItemFromContainer(currentContainerItem))
         {
             auto items = Items();
             uint32_t previousIndex;
