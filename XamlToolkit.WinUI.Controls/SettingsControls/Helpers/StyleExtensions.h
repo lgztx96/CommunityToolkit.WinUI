@@ -12,32 +12,28 @@
 
 namespace winrt
 {
-	using namespace Microsoft::UI::Xaml;
+    using namespace Microsoft::UI::Xaml;
 }
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-	struct StyleExtensions : StyleExtensionsT<StyleExtensions>
-	{
-		static ResourceDictionary GetResources(Microsoft::UI::Xaml::Style obj);
+    struct StyleExtensions
+    {
+        static winrt::ResourceDictionary GetResources(winrt::Style const& obj);
 
-		static void SetResources(Microsoft::UI::Xaml::Style obj, ResourceDictionary value);
+        static void SetResources(winrt::Style const& obj, winrt::ResourceDictionary const& value);
 
-		static void ResourcesChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e);
+        static void ResourcesChanged(winrt::DependencyObject const& sender, winrt::DependencyPropertyChangedEventArgs const& e);
 
-		static void ForceControlToReloadThemeResources(FrameworkElement frameworkElement);
+        static void ForceControlToReloadThemeResources(winrt::FrameworkElement const& frameworkElement);
 
-		static inline const wil::single_threaded_property<DependencyProperty> ResourcesProperty =
-			DependencyProperty::RegisterAttached(L"Resources",
-				winrt::xaml_typename<ResourceDictionary>(),
-				winrt::xaml_typename<class_type>(),
-				PropertyMetadata(nullptr, ResourcesChanged));
-	};
+        static const wil::single_threaded_property<winrt::DependencyProperty> ResourcesProperty;
+    };
 }
 
 namespace winrt::XamlToolkit::WinUI::Controls::factory_implementation
 {
-	struct StyleExtensions : StyleExtensionsT<StyleExtensions, implementation::StyleExtensions>
-	{
-	};
+    struct StyleExtensions : StyleExtensionsT<StyleExtensions, implementation::StyleExtensions>
+    {
+    };
 }

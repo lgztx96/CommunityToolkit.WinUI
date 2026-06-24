@@ -1,6 +1,5 @@
 namespace XamlToolkit.WinUI.Controls
 {
-    [default_interface]
     static runtimeclass StyleExtensions
     {
         static Microsoft.UI.Xaml.ResourceDictionary GetResources(Microsoft.UI.Xaml.Style obj);

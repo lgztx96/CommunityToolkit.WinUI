@@ -10,8 +10,8 @@
 
 namespace winrt
 {
-	using namespace Windows::Foundation;
-	using namespace Windows::UI::Xaml::Interop;
+    using namespace Windows::Foundation;
+    using namespace Windows::UI::Xaml::Interop;
     using namespace Microsoft::UI::Xaml;
 }
 
@@ -21,9 +21,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
     {
         CornerRadiusConverter() = default;
 
-        IInspectable Convert(IInspectable const& value, TypeName const& targetType, IInspectable const& parameter, hstring const& language);
+        winrt::IInspectable Convert(winrt::IInspectable const& value, winrt::TypeName const& targetType, winrt::IInspectable const& parameter, winrt::hstring const& language);
 
-        IInspectable ConvertBack(IInspectable const& value, TypeName const& targetType, IInspectable const& parameter, hstring const& language);
+        winrt::IInspectable ConvertBack(winrt::IInspectable const& value, winrt::TypeName const& targetType, winrt::IInspectable const& parameter, winrt::hstring const& language);
     };
 }
 

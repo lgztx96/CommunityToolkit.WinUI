@@ -7,63 +7,69 @@
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-	ResourceDictionary StyleExtensions::GetResources(Microsoft::UI::Xaml::Style obj)
-	{
-		return winrt::unbox_value<ResourceDictionary>(obj.GetValue(ResourcesProperty));
-	}
+    const wil::single_threaded_property<winrt::DependencyProperty> StyleExtensions::ResourcesProperty =
+        winrt::DependencyProperty::RegisterAttached(L"Resources",
+            winrt::xaml_typename<winrt::ResourceDictionary>(),
+            winrt::xaml_typename<winrt::XamlToolkit::WinUI::Controls::StyleExtensions>(),
+            winrt::PropertyMetadata(nullptr, &StyleExtensions::ResourcesChanged));
 
-	void StyleExtensions::SetResources(Microsoft::UI::Xaml::Style obj, ResourceDictionary value)
-	{
-		obj.SetValue(ResourcesProperty, winrt::box_value(value));
-	}
+    winrt::ResourceDictionary StyleExtensions::GetResources(winrt::Style const& obj)
+    {
+        return winrt::unbox_value<winrt::ResourceDictionary>(obj.GetValue(ResourcesProperty));
+    }
 
-	void StyleExtensions::ResourcesChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-	{
-		auto frameworkElement = sender.try_as<FrameworkElement>();
-		if (!frameworkElement)
-		{
-			return;
-		}
+    void StyleExtensions::SetResources(winrt::Style const& obj, winrt::ResourceDictionary const& value)
+    {
+        obj.SetValue(ResourcesProperty, winrt::box_value(value));
+    }
 
-		auto mergedDictionaries = frameworkElement.Resources().MergedDictionaries();
-		if (mergedDictionaries == nullptr)
-		{
-			return;
-		}
+    void StyleExtensions::ResourcesChanged(winrt::DependencyObject const& sender, winrt::DependencyPropertyChangedEventArgs const& e)
+    {
+        auto frameworkElement = sender.try_as<winrt::FrameworkElement>();
+        if (!frameworkElement)
+        {
+            return;
+        }
 
-		for (uint32_t index = 0; index < mergedDictionaries.Size(); ++index)
-		{
-			if (auto&& value = mergedDictionaries.GetAt(index);
-				value.try_as<XamlToolkit::WinUI::Controls::StyleExtensionResourceDictionary>())
-			{
-				// Remove the existing resource dictionary
-				mergedDictionaries.RemoveAt(index);
-				break;
-			}
-		}
+        auto mergedDictionaries = frameworkElement.Resources().MergedDictionaries();
+        if (!mergedDictionaries)
+        {
+            return;
+        }
 
-		if (auto resource = e.NewValue().try_as<ResourceDictionary>())
-		{
-			auto clonedResources = winrt::make<XamlToolkit::WinUI::Controls::implementation::StyleExtensionResourceDictionary>();
-			ResourceDictionaryExtensions::CopyFrom(clonedResources, resource);
-			mergedDictionaries.Append(clonedResources);
-		}
+        for (uint32_t index = 0; index < mergedDictionaries.Size(); ++index)
+        {
+            if (auto&& value = mergedDictionaries.GetAt(index);
+                value.try_as<winrt::XamlToolkit::WinUI::Controls::StyleExtensionResourceDictionary>())
+            {
+                // Remove the existing resource dictionary
+                mergedDictionaries.RemoveAt(index);
+                break;
+            }
+        }
 
-		if (frameworkElement.IsLoaded())
-		{
-			// Only force if the style was applied after the control was loaded
-			ForceControlToReloadThemeResources(frameworkElement);
-		}
-	}
+        if (const auto resource = e.NewValue().try_as<winrt::ResourceDictionary>())
+        {
+            auto clonedResources = winrt::make<winrt::XamlToolkit::WinUI::Controls::implementation::StyleExtensionResourceDictionary>();
+            ResourceDictionaryExtensions::CopyFrom(clonedResources, resource);
+            mergedDictionaries.Append(clonedResources);
+        }
 
-	void StyleExtensions::ForceControlToReloadThemeResources(FrameworkElement frameworkElement)
-	{
-		// To force the refresh of all resource references.
-		// Note: Doesn't work when in high-contrast.
-		auto currentRequestedTheme = frameworkElement.RequestedTheme();
-		frameworkElement.RequestedTheme(currentRequestedTheme == ElementTheme::Dark
-			? ElementTheme::Light
-			: ElementTheme::Dark);
-		frameworkElement.RequestedTheme(currentRequestedTheme);
-	}
+        if (frameworkElement.IsLoaded())
+        {
+            // Only force if the style was applied after the control was loaded
+            ForceControlToReloadThemeResources(frameworkElement);
+        }
+    }
+
+    void StyleExtensions::ForceControlToReloadThemeResources(winrt::FrameworkElement const& frameworkElement)
+    {
+        // To force the refresh of all resource references.
+        // Note: Doesn't work when in high-contrast.
+        auto currentRequestedTheme = frameworkElement.RequestedTheme();
+        frameworkElement.RequestedTheme(currentRequestedTheme == winrt::ElementTheme::Dark
+            ? winrt::ElementTheme::Light
+            : winrt::ElementTheme::Dark);
+        frameworkElement.RequestedTheme(currentRequestedTheme);
+    }
 }

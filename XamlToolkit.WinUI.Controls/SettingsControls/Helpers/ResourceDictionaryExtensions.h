@@ -6,58 +6,58 @@
 
 namespace winrt
 {
-	using namespace Microsoft::UI::Xaml;
+    using namespace Microsoft::UI::Xaml;
 }
 
 namespace winrt::XamlToolkit::WinUI::Controls
 {
-	struct ResourceDictionaryExtensions
-	{
-		ResourceDictionaryExtensions() = default;
+    struct ResourceDictionaryExtensions
+    {
+        ResourceDictionaryExtensions() = default;
 
-		static void CopyFrom(ResourceDictionary destination, ResourceDictionary source)
-		{
-			if (source.Source() != nullptr)
-			{
-				destination.Source(source.Source());
-			}
-			else
-			{
-				// Clone theme dictionaries
-				if (source.ThemeDictionaries() != nullptr)
-				{
-					for (auto theme : source.ThemeDictionaries())
-					{
-						if (auto themedResource = theme.Value().try_as<ResourceDictionary>())
-						{
-							auto themeDictionary = ResourceDictionary();
-							CopyFrom(themeDictionary, themedResource);
-							destination.ThemeDictionaries().Insert(theme.Key(), themeDictionary);
-						}
-						else
-						{
-							destination.ThemeDictionaries().Insert(theme.Key(), theme.Value());
-						}
-					}
-				}
+        static void CopyFrom(winrt::ResourceDictionary const& destination, winrt::ResourceDictionary const& source)
+        {
+            if (auto uri = source.Source())
+            {
+                destination.Source(uri);
+            }
+            else
+            {
+                // Clone theme dictionaries
+                if (source.ThemeDictionaries() != nullptr)
+                {
+                    for (const auto& theme : source.ThemeDictionaries())
+                    {
+                        if (auto themedResource = theme.Value().try_as<winrt::ResourceDictionary>())
+                        {
+                            winrt::ResourceDictionary themeDictionary;
+                            CopyFrom(themeDictionary, themedResource);
+                            destination.ThemeDictionaries().Insert(theme.Key(), themeDictionary);
+                        }
+                        else
+                        {
+                            destination.ThemeDictionaries().Insert(theme.Key(), theme.Value());
+                        }
+                    }
+                }
 
-				// Clone merged dictionaries
-				if (source.MergedDictionaries() != nullptr)
-				{
-					for (auto mergedResource : source.MergedDictionaries())
-					{
-						auto themeDictionary = ResourceDictionary();
-						CopyFrom(themeDictionary, mergedResource);
-						destination.MergedDictionaries().Append(themeDictionary);
-					}
-				}
+                // Clone merged dictionaries
+                if (source.MergedDictionaries())
+                {
+                    for (const auto& mergedResource : source.MergedDictionaries())
+                    {
+                        winrt::ResourceDictionary themeDictionary;
+                        CopyFrom(themeDictionary, mergedResource);
+                        destination.MergedDictionaries().Append(themeDictionary);
+                    }
+                }
 
-				// Clone all contents
-				for (auto item : source)
-				{
-					destination.Insert(item.Key(), item.Value());
-				}
-			}
-		}
-	};
+                // Clone all contents
+                for (const auto& item : source)
+                {
+                    destination.Insert(item.Key(), item.Value());
+                }
+            }
+        }
+    };
 }
