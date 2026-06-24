@@ -118,7 +118,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		if (minimum == maximum)
 		{
-			Maximum(maximum + Epsilon);
+			// Do nothing
 		}
 
 		if (!_maxSet)
