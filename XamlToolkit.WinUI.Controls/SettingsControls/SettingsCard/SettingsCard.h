@@ -160,7 +160,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			L"ActionIcon",
 			winrt::xaml_typename<IconElement>(),
 			winrt::xaml_typename<class_type>(),
-			PropertyMetadata(winrt::box_value(L"\ue974")));
+			PropertyMetadata(nullptr));
 
 		static inline const wil::single_threaded_property<DependencyProperty> ActionIconToolTipProperty = DependencyProperty::Register(
 			L"ActionIconToolTip",

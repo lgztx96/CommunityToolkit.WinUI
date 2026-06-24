@@ -10,6 +10,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	SettingsCard::SettingsCard()
 	{
 		DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
+
+		// This is perhaps indicative of an issue with the action icon requiring a concrete FontElement instead of a template
+		FontIcon fontIcon;
+		fontIcon.Glyph(L"\ue974");
+		fontIcon.MirroredWhenRightToLeft(true);
+		ActionIcon(fontIcon);
 	}
 
 	void SettingsCard::OnApplyTemplate()
