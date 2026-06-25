@@ -16,296 +16,264 @@
 #include <string_view>
 #endif
 
-namespace winrt 
+namespace winrt
 {
-	using namespace Microsoft::UI::Xaml;
-	using namespace Microsoft::UI::Xaml::Input;
-	using namespace Microsoft::UI::Xaml::Controls;
-	using namespace Microsoft::UI::Xaml::Shapes;
-	using namespace Microsoft::UI::Xaml::Controls::Primitives;
+    using namespace Windows::Foundation;
+    using namespace Microsoft::UI::Dispatching;
+    using namespace Microsoft::UI::Xaml;
+    using namespace Microsoft::UI::Xaml::Input;
+    using namespace Microsoft::UI::Xaml::Controls;
+    using namespace Microsoft::UI::Xaml::Shapes;
+    using namespace Microsoft::UI::Xaml::Controls::Primitives;
+    using DispatcherQueueTimer = Microsoft::UI::Dispatching::DispatcherQueueTimer;
+    using DispatcherQueue = Microsoft::UI::Dispatching::DispatcherQueue;
 }
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-	struct RangeSelector : RangeSelectorT<RangeSelector>
-	{
-	private:
-		static constexpr std::wstring_view CommonStates = L"CommonStates";
-		static constexpr std::wstring_view NormalState = L"Normal";
-		static constexpr std::wstring_view PointerOverState = L"PointerOver";
-		static constexpr std::wstring_view DisabledState = L"Disabled";
-		static constexpr std::wstring_view MinPressedState = L"MinPressed";
-		static constexpr std::wstring_view MaxPressedState = L"MaxPressed";
-		static constexpr std::wstring_view HorizontalState = L"Horizontal";
-		static constexpr std::wstring_view VerticalState = L"Vertical";
+    struct RangeSelector : RangeSelectorT<RangeSelector>
+    {
+        static constexpr std::wstring_view CommonStates = L"CommonStates";
+        static constexpr std::wstring_view NormalState = L"Normal";
+        static constexpr std::wstring_view PointerOverState = L"PointerOver";
+        static constexpr std::wstring_view DisabledState = L"Disabled";
+        static constexpr std::wstring_view MinPressedState = L"MinPressed";
+        static constexpr std::wstring_view MaxPressedState = L"MaxPressed";
+        static constexpr std::wstring_view HorizontalState = L"Horizontal";
+        static constexpr std::wstring_view VerticalState = L"Vertical";
 
-		static constexpr std::wstring_view MinThumbPartName = L"MinThumb";
-		static constexpr std::wstring_view MaxThumbPartName = L"MaxThumb";
-		static constexpr std::wstring_view ContainerCanvasPartName = L"ContainerCanvas";
-		static constexpr std::wstring_view ActiveRectanglePartName = L"ActiveRectangle";
+        static constexpr std::wstring_view MinThumbPartName = L"MinThumb";
+        static constexpr std::wstring_view MaxThumbPartName = L"MaxThumb";
+        static constexpr std::wstring_view ContainerCanvasPartName = L"ContainerCanvas";
+        static constexpr std::wstring_view ActiveRectanglePartName = L"ActiveRectangle";
 
-		//static constexpr int32_t DefaultKeyBoardOffset = 12;   // Default offset for automatic tooltips opened by keyboard.
-		static constexpr int32_t DefaultMouseOffset = 20;        // Default offset for automatic tooltips opened by mouse.
-		//static constexpr int32_t DefaultTouchOffset = 44;      // Default offset for automatic tooltips opened by touch.
+        //static constexpr int32_t DefaultKeyBoardOffset = 12;   // Default offset for automatic tooltips opened by keyboard.
+        static constexpr int32_t DefaultMouseOffset = 20;        // Default offset for automatic tooltips opened by mouse.
+        //static constexpr int32_t DefaultTouchOffset = 44;      // Default offset for automatic tooltips opened by touch.
 
-		static constexpr double Epsilon = 0.01;
-		static constexpr double DefaultMinimum = 0.0;
-		static constexpr double DefaultMaximum = 10.0;
-		static constexpr double DefaultStepFrequency = 1;
-		static constexpr std::chrono::seconds TimeToHideToolTipOnKeyUp = std::chrono::seconds{ 1 };
+        static constexpr double Epsilon = 0.01;
+        static constexpr double DefaultMinimum = 0.0;
+        static constexpr double DefaultMaximum = 10.0;
+        static constexpr double DefaultStepFrequency = 1;
+        static constexpr std::chrono::seconds TimeToHideToolTipOnKeyUp = std::chrono::seconds{ 1 };
 
-		Microsoft::UI::Dispatching::DispatcherQueueTimer keyDebounceTimer = Microsoft::UI::Dispatching::DispatcherQueue::GetForCurrentThread().CreateTimer();
+        RangeSelector();
 
-		Rectangle _activeRectangle{ nullptr };
-		Thumb _minThumb{ nullptr };
-		Thumb _maxThumb{ nullptr };
-		Canvas _containerCanvas{ nullptr };
-		double _oldValue{ 0.0 };
-		bool _valuesAssigned{ false };
-		bool _minSet{ false };
-		bool _maxSet{ false };
-		bool _pointerManipulatingMin{ false };
-		bool _pointerManipulatingMax{ false };
-		double _absolutePosition{ 0.0 };
-		ToolTip _toolTip{ nullptr };
-		TextBlock _toolTipText{ nullptr };
+        void OnApplyTemplate();
 
-		winrt::Microsoft::UI::Xaml::Controls::Control::IsEnabledChanged_revoker _isEnabledChangedRevoker;
+        wil::untyped_event<winrt::XamlToolkit::WinUI::Controls::RangeChangedEventArgs> ValueChanged;
 
-		winrt::Microsoft::UI::Xaml::Controls::Primitives::Thumb::DragCompleted_revoker _minThumbDragCompletedRevoker;
-		winrt::Microsoft::UI::Xaml::Controls::Primitives::Thumb::DragDelta_revoker _minThumbDragDeltaRevoker;
-		winrt::Microsoft::UI::Xaml::Controls::Primitives::Thumb::DragStarted_revoker _minThumbDragStartedRevoker;
-		winrt::Microsoft::UI::Xaml::UIElement::KeyDown_revoker _minThumbKeyDownRevoker;
-		winrt::Microsoft::UI::Xaml::UIElement::KeyUp_revoker _minThumbKeyUpRevoker;
+        winrt::event_token ThumbDragStarted(winrt::DragStartedEventHandler const& handler);
 
-		winrt::Microsoft::UI::Xaml::Controls::Primitives::Thumb::DragCompleted_revoker _maxThumbDragCompletedRevoker;
-		winrt::Microsoft::UI::Xaml::Controls::Primitives::Thumb::DragDelta_revoker _maxThumbDragDeltaRevoker;
-		winrt::Microsoft::UI::Xaml::Controls::Primitives::Thumb::DragStarted_revoker _maxThumbDragStartedRevoker;
-		winrt::Microsoft::UI::Xaml::UIElement::KeyDown_revoker _maxThumbKeyDownRevoker;
-		winrt::Microsoft::UI::Xaml::UIElement::KeyUp_revoker _maxThumbKeyUpRevoker;
+        void ThumbDragStarted(winrt::event_token const& token) noexcept;
 
-		winrt::Microsoft::UI::Xaml::FrameworkElement::SizeChanged_revoker _canvasSizeChangedRevoker;
-		winrt::Microsoft::UI::Xaml::UIElement::PointerEntered_revoker _canvasPointerEnteredRevoker;
-		winrt::Microsoft::UI::Xaml::UIElement::PointerPressed_revoker _canvasPointerPressedRevoker;
-		winrt::Microsoft::UI::Xaml::UIElement::PointerMoved_revoker _canvasPointerMovedRevoker;
-		winrt::Microsoft::UI::Xaml::UIElement::PointerReleased_revoker _canvasPointerReleasedRevoker;
-		winrt::Microsoft::UI::Xaml::UIElement::PointerExited_revoker _canvasPointerExitedRevoker;
+        winrt::event_token ThumbDragCompleted(winrt::DragCompletedEventHandler const& handler);
 
-		winrt::event<winrt::Microsoft::UI::Xaml::Controls::Primitives::DragStartedEventHandler> _thumbDragStarted;
-		winrt::event<winrt::Microsoft::UI::Xaml::Controls::Primitives::DragCompletedEventHandler> _thumbDragCompleted;
+        void ThumbDragCompleted(winrt::event_token const& token) noexcept;
 
-	public:
-		RangeSelector();
+        virtual void OnThumbDragStarted(winrt::DragStartedEventArgs const& e);
 
-		void OnApplyTemplate();
+        virtual void OnThumbDragCompleted(winrt::DragCompletedEventArgs const& e);
 
-		wil::untyped_event<winrt::XamlToolkit::WinUI::Controls::RangeChangedEventArgs> ValueChanged;
+        virtual void OnValueChanged(winrt::XamlToolkit::WinUI::Controls::RangeChangedEventArgs const& e);
 
-		winrt::event_token ThumbDragStarted(winrt::Microsoft::UI::Xaml::Controls::Primitives::DragStartedEventHandler const& handler);
+        static void MinimumChangedCallback(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 
-		void ThumbDragStarted(winrt::event_token const& token) noexcept;
+        static void MaximumChangedCallback(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 
-		winrt::event_token ThumbDragCompleted(winrt::Microsoft::UI::Xaml::Controls::Primitives::DragCompletedEventHandler const& handler);
+        static void RangeMinChangedCallback(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 
-		void ThumbDragCompleted(winrt::event_token const& token) noexcept;
+        static void RangeMaxChangedCallback(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 
-		virtual void OnThumbDragStarted(DragStartedEventArgs const& e);
+        static void OrientationChangedCallback(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 
-		virtual void OnThumbDragCompleted(DragCompletedEventArgs const& e);
+        static const wil::single_threaded_property<winrt::DependencyProperty> MinimumProperty;
 
-		virtual void OnValueChanged(winrt::XamlToolkit::WinUI::Controls::RangeChangedEventArgs const& e);
+        double Minimum() const
+        {
+            return winrt::unbox_value<double>(GetValue(MinimumProperty));
+        }
 
-		static void MinimumChangedCallback(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e);
+        void Minimum(double const& value) const
+        {
+            SetValue(MinimumProperty, winrt::box_value(value));
+        }
 
-		static void MaximumChangedCallback(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e);
+        static const wil::single_threaded_property<winrt::DependencyProperty> MaximumProperty;
 
-		static void RangeMinChangedCallback(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e);
+        double Maximum() const
+        {
+            return winrt::unbox_value<double>(GetValue(MaximumProperty));
+        }
 
-		static void RangeMaxChangedCallback(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e);
+        void Maximum(double const& value) const
+        {
+            SetValue(MaximumProperty, winrt::box_value(value));
+        }
 
-		static void OrientationChangedCallback(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e);
+        static const wil::single_threaded_property<winrt::DependencyProperty> RangeStartProperty;
 
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> MinimumProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
-				L"Minimum",
-				winrt::xaml_typename<double>(),
-				winrt::xaml_typename<class_type>(),
-				winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(DefaultMinimum), &RangeSelector::MinimumChangedCallback });
+        double RangeStart() const
+        {
+            return winrt::unbox_value<double>(GetValue(RangeStartProperty));
+        }
 
-		double Minimum() const
-		{
-			return winrt::unbox_value<double>(GetValue(MinimumProperty));
-		}
+        void RangeStart(double const& value) const
+        {
+            SetValue(RangeStartProperty, winrt::box_value(value));
+        }
 
-		void Minimum(double const& value) const
-		{
-			SetValue(MinimumProperty, winrt::box_value(value));
-		}
+        static const wil::single_threaded_property<winrt::DependencyProperty> RangeEndProperty;
 
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> MaximumProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
-				L"Maximum",
-				winrt::xaml_typename<double>(),
-				winrt::xaml_typename<class_type>(),
-				winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(DefaultMaximum), &RangeSelector::MaximumChangedCallback });
+        double RangeEnd() const
+        {
+            return winrt::unbox_value<double>(GetValue(RangeEndProperty));
+        }
 
-		double Maximum() const
-		{
-			return winrt::unbox_value<double>(GetValue(MaximumProperty));
-		}
+        void RangeEnd(double const& value) const
+        {
+            SetValue(RangeEndProperty, winrt::box_value(value));
+        }
 
-		void Maximum(double const& value) const
-		{
-			SetValue(MaximumProperty, winrt::box_value(value));
-		}
+        static const wil::single_threaded_property<winrt::DependencyProperty> StepFrequencyProperty;
 
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> RangeStartProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
-				L"RangeStart",
-				winrt::xaml_typename<double>(),
-				winrt::xaml_typename<class_type>(),
-				winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(DefaultMinimum), &RangeSelector::RangeMinChangedCallback });
+        double StepFrequency() const
+        {
+            return winrt::unbox_value<double>(GetValue(StepFrequencyProperty));
+        }
 
-		double RangeStart() const
-		{
-			return winrt::unbox_value<double>(GetValue(RangeStartProperty));
-		}
+        void StepFrequency(double const& value) const
+        {
+            SetValue(StepFrequencyProperty, winrt::box_value(value));
+        }
 
-		void RangeStart(double const& value) const
-		{
-			SetValue(RangeStartProperty, winrt::box_value(value));
-		}
+        static const wil::single_threaded_property<winrt::DependencyProperty> OrientationProperty;
 
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> RangeEndProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
-				L"RangeEnd",
-				winrt::xaml_typename<double>(),
-				winrt::xaml_typename<class_type>(),
-				winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(DefaultMaximum), &RangeSelector::RangeMaxChangedCallback });
+        winrt::Orientation Orientation() const
+        {
+            return winrt::unbox_value<winrt::Orientation>(GetValue(OrientationProperty));
+        }
 
-		double RangeEnd() const
-		{
-			return winrt::unbox_value<double>(GetValue(RangeEndProperty));
-		}
+        void Orientation(winrt::Orientation const& value) const
+        {
+            SetValue(OrientationProperty, winrt::box_value(value));
+        }
 
-		void RangeEnd(double const& value) const
-		{
-			SetValue(RangeEndProperty, winrt::box_value(value));
-		}
+    private:
+        void ContainerCanvas_SizeChanged(winrt::IInspectable const& sender, winrt::SizeChangedEventArgs const& e);
 
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> StepFrequencyProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
-				L"StepFrequency",
-				winrt::xaml_typename<double>(),
-				winrt::xaml_typename<class_type>(),
-				winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(DefaultStepFrequency) }
-			);
+        void VerifyValues() const;
 
-		double StepFrequency() const
-		{
-			return winrt::unbox_value<double>(GetValue(StepFrequencyProperty));
-		}
+        void RangeMinToStepFrequency();
 
-		void StepFrequency(double const& value) const
-		{
-			SetValue(StepFrequencyProperty, winrt::box_value(value));
-		}
+        void RangeMaxToStepFrequency();
 
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> OrientationProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
-				L"Orientation",
-				winrt::xaml_typename<winrt::Microsoft::UI::Xaml::Controls::Orientation>(),
-				winrt::xaml_typename<class_type>(),
-				winrt::Microsoft::UI::Xaml::PropertyMetadata
-				{
-					winrt::box_value(winrt::Microsoft::UI::Xaml::Controls::Orientation::Horizontal),
-					&RangeSelector::OrientationChangedCallback
-				});
+        double MoveToStepFrequency(double rangeValue) const;
 
-		winrt::Microsoft::UI::Xaml::Controls::Orientation Orientation() const
-		{
-			return winrt::unbox_value<winrt::Microsoft::UI::Xaml::Controls::Orientation>(GetValue(OrientationProperty));
-		}
+        void SyncThumbs(bool fromMinKeyDown = false, bool fromMaxKeyDown = false);
 
-		void Orientation(winrt::Microsoft::UI::Xaml::Controls::Orientation const& value) const
-		{
-			SetValue(OrientationProperty, winrt::box_value(value));
-		}
+        void SyncActiveRectangle();
 
-	private:
-		void ContainerCanvas_SizeChanged(IInspectable const& sender, SizeChangedEventArgs const& e);
-
-		void VerifyValues() const;
-
-		void RangeMinToStepFrequency();
-
-		void RangeMaxToStepFrequency();
-
-		double MoveToStepFrequency(double rangeValue) const;
-
-		void SyncThumbs(bool fromMinKeyDown = false, bool fromMaxKeyDown = false);
-
-		void SyncActiveRectangle();
-
-		void RangeSelector_IsEnabledChanged(IInspectable const& sender, DependencyPropertyChangedEventArgs const& e);
+        void RangeSelector_IsEnabledChanged(winrt::IInspectable const& sender, winrt::DependencyPropertyChangedEventArgs const& e);
 
 #pragma region Pointer Events
-		void ContainerCanvas_PointerEntered(IInspectable const& sender, PointerRoutedEventArgs const& e);
+        void ContainerCanvas_PointerEntered(winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e);
 
-		void ContainerCanvas_PointerExited(IInspectable const& sender, PointerRoutedEventArgs const& e);
+        void ContainerCanvas_PointerExited(winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e);
 
-		void ContainerCanvas_PointerReleased(IInspectable const& sender, PointerRoutedEventArgs const& e);
+        void ContainerCanvas_PointerReleased(winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e);
 
-		void ContainerCanvas_PointerMoved(IInspectable const& sender, PointerRoutedEventArgs const& e);
+        void ContainerCanvas_PointerMoved(winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e);
 
-		void ContainerCanvas_PointerPressed(IInspectable const& sender, PointerRoutedEventArgs const& e);
+        void ContainerCanvas_PointerPressed(winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e);
 #pragma endregion
 
 #pragma region Key Events
-		double GetKeyDelta(winrt::Windows::System::VirtualKey key) const;
+        double GetKeyDelta(winrt::Windows::System::VirtualKey key) const;
 
-		void MinThumb_KeyDown(IInspectable const& sender, KeyRoutedEventArgs const& e);
+        void MinThumb_KeyDown(winrt::IInspectable const& sender, winrt::KeyRoutedEventArgs const& e);
 
-		void MaxThumb_KeyDown(IInspectable const& sender, KeyRoutedEventArgs const& e);
+        void MaxThumb_KeyDown(winrt::IInspectable const& sender, winrt::KeyRoutedEventArgs const& e);
 
-		void Thumb_KeyUp(IInspectable const& sender, KeyRoutedEventArgs const& e);
+        void Thumb_KeyUp(winrt::IInspectable const& sender, winrt::KeyRoutedEventArgs const& e);
 #pragma endregion
 
 #pragma region Drag Events
-		void MinThumb_DragDelta(IInspectable const& sender, DragDeltaEventArgs const& e);
+        void MinThumb_DragDelta(winrt::IInspectable const& sender, winrt::DragDeltaEventArgs const& e);
 
-		void MaxThumb_DragDelta(IInspectable const& sender, DragDeltaEventArgs const& e);
+        void MaxThumb_DragDelta(winrt::IInspectable const& sender, winrt::DragDeltaEventArgs const& e);
 
-		void MinThumb_DragStarted(IInspectable const& sender, DragStartedEventArgs const& e);
+        void MinThumb_DragStarted(winrt::IInspectable const& sender, winrt::DragStartedEventArgs const& e);
 
-		void MaxThumb_DragStarted(IInspectable const& sender, DragStartedEventArgs const& e);
+        void MaxThumb_DragStarted(winrt::IInspectable const& sender, winrt::DragStartedEventArgs const& e);
 
-		void Thumb_DragCompleted(IInspectable const& sender, DragCompletedEventArgs const& e);
+        void Thumb_DragCompleted(winrt::IInspectable const& sender, winrt::DragCompletedEventArgs const& e);
 
-		double DragLength() const;
+        double DragLength() const;
 
-		double DragThumb(Thumb const& thumb, double min, double max, double nextPos);
+        double DragThumb(winrt::Thumb const& thumb, double min, double max, double nextPos);
 
-		void Thumb_DragStarted(Thumb const& thumb);
+        void Thumb_DragStarted(winrt::Thumb const& thumb);
 #pragma endregion
 
-		void Debounce();
+        void Debounce();
 
-		bool IsHorizontal() const;
+        bool IsHorizontal() const;
 
-		double GetPointerAxisPosition(PointerRoutedEventArgs const& e) const;
+        double GetPointerAxisPosition(winrt::PointerRoutedEventArgs const& e) const;
 
-		void UpdateToolTip(Thumb const& thumb, double newValue);
+        void UpdateToolTip(winrt::Thumb const& thumb, double newValue);
 
-		void AttachToolTip(Thumb const& thumb);
+        void AttachToolTip(winrt::Thumb const& thumb);
 
-		void DetachToolTip(Thumb const& thumb);
-	};
+        void DetachToolTip(winrt::Thumb const& thumb);
+
+    private:
+        winrt::DispatcherQueueTimer _keyDebounceTimer = winrt::DispatcherQueue::GetForCurrentThread().CreateTimer();
+
+        winrt::Rectangle _activeRectangle{ nullptr };
+        winrt::Thumb _minThumb{ nullptr };
+        winrt::Thumb _maxThumb{ nullptr };
+        winrt::Canvas _containerCanvas{ nullptr };
+        double _oldValue{ 0.0 };
+        bool _valuesAssigned{ false };
+        bool _minSet{ false };
+        bool _maxSet{ false };
+        bool _pointerManipulatingMin{ false };
+        bool _pointerManipulatingMax{ false };
+        double _absolutePosition{ 0.0 };
+        winrt::ToolTip _toolTip{ nullptr };
+        winrt::TextBlock _toolTipText{ nullptr };
+
+        winrt::Control::IsEnabledChanged_revoker _isEnabledChangedRevoker;
+
+        winrt::Thumb::DragCompleted_revoker _minThumbDragCompletedRevoker;
+        winrt::Thumb::DragDelta_revoker _minThumbDragDeltaRevoker;
+        winrt::Thumb::DragStarted_revoker _minThumbDragStartedRevoker;
+        winrt::UIElement::KeyDown_revoker _minThumbKeyDownRevoker;
+        winrt::UIElement::KeyUp_revoker _minThumbKeyUpRevoker;
+
+        winrt::Thumb::DragCompleted_revoker _maxThumbDragCompletedRevoker;
+        winrt::Thumb::DragDelta_revoker _maxThumbDragDeltaRevoker;
+        winrt::Thumb::DragStarted_revoker _maxThumbDragStartedRevoker;
+        winrt::UIElement::KeyDown_revoker _maxThumbKeyDownRevoker;
+        winrt::UIElement::KeyUp_revoker _maxThumbKeyUpRevoker;
+
+        winrt::FrameworkElement::SizeChanged_revoker _canvasSizeChangedRevoker;
+        winrt::UIElement::PointerEntered_revoker _canvasPointerEnteredRevoker;
+        winrt::UIElement::PointerPressed_revoker _canvasPointerPressedRevoker;
+        winrt::UIElement::PointerMoved_revoker _canvasPointerMovedRevoker;
+        winrt::UIElement::PointerReleased_revoker _canvasPointerReleasedRevoker;
+        winrt::UIElement::PointerExited_revoker _canvasPointerExitedRevoker;
+
+        winrt::event<winrt::DragStartedEventHandler> _thumbDragStarted;
+        winrt::event<winrt::DragCompletedEventHandler> _thumbDragCompleted;
+    };
 }
 
 namespace winrt::XamlToolkit::WinUI::Controls::factory_implementation
 {
-	struct RangeSelector : RangeSelectorT<RangeSelector, implementation::RangeSelector>
-	{
-	};
+    struct RangeSelector : RangeSelectorT<RangeSelector, implementation::RangeSelector>
+    {
+    };
 }

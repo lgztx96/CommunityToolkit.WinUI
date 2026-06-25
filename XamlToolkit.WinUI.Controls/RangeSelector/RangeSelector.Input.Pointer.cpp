@@ -8,12 +8,12 @@
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-    void RangeSelector::ContainerCanvas_PointerEntered([[maybe_unused]] IInspectable const& sender, [[maybe_unused]] PointerRoutedEventArgs const& e)
+    void RangeSelector::ContainerCanvas_PointerEntered([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::PointerRoutedEventArgs const& e)
     {
-        VisualStateManager::GoToState(*this, PointerOverState, false);
+        winrt::VisualStateManager::GoToState(*this, PointerOverState, false);
     }
 
-    void RangeSelector::ContainerCanvas_PointerExited([[maybe_unused]] IInspectable const& sender, PointerRoutedEventArgs const& e)
+    void RangeSelector::ContainerCanvas_PointerExited([[maybe_unused]] winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e)
     {
         double position = GetPointerAxisPosition(e);
         double percent = IsHorizontal() ? (position / DragLength()) : (1.0 - position / DragLength());
@@ -37,10 +37,10 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
             _toolTip.IsOpen(false);
         }
 
-        VisualStateManager::GoToState(*this, NormalState, false);
+        winrt::VisualStateManager::GoToState(*this, NormalState, false);
     }
 
-    void RangeSelector::ContainerCanvas_PointerReleased([[maybe_unused]] IInspectable const& sender, PointerRoutedEventArgs const& e)
+    void RangeSelector::ContainerCanvas_PointerReleased([[maybe_unused]] winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e)
     {
         double position = GetPointerAxisPosition(e);
         double dragLength = DragLength();
@@ -53,7 +53,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
             _pointerManipulatingMin = false;
             auto args = winrt::make_self<RangeChangedEventArgs>(RangeStart(), normalizedPosition, RangeSelectorProperty::MinimumValue);
             OnValueChanged(*args);
-			DetachToolTip(_minThumb);
+            DetachToolTip(_minThumb);
         }
         else if (_pointerManipulatingMax)
         {
@@ -71,7 +71,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         }
     }
 
-    void RangeSelector::ContainerCanvas_PointerMoved([[maybe_unused]] IInspectable const& sender, PointerRoutedEventArgs const& e)
+    void RangeSelector::ContainerCanvas_PointerMoved([[maybe_unused]] winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e)
     {
         double position = GetPointerAxisPosition(e);
 
@@ -93,7 +93,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         }
     }
 
-    void RangeSelector::ContainerCanvas_PointerPressed([[maybe_unused]] IInspectable const& sender, PointerRoutedEventArgs const& e)
+    void RangeSelector::ContainerCanvas_PointerPressed([[maybe_unused]] winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e)
     {
         double position = GetPointerAxisPosition(e);
         double dragLength = DragLength();

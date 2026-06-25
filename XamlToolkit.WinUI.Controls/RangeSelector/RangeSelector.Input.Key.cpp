@@ -6,27 +6,22 @@
 #endif
 #include "RangeSelector.h"
 
-namespace winrt
-{
-    using namespace Windows::System;
-}
-
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
     void RangeSelector::Debounce()
     {
-        if (keyDebounceTimer.IsRunning())
+        if (_keyDebounceTimer.IsRunning())
         {
-            keyDebounceTimer.Stop();
+            _keyDebounceTimer.Stop();
         }
 
-        keyDebounceTimer.IsRepeating(false);
-        keyDebounceTimer.Interval(TimeToHideToolTipOnKeyUp);
+        _keyDebounceTimer.IsRepeating(false);
+        _keyDebounceTimer.Interval(TimeToHideToolTipOnKeyUp);
 
         auto timerTickToken = std::make_shared<winrt::event_token>();
-        *timerTickToken = keyDebounceTimer.Tick({ get_weak(), [this, timerTickToken](auto const& sender, auto&)
+        *timerTickToken = _keyDebounceTimer.Tick({ get_weak(), [this, timerTickToken](auto const& sender, auto&)
         {
-            if (auto timer = sender.template try_as<Microsoft::UI::Dispatching::DispatcherQueueTimer>())
+            if (auto timer = sender.template try_as<winrt::DispatcherQueueTimer>())
             {
                 timer.Tick(*timerTickToken);
                 timer.Stop();
@@ -34,34 +29,32 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
             }
         }});
 
-        keyDebounceTimer.Start();
+        _keyDebounceTimer.Start();
     }
 
     double RangeSelector::GetKeyDelta(winrt::Windows::System::VirtualKey key) const
     {
-        const bool isRtl = FlowDirection() == FlowDirection::RightToLeft;
+        using enum winrt::Windows::System::VirtualKey;
+
+        const bool isRtl = FlowDirection() == winrt::FlowDirection::RightToLeft;
         const double step = StepFrequency();
 
         switch (key)
         {
-        case VirtualKey::Left:
+        case Left:
             return isRtl ? +step : -step;
-
-        case VirtualKey::Right:
+        case Right:
             return isRtl ? -step : +step;
-
-        case VirtualKey::Down:
+        case Down:
             return -step;
-
-        case VirtualKey::Up:
+        case Up:
             return +step;
-
         default:
             return 0;
         }
     }
 
-    void RangeSelector::MinThumb_KeyDown([[maybe_unused]] IInspectable const& sender, KeyRoutedEventArgs const& e)
+    void RangeSelector::MinThumb_KeyDown([[maybe_unused]] winrt::IInspectable const& sender, winrt::KeyRoutedEventArgs const& e)
     {
         double delta = GetKeyDelta(e.Key());
         if (delta == 0)
@@ -70,7 +63,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         RangeStart(RangeStart() + delta);
         SyncThumbs(true);
 
-        if (_toolTip != nullptr)
+        if (_toolTip)
         {
             _toolTip.IsOpen(false);
         }
@@ -78,7 +71,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         e.Handled(true);
     }
 
-    void RangeSelector::MaxThumb_KeyDown([[maybe_unused]] IInspectable const& sender, KeyRoutedEventArgs const& e)
+    void RangeSelector::MaxThumb_KeyDown([[maybe_unused]] winrt::IInspectable const& sender, winrt::KeyRoutedEventArgs const& e)
     {
         double delta = GetKeyDelta(e.Key());
         if (delta == 0)
@@ -87,7 +80,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         RangeEnd(RangeEnd() + delta);
         SyncThumbs(true);
 
-        if (_toolTip != nullptr)
+        if (_toolTip)
         {
             _toolTip.IsOpen(false);
         }
@@ -95,15 +88,17 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         e.Handled(true);
     }
 
-    void RangeSelector::Thumb_KeyUp([[maybe_unused]] IInspectable const& sender, KeyRoutedEventArgs const& e)
+    void RangeSelector::Thumb_KeyUp([[maybe_unused]] winrt::IInspectable const& sender, winrt::KeyRoutedEventArgs const& e)
     {
+        using enum winrt::Windows::System::VirtualKey;
+
         switch (e.Key())
         {
-        case VirtualKey::Left:
-        case VirtualKey::Right:
-        case VirtualKey::Up:
-        case VirtualKey::Down:
-            if (_toolTip != nullptr)
+            case Left:
+            case Right:
+            case Up:
+            case Down:
+            if (_toolTip)
             {
                 Debounce();
             }
