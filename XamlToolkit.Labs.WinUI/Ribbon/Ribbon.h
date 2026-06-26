@@ -35,6 +35,9 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         static constexpr std::wstring_view DecrementButtonStateTemplatePart = L"DecrementButton";
         static constexpr std::wstring_view IncrementButtonStateTemplatePart = L"IncrementButton";
         static constexpr std::wstring_view BothButtonsStateTemplatePart = L"BothButtons";
+        static constexpr std::wstring_view OptionsGroupNameTemplatePart = L"OptionsGroup";
+        static constexpr std::wstring_view OptionsVisibleStateTemplatePart = L"OptionsVisible";
+        static constexpr std::wstring_view OptionsCollapsedStateTemplatePart = L"OptionsCollapsed";
 
         Ribbon();
 
@@ -44,17 +47,31 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         static const wil::single_threaded_property<winrt::DependencyProperty> ScrollStepProperty;
 
-        double ScrollStep() const
-        {
-            return winrt::unbox_value<double>(GetValue(ScrollStepProperty));
-        }
+        double ScrollStep() const { return winrt::unbox_value<double>(GetValue(ScrollStepProperty)); }
 
-        void ScrollStep(double value)
-        {
-            SetValue(ScrollStepProperty, winrt::box_value(value));
-        }
+        void ScrollStep(double value) { SetValue(ScrollStepProperty, winrt::box_value(value)); }
+
+        static const wil::single_threaded_property<winrt::DependencyProperty> OptionsFlyoutProperty;
+
+        winrt::FlyoutBase OptionsFlyout() const { return GetValue(OptionsFlyoutProperty).try_as<winrt::FlyoutBase>(); }
+
+        void OptionsFlyout(winrt::FlyoutBase const& value) { SetValue(OptionsFlyoutProperty, value); }
+
+        static const wil::single_threaded_property<winrt::DependencyProperty> OptionsAccessibleNameProperty;
+
+        winrt::hstring OptionsAccessibleName() const { return winrt::unbox_value<winrt::hstring>(GetValue(OptionsAccessibleNameProperty)); }
+
+        void OptionsAccessibleName(winrt::hstring const& value) { SetValue(OptionsAccessibleNameProperty, winrt::box_value(value)); }
+
+        static const wil::single_threaded_property<winrt::DependencyProperty> OptionsAccessKeyProperty;
+
+        winrt::hstring OptionsAccessKey() const { return winrt::unbox_value<winrt::hstring>(GetValue(OptionsAccessKeyProperty)); }
+
+        void OptionsAccessKey(winrt::hstring const& value) { SetValue(OptionsAccessKeyProperty, winrt::box_value(value)); }
 
     private:
+        static void OnOptionsFlyoutPropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
+
         void OnItemsVectorChanged(winrt::IObservableVector<winrt::UIElement> const& sender, winrt::IVectorChangedEventArgs const& args);
 
         void OnViewChanged(winrt::IInspectable const& sender, winrt::ScrollViewerViewChangedEventArgs const& e);
@@ -66,6 +83,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         void OnDecrementScrollViewer(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
 
         void OnIncrementScrollViewer(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
+
+        void UpdateOptionsFlyoutState();
 
         winrt::Panel _panel{ nullptr };
         winrt::ScrollViewer _scrollViewer{ nullptr };

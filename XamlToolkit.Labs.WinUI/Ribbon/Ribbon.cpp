@@ -14,6 +14,27 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
             winrt::xaml_typename<winrt::XamlToolkit::Labs::WinUI::Ribbon>(),
             winrt::PropertyMetadata{ winrt::box_value(20.0) });
 
+    const wil::single_threaded_property<winrt::DependencyProperty> Ribbon::OptionsFlyoutProperty =
+        winrt::DependencyProperty::Register(
+            L"OptionsFlyout",
+            winrt::xaml_typename<winrt::FlyoutBase>(),
+            winrt::xaml_typename<winrt::XamlToolkit::Labs::WinUI::Ribbon>(),
+            winrt::PropertyMetadata{ nullptr, &Ribbon::OnOptionsFlyoutPropertyChanged });
+
+    const wil::single_threaded_property<winrt::DependencyProperty> Ribbon::OptionsAccessibleNameProperty =
+        winrt::DependencyProperty::Register(
+            L"OptionsAccessibleName",
+            winrt::xaml_typename<winrt::hstring>(),
+            winrt::xaml_typename<winrt::XamlToolkit::Labs::WinUI::Ribbon>(),
+            winrt::PropertyMetadata{ winrt::box_value(L"") });
+
+    const wil::single_threaded_property<winrt::DependencyProperty> Ribbon::OptionsAccessKeyProperty =
+        winrt::DependencyProperty::Register(
+            L"OptionsAccessKey",
+            winrt::xaml_typename<winrt::hstring>(),
+            winrt::xaml_typename<winrt::XamlToolkit::Labs::WinUI::Ribbon>(),
+            winrt::PropertyMetadata{ winrt::box_value(L"") });
+
     Ribbon::Ribbon()
     {
         DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
@@ -32,9 +53,10 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         _panel = GetTemplateChild(PanelTemplatePart).try_as<winrt::Panel>();
         if (_panel)
         {
+            auto children = _panel.Children();
             for (const auto& item : _items)
             {
-                _panel.Children().Append(item);
+                children.Append(item);
             }
 
             _panelSizeChangedRevoker = _panel.SizeChanged(winrt::auto_revoke, { this, &Ribbon::OnSizeChanged });
@@ -59,6 +81,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
             _scrollViewerSizeChangedRevoker = _scrollViewer.SizeChanged(winrt::auto_revoke, { this, &Ribbon::OnSizeChanged });
             UpdateScrollButtonsState();
         }
+
+        UpdateOptionsFlyoutState();
     }
 
     void Ribbon::OnItemsVectorChanged(
@@ -164,5 +188,20 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
     void Ribbon::OnIncrementScrollViewer([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
     {
         if (_scrollViewer) _scrollViewer.ChangeView(_scrollViewer.HorizontalOffset() + ScrollStep(), nullptr, nullptr);
+    }
+
+    void Ribbon::OnOptionsFlyoutPropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e)
+    {
+        auto ribbon = d.as<winrt::XamlToolkit::Labs::WinUI::Ribbon>();
+        auto self = winrt::get_self<Ribbon>(ribbon);
+        self->UpdateOptionsFlyoutState();
+    }
+
+    void Ribbon::UpdateOptionsFlyoutState()
+    {
+        winrt::VisualStateManager::GoToState(
+            *this,
+            OptionsFlyout() ? OptionsVisibleStateTemplatePart : OptionsCollapsedStateTemplatePart,
+            true);
     }
 }
