@@ -7,155 +7,162 @@
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
-	Ribbon::Ribbon()
-	{
-		DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
-		_items = winrt::single_threaded_observable_vector<UIElement>();
-		_items.VectorChanged({ this, &Ribbon::OnItemsVectorChanged });
-	}
+    const wil::single_threaded_property<winrt::DependencyProperty> Ribbon::ScrollStepProperty =
+        winrt::DependencyProperty::Register(
+            L"ScrollStep",
+            winrt::xaml_typename<double>(),
+            winrt::xaml_typename<winrt::XamlToolkit::Labs::WinUI::Ribbon>(),
+            winrt::PropertyMetadata{ winrt::box_value(20.0) });
 
-	void Ribbon::OnApplyTemplate()
-	{
-		_panelSizeChangedRevoker.revoke();
-		_decrementButtonClickRevoker.revoke();
-		_incrementButtonClickRevoker.revoke();
-		_scrollViewerViewChangedRevoker.revoke();
-		_scrollViewerSizeChangedRevoker.revoke();
+    Ribbon::Ribbon()
+    {
+        DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
+        _items = winrt::single_threaded_observable_vector<winrt::UIElement>();
+        _items.VectorChanged({ this, &Ribbon::OnItemsVectorChanged });
+    }
 
-		_panel = GetTemplateChild(PanelTemplatePart).try_as<Panel>();
-		if (_panel)
-		{
-			for (const auto& item : _items)
-			{
-				_panel.Children().Append(item);
-			}
+    void Ribbon::OnApplyTemplate()
+    {
+        _panelSizeChangedRevoker.revoke();
+        _decrementButtonClickRevoker.revoke();
+        _incrementButtonClickRevoker.revoke();
+        _scrollViewerViewChangedRevoker.revoke();
+        _scrollViewerSizeChangedRevoker.revoke();
 
-			_panelSizeChangedRevoker = _panel.SizeChanged(winrt::auto_revoke, { this, &Ribbon::OnSizeChanged });
-		}
+        _panel = GetTemplateChild(PanelTemplatePart).try_as<winrt::Panel>();
+        if (_panel)
+        {
+            for (const auto& item : _items)
+            {
+                _panel.Children().Append(item);
+            }
 
-		_decrementButton = GetTemplateChild(ScrollDecrementButtonTempatePart).try_as<ButtonBase>();
-		if (_decrementButton)
-		{
-			_decrementButtonClickRevoker = _decrementButton.Click(winrt::auto_revoke, { this, &Ribbon::OnDecrementScrollViewer });
-		}
+            _panelSizeChangedRevoker = _panel.SizeChanged(winrt::auto_revoke, { this, &Ribbon::OnSizeChanged });
+        }
 
-		_incrementButton = GetTemplateChild(ScrollIncrementButtonTempatePart).try_as<ButtonBase>();
-		if (_incrementButton)
-		{
-			_incrementButtonClickRevoker = _incrementButton.Click(winrt::auto_revoke, { this, &Ribbon::OnIncrementScrollViewer });
-		}
+        _decrementButton = GetTemplateChild(ScrollDecrementButtonTempatePart).try_as<winrt::ButtonBase>();
+        if (_decrementButton)
+        {
+            _decrementButtonClickRevoker = _decrementButton.Click(winrt::auto_revoke, { this, &Ribbon::OnDecrementScrollViewer });
+        }
 
-		_scrollViewer = GetTemplateChild(ScrollViewerTemplatePart).try_as<ScrollViewer>();
-		if (_scrollViewer)
-		{
-			_scrollViewerViewChangedRevoker = _scrollViewer.ViewChanged(winrt::auto_revoke, { this, &Ribbon::OnViewChanged });
-			_scrollViewerSizeChangedRevoker = _scrollViewer.SizeChanged(winrt::auto_revoke, { this, &Ribbon::OnSizeChanged });
-			UpdateScrollButtonsState();
-		}
-	}
+        _incrementButton = GetTemplateChild(ScrollIncrementButtonTempatePart).try_as<winrt::ButtonBase>();
+        if (_incrementButton)
+        {
+            _incrementButtonClickRevoker = _incrementButton.Click(winrt::auto_revoke, { this, &Ribbon::OnIncrementScrollViewer });
+        }
 
-	void Ribbon::OnItemsVectorChanged(
-		IObservableVector<UIElement> const& sender,
-		IVectorChangedEventArgs const& args)
-	{
-		if (_panel == nullptr)
-			return;
+        _scrollViewer = GetTemplateChild(ScrollViewerTemplatePart).try_as<winrt::ScrollViewer>();
+        if (_scrollViewer)
+        {
+            _scrollViewerViewChangedRevoker = _scrollViewer.ViewChanged(winrt::auto_revoke, { this, &Ribbon::OnViewChanged });
+            _scrollViewerSizeChangedRevoker = _scrollViewer.SizeChanged(winrt::auto_revoke, { this, &Ribbon::OnSizeChanged });
+            UpdateScrollButtonsState();
+        }
+    }
 
-		auto children = _panel.Children();
-		auto change = args.CollectionChange();
-		uint32_t index = args.Index();
+    void Ribbon::OnItemsVectorChanged(
+        winrt::IObservableVector<winrt::UIElement> const& sender,
+        winrt::IVectorChangedEventArgs const& args)
+    {
+        if (_panel == nullptr)
+            return;
 
-		switch (change)
-		{
-		case CollectionChange::ItemInserted:
-		{
-			auto element = sender.GetAt(index);
-			if (!element)
-				throw hresult_invalid_argument(L"Item must not be null");
-			children.InsertAt(index, element);
-		}
-		break;
+        auto children = _panel.Children();
+        auto change = args.CollectionChange();
+        uint32_t index = args.Index();
 
-		case CollectionChange::ItemRemoved:
-		{
-			children.RemoveAt(index);
-		}
-		break;
+        switch (change)
+        {
+        case winrt::CollectionChange::ItemInserted:
+        {
+            auto element = sender.GetAt(index);
+            if (!element)
+                throw winrt::hresult_invalid_argument(L"Item must not be null");
+            children.InsertAt(index, element);
+        }
+        break;
 
-		case CollectionChange::ItemChanged:
-		{
-			auto element = sender.GetAt(index);
-			if (!element)
-				throw hresult_invalid_argument(L"Item must not be null");
-			children.SetAt(index, element);
-		}
-		break;
+        case winrt::CollectionChange::ItemRemoved:
+        {
+            children.RemoveAt(index);
+        }
+        break;
 
-		case CollectionChange::Reset:
-		{
-			children.Clear();
-			for (auto const& item : sender)
-			{
-				children.Append(item);
-			}
-		}
-		break;
+        case winrt::CollectionChange::ItemChanged:
+        {
+            auto element = sender.GetAt(index);
+            if (!element)
+                throw winrt::hresult_invalid_argument(L"Item must not be null");
+            children.SetAt(index, element);
+        }
+        break;
 
-		default:
-			throw hresult_invalid_argument(L"Invalid CollectionChange value");
-		}
-	}
+        case winrt::CollectionChange::Reset:
+        {
+            children.Clear();
+            for (auto const& item : sender)
+            {
+                children.Append(item);
+            }
+        }
+        break;
 
-	void Ribbon::OnViewChanged([[maybe_unused]] IInspectable const& sender, [[maybe_unused]] ScrollViewerViewChangedEventArgs const& e)
-	{ 
-		UpdateScrollButtonsState();
-	}
+        default:
+            throw winrt::hresult_invalid_argument(L"Invalid CollectionChange value");
+        }
+    }
 
-	void Ribbon::OnSizeChanged([[maybe_unused]] IInspectable const& sender, [[maybe_unused]] SizeChangedEventArgs const& e)
-	{
-		UpdateScrollButtonsState();
-	}
+    void Ribbon::OnViewChanged([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::ScrollViewerViewChangedEventArgs const& e)
+    {
+        UpdateScrollButtonsState();
+    }
 
-	void Ribbon::UpdateScrollButtonsState()
-	{
-		if (_scrollViewer == nullptr)
-		{
-			return;
-		}
+    void Ribbon::OnSizeChanged([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::SizeChangedEventArgs const& e)
+    {
+        UpdateScrollButtonsState();
+    }
 
-		if (_scrollViewer.ExtentWidth() <= _scrollViewer.ViewportWidth())
-		{
-			VisualStateManager::GoToState(*this, NoButtonsStateTemplatePart, true);
-			return;
-		}
+    void Ribbon::UpdateScrollButtonsState()
+    {
+        if (_scrollViewer == nullptr)
+        {
+            return;
+        }
 
-		auto showDecrement = _scrollViewer.HorizontalOffset() >= 1;
-		auto showIncrement = _scrollViewer.ExtentWidth() - _scrollViewer.HorizontalOffset() - _scrollViewer.ViewportWidth() >= 1;
-		if (showDecrement && showIncrement)
-		{
-			VisualStateManager::GoToState(*this, BothButtonsStateTemplatePart, true);
-		}
-		else if (showDecrement)
-		{
-			VisualStateManager::GoToState(*this, DecrementButtonStateTemplatePart, true);
-		}
-		else if (showIncrement)
-		{
-			VisualStateManager::GoToState(*this, IncrementButtonStateTemplatePart, true);
-		}
-		else
-		{
-			VisualStateManager::GoToState(*this, NoButtonsStateTemplatePart, true);
-		}
-	}
+        if (_scrollViewer.ExtentWidth() <= _scrollViewer.ViewportWidth())
+        {
+            winrt::VisualStateManager::GoToState(*this, NoButtonsStateTemplatePart, true);
+            return;
+        }
 
-	void Ribbon::OnDecrementScrollViewer([[maybe_unused]] IInspectable const& sender, [[maybe_unused]] RoutedEventArgs const& e)
-	{
-		if (_scrollViewer) _scrollViewer.ChangeView(_scrollViewer.HorizontalOffset() - ScrollStep(), nullptr, nullptr);
-	}
+        auto showDecrement = _scrollViewer.HorizontalOffset() >= 1;
+        auto showIncrement = _scrollViewer.ExtentWidth() - _scrollViewer.HorizontalOffset() - _scrollViewer.ViewportWidth() >= 1;
+        if (showDecrement && showIncrement)
+        {
+            winrt::VisualStateManager::GoToState(*this, BothButtonsStateTemplatePart, true);
+        }
+        else if (showDecrement)
+        {
+            winrt::VisualStateManager::GoToState(*this, DecrementButtonStateTemplatePart, true);
+        }
+        else if (showIncrement)
+        {
+            winrt::VisualStateManager::GoToState(*this, IncrementButtonStateTemplatePart, true);
+        }
+        else
+        {
+            winrt::VisualStateManager::GoToState(*this, NoButtonsStateTemplatePart, true);
+        }
+    }
 
-	void Ribbon::OnIncrementScrollViewer([[maybe_unused]] IInspectable const& sender, [[maybe_unused]] RoutedEventArgs const& e)
-	{
-		if (_scrollViewer) _scrollViewer.ChangeView(_scrollViewer.HorizontalOffset() + ScrollStep(), nullptr, nullptr);
-	}
+    void Ribbon::OnDecrementScrollViewer([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
+    {
+        if (_scrollViewer) _scrollViewer.ChangeView(_scrollViewer.HorizontalOffset() - ScrollStep(), nullptr, nullptr);
+    }
+
+    void Ribbon::OnIncrementScrollViewer([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
+    {
+        if (_scrollViewer) _scrollViewer.ChangeView(_scrollViewer.HorizontalOffset() + ScrollStep(), nullptr, nullptr);
+    }
 }

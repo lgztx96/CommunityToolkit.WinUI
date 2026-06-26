@@ -9,179 +9,213 @@
 #endif
 #include "DoubleVector.h"
 
-namespace winrt
-{
-	using namespace Microsoft::UI::Xaml;
-	using namespace Microsoft::UI::Xaml::Controls::Primitives;
-	using namespace Microsoft::UI::Xaml::Media;
-	using namespace Windows::System;
-}
-
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
-	RibbonCollapsibleGroup::RibbonCollapsibleGroup()
-	{
-		DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
-		_contaionerPointerEventHandler = winrt::box_value(PointerEventHandler({ this, &RibbonCollapsibleGroup::OnFlyoutPointerReleased }));
-		_contaionerKeyEventHandler = winrt::box_value(KeyEventHandler({ this, &RibbonCollapsibleGroup::OnFlyoutKeyUp }));
-	}
+    const wil::single_threaded_property<winrt::DependencyProperty> RibbonCollapsibleGroup::IconSourceProperty =
+        winrt::DependencyProperty::Register(
+            L"IconSource",
+            winrt::xaml_typename<winrt::IconSource>(),
+            winrt::xaml_typename<winrt::XamlToolkit::Labs::WinUI::RibbonCollapsibleGroup>(),
+            winrt::PropertyMetadata{ nullptr });
 
-	void RibbonCollapsibleGroup::OnApplyTemplate()
-	{
-		if (_collapsedFlyout)
-		{
-			_flyoutOpenedRevoker.revoke();
-		}
+    const wil::single_threaded_property<winrt::DependencyProperty> RibbonCollapsibleGroup::StateProperty =
+        winrt::DependencyProperty::Register(
+            L"State",
+            winrt::xaml_typename<winrt::Visibility>(),
+            winrt::xaml_typename<winrt::XamlToolkit::Labs::WinUI::RibbonCollapsibleGroup>(),
+            winrt::PropertyMetadata{ winrt::box_value(winrt::Visibility::Visible), &RibbonCollapsibleGroup::OnStatePropertyChanged });
 
-		if (_collapsedContentContainer)
-		{
-			_collapsedContentContainer.RemoveHandler(UIElement::PointerReleasedEvent(), _contaionerPointerEventHandler);
-			_collapsedContentContainer.RemoveHandler(UIElement::KeyUpEvent(), _contaionerKeyEventHandler);
-		}
+    const wil::single_threaded_property<winrt::DependencyProperty> RibbonCollapsibleGroup::AutoCloseFlyoutProperty =
+        winrt::DependencyProperty::Register(
+            L"AutoCloseFlyout",
+            winrt::xaml_typename<bool>(),
+            winrt::xaml_typename<winrt::XamlToolkit::Labs::WinUI::RibbonCollapsibleGroup>(),
+            winrt::PropertyMetadata{ winrt::box_value(true) });
 
-		_visibleContentContainer = Get<ContentControl>(VisibleContentContainerTemplatePart);
-		_collapsedContentContainer = Get<ContentControl>(CollapsedContentPresenterTemplatePart);
-		_collapsedButton = Get<Button>(CollapsedButtonTemplatePart);
-		_collapsedFlyout = Get<Flyout>(CollapsedFlyoutTemplatePart);
+    const wil::single_threaded_property<winrt::DependencyProperty> RibbonCollapsibleGroup::PriorityProperty =
+        winrt::DependencyProperty::Register(
+            L"Priority",
+            winrt::xaml_typename<int>(),
+            winrt::xaml_typename<winrt::XamlToolkit::Labs::WinUI::RibbonCollapsibleGroup>(),
+            winrt::PropertyMetadata{ winrt::box_value(0) });
 
-		if (_collapsedFlyout)
-		{
-			_flyoutOpenedRevoker = _collapsedFlyout.Opened(winrt::auto_revoke, { this, &RibbonCollapsibleGroup::OnFlyoutOpened });
-		}
+    const wil::single_threaded_property<winrt::DependencyProperty> RibbonCollapsibleGroup::CollapsedAccessKeyProperty =
+        winrt::DependencyProperty::Register(
+            L"CollapsedAccessKey",
+            winrt::xaml_typename<winrt::hstring>(),
+            winrt::xaml_typename<winrt::XamlToolkit::Labs::WinUI::RibbonCollapsibleGroup>(),
+            winrt::PropertyMetadata{ winrt::box_value(L"") });
 
-		if (_collapsedContentContainer)
-		{
-			_collapsedContentContainer.AddHandler(UIElement::PointerReleasedEvent(), _contaionerPointerEventHandler, true);
-			_collapsedContentContainer.AddHandler(UIElement::KeyUpEvent(), _contaionerKeyEventHandler, true);
-		}
+    const wil::single_threaded_property<winrt::DependencyProperty> RibbonCollapsibleGroup::RequestedWidthsProperty =
+        winrt::DependencyProperty::Register(
+            L"RequestedWidths",
+            winrt::xaml_typename<winrt::XamlToolkit::Labs::WinUI::DoubleVector>(),
+            winrt::xaml_typename<winrt::XamlToolkit::Labs::WinUI::RibbonCollapsibleGroup>(),
+            winrt::PropertyMetadata{ nullptr, &RibbonCollapsibleGroup::OnRequestedWidthsChanged });
 
-		UpdateState();
-	}
+    RibbonCollapsibleGroup::RibbonCollapsibleGroup()
+    {
+        DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
+        _contaionerPointerEventHandler = winrt::box_value(winrt::PointerEventHandler({ this, &RibbonCollapsibleGroup::OnFlyoutPointerReleased }));
+        _contaionerKeyEventHandler = winrt::box_value(winrt::KeyEventHandler({ this, &RibbonCollapsibleGroup::OnFlyoutKeyUp }));
+    }
 
-	void RibbonCollapsibleGroup::OnRequestedWidthsChanged([[maybe_unused]] DependencyObject const& sender, DependencyPropertyChangedEventArgs const& e)
-	{
-		if (auto newValue = e.NewValue().try_as<winrt::XamlToolkit::Labs::WinUI::DoubleVector>())
-		{
-			auto vector = winrt::get_self<DoubleVector>(newValue)->get_strong();
-			std::ranges::sort(vector->get_container());
-		}
-	}
+    void RibbonCollapsibleGroup::OnApplyTemplate()
+    {
+        if (_collapsedFlyout)
+        {
+            _flyoutOpenedRevoker.revoke();
+        }
 
-	void RibbonCollapsibleGroup::OnFlyoutOpened([[maybe_unused]] IInspectable const& sender, [[maybe_unused]] IInspectable const& e)
-	{
-		if (_collapsedContentContainer) _collapsedContentContainer.Focus(FocusState::Programmatic);
-	}
+        if (_collapsedContentContainer)
+        {
+            _collapsedContentContainer.RemoveHandler(winrt::UIElement::PointerReleasedEvent(), _contaionerPointerEventHandler);
+            _collapsedContentContainer.RemoveHandler(winrt::UIElement::KeyUpEvent(), _contaionerKeyEventHandler);
+        }
 
-	void RibbonCollapsibleGroup::OnFlyoutPointerReleased([[maybe_unused]] IInspectable const& sender, PointerRoutedEventArgs const& e)
-	{
-		AutoCollapseFlyout(e.Handled(), e.OriginalSource());
-	}
+        _visibleContentContainer = Get<winrt::ContentControl>(VisibleContentContainerTemplatePart);
+        _collapsedContentContainer = Get<winrt::ContentControl>(CollapsedContentPresenterTemplatePart);
+        _collapsedButton = Get<winrt::Button>(CollapsedButtonTemplatePart);
+        _collapsedFlyout = Get<winrt::Flyout>(CollapsedFlyoutTemplatePart);
 
-	void RibbonCollapsibleGroup::OnFlyoutKeyUp([[maybe_unused]] IInspectable const& sender, KeyRoutedEventArgs const& e)
-	{
-		if (e.Key() != VirtualKey::Enter && e.Key() != VirtualKey::Space)
-		{
-			return;
-		}
+        if (_collapsedFlyout)
+        {
+            _flyoutOpenedRevoker = _collapsedFlyout.Opened(winrt::auto_revoke, { this, &RibbonCollapsibleGroup::OnFlyoutOpened });
+        }
 
-		AutoCollapseFlyout(e.Handled(), e.OriginalSource());
-	}
+        if (_collapsedContentContainer)
+        {
+            _collapsedContentContainer.AddHandler(winrt::UIElement::PointerReleasedEvent(), _contaionerPointerEventHandler, true);
+            _collapsedContentContainer.AddHandler(winrt::UIElement::KeyUpEvent(), _contaionerKeyEventHandler, true);
+        }
 
-	void RibbonCollapsibleGroup::AutoCollapseFlyout(bool eventHasBeenHandled, IInspectable const& originalSource)
-	{
-		// We only consider events which have been processed since it usually means
-		// that a control has processed the event and that the click is not in an
-		// empty/non-interactive area.
-		if (eventHasBeenHandled &&
-			AutoCloseFlyout() &&
-			_collapsedFlyout &&
-			_collapsedFlyout.IsOpen() &&
-			!DoesRoutedEventOriginateFromAFlyoutHost(originalSource.try_as<UIElement>()))
-		{
-			_collapsedFlyout.Hide();
-		}
-	}
+        UpdateState();
+    }
 
-	bool RibbonCollapsibleGroup::DoesRoutedEventOriginateFromAFlyoutHost(UIElement source)
-	{
-		if (_collapsedContentContainer == nullptr)
-		{
-			return false;
-		}
+    void RibbonCollapsibleGroup::OnRequestedWidthsChanged([[maybe_unused]] winrt::DependencyObject const& sender, winrt::DependencyPropertyChangedEventArgs const& e)
+    {
+        if (auto newValue = e.NewValue().try_as<winrt::XamlToolkit::Labs::WinUI::DoubleVector>())
+        {
+            auto vector = winrt::get_self<DoubleVector>(newValue)->get_strong();
+            std::ranges::sort(vector->get_container());
+        }
+    }
 
-		while (source && source != _collapsedContentContainer)
-		{
-			if (source.try_as<DropDownButton>() ||
-				source.try_as<ComboBox>() ||
-				source.try_as<ComboBoxItem>())
-			{
-				return true;
-			}
+    void RibbonCollapsibleGroup::OnFlyoutOpened([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::IInspectable const& e)
+    {
+        if (_collapsedContentContainer) _collapsedContentContainer.Focus(winrt::FocusState::Programmatic);
+    }
 
-			if (auto buttonSource = source.try_as<Button>(); buttonSource && buttonSource.Flyout())
-			{
-				return true;
-			}
+    void RibbonCollapsibleGroup::OnFlyoutPointerReleased([[maybe_unused]] winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e)
+    {
+        AutoCollapseFlyout(e.Handled(), e.OriginalSource());
+    }
 
-			if (auto frameworkSource = source.try_as<FrameworkElement>())
-			{
-				if (FlyoutBase::GetAttachedFlyout(frameworkSource))
-				{
-					return true;
-				}
-			}
+    void RibbonCollapsibleGroup::OnFlyoutKeyUp([[maybe_unused]] winrt::IInspectable const& sender, winrt::KeyRoutedEventArgs const& e)
+    {
+        if (e.Key() != winrt::VirtualKey::Enter && e.Key() != winrt::VirtualKey::Space)
+        {
+            return;
+        }
 
-			source = VisualTreeHelper::GetParent(source).try_as<UIElement>();
-		}
+        AutoCollapseFlyout(e.Handled(), e.OriginalSource());
+    }
 
-		return false;
-	}
+    void RibbonCollapsibleGroup::AutoCollapseFlyout(bool eventHasBeenHandled, winrt::IInspectable const& originalSource)
+    {
+        // We only consider events which have been processed since it usually means
+        // that a control has processed the event and that the click is not in an
+        // empty/non-interactive area.
+        if (eventHasBeenHandled &&
+            AutoCloseFlyout() &&
+            _collapsedFlyout &&
+            _collapsedFlyout.IsOpen() &&
+            !DoesRoutedEventOriginateFromAFlyoutHost(originalSource.try_as<winrt::UIElement>()))
+        {
+            _collapsedFlyout.Hide();
+        }
+    }
 
-	void RibbonCollapsibleGroup::OnStatePropertyChanged(DependencyObject const& d, [[maybe_unused]] DependencyPropertyChangedEventArgs const& e)
-	{
-		auto group = winrt::get_self<implementation::RibbonCollapsibleGroup>(d.as<class_type>());
-		group->UpdateState();
-	}
+    bool RibbonCollapsibleGroup::DoesRoutedEventOriginateFromAFlyoutHost(winrt::UIElement source)
+    {
+        if (_collapsedContentContainer == nullptr)
+        {
+            return false;
+        }
 
-	void RibbonCollapsibleGroup::UpdateState()
-	{
-		switch (State())
-		{
-		case Visibility::Visible:
-			if (_collapsedFlyout)
-			{
-				_collapsedFlyout.Hide();
-			}
+        while (source && source != _collapsedContentContainer)
+        {
+            if (source.try_as<winrt::DropDownButton>() ||
+                source.try_as<winrt::ComboBox>() ||
+                source.try_as<winrt::ComboBoxItem>())
+            {
+                return true;
+            }
 
-			if (_collapsedContentContainer && _visibleContentContainer)
-			{
-				_collapsedContentContainer.Content(nullptr);
-				_visibleContentContainer.Content(Content());
-			}
+            if (auto buttonSource = source.try_as<winrt::Button>(); buttonSource && buttonSource.Flyout())
+            {
+                return true;
+            }
 
-			if (_collapsedButton && _visibleContentContainer)
-			{
-				_collapsedButton.Visibility(Visibility::Collapsed);
-				_visibleContentContainer.Visibility(Visibility::Visible);
-			}
-			break;
+            if (auto frameworkSource = source.try_as<winrt::FrameworkElement>())
+            {
+                if (winrt::FlyoutBase::GetAttachedFlyout(frameworkSource))
+                {
+                    return true;
+                }
+            }
 
-		case Visibility::Collapsed:
-			if (_collapsedContentContainer && _visibleContentContainer)
-			{
-				_visibleContentContainer.Content(nullptr);
-				_collapsedContentContainer.Content(Content());
-			}
+            source = winrt::VisualTreeHelper::GetParent(source).try_as<winrt::UIElement>();
+        }
 
-			if (_collapsedButton && _visibleContentContainer)
-			{
-				_visibleContentContainer.Visibility(Visibility::Collapsed);
-				_collapsedButton.Visibility(Visibility::Visible);
-			}
-			break;
+        return false;
+    }
 
-		default:
-			throw winrt::hresult_invalid_argument(L"Invalid state");
-		}
-	}
+    void RibbonCollapsibleGroup::OnStatePropertyChanged(winrt::DependencyObject const& d, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& e)
+    {
+        auto group = winrt::get_self<implementation::RibbonCollapsibleGroup>(d.as<class_type>());
+        group->UpdateState();
+    }
+
+    void RibbonCollapsibleGroup::UpdateState()
+    {
+        switch (State())
+        {
+        case winrt::Visibility::Visible:
+            if (_collapsedFlyout)
+            {
+                _collapsedFlyout.Hide();
+            }
+
+            if (_collapsedContentContainer && _visibleContentContainer)
+            {
+                _collapsedContentContainer.Content(nullptr);
+                _visibleContentContainer.Content(Content());
+            }
+
+            if (_collapsedButton && _visibleContentContainer)
+            {
+                _collapsedButton.Visibility(winrt::Visibility::Collapsed);
+                _visibleContentContainer.Visibility(winrt::Visibility::Visible);
+            }
+            break;
+
+        case winrt::Visibility::Collapsed:
+            if (_collapsedContentContainer && _visibleContentContainer)
+            {
+                _visibleContentContainer.Content(nullptr);
+                _collapsedContentContainer.Content(Content());
+            }
+
+            if (_collapsedButton && _visibleContentContainer)
+            {
+                _visibleContentContainer.Visibility(winrt::Visibility::Collapsed);
+                _collapsedButton.Visibility(winrt::Visibility::Visible);
+            }
+            break;
+
+        default:
+            throw winrt::hresult_invalid_argument(L"Invalid state");
+        }
+    }
 }

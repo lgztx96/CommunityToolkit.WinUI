@@ -14,30 +14,32 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
     DoubleVector::DoubleVector(winrt::Windows::Foundation::Collections::IIterable<double> const& values)
     {
-        for (auto const& v : values)
+        for (double v : values)
         {
-            _values.emplace_back(v);
+            _values.push_back(v);
         }
     }
 
     winrt::XamlToolkit::Labs::WinUI::DoubleVector DoubleVector::CreateFromString(winrt::hstring const& value)
     {
-        using namespace std::string_view_literals;
-
         std::vector<double> doubles;
 
-        for (auto part : value | std::views::split(L","sv))
+        for (const auto part : value | std::views::split(','))
         {
-            std::wstring token(part.begin(), part.end());
+            std::wstring_view token(part);
 
-            token.erase(0, token.find_first_not_of(L" \t\r\n"));
-            token.erase(token.find_last_not_of(L" \t\r\n") + 1);
-
-            if (!token.empty())
+            const auto start = token.find_first_not_of(L" \t\r\n");
+            if (start == std::wstring_view::npos)
             {
-                double val = std::stod(token);
-                doubles.push_back(val);
+                continue;
             }
+
+            token.remove_prefix(start);
+
+            const auto end = token.find_last_not_of(L" \t\r\n");
+            token.remove_suffix(token.size() - end - 1);
+
+            doubles.push_back(std::stod(std::wstring{ token }));
         }
 
         return winrt::make<DoubleVector>(std::move(doubles));

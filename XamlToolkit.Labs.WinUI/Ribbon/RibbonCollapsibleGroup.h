@@ -4,174 +4,148 @@
 #include "RibbonGroup.h"
 
 #ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.System.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Media.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.Primitives.h>
+#include <winrt/Microsoft.UI.Xaml.Input.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
 #endif
 
 namespace winrt
 {
-	using namespace Windows::Foundation;
-	using namespace Microsoft::UI::Xaml;
-	using namespace Microsoft::UI::Xaml::Controls;
-	using namespace Microsoft::UI::Xaml::Input;
+    using namespace Windows::Foundation;
+    using namespace Windows::System;
+    using namespace Microsoft::UI::Xaml;
+    using namespace Microsoft::UI::Xaml::Media;
+    using namespace Microsoft::UI::Xaml::Controls;
+    using namespace Microsoft::UI::Xaml::Controls::Primitives;
+    using namespace Microsoft::UI::Xaml::Input;
 }
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
-	struct RibbonCollapsibleGroup : RibbonCollapsibleGroupT<RibbonCollapsibleGroup, implementation::RibbonGroup>
-	{
-	private:
-		static constexpr std::wstring_view VisibleContentContainerTemplatePart = L"VisibleContentContainer";
-		static constexpr std::wstring_view CollapsedButtonTemplatePart = L"CollapsedButton";
-		static constexpr std::wstring_view CollapsedFlyoutTemplatePart = L"CollapsedFlyout";
-		static constexpr std::wstring_view CollapsedContentPresenterTemplatePart = L"CollapsedContentPresenter";
+    struct RibbonCollapsibleGroup : RibbonCollapsibleGroupT<RibbonCollapsibleGroup, implementation::RibbonGroup>
+    {
+        static constexpr std::wstring_view VisibleContentContainerTemplatePart = L"VisibleContentContainer";
+        static constexpr std::wstring_view CollapsedButtonTemplatePart = L"CollapsedButton";
+        static constexpr std::wstring_view CollapsedFlyoutTemplatePart = L"CollapsedFlyout";
+        static constexpr std::wstring_view CollapsedContentPresenterTemplatePart = L"CollapsedContentPresenter";
 
-		ContentControl _visibleContentContainer{ nullptr };
-		ContentControl _collapsedContentContainer{ nullptr };
-		Button _collapsedButton{ nullptr };
-		Flyout _collapsedFlyout{ nullptr };
+        static const wil::single_threaded_property<winrt::DependencyProperty> IconSourceProperty;
 
-		IInspectable _contaionerPointerEventHandler{ nullptr };
-		IInspectable _contaionerKeyEventHandler{ nullptr };
+        winrt::IconSource IconSource() const
+        {
+            return GetValue(IconSourceProperty).try_as<winrt::IconSource>();
+        }
 
-		Flyout::Opened_revoker _flyoutOpenedRevoker;
+        void IconSource(winrt::IconSource const& value)
+        {
+            SetValue(IconSourceProperty, value);
+        }
 
-		static void OnStatePropertyChanged(
-			winrt::Microsoft::UI::Xaml::DependencyObject const& sender,
-			winrt::Microsoft::UI::Xaml::DependencyPropertyChangedEventArgs const&);
+        static const wil::single_threaded_property<winrt::DependencyProperty> StateProperty;
 
-		static void OnRequestedWidthsChanged(
-			winrt::Microsoft::UI::Xaml::DependencyObject const& sender,
-			winrt::Microsoft::UI::Xaml::DependencyPropertyChangedEventArgs const& e);
+        winrt::Visibility State() const
+        {
+            return winrt::unbox_value<winrt::Visibility>(GetValue(StateProperty));
+        }
 
-	public:
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> IconSourceProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
-				L"IconSource",
-				winrt::xaml_typename<winrt::Microsoft::UI::Xaml::Controls::IconSource>(),
-				winrt::xaml_typename<class_type>(),
-				winrt::Microsoft::UI::Xaml::PropertyMetadata{ nullptr });
+        void State(winrt::Visibility const& value)
+        {
+            SetValue(StateProperty, winrt::box_value(value));
+        }
 
-		winrt::Microsoft::UI::Xaml::Controls::IconSource IconSource() const
-		{
-			return GetValue(IconSourceProperty).try_as<winrt::Microsoft::UI::Xaml::Controls::IconSource>();
-		}
+        static const wil::single_threaded_property<winrt::DependencyProperty> AutoCloseFlyoutProperty;
 
-		void IconSource(winrt::Microsoft::UI::Xaml::Controls::IconSource const& value)
-		{
-			SetValue(IconSourceProperty, value);
-		}
+        bool AutoCloseFlyout() const
+        {
+            return winrt::unbox_value<bool>(GetValue(AutoCloseFlyoutProperty));
+        }
 
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> StateProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
-				L"State",
-				winrt::xaml_typename<winrt::Microsoft::UI::Xaml::Visibility>(),
-				winrt::xaml_typename<class_type>(),
-				PropertyMetadata{ winrt::box_value(winrt::Microsoft::UI::Xaml::Visibility::Visible), &RibbonCollapsibleGroup::OnStatePropertyChanged });
+        void AutoCloseFlyout(bool value)
+        {
+            SetValue(AutoCloseFlyoutProperty, winrt::box_value(value));
+        }
 
-		winrt::Microsoft::UI::Xaml::Visibility State() const
-		{
-			return winrt::unbox_value<winrt::Microsoft::UI::Xaml::Visibility>(GetValue(StateProperty));
-		}
+        static const wil::single_threaded_property<winrt::DependencyProperty> PriorityProperty;
 
-		void State(winrt::Microsoft::UI::Xaml::Visibility const& value)
-		{
-			SetValue(StateProperty, winrt::box_value(value));
-		}
+        int Priority() const
+        {
+            return winrt::unbox_value<int>(GetValue(PriorityProperty));
+        }
 
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> AutoCloseFlyoutProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
-				L"AutoCloseFlyout",
-				winrt::xaml_typename<bool>(),
-				winrt::xaml_typename<class_type>(),
-				winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(true) });
+        void Priority(int value)
+        {
+            SetValue(PriorityProperty, winrt::box_value(value));
+        }
 
-		bool AutoCloseFlyout() const
-		{
-			return winrt::unbox_value<bool>(GetValue(AutoCloseFlyoutProperty));
-		}
+        static const wil::single_threaded_property<winrt::DependencyProperty> CollapsedAccessKeyProperty;
 
-		void AutoCloseFlyout(bool value)
-		{
-			SetValue(AutoCloseFlyoutProperty, winrt::box_value(value));
-		}
+        winrt::hstring CollapsedAccessKey() const
+        {
+            return winrt::unbox_value<winrt::hstring>(GetValue(CollapsedAccessKeyProperty));
+        }
 
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> PriorityProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
-				L"Priority",
-				winrt::xaml_typename<int>(),
-				winrt::xaml_typename<class_type>(),
-				winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(0) });
+        void CollapsedAccessKey(winrt::hstring const& value)
+        {
+            SetValue(CollapsedAccessKeyProperty, winrt::box_value(value));
+        }
 
-		int Priority() const
-		{
-			return winrt::unbox_value<int>(GetValue(PriorityProperty));
-		}
+        static const wil::single_threaded_property<winrt::DependencyProperty> RequestedWidthsProperty;
 
-		void Priority(int value)
-		{
-			SetValue(PriorityProperty, winrt::box_value(value));
-		}
+        winrt::XamlToolkit::Labs::WinUI::DoubleVector RequestedWidths() const
+        {
+            return GetValue(RequestedWidthsProperty).try_as<winrt::XamlToolkit::Labs::WinUI::DoubleVector>();
+        }
 
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> CollapsedAccessKeyProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
-				L"CollapsedAccessKey",
-				winrt::xaml_typename<hstring>(),
-				winrt::xaml_typename<class_type>(),
-				winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(L"") });
+        void RequestedWidths(winrt::XamlToolkit::Labs::WinUI::DoubleVector const& value)
+        {
+            SetValue(RequestedWidthsProperty, value);
+        }
 
-		winrt::hstring CollapsedAccessKey() const
-		{
-			return winrt::unbox_value<winrt::hstring>(GetValue(CollapsedAccessKeyProperty));
-		}
+        RibbonCollapsibleGroup();
 
-		void CollapsedAccessKey(winrt::hstring const& value)
-		{
-			SetValue(CollapsedAccessKeyProperty, winrt::box_value(value));
-		}
+        void OnApplyTemplate();
 
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> RequestedWidthsProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
-				L"RequestedWidths",
-				winrt::xaml_typename<winrt::XamlToolkit::Labs::WinUI::DoubleVector>(),
-				winrt::xaml_typename<class_type>(),
-				PropertyMetadata{ nullptr, &RibbonCollapsibleGroup::OnRequestedWidthsChanged });
+    private:
+        static void OnStatePropertyChanged(winrt::DependencyObject const& sender, winrt::DependencyPropertyChangedEventArgs const&);
 
-		winrt::XamlToolkit::Labs::WinUI::DoubleVector RequestedWidths() const
-		{
-			return GetValue(RequestedWidthsProperty).try_as<winrt::XamlToolkit::Labs::WinUI::DoubleVector>();
-		}
+        static void OnRequestedWidthsChanged(winrt::DependencyObject const& sender, winrt::DependencyPropertyChangedEventArgs const& e);
 
-		void RequestedWidths(winrt::XamlToolkit::Labs::WinUI::DoubleVector const& value)
-		{
-			SetValue(RequestedWidthsProperty, value);
-		}
+        template<typename T>
+        T Get(std::wstring_view templatePart) { return GetTemplateChild(templatePart).try_as<T>(); }
 
-		RibbonCollapsibleGroup();
+        void OnFlyoutOpened(winrt::IInspectable const& sender, winrt::IInspectable const& e);
 
-		void OnApplyTemplate();
+        void OnFlyoutPointerReleased(winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e);
 
-	private:
-		template<typename T>
-		T Get(std::wstring_view templatePart) { return GetTemplateChild(templatePart).try_as<T>(); }
+        void OnFlyoutKeyUp(winrt::IInspectable const& sender, winrt::KeyRoutedEventArgs const& e);
 
-		void OnFlyoutOpened(IInspectable const& sender, IInspectable const& e);
+        void AutoCollapseFlyout(bool eventHasBeenHandled, winrt::IInspectable const& originalSource);
 
-		void OnFlyoutPointerReleased(IInspectable const& sender, PointerRoutedEventArgs const& e);
+        bool DoesRoutedEventOriginateFromAFlyoutHost(winrt::UIElement source);
 
-		void OnFlyoutKeyUp(IInspectable const& sender, KeyRoutedEventArgs const& e);
+        void UpdateState();
 
-		void AutoCollapseFlyout(bool eventHasBeenHandled, IInspectable const& originalSource);
+        winrt::ContentControl _visibleContentContainer{ nullptr };
+        winrt::ContentControl _collapsedContentContainer{ nullptr };
+        winrt::Button _collapsedButton{ nullptr };
+        winrt::Flyout _collapsedFlyout{ nullptr };
 
-		bool DoesRoutedEventOriginateFromAFlyoutHost(UIElement source);
+        winrt::IInspectable _contaionerPointerEventHandler{ nullptr };
+        winrt::IInspectable _contaionerKeyEventHandler{ nullptr };
 
-		void UpdateState();
-	};
+        winrt::Flyout::Opened_revoker _flyoutOpenedRevoker;
+    };
 }
 
 namespace winrt::XamlToolkit::Labs::WinUI::factory_implementation
 {
-	struct RibbonCollapsibleGroup : RibbonCollapsibleGroupT<RibbonCollapsibleGroup, implementation::RibbonCollapsibleGroup>
-	{
-	};
+    struct RibbonCollapsibleGroup : RibbonCollapsibleGroupT<RibbonCollapsibleGroup, implementation::RibbonCollapsibleGroup>
+    {
+    };
 }

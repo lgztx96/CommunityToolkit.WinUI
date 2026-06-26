@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "RibbonPanel.g.h"
 
@@ -16,13 +16,13 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
     struct RibbonPanel : RibbonPanelT<RibbonPanel>
     {
-        static constexpr Size GroupAvailableSize{ std::numeric_limits<float>::infinity(), std::numeric_limits<float>::infinity() };
+        static constexpr winrt::Size GroupAvailableSize{ std::numeric_limits<float>::infinity(), std::numeric_limits<float>::infinity() };
 
         RibbonPanel() = default;
 
-        Size MeasureOverride(Size availableSize);
+        winrt::Size MeasureOverride(winrt::Size availableSize);
 
-        Size ArrangeOverride(Size finalSize);
+        winrt::Size ArrangeOverride(winrt::Size finalSize);
     };
 }
 

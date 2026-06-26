@@ -7,9 +7,9 @@
 #include <wil/cppwinrt_authoring.h>
 #endif
 
-namespace winrt 
+namespace winrt
 {
-	using namespace Microsoft::UI::Xaml;
+    using namespace Microsoft::UI::Xaml;
 }
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
@@ -20,29 +20,19 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         virtual void OnApplyTemplate();
 
-        static inline const wil::single_threaded_property<DependencyProperty> ContentProperty =
-            DependencyProperty::Register(
-                L"Content",
-                winrt::xaml_typename<winrt::Microsoft::UI::Xaml::UIElement>(),
-                winrt::xaml_typename<class_type>(),
-                winrt::Microsoft::UI::Xaml::PropertyMetadata{ nullptr });
+        static const wil::single_threaded_property<winrt::DependencyProperty> ContentProperty;
 
-        winrt::Microsoft::UI::Xaml::UIElement Content() const
+        winrt::UIElement Content() const
         {
-            return GetValue(ContentProperty).try_as<winrt::Microsoft::UI::Xaml::UIElement>();
+            return GetValue(ContentProperty).try_as<winrt::UIElement>();
         }
 
-        void Content(winrt::Microsoft::UI::Xaml::UIElement const& value)
+        void Content(winrt::UIElement const& value)
         {
             SetValue(ContentProperty, value);
         }
 
-        static inline const wil::single_threaded_property<DependencyProperty> LabelProperty =
-            DependencyProperty::Register(
-                L"Label",
-                winrt::xaml_typename<winrt::hstring>(),
-                winrt::xaml_typename<class_type>(),
-                winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(L"") });
+        static const wil::single_threaded_property<winrt::DependencyProperty> LabelProperty;
 
         winrt::hstring Label() const
         {
