@@ -3,11 +3,49 @@ namespace XamlToolkit.WinUI.Animations
     /// <summary>
     /// A struct representing a repeat option for animations.
     /// </summary>
+    [createfromstring("XamlToolkit.WinUI.Animations.RepeatOptionHelper.Parse")]
     struct RepeatOption
     {
         /// <summary>
         /// The number of iterations for the animation. -1 means forever.
         /// </summary>
         Int32 Value;
+    };
+
+    /// <summary>
+    /// Helper functions for RepeatOption.
+    /// </summary>
+    static runtimeclass RepeatOptionHelper
+    {
+        /// <summary>
+        /// Gets a RepeatOption value representing a single iteration.
+        /// </summary>
+        static RepeatOption Once();
+
+        /// <summary>
+        /// Gets a RepeatOption value indicating an animation that repeats forever.
+        /// </summary>
+        static RepeatOption Forever();
+
+        /// <summary>
+        /// Creates a RepeatOption value with the specified number of iterations.
+        /// </summary>
+        /// <param name="count">
+        /// Number of iterations. Must be greater than or equal to zero.
+        /// </param>
+        static RepeatOption Count(Int32 count);
+
+        /// <summary>
+        /// Gets a RepeatBehavior value corresponding to the specified RepeatOption value.
+        /// </summary>
+        static Microsoft.UI.Xaml.Media.Animation.RepeatBehavior ToRepeatBehavior(RepeatOption option);
+
+        /// <summary>
+        /// Parses a <see cref="RepeatOption"/> value from a <see cref="string"/>.
+        /// The allowed values are either non-negative integers, or "Forever".
+        /// </summary>
+        /// <param name="text">The input text to parse.</param>
+        /// <returns>The parsed <see cref="RepeatOption"/> value.</returns>
+        static RepeatOption Parse(String text);
     };
 }

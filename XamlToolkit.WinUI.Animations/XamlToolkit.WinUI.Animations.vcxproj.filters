@@ -414,6 +414,9 @@
     <ClCompile Include="Xaml\Default\ClipAnimation.cpp">
       <Filter>Xaml\Default</Filter>
     </ClCompile>
+    <ClCompile Include="Options\RepeatOptionHelper.cpp">
+      <Filter>Options</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Midl Include="Enums\EasingType.idl">
