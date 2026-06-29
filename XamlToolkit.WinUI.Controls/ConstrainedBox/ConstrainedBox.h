@@ -111,9 +111,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 				winrt::xaml_typename<class_type>(),
 				winrt::PropertyMetadata{ nullptr, &ConstrainedBox::ConstraintPropertyChanged });
 
-		winrt::XamlToolkit::WinUI::Controls::AspectRatio AspectRatio()
+		winrt::XamlToolkit::WinUI::Controls::AspectRatio AspectRatio() const
 		{
-			return winrt::unbox_value<winrt::XamlToolkit::WinUI::Controls::AspectRatio>(GetValue(AspectRatioProperty));
+			return GetValue(AspectRatioProperty).try_as<winrt::XamlToolkit::WinUI::Controls::AspectRatio>();
 		}
 
 		void AspectRatio(winrt::XamlToolkit::WinUI::Controls::AspectRatio const& value)
