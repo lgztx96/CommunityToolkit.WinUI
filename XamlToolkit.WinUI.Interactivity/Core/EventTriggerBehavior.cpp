@@ -24,7 +24,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
     winrt::hstring EventTriggerBehavior::EventName() const
     {
-        return winrt::unbox_value<winrt::hstring>(GetValue(EventNameProperty()));
+        return winrt::unbox_value_or<winrt::hstring>(GetValue(EventNameProperty()), L"");
     }
 
     void EventTriggerBehavior::EventName(winrt::hstring const& value)
