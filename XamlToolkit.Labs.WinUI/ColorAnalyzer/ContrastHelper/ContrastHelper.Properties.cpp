@@ -8,49 +8,49 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         Microsoft::UI::Xaml::DependencyProperty::RegisterAttached(
             L"Opponent",
             winrt::xaml_typename<Windows::UI::Color>(),
-            winrt::xaml_typename<class_type>(),
+            winrt::xaml_typename<winrt::XamlToolkit::Labs::WinUI::ContrastHelper>(),
             Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(Windows::UI::Colors::Transparent()), &ContrastHelper::OnOpponentChanged });
 
     const wil::single_threaded_property<Microsoft::UI::Xaml::DependencyProperty> ContrastHelper::MinRatioProperty =
         Microsoft::UI::Xaml::DependencyProperty::RegisterAttached(
             L"MinRatio",
             winrt::xaml_typename<double>(),
-            winrt::xaml_typename<class_type>(),
+            winrt::xaml_typename<winrt::XamlToolkit::Labs::WinUI::ContrastHelper>(),
             Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(21.0), &ContrastHelper::OnMinRatioChanged });
 
     const wil::single_threaded_property<Microsoft::UI::Xaml::DependencyProperty> ContrastHelper::ContrastRatioProperty =
         Microsoft::UI::Xaml::DependencyProperty::RegisterAttached(
             L"ContrastRatio",
             winrt::xaml_typename<double>(),
-            winrt::xaml_typename<class_type>(),
+            winrt::xaml_typename<winrt::XamlToolkit::Labs::WinUI::ContrastHelper>(),
             Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(0.0) });
 
     const wil::single_threaded_property<Microsoft::UI::Xaml::DependencyProperty> ContrastHelper::OriginalColorProperty =
         Microsoft::UI::Xaml::DependencyProperty::RegisterAttached(
             L"OriginalColor",
             winrt::xaml_typename<Windows::UI::Color>(),
-            winrt::xaml_typename<class_type>(),
+            winrt::xaml_typename<winrt::XamlToolkit::Labs::WinUI::ContrastHelper>(),
             Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(Windows::UI::Colors::Transparent()) });
 
     const wil::single_threaded_property<Microsoft::UI::Xaml::DependencyProperty> ContrastHelper::OriginalContrastRatioProperty =
         Microsoft::UI::Xaml::DependencyProperty::RegisterAttached(
             L"OriginalContrastRatio",
             winrt::xaml_typename<double>(),
-            winrt::xaml_typename<class_type>(),
+            winrt::xaml_typename<winrt::XamlToolkit::Labs::WinUI::ContrastHelper>(),
             Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(0.0) });
 
     const wil::single_threaded_property<Microsoft::UI::Xaml::DependencyProperty> ContrastHelper::CallbackObjectProperty =
         Microsoft::UI::Xaml::DependencyProperty::RegisterAttached(
             L"CallbackObject",
             winrt::xaml_typename<Microsoft::UI::Xaml::DependencyObject>(),
-            winrt::xaml_typename<class_type>(),
+            winrt::xaml_typename<winrt::XamlToolkit::Labs::WinUI::ContrastHelper>(),
             Microsoft::UI::Xaml::PropertyMetadata{ nullptr });
 
     const wil::single_threaded_property<Microsoft::UI::Xaml::DependencyProperty> ContrastHelper::CallbackProperty =
         Microsoft::UI::Xaml::DependencyProperty::RegisterAttached(
             L"Callback",
             winrt::xaml_typename<int64_t>(),
-            winrt::xaml_typename<class_type>(),
+            winrt::xaml_typename<winrt::XamlToolkit::Labs::WinUI::ContrastHelper>(),
             Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value<int64_t>(0) });
 
     Windows::UI::Color ContrastHelper::GetOpponent(Microsoft::UI::Xaml::DependencyObject const& obj)

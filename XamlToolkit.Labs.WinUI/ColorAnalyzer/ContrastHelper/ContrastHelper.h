@@ -20,10 +20,8 @@ namespace winrt
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
-    struct ContrastHelper : ContrastHelperT<ContrastHelper>
+    struct ContrastHelper
     {
-        ContrastHelper() = default;
-        
 #pragma region Properties
         static const wil::single_threaded_property<Microsoft::UI::Xaml::DependencyProperty> OpponentProperty;
 
@@ -80,7 +78,6 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         static void SubscribeToBrushUpdates(DependencyObject const& d, SolidColorBrush const& brush);
 #pragma endregion
-
 
     private:
         // When the helper is updating the color, this flag is set to avoid feedback loops

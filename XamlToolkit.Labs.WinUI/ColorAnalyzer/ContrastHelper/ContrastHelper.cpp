@@ -8,7 +8,6 @@
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
-
     void ContrastHelper::ApplyContrastCheck(DependencyObject const& d)
     {
         DependencyProperty dp{ nullptr };

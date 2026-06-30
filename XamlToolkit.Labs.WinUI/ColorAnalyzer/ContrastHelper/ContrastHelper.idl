@@ -1,10 +1,7 @@
 namespace XamlToolkit.Labs.WinUI
 {
-    [default_interface]
-    runtimeclass ContrastHelper : Microsoft.UI.Xaml.DependencyObject
+    static runtimeclass ContrastHelper : Microsoft.UI.Xaml.DependencyObject
     {
-        ContrastHelper();
-
         static Windows.UI.Color GetOpponent(Microsoft.UI.Xaml.DependencyObject obj);
 
         static void SetOpponent(Microsoft.UI.Xaml.DependencyObject obj, Windows.UI.Color value);
