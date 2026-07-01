@@ -36,14 +36,14 @@ namespace winrt::XamlToolkit::WinUI::Converters::implementation
         L"NotEmptyValue",
         winrt::xaml_typename<winrt::IInspectable>(),
         winrt::xaml_typename<class_type>(),
-        PropertyMetadata{ nullptr }
+        winrt::PropertyMetadata{ nullptr }
     );
 
     const wil::single_threaded_property<winrt::DependencyProperty> EmptyObjectToObjectConverter::EmptyValueProperty = winrt::DependencyProperty::Register(
         L"EmptyValue",
         winrt::xaml_typename<winrt::IInspectable>(),
         winrt::xaml_typename<class_type>(),
-        PropertyMetadata{ nullptr }
+        winrt::PropertyMetadata{ nullptr }
     );
 
     winrt::IInspectable EmptyObjectToObjectConverter::Convert(winrt::IInspectable const& value, [[maybe_unused]] winrt::TypeName targetType, winrt::IInspectable const& parameter, [[maybe_unused]] winrt::hstring const& language) const
