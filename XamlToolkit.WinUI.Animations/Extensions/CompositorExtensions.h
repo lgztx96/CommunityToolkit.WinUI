@@ -1,5 +1,5 @@
 #pragma once
-#include "../Options/RepeatOptionHelper.h"
+
 #include "AnimationExtensions.h"
 
 #ifdef __INTELLISENSE__

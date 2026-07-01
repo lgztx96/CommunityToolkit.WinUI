@@ -3,7 +3,6 @@
 #include "Animation.g.h"
 #include "../Interfaces/ITimeline.h"
 #include "../Builders/AnimationBuilder.h"
-#include "../Options/RepeatOptionHelper.h"
 
 #ifdef __INTELLISENSE__
 #include <winrt/Windows.Foundation.h>

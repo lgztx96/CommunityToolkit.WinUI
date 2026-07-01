@@ -4,7 +4,6 @@
 #if __has_include("Animation.g.cpp")
 #include "Animation.g.cpp"
 #endif
-#include "../Options/RepeatOptionHelper.h"
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {

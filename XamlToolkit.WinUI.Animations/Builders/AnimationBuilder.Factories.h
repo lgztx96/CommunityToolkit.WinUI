@@ -38,7 +38,9 @@ namespace winrt::XamlToolkit::WinUI::Animations
             CompositionAnimation GetAnimation(CompositionObject const& targetHint, CompositionObject& target) override
             {
                 auto easing = CompositorExtensions::TryCreateEasingFunction(targetHint.Compositor(), easingType, easingMode);
-                auto [iterationBehavior, iterationCount] = implementation::RepeatOptionHelper::ToBehaviorAndCount(repeat);
+                AnimationIterationBehavior iterationBehavior;
+                int iterationCount;
+                RepeatOptionHelper::ToBehaviorAndCount(repeat, iterationBehavior, iterationCount);
 
                 target = nullptr;
 
@@ -171,7 +173,10 @@ namespace winrt::XamlToolkit::WinUI::Animations
                 }
 
                 auto easing = CompositorExtensions::TryCreateEasingFunction(clip.Compositor(), easingType, easingMode);
-                auto [iterationBehavior, iterationCount] = implementation::RepeatOptionHelper::ToBehaviorAndCount(repeat);
+
+                AnimationIterationBehavior iterationBehavior;
+                int iterationCount;
+                RepeatOptionHelper::ToBehaviorAndCount(repeat, iterationBehavior, iterationCount);
 
                 target = clip;
 

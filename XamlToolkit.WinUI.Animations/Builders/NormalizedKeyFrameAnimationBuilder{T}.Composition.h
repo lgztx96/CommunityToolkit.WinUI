@@ -243,7 +243,10 @@ namespace winrt::XamlToolkit::WinUI::Animations
         }
 
         animation.Target(property);
-        auto [iterationBehavior, iterationCount] = implementation::RepeatOptionHelper::ToBehaviorAndCount(repeat);
+
+        AnimationIterationBehavior iterationBehavior;
+        int iterationCount;
+        RepeatOptionHelper::ToBehaviorAndCount(repeat, iterationBehavior, iterationCount);
         animation.IterationBehavior(iterationBehavior);
         animation.IterationCount(iterationCount);
 

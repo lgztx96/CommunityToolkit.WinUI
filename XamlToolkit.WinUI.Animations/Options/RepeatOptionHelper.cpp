@@ -25,13 +25,17 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         return RepeatBehaviorHelper::FromCount(option.Value);
     }
 
-    std::tuple<AnimationIterationBehavior, int> RepeatOptionHelper::ToBehaviorAndCount(RepeatOption const& option)
+    void RepeatOptionHelper::ToBehaviorAndCount(RepeatOption const& option, AnimationIterationBehavior& behavior, int& count)
     {
         if (option.Value < 0)
         {
-            return std::make_tuple(AnimationIterationBehavior::Forever, 1);
+            behavior = AnimationIterationBehavior::Forever;
+            count = 1;
         }
-        return std::make_tuple(AnimationIterationBehavior::Count, option.Value);
+        else {
+            behavior = AnimationIterationBehavior::Count;
+            count = option.Value;
+        }
     }
 
     RepeatOption RepeatOptionHelper::Parse(winrt::hstring const& text)

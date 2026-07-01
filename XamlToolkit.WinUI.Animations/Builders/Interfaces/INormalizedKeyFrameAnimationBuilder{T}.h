@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../../Options/RepeatOptionHelper.h"
 #include "../../Extensions/AnimationExtensions.h"
 #include "../AnimationBuilder.h"
 

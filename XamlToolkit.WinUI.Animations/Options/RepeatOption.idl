@@ -41,6 +41,11 @@ namespace XamlToolkit.WinUI.Animations
         static Microsoft.UI.Xaml.Media.Animation.RepeatBehavior ToRepeatBehavior(RepeatOption option);
 
         /// <summary>
+        /// Gets the AnimationIterationBehavior and count values matching the current RepeatOption value.
+        /// </summary>
+        static void ToBehaviorAndCount(RepeatOption option, out Microsoft.UI.Composition.AnimationIterationBehavior behavior, out Int32 count);
+
+        /// <summary>
         /// Parses a <see cref="RepeatOption"/> value from a <see cref="string"/>.
         /// The allowed values are either non-negative integers, or "Forever".
         /// </summary>

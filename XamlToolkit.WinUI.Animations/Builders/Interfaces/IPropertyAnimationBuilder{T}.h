@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../../Options/RepeatOptionHelper.h"
 #include "../AnimationBuilder.h"
 #include "INormalizedKeyFrameAnimationBuilder{T}.h"
 #include "ITimedKeyFrameAnimationBuilder{T}.h"
