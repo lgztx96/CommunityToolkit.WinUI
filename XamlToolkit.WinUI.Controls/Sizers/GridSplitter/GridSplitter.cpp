@@ -35,12 +35,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 	bool GridSplitter::IsStarColumn(ColumnDefinition const& definition)
 	{
-		return (definition.GetValue(ColumnDefinition::WidthProperty()).as<GridLength>()).GridUnitType == GridUnitType::Star;
+		return definition.Width().GridUnitType == GridUnitType::Star;
 	}
 
 	bool GridSplitter::IsStarRow(RowDefinition const& definition)
 	{
-		return (definition.GetValue(RowDefinition::HeightProperty()).as<GridLength>()).GridUnitType == GridUnitType::Star;
+		return definition.Height().GridUnitType == GridUnitType::Star;
 	}
 
 	bool GridSplitter::SetColumnWidth(ColumnDefinition const& columnDefinition, double newWidth, GridUnitType unitType)
