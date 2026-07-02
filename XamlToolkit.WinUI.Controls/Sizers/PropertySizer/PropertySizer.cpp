@@ -7,6 +7,34 @@
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
+	const wil::single_threaded_property<winrt::DependencyProperty> PropertySizer::IsDragInvertedProperty =
+		winrt::DependencyProperty::Register(
+			L"IsDragInverted",
+			winrt::xaml_typename<bool>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata(winrt::box_value(false)));
+
+	const wil::single_threaded_property<winrt::DependencyProperty> PropertySizer::BindingProperty =
+		winrt::DependencyProperty::Register(
+			L"Binding",
+			winrt::xaml_typename<double>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata(nullptr));
+
+	const wil::single_threaded_property<winrt::DependencyProperty> PropertySizer::MinimumProperty =
+		winrt::DependencyProperty::Register(
+			L"Minimum",
+			winrt::xaml_typename<double>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata(winrt::box_value(0.0)));
+
+	const wil::single_threaded_property<winrt::DependencyProperty> PropertySizer::MaximumProperty =
+		winrt::DependencyProperty::Register(
+			L"Maximum",
+			winrt::xaml_typename<double>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata(winrt::box_value(0.0)));
+
 	PropertySizer::PropertySizer() : _currentSize(0.0)
 	{
 		DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
@@ -16,7 +44,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	{
 		// We grab the current size of the bound value when we start a drag
 		// and we manipulate from that set point.
-		if (ReadLocalValue(BindingProperty) != DependencyProperty::UnsetValue())
+		if (ReadLocalValue(BindingProperty) != winrt::DependencyProperty::UnsetValue())
 		{
 			_currentSize = Binding();
 		}
@@ -43,13 +71,13 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		newSize += _currentSize;
 
 		// Check if we hit the min/max value, as we should use that if we're on the edge
-		if (ReadLocalValue(MinimumProperty) != DependencyProperty::UnsetValue() &&
+		if (ReadLocalValue(MinimumProperty) != winrt::DependencyProperty::UnsetValue() &&
 			newSize < Minimum())
 		{
 			// We use SetValue here as that'll update our bound property vs. overwriting the binding itself.
 			SetValue(BindingProperty, winrt::box_value(Minimum()));
 		}
-		else if (ReadLocalValue(MaximumProperty) != DependencyProperty::UnsetValue() &&
+		else if (ReadLocalValue(MaximumProperty) != winrt::DependencyProperty::UnsetValue() &&
 			newSize > Maximum())
 		{
 			SetValue(BindingProperty, winrt::box_value(Maximum()));
