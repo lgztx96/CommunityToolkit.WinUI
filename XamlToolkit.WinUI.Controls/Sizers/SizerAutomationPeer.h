@@ -17,16 +17,16 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
     struct SizerAutomationPeer : SizerAutomationPeerT<SizerAutomationPeer>
     {
-        SizerAutomationPeer(XamlToolkit::WinUI::Controls::SizerBase owner)
+        SizerAutomationPeer(winrt::XamlToolkit::WinUI::Controls::SizerBase const& owner)
             : SizerAutomationPeerT<SizerAutomationPeer>(owner)
         {
         }
 
-        XamlToolkit::WinUI::Controls::SizerBase OwningSizer();
+        winrt::XamlToolkit::WinUI::Controls::SizerBase OwningSizer() const;
 
-        winrt::hstring GetClassNameCore();
+        winrt::hstring GetClassNameCore() const;
 
-        winrt::hstring GetNameCore();
+        winrt::hstring GetNameCore() const;
     };
 }
 

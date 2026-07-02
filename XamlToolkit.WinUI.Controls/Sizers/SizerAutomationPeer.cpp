@@ -7,21 +7,21 @@
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-    using owner_type = XamlToolkit::WinUI::Controls::SizerBase;
+    using owner_type = winrt::XamlToolkit::WinUI::Controls::SizerBase;
 
-    owner_type SizerAutomationPeer::OwningSizer()
+    owner_type SizerAutomationPeer::OwningSizer() const
     {
         return Owner().try_as<owner_type>();
     }
 
-    winrt::hstring SizerAutomationPeer::GetClassNameCore()
+    winrt::hstring SizerAutomationPeer::GetClassNameCore() const
     {
         return winrt::get_class_name(OwningSizer());
     }
 
-    winrt::hstring SizerAutomationPeer::GetNameCore()
+    winrt::hstring SizerAutomationPeer::GetNameCore() const
     {
-        hstring name = AutomationProperties::GetName(OwningSizer());
+        winrt::hstring name = winrt::AutomationProperties::GetName(OwningSizer());
         if (!name.empty())
         {
             return name;
