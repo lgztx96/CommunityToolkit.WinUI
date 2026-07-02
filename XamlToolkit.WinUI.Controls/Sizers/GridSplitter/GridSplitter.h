@@ -3,86 +3,66 @@
 #include "GridSplitter.g.h"
 #include "../SizerBase.h"
 
-#ifdef __INTELLISENSE__
-#include <winrt/Microsoft.UI.Xaml.h>
-#include <winrt/Microsoft.UI.Xaml.Controls.h>
-#endif
-
-namespace winrt
-{
-	using namespace Microsoft::UI::Xaml;
-	using namespace Microsoft::UI::Xaml::Controls;
-}
-
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
 	struct GridSplitter : GridSplitterT<GridSplitter, implementation::SizerBase>
 	{
-		double _currentSize;
-		double _siblingSize;
-
-		GridResizeDirection _resizeDirection;
-		GridResizeBehavior _resizeBehavior;
-
 		GridSplitter();
 
-		static void OnResizeDirectionPropertyChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e);
+		static void OnResizeDirectionPropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 
-		GridResizeDirection ResizeDirection() { return winrt::unbox_value<GridResizeDirection>(GetValue(ResizeDirectionProperty)); }
-		void ResizeDirection(GridResizeDirection value) { SetValue(ResizeDirectionProperty, winrt::box_value(value)); }
+		GridResizeDirection ResizeDirection() const { return winrt::unbox_value<GridResizeDirection>(GetValue(ResizeDirectionProperty)); }
+		void ResizeDirection(GridResizeDirection const& value) { SetValue(ResizeDirectionProperty, winrt::box_value(value)); }
 
-		static inline const wil::single_threaded_property<DependencyProperty> ResizeDirectionProperty =
-			DependencyProperty::Register(L"GridResizeDirection", winrt::xaml_typename<GridResizeDirection>(), winrt::xaml_typename<class_type>(), PropertyMetadata(winrt::box_value(GridResizeDirection::Auto), &GridSplitter::OnResizeDirectionPropertyChanged));
+		static const wil::single_threaded_property<winrt::DependencyProperty> ResizeDirectionProperty;
 
-		GridResizeBehavior ResizeBehavior() { return winrt::unbox_value<GridResizeBehavior>(GetValue(ResizeBehaviorProperty)); }
-		void ResizeBehavior(GridResizeBehavior value) { SetValue(ResizeBehaviorProperty, winrt::box_value(value)); }
+		GridResizeBehavior ResizeBehavior() const { return winrt::unbox_value<GridResizeBehavior>(GetValue(ResizeBehaviorProperty)); }
+		void ResizeBehavior(GridResizeBehavior const& value) { SetValue(ResizeBehaviorProperty, winrt::box_value(value)); }
 
-		static inline const wil::single_threaded_property<DependencyProperty> ResizeBehaviorProperty =
-			DependencyProperty::Register(L"GridResizeBehavior", winrt::xaml_typename<GridResizeBehavior>(), winrt::xaml_typename<class_type>(), PropertyMetadata(winrt::box_value(GridResizeBehavior::BasedOnAlignment)));
+		static const wil::single_threaded_property<winrt::DependencyProperty> ResizeBehaviorProperty;
 
-		int ParentLevel() { return winrt::unbox_value<int>(GetValue(ParentLevelProperty)); }
+		int ParentLevel() const { return winrt::unbox_value<int>(GetValue(ParentLevelProperty)); }
 		void ParentLevel(int value) { SetValue(ParentLevelProperty, winrt::box_value(value)); }
 
-		static inline const wil::single_threaded_property<DependencyProperty> ParentLevelProperty =
-			DependencyProperty::Register(L"ParentLevel", winrt::xaml_typename<int>(), winrt::xaml_typename<class_type>(), PropertyMetadata(winrt::box_value(0)));
+		static const wil::single_threaded_property<winrt::DependencyProperty> ParentLevelProperty;
 
-		static bool IsStarColumn(ColumnDefinition const& definition);
+		static bool IsStarColumn(winrt::ColumnDefinition const& definition);
 
-		static bool IsStarRow(RowDefinition const& definition);
+		static bool IsStarRow(winrt::RowDefinition const& definition);
 
-		bool SetColumnWidth(ColumnDefinition const& columnDefinition, double newWidth, GridUnitType unitType);
+		bool SetColumnWidth(winrt::ColumnDefinition const& columnDefinition, double newWidth, winrt::GridUnitType unitType);
 
-		bool IsValidColumnWidth(ColumnDefinition const& columnDefinition, double newWidth);
+		bool IsValidColumnWidth(winrt::ColumnDefinition const& columnDefinition, double newWidth);
 
-		bool SetRowHeight(RowDefinition const& rowDefinition, double newHeight, GridUnitType unitType);
+		bool SetRowHeight(winrt::RowDefinition const& rowDefinition, double newHeight, winrt::GridUnitType unitType);
 
-		bool IsValidRowHeight(RowDefinition const& rowDefinition, double newHeight);
+		bool IsValidRowHeight(winrt::RowDefinition const& rowDefinition, double newHeight);
 
 		// Return the targeted Column based on the resize behavior
-		int GetTargetedColumn();
+		int GetTargetedColumn() const;
 
 		// Return the sibling Row based on the resize behavior
-		int GetTargetedRow();
+		int GetTargetedRow() const;
 
 		// Return the sibling Column based on the resize behavior
-		int GetSiblingColumn();
+		int GetSiblingColumn() const;
 
 		// Return the sibling Row based on the resize behavior
-		int GetSiblingRow();
+		int GetSiblingRow() const;
 
 		// Gets index based on resize behavior for first targeted row/column
-		int GetTargetIndex(int currentIndex);
+		int GetTargetIndex(int currentIndex) const;
 
 		// Gets index based on resize behavior for second targeted row/column
-		int GetSiblingIndex(int currentIndex);
+		int GetSiblingIndex(int currentIndex) const;
 
 		// Checks the control alignment and Width/Height to detect the control resize direction columns/rows
-		GridResizeDirection GetResizeDirection();
+		GridResizeDirection GetResizeDirection() const;
 
 		// Get the resize behavior (Which columns/rows should be resized) based on alignment and Direction
-		GridResizeBehavior GetResizeBehavior();
+		GridResizeBehavior GetResizeBehavior() const;
 
-		void OnLoaded(RoutedEventArgs const& e);
+		void OnLoaded(winrt::RoutedEventArgs const& e);
 
 		void OnDragStarting();
 
@@ -90,17 +70,24 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		bool OnDragHorizontal(double horizontalChange);
 
-		FrameworkElement TargetControl();
+		winrt::FrameworkElement TargetControl() const;
 
-		Grid Resizable();
+		winrt::Grid Resizable() const;
 
-		ColumnDefinition CurrentColumn();
+		winrt::ColumnDefinition CurrentColumn() const;
 
-		ColumnDefinition SiblingColumn();
+		winrt::ColumnDefinition SiblingColumn() const;
 
-		RowDefinition CurrentRow();
+		winrt::RowDefinition CurrentRow() const;
 
-		RowDefinition SiblingRow();
+		winrt::RowDefinition SiblingRow() const;
+
+	private:
+		double _currentSize;
+		double _siblingSize;
+
+		GridResizeDirection _resizeDirection;
+		GridResizeBehavior _resizeBehavior;
 	};
 }
 

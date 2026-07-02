@@ -10,6 +10,27 @@
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
+	const wil::single_threaded_property<winrt::DependencyProperty> GridSplitter::ResizeDirectionProperty =
+		winrt::DependencyProperty::Register(
+			L"GridResizeDirection",
+			winrt::xaml_typename<GridResizeDirection>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata(winrt::box_value(GridResizeDirection::Auto), &GridSplitter::OnResizeDirectionPropertyChanged));
+
+	const wil::single_threaded_property<winrt::DependencyProperty> GridSplitter::ResizeBehaviorProperty =
+		winrt::DependencyProperty::Register(
+			L"GridResizeBehavior",
+			winrt::xaml_typename<GridResizeBehavior>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata(winrt::box_value(GridResizeBehavior::BasedOnAlignment)));
+
+	const wil::single_threaded_property<winrt::DependencyProperty> GridSplitter::ParentLevelProperty =
+		winrt::DependencyProperty::Register(
+			L"ParentLevel",
+			winrt::xaml_typename<int>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata(winrt::box_value(0)));
+
 	GridSplitter::GridSplitter()
 		: _currentSize(0)
 		, _siblingSize(0)
@@ -19,39 +40,40 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
 	}
 
-	void GridSplitter::OnResizeDirectionPropertyChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e)
+	void GridSplitter::OnResizeDirectionPropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e)
 	{
-		if (auto splitter = d.try_as<Controls::GridSplitter>()) {
-
-			if (auto direction = e.NewValue().try_as<GridResizeDirection>(); direction != GridResizeDirection::Auto) {
+		if (const auto splitter = d.try_as<Controls::GridSplitter>()) 
+		{
+			if (const auto direction = e.NewValue().try_as<GridResizeDirection>(); 
+				direction && *direction != GridResizeDirection::Auto) {
 				// Update base classes property based on specific polyfill for GridSplitter
 				splitter.Orientation(
 					direction == GridResizeDirection::Rows ?
-					Orientation::Horizontal :
-					Orientation::Vertical);
+					winrt::Orientation::Horizontal :
+					winrt::Orientation::Vertical);
 			}
 		}
 	}
 
-	bool GridSplitter::IsStarColumn(ColumnDefinition const& definition)
+	bool GridSplitter::IsStarColumn(winrt::ColumnDefinition const& definition)
 	{
-		return definition.Width().GridUnitType == GridUnitType::Star;
+		return definition.Width().GridUnitType == winrt::GridUnitType::Star;
 	}
 
-	bool GridSplitter::IsStarRow(RowDefinition const& definition)
+	bool GridSplitter::IsStarRow(winrt::RowDefinition const& definition)
 	{
-		return definition.Height().GridUnitType == GridUnitType::Star;
+		return definition.Height().GridUnitType == winrt::GridUnitType::Star;
 	}
 
-	bool GridSplitter::SetColumnWidth(ColumnDefinition const& columnDefinition, double newWidth, GridUnitType unitType)
+	bool GridSplitter::SetColumnWidth(winrt::ColumnDefinition const& columnDefinition, double newWidth, winrt::GridUnitType unitType)
 	{
-		auto minWidth = columnDefinition.MinWidth();
+		const auto minWidth = columnDefinition.MinWidth();
 		if (!std::isnan(minWidth) && newWidth < minWidth)
 		{
 			newWidth = minWidth;
 		}
 
-		auto maxWidth = columnDefinition.MaxWidth();
+		const auto maxWidth = columnDefinition.MaxWidth();
 		if (!std::isnan(maxWidth) && newWidth > maxWidth)
 		{
 			newWidth = maxWidth;
@@ -59,22 +81,22 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		if (newWidth > ActualWidth())
 		{
-			columnDefinition.Width(GridLength(newWidth, unitType));
+			columnDefinition.Width(winrt::GridLength(newWidth, unitType));
 			return true;
 		}
 
 		return false;
 	}
 
-	bool GridSplitter::IsValidColumnWidth(ColumnDefinition const& columnDefinition, double newWidth)
+	bool GridSplitter::IsValidColumnWidth(winrt::ColumnDefinition const& columnDefinition, double newWidth)
 	{
-		auto minWidth = columnDefinition.MinWidth();
+		const auto minWidth = columnDefinition.MinWidth();
 		if (!std::isnan(minWidth) && newWidth < minWidth)
 		{
 			return false;
 		}
 
-		auto maxWidth = columnDefinition.MaxWidth();
+		const auto maxWidth = columnDefinition.MaxWidth();
 		if (!std::isnan(maxWidth) && newWidth > maxWidth)
 		{
 			return false;
@@ -88,38 +110,38 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		return true;
 	}
 
-	bool GridSplitter::SetRowHeight(RowDefinition const& rowDefinition, double newHeight, GridUnitType unitType)
+	bool GridSplitter::SetRowHeight(winrt::RowDefinition const& rowDefinition, double newHeight, winrt::GridUnitType unitType)
 	{
-		auto minHeight = rowDefinition.MinHeight();
+		const auto minHeight = rowDefinition.MinHeight();
 		if (!std::isnan(minHeight) && newHeight < minHeight)
 		{
 			newHeight = minHeight;
 		}
 
-		auto maxWidth = rowDefinition.MaxHeight();
-		if (!std::isnan(maxWidth) && newHeight > maxWidth)
+		const auto maxHeight = rowDefinition.MaxHeight();
+		if (!std::isnan(maxHeight) && newHeight > maxHeight)
 		{
-			newHeight = maxWidth;
+			newHeight = maxHeight;
 		}
 
 		if (newHeight > ActualHeight())
 		{
-			rowDefinition.Height(GridLength(newHeight, unitType));
+			rowDefinition.Height(winrt::GridLength(newHeight, unitType));
 			return true;
 		}
 
 		return false;
 	}
 
-	bool GridSplitter::IsValidRowHeight(RowDefinition const& rowDefinition, double newHeight)
+	bool GridSplitter::IsValidRowHeight(winrt::RowDefinition const& rowDefinition, double newHeight)
 	{
-		auto minHeight = rowDefinition.MinHeight();
+		const auto minHeight = rowDefinition.MinHeight();
 		if (!std::isnan(minHeight) && newHeight < minHeight)
 		{
 			return false;
 		}
 
-		auto maxHeight = rowDefinition.MaxHeight();
+		const auto maxHeight = rowDefinition.MaxHeight();
 		if (!std::isnan(maxHeight) && newHeight > maxHeight)
 		{
 			return false;
@@ -134,35 +156,35 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	}
 
 	// Return the targeted Column based on the resize behavior
-	int GridSplitter::GetTargetedColumn()
+	int GridSplitter::GetTargetedColumn() const
 	{
-		auto currentIndex = Grid::GetColumn(TargetControl());
+		const auto currentIndex = winrt::Grid::GetColumn(TargetControl());
 		return GetTargetIndex(currentIndex);
 	}
 
 	// Return the sibling Row based on the resize behavior
-	int GridSplitter::GetTargetedRow()
+	int GridSplitter::GetTargetedRow() const
 	{
-		auto currentIndex = Grid::GetRow(TargetControl());
+		const auto currentIndex = winrt::Grid::GetRow(TargetControl());
 		return GetTargetIndex(currentIndex);
 	}
 
 	// Return the sibling Column based on the resize behavior
-	int GridSplitter::GetSiblingColumn()
+	int GridSplitter::GetSiblingColumn() const
 	{
-		auto currentIndex = Grid::GetColumn(TargetControl());
+		const auto currentIndex = winrt::Grid::GetColumn(TargetControl());
 		return GetSiblingIndex(currentIndex);
 	}
 
 	// Return the sibling Row based on the resize behavior
-	int GridSplitter::GetSiblingRow()
+	int GridSplitter::GetSiblingRow() const
 	{
-		auto currentIndex = Grid::GetRow(TargetControl());
+		const auto currentIndex = winrt::Grid::GetRow(TargetControl());
 		return GetSiblingIndex(currentIndex);
 	}
 
 	// Gets index based on resize behavior for first targeted row/column
-	int GridSplitter::GetTargetIndex(int currentIndex)
+	int GridSplitter::GetTargetIndex(int currentIndex) const
 	{
 		switch (_resizeBehavior)
 		{
@@ -178,7 +200,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	}
 
 	// Gets index based on resize behavior for second targeted row/column
-	int GridSplitter::GetSiblingIndex(int currentIndex)
+	int GridSplitter::GetSiblingIndex(int currentIndex) const
 	{
 		switch (_resizeBehavior)
 		{
@@ -194,20 +216,20 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	}
 
 	// Checks the control alignment and Width/Height to detect the control resize direction columns/rows
-	GridResizeDirection GridSplitter::GetResizeDirection()
+	GridResizeDirection GridSplitter::GetResizeDirection() const
 	{
 		GridResizeDirection direction = ResizeDirection();
 
 		if (direction == GridResizeDirection::Auto)
 		{
 			// When HorizontalAlignment is Left, Right or Center, resize Columns
-			if (HorizontalAlignment() != HorizontalAlignment::Stretch)
+			if (HorizontalAlignment() != winrt::HorizontalAlignment::Stretch)
 			{
 				direction = GridResizeDirection::Columns;
 			}
 
 			// When VerticalAlignment is Top, Bottom or Center, resize Rows
-			else if (VerticalAlignment() != VerticalAlignment::Stretch)
+			else if (VerticalAlignment() != winrt::VerticalAlignment::Stretch)
 			{
 				direction = GridResizeDirection::Rows;
 			}
@@ -227,7 +249,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	}
 
 	// Get the resize behavior (Which columns/rows should be resized) based on alignment and Direction
-	GridResizeBehavior GridSplitter::GetResizeBehavior()
+	GridResizeBehavior GridSplitter::GetResizeBehavior() const
 	{
 		GridResizeBehavior resizeBehavior = ResizeBehavior();
 
@@ -237,10 +259,10 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			{
 				switch (HorizontalAlignment())
 				{
-				case HorizontalAlignment::Left:
+				case winrt::HorizontalAlignment::Left:
 					resizeBehavior = GridResizeBehavior::PreviousAndCurrent;
 					break;
-				case HorizontalAlignment::Right:
+				case winrt::HorizontalAlignment::Right:
 					resizeBehavior = GridResizeBehavior::CurrentAndNext;
 					break;
 				default:
@@ -254,10 +276,10 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			{
 				switch (VerticalAlignment())
 				{
-				case VerticalAlignment::Top:
+				case winrt::VerticalAlignment::Top:
 					resizeBehavior = GridResizeBehavior::PreviousAndCurrent;
 					break;
-				case VerticalAlignment::Bottom:
+				case winrt::VerticalAlignment::Bottom:
 					resizeBehavior = GridResizeBehavior::CurrentAndNext;
 					break;
 				default:
@@ -270,11 +292,11 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		return resizeBehavior;
 	}
 
-	void GridSplitter::OnLoaded([[maybe_unused]] RoutedEventArgs const& e)
+	void GridSplitter::OnLoaded([[maybe_unused]] winrt::RoutedEventArgs const& e)
 	{
 		_resizeDirection = GetResizeDirection();
 		Orientation(_resizeDirection == GridResizeDirection::Rows ?
-			Orientation::Horizontal : Orientation::Vertical);
+			winrt::Orientation::Horizontal : winrt::Orientation::Vertical);
 		_resizeBehavior = GetResizeBehavior();
 	}
 
@@ -282,34 +304,44 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	{
 		_resizeDirection = GetResizeDirection();
 		Orientation(_resizeDirection == GridResizeDirection::Rows ?
-			Orientation::Horizontal : Orientation::Vertical);
+			winrt::Orientation::Horizontal : winrt::Orientation::Vertical);
 		_resizeBehavior = GetResizeBehavior();
 
 		// Record starting points
-		if (Orientation() == Orientation::Horizontal)
+		if (Orientation() == winrt::Orientation::Horizontal)
 		{
-			_currentSize = CurrentRow() ? CurrentRow().ActualHeight() : -1;
-			_siblingSize = SiblingRow() ? SiblingRow().ActualHeight() : -1;
+			const auto currentRow = CurrentRow();
+			const auto siblingRow = SiblingRow();
+
+			_currentSize = currentRow ? currentRow.ActualHeight() : -1;
+			_siblingSize = siblingRow ? siblingRow.ActualHeight() : -1;
 		}
 		else
 		{
-			_currentSize = CurrentColumn() ? CurrentColumn().ActualWidth() : -1;
-			_siblingSize = SiblingColumn() ? SiblingColumn().ActualWidth() : -1;
+			const auto currentColumn = CurrentColumn();
+			const auto siblingColumn = SiblingColumn();
+
+			_currentSize = currentColumn ? currentColumn.ActualWidth() : -1;
+			_siblingSize = siblingColumn ? siblingColumn.ActualWidth() : -1;
 		}
 	}
 
 	bool GridSplitter::OnDragVertical(double verticalChange)
 	{
-		if (CurrentRow() == nullptr || SiblingRow() == nullptr || Resizable() == nullptr)
+		const auto currentRow = CurrentRow();
+		const auto siblingRow = SiblingRow();
+		const auto resizable = Resizable();
+
+		if (currentRow == nullptr || siblingRow == nullptr || resizable == nullptr)
 		{
 			return false;
 		}
 
-		auto currentChange = _currentSize + verticalChange;
-		auto siblingChange = _siblingSize + (verticalChange * -1); // sibling moves opposite
+		const auto currentChange = _currentSize + verticalChange;
+		const auto siblingChange = _siblingSize + (verticalChange * -1); // sibling moves opposite
 
 		// Would changing the columnn sizes violate the constraints?
-		if (!IsValidRowHeight(CurrentRow(), currentChange) || !IsValidRowHeight(SiblingRow(), siblingChange))
+		if (!IsValidRowHeight(currentRow, currentChange) || !IsValidRowHeight(siblingRow, siblingChange))
 		{
 			return false;
 		}
@@ -319,23 +351,23 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		// So, we need to explicitly apply the change to the sibling.
 
 		// if current row has fixed height then resize it
-		if (!IsStarRow(CurrentRow()))
+		if (!IsStarRow(currentRow))
 		{
 			// No need to check for the row Min height because it is automatically respected
-			auto changed = SetRowHeight(CurrentRow(), currentChange, GridUnitType::Pixel);
+			auto changed = SetRowHeight(currentRow, currentChange, winrt::GridUnitType::Pixel);
 
-			if (!IsStarRow(SiblingRow()))
+			if (!IsStarRow(siblingRow))
 			{
-				changed = SetRowHeight(SiblingRow(), siblingChange, GridUnitType::Pixel);
+				changed = SetRowHeight(siblingRow, siblingChange, winrt::GridUnitType::Pixel);
 			}
 
 			return changed;
 		}
 
 		// if sibling row has fixed width then resize it
-		else if (!IsStarRow(SiblingRow()))
+		else if (!IsStarRow(siblingRow))
 		{
-			return SetRowHeight(SiblingRow(), siblingChange, GridUnitType::Pixel);
+			return SetRowHeight(siblingRow, siblingChange, winrt::GridUnitType::Pixel);
 		}
 
 		// if both row haven't fixed height (auto *)
@@ -346,25 +378,25 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			// respect the other star row height by setting it's height to it's actual height with stars
 
 			// We need to validate current and sibling height to not cause any unexpected behavior
-			if (!IsValidRowHeight(CurrentRow(), currentChange) ||
-				!IsValidRowHeight(SiblingRow(), siblingChange))
+			if (!IsValidRowHeight(currentRow, currentChange) ||
+				!IsValidRowHeight(siblingRow, siblingChange))
 			{
 				return false;
 			}
 
-			for (auto rowDefinition : Resizable().RowDefinitions())
+			for (const auto& rowDefinition : resizable.RowDefinitions())
 			{
-				if (rowDefinition == CurrentRow())
+				if (rowDefinition == currentRow)
 				{
-					SetRowHeight(CurrentRow(), currentChange, GridUnitType::Star);
+					SetRowHeight(currentRow, currentChange, winrt::GridUnitType::Star);
 				}
-				else if (rowDefinition == SiblingRow())
+				else if (rowDefinition == siblingRow)
 				{
-					SetRowHeight(SiblingRow(), siblingChange, GridUnitType::Star);
+					SetRowHeight(siblingRow, siblingChange, winrt::GridUnitType::Star);
 				}
 				else if (IsStarRow(rowDefinition))
 				{
-					rowDefinition.Height(GridLength(rowDefinition.ActualHeight(), GridUnitType::Star));
+					rowDefinition.Height(winrt::GridLength(rowDefinition.ActualHeight(), winrt::GridUnitType::Star));
 				}
 			}
 
@@ -374,16 +406,20 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 	bool GridSplitter::OnDragHorizontal(double horizontalChange)
 	{
-		if (CurrentColumn() == nullptr || SiblingColumn() == nullptr || Resizable() == nullptr)
+		const auto currentColumn = CurrentColumn();
+		const auto siblingColumn = SiblingColumn();
+		const auto resizable = Resizable();
+
+		if (currentColumn == nullptr || siblingColumn == nullptr || resizable == nullptr)
 		{
 			return false;
 		}
 
-		auto currentChange = _currentSize + horizontalChange;
-		auto siblingChange = _siblingSize + (horizontalChange * -1); // sibling moves opposite
+		const auto currentChange = _currentSize + horizontalChange;
+		const auto siblingChange = _siblingSize + (horizontalChange * -1); // sibling moves opposite
 
 		// Would changing the columnn sizes violate the constraints?
-		if (!IsValidColumnWidth(CurrentColumn(), currentChange) || !IsValidColumnWidth(SiblingColumn(), siblingChange))
+		if (!IsValidColumnWidth(currentColumn, currentChange) || !IsValidColumnWidth(siblingColumn, siblingChange))
 		{
 			return false;
 		}
@@ -393,23 +429,23 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		// So, we need to explicitly apply the change to the sibling.
 
 		// if current column has fixed width then resize it
-		if (!IsStarColumn(CurrentColumn()))
+		if (!IsStarColumn(currentColumn))
 		{
 			// No need to check for the Column Min width because it is automatically respected
-			auto changed = SetColumnWidth(CurrentColumn(), currentChange, GridUnitType::Pixel);
+			auto changed = SetColumnWidth(currentColumn, currentChange, winrt::GridUnitType::Pixel);
 
-			if (!IsStarColumn(SiblingColumn()))
+			if (!IsStarColumn(siblingColumn))
 			{
-				changed = SetColumnWidth(SiblingColumn(), siblingChange, GridUnitType::Pixel);
+				changed = SetColumnWidth(siblingColumn, siblingChange, winrt::GridUnitType::Pixel);
 			}
 
 			return changed;
 		}
 
 		// if sibling column has fixed width then resize it
-		else if (!IsStarColumn(SiblingColumn()))
+		else if (!IsStarColumn(siblingColumn))
 		{
-			return SetColumnWidth(SiblingColumn(), siblingChange, GridUnitType::Pixel);
+			return SetColumnWidth(siblingColumn, siblingChange, winrt::GridUnitType::Pixel);
 		}
 
 		// if both column haven't fixed width (auto *)
@@ -420,25 +456,25 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			// respect the other star column width by setting it's width to it's actual width with stars
 
 			// We need to validate current and sibling width to not cause any unexpected behavior
-			if (!IsValidColumnWidth(CurrentColumn(), currentChange) ||
-				!IsValidColumnWidth(SiblingColumn(), siblingChange))
+			if (!IsValidColumnWidth(currentColumn, currentChange) ||
+				!IsValidColumnWidth(siblingColumn, siblingChange))
 			{
 				return false;
 			}
 
-			for (auto columnDefinition : Resizable().ColumnDefinitions())
+			for (const auto& columnDefinition : resizable.ColumnDefinitions())
 			{
-				if (columnDefinition == CurrentColumn())
+				if (columnDefinition == currentColumn)
 				{
-					SetColumnWidth(CurrentColumn(), currentChange, GridUnitType::Star);
+					SetColumnWidth(currentColumn, currentChange, winrt::GridUnitType::Star);
 				}
-				else if (columnDefinition == SiblingColumn())
+				else if (columnDefinition == siblingColumn)
 				{
-					SetColumnWidth(SiblingColumn(), siblingChange, GridUnitType::Star);
+					SetColumnWidth(siblingColumn, siblingChange, winrt::GridUnitType::Star);
 				}
 				else if (IsStarColumn(columnDefinition))
 				{
-					columnDefinition.Width(GridLength(columnDefinition.ActualWidth(), GridUnitType::Star));
+					columnDefinition.Width(winrt::GridLength(columnDefinition.ActualWidth(), winrt::GridUnitType::Star));
 				}
 			}
 
@@ -446,18 +482,19 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		}
 	}
 
-	FrameworkElement GridSplitter::TargetControl()
+	winrt::FrameworkElement GridSplitter::TargetControl() const
 	{
-		if (ParentLevel() == 0)
+		const auto parentLevel = ParentLevel();
+		if (parentLevel == 0)
 		{
 			return *this;
 		}
 
 		// TODO: Can we just use our Visual/Logical Tree extensions for this?
 		auto parent = Parent();
-		for (int i = 2; i < ParentLevel(); i++) // TODO: Why is this 2? We need better documentation on ParentLevel
+		for (int i = 2; i < parentLevel; i++) // TODO: Why is this 2? We need better documentation on ParentLevel
 		{
-			if (auto frameworkElement = parent.try_as<FrameworkElement>())
+			if (const auto frameworkElement = parent.try_as<winrt::FrameworkElement>())
 			{
 				parent = frameworkElement.Parent();
 			}
@@ -467,90 +504,93 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			}
 		}
 
-		return parent.try_as<FrameworkElement>();
+		return parent.try_as<winrt::FrameworkElement>();
 	}
 
-
-	Grid GridSplitter::Resizable()
+	winrt::Grid GridSplitter::Resizable() const
 	{
-		if (auto target = TargetControl())
+		if (const auto target = TargetControl())
 		{
-			if (auto parent = target.Parent())
+			if (const auto parent = target.Parent())
 			{
-				return parent.try_as<Grid>();
+				return parent.try_as<winrt::Grid>();
 			}
 		};
 
 		return nullptr;
 	}
 
-	ColumnDefinition GridSplitter::CurrentColumn()
+	winrt::ColumnDefinition GridSplitter::CurrentColumn() const
 	{
-		if (Resizable() == nullptr)
+		if (const auto resizable = Resizable())
 		{
-			return nullptr;
-		}
+			if (const auto gridSplitterTargetedColumnIndex = GetTargetedColumn(); gridSplitterTargetedColumnIndex >= 0)
+			{
+				const auto columnDefinitions = resizable.ColumnDefinitions();
+				const auto index = static_cast<uint32_t>(gridSplitterTargetedColumnIndex);
 
-		auto gridSplitterTargetedColumnIndex = GetTargetedColumn();
-
-		if ((gridSplitterTargetedColumnIndex >= 0)
-			&& (static_cast<uint32_t>(gridSplitterTargetedColumnIndex) < Resizable().ColumnDefinitions().Size()))
-		{
-			return Resizable().ColumnDefinitions().GetAt(gridSplitterTargetedColumnIndex);
+				if (index < columnDefinitions.Size())
+				{
+					return columnDefinitions.GetAt(index);
+				}
+			}
 		}
 
 		return nullptr;
 	}
 
-	ColumnDefinition GridSplitter::SiblingColumn()
+	winrt::ColumnDefinition GridSplitter::SiblingColumn() const
 	{
-		if (Resizable() == nullptr)
+		if (const auto resizable = Resizable())
 		{
-			return nullptr;
-		}
+			if (const auto gridSplitterSiblingColumnIndex = GetSiblingColumn(); gridSplitterSiblingColumnIndex >= 0)
+			{
+				const auto columnDefinitions = resizable.ColumnDefinitions();
+				const auto index = static_cast<uint32_t>(gridSplitterSiblingColumnIndex);
 
-		auto gridSplitterSiblingColumnIndex = GetSiblingColumn();
-
-		if ((gridSplitterSiblingColumnIndex >= 0)
-			&& (static_cast<uint32_t>(gridSplitterSiblingColumnIndex) < Resizable().ColumnDefinitions().Size()))
-		{
-			return Resizable().ColumnDefinitions().GetAt(gridSplitterSiblingColumnIndex);
+				if (index < columnDefinitions.Size())
+				{
+					return columnDefinitions.GetAt(index);
+				}
+			}
 		}
 
 		return nullptr;
 	}
 
-	RowDefinition GridSplitter::CurrentRow()
+	winrt::RowDefinition GridSplitter::CurrentRow() const
 	{
-		if (Resizable() == nullptr)
+		if (const auto resizable = Resizable())
 		{
-			return nullptr;
-		}
+			if (const auto gridSplitterTargetedRowIndex = GetTargetedRow(); gridSplitterTargetedRowIndex >= 0)
+			{
+				const auto rowDefinitions = resizable.RowDefinitions();
+				const auto index = static_cast<uint32_t>(gridSplitterTargetedRowIndex);
 
-		auto gridSplitterTargetedRowIndex = GetTargetedRow();
-
-		if ((gridSplitterTargetedRowIndex >= 0)
-			&& (static_cast<uint32_t>(gridSplitterTargetedRowIndex) < Resizable().RowDefinitions().Size()))
-		{
-			return Resizable().RowDefinitions().GetAt(gridSplitterTargetedRowIndex);
+				if (index < rowDefinitions.Size())
+				{
+					return rowDefinitions.GetAt(index);
+				}
+			}
 		}
 
 		return nullptr;
 	}
 
-	RowDefinition GridSplitter::SiblingRow()
+	winrt::RowDefinition GridSplitter::SiblingRow() const
 	{
-		if (Resizable() == nullptr)
+		if (const auto resizable = Resizable())
 		{
-			return nullptr;
-		}
+			if (const auto gridSplitterSiblingRowIndex = GetSiblingRow(); gridSplitterSiblingRowIndex >= 0)
+			{
+				const auto rowDefinitions = resizable.RowDefinitions();
+				const auto index = static_cast<uint32_t>(gridSplitterSiblingRowIndex);
 
-		auto gridSplitterSiblingRowIndex = GetSiblingRow();
-
-		if ((gridSplitterSiblingRowIndex >= 0)
-			&& (static_cast<uint32_t>(gridSplitterSiblingRowIndex) < Resizable().RowDefinitions().Size()))
-		{
-			return Resizable().RowDefinitions().GetAt(gridSplitterSiblingRowIndex);
+				if (index < rowDefinitions.Size())
+				{
+					return rowDefinitions.GetAt(index);
+				}
+			}
 		}
 
 		return nullptr;
