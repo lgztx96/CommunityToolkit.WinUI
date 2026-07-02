@@ -190,7 +190,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         if (_scrollViewer) _scrollViewer.ChangeView(_scrollViewer.HorizontalOffset() + ScrollStep(), nullptr, nullptr);
     }
 
-    void Ribbon::OnOptionsFlyoutPropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e)
+    void Ribbon::OnOptionsFlyoutPropertyChanged(winrt::DependencyObject const& d, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& e)
     {
         auto ribbon = d.as<winrt::XamlToolkit::Labs::WinUI::Ribbon>();
         auto self = winrt::get_self<Ribbon>(ribbon);
