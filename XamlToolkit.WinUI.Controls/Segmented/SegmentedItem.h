@@ -3,6 +3,7 @@
 #include "SegmentedItem.g.h"
 
 #ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
 #include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Microsoft.UI.Xaml.Controls.h>
 #include <wil/wistd_type_traits.h>
@@ -11,15 +12,13 @@
 
 namespace winrt
 {
+	using namespace winrt::Windows::Foundation;
 	using namespace Microsoft::UI::Xaml;
 	using namespace Microsoft::UI::Xaml::Controls;
 }
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-	template <typename D, typename... I>
-	using SegmentedItemT = SegmentedItem_base<D, I...>;
-
 	struct SegmentedItem : SegmentedItemT<SegmentedItem>
 	{
 		static constexpr auto IconLeftState = L"IconLeft";
@@ -33,29 +32,21 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		void OnApplyTemplate();
 
-		void OnVisibilityChanged(DependencyObject const& sender, DependencyProperty const& dp);
+		void OnVisibilityChanged(winrt::DependencyObject const& sender, winrt::DependencyProperty const& dp);
 
-		void OnContentChanged(IInspectable const& oldContent, IInspectable const& newContent);
+		void OnContentChanged(winrt::IInspectable const& oldContent, winrt::IInspectable const& newContent);
 
-		void OnIconPropertyChanged(IconElement const& oldValue, IconElement const& newValue);
+		void OnIconPropertyChanged(winrt::IconElement const& oldValue, winrt::IconElement const& newValue);
 
-		void UpdateOrientation(Orientation orientation);
+		void UpdateOrientation(winrt::Orientation orientation);
 
 		void UpdateVisualStates();
 
-		IconElement Icon() const;
+		winrt::IconElement Icon() const;
 
-		void Icon(IconElement const& value);
+		void Icon(winrt::IconElement const& value);
 
-		static inline const wil::single_threaded_property<DependencyProperty> IconProperty = DependencyProperty::Register(
-			L"Icon",
-			winrt::xaml_typename<IconElement>(),
-			winrt::xaml_typename<class_type>(),
-			PropertyMetadata(nullptr, [](auto& d, auto& e)
-				{
-					auto self = winrt::get_self<SegmentedItem>(d.template as<class_type>())->get_strong();
-					self->OnIconPropertyChanged(winrt::unbox_value<IconElement>(e.OldValue()), winrt::unbox_value<IconElement>(e.NewValue()));
-				}));
+		static const wil::single_threaded_property<winrt::DependencyProperty> IconProperty;
 
 	private:
 		bool _isVertical = false;

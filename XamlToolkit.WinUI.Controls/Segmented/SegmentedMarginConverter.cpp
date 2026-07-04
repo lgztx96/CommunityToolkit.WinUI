@@ -7,13 +7,35 @@
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-	IInspectable SegmentedMarginConverter::Convert(winrt::Windows::Foundation::IInspectable const& value,
-		[[maybe_unused]] winrt::Windows::UI::Xaml::Interop::TypeName const& targetType,
-		[[maybe_unused]] winrt::Windows::Foundation::IInspectable const& parameter,
-		[[maybe_unused]] winrt::hstring const& language)
+	const wil::single_threaded_property<winrt::DependencyProperty> SegmentedMarginConverter::LeftItemMarginProperty =
+		winrt::DependencyProperty::Register(
+			L"LeftItemMargin",
+			winrt::xaml_typename<winrt::Thickness>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata(nullptr));
+
+	const wil::single_threaded_property<winrt::DependencyProperty> SegmentedMarginConverter::MiddleItemMarginProperty =
+		winrt::DependencyProperty::Register(
+			L"MiddleItemMargin",
+			winrt::xaml_typename<winrt::Thickness>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata(nullptr));
+
+	const wil::single_threaded_property<winrt::DependencyProperty> SegmentedMarginConverter::RightItemMarginProperty =
+		winrt::DependencyProperty::Register(
+			L"RightItemMargin",
+			winrt::xaml_typename<winrt::Thickness>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata(nullptr));
+
+	winrt::IInspectable SegmentedMarginConverter::Convert(
+		winrt::IInspectable const& value,
+		[[maybe_unused]] winrt::TypeName const& targetType,
+		[[maybe_unused]] winrt::IInspectable const& parameter,
+		[[maybe_unused]] winrt::hstring const& language) const
 	{
 		auto segmentedItem = value.as<winrt::XamlToolkit::WinUI::Controls::SegmentedItem>();
-		auto listView = ItemsControl::ItemsControlFromItemContainer(segmentedItem);
+		auto listView = winrt::ItemsControl::ItemsControlFromItemContainer(segmentedItem);
 
 		int32_t index = listView.IndexFromContainer(segmentedItem);
 
@@ -21,7 +43,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		{
 			return winrt::box_value(LeftItemMargin());
 		}
-		else if (unsigned(index) == listView.Items().Size() - 1)
+		else if (index == static_cast<int>(listView.Items().Size()) - 1)
 		{
 			return winrt::box_value(RightItemMargin());
 		}
@@ -31,10 +53,11 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		}
 	}
 
-	IInspectable SegmentedMarginConverter::ConvertBack(winrt::Windows::Foundation::IInspectable const& value,
-		[[maybe_unused]] winrt::Windows::UI::Xaml::Interop::TypeName const& targetType,
-		[[maybe_unused]] winrt::Windows::Foundation::IInspectable const& parameter,
-		[[maybe_unused]] winrt::hstring const& language)
+	winrt::IInspectable SegmentedMarginConverter::ConvertBack(
+		winrt::IInspectable const& value,
+		[[maybe_unused]] winrt::TypeName const& targetType,
+		[[maybe_unused]] winrt::IInspectable const& parameter,
+		[[maybe_unused]] winrt::hstring const& language) const
 	{
 		return value;
 	}

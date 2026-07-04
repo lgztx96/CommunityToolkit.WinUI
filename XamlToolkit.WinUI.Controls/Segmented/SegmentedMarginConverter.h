@@ -4,6 +4,7 @@
 
 #ifdef __INTELLISENSE__
 #include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.UI.Xaml.Interop.h>
 #include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Microsoft.UI.Xaml.Controls.h>
 #include <wil/wistd_type_traits.h>
@@ -13,6 +14,7 @@
 namespace winrt
 {
 	using namespace Windows::Foundation;
+	using namespace Windows::UI::Xaml::Interop;
 	using namespace Microsoft::UI::Xaml;
 	using namespace Microsoft::UI::Xaml::Controls;
 }
@@ -21,37 +23,32 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
 	struct SegmentedMarginConverter : SegmentedMarginConverterT<SegmentedMarginConverter>
 	{
-		static inline const wil::single_threaded_property<DependencyProperty> LeftItemMarginProperty =
-			DependencyProperty::Register(L"LeftItemMargin", winrt::xaml_typename<Thickness>(), winrt::xaml_typename<class_type>(), PropertyMetadata(nullptr));
+		static const wil::single_threaded_property<winrt::DependencyProperty> LeftItemMarginProperty;
 
-		Thickness LeftItemMargin() { return winrt::unbox_value<Thickness>(GetValue(LeftItemMarginProperty)); }
-		void LeftItemMargin(Thickness value) { SetValue(LeftItemMarginProperty, winrt::box_value(value)); }
+		winrt::Thickness LeftItemMargin() const { return winrt::unbox_value<winrt::Thickness>(GetValue(LeftItemMarginProperty)); }
+		void LeftItemMargin(winrt::Thickness const& value) { SetValue(LeftItemMarginProperty, winrt::box_value(value)); }
 
+		static const wil::single_threaded_property<winrt::DependencyProperty> MiddleItemMarginProperty;
 
-		static inline const wil::single_threaded_property<DependencyProperty> MiddleItemMarginProperty =
-			DependencyProperty::Register(L"MiddleItemMargin", winrt::xaml_typename<Thickness>(), winrt::xaml_typename<class_type>(), PropertyMetadata(nullptr));
+		winrt::Thickness MiddleItemMargin() const { return winrt::unbox_value<winrt::Thickness>(GetValue(MiddleItemMarginProperty)); }
+		void MiddleItemMargin(winrt::Thickness const& value) { SetValue(MiddleItemMarginProperty, winrt::box_value(value)); }
 
-		Thickness MiddleItemMargin() { return winrt::unbox_value<Thickness>(GetValue(MiddleItemMarginProperty)); }
-		void MiddleItemMargin(Thickness value) { SetValue(MiddleItemMarginProperty, winrt::box_value(value)); }
+		static const wil::single_threaded_property<winrt::DependencyProperty> RightItemMarginProperty;
 
+		winrt::Thickness RightItemMargin() const { return winrt::unbox_value<winrt::Thickness>(GetValue(RightItemMarginProperty)); }
+		void RightItemMargin(winrt::Thickness const& value) { SetValue(RightItemMarginProperty, winrt::box_value(value)); }
 
-		static inline const wil::single_threaded_property<DependencyProperty> RightItemMarginProperty =
-			DependencyProperty::Register(L"RightItemMargin", winrt::xaml_typename<Thickness>(), winrt::xaml_typename<class_type>(), PropertyMetadata(nullptr));
+		winrt::IInspectable Convert(
+			winrt::IInspectable const& value, 
+			winrt::TypeName const& targetType, 
+			winrt::IInspectable const& parameter, 
+			winrt::hstring const& language) const;
 
-		Thickness RightItemMargin() { return winrt::unbox_value<Thickness>(GetValue(RightItemMarginProperty)); }
-		void RightItemMargin(Thickness value) { SetValue(RightItemMarginProperty, winrt::box_value(value)); }
-
-		IInspectable Convert(
-			winrt::Windows::Foundation::IInspectable const& value,
-			winrt::Windows::UI::Xaml::Interop::TypeName const& targetType,
-			winrt::Windows::Foundation::IInspectable const& parameter,
-			winrt::hstring const& language);
-
-		IInspectable ConvertBack(
-			winrt::Windows::Foundation::IInspectable const& value,
-			winrt::Windows::UI::Xaml::Interop::TypeName const& targetType,
-			winrt::Windows::Foundation::IInspectable const& parameter,
-			winrt::hstring const& language);
+		winrt::IInspectable ConvertBack(
+			winrt::IInspectable const& value,
+			winrt::TypeName const& targetType,
+			winrt::IInspectable const& parameter,
+			winrt::hstring const& language) const;
 	};
 }
 

@@ -4,6 +4,12 @@
 #include "SegmentedItem.h"
 
 #ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.System.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Input.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.Primitives.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
 #endif
@@ -20,53 +26,41 @@ namespace winrt
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-	template <typename D, typename... I>
-	using SegmentedT = Segmented_base<D, I...>;
-}
-
-namespace winrt::XamlToolkit::WinUI::Controls::implementation
-{
 	struct Segmented : SegmentedT<Segmented>
 	{
 		Segmented();
 
-		static const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> OrientationProperty;
+		static const wil::single_threaded_property<winrt::DependencyProperty> OrientationProperty;
 
 		winrt::Microsoft::UI::Xaml::Controls::Orientation Orientation() const;
 
 		void Orientation(winrt::Microsoft::UI::Xaml::Controls::Orientation const& value) const;
 
-		void PrepareContainerForItemOverride(DependencyObject const& element, IInspectable const& item);
+		void PrepareContainerForItemOverride(winrt::DependencyObject const& element, winrt::IInspectable const& item);
 
-		DependencyObject GetContainerForItemOverride();
+		winrt::DependencyObject GetContainerForItemOverride();
 
-		bool IsItemItsOwnContainerOverride(IInspectable const& item);
+		bool IsItemItsOwnContainerOverride(winrt::IInspectable const& item);
 
 		void OnApplyTemplate();
 
-		void Segmented_PreviewKeyDown(IInspectable const& sender, KeyRoutedEventArgs const& e);
+		void Segmented_PreviewKeyDown(winrt::IInspectable const& sender, winrt::KeyRoutedEventArgs const& e);
 
-		void OnItemsChanged(IInspectable const& e);
-
-		enum class MoveDirection
-		{
-			Next,
-			Previous
-		};
+		void OnItemsChanged(winrt::IInspectable const& e);
 
 		bool MoveFocus(int adjustment);
 
-		XamlToolkit::WinUI::Controls::SegmentedItem GetCurrentContainerItem();
+		winrt::XamlToolkit::WinUI::Controls::SegmentedItem GetCurrentContainerItem();
 
-		void OnSelectedIndexChanged(DependencyObject const& sender, DependencyProperty const& dp);
+		void OnSelectedIndexChanged(winrt::DependencyObject const& sender, winrt::DependencyProperty const& dp);
 
-		static void OnOrientationChanged(DependencyObject const& sender, DependencyPropertyChangedEventArgs const& dp);
+		static void OnOrientationChanged(winrt::DependencyObject const& sender, winrt::DependencyPropertyChangedEventArgs const& dp);
 
 	private:
 		int _internalSelectedIndex = -1;
 		bool _hasLoaded = false;
 
-		UIElement::PreviewKeyDown_revoker _previewKeyDownRevoker;
+		winrt::UIElement::PreviewKeyDown_revoker _previewKeyDownRevoker;
 	};
 }
 

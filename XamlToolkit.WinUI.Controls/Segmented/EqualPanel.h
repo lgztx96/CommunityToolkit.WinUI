@@ -21,13 +21,13 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
     struct EqualPanel : EqualPanelT<EqualPanel>
     {
-        static const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> OrientationProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> OrientationProperty;
 
         winrt::Microsoft::UI::Xaml::Controls::Orientation Orientation() const;
 
         void Orientation(winrt::Microsoft::UI::Xaml::Controls::Orientation const& value) const;
 
-        static const wil::single_threaded_property<DependencyProperty> SpacingProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> SpacingProperty;
 
         double Spacing() const;
 
@@ -35,13 +35,13 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
         EqualPanel();
 
-        Size MeasureOverride(Size availableSize);
+        winrt::Size MeasureOverride(winrt::Size availableSize);
 
-        Size ArrangeOverride(Size finalSize);
+        winrt::Size ArrangeOverride(winrt::Size finalSize);
 
-        void OnAlignmentChanged(DependencyObject const& sender, DependencyProperty const& dp);
+        void OnAlignmentChanged(winrt::DependencyObject const& sender, winrt::DependencyProperty const& dp);
 
-        static void OnEqualPanelPropertyChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e);
+        static void OnEqualPanelPropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 
     private:
         struct UVCoord
@@ -54,13 +54,13 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
             double Y;
 
             UVCoord(double x, double y, winrt::Microsoft::UI::Xaml::Controls::Orientation orientation)
-                : _horizontal(orientation == Orientation::Horizontal),
+                : _horizontal(orientation == winrt::Microsoft::UI::Xaml::Controls::Orientation::Horizontal),
                 X(x),
                 Y(y)
             {
             }
 
-            UVCoord(const Size& size, winrt::Microsoft::UI::Xaml::Controls::Orientation orientation)
+            UVCoord(const winrt::Size& size, winrt::Microsoft::UI::Xaml::Controls::Orientation orientation)
                 : UVCoord(size.Width, size.Height, orientation)
             {
             }

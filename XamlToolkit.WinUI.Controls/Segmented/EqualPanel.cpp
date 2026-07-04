@@ -12,12 +12,12 @@
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-	const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> EqualPanel::OrientationProperty =
-		winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+	const wil::single_threaded_property<winrt::DependencyProperty> EqualPanel::OrientationProperty =
+		winrt::DependencyProperty::Register(
 			L"Orientation",
 			winrt::xaml_typename<winrt::Microsoft::UI::Xaml::Controls::Orientation>(),
 			winrt::xaml_typename<class_type>(),
-			winrt::Microsoft::UI::Xaml::PropertyMetadata
+			winrt::PropertyMetadata
 			{
 				winrt::box_value(winrt::Microsoft::UI::Xaml::Controls::Orientation::Horizontal),
 				&EqualPanel::OnEqualPanelPropertyChanged
@@ -33,11 +33,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		SetValue(OrientationProperty, winrt::box_value(value));
 	}
 
-	const wil::single_threaded_property<DependencyProperty> EqualPanel::SpacingProperty = DependencyProperty::Register(
-		L"Spacing",
-		winrt::xaml_typename<double>(),
-		winrt::xaml_typename<class_type>(),
-		PropertyMetadata(winrt::box_value(0.0), &EqualPanel::OnEqualPanelPropertyChanged));
+	const wil::single_threaded_property<winrt::DependencyProperty> EqualPanel::SpacingProperty =
+		winrt::DependencyProperty::Register(
+			L"Spacing",
+			winrt::xaml_typename<double>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata(winrt::box_value(0.0), &EqualPanel::OnEqualPanelPropertyChanged));
 
 	double EqualPanel::Spacing() const { return winrt::unbox_value<double>(GetValue(SpacingProperty)); }
 
@@ -45,16 +46,16 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 	EqualPanel::EqualPanel()
 	{
-		RegisterPropertyChangedCallback(FrameworkElement::HorizontalAlignmentProperty(), { this, &EqualPanel::OnAlignmentChanged });
+		RegisterPropertyChangedCallback(winrt::FrameworkElement::HorizontalAlignmentProperty(), { this, &EqualPanel::OnAlignmentChanged });
 	}
 
-	Size EqualPanel::MeasureOverride(Size availableSize)
+	winrt::Size EqualPanel::MeasureOverride(winrt::Size availableSize)
 	{
 		_maxItemWidth = 0;
 		_maxItemHeight = 0;
 
 		auto elements = Children()
-			| std::ranges::views::filter([](auto&& e) { return e.Visibility() == Visibility::Visible; });
+			| std::ranges::views::filter([](auto&& e) { return e.Visibility() == winrt::Visibility::Visible; });
 		_visibleItemsCount = 0;
 
 		for (const auto& child : elements)
@@ -67,23 +68,23 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		// No children, no space taken
 		if (_visibleItemsCount == 0)
-			return Size(0, 0);
+			return winrt::Size(0, 0);
 
 		// Determine if the desired alignment is stretched.
 		// Don't stretch if infinite space is available though. Attempting to divide infinite space will result in a crash.
 		bool stretch = false;
 		switch (Orientation())
 		{
-		case Orientation::Horizontal:
+		case winrt::Microsoft::UI::Xaml::Controls::Orientation::Horizontal:
 			stretch =
-				(HorizontalAlignment() == HorizontalAlignment::Stretch) &&
+				(HorizontalAlignment() == winrt::HorizontalAlignment::Stretch) &&
 				!std::isinf(availableSize.Width);
 			break;
 
-		case Orientation::Vertical:
+		case winrt::Microsoft::UI::Xaml::Controls::Orientation::Vertical:
 		default:
 			stretch =
-				(VerticalAlignment() == VerticalAlignment::Stretch) &&
+				(VerticalAlignment() == winrt::VerticalAlignment::Stretch) &&
 				!std::isinf(availableSize.Height);
 			break;
 		}
@@ -91,7 +92,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		// Define UV coords for orientation agnostic XY manipulation
 		auto uvSize = UVCoord(0.0, 0.0, Orientation());
 		auto maxItemSize = UVCoord(_maxItemWidth, _maxItemHeight, Orientation());
-		double availableU = Orientation() == Orientation::Horizontal ? availableSize.Width : availableSize.Height;
+		double availableU = Orientation() == winrt::Microsoft::UI::Xaml::Controls::Orientation::Horizontal ? availableSize.Width : availableSize.Height;
 
 		if (stretch)
 		{
@@ -109,10 +110,10 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			uvSize.V(maxItemSize.V());
 		}
 
-		return Size(static_cast<float>(uvSize.X), static_cast<float>(uvSize.Y));
+		return winrt::Size(static_cast<float>(uvSize.X), static_cast<float>(uvSize.Y));
 	}
 
-	Size EqualPanel::ArrangeOverride(Size finalSize)
+	winrt::Size EqualPanel::ArrangeOverride(winrt::Size finalSize)
 	{
 		// Define UV axis
 		auto orientation = Orientation();
@@ -120,7 +121,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		auto pos = UVCoord(0, 0, orientation);
 		double* maxItemU = &_maxItemWidth;
 		double finalSizeU = finalSize.Width;
-		if (orientation == Orientation::Vertical)
+		if (orientation == winrt::Microsoft::UI::Xaml::Controls::Orientation::Vertical)
 		{
 			maxItemU = &_maxItemHeight;
 			finalSizeU = finalSize.Height;
@@ -138,13 +139,13 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		}
 
 		auto elements = Children()
-			| std::ranges::views::filter([](auto&& e) { return e.Visibility() == Visibility::Visible; });
+			| std::ranges::views::filter([](auto&& e) { return e.Visibility() == winrt::Visibility::Visible; });
 		for (const auto& child : elements)
 		{
-			child.Arrange(Rect(
-				static_cast<float>(pos.X), 
-				static_cast<float>(pos.Y), 
-				static_cast<float>(_maxItemWidth), 
+			child.Arrange(winrt::Rect(
+				static_cast<float>(pos.X),
+				static_cast<float>(pos.Y),
+				static_cast<float>(_maxItemWidth),
 				static_cast<float>(_maxItemHeight)));
 
 			pos.U(pos.U() + *maxItemU + spacing);
@@ -153,12 +154,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		return finalSize;
 	}
 
-	void EqualPanel::OnAlignmentChanged([[maybe_unused]] DependencyObject const& sender, [[maybe_unused]] DependencyProperty const& dp)
+	void EqualPanel::OnAlignmentChanged([[maybe_unused]] winrt::DependencyObject const& sender, [[maybe_unused]] winrt::DependencyProperty const& dp)
 	{
 		InvalidateMeasure();
 	}
 
-	void EqualPanel::OnEqualPanelPropertyChanged(DependencyObject const& d, [[maybe_unused]] DependencyPropertyChangedEventArgs const& e)
+	void EqualPanel::OnEqualPanelPropertyChanged(winrt::DependencyObject const& d, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& e)
 	{
 		if (auto panel = d.try_as<class_type>())
 			panel.InvalidateMeasure();
