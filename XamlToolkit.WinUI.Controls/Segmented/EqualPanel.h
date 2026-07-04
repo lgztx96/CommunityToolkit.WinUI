@@ -23,9 +23,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
     {
         static const wil::single_threaded_property<winrt::DependencyProperty> OrientationProperty;
 
-        winrt::Microsoft::UI::Xaml::Controls::Orientation Orientation() const;
+        winrt::Orientation Orientation() const;
 
-        void Orientation(winrt::Microsoft::UI::Xaml::Controls::Orientation const& value) const;
+        void Orientation(winrt::Orientation const& value) const;
 
         static const wil::single_threaded_property<winrt::DependencyProperty> SpacingProperty;
 
@@ -53,14 +53,14 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
             double X;
             double Y;
 
-            UVCoord(double x, double y, winrt::Microsoft::UI::Xaml::Controls::Orientation orientation)
-                : _horizontal(orientation == winrt::Microsoft::UI::Xaml::Controls::Orientation::Horizontal),
+            UVCoord(double x, double y, winrt::Orientation orientation)
+                : _horizontal(orientation == winrt::Orientation::Horizontal),
                 X(x),
                 Y(y)
             {
             }
 
-            UVCoord(const winrt::Size& size, winrt::Microsoft::UI::Xaml::Controls::Orientation orientation)
+            UVCoord(const winrt::Size& size, winrt::Orientation orientation)
                 : UVCoord(size.Width, size.Height, orientation)
             {
             }
@@ -99,9 +99,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
                 }
             }
 
-            winrt::Windows::Foundation::Size Size() const
+            winrt::Size Size() const
             {
-                return winrt::Windows::Foundation::Size(static_cast<float>(X), static_cast<float>(Y));
+                return winrt::Size(static_cast<float>(X), static_cast<float>(Y));
             }
         };
 

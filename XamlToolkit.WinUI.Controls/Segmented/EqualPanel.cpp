@@ -15,20 +15,20 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	const wil::single_threaded_property<winrt::DependencyProperty> EqualPanel::OrientationProperty =
 		winrt::DependencyProperty::Register(
 			L"Orientation",
-			winrt::xaml_typename<winrt::Microsoft::UI::Xaml::Controls::Orientation>(),
+			winrt::xaml_typename<winrt::Orientation>(),
 			winrt::xaml_typename<class_type>(),
 			winrt::PropertyMetadata
 			{
-				winrt::box_value(winrt::Microsoft::UI::Xaml::Controls::Orientation::Horizontal),
+				winrt::box_value(winrt::Orientation::Horizontal),
 				&EqualPanel::OnEqualPanelPropertyChanged
 			});
 
-	winrt::Microsoft::UI::Xaml::Controls::Orientation EqualPanel::Orientation() const
+	winrt::Orientation EqualPanel::Orientation() const
 	{
-		return winrt::unbox_value<winrt::Microsoft::UI::Xaml::Controls::Orientation>(GetValue(OrientationProperty));
+		return winrt::unbox_value<winrt::Orientation>(GetValue(OrientationProperty));
 	}
 
-	void EqualPanel::Orientation(winrt::Microsoft::UI::Xaml::Controls::Orientation const& value) const
+	void EqualPanel::Orientation(winrt::Orientation const& value) const
 	{
 		SetValue(OrientationProperty, winrt::box_value(value));
 	}
@@ -75,13 +75,13 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		bool stretch = false;
 		switch (Orientation())
 		{
-		case winrt::Microsoft::UI::Xaml::Controls::Orientation::Horizontal:
+		case winrt::Orientation::Horizontal:
 			stretch =
 				(HorizontalAlignment() == winrt::HorizontalAlignment::Stretch) &&
 				!std::isinf(availableSize.Width);
 			break;
 
-		case winrt::Microsoft::UI::Xaml::Controls::Orientation::Vertical:
+		case winrt::Orientation::Vertical:
 		default:
 			stretch =
 				(VerticalAlignment() == winrt::VerticalAlignment::Stretch) &&
@@ -92,7 +92,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		// Define UV coords for orientation agnostic XY manipulation
 		auto uvSize = UVCoord(0.0, 0.0, Orientation());
 		auto maxItemSize = UVCoord(_maxItemWidth, _maxItemHeight, Orientation());
-		double availableU = Orientation() == winrt::Microsoft::UI::Xaml::Controls::Orientation::Horizontal ? availableSize.Width : availableSize.Height;
+		double availableU = Orientation() == winrt::Orientation::Horizontal ? availableSize.Width : availableSize.Height;
 
 		if (stretch)
 		{
@@ -121,7 +121,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		auto pos = UVCoord(0, 0, orientation);
 		double* maxItemU = &_maxItemWidth;
 		double finalSizeU = finalSize.Width;
-		if (orientation == winrt::Microsoft::UI::Xaml::Controls::Orientation::Vertical)
+		if (orientation == winrt::Orientation::Vertical)
 		{
 			maxItemU = &_maxItemHeight;
 			finalSizeU = finalSize.Height;
