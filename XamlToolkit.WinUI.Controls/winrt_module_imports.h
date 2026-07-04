@@ -10,6 +10,9 @@
 #include <winrt/Windows.UI.h>
 #include <winrt/Windows.UI.Xaml.Interop.h>
 #include <winrt/Windows.Graphics.Imaging.h>
+#include <winrt/Windows.Media.Capture.Frames.h>
+#include <winrt/Windows.Media.Core.h>
+#include <winrt/Windows.Media.Playback.h>
 
 #include <winrt/Microsoft.UI.h>
 #include <winrt/Microsoft.UI.Dispatching.h>
@@ -40,6 +43,9 @@ import winrt.Windows.Foundation.Numerics;
 import winrt.Windows.UI;
 import winrt.Windows.UI.Xaml.Interop;
 import winrt.Windows.Graphics.Imaging;
+import winrt.Windows.Media.Capture.Frames;
+import winrt.Windows.Media.Core;
+import winrt.Windows.Media.Playback;
 
 import winrt.Microsoft.UI;
 import winrt.Microsoft.UI.Dispatching;

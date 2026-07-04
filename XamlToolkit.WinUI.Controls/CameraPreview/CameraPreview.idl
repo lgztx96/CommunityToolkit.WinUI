@@ -2,7 +2,6 @@ import "CameraPreview/PreviewFailedEventArgs.idl";
 
 namespace XamlToolkit.WinUI.Controls
 {
-    [default_interface]
     runtimeclass CameraPreview : Microsoft.UI.Xaml.Controls.Control
     {
         CameraPreview();

@@ -8,7 +8,7 @@
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-	inline winrt::hstring ToString(CameraHelperResult value)
+	static winrt::hstring ToString(CameraHelperResult value)
 	{
 		switch (value)
 		{
@@ -38,36 +38,31 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
 	}
 
-	void CameraPreview::IsFrameSourceGroupButtonVisibleChanged(DependencyObject const& d, [[maybe_unused]] DependencyPropertyChangedEventArgs const& e)
+	void CameraPreview::IsFrameSourceGroupButtonVisibleChanged(winrt::DependencyObject const& d, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& e)
 	{
 		if (auto control = d.try_as<class_type>())
 		{
 			auto cameraPreview = winrt::get_self<CameraPreview>(control);
 
-			if (cameraPreview->_frameSourceGroupButton != nullptr)
+			if (cameraPreview->_frameSourceGroupButton)
 			{
 				cameraPreview->SetFrameSourceGroupButtonVisibility();
 			}
 		}
 	}
 
-	IAsyncAction CameraPreview::StartAsync()
+	winrt::IAsyncAction CameraPreview::StartAsync()
 	{
-		co_await StartAsync(winrt::XamlToolkit::WinUI::Helpers::CameraHelper());
+		co_await StartAsync(winrt::CameraHelper());
 	}
 
-	IAsyncAction CameraPreview::StartAsync(winrt::XamlToolkit::WinUI::Helpers::CameraHelper cameraHelper)
+	winrt::IAsyncAction CameraPreview::StartAsync(winrt::CameraHelper const& cameraHelper)
 	{
-		if (cameraHelper == nullptr)
-		{
-			cameraHelper = winrt::XamlToolkit::WinUI::Helpers::CameraHelper();
-		}
-
-		_cameraHelper = cameraHelper;
+		CameraHelper = cameraHelper ? cameraHelper : winrt::CameraHelper();
 		_frameSourceGroups = co_await CameraHelper.GetFrameSourceGroupsAsync();
 
 		// UI controls exist and are initialized
-		if (_mediaPlayerElementControl != nullptr)
+		if (_mediaPlayerElementControl)
 		{
 			co_await InitializeAsync();
 		}
@@ -77,31 +72,31 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	{
 		base_type::OnApplyTemplate();
 
-		if (_frameSourceGroupButton != nullptr)
+		if (_frameSourceGroupButton)
 		{
 			_frameSourceGroupButtonClickRevoker.revoke();
 		}
 
-		_mediaPlayerElementControl = GetTemplateChild(Preview_MediaPlayerElementControl).try_as<MediaPlayerElement>();
-		_frameSourceGroupButton = GetTemplateChild(Preview_FrameSourceGroupButton).try_as<Button>();;
+		_mediaPlayerElementControl = GetTemplateChild(Preview_MediaPlayerElementControl).try_as<winrt::MediaPlayerElement>();
+		_frameSourceGroupButton = GetTemplateChild(Preview_FrameSourceGroupButton).try_as<winrt::Button>();
 
-		if (_frameSourceGroupButton != nullptr)
+		if (_frameSourceGroupButton)
 		{
 			_frameSourceGroupButtonClickRevoker =
 				_frameSourceGroupButton.Click(winrt::auto_revoke, { this, &CameraPreview::FrameSourceGroupButton_ClickAsync });
 			_frameSourceGroupButton.IsEnabled(false);
-			_frameSourceGroupButton.Visibility(Visibility::Collapsed);
+			_frameSourceGroupButton.Visibility(winrt::Visibility::Collapsed);
 		}
 
-		if (_cameraHelper != nullptr)
+		if (CameraHelper)
 		{
 			co_await InitializeAsync();
 		}
 	}
 
-	IAsyncAction CameraPreview::InitializeAsync()
+	winrt::IAsyncAction CameraPreview::InitializeAsync()
 	{
-		auto result = co_await _cameraHelper.InitializeAndStartCaptureAsync();
+		auto result = co_await CameraHelper.InitializeAndStartCaptureAsync();
 		if (result != CameraHelperResult::Success)
 		{
 			InvokePreviewFailed(ToString(result));
@@ -110,9 +105,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		SetUIControls(result);
 	}
 
-	IAsyncAction CameraPreview::FrameSourceGroupButton_ClickAsync(IInspectable const& sender, RoutedEventArgs const& e)
+	winrt::IAsyncAction CameraPreview::FrameSourceGroupButton_ClickAsync(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e)
 	{
-		auto oldGroup = _cameraHelper.FrameSourceGroup();
+		const auto oldGroup = CameraHelper.FrameSourceGroup();
 		int currentIndex = 0;
 
 		for (uint32_t i = 0; i < _frameSourceGroups.Size(); ++i)
@@ -124,20 +119,16 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			}
 		}
 
-		uint32_t newIndex = (currentIndex < static_cast<int>(_frameSourceGroups.Size()) - 1)
-			? currentIndex + 1
-			: 0;
-
-		auto group = _frameSourceGroups.GetAt(newIndex);
+		uint32_t newIndex = (currentIndex < static_cast<int>(_frameSourceGroups.Size()) - 1) ? currentIndex + 1 : 0;
+		const auto group = _frameSourceGroups.GetAt(newIndex);
 		_frameSourceGroupButton.IsEnabled(false);
-		_cameraHelper.FrameSourceGroup(group);
+		CameraHelper.FrameSourceGroup(group);
 		co_await InitializeAsync();
 	}
 
 	void CameraPreview::InvokePreviewFailed(winrt::hstring const& error)
 	{
-		auto args = winrt::make_self<PreviewFailedEventArgs>();
-		args->Error = error;
+		auto args = winrt::make_self<PreviewFailedEventArgs>(error);
 		PreviewFailed.invoke(*this, *args);
 	}
 
@@ -145,21 +136,21 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	{
 		try
 		{
-			if (_cameraHelper == nullptr)
+			if (CameraHelper == nullptr)
 			{
 				return;
 			}
 
-			if (auto frameSource = _cameraHelper.PreviewFrameSource())
+			if (const auto frameSource = CameraHelper.PreviewFrameSource())
 			{
 				if (_mediaPlayer == nullptr)
 				{
-					_mediaPlayer = MediaPlayer();
+					_mediaPlayer = winrt::MediaPlayer();
 					_mediaPlayer.AutoPlay(true);
 					_mediaPlayer.RealTimePlayback(true);
 				}
 
-				_mediaPlayer.Source(winrt::Windows::Media::Core::MediaSource::CreateFromMediaFrameSource(frameSource));
+				_mediaPlayer.Source(winrt::MediaSource::CreateFromMediaFrameSource(frameSource));
 				_mediaPlayerElementControl.SetMediaPlayer(_mediaPlayer);
 			}
 		}
@@ -171,8 +162,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 	void CameraPreview::SetUIControls(CameraHelperResult result)
 	{
-		auto success = result == CameraHelperResult::Success;
-		if (success)
+		if (result == CameraHelperResult::Success)
 		{
 			SetMediaPlayerSource();
 		}
@@ -187,19 +177,20 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 	void CameraPreview::SetFrameSourceGroupButtonVisibility()
 	{
-		_frameSourceGroupButton.Visibility(IsFrameSourceGroupButtonAvailable() && IsFrameSourceGroupButtonVisible()
-			? Visibility::Visible
-			: Visibility::Collapsed);
+		_frameSourceGroupButton.Visibility(
+			IsFrameSourceGroupButtonAvailable() && IsFrameSourceGroupButtonVisible()
+			? winrt::Visibility::Visible
+			: winrt::Visibility::Collapsed);
 	}
 
 	void CameraPreview::Stop()
 	{
-		if (_mediaPlayerElementControl != nullptr)
+		if (_mediaPlayerElementControl)
 		{
 			_mediaPlayerElementControl.SetMediaPlayer(nullptr);
 		}
 
-		if (_mediaPlayer != nullptr)
+		if (_mediaPlayer)
 		{
 			_mediaPlayer.Close();
 			_mediaPlayer = nullptr;

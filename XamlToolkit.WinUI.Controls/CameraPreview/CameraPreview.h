@@ -7,6 +7,7 @@
 #include <winrt/Windows.Foundation.Collections.h>
 #include <winrt/Windows.Media.Capture.Frames.h>
 #include <winrt/Windows.Media.Playback.h>
+#include <winrt/Windows.Media.Core.h>
 #include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Microsoft.UI.Xaml.Controls.h>
 #include <winrt/Microsoft.UI.Xaml.Controls.Primitives.h>
@@ -20,11 +21,12 @@ namespace winrt
 {
 	using namespace Windows::Foundation;
 	using namespace Windows::Foundation::Collections;
+	using namespace Windows::Media::Capture::Frames;
+	using namespace Windows::Media::Core;
+	using namespace Windows::Media::Playback;
 	using namespace Microsoft::UI::Xaml;
 	using namespace Microsoft::UI::Xaml::Controls;
 	using namespace Microsoft::UI::Xaml::Controls::Primitives;
-	using namespace Windows::Media::Capture::Frames;
-	using namespace Windows::Media::Playback;
 	using namespace XamlToolkit::WinUI::Helpers;
 }
 
@@ -36,26 +38,25 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		static constexpr std::wstring_view Preview_MediaPlayerElementControl = L"MediaPlayerElementControl";
 		static constexpr std::wstring_view Preview_FrameSourceGroupButton = L"FrameSourceGroupButton";
 
-		CameraHelper _cameraHelper{ nullptr };
-		MediaPlayer _mediaPlayer{ nullptr };
-		MediaPlayerElement _mediaPlayerElementControl{ nullptr };
-		Button _frameSourceGroupButton{ nullptr };
+		winrt::MediaPlayer _mediaPlayer{ nullptr };
+		winrt::MediaPlayerElement _mediaPlayerElementControl{ nullptr };
+		winrt::Button _frameSourceGroupButton{ nullptr };
 
-		IVectorView<MediaFrameSourceGroup> _frameSourceGroups{ nullptr };
+		winrt::IVectorView<winrt::MediaFrameSourceGroup> _frameSourceGroups{ nullptr };
 
-		ButtonBase::Click_revoker _frameSourceGroupButtonClickRevoker;
+		winrt::ButtonBase::Click_revoker _frameSourceGroupButtonClickRevoker;
 
 		bool IsFrameSourceGroupButtonAvailable() const { return _frameSourceGroups && _frameSourceGroups.Size() > 1; }
 
-		static void IsFrameSourceGroupButtonVisibleChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e);
+		static void IsFrameSourceGroupButtonVisibleChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 
 	public:
-		static inline const wil::single_threaded_property<DependencyProperty> IsFrameSourceGroupButtonVisibleProperty =
-			DependencyProperty::Register(
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> IsFrameSourceGroupButtonVisibleProperty =
+			winrt::DependencyProperty::Register(
 				L"IsFrameSourceGroupButtonVisible",
 				winrt::xaml_typename<bool>(),
 				winrt::xaml_typename<class_type>(),
-				PropertyMetadata{ winrt::box_value(true), &CameraPreview::IsFrameSourceGroupButtonVisibleChanged });
+				winrt::PropertyMetadata{ winrt::box_value(true), &CameraPreview::IsFrameSourceGroupButtonVisibleChanged });
 
 		bool IsFrameSourceGroupButtonVisible() const
 		{
@@ -67,13 +68,13 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			SetValue(IsFrameSourceGroupButtonVisibleProperty, winrt::box_value(value));
 		}
 
-		wil::single_threaded_rw_property<winrt::XamlToolkit::WinUI::Helpers::CameraHelper> CameraHelper{ nullptr };
+		wil::single_threaded_rw_property<winrt::CameraHelper> CameraHelper{ nullptr };
 
 		wil::untyped_event<PreviewFailedEventArgs> PreviewFailed;
 
-		IAsyncAction StartAsync();
+		winrt::IAsyncAction StartAsync();
 
-		IAsyncAction StartAsync(winrt::XamlToolkit::WinUI::Helpers::CameraHelper cameraHelper);
+		winrt::IAsyncAction StartAsync(winrt::CameraHelper const& cameraHelper);
 
 		void Stop();
 
@@ -82,9 +83,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		winrt::fire_and_forget OnApplyTemplate();
 
 	private:
-		IAsyncAction InitializeAsync();
+		winrt::IAsyncAction InitializeAsync();
 
-		IAsyncAction FrameSourceGroupButton_ClickAsync(IInspectable const& sender, RoutedEventArgs const& e);
+		winrt::IAsyncAction FrameSourceGroupButton_ClickAsync(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
 
 		void InvokePreviewFailed(winrt::hstring const& error);
 
