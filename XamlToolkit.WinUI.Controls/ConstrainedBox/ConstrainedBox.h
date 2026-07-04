@@ -58,7 +58,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			SetValue(MultipleXProperty(), winrt::box_value(value));
 		}
 
-		static  const wil::single_threaded_property<winrt::DependencyProperty> MultipleYProperty;
+		static const wil::single_threaded_property<winrt::DependencyProperty> MultipleYProperty;
 
 		int MultipleY() const
 		{

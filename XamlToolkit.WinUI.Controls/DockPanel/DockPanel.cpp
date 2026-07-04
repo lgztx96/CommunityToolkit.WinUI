@@ -11,24 +11,59 @@
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-	void DockPanel::DockChanged(DependencyObject const& sender, [[maybe_unused]] DependencyPropertyChangedEventArgs const& e)
+	const wil::single_threaded_property<winrt::DependencyProperty> DockPanel::DockProperty =
+		winrt::DependencyProperty::RegisterAttached(
+			L"Dock",
+			winrt::xaml_typename<winrt::Dock>(),
+			winrt::xaml_typename<winrt::FrameworkElement>(),
+			winrt::PropertyMetadata{ winrt::box_value(winrt::Dock::Left), &DockPanel::DockChanged });
+
+	const wil::single_threaded_property<winrt::DependencyProperty> DockPanel::LastChildFillProperty =
+		winrt::DependencyProperty::Register(
+			L"LastChildFill",
+			winrt::xaml_typename<bool>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata{ winrt::box_value(true), &DockPanel::OnPropertyChanged });
+
+	const wil::single_threaded_property<winrt::DependencyProperty> DockPanel::PaddingProperty =
+		winrt::DependencyProperty::Register(
+			L"Padding",
+			winrt::xaml_typename<winrt::Thickness>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata{ winrt::box_value(winrt::Thickness{ 0, 0, 0, 0 }), &DockPanel::OnPropertyChanged });
+
+	const wil::single_threaded_property<winrt::DependencyProperty> DockPanel::HorizontalSpacingProperty =
+		winrt::DependencyProperty::Register(
+			L"HorizontalSpacing",
+			winrt::xaml_typename<double>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata{ winrt::box_value(0.0), &DockPanel::OnPropertyChanged });
+
+	const wil::single_threaded_property<winrt::DependencyProperty> DockPanel::VerticalSpacingProperty =
+		winrt::DependencyProperty::Register(
+			L"VerticalSpacing",
+			winrt::xaml_typename<double>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata{ winrt::box_value(0.0), &DockPanel::OnPropertyChanged });
+
+	void DockPanel::DockChanged(winrt::DependencyObject const& sender, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& e)
 	{
-		auto senderElement = sender.try_as<FrameworkElement>();
-		if (auto dockPanel = FrameworkElementEx::FindParent<class_type>(senderElement))
+		auto senderElement = sender.try_as<winrt::FrameworkElement>();
+		if (const auto dockPanel = FrameworkElementEx::FindParent<class_type>(senderElement))
 		{
 			dockPanel.InvalidateArrange();
 		}
 	}
 
-	void DockPanel::OnPropertyChanged(DependencyObject const& sender, [[maybe_unused]] DependencyPropertyChangedEventArgs const& e)
+	void DockPanel::OnPropertyChanged(winrt::DependencyObject const& sender, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& e)
 	{
-		if (auto dockPanel = sender.try_as<class_type>())
+		if (const auto dockPanel = sender.try_as<class_type>())
 		{
 			dockPanel.InvalidateMeasure();
 		}
 	}
 
-	Size DockPanel::ArrangeOverride(Size finalSize)
+	winrt::Size DockPanel::ArrangeOverride(winrt::Size finalSize)
 	{
 		auto children = Children();
 		if (children.Size() == 0)
@@ -36,7 +71,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		auto padding = Padding();
 
-		auto currentBounds = Rect(
+		auto currentBounds = winrt::Rect(
 			static_cast<float>(padding.Left),
 			static_cast<float>(padding.Top),
 			static_cast<float>(std::max<double>(0, finalSize.Width - padding.Left - padding.Right)),
@@ -46,42 +81,42 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		for (auto index = 0; index < static_cast<int32_t>(childrenCount); ++index)
 		{
 			auto child = children.GetAt(index);
-			if (child.Visibility() == Visibility::Collapsed)
+			if (child.Visibility() == winrt::Visibility::Collapsed)
 				continue;
-			auto dock = winrt::unbox_value<Dock>(child.GetValue(DockProperty));
+			auto dock = winrt::unbox_value<winrt::Dock>(child.GetValue(DockProperty));
 			double width, height;
 			switch (dock)
 			{
-			case Dock::Left:
+			case winrt::Dock::Left:
 
 				width = std::min<double>(child.DesiredSize().Width, currentBounds.Width);
-				child.Arrange(Rect(currentBounds.X, currentBounds.Y, static_cast<float>(width), currentBounds.Height));
+				child.Arrange(winrt::Rect(currentBounds.X, currentBounds.Y, static_cast<float>(width), currentBounds.Height));
 				width += HorizontalSpacing();
 				currentBounds.X += static_cast<float>(width);
 				currentBounds.Width = static_cast<float>(std::max<double>(0, currentBounds.Width - width));
 
 				break;
-			case Dock::Top:
+			case winrt::Dock::Top:
 
 				height = std::min<double>(child.DesiredSize().Height, currentBounds.Height);
-				child.Arrange(Rect(currentBounds.X, currentBounds.Y, currentBounds.Width, static_cast<float>(height)));
+				child.Arrange(winrt::Rect(currentBounds.X, currentBounds.Y, currentBounds.Width, static_cast<float>(height)));
 				height += VerticalSpacing();
 				currentBounds.Y += static_cast<float>(height);
 				currentBounds.Height = static_cast<float>(std::max<double>(0, currentBounds.Height - height));
 
 				break;
-			case Dock::Right:
+			case winrt::Dock::Right:
 
 				width = std::min<double>(child.DesiredSize().Width, currentBounds.Width);
-				child.Arrange(Rect(currentBounds.X + currentBounds.Width - static_cast<float>(width), currentBounds.Y, static_cast<float>(width), currentBounds.Height));
+				child.Arrange(winrt::Rect(currentBounds.X + currentBounds.Width - static_cast<float>(width), currentBounds.Y, static_cast<float>(width), currentBounds.Height));
 				width += HorizontalSpacing();
 				currentBounds.Width = std::max<float>(0, currentBounds.Width - static_cast<float>(width));
 
 				break;
-			case Dock::Bottom:
+			case winrt::Dock::Bottom:
 
 				height = std::min<double>(child.DesiredSize().Height, currentBounds.Height);
-				child.Arrange(Rect(currentBounds.X, currentBounds.Y + currentBounds.Height - static_cast<float>(height), currentBounds.Width, static_cast<float>(height)));
+				child.Arrange(winrt::Rect(currentBounds.X, currentBounds.Y + currentBounds.Height - static_cast<float>(height), currentBounds.Width, static_cast<float>(height)));
 				height += VerticalSpacing();
 				currentBounds.Height = std::max<float>(0, currentBounds.Height - static_cast<float>(height));
 
@@ -92,13 +127,13 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		if (LastChildFill() && children.Size() > 0)
 		{
 			auto child = children.GetAt(children.Size() - 1);
-			child.Arrange(Rect(currentBounds.X, currentBounds.Y, currentBounds.Width, currentBounds.Height));
+			child.Arrange(winrt::Rect(currentBounds.X, currentBounds.Y, currentBounds.Width, currentBounds.Height));
 		}
 
 		return finalSize;
 	}
 
-	Size DockPanel::MeasureOverride(Size availableSize)
+	winrt::Size DockPanel::MeasureOverride(winrt::Size availableSize)
 	{
 		auto children = Children();
 		auto parentWidth = 0.0;
@@ -113,19 +148,19 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		for (auto index = 0; index < static_cast<int32_t>(childrenCount); ++index)
 		{
 			auto child = children.GetAt(index);
-			auto childConstraint = Size(
+			auto childConstraint = winrt::Size(
 				std::max<float>(0, availableSize.Width - static_cast<float>(accumulatedWidth)),
 				std::max<float>(0, availableSize.Height - static_cast<float>(accumulatedHeight)));
 
 			child.Measure(childConstraint);
 			auto childDesiredSize = child.DesiredSize();
-			auto dock = winrt::unbox_value<Dock>(child.GetValue(DockProperty));
+			auto dock = winrt::unbox_value<winrt::Dock>(child.GetValue(DockProperty));
 			switch (dock)
 			{
-			case Dock::Left:
-			case Dock::Right:
+			case winrt::Dock::Left:
+			case winrt::Dock::Right:
 				parentHeight = std::max<double>(parentHeight, accumulatedHeight + childDesiredSize.Height);
-				if (child.Visibility() == Visibility::Visible)
+				if (child.Visibility() == winrt::Visibility::Visible)
 				{
 					accumulatedWidth += HorizontalSpacing();
 					horizontalSpacing = true;
@@ -134,10 +169,10 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 				accumulatedWidth += childDesiredSize.Width;
 				break;
 
-			case Dock::Top:
-			case Dock::Bottom:
+			case winrt::Dock::Top:
+			case winrt::Dock::Bottom:
 				parentWidth = std::max<double>(parentWidth, accumulatedWidth + childDesiredSize.Width);
-				if (child.Visibility() == Visibility::Visible)
+				if (child.Visibility() == winrt::Visibility::Visible)
 				{
 					accumulatedHeight += VerticalSpacing();
 					verticalSpacing = true;
@@ -151,7 +186,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		if (LastChildFill() && children.Size() > 0)
 		{
 			auto child = children.GetAt(children.Size() - 1);
-			auto childConstraint = Size(
+			auto childConstraint = winrt::Size(
 				std::max<float>(0, availableSize.Width - static_cast<float>(accumulatedWidth)),
 				std::max<float>(0, availableSize.Height - static_cast<float>(accumulatedHeight)));
 
@@ -173,6 +208,6 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		// Make sure the final accumulated size is reflected in parentSize.
 		parentWidth = std::max<double>(parentWidth, accumulatedWidth);
 		parentHeight = std::max<double>(parentHeight, accumulatedHeight);
-		return Size(static_cast<float>(parentWidth), static_cast<float>(parentHeight));
+		return winrt::Size(static_cast<float>(parentWidth), static_cast<float>(parentHeight));
 	}
 }

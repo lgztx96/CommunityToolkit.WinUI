@@ -7,6 +7,7 @@
 #include <winrt/Microsoft.UI.Xaml.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
+#include <cmath>
 #endif
 
 namespace winrt
@@ -20,98 +21,76 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
 	struct DockPanel : DockPanelT<DockPanel>
 	{
-		static void DockChanged(DependencyObject const& sender, DependencyPropertyChangedEventArgs const& e);
+		DockPanel() = default;
 
-		static void OnPropertyChanged(DependencyObject const& sender, DependencyPropertyChangedEventArgs const& e);
+		winrt::Size ArrangeOverride(winrt::Size finalSize);
 
-		static inline const wil::single_threaded_property<DependencyProperty> DockProperty =
-			DependencyProperty::RegisterAttached(
-				L"Dock",
-				winrt::xaml_typename<enum Dock>(),
-				winrt::xaml_typename<FrameworkElement>(),
-				PropertyMetadata{ winrt::box_value(winrt::XamlToolkit::WinUI::Controls::Dock::Left), &DockPanel::DockChanged });
+		winrt::Size MeasureOverride(winrt::Size availableSize);
 
-		static winrt::XamlToolkit::WinUI::Controls::Dock GetDock(FrameworkElement const& obj)
+		static const wil::single_threaded_property<winrt::DependencyProperty> DockProperty;
+
+		static winrt::Dock GetDock(winrt::FrameworkElement const& obj)
 		{
-			return winrt::unbox_value<winrt::XamlToolkit::WinUI::Controls::Dock>(obj.GetValue(DockProperty()));
+			return winrt::unbox_value<winrt::Dock>(obj.GetValue(DockProperty));
 		}
 
-		static void SetDock(FrameworkElement const& obj, winrt::XamlToolkit::WinUI::Controls::Dock const& value)
+		static void SetDock(winrt::FrameworkElement const& obj, winrt::Dock const& value)
 		{
-			obj.SetValue(DockProperty(), winrt::box_value(value));
+			obj.SetValue(DockProperty, winrt::box_value(value));
 		}
 
-		static inline const wil::single_threaded_property<DependencyProperty> LastChildFillProperty =
-			DependencyProperty::Register(
-				L"LastChildFill",
-				winrt::xaml_typename<bool>(),
-				winrt::xaml_typename<class_type>(),
-				PropertyMetadata{ winrt::box_value(true), &DockPanel::OnPropertyChanged });
+		static const wil::single_threaded_property<winrt::DependencyProperty> LastChildFillProperty;
 
-		bool LastChildFill()
+		bool LastChildFill() const
 		{
-			return winrt::unbox_value<bool>(GetValue(LastChildFillProperty()));
+			return winrt::unbox_value<bool>(GetValue(LastChildFillProperty));
 		}
 
 		void LastChildFill(bool value)
 		{
-			SetValue(LastChildFillProperty(), winrt::box_value(value));
+			SetValue(LastChildFillProperty, winrt::box_value(value));
 		}
 
-		static inline const wil::single_threaded_property<DependencyProperty> PaddingProperty =
-			DependencyProperty::Register(
-				L"Padding",
-				winrt::xaml_typename<Thickness>(),
-				winrt::xaml_typename<class_type>(),
-				PropertyMetadata{ winrt::box_value(Thickness{ 0, 0, 0, 0 }), &DockPanel::OnPropertyChanged });
+		static const wil::single_threaded_property<winrt::DependencyProperty> PaddingProperty;
 
-		Thickness Padding()
+		winrt::Thickness Padding() const
 		{
-			return winrt::unbox_value<Thickness>(GetValue(PaddingProperty()));
+			return winrt::unbox_value<winrt::Thickness>(GetValue(PaddingProperty));
 		}
 
-		void Padding(Thickness const& value)
+		void Padding(winrt::Thickness const& value)
 		{
-			SetValue(PaddingProperty(), winrt::box_value(value));
+			SetValue(PaddingProperty, winrt::box_value(value));
 		}
 
-		static inline const wil::single_threaded_property<DependencyProperty> HorizontalSpacingProperty =
-			DependencyProperty::Register(
-				L"HorizontalSpacing",
-				winrt::xaml_typename<double>(),
-				winrt::xaml_typename<class_type>(),
-				PropertyMetadata{ winrt::box_value(0.0), &DockPanel::OnPropertyChanged });
+		static const wil::single_threaded_property<winrt::DependencyProperty> HorizontalSpacingProperty;
 
-		double HorizontalSpacing()
+		double HorizontalSpacing() const
 		{
-			return winrt::unbox_value<double>(GetValue(HorizontalSpacingProperty()));
+			return winrt::unbox_value<double>(GetValue(HorizontalSpacingProperty));
 		}
 
 		void HorizontalSpacing(double value)
 		{
-			SetValue(HorizontalSpacingProperty(), winrt::box_value(value));
+			SetValue(HorizontalSpacingProperty, winrt::box_value(value));
 		}
 
-		static inline const wil::single_threaded_property<DependencyProperty> VerticalSpacingProperty =
-			DependencyProperty::Register(
-				L"VerticalSpacing",
-				winrt::xaml_typename<double>(),
-				winrt::xaml_typename<class_type>(),
-				PropertyMetadata{ winrt::box_value(0.0), &DockPanel::OnPropertyChanged });
+		static const wil::single_threaded_property<winrt::DependencyProperty> VerticalSpacingProperty;
 
-		double VerticalSpacing()
+		double VerticalSpacing() const
 		{
-			return winrt::unbox_value<double>(GetValue(VerticalSpacingProperty()));
+			return winrt::unbox_value<double>(GetValue(VerticalSpacingProperty));
 		}
 
 		void VerticalSpacing(double value)
 		{
-			SetValue(VerticalSpacingProperty(), winrt::box_value(value));
+			SetValue(VerticalSpacingProperty, winrt::box_value(value));
 		}
 
-		Size ArrangeOverride(Size finalSize);
+	private:
+		static void DockChanged(winrt::DependencyObject const& sender, winrt::DependencyPropertyChangedEventArgs const& e);
 
-		Size MeasureOverride(Size availableSize);
+		static void OnPropertyChanged(winrt::DependencyObject const& sender, winrt::DependencyPropertyChangedEventArgs const& e);
 	};
 }
 
