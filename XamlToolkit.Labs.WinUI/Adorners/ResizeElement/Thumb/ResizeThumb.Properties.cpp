@@ -36,7 +36,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
             case ResizeDirection::TopRight:
             case ResizeDirection::BottomLeft:
             case ResizeDirection::BottomRight:
-                mode = std::bit_cast<ManipulationModes>((static_cast<uint32_t>(ManipulationModes::TranslateX) | static_cast<uint32_t>(ManipulationModes::TranslateY)));
+                mode = static_cast<ManipulationModes>((std::to_underlying(ManipulationModes::TranslateX) | std::to_underlying(ManipulationModes::TranslateY)));
                 break;
 
             default:
