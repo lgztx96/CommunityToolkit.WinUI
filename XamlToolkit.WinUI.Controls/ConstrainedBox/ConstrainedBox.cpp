@@ -7,7 +7,42 @@
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-    Size ConstrainedBox::MeasureOverride(Size availableSize)
+    const wil::single_threaded_property<winrt::DependencyProperty> ConstrainedBox::ScaleXProperty =
+        winrt::DependencyProperty::Register(
+            L"ScaleX",
+            winrt::xaml_typename<double>(),
+            winrt::xaml_typename<class_type>(),
+            winrt::PropertyMetadata{ winrt::box_value(1.0), &ConstrainedBox::ConstraintPropertyChanged });
+
+    const wil::single_threaded_property<winrt::DependencyProperty> ConstrainedBox::ScaleYProperty =
+        winrt::DependencyProperty::Register(
+            L"ScaleY",
+            winrt::xaml_typename<double>(),
+            winrt::xaml_typename<class_type>(),
+            winrt::PropertyMetadata{ winrt::box_value(1.0), &ConstrainedBox::ConstraintPropertyChanged });
+
+    const wil::single_threaded_property<winrt::DependencyProperty> ConstrainedBox::MultipleXProperty =
+        winrt::DependencyProperty::Register(
+            L"MultipleX",
+            winrt::xaml_typename<int>(),
+            winrt::xaml_typename<class_type>(),
+            winrt::PropertyMetadata{ nullptr, &ConstrainedBox::ConstraintPropertyChanged });
+
+    const wil::single_threaded_property<winrt::DependencyProperty> ConstrainedBox::MultipleYProperty =
+        winrt::DependencyProperty::Register(
+            L"MultipleY",
+            winrt::xaml_typename<int>(),
+            winrt::xaml_typename<class_type>(),
+            winrt::PropertyMetadata{ nullptr, &ConstrainedBox::ConstraintPropertyChanged });
+
+    const wil::single_threaded_property<winrt::DependencyProperty> ConstrainedBox::AspectRatioProperty =
+        winrt::DependencyProperty::Register(
+            L"AspectRatio",
+            winrt::xaml_typename<winrt::XamlToolkit::WinUI::Controls::AspectRatio>(),
+            winrt::xaml_typename<class_type>(),
+            winrt::PropertyMetadata{ nullptr, &ConstrainedBox::ConstraintPropertyChanged });
+
+    winrt::Size ConstrainedBox::MeasureOverride(winrt::Size availableSize)
     {
         _originalSize = availableSize;
 
@@ -21,7 +56,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         return _lastMeasuredSize;
     }
 
-    Size ConstrainedBox::ArrangeOverride(Size finalSize)
+    winrt::Size ConstrainedBox::ArrangeOverride(winrt::Size finalSize)
     {
         // Even though we requested in measure to be a specific size, that doesn't mean our parent
         // panel respected that request. Grid for instance can by default Stretch and if you don't
@@ -52,7 +87,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         return base_type::ArrangeOverride(finalSize);
     }
 
-    void ConstrainedBox::CalculateConstrainedSize(Size& availableSize)
+    void ConstrainedBox::CalculateConstrainedSize(winrt::Size& availableSize)
     {
         // 1) We check for Infinity, in the case we have no constraint from parent
         //    we'll request the child's measurements first, so we can use that as
@@ -89,14 +124,14 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         // For instance you may have a responsive 4x4 repeated checkerboard pattern for transparency and
         // want to snap to the nearest interval of 4 so the checkerboard is consistency across the layout.
         if (hasWidth &&
-            ReadLocalValue(MultipleXProperty) != DependencyProperty::UnsetValue() &&
+            ReadLocalValue(MultipleXProperty()) != winrt::DependencyProperty::UnsetValue() &&
             MultipleX() > 0)
         {
             availableSize.Width -= static_cast<float>(std::fmod(availableSize.Width, MultipleX()));
         }
 
         if (hasHeight &&
-            ReadLocalValue(MultipleYProperty) != DependencyProperty::UnsetValue() &&
+            ReadLocalValue(MultipleYProperty()) != winrt::DependencyProperty::UnsetValue() &&
             MultipleY() > 0)
         {
             availableSize.Height -= static_cast<float>(std::fmod(availableSize.Height, MultipleY()));
@@ -108,7 +143,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         // area we have to work with based on the other constraints.
         // Devs should be careful if they use both a MultipleX&Y that the AspectRatio is also
         // within that same ratio. The Ratio will take preference here as the last step.
-        if (ReadLocalValue(AspectRatioProperty) == DependencyProperty::UnsetValue())
+        if (ReadLocalValue(AspectRatioProperty()) == winrt::DependencyProperty::UnsetValue())
         {
             // Skip as last constraint if we have nothing to do.
             return;
@@ -141,7 +176,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         }
     }
 
-    void ConstrainedBox::ConstraintPropertyChanged(DependencyObject const& d, [[maybe_unused]] DependencyPropertyChangedEventArgs const& e)
+    void ConstrainedBox::ConstraintPropertyChanged(winrt::DependencyObject const& d, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& e)
     {
         auto panel = d.try_as<class_type>();
 
@@ -200,19 +235,19 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         }
 
         // Clear invalid values less than 0 for other properties
-        if (auto value = ReadLocalValue(MultipleXProperty).try_as<int>(); value && *value <= 0)
+        if (auto value = ReadLocalValue(MultipleXProperty()).try_as<int>(); value && *value <= 0)
         {
-            ClearValue(MultipleXProperty);
+            ClearValue(MultipleXProperty());
         }
 
-        if (auto value2 = ReadLocalValue(MultipleYProperty).try_as<int>(); value2 && value2 <= 0)
+        if (auto value2 = ReadLocalValue(MultipleYProperty()).try_as<int>(); value2 && *value2 <= 0)
         {
-            ClearValue(MultipleYProperty);
+            ClearValue(MultipleYProperty());
         }
 
-        if (auto ratio = ReadLocalValue(AspectRatioProperty).try_as<struct AspectRatio>(); ratio && ratio <= 0)
+        if (auto ratio = ReadLocalValue(AspectRatioProperty()).try_as<struct AspectRatio>(); ratio && ratio.Value() <= 0)
         {
-            ClearValue(AspectRatioProperty);
+            ClearValue(AspectRatioProperty());
         }
     }
 }

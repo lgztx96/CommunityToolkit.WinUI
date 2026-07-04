@@ -1,6 +1,5 @@
 namespace XamlToolkit.WinUI.Controls
 {
-    [default_interface]
     [createfromstring("XamlToolkit.WinUI.Controls.AspectRatio.ConvertToAspectRatio")]
     runtimeclass AspectRatio : Windows.Foundation.IStringable
     {

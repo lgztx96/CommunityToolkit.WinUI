@@ -8,8 +8,6 @@
 #include <wil/cppwinrt_authoring.h>
 #endif
 
-using namespace std::literals;
-
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
 	struct AspectRatio : AspectRatioT<AspectRatio>

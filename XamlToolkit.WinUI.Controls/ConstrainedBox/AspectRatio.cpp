@@ -13,6 +13,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
 	winrt::XamlToolkit::WinUI::Controls::AspectRatio AspectRatio::ConvertToAspectRatio(winrt::hstring const& rawString)
 	{
+		using std::string_view_literals::operator""sv;
+
 		auto sv = std::wstring_view(rawString);
 		auto ratio = Split(sv, L":"sv)
 			| std::ranges::views::transform([](std::wstring_view sv) { return std::wstring(sv); })
