@@ -11,6 +11,7 @@ namespace winrt
 {
 	using namespace Windows::Foundation;
 	using namespace Windows::UI::Xaml::Interop;
+    using namespace XamlToolkit::WinUI;
 }
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
@@ -19,13 +20,13 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
     {
         AccentColorConverter() = default;
 
-        static inline constexpr double ValueDelta = 0.1;
+        static constexpr double ValueDelta = 0.1;
 
-        static XamlToolkit::WinUI::HsvColor GetAccent(XamlToolkit::WinUI::HsvColor hsvColor, int accentStep);
+        static winrt::HsvColor GetAccent(winrt::HsvColor hsvColor, int accentStep);
 
-        IInspectable Convert(IInspectable const& value, TypeName targetType, IInspectable const& parameter, winrt::hstring const& language);
+        winrt::IInspectable Convert(winrt::IInspectable const& value, winrt::TypeName targetType, winrt::IInspectable const& parameter, winrt::hstring const& language);
 
-        IInspectable ConvertBack(IInspectable const& value, TypeName targetType, IInspectable const& parameter, winrt::hstring const& language);
+        winrt::IInspectable ConvertBack(winrt::IInspectable const& value, winrt::TypeName targetType, winrt::IInspectable const& parameter, winrt::hstring const& language);
     };
 }
 
