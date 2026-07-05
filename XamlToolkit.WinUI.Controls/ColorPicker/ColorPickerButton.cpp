@@ -9,12 +9,33 @@
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
+	const wil::single_threaded_property<winrt::DependencyProperty> ColorPickerButton::ColorPickerStyleProperty =
+		winrt::DependencyProperty::Register(
+			L"ColorPickerStyle",
+			winrt::xaml_typename<winrt::Style>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata(nullptr));
+
+	const wil::single_threaded_property<winrt::DependencyProperty> ColorPickerButton::FlyoutPresenterStyleProperty =
+		winrt::DependencyProperty::Register(
+			L"FlyoutPresenterStyle",
+			winrt::xaml_typename<winrt::Style>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata(nullptr));
+
+	const wil::single_threaded_property<winrt::DependencyProperty> ColorPickerButton::SelectedColorProperty =
+		winrt::DependencyProperty::Register(
+			L"SelectedColor",
+			winrt::xaml_typename<winrt::Color>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata(nullptr, &ColorPickerButton::SelectedColorChanged));
+
     ColorPickerButton::ColorPickerButton() : ColorPicker(nullptr)
     {
         DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
 
         // Workaround for https://github.com/microsoft/microsoft-ui-xaml/issues/3502
-        DefaultStyleResourceUri(Uri(L"ms-appx:///XamlToolkit.WinUI.Controls/Themes/Generic.xaml"));
+        DefaultStyleResourceUri(winrt::Uri(L"ms-appx:///XamlToolkit.WinUI.Controls/Themes/Generic.xaml"));
     }
 
     void ColorPickerButton::OnApplyTemplate()
@@ -26,10 +47,10 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
         base_type::OnApplyTemplate();
 
-        if (ColorPickerStyle())
+        if (auto style = ColorPickerStyle())
         {
-            auto colorPicker = winrt::make<implementation::ColorPicker>();
-            colorPicker.Style(ColorPickerStyle());
+            const auto colorPicker = winrt::make<implementation::ColorPicker>();
+            colorPicker.Style(style);
             ColorPicker = colorPicker;
         }
         else
@@ -38,13 +59,16 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         }
 
         ColorPicker().Color(SelectedColor());
-        _colorChangedRevoker = ColorPicker().ColorChanged(winrt::auto_revoke, { this, & ColorPickerButton::ColorPicker_ColorChanged });
+        _colorChangedRevoker = ColorPicker().ColorChanged(winrt::auto_revoke, { this, &ColorPickerButton::ColorPicker_ColorChanged });
 
         if (!Flyout())
         {
-            Microsoft::UI::Xaml::Controls::Flyout flyout;
-            flyout.Placement(FlyoutPlacementMode::BottomEdgeAlignedLeft);
-			flyout.FlyoutPresenterStyle(FlyoutPresenterStyle());
+            winrt::Flyout flyout;
+            flyout.Placement(winrt::FlyoutPlacementMode::BottomEdgeAlignedLeft);
+			if (auto flyoutPresenterStyle = FlyoutPresenterStyle())
+			{
+				flyout.FlyoutPresenterStyle(flyoutPresenterStyle);
+			}
 			flyout.Content(ColorPicker());
             Flyout(flyout);
         }
@@ -54,30 +78,33 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
             _checkeredLoadedRevoker.revoke();
         }
 
-        CheckeredBackgroundBorder = GetTemplateChild(L"CheckeredBackgroundBorder").try_as<Border>();
+        CheckeredBackgroundBorder = GetTemplateChild(L"CheckeredBackgroundBorder").try_as<winrt::Border>();
 
         if (CheckeredBackgroundBorder)
         {
-            _checkeredLoadedRevoker = CheckeredBackgroundBorder.Loaded(winrt::auto_revoke, { this, & ColorPickerButton::CheckeredBackgroundBorder_Loaded });
+            _checkeredLoadedRevoker = CheckeredBackgroundBorder.Loaded(winrt::auto_revoke, { this, &ColorPickerButton::CheckeredBackgroundBorder_Loaded });
         }
     }
 
-    void ColorPickerButton::SelectedColorChanged(DependencyObject const& d, [[maybe_unused]] DependencyPropertyChangedEventArgs const& e)
+    void ColorPickerButton::SelectedColorChanged(winrt::DependencyObject const& d, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& e)
     {
-        if (auto instance = d.try_as<class_type>(); instance && instance.ColorPicker())
+        if (const auto instance = d.try_as<class_type>())
         {
-            instance.ColorPicker().Color(instance.SelectedColor());
+            if (const auto picker = instance.ColorPicker()) 
+            {
+                picker.Color(instance.SelectedColor());
+            }
         }
     }
 
-    void ColorPickerButton::ColorPicker_ColorChanged([[maybe_unused]] winrt::Microsoft::UI::Xaml::Controls::ColorPicker const& sender, Microsoft::UI::Xaml::Controls::ColorChangedEventArgs const& args)
+    void ColorPickerButton::ColorPicker_ColorChanged([[maybe_unused]] winrt::Microsoft::UI::Xaml::Controls::ColorPicker const& sender, winrt::Microsoft::UI::Xaml::Controls::ColorChangedEventArgs const& args)
     {
         SelectedColor(args.NewColor());
     }
 
-    winrt::Windows::Foundation::IAsyncAction ColorPickerButton::CheckeredBackgroundBorder_Loaded(IInspectable const& sender, [[maybe_unused]] RoutedEventArgs const& e)
+    winrt::fire_and_forget ColorPickerButton::CheckeredBackgroundBorder_Loaded(winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
     {
-        if (auto border = sender.try_as<Border>())
+        if (const auto border = sender.try_as<winrt::Border>())
         {
             co_await ColorPickerRenderingHelpers::UpdateBorderBackgroundWithCheckerAsync(border, ColorPicker().CheckerBackgroundColor()); // TODO: Check initialization
         }

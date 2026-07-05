@@ -2,7 +2,6 @@
 
 namespace XamlToolkit.WinUI.Controls
 {
-    [default_interface]
     runtimeclass ColorPickerButton : Microsoft.UI.Xaml.Controls.DropDownButton
     {
         ColorPickerButton();

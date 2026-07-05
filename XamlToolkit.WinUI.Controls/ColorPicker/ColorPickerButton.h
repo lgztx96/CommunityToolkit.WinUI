@@ -4,6 +4,7 @@
 
 #ifdef __INTELLISENSE__
 #include <winrt/Windows.UI.h>
+#include <winrt/Windows.Foundation.h>
 #include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Microsoft.UI.Xaml.Controls.h>
 #include <winrt/Microsoft.UI.Xaml.Controls.Primitives.h>
@@ -12,6 +13,7 @@
 namespace winrt
 {
 	using namespace Windows::UI;
+	using namespace Windows::Foundation;
 	using namespace Microsoft::UI::Xaml;
 	using namespace Microsoft::UI::Xaml::Controls;
 	using namespace Microsoft::UI::Xaml::Controls::Primitives;
@@ -21,62 +23,59 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
 	struct ColorPickerButton : ColorPickerButtonT<ColorPickerButton>
 	{
-	private:
-		Border CheckeredBackgroundBorder;
-
-	public:
-		wil::single_threaded_rw_property<winrt::XamlToolkit::WinUI::Controls::ColorPicker> ColorPicker;
-
-		winrt::Microsoft::UI::Xaml::Style ColorPickerStyle()
-		{
-			return winrt::unbox_value<winrt::Microsoft::UI::Xaml::Style>(GetValue(ColorPickerStyleProperty));
-		}
-
-		void ColorPickerStyle(winrt::Microsoft::UI::Xaml::Style const& value)
-		{
-			SetValue(ColorPickerStyleProperty, value);
-		}
-
-		static inline const wil::single_threaded_property<DependencyProperty>  ColorPickerStyleProperty = DependencyProperty::Register(L"ColorPickerStyle", winrt::xaml_typename<winrt::Microsoft::UI::Xaml::Style>(), winrt::xaml_typename<class_type>(), PropertyMetadata(nullptr));
-
-		winrt::Microsoft::UI::Xaml::Style FlyoutPresenterStyle()
-		{
-			return winrt::unbox_value<struct Style>(GetValue(FlyoutPresenterStyleProperty));
-		}
-
-		void FlyoutPresenterStyle(winrt::Microsoft::UI::Xaml::Style const& value)
-		{
-			SetValue(FlyoutPresenterStyleProperty, value);
-		}
-
-		static inline const wil::single_threaded_property<DependencyProperty>  FlyoutPresenterStyleProperty = DependencyProperty::Register(L"FlyoutPresenterStyle", winrt::xaml_typename<struct Style>(), winrt::xaml_typename<class_type>(), PropertyMetadata(nullptr));
-
-		Color SelectedColor()
-		{
-			return winrt::unbox_value<Color>(GetValue(SelectedColorProperty));
-		}
-
-		void SelectedColor(Color const& value) 
-		{
-			SetValue(SelectedColorProperty, winrt::box_value(value));
-		}
-
-		static void SelectedColorChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e);
-
-		static inline const wil::single_threaded_property<DependencyProperty> SelectedColorProperty =
-			DependencyProperty::Register(L"SelectedColor", winrt::xaml_typename<Color>(), winrt::xaml_typename<class_type>(), PropertyMetadata(nullptr, &ColorPickerButton::SelectedColorChanged));
-
 		ColorPickerButton();
 
 		void OnApplyTemplate();
 
+		wil::single_threaded_rw_property<winrt::XamlToolkit::WinUI::Controls::ColorPicker> ColorPicker;
+
+		winrt::Style ColorPickerStyle() const
+		{
+			return GetValue(ColorPickerStyleProperty()).try_as<winrt::Style>();
+		}
+
+		void ColorPickerStyle(winrt::Style const& value)
+		{
+			SetValue(ColorPickerStyleProperty(), value);
+		}
+
+		static const wil::single_threaded_property<winrt::DependencyProperty> ColorPickerStyleProperty;
+
+		winrt::Style FlyoutPresenterStyle() const
+		{
+			return GetValue(FlyoutPresenterStyleProperty()).try_as<winrt::Style>();
+		}
+
+		void FlyoutPresenterStyle(winrt::Style const& value)
+		{
+			SetValue(FlyoutPresenterStyleProperty(), value);
+		}
+
+		static const wil::single_threaded_property<winrt::DependencyProperty> FlyoutPresenterStyleProperty;
+
+		winrt::Color SelectedColor() const
+		{
+			return winrt::unbox_value<winrt::Color>(GetValue(SelectedColorProperty()));
+		}
+
+		void SelectedColor(winrt::Color const& value) 
+		{
+			SetValue(SelectedColorProperty(), winrt::box_value(value));
+		}
+
+		static const wil::single_threaded_property<winrt::DependencyProperty> SelectedColorProperty;
+
 	private:
-		void ColorPicker_ColorChanged(winrt::Microsoft::UI::Xaml::Controls::ColorPicker const& sender, Microsoft::UI::Xaml::Controls::ColorChangedEventArgs const& args);
+		static void SelectedColorChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 
-		winrt::Windows::Foundation::IAsyncAction CheckeredBackgroundBorder_Loaded(IInspectable const& sender, RoutedEventArgs const& e);
+		void ColorPicker_ColorChanged(winrt::Microsoft::UI::Xaml::Controls::ColorPicker const& sender, winrt::Microsoft::UI::Xaml::Controls::ColorChangedEventArgs const& args);
 
-		ColorPicker::ColorChanged_revoker _colorChangedRevoker;
-		FrameworkElement::Loaded_revoker _checkeredLoadedRevoker;
+		winrt::fire_and_forget CheckeredBackgroundBorder_Loaded(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
+
+		winrt::Microsoft::UI::Xaml::Controls::ColorPicker::ColorChanged_revoker _colorChangedRevoker;
+		winrt::FrameworkElement::Loaded_revoker _checkeredLoadedRevoker;
+
+		winrt::Border CheckeredBackgroundBorder;
 	};
 }
 
