@@ -341,7 +341,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			if (selectedItems.Size() > 0)
 			{
 				uint32_t index;
-				_innerItemsSource.IndexOf(selectedItems.First(), index);
+				_innerItemsSource.IndexOf(selectedItems.GetAt(0), index);
 				co_await RemoveAllSelectedTokens();
 
 				std::ignore = this->DispatcherQueue().TryEnqueue(Microsoft::UI::Dispatching::DispatcherQueuePriority::Normal, [=]()
