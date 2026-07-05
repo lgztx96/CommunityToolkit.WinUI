@@ -218,13 +218,13 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	{
 		switch (key)
 		{
-		case winrt::VirtualKey::Escape:
-		{
-			// Clear any selection and place the focus back into the text box
-			DeselectAllTokensAndText();
-			FocusPrimaryAutoSuggestBox();
-			break;
-		}
+			case winrt::VirtualKey::Escape:
+			{
+				// Clear any selection and place the focus back into the text box
+				DeselectAllTokensAndText();
+				FocusPrimaryAutoSuggestBox();
+				break;
+			}
 		}
 	}
 
@@ -300,7 +300,6 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		winrt::MenuFlyoutItem selectAllMenuItem;
 		selectAllMenuItem.Text(L"Select all");
-
 		selectAllMenuItem.Click({ get_weak(), [this](auto&, auto&) { SelectAllTokensAndText(); } });
 
 		winrt::MenuFlyout menuFlyout;
@@ -332,7 +331,11 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	winrt::IAsyncAction TokenizingTextBox::TokenizingTextBox_CharacterReceived(winrt::UIElement const& sender, winrt::CharacterReceivedRoutedEventArgs const& args)
 	{
 		auto container = ContainerFromItem(_currentTextEdit).try_as<winrt::XamlToolkit::WinUI::Controls::TokenizingTextBoxItem>();
-		if (container == nullptr) co_return;
+		if (container == nullptr) 
+		{ 
+			co_return;
+		}
+
 		auto self = winrt::get_self<TokenizingTextBoxItem>(container)->get_strong();
 		auto character = args.Character();
 		if (!(GetFocusedElement() == self->_autoSuggestTextBox || ::iswcntrl(character)))
@@ -372,14 +375,14 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 						_innerItemsSource.InsertAt(index, _currentTextEdit);
 
-						std::ignore = DispatcherQueue().TryEnqueue(Microsoft::UI::Dispatching::DispatcherQueuePriority::Normal, [=]()
+						std::ignore = DispatcherQueue().TryEnqueue(winrt::Microsoft::UI::Dispatching::DispatcherQueuePriority::Normal, [=]()
 						{
 							if (auto newContainer = ContainerFromIndex(index).try_as<Controls::TokenizingTextBoxItem>()) // Should be our last text box
 							{
 								auto newSelf = winrt::get_self<TokenizingTextBoxItem>(newContainer)->get_strong();
 								newSelf->UseCharacterAsUser(true); // Make sure we trigger a refresh of suggested items.
 								auto waitForLoadToken = std::make_shared<winrt::event_token>();
-								auto WaitForLoad = [newContainerWeak(winrt::make_weak(newContainer)), waitForLoadToken]([[maybe_unused]] IInspectable const& s, [[maybe_unused]] RoutedEventArgs const& eargs)
+								auto WaitForLoad = [newContainerWeak(winrt::make_weak(newContainer)), waitForLoadToken]([[maybe_unused]] winrt::IInspectable const& s, [[maybe_unused]] winrt::RoutedEventArgs const& eargs)
 								{
 									if (auto container = newContainerWeak.get())
 									{
@@ -388,7 +391,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 										{
 											self->_autoSuggestTextBox.SelectionStart(1); // Set position to after our new character inserted
 
-											self->_autoSuggestTextBox.Focus(FocusState::Keyboard);
+											self->_autoSuggestTextBox.Focus(winrt::FocusState::Keyboard);
 										}
 
 										self->AutoSuggestTextBoxLoaded(*waitForLoadToken);
@@ -407,7 +410,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 				// This code is only fires during an edgecase where an item is in the process of being deleted and the user inputs a character before the focus has been redirected to a string container.
 				if (auto textToken = _innerItemsSource.GetAt(_innerItemsSource.Size() - 1).try_as<ITokenStringContainer>())
 				{
-					if (auto last = ContainerFromIndex(Items().Size() - 1).try_as<Controls::TokenizingTextBoxItem>()) // Should be our last text box
+					if (auto last = ContainerFromIndex(Items().Size() - 1)
+						.try_as<winrt::XamlToolkit::WinUI::Controls::TokenizingTextBoxItem>()) // Should be our last text box
 					{
 						auto lastSelf = winrt::get_self<TokenizingTextBoxItem>(last)->get_strong();
 						std::wstring text{ lastSelf->_autoSuggestTextBox.Text() };
@@ -507,9 +511,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		// Keep track of our currently focused textbox
 		if (auto ttbi = sender.try_as<winrt::XamlToolkit::WinUI::Controls::TokenizingTextBoxItem>())
 		{
-			if (auto text = ttbi.Content().try_as<ITokenStringContainer>(); text &&
-				IsNullOrWhiteSpace(text.Text())
-				&& text != _lastTextEdit) 
+			if (auto text = ttbi.Content().try_as<ITokenStringContainer>(); 
+				text && IsNullOrWhiteSpace(text.Text()) && text != _lastTextEdit) 
 			{
 				// We're leaving an inner textbox that's blank, so we'll remove it
 				if (uint32_t index; _innerItemsSource.IndexOf(text, index))
@@ -551,7 +554,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 	winrt::IAsyncAction TokenizingTextBox::AddTokenAsync(winrt::IInspectable data, std::optional<bool> atEnd)
 	{
-		if (ReadLocalValue(MaximumTokensProperty()) != winrt::DependencyProperty::UnsetValue() && (MaximumTokens() <= 0 || MaximumTokens() <= static_cast<int>(_innerItemsSource.ItemsSource().Size())))
+		if (ReadLocalValue(MaximumTokensProperty()) != winrt::DependencyProperty::UnsetValue() 
+			&& (MaximumTokens() <= 0 || MaximumTokens() <= static_cast<int>(_innerItemsSource.ItemsSource().Size())))
 		{
 			// No tokens for you
 			co_return;
