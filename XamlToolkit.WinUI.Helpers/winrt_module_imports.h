@@ -10,6 +10,7 @@
 #include <winrt/Windows.UI.Xaml.Interop.h>
 #include <winrt/Windows.ApplicationModel.h>;
 
+#include <winrt/Microsoft.UI.h>
 #include <winrt/Microsoft.UI.Xaml.h>
 
 #include <wil/cppwinrt.h>
@@ -25,6 +26,7 @@ import winrt.Windows.Foundation.Numerics;
 import winrt.Windows.UI.Xaml.Interop;
 import winrt.Windows.ApplicationModel;
 
+import winrt.Microsoft.UI;
 import winrt.Microsoft.UI.Xaml;
 
 import winrt.XamlToolkit.WinUI;

@@ -25,7 +25,7 @@ namespace winrt::XamlToolkit::WinUI::Converters::implementation
 			return winrt::DependencyProperty::UnsetValue();
 		}
 
-		return winrt::box_value(winrt::ColorHelper::ToDisplayName(color));
+		return winrt::box_value(winrt::Microsoft::UI::ColorHelper::ToDisplayName(color));
 	}
 
 	winrt::IInspectable ColorToDisplayNameConverter::ConvertBack([[maybe_unused]] winrt::IInspectable const& value, [[maybe_unused]] winrt::TypeName targetType, [[maybe_unused]] winrt::IInspectable const& parameter, [[maybe_unused]] winrt::hstring const& language)

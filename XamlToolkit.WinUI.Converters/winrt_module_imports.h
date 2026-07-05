@@ -24,6 +24,7 @@ import winrt.Windows.UI;
 import winrt.Windows.UI.Xaml.Interop;
 
 import winrt.Microsoft.Windows.ApplicationModel.Resources;
+import winrt.Microsoft.UI;
 import winrt.Microsoft.UI.Xaml;
 import winrt.Microsoft.UI.Xaml.Markup;
 
