@@ -37,11 +37,10 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		event_source_registration(const event_source_registration&&) = delete;
 		event_source_registration& operator=(const event_source_registration&&) = delete;
 
-		event_source_registration(
-			winrt::Microsoft::UI::Xaml::DependencyObject const& source,
-			winrt::Microsoft::UI::Xaml::DependencyProperty const& property) : event_source(source, property) { }
+		event_source_registration(winrt::DependencyObject const& source, winrt::DependencyProperty const& property)
+			: event_source(source, property) { }
 
-		void subscribe(winrt::Windows::Foundation::EventHandler<double> const& handler)
+		void subscribe(winrt::EventHandler<double> const& handler)
 		{
 			unsubscribe();
 			token = event_source.ValueChanged(handler);
@@ -90,7 +89,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		/// <param name="b">The right size.</param>
 		/// <returns>A value indicating whether the left size is smaller than
 		/// the right.</returns>
-		static bool IsSizeSmaller(Size a, Size b);
+		static bool IsSizeSmaller(winrt::Size a, winrt::Size b);
 
 		/// <summary>
 		/// Processes the current transform to determine the corresponding
@@ -104,7 +103,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		/// <param name="transform">The transform to create a matrix for.
 		/// </param>
 		/// <returns>The matrix calculated from the transform.</returns>
-		Matrix GetTransformMatrix(winrt::Microsoft::UI::Xaml::Media::Transform const& transform);
+		winrt::Matrix GetTransformMatrix(winrt::Transform const& transform);
 
 		/// <summary>
 		/// Provides the behavior for the "Measure" pass of layout.
@@ -114,7 +113,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		/// indicate that the element will size to whatever content is available.</param>
 		/// <returns>The size that this element determines it needs during
 		/// layout, based on its calculations of child element sizes.</returns>
-		Size MeasureOverride(Size availableSize);
+		winrt::Size MeasureOverride(winrt::Size availableSize);
 
 		/// <summary>
 		/// Provides the behavior for the "Arrange" pass of layout.
@@ -122,24 +121,24 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		/// <param name="finalSize">The final area within the parent that this
 		/// element should use to arrange itself and its children.</param>
 		/// <returns>The actual size used.</returns>
-		Size ArrangeOverride(Size finalSize);
+		winrt::Size ArrangeOverride(winrt::Size finalSize);
 
 		/// <summary>
 		/// Computes the largest usable size after applying the transformation to the specified bounds.
 		/// </summary>
 		/// <param name="arrangeBounds">The size to arrange within.</param>
 		/// <returns>The size required.</returns>
-		Size ComputeLargestTransformedSize(Size arrangeBounds) const;
+		winrt::Size ComputeLargestTransformedSize(winrt::Size arrangeBounds) const;
 
 		/// <summary>
 		/// Handle changes to the child dependency property.
 		/// </summary>
 		/// <param name="o">The source of the event.</param>
 		/// <param name="e">Information about the event.</param>
-		static void ChildChanged(DependencyObject const& o, DependencyPropertyChangedEventArgs const& e)
+		static void ChildChanged(winrt::DependencyObject const& o, winrt::DependencyPropertyChangedEventArgs const& e)
 		{
 			winrt::get_self<LayoutTransformControl>(o.as<class_type>())->OnChildChanged(
-				winrt::unbox_value<FrameworkElement>(e.NewValue()));
+				e.NewValue().try_as<winrt::FrameworkElement>());
 		}
 		/// <summary>
 		/// Gets or sets the single child of the LayoutTransformControl.
@@ -148,29 +147,29 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		/// Corresponds to WPF's Decorator.Child
 		/// property.
 		/// </remarks>
-		FrameworkElement Child() { return winrt::unbox_value<FrameworkElement>(GetValue(ChildProperty)); }
-		void Child(winrt::Windows::Foundation::IInspectable const& value) { return SetValue(ChildProperty, value); }
+		winrt::FrameworkElement Child() const { return GetValue(ChildProperty()).try_as<winrt::FrameworkElement>(); }
+		void Child(winrt::IInspectable const& value) { return SetValue(ChildProperty(), value); }
 
 		/// <summary>
 		/// Identifies the ChildProperty.
 		/// </summary>
-		static inline const wil::single_threaded_property<DependencyProperty> ChildProperty = DependencyProperty::Register(
-			L"Child",
-			winrt::xaml_typename<FrameworkElement>(),
-			winrt::xaml_typename<class_type>(),
-			PropertyMetadata(nullptr, &LayoutTransformControl::ChildChanged));
-
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> ChildProperty = 
+			winrt::DependencyProperty::Register(
+				L"Child",
+				winrt::xaml_typename<winrt::FrameworkElement>(),
+				winrt::xaml_typename<class_type>(),
+				winrt::PropertyMetadata(nullptr, &LayoutTransformControl::ChildChanged));
 
 		/// <summary>
 		/// Handles changes to the Transform DependencyProperty.
 		/// </summary>
 		/// <param name="o">The source of the event.</param>
 		/// <param name="e">Information about the event.</param>
-		static void TransformChanged(DependencyObject const& o, DependencyPropertyChangedEventArgs const& e)
+		static void TransformChanged(winrt::DependencyObject const& o, winrt::DependencyPropertyChangedEventArgs const& e)
 		{
 			winrt::get_self<LayoutTransformControl>(o.as<class_type>())->OnTransformChanged(
-				e.OldValue().try_as<winrt::Microsoft::UI::Xaml::Media::Transform>(),
-				winrt::unbox_value<winrt::Microsoft::UI::Xaml::Media::Transform>(e.NewValue()));
+				e.OldValue().try_as<winrt::Transform>(),
+				e.NewValue().try_as<winrt::Transform>());
 		}
 		/// <summary>
 		/// Gets or sets the Transform of the LayoutTransformControl.
@@ -178,40 +177,41 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		/// <remarks>
 		/// Corresponds to UIElement.RenderTransform.
 		/// </remarks>
-		winrt::Microsoft::UI::Xaml::Media::Transform Transform()
+		winrt::Transform Transform() const
 		{
-			return winrt::unbox_value<winrt::Microsoft::UI::Xaml::Media::Transform>(GetValue(TransformProperty));
+			return GetValue(TransformProperty()).try_as<winrt::Transform>();
 		}
 		void Transform(winrt::Windows::Foundation::IInspectable const& value)
 		{
-			return SetValue(TransformProperty, value);
+			return SetValue(TransformProperty(), value);
 		}
 
 		/// <summary>
 		/// Identifies the TransformProperty dependency property.
 		/// </summary>
-		static inline const wil::single_threaded_property<DependencyProperty> TransformProperty = DependencyProperty::Register(
-			L"Transform",
-			winrt::xaml_typename<FrameworkElement>(),
-			winrt::xaml_typename<class_type>(),
-			PropertyMetadata(nullptr, &LayoutTransformControl::TransformChanged));
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> TransformProperty =
+			winrt::DependencyProperty::Register(
+				L"Transform",
+				winrt::xaml_typename<winrt::FrameworkElement>(),
+				winrt::xaml_typename<class_type>(),
+				winrt::PropertyMetadata(nullptr, &LayoutTransformControl::TransformChanged));
 
 	private:
-
 		/// <summary>
 		/// Updates content when the child property is changed.
 		/// </summary>
 		/// <param name="newContent">The new child.</param>
-		void OnChildChanged(FrameworkElement const& newContent)
+		void OnChildChanged(winrt::FrameworkElement const& newContent)
 		{
-			if (_layoutRoot != nullptr)
+			if (_layoutRoot)
 			{
 				// Clear current child
-				_layoutRoot.Children().Clear();
-				if (newContent != nullptr)
+				auto child = _layoutRoot.Children();
+				child.Clear();
+				if (newContent)
 				{
 					// Add the new child to the tree
-					_layoutRoot.Children().Append(newContent);
+					child.Append(newContent);
 				}
 
 				// New child means re-layout is necessary
@@ -224,16 +224,16 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		/// </summary>
 		/// <param name="oldValue">The old transform</param>
 		/// <param name="newValue">The transform to process.</param>
-		void OnTransformChanged(winrt::Microsoft::UI::Xaml::Media::Transform const& oldValue, winrt::Microsoft::UI::Xaml::Media::Transform const& newValue);
+		void OnTransformChanged(winrt::Transform const& oldValue, winrt::Transform const& newValue);
 
-		void UnsubscribeFromTransformPropertyChanges(winrt::Microsoft::UI::Xaml::Media::Transform const& transform);
+		void UnsubscribeFromTransformPropertyChanges(winrt::Transform const& transform);
 
-		void SubscribeToTransformPropertyChanges(winrt::Microsoft::UI::Xaml::Media::Transform const& transform);
+		void SubscribeToTransformPropertyChanges(winrt::Transform const& transform);
 
 		/// <summary>
 		/// Called when a property of a Transform changes.
 		/// </summary>
-		void OnTransformPropertyChanged(winrt::Windows::Foundation::IInspectable const& sender, double e);
+		void OnTransformPropertyChanged(winrt::IInspectable const& sender, double e);
 
 		/// <summary>
 		/// Value used to work around double arithmetic rounding issues.
@@ -248,30 +248,27 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		/// <summary>
 		/// List of property change event sources for events when properties of the Transform tree change
 		/// </summary>
-		std::map<
-			winrt::Microsoft::UI::Xaml::Media::Transform,
-			std::vector<std::unique_ptr<event_source_registration>>>
-			_transformPropertyChangeEventSources;
+		std::map<winrt::Transform, std::vector<std::unique_ptr<event_source_registration>>> _transformPropertyChangeEventSources;
 
 		/// <summary>
 		/// Host panel for Child element.
 		/// </summary>
-		winrt::Microsoft::UI::Xaml::Controls::Panel _layoutRoot{ nullptr };
+		winrt::Panel _layoutRoot{ nullptr };
 
 		/// <summary>
 		/// RenderTransform/MatrixTransform applied to layout root.
 		/// </summary>
-		winrt::Microsoft::UI::Xaml::Media::MatrixTransform _matrixTransform;
+		winrt::MatrixTransform _matrixTransform;
 
 		/// <summary>
 		/// Transformation matrix corresponding to matrix transform.
 		/// </summary>
-		winrt::Microsoft::UI::Xaml::Media::Matrix _transformation;
+		winrt::Matrix _transformation;
 
 		/// <summary>
 		/// Actual DesiredSize of Child element.
 		/// </summary>
-		Size _childActualSize{ 0, 0 };
+		winrt::Size _childActualSize{ 0, 0 };
 	};
 }
 

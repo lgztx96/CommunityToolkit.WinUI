@@ -38,19 +38,19 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	void LayoutTransformControl::OnApplyTemplate()
 	{
 		// Save existing content and remove it from the visual tree
-		FrameworkElement savedContent = Child();
+		winrt::FrameworkElement savedContent = Child();
 		Child(nullptr);
 
 		// Apply template
 		base_type::OnApplyTemplate();
 
 		// Find template parts
-		if (auto panel = GetTemplateChild(LayoutRootPartName).try_as<Panel>())
+		if (auto panel = GetTemplateChild(LayoutRootPartName).try_as<winrt::Panel>())
 		{
 			_layoutRoot = panel;
 		}
 
-		if (auto matrixTransform = GetTemplateChild(MatrixTransformPartName).try_as<MatrixTransform>())
+		if (auto matrixTransform = GetTemplateChild(MatrixTransformPartName).try_as<winrt::MatrixTransform>())
 		{
 			_matrixTransform = matrixTransform;
 		}
@@ -81,7 +81,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	/// <param name="b">The right size.</param>
 	/// <returns>A value indicating whether the left size is smaller than
 	/// the right.</returns>
-	bool LayoutTransformControl::IsSizeSmaller(Size a, Size b)
+	bool LayoutTransformControl::IsSizeSmaller(winrt::Size a, winrt::Size b)
 	{
 		// WPF equivalent of following code:
 		// return ((a.Width < b.Width) || (a.Height < b.Height));
@@ -112,7 +112,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	/// <param name="transform">The transform to create a matrix for.
 	/// </param>
 	/// <returns>The matrix calculated from the transform.</returns>
-	Matrix LayoutTransformControl::GetTransformMatrix(winrt::Microsoft::UI::Xaml::Media::Transform const& transform)
+	winrt::Matrix LayoutTransformControl::GetTransformMatrix(winrt::Transform const& transform)
 	{
 		if (transform)
 		{
@@ -120,12 +120,11 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			// return transform.Value;
 
 			// Process the TransformGroup
-
-			if (auto transformGroup = transform.try_as<TransformGroup>())
+			if (auto transformGroup = transform.try_as<winrt::TransformGroup>())
 			{
-				auto groupMatrix = winrt::Microsoft::UI::Xaml::Media::MatrixHelper::Identity();
+				auto groupMatrix = winrt::MatrixHelper::Identity();
 
-				for (auto child : transformGroup.Children())
+				for (const auto& child : transformGroup.Children())
 				{
 					groupMatrix = MatrixExtensions::Multiply(groupMatrix, GetTransformMatrix(child));
 				}
@@ -134,31 +133,31 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			}
 
 			// Process the RotateTransform
-			if (auto rotateTransform = transform.try_as<RotateTransform>())
+			if (auto rotateTransform = transform.try_as<winrt::RotateTransform>())
 			{
 				return TransformExtensions::GetMatrix(rotateTransform);
 			}
 
 			// Process the ScaleTransform
 
-			if (auto scaleTransform = transform.try_as<ScaleTransform>())
+			if (auto scaleTransform = transform.try_as<winrt::ScaleTransform>())
 			{
 				return TransformExtensions::GetMatrix(scaleTransform);
 			}
 
 			// Process the SkewTransform
-			if (auto skewTransform = transform.try_as<SkewTransform>())
+			if (auto skewTransform = transform.try_as<winrt::SkewTransform>())
 			{
 				return TransformExtensions::GetMatrix(skewTransform);
 			}
 
 			// Process the MatrixTransform
-			if (auto matrixTransform = transform.try_as<MatrixTransform>())
+			if (auto matrixTransform = transform.try_as<winrt::MatrixTransform>())
 			{
 				return matrixTransform.Matrix();
 			}
 
-			if (transform.try_as<CompositeTransform>())
+			if (transform.try_as<winrt::CompositeTransform>())
 			{
 				throw winrt::hresult_not_implemented(L"CompositeTransforms are not supported (yet) by the LayoutTransformControl.");
 			}
@@ -166,7 +165,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			// TranslateTransform has no effect in LayoutTransform
 		}
 
-		return winrt::Microsoft::UI::Xaml::Media::MatrixHelper::Identity();
+		return winrt::MatrixHelper::Identity();
 	}
 
 	/// <summary>
@@ -177,17 +176,17 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	/// indicate that the element will size to whatever content is available.</param>
 	/// <returns>The size that this element determines it needs during
 	/// layout, based on its calculations of child element sizes.</returns>
-	Size LayoutTransformControl::MeasureOverride(Size availableSize)
+	winrt::Size LayoutTransformControl::MeasureOverride(winrt::Size availableSize)
 	{
-		FrameworkElement child = Child();
+		winrt::FrameworkElement child = Child();
 		if (_layoutRoot == nullptr || child == nullptr)
 		{
 			// No content, no size
-			return { 0, 0 };
+			return winrt::Size{ 0, 0 };
 		}
 
-		Size measureSize;
-		if (SizeHelper::Equals(_childActualSize, Size{ 0, 0 }))
+		winrt::Size measureSize;
+		if (winrt::SizeHelper::Equals(_childActualSize, winrt::Size{ 0, 0 }))
 		{
 			// Determine the largest size after the transformation
 			measureSize = ComputeLargestTransformedSize(availableSize);
@@ -202,9 +201,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		_layoutRoot.Measure(measureSize);
 
 		// Transform DesiredSize to find its width/height
-		Rect startingRect = Rect(0, 0, _layoutRoot.DesiredSize().Width, _layoutRoot.DesiredSize().Height);
-		Rect transformedDesiredRect = RectExtensions::Transform(startingRect, _transformation);
-		Size transformedDesiredSize = Size(transformedDesiredRect.Width, transformedDesiredRect.Height);
+		winrt::Rect startingRect = winrt::Rect(0, 0, _layoutRoot.DesiredSize().Width, _layoutRoot.DesiredSize().Height);
+		winrt::Rect transformedDesiredRect = RectExtensions::Transform(startingRect, _transformation);
+		winrt::Size transformedDesiredSize = winrt::Size(transformedDesiredRect.Width, transformedDesiredRect.Height);
 
 		// Return result to allocate enough space for the transformation
 		return transformedDesiredSize;
@@ -216,9 +215,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	/// <param name="finalSize">The final area within the parent that this
 	/// element should use to arrange itself and its children.</param>
 	/// <returns>The actual size used.</returns>
-	Size LayoutTransformControl::ArrangeOverride(Size finalSize)
+	winrt::Size LayoutTransformControl::ArrangeOverride(winrt::Size finalSize)
 	{
-		FrameworkElement child = Child();
+		winrt::FrameworkElement child = Child();
 		if (_layoutRoot == nullptr || child == nullptr)
 		{
 			// No child, use whatever was given
@@ -226,7 +225,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		}
 
 		// Determine the largest available size after the transformation
-		Size finalSizeTransformed = ComputeLargestTransformedSize(finalSize);
+		winrt::Size finalSizeTransformed = ComputeLargestTransformedSize(finalSize);
 		if (IsSizeSmaller(finalSizeTransformed, _layoutRoot.DesiredSize()))
 		{
 			// Some elements do not like being given less space than they asked for (ex: TextBlock)
@@ -235,13 +234,13 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		}
 
 		// Transform the working size to find its width/height
-		Rect startingRect = Rect(0, 0, finalSizeTransformed.Width, finalSizeTransformed.Height);
-		Rect transformedRect = RectExtensions::Transform(startingRect, _transformation);
+		winrt::Rect startingRect = winrt::Rect(0, 0, finalSizeTransformed.Width, finalSizeTransformed.Height);
+		winrt::Rect transformedRect = RectExtensions::Transform(startingRect, _transformation);
 
 		// Create the Arrange rect to center the transformed content
-		Rect finalRect = Rect(
-			-RectHelper::GetLeft(transformedRect) + ((finalSize.Width - transformedRect.Width) / 2),
-			-RectHelper::GetTop(transformedRect) + ((finalSize.Height - transformedRect.Height) / 2),
+		winrt::Rect finalRect = winrt::Rect(
+			-winrt::RectHelper::GetLeft(transformedRect) + ((finalSize.Width - transformedRect.Width) / 2),
+			-winrt::RectHelper::GetTop(transformedRect) + ((finalSize.Height - transformedRect.Height) / 2),
 			finalSizeTransformed.Width,
 			finalSizeTransformed.Height);
 
@@ -249,11 +248,11 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		_layoutRoot.Arrange(finalRect);
 
 		// This is the first opportunity to find out the Child's true DesiredSize
-		if (IsSizeSmaller(finalSizeTransformed, child.RenderSize()) && (SizeHelper::Equals(_childActualSize, Size{ 0, 0 })))
+		if (IsSizeSmaller(finalSizeTransformed, child.RenderSize()) && (winrt::SizeHelper::Equals(_childActualSize, winrt::Size{ 0, 0 })))
 		{
 			// Unfortunately, all the work so far is invalid because the wrong DesiredSize was used
 			// Make a note of the actual DesiredSize
-			_childActualSize = Size(static_cast<float>(child.ActualWidth()), static_cast<float>(child.ActualHeight()));
+			_childActualSize = winrt::Size(static_cast<float>(child.ActualWidth()), static_cast<float>(child.ActualHeight()));
 
 			// Force a measure/arrange pass
 			InvalidateMeasure();
@@ -261,7 +260,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		else
 		{
 			// Clear the "need to measure/arrange again" flag
-			_childActualSize = Size{ 0, 0 };
+			_childActualSize = winrt::Size{ 0, 0 };
 		}
 
 		// Return result to perform the transformation
@@ -273,10 +272,10 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	/// </summary>
 	/// <param name="arrangeBounds">The size to arrange within.</param>
 	/// <returns>The size required.</returns>
-	Size LayoutTransformControl::ComputeLargestTransformedSize(Size arrangeBounds) const
+	winrt::Size LayoutTransformControl::ComputeLargestTransformedSize(winrt::Size arrangeBounds) const
 	{
 		// Computed largest transformed size
-		Size computedSize{ 0, 0 };
+		winrt::Size computedSize{ 0, 0 };
 
 		// Detect infinite bounds and constrain the scenario
 		bool infiniteWidth = std::isinf(arrangeBounds.Width);
@@ -320,17 +319,17 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		if (arrangeBounds.Width == 0 || arrangeBounds.Height == 0)
 		{
 			// Check for empty bounds
-			computedSize = Size(0, 0);
+			computedSize = winrt::Size(0, 0);
 		}
 		else if (infiniteWidth && infiniteHeight)
 		{
 			// Check for completely unbound scenario
-			computedSize = Size(std::numeric_limits<float>::infinity(), std::numeric_limits<float>::infinity());
+			computedSize = winrt::Size(std::numeric_limits<float>::infinity(), std::numeric_limits<float>::infinity());
 		}
 		else if (!MatrixExtensions::HasInverse(_transformation))
 		{
 			// Check for singular matrix
-			computedSize = Size(0, 0);
+			computedSize = winrt::Size(0, 0);
 		}
 		else if (b == 0 || c == 0)
 		{
@@ -341,13 +340,13 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			if (b == 0 && c == 0)
 			{
 				// No constraints
-				computedSize = Size(static_cast<float>(maxWidth), static_cast<float>(maxHeight));
+				computedSize = winrt::Size(static_cast<float>(maxWidth), static_cast<float>(maxHeight));
 			}
 			else if (b == 0)
 			{
 				// Constrained by width
 				double computedHeight = std::min<double>(idealHeightFromWidth, maxHeight);
-				computedSize = Size(
+				computedSize = winrt::Size(
 					static_cast<float>(maxWidth - std::abs((c * computedHeight) / a)),
 					static_cast<float>(computedHeight));
 			}
@@ -355,7 +354,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			{
 				// Constrained by height
 				double computedWidth = std::min<double>(idealWidthFromHeight, maxWidth);
-				computedSize = Size(
+				computedSize = winrt::Size(
 					static_cast<float>(computedWidth),
 					static_cast<float>(maxHeight - std::abs((b * computedWidth) / d)));
 			}
@@ -369,13 +368,13 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			if (a == 0 && d == 0)
 			{
 				// No constraints
-				computedSize = Size(static_cast<float>(maxWidth), static_cast<float>(maxHeight));
+				computedSize = winrt::Size(static_cast<float>(maxWidth), static_cast<float>(maxHeight));
 			}
 			else if (a == 0)
 			{
 				// Constrained by width
 				double computedHeight = std::min<double>(idealHeightFromHeight, maxHeight);
-				computedSize = Size(
+				computedSize = winrt::Size(
 					static_cast<float>(maxWidth - std::abs((d * computedHeight) / b)),
 					static_cast<float>(computedHeight));
 			}
@@ -383,7 +382,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			{
 				// Constrained by height.
 				double computedWidth = std::min<double>(idealWidthFromWidth, maxWidth);
-				computedSize = Size(
+				computedSize = winrt::Size(
 					static_cast<float>(computedWidth),
 					static_cast<float>(maxHeight - std::abs((a * computedWidth) / c)));
 			}
@@ -391,12 +390,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		else if (idealHeightFromWidth <= ((slopeFromHeight * idealWidthFromWidth) + maxHeightFromHeight))
 		{
 			// Check the width midpoint for viability (by being below the height constraint line).
-			computedSize = Size(static_cast<float>(idealWidthFromWidth), static_cast<float>(idealHeightFromWidth));
+			computedSize = winrt::Size(static_cast<float>(idealWidthFromWidth), static_cast<float>(idealHeightFromWidth));
 		}
 		else if (idealHeightFromHeight <= ((slopeFromWidth * idealWidthFromHeight) + maxHeightFromWidth))
 		{
 			// Check the height midpoint for viability (by being below the width constraint line).
-			computedSize = Size(static_cast<float>(idealWidthFromHeight), static_cast<float>(idealHeightFromHeight));
+			computedSize = winrt::Size(static_cast<float>(idealWidthFromHeight), static_cast<float>(idealHeightFromHeight));
 		}
 		else
 		{
@@ -406,7 +405,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			double computedWidth = (maxHeightFromHeight - maxHeightFromWidth) / (slopeFromWidth - slopeFromHeight);
 
 			// Compute height from width constraint line (y=m*x+c; using height would give same result).
-			computedSize = Size(
+			computedSize = winrt::Size(
 				static_cast<float>(computedWidth),
 				static_cast<float>((slopeFromWidth * computedWidth) + maxHeightFromWidth));
 		}
@@ -419,7 +418,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	/// </summary>
 	/// <param name="oldValue">The old transform</param>
 	/// <param name="newValue">The transform to process.</param>
-	void LayoutTransformControl::OnTransformChanged(winrt::Microsoft::UI::Xaml::Media::Transform const& oldValue, winrt::Microsoft::UI::Xaml::Media::Transform const& newValue)
+	void LayoutTransformControl::OnTransformChanged(winrt::Transform const& oldValue, winrt::Transform const& newValue)
 	{
 		if (oldValue)
 		{
@@ -434,7 +433,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		ProcessTransform();
 	}
 
-	void LayoutTransformControl::UnsubscribeFromTransformPropertyChanges(winrt::Microsoft::UI::Xaml::Media::Transform const& transform)
+	void LayoutTransformControl::UnsubscribeFromTransformPropertyChanges(winrt::Transform const& transform)
 	{
 		//const auto& propertyChangeEventSources = _transformPropertyChangeEventSources[transform];
 
@@ -446,9 +445,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		_transformPropertyChangeEventSources.erase(transform);
 	}
 
-	void LayoutTransformControl::SubscribeToTransformPropertyChanges(winrt::Microsoft::UI::Xaml::Media::Transform const& transform)
+	void LayoutTransformControl::SubscribeToTransformPropertyChanges(winrt::Transform const& transform)
 	{
-		if (auto transformGroup = transform.try_as<TransformGroup>())
+		if (auto transformGroup = transform.try_as<winrt::TransformGroup>())
 		{
 			for (const auto& childTransform : transformGroup.Children())
 			{
@@ -461,41 +460,41 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		auto propertyChangeEventSources = std::vector<std::unique_ptr<event_source_registration>>();
 		_transformPropertyChangeEventSources.emplace(transform, std::move(propertyChangeEventSources));
 
-		if (auto rotateTransform = transform.try_as<RotateTransform>())
+		if (auto rotateTransform = transform.try_as<winrt::RotateTransform>())
 		{
-			auto anglePropertyChangeEventSource = std::make_unique<event_source_registration>(rotateTransform, RotateTransform::AngleProperty());
+			auto anglePropertyChangeEventSource = std::make_unique<event_source_registration>(rotateTransform, winrt::RotateTransform::AngleProperty());
 			anglePropertyChangeEventSource->subscribe({ get_weak(), &LayoutTransformControl::OnTransformPropertyChanged });
 			propertyChangeEventSources.emplace_back(std::move(anglePropertyChangeEventSource));
 			return;
 		}
 
-		if (auto scaleTransform = transform.try_as<ScaleTransform>())
+		if (auto scaleTransform = transform.try_as<winrt::ScaleTransform>())
 		{
-			auto scaleXPropertyChangeEventSource = std::make_unique<event_source_registration>(scaleTransform, ScaleTransform::ScaleXProperty());
+			auto scaleXPropertyChangeEventSource = std::make_unique<event_source_registration>(scaleTransform, winrt::ScaleTransform::ScaleXProperty());
 			scaleXPropertyChangeEventSource->subscribe({ get_weak(), &LayoutTransformControl::OnTransformPropertyChanged });
 			propertyChangeEventSources.emplace_back(std::move(scaleXPropertyChangeEventSource));
 
-			auto scaleYPropertyChangeEventSource = std::make_unique<event_source_registration>(scaleTransform, ScaleTransform::ScaleYProperty());
+			auto scaleYPropertyChangeEventSource = std::make_unique<event_source_registration>(scaleTransform, winrt::ScaleTransform::ScaleYProperty());
 			scaleYPropertyChangeEventSource->subscribe({ get_weak(), &LayoutTransformControl::OnTransformPropertyChanged });
 			propertyChangeEventSources.emplace_back(std::move(scaleYPropertyChangeEventSource));
 			return;
 		}
 
-		if (auto skewTransform = transform.try_as<SkewTransform>())
+		if (auto skewTransform = transform.try_as<winrt::SkewTransform>())
 		{
-			auto angleXPropertyChangeEventSource = std::make_unique<event_source_registration>(skewTransform, SkewTransform::AngleXProperty());
+			auto angleXPropertyChangeEventSource = std::make_unique<event_source_registration>(skewTransform, winrt::SkewTransform::AngleXProperty());
 			angleXPropertyChangeEventSource->subscribe({ get_weak(), &LayoutTransformControl::OnTransformPropertyChanged });
 			propertyChangeEventSources.emplace_back(std::move(angleXPropertyChangeEventSource));
 
-			auto angleYPropertyChangeEventSource = std::make_unique<event_source_registration>(skewTransform, SkewTransform::AngleYProperty());
+			auto angleYPropertyChangeEventSource = std::make_unique<event_source_registration>(skewTransform, winrt::SkewTransform::AngleYProperty());
 			angleYPropertyChangeEventSource->subscribe({ get_weak(), &LayoutTransformControl::OnTransformPropertyChanged });
 			propertyChangeEventSources.emplace_back(std::move(angleYPropertyChangeEventSource));
 			return;
 		}
 
-		if (auto matrixTransform = transform.try_as<MatrixTransform>())
+		if (auto matrixTransform = transform.try_as<winrt::MatrixTransform>())
 		{
-			auto matrixPropertyChangeEventSource = std::make_unique<event_source_registration>(matrixTransform, MatrixTransform::MatrixProperty());
+			auto matrixPropertyChangeEventSource = std::make_unique<event_source_registration>(matrixTransform, winrt::MatrixTransform::MatrixProperty());
 			matrixPropertyChangeEventSource->subscribe({ get_weak(), &LayoutTransformControl::OnTransformPropertyChanged });
 			propertyChangeEventSources.emplace_back(std::move(matrixPropertyChangeEventSource));
 		}
@@ -504,7 +503,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	/// <summary>
 	/// Called when a property of a Transform changes.
 	/// </summary>
-	void LayoutTransformControl::OnTransformPropertyChanged([[maybe_unused]] winrt::Windows::Foundation::IInspectable const& sender, [[maybe_unused]] double e)
+	void LayoutTransformControl::OnTransformPropertyChanged([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] double e)
 	{
 		TransformUpdated();
 	}
