@@ -13,13 +13,13 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
 	struct args : winrt::implements<args, winrt::IVectorChangedEventArgs>
 	{
-		args(CollectionChange const change, uint32_t const index) :
+		args(winrt::CollectionChange const change, uint32_t const index) :
 			_change(change),
 			_index(index)
 		{
 		}
 
-		CollectionChange CollectionChange() const
+		winrt::CollectionChange CollectionChange() const
 		{
 			return _change;
 		}
@@ -30,7 +30,6 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		}
 
 	private:
-
 		winrt::CollectionChange const _change;
 		uint32_t const _index;
 	};
@@ -143,7 +142,6 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	{
 		if (auto it = _interspersedObjects.find(index); it != _interspersedObjects.end())
 		{
-			auto value = it->second;
 			_interspersedObjects.erase(it);
 			MoveKeysBackward(index, 1);
 
@@ -318,7 +316,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		std::vector<uint32_t> keys;
 		for (auto const& kvp : _interspersedObjects)
 		{
-				keys.push_back(kvp.first);
+			keys.push_back(kvp.first);
 		}
 
 		for (auto key : keys)
