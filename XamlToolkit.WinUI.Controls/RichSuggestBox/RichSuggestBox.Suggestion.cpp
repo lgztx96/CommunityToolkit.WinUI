@@ -7,14 +7,9 @@
 #include "SuggestionRequestedEventArgs.h"
 #include "SuggestionChosenEventArgs.h"
 
-namespace winrt
-{
-	using namespace Microsoft::UI::Xaml;
-}
-
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-	IAsyncAction RichSuggestBox::RequestSuggestionsAsync(ITextRange& range)
+	winrt::IAsyncAction RichSuggestBox::RequestSuggestionsAsync(winrt::ITextRange& range)
 	{
 		winrt::hstring prefix;
 		winrt::hstring query;
@@ -24,27 +19,30 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			: TryExtractQueryFromRange(range, prefix, query);
 
 		if (queryFound &&
-			prefix == (currentQuery ? currentQuery->Prefix : winrt::hstring{}) &&
-			query == (currentQuery ? currentQuery->QueryText : winrt::hstring{}) &&
+			prefix == (currentQuery ? currentQuery->Prefix : L"") &&
+			query == (currentQuery ? currentQuery->QueryText : L"") &&
 			range.EndPosition() == (currentQuery ? currentQuery->Range.EndPosition() : -1) &&
 			_suggestionPopup.IsOpen())
 		{
 			co_return;
 		}
 
-		auto previousTokenSource = currentQuery ? currentQuery->Task : nullptr;
-		if (previousTokenSource && previousTokenSource.Status() != AsyncStatus::Completed)
+		auto previousTokenSource = currentQuery ? currentQuery->CancellationTokenSource : std::nullopt;
+		if (previousTokenSource)
 		{
-			previousTokenSource.Cancel();
+			previousTokenSource->cancel();
 		}
 
 		if (queryFound)
 		{
+			concurrency::cancellation_token_source tokenSource;
 			_currentQuery = std::make_shared<RichSuggestQuery>();
 			_currentQuery->Prefix = prefix;
 			_currentQuery->QueryText = query;
 			_currentQuery->Range = range;
+			_currentQuery->CancellationTokenSource = tokenSource;
 
+			auto cancellationToken = tokenSource.get_token();
 			auto eventArgs = winrt::make_self<SuggestionRequestedEventArgs>();
 			eventArgs->QueryText(query);
 			eventArgs->Prefix(prefix);
@@ -54,7 +52,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 				try
 				{
 					_suggestionRequested(*this, *eventArgs);
-					co_await eventArgs->wait_for_deferrals();
+					auto action{ eventArgs->wait_for_deferrals() };
+					cancellationToken.register_callback([action]() { action.Cancel(); });
+					co_await action;
 				}
 				catch (...)
 				{
@@ -74,10 +74,10 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		}
 	}
 
-	IAsyncAction RichSuggestBox::CommitSuggestionAsync(IInspectable const& selectedItem)
+	winrt::IAsyncAction RichSuggestBox::CommitSuggestionAsync(winrt::IInspectable const& selectedItem)
 	{
 		const auto& currentQuery = _currentQuery;
-		ITextRange range{ nullptr };
+		winrt::ITextRange range{ nullptr };
 		std::optional<winrt::hstring> prefix, query;
 
 		if (currentQuery)
@@ -87,7 +87,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			query = currentQuery->QueryText;
 		}
 
-		winrt::guid id = GuidHelper::CreateNewGuid();
+		winrt::guid id = winrt::GuidHelper::CreateNewGuid();
 		// range has length of 0 at the end of the commit.
 		// Checking length == 0 to avoid committing twice.
 		if (!prefix.has_value() || !query.has_value() || range == nullptr || range.Length() == 0)
@@ -112,7 +112,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			co_await eventArgs->wait_for_deferrals();
 		}
 
-		auto text = eventArgs->DisplayText();
+		const auto& text = eventArgs->DisplayText();
 
 		// Since this operation is async, the document may have changed at this point.
 		// Double check if the range still has the expected query.
@@ -127,16 +127,16 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		auto displayText = *prefix + text;
 
 		auto RealizeToken = [&]()
+		{
+			if (TryCommitSuggestionIntoDocument(range, displayText, id, eventArgs->Format ? eventArgs->Format : format, true))
 			{
-				if (TryCommitSuggestionIntoDocument(range, displayText, id, eventArgs->Format ? eventArgs->Format : format, true))
-				{
-					auto token = winrt::make<RichSuggestToken>(id, displayText);
-					token.Active(true);
-					token.Item(selectedItem);
-					token.UpdateTextRange(range);
-					_tokens.try_emplace(range.Link(), token);
-				}
-			};
+				auto token = winrt::make<RichSuggestToken>(id, displayText);
+				token.Active(true);
+				token.Item(selectedItem);
+				token.UpdateTextRange(range);
+				_tokens.try_emplace(range.Link(), token);
+			}
+		};
 
 		{
 			std::unique_lock<std::recursive_mutex> lock(_tokensLock);
@@ -152,7 +152,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			return;
 		}
 
-		_suggestionsList.SelectedItem() = choice == 0 ? nullptr : itemsList.GetAt(choice - 1);
+		_suggestionsList.SelectedItem(choice == 0 ? nullptr : itemsList.GetAt(choice - 1));
 		_suggestionsList.ScrollIntoView(_suggestionsList.SelectedItem());
 	}
 
@@ -170,7 +170,13 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			_suggestionPopup.VerticalOffset(0);
 			_suggestionPopup.HorizontalOffset(0);
 			_suggestionsList.SelectedItem(nullptr);
-			_suggestionsList.ScrollIntoView(_suggestionsList.Items());
+			if (auto items = _suggestionsList.Items())
+			{
+				if (items.Size() > 0)
+				{
+					_suggestionsList.ScrollIntoView(items.GetAt(0));
+				}
+			}
 			UpdateCornerRadii();
 		}
 	}
@@ -200,10 +206,11 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		{
 			return;
 		}
-		Rect selectionRect;
+
+		winrt::Rect selectionRect;
 		int32_t hit;
-		_richEditBox.TextDocument().Selection().GetRect(PointOptions::None, selectionRect, hit);
-		Thickness padding = _richEditBox.Padding();
+		_richEditBox.TextDocument().Selection().GetRect(winrt::PointOptions::None, selectionRect, hit);
+		winrt::Thickness padding = _richEditBox.Padding();
 		selectionRect.X -= static_cast<float>(HorizontalOffset());
 		selectionRect.Y -= static_cast<float>(VerticalOffset());
 
@@ -227,8 +234,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		double upOffset = -_suggestionsContainer.ActualHeight();
 		if (PopupPlacement() == SuggestionPopupPlacementMode::Floating)
 		{
-			auto rectBottom = RectHelper::GetBottom(selectionRect);
-			auto rectTop = RectHelper::GetTop(selectionRect);
+			auto rectBottom = winrt::RectHelper::GetBottom(selectionRect);
+			auto rectTop = winrt::RectHelper::GetTop(selectionRect);
 			downOffset = rectBottom + padding.Top + padding.Bottom;
 			upOffset += rectTop;
 		}
@@ -265,29 +272,27 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	void RichSuggestBox::UpdateCornerRadii()
 	{
 		if (_richEditBox == nullptr || _suggestionsContainer == nullptr ||
-			!Windows::Foundation::Metadata::ApiInformation::IsApiContractPresent(L"Windows.Foundation.UniversalApiContract", 7))
+			!winrt::Windows::Foundation::Metadata::ApiInformation::IsApiContractPresent(L"Windows.Foundation.UniversalApiContract", 7))
 		{
 			return;
 		}
 
-		_richEditBox.CornerRadius(CornerRadius());
-		_suggestionsContainer.CornerRadius(PopupCornerRadius());
+		const auto cornerRadius = CornerRadius();
+		const auto popupCornerRadius = PopupCornerRadius();
+		_richEditBox.CornerRadius(cornerRadius);
+		_suggestionsContainer.CornerRadius(popupCornerRadius);
 
 		if (_suggestionPopup.IsOpen() && PopupPlacement() == SuggestionPopupPlacementMode::Attached)
 		{
 			if (_popupOpenDown)
 			{
-				winrt::Microsoft::UI::Xaml::CornerRadius cornerRadius(CornerRadius().TopLeft, CornerRadius().TopRight, 0, 0);
-				_richEditBox.CornerRadius(cornerRadius);
-				winrt::Microsoft::UI::Xaml::CornerRadius popupCornerRadius(0, 0, PopupCornerRadius().BottomRight, PopupCornerRadius().BottomLeft);
-				_suggestionsContainer.CornerRadius(popupCornerRadius);
+				_richEditBox.CornerRadius({ cornerRadius.TopLeft, cornerRadius.TopRight, 0, 0 });
+				_suggestionsContainer.CornerRadius({ 0, 0, popupCornerRadius.BottomRight, popupCornerRadius.BottomLeft });
 			}
 			else
 			{
-				winrt::Microsoft::UI::Xaml::CornerRadius cornerRadius(0, 0, CornerRadius().BottomRight, CornerRadius().BottomLeft);
-				_richEditBox.CornerRadius(cornerRadius);
-				winrt::Microsoft::UI::Xaml::CornerRadius popupCornerRadius(PopupCornerRadius().TopLeft, PopupCornerRadius().TopRight, 0, 0);
-				_suggestionsContainer.CornerRadius(popupCornerRadius);
+				_richEditBox.CornerRadius({ 0, 0, cornerRadius.BottomRight, cornerRadius.BottomLeft });
+				_suggestionsContainer.CornerRadius({ popupCornerRadius.TopLeft, popupCornerRadius.TopRight, 0, 0 });
 			}
 		}
 	}

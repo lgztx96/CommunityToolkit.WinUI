@@ -4,6 +4,7 @@
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Microsoft.UI.Text.h>
 #include <optional>
+#include <ppl.h>
 #endif
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
@@ -16,8 +17,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		std::optional<winrt::hstring> QueryText;
 
-		Microsoft::UI::Text::ITextRange Range{ nullptr };
+		winrt::Microsoft::UI::Text::ITextRange Range{ nullptr };
 
-		winrt::Windows::Foundation::IAsyncAction Task { nullptr };
+		std::optional<concurrency::cancellation_token_source> CancellationTokenSource;
 	};
 }

@@ -15,10 +15,6 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	{
 		RichSuggestToken() = default;
 
-	private:
-		winrt::Microsoft::UI::Text::ITextRange _range{ nullptr };
-
-	public:
 		wil::single_threaded_property<winrt::guid> Id;
 
 		wil::single_threaded_property<winrt::hstring> DisplayText;
@@ -38,6 +34,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		void UpdateTextRange(winrt::Microsoft::UI::Text::ITextRange const& range);
 
 		winrt::hstring ToString() const;
+
+	private:
+		winrt::Microsoft::UI::Text::ITextRange _range{ nullptr };
 	};
 }
 

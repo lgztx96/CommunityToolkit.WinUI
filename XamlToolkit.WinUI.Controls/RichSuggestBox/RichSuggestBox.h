@@ -7,6 +7,7 @@
 #ifdef __INTELLISENSE__
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.Foundation.Collections.h>
+#include <winrt/Windows.ApplicationModel.DataTransfer.h>
 #include <winrt/Microsoft.UI.Input.h>
 #include <winrt/Microsoft.UI.Text.h>
 #include <winrt/Microsoft.UI.Xaml.h>
@@ -27,6 +28,7 @@ namespace winrt
 {
 	using namespace Windows::Foundation;
 	using namespace Windows::Foundation::Collections;
+	using namespace Windows::ApplicationModel::DataTransfer;
 	using namespace Microsoft::UI::Xaml;
 	using namespace Microsoft::UI::Xaml::Input;
 	using namespace Microsoft::UI::Xaml::Controls;
@@ -50,47 +52,47 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		std::recursive_mutex _tokensLock;
 		std::unordered_map<winrt::hstring, winrt::XamlToolkit::WinUI::Controls::RichSuggestToken> _tokens;
-		winrt::Windows::Foundation::Collections::IObservableVector<winrt::XamlToolkit::WinUI::Controls::RichSuggestToken> _visibleTokens;
+		winrt::IObservableVector<winrt::XamlToolkit::WinUI::Controls::RichSuggestToken> _visibleTokens;
 
-		Popup _suggestionPopup{ nullptr };
-		RichEditBox _richEditBox{ nullptr };
-		ScrollViewer _scrollViewer{ nullptr };
-		ListViewBase _suggestionsList{ nullptr };
-		Border _suggestionsContainer{ nullptr };
+		winrt::Popup _suggestionPopup{ nullptr };
+		winrt::RichEditBox _richEditBox{ nullptr };
+		winrt::ScrollViewer _scrollViewer{ nullptr };
+		winrt::ListViewBase _suggestionsList{ nullptr };
+		winrt::Border _suggestionsContainer{ nullptr };
 
-		int _suggestionChoice;
-		bool _ignoreChange;
-		bool _popupOpenDown;
-		bool _textCompositionActive;
+		int _suggestionChoice{ false };
+		bool _ignoreChange{ false };
+		bool _popupOpenDown{ false };
+		bool _textCompositionActive{ false };
 		std::shared_ptr<RichSuggestQuery> _currentQuery;
 
-		RichEditBox::SizeChanged_revoker _editBoxSizeChangedRevoker;
-		RichEditBox::TextChanging_revoker _editBoxTextChangingRevoker;
-		RichEditBox::TextChanged_revoker _editBoxTextChangedRevoker;
-		RichEditBox::TextCompositionStarted_revoker _editBoxTextCompositionStartedRevoker;
-		RichEditBox::TextCompositionChanged_revoker _editBoxTextCompositionChangedRevoker;
-		RichEditBox::TextCompositionEnded_revoker _editBoxTextCompositionEndedRevoker;
-		RichEditBox::SelectionChanging_revoker _editBoxSelectionChangingRevoker;
-		RichEditBox::SelectionChanged_revoker _editBoxSelectionChangedRevoker;
-		RichEditBox::Paste_revoker _editBoxPasteRevoker;
-		RichEditBox::PreviewKeyDown_revoker _editBoxPreviewKeyDownRevoker;
+		winrt::RichEditBox::SizeChanged_revoker _editBoxSizeChangedRevoker;
+		winrt::RichEditBox::TextChanging_revoker _editBoxTextChangingRevoker;
+		winrt::RichEditBox::TextChanged_revoker _editBoxTextChangedRevoker;
+		winrt::RichEditBox::TextCompositionStarted_revoker _editBoxTextCompositionStartedRevoker;
+		winrt::RichEditBox::TextCompositionChanged_revoker _editBoxTextCompositionChangedRevoker;
+		winrt::RichEditBox::TextCompositionEnded_revoker _editBoxTextCompositionEndedRevoker;
+		winrt::RichEditBox::SelectionChanging_revoker _editBoxSelectionChangingRevoker;
+		winrt::RichEditBox::SelectionChanged_revoker _editBoxSelectionChangedRevoker;
+		winrt::RichEditBox::Paste_revoker _editBoxPasteRevoker;
+		winrt::RichEditBox::PreviewKeyDown_revoker _editBoxPreviewKeyDownRevoker;
 
-		RichEditBox::ProcessKeyboardAccelerators_revoker _editBoxProcessKeyboardAcceleratorsRevoker;
+		winrt::RichEditBox::ProcessKeyboardAccelerators_revoker _editBoxProcessKeyboardAcceleratorsRevoker;
 
-		ListViewBase::ItemClick_revoker _listItemClickRevoker;
-		ListViewBase::SizeChanged_revoker _listSizeChangedRevoker;
-		ListViewBase::GotFocus_revoker _listGotFocusRevoker;
+		winrt::ListViewBase::ItemClick_revoker _listItemClickRevoker;
+		winrt::ListViewBase::SizeChanged_revoker _listSizeChangedRevoker;
+		winrt::ListViewBase::GotFocus_revoker _listGotFocusRevoker;
 
-		IInspectable _pointerPressedHandler{ nullptr };
-		IInspectable _pointerMovedHandler{ nullptr };
+		winrt::IInspectable _pointerPressedHandler{ nullptr };
+		winrt::IInspectable _pointerMovedHandler{ nullptr };
 
-		static void OnHeaderChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e);
+		static void OnHeaderChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 
-		static void OnDescriptionChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e);
+		static void OnDescriptionChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 
-		static void OnSuggestionPopupPlacementChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e);
+		static void OnSuggestionPopupPlacementChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 
-		static void OnPrefixesChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e);
+		static void OnPrefixesChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 
 	public:
 		RichSuggestBox();
@@ -99,21 +101,20 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		void Clear();
 
-		void AddTokens(IIterable<winrt::XamlToolkit::WinUI::Controls::RichSuggestToken> const& tokens);
+		void AddTokens(winrt::IIterable<winrt::XamlToolkit::WinUI::Controls::RichSuggestToken> const& tokens);
 
-		void Load(winrt::hstring const& rtf, IIterable<winrt::XamlToolkit::WinUI::Controls::RichSuggestToken> const& tokens);
+		void Load(winrt::hstring const& rtf, winrt::IIterable<winrt::XamlToolkit::WinUI::Controls::RichSuggestToken> const& tokens);
 
-		bool TryGetTokenFromRange(ITextRange range, winrt::XamlToolkit::WinUI::Controls::RichSuggestToken& token);
+		bool TryGetTokenFromRange(winrt::ITextRange const& range, winrt::XamlToolkit::WinUI::Controls::RichSuggestToken& token);
 
-		Rect GetRectFromRange(ITextRange const& range);
+		winrt::Rect GetRectFromRange(winrt::ITextRange const& range);
 
 		void OnApplyTemplate();
 
 #pragma region Events
-		winrt::event<winrt::Windows::Foundation::TypedEventHandler<class_type, SuggestionRequestedEventArgs>> _suggestionRequested;
+		winrt::event<winrt::TypedEventHandler<class_type, SuggestionRequestedEventArgs>> _suggestionRequested;
 
-		winrt::event_token SuggestionRequested(
-			winrt::Windows::Foundation::TypedEventHandler<class_type, SuggestionRequestedEventArgs> const& handler)
+		winrt::event_token SuggestionRequested(winrt::TypedEventHandler<class_type, SuggestionRequestedEventArgs> const& handler)
 		{
 			return _suggestionRequested.add(handler);
 		}
@@ -123,10 +124,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			_suggestionRequested.remove(token);
 		}
 
-		winrt::event<winrt::Windows::Foundation::TypedEventHandler<class_type, SuggestionChosenEventArgs>> _suggestionChosen;
+		winrt::event<winrt::TypedEventHandler<class_type, SuggestionChosenEventArgs>> _suggestionChosen;
 
-		winrt::event_token SuggestionChosen(
-			winrt::Windows::Foundation::TypedEventHandler<class_type, SuggestionChosenEventArgs> const& handler)
+		winrt::event_token SuggestionChosen(winrt::TypedEventHandler<class_type, SuggestionChosenEventArgs> const& handler)
 		{
 			return _suggestionChosen.add(handler);
 		}
@@ -136,10 +136,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			_suggestionChosen.remove(token);
 		}
 
-		winrt::event<winrt::Windows::Foundation::TypedEventHandler<class_type, RichSuggestTokenSelectedEventArgs>> _tokenSelected;
+		winrt::event<winrt::TypedEventHandler<class_type, RichSuggestTokenSelectedEventArgs>> _tokenSelected;
 
-		winrt::event_token TokenSelected(
-			winrt::Windows::Foundation::TypedEventHandler<class_type, RichSuggestTokenSelectedEventArgs> const& handler)
+		winrt::event_token TokenSelected(winrt::TypedEventHandler<class_type, RichSuggestTokenSelectedEventArgs> const& handler)
 		{
 			return _tokenSelected.add(handler);
 		}
@@ -149,10 +148,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			_tokenSelected.remove(token);
 		}
 
-		winrt::event<winrt::Windows::Foundation::TypedEventHandler<class_type, RichSuggestTokenPointerOverEventArgs>> _tokenPointerOver;
+		winrt::event<winrt::TypedEventHandler<class_type, RichSuggestTokenPointerOverEventArgs>> _tokenPointerOver;
 
-		winrt::event_token TokenPointerOver(
-			winrt::Windows::Foundation::TypedEventHandler<class_type, RichSuggestTokenPointerOverEventArgs> const& handler)
+		winrt::event_token TokenPointerOver(winrt::TypedEventHandler<class_type, RichSuggestTokenPointerOverEventArgs> const& handler)
 		{
 			return _tokenPointerOver.add(handler);
 		}
@@ -170,139 +168,139 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 #pragma endregion
 
 #pragma region Properties
-		static inline const wil::single_threaded_property<DependencyProperty> PlaceholderTextProperty =
-			DependencyProperty::Register(
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> PlaceholderTextProperty =
+			winrt::DependencyProperty::Register(
 				L"PlaceholderText",
-				winrt::xaml_typename<hstring>(),
+				winrt::xaml_typename<winrt::hstring>(),
 				winrt::xaml_typename<class_type>(),
-				PropertyMetadata{ winrt::box_value(L"") });
+				winrt::PropertyMetadata{ winrt::box_value(L"") });
 
-		static inline const wil::single_threaded_property<DependencyProperty> RichEditBoxStyleProperty =
-			DependencyProperty::Register(
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> RichEditBoxStyleProperty =
+			winrt::DependencyProperty::Register(
 				L"RichEditBoxStyle",
-				winrt::xaml_typename<struct Style>(),
+				winrt::xaml_typename<winrt::Style>(),
 				winrt::xaml_typename<class_type>(),
-				PropertyMetadata{ nullptr });
+				winrt::PropertyMetadata{ nullptr });
 
-		static inline const wil::single_threaded_property<DependencyProperty> HeaderProperty =
-			DependencyProperty::Register(
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> HeaderProperty =
+			winrt::DependencyProperty::Register(
 				L"Header",
-				winrt::xaml_typename<IInspectable>(),
+				winrt::xaml_typename<winrt::IInspectable>(),
 				winrt::xaml_typename<class_type>(),
-				PropertyMetadata{ nullptr, &RichSuggestBox::OnHeaderChanged });
+				winrt::PropertyMetadata{ nullptr, &RichSuggestBox::OnHeaderChanged });
 
-		static inline const wil::single_threaded_property<DependencyProperty> HeaderTemplateProperty =
-			DependencyProperty::Register(
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> HeaderTemplateProperty =
+			winrt::DependencyProperty::Register(
 				L"HeaderTemplate",
-				winrt::xaml_typename<DataTemplate>(),
+				winrt::xaml_typename<winrt::DataTemplate>(),
 				winrt::xaml_typename<class_type>(),
-				PropertyMetadata{ nullptr });
+				winrt::PropertyMetadata{ nullptr });
 
-		static inline const wil::single_threaded_property<DependencyProperty> DescriptionProperty =
-			DependencyProperty::Register(
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> DescriptionProperty =
+			winrt::DependencyProperty::Register(
 				L"Description",
-				winrt::xaml_typename<IInspectable>(),
+				winrt::xaml_typename<winrt::IInspectable>(),
 				winrt::xaml_typename<class_type>(),
-				PropertyMetadata{ nullptr, &RichSuggestBox::OnDescriptionChanged });
+				winrt::PropertyMetadata{ nullptr, &RichSuggestBox::OnDescriptionChanged });
 
-		static inline const wil::single_threaded_property<DependencyProperty> PopupPlacementProperty =
-			DependencyProperty::Register(
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> PopupPlacementProperty =
+			winrt::DependencyProperty::Register(
 				L"PopupPlacement",
 				winrt::xaml_typename<SuggestionPopupPlacementMode>(),
 				winrt::xaml_typename<class_type>(),
-				PropertyMetadata{ winrt::box_value(SuggestionPopupPlacementMode::Floating), &RichSuggestBox::OnSuggestionPopupPlacementChanged });
+				winrt::PropertyMetadata{ winrt::box_value(SuggestionPopupPlacementMode::Floating), &RichSuggestBox::OnSuggestionPopupPlacementChanged });
 
-		static inline const wil::single_threaded_property<DependencyProperty> PopupCornerRadiusProperty =
-			DependencyProperty::Register(
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> PopupCornerRadiusProperty =
+			winrt::DependencyProperty::Register(
 				L"PopupCornerRadius",
-				winrt::xaml_typename<struct CornerRadius>(),
+				winrt::xaml_typename<winrt::CornerRadius>(),
 				winrt::xaml_typename<class_type>(),
-				PropertyMetadata{ winrt::box_value(winrt::Microsoft::UI::Xaml::CornerRadius{ 0, 0, 0, 0}) });
+				winrt::PropertyMetadata{ winrt::box_value(winrt::Microsoft::UI::Xaml::CornerRadius{ 0, 0, 0, 0}) });
 
-		static inline const wil::single_threaded_property<DependencyProperty> PopupHeaderProperty =
-			DependencyProperty::Register(
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> PopupHeaderProperty =
+			winrt::DependencyProperty::Register(
 				L"PopupHeader",
-				winrt::xaml_typename<IInspectable>(),
+				winrt::xaml_typename<winrt::IInspectable>(),
 				winrt::xaml_typename<class_type>(),
-				PropertyMetadata{ nullptr });
+				winrt::PropertyMetadata{ nullptr });
 
-		static inline const wil::single_threaded_property<DependencyProperty> PopupHeaderTemplateProperty =
-			DependencyProperty::Register(
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> PopupHeaderTemplateProperty =
+			winrt::DependencyProperty::Register(
 				L"PopupHeaderTemplate",
-				winrt::xaml_typename<DataTemplate>(),
+				winrt::xaml_typename<winrt::DataTemplate>(),
 				winrt::xaml_typename<class_type>(),
-				PropertyMetadata{ nullptr });
+				winrt::PropertyMetadata{ nullptr });
 
-		static inline const wil::single_threaded_property<DependencyProperty> PopupFooterProperty =
-			DependencyProperty::Register(
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> PopupFooterProperty =
+			winrt::DependencyProperty::Register(
 				L"PopupFooter",
-				winrt::xaml_typename<IInspectable>(),
+				winrt::xaml_typename<winrt::IInspectable>(),
 				winrt::xaml_typename<class_type>(),
-				PropertyMetadata{ nullptr });
+				winrt::PropertyMetadata{ nullptr });
 
-		static inline const wil::single_threaded_property<DependencyProperty> PopupFooterTemplateProperty =
-			DependencyProperty::Register(
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> PopupFooterTemplateProperty =
+			winrt::DependencyProperty::Register(
 				L"PopupFooterTemplate",
-				winrt::xaml_typename<DataTemplate>(),
+				winrt::xaml_typename<winrt::DataTemplate>(),
 				winrt::xaml_typename<class_type>(),
-				PropertyMetadata{ nullptr });
+				winrt::PropertyMetadata{ nullptr });
 
-		static inline const wil::single_threaded_property<DependencyProperty> TokenBackgroundProperty =
-			DependencyProperty::Register(
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> TokenBackgroundProperty =
+			winrt::DependencyProperty::Register(
 				L"TokenBackground",
-				winrt::xaml_typename<SolidColorBrush>(),
+				winrt::xaml_typename<winrt::SolidColorBrush>(),
 				winrt::xaml_typename<class_type>(),
-				PropertyMetadata{ nullptr });
+				winrt::PropertyMetadata{ nullptr });
 
-		static inline const wil::single_threaded_property<DependencyProperty> TokenForegroundProperty =
-			DependencyProperty::Register(
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> TokenForegroundProperty =
+			winrt::DependencyProperty::Register(
 				L"TokenForeground",
-				winrt::xaml_typename<SolidColorBrush>(),
+				winrt::xaml_typename<winrt::SolidColorBrush>(),
 				winrt::xaml_typename<class_type>(),
-				PropertyMetadata{ nullptr });
+				winrt::PropertyMetadata{ nullptr });
 
-		static inline const wil::single_threaded_property<DependencyProperty> PrefixesProperty =
-			DependencyProperty::Register(
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> PrefixesProperty =
+			winrt::DependencyProperty::Register(
 				L"Prefixes",
-				winrt::xaml_typename<hstring>(),
+				winrt::xaml_typename<winrt::hstring>(),
 				winrt::xaml_typename<class_type>(),
-				PropertyMetadata{ winrt::box_value(L""), &RichSuggestBox::OnPrefixesChanged });
+				winrt::PropertyMetadata{ winrt::box_value(L""), &RichSuggestBox::OnPrefixesChanged });
 
-		static inline const wil::single_threaded_property<DependencyProperty> ClipboardPasteFormatProperty =
-			DependencyProperty::Register(
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> ClipboardPasteFormatProperty =
+			winrt::DependencyProperty::Register(
 				L"ClipboardPasteFormat",
-				winrt::xaml_typename<RichEditClipboardFormat>(),
+				winrt::xaml_typename<winrt::RichEditClipboardFormat>(),
 				winrt::xaml_typename<class_type>(),
-				PropertyMetadata{ winrt::box_value(RichEditClipboardFormat::AllFormats) });
+				winrt::PropertyMetadata{ winrt::box_value(RichEditClipboardFormat::AllFormats) });
 
-		static inline const wil::single_threaded_property<DependencyProperty> ClipboardCopyFormatProperty =
-			DependencyProperty::Register(
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> ClipboardCopyFormatProperty =
+			winrt::DependencyProperty::Register(
 				L"ClipboardCopyFormat",
-				winrt::xaml_typename<RichEditClipboardFormat>(),
+				winrt::xaml_typename<winrt::RichEditClipboardFormat>(),
 				winrt::xaml_typename<class_type>(),
-				PropertyMetadata{ winrt::box_value(RichEditClipboardFormat::AllFormats) });
+				winrt::PropertyMetadata{ winrt::box_value(RichEditClipboardFormat::AllFormats) });
 
-		static inline const wil::single_threaded_property<DependencyProperty> DisabledFormattingAcceleratorsProperty =
-			DependencyProperty::Register(
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> DisabledFormattingAcceleratorsProperty =
+			winrt::DependencyProperty::Register(
 				L"DisabledFormattingAccelerators",
 				winrt::xaml_typename<DisabledFormattingAccelerators>(),
 				winrt::xaml_typename<class_type>(),
-				PropertyMetadata{ winrt::box_value(DisabledFormattingAccelerators::None) });
+				winrt::PropertyMetadata{ winrt::box_value(DisabledFormattingAccelerators::None) });
 
-		hstring PlaceholderText() const { return winrt::unbox_value<hstring>(GetValue(PlaceholderTextProperty)); }
-		void PlaceholderText(hstring const& value) { SetValue(PlaceholderTextProperty, winrt::box_value(value)); }
+		winrt::hstring PlaceholderText() const { return winrt::unbox_value<winrt::hstring>(GetValue(PlaceholderTextProperty)); }
+		void PlaceholderText(winrt::hstring const& value) { SetValue(PlaceholderTextProperty, winrt::box_value(value)); }
 
-		winrt::Microsoft::UI::Xaml::Style RichEditBoxStyle() const { return winrt::unbox_value<struct Style>(GetValue(RichEditBoxStyleProperty)); }
-		void RichEditBoxStyle(winrt::Microsoft::UI::Xaml::Style const& value) { SetValue(RichEditBoxStyleProperty, value); }
+		winrt::Style RichEditBoxStyle() const { return winrt::unbox_value<struct Style>(GetValue(RichEditBoxStyleProperty)); }
+		void RichEditBoxStyle(winrt::Style const& value) { SetValue(RichEditBoxStyleProperty, value); }
 
-		IInspectable Header() const { return GetValue(HeaderProperty); }
-		void Header(IInspectable const& value) { SetValue(HeaderProperty, value); }
+		winrt::IInspectable Header() const { return GetValue(HeaderProperty); }
+		void Header(winrt::IInspectable const& value) { SetValue(HeaderProperty, value); }
 
-		DataTemplate HeaderTemplate() const { return winrt::unbox_value<DataTemplate>(GetValue(HeaderTemplateProperty)); }
-		void HeaderTemplate(DataTemplate const& value) { SetValue(HeaderTemplateProperty, value); }
+		winrt::DataTemplate HeaderTemplate() const { return winrt::unbox_value<winrt::DataTemplate>(GetValue(HeaderTemplateProperty)); }
+		void HeaderTemplate(winrt::DataTemplate const& value) { SetValue(HeaderTemplateProperty, value); }
 
-		IInspectable Description() const { return GetValue(DescriptionProperty); }
-		void Description(IInspectable const& value) { SetValue(DescriptionProperty, value); }
+		winrt::IInspectable Description() const { return GetValue(DescriptionProperty); }
+		void Description(winrt::IInspectable const& value) { SetValue(DescriptionProperty, value); }
 
 		SuggestionPopupPlacementMode PopupPlacement() const { return winrt::unbox_value<SuggestionPopupPlacementMode>(GetValue(PopupPlacementProperty)); }
 		void PopupPlacement(SuggestionPopupPlacementMode const& value) { SetValue(PopupPlacementProperty, winrt::box_value(value)); }
@@ -310,197 +308,197 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		winrt::Microsoft::UI::Xaml::CornerRadius PopupCornerRadius() const { return winrt::unbox_value<struct CornerRadius>(GetValue(PopupCornerRadiusProperty)); }
 		void PopupCornerRadius(winrt::Microsoft::UI::Xaml::CornerRadius const& value) { SetValue(PopupCornerRadiusProperty, winrt::box_value(value)); }
 
-		IInspectable PopupHeader() const
+		winrt::IInspectable PopupHeader() const
 		{
-			return GetValue(PopupHeaderProperty);
+			return GetValue(PopupHeaderProperty());
 		}
 
-		void PopupHeader(IInspectable const& value)
+		void PopupHeader(winrt::IInspectable const& value)
 		{
-			SetValue(PopupHeaderProperty, value);
+			SetValue(PopupHeaderProperty(), value);
 		}
 
-		DataTemplate PopupHeaderTemplate() const
+		winrt::DataTemplate PopupHeaderTemplate() const
 		{
-			return GetValue(PopupHeaderTemplateProperty).try_as<DataTemplate>();
+			return GetValue(PopupHeaderTemplateProperty()).try_as<winrt::DataTemplate>();
 		}
 
-		void PopupHeaderTemplate(DataTemplate const& value)
+		void PopupHeaderTemplate(winrt::DataTemplate const& value)
 		{
-			SetValue(PopupHeaderTemplateProperty, value);
+			SetValue(PopupHeaderTemplateProperty(), value);
 		}
 
-		IInspectable PopupFooter() const
+		winrt::IInspectable PopupFooter() const
 		{
-			return GetValue(PopupFooterProperty);
+			return GetValue(PopupFooterProperty());
 		}
 
-		void PopupFooter(IInspectable const& value)
+		void PopupFooter(winrt::IInspectable const& value)
 		{
-			SetValue(PopupFooterProperty, value);
+			SetValue(PopupFooterProperty(), value);
 		}
 
-		DataTemplate PopupFooterTemplate() const
+		winrt::DataTemplate PopupFooterTemplate() const
 		{
-			return GetValue(PopupFooterTemplateProperty).try_as<DataTemplate>();
+			return GetValue(PopupFooterTemplateProperty()).try_as<winrt::DataTemplate>();
 		}
 
-		void PopupFooterTemplate(DataTemplate const& value)
+		void PopupFooterTemplate(winrt::DataTemplate const& value)
 		{
-			SetValue(PopupFooterTemplateProperty, value);
+			SetValue(PopupFooterTemplateProperty(), value);
 		}
 
-		SolidColorBrush TokenBackground() const
+		winrt::SolidColorBrush TokenBackground() const
 		{
-			return GetValue(TokenBackgroundProperty).try_as<SolidColorBrush>();
+			return GetValue(TokenBackgroundProperty()).try_as<winrt::SolidColorBrush>();
 		}
 
-		void TokenBackground(SolidColorBrush const& value)
+		void TokenBackground(winrt::SolidColorBrush const& value)
 		{
-			SetValue(TokenBackgroundProperty, value);
+			SetValue(TokenBackgroundProperty(), value);
 		}
 
-		SolidColorBrush TokenForeground() const
+		winrt::SolidColorBrush TokenForeground() const
 		{
-			return GetValue(TokenForegroundProperty).try_as<SolidColorBrush>();
+			return GetValue(TokenForegroundProperty()).try_as<winrt::SolidColorBrush>();
 		}
 
-		void TokenForeground(SolidColorBrush const& value)
+		void TokenForeground(winrt::SolidColorBrush const& value)
 		{
-			SetValue(TokenForegroundProperty, value);
+			SetValue(TokenForegroundProperty(), value);
 		}
 
-		hstring Prefixes() const
+		winrt::hstring Prefixes() const
 		{
-			return winrt::unbox_value<winrt::hstring>(GetValue(PrefixesProperty));
+			return winrt::unbox_value<winrt::hstring>(GetValue(PrefixesProperty()));
 		}
 
-		void Prefixes(hstring const& value)
+		void Prefixes(winrt::hstring const& value)
 		{
-			SetValue(PrefixesProperty, winrt::box_value(value));
+			SetValue(PrefixesProperty(), winrt::box_value(value));
 		}
 
-		RichEditClipboardFormat ClipboardPasteFormat() const
+		winrt::RichEditClipboardFormat ClipboardPasteFormat() const
 		{
-			return unbox_value<RichEditClipboardFormat>(GetValue(ClipboardPasteFormatProperty));
+			return winrt::unbox_value<winrt::RichEditClipboardFormat>(GetValue(ClipboardPasteFormatProperty()));
 		}
 
-		void ClipboardPasteFormat(RichEditClipboardFormat const& value)
+		void ClipboardPasteFormat(winrt::RichEditClipboardFormat const& value)
 		{
-			SetValue(ClipboardPasteFormatProperty, winrt::box_value(value));
+			SetValue(ClipboardPasteFormatProperty(), winrt::box_value(value));
 		}
 
-		RichEditClipboardFormat ClipboardCopyFormat() const
+		winrt::RichEditClipboardFormat ClipboardCopyFormat() const
 		{
-			return unbox_value<RichEditClipboardFormat>(GetValue(ClipboardCopyFormatProperty));
+			return winrt::unbox_value<winrt::RichEditClipboardFormat>(GetValue(ClipboardCopyFormatProperty()));
 		}
 
-		void ClipboardCopyFormat(RichEditClipboardFormat const& value)
+		void ClipboardCopyFormat(winrt::RichEditClipboardFormat const& value)
 		{
-			SetValue(ClipboardCopyFormatProperty, winrt::box_value(value));
+			SetValue(ClipboardCopyFormatProperty(), winrt::box_value(value));
 		}
 
-		winrt::Microsoft::UI::Xaml::Controls::DisabledFormattingAccelerators DisabledFormattingAccelerators() const
+		winrt::DisabledFormattingAccelerators DisabledFormattingAccelerators() const
 		{
-			return winrt::unbox_value<enum DisabledFormattingAccelerators>(GetValue(DisabledFormattingAcceleratorsProperty));
+			return winrt::unbox_value<enum DisabledFormattingAccelerators>(GetValue(DisabledFormattingAcceleratorsProperty()));
 		}
 
-		void DisabledFormattingAccelerators(winrt::Microsoft::UI::Xaml::Controls::DisabledFormattingAccelerators const& value)
+		void DisabledFormattingAccelerators(winrt::DisabledFormattingAccelerators const& value)
 		{
-			SetValue(DisabledFormattingAcceleratorsProperty, winrt::box_value(value));
+			SetValue(DisabledFormattingAcceleratorsProperty(), winrt::box_value(value));
 		}
 
-		RichEditTextDocument TextDocument() { return _richEditBox ? _richEditBox.TextDocument() : nullptr; }
+		winrt::RichEditTextDocument TextDocument() const { return _richEditBox ? _richEditBox.TextDocument() : nullptr; }
 
-		double HorizontalOffset() { return _scrollViewer ? _scrollViewer.HorizontalOffset() : 0; }
+		double HorizontalOffset() const { return _scrollViewer ? _scrollViewer.HorizontalOffset() : 0; }
 
-		double VerticalOffset() { return _scrollViewer ? _scrollViewer.VerticalOffset() : 0; }
+		double VerticalOffset() const { return _scrollViewer ? _scrollViewer.VerticalOffset() : 0; }
 
-		IObservableVector<winrt::XamlToolkit::WinUI::Controls::RichSuggestToken> Tokens() { return _visibleTokens; }
+		winrt::IObservableVector<winrt::XamlToolkit::WinUI::Controls::RichSuggestToken> Tokens() const { return _visibleTokens; }
 #pragma endregion
 
 	private:
 
-		void OnCornerRadiusChanged(DependencyObject const& sender, DependencyProperty const& dp);
+		void OnCornerRadiusChanged(winrt::DependencyObject const& sender, winrt::DependencyProperty const& dp);
 
-		void OnLoaded(IInspectable const& sender, RoutedEventArgs const& e);
+		void OnLoaded(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
 
-		void OnLostFocusEvent(IInspectable const& sender, RoutedEventArgs const& e);
+		void OnLostFocusEvent(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
 
-		winrt::fire_and_forget SuggestionsList_ItemClick(IInspectable const& sender, ItemClickEventArgs const& e);
+		winrt::fire_and_forget SuggestionsList_ItemClick(winrt::IInspectable const& sender, winrt::ItemClickEventArgs const& e);
 
-		void SuggestionsList_SizeChanged(IInspectable const& sender, SizeChangedEventArgs const& e);
+		void SuggestionsList_SizeChanged(winrt::IInspectable const& sender, winrt::SizeChangedEventArgs const& e);
 
-		void SuggestionList_GotFocus(IInspectable const& sender, RoutedEventArgs const& e);
+		void SuggestionList_GotFocus(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
 
-		void RichEditBox_OnPointerMoved(IInspectable const& sender, PointerRoutedEventArgs const& e);
+		void RichEditBox_OnPointerMoved(winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e);
 
-		void RichEditBox_SelectionChanging(RichEditBox const& sender, RichEditBoxSelectionChangingEventArgs const& args);
+		void RichEditBox_SelectionChanging(winrt::RichEditBox const& sender, winrt::RichEditBoxSelectionChangingEventArgs const& args);
 
-		winrt::fire_and_forget RichEditBox_SelectionChanged(IInspectable const& sender, RoutedEventArgs const& e);
+		winrt::fire_and_forget RichEditBox_SelectionChanged(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
 
-		void RichEditBox_OnPointerPressed(IInspectable const& sender, PointerRoutedEventArgs const& e);
+		void RichEditBox_OnPointerPressed(winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e);
 
-		winrt::fire_and_forget RichEditBox_ProcessKeyboardAccelerators(UIElement const& sender, ProcessKeyboardAcceleratorEventArgs const& args);
+		winrt::fire_and_forget RichEditBox_ProcessKeyboardAccelerators(winrt::UIElement const& sender, winrt::ProcessKeyboardAcceleratorEventArgs const& args);
 
-		winrt::fire_and_forget RichEditBox_PreviewKeyDown(IInspectable const& sender, KeyRoutedEventArgs const& e);
+		winrt::fire_and_forget RichEditBox_PreviewKeyDown(winrt::IInspectable const& sender, winrt::KeyRoutedEventArgs const& e);
 
-		void RichEditBox_TextChanging(RichEditBox const& sender, RichEditBoxTextChangingEventArgs const& args);
+		void RichEditBox_TextChanging(winrt::RichEditBox const& sender, winrt::RichEditBoxTextChangingEventArgs const& args);
 
-		void RichEditBox_TextChanged(IInspectable const& sender, RoutedEventArgs const& e);
+		void RichEditBox_TextChanged(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
 
-		void RichEditBox_TextCompositionStarted(RichEditBox const& sender, TextCompositionStartedEventArgs const& args);
+		void RichEditBox_TextCompositionStarted(winrt::RichEditBox const& sender, winrt::TextCompositionStartedEventArgs const& args);
 
-		winrt::fire_and_forget RichEditBox_TextCompositionChanged(RichEditBox const& sender, TextCompositionChangedEventArgs const& args);
+		winrt::fire_and_forget RichEditBox_TextCompositionChanged(winrt::RichEditBox const& sender, winrt::TextCompositionChangedEventArgs const& args);
 
-		void RichEditBox_TextCompositionEnded(RichEditBox const& sender, TextCompositionEndedEventArgs const& args);
+		void RichEditBox_TextCompositionEnded(winrt::RichEditBox const& sender, winrt::TextCompositionEndedEventArgs const& args);
 
-		void RichEditBox_SizeChanged(IInspectable const& sender, SizeChangedEventArgs const& e);
+		void RichEditBox_SizeChanged(winrt::IInspectable const& sender, winrt::SizeChangedEventArgs const& e);
 
-		winrt::fire_and_forget RichEditBox_Paste(IInspectable const& sender, TextControlPasteEventArgs const& e);
+		winrt::fire_and_forget RichEditBox_Paste(winrt::IInspectable const& sender, winrt::TextControlPasteEventArgs const& e);
 
-		void ConditionallyLoadElement(IInspectable const& property, std::wstring_view elementName);
+		void ConditionallyLoadElement(winrt::IInspectable const& property, std::wstring_view elementName);
 
 		void UpdateVisibleTokenList();
 
 #pragma region Helpers
-		static bool IsElementOnScreen(FrameworkElement const& element, double offsetX = 0, double offsetY = 0);
+		static bool IsElementOnScreen(winrt::FrameworkElement const& element, double offsetX = 0, double offsetY = 0);
 
-		static bool IsElementInsideWindow(FrameworkElement const& element, double offsetX = 0, double offsetY = 0);
+		static bool IsElementInsideWindow(winrt::FrameworkElement const& element, double offsetX = 0, double offsetY = 0);
 
 		static winrt::hstring EnforcePrefixesRequirements(winrt::hstring const& value);
 
-		static void PadRange(ITextRange const& range, ITextCharacterFormat const& format);
+		static void PadRange(winrt::ITextRange const& range, winrt::ITextCharacterFormat const& format);
 
-		static void ForEachLinkInDocument(RichEditTextDocument const& document, std::function<void(ITextRange const&)> const& action);
+		static void ForEachLinkInDocument(winrt::RichEditTextDocument const& document, std::function<void(winrt::ITextRange const&)> const& action);
 #pragma endregion
 
 #pragma region Document
 		void CreateSingleEdit(std::function<void()> const& editAction);
 
-		void ExpandSelectionOnPartialTokenSelect(ITextSelection const& selection, ITextRange const& tokenRange);
+		void ExpandSelectionOnPartialTokenSelect(winrt::ITextSelection const& selection, winrt::ITextRange const& tokenRange);
 
-		void InvokeTokenSelected(ITextSelection const& selection);
+		void InvokeTokenSelected(winrt::ITextSelection const& selection);
 
-		void InvokeTokenPointerOver(PointerPoint const& pointer);
+		void InvokeTokenPointerOver(winrt::PointerPoint const& pointer);
 
 		void ValidateTokensInDocument();
 
-		void ValidateTokenFromRange(ITextRange const& range);
+		void ValidateTokenFromRange(winrt::ITextRange const& range);
 
-		bool TryCommitSuggestionIntoDocument(ITextRange const& range, winrt::hstring const& displayText, winrt::guid const& id, ITextCharacterFormat const& format, bool addTrailingSpace);
+		bool TryCommitSuggestionIntoDocument(winrt::ITextRange const& range, winrt::hstring const& displayText, winrt::guid const& id, winrt::ITextCharacterFormat const& format, bool addTrailingSpace) const;
 
-		bool TryExtractQueryFromSelection(winrt::hstring& prefix, winrt::hstring& query, ITextRange& range);
+		bool TryExtractQueryFromSelection(winrt::hstring& prefix, winrt::hstring& query, winrt::ITextRange& range);
 
-		bool TryExtractQueryFromRange(ITextRange const& range, winrt::hstring& prefix, winrt::hstring& query);
+		bool TryExtractQueryFromRange(winrt::ITextRange const& range, winrt::hstring& prefix, winrt::hstring& query);
 
-		ITextCharacterFormat CreateTokenFormat(ITextRange const& range) const;
+		winrt::ITextCharacterFormat CreateTokenFormat(winrt::ITextRange const& range) const;
 #pragma endregion
 
 #pragma region Suggestion
-		IAsyncAction RequestSuggestionsAsync(ITextRange& range);
+		winrt::IAsyncAction RequestSuggestionsAsync(winrt::ITextRange& range);
 
-		IAsyncAction CommitSuggestionAsync(IInspectable const& selectedItem);
+		winrt::IAsyncAction CommitSuggestionAsync(winrt::IInspectable const& selectedItem);
 
 		void UpdateSuggestionsListSelectedItem(int choice);
 

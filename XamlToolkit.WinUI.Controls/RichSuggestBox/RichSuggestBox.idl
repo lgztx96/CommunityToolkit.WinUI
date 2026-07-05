@@ -12,7 +12,6 @@ namespace XamlToolkit.WinUI.Controls
 		Attached
 	};
 
-	[default_interface]
 	runtimeclass RichSuggestBox : Microsoft.UI.Xaml.Controls.ItemsControl
 	{
 		RichSuggestBox();

@@ -21,28 +21,28 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         _ignoreChange = false;
     }
 
-    void RichSuggestBox::ExpandSelectionOnPartialTokenSelect(ITextSelection const& selection, ITextRange const& tokenRange)
+    void RichSuggestBox::ExpandSelectionOnPartialTokenSelect(winrt::ITextSelection const& selection, ITextRange const& tokenRange)
     {
         switch (selection.Type())
         {
-        case SelectionType::InsertionPoint:
+        case winrt::SelectionType::InsertionPoint:
             // Snap selection to token on click
             if (tokenRange.StartPosition() < selection.StartPosition() && selection.EndPosition() < tokenRange.EndPosition())
             {
-                selection.Expand(TextRangeUnit::Link);
+                selection.Expand(winrt::TextRangeUnit::Link);
                 InvokeTokenSelected(selection);
             }
 
             break;
 
-        case SelectionType::Normal:
+        case winrt::SelectionType::Normal:
             // We do not want user to partially select a token since pasting to a partial token can break
             // the token tracking system, which can result in unwanted character formatting issues.
             if ((tokenRange.StartPosition() <= selection.StartPosition() && selection.EndPosition() < tokenRange.EndPosition()) ||
                 (tokenRange.StartPosition() < selection.StartPosition() && selection.EndPosition() <= tokenRange.EndPosition()))
             {
                 // TODO: Figure out how to expand selection without breaking selection flow (with Shift select or pointer sweep select)
-                selection.Expand(TextRangeUnit::Link);
+                selection.Expand(winrt::TextRangeUnit::Link);
                 InvokeTokenSelected(selection);
             }
 
@@ -50,7 +50,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         }
     }
 
-    void RichSuggestBox::InvokeTokenSelected(ITextSelection const& selection)
+    void RichSuggestBox::InvokeTokenSelected(winrt::ITextSelection const& selection)
     {
         winrt::XamlToolkit::WinUI::Controls::RichSuggestToken token{ nullptr };
         if (_tokenSelected || !TryGetTokenFromRange(selection, token) || token.RangeEnd() != selection.EndPosition())
@@ -61,23 +61,24 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         _tokenSelected(*this, *args);
     }
 
-    void RichSuggestBox::InvokeTokenPointerOver(PointerPoint const& pointer)
+    void RichSuggestBox::InvokeTokenPointerOver(winrt::PointerPoint const& pointer)
     {
         auto pointerPosition = TransformToVisual(_richEditBox).TransformPoint(pointer.Position());
         auto padding = _richEditBox.Padding();
         pointerPosition.X += static_cast<float>(HorizontalOffset() - padding.Left);
         pointerPosition.Y += static_cast<float>(VerticalOffset() - padding.Top);
-        if (auto document = TextDocument()) {
-            auto range = document.GetRangeFromPoint(pointerPosition, PointOptions::ClientCoordinates);
+        if (auto document = TextDocument()) 
+        {
+            auto range = document.GetRangeFromPoint(pointerPosition, winrt::PointOptions::ClientCoordinates);
             auto linkRange = range.GetClone();
-            range.Expand(TextRangeUnit::Character);
-			Rect hitTestRect;
+            range.Expand(winrt::TextRangeUnit::Character);
+            winrt::Rect hitTestRect;
             int32_t hit;
-            range.GetRect(PointOptions::None, hitTestRect, hit);
+            range.GetRect(winrt::PointOptions::None, hitTestRect, hit);
             hitTestRect.X -= hitTestRect.Width;
             hitTestRect.Width *= 2;
             winrt::XamlToolkit::WinUI::Controls::RichSuggestToken token{ nullptr };
-            if (RectHelper::Contains(hitTestRect, pointerPosition) && linkRange.Expand(TextRangeUnit::Link) > 0 &&
+            if (winrt::RectHelper::Contains(hitTestRect, pointerPosition) && linkRange.Expand(TextRangeUnit::Link) > 0 &&
                 TryGetTokenFromRange(linkRange, token))
             {
 				auto args = winrt::make<RichSuggestTokenPointerOverEventArgs>(token, linkRange, pointer);
@@ -98,7 +99,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         }
     }
 
-    void RichSuggestBox::ValidateTokenFromRange(ITextRange const& range)
+    void RichSuggestBox::ValidateTokenFromRange(winrt::ITextRange const& range)
     {
         winrt::XamlToolkit::WinUI::Controls::RichSuggestToken token{ nullptr };
         if (range.Length() == 0 || !TryGetTokenFromRange(range, token))
@@ -109,7 +110,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         // Check for duplicate tokens. This can happen if the user copies and pastes the token multiple times.
         if (token.Active() && token.RangeStart() != range.StartPosition() && token.RangeEnd() != range.EndPosition())
         {
-            winrt::guid guid = GuidHelper::CreateNewGuid();
+            winrt::guid guid = winrt::GuidHelper::CreateNewGuid();
             if (TryCommitSuggestionIntoDocument(range, token.DisplayText(), guid, CreateTokenFormat(range), false))
             {
                 token = winrt::make<RichSuggestToken>(guid, token.DisplayText());
@@ -124,7 +125,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
         if (token.ToString() != range.Text())
         {
-            range.Delete(TextRangeUnit::Story, 0);
+            range.Delete(winrt::TextRangeUnit::Story, 0);
             token.Active(false);
             return;
         }
@@ -133,25 +134,25 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         token.Active(true);
     }
 
-    bool RichSuggestBox::TryCommitSuggestionIntoDocument(ITextRange const& range, winrt::hstring const& displayText, winrt::guid const& id, ITextCharacterFormat const& format, bool addTrailingSpace)
+    bool RichSuggestBox::TryCommitSuggestionIntoDocument(winrt::ITextRange const& range, winrt::hstring const& displayText, winrt::guid const& id, winrt::ITextCharacterFormat const& format, bool addTrailingSpace) const
     {
         // We don't want to set text when the display text doesn't change since it may lead to unexpected caret move.
 		winrt::hstring existingText;
-        range.GetText(TextGetOptions::NoHidden, existingText);
+        range.GetText(winrt::TextGetOptions::NoHidden, existingText);
         if (existingText != displayText)
         {
-            range.SetText(TextSetOptions::Unhide, displayText);
+            range.SetText(winrt::TextSetOptions::Unhide, displayText);
         }
 
         auto formatBefore = range.CharacterFormat().GetClone();
         range.CharacterFormat().SetClone(format);
         PadRange(range, formatBefore);
-        range.Link(winrt::format(L"\"{}\"", winrt::to_hstring(id)));
+        range.Link(winrt::format(LR"("{}")", winrt::to_hstring(id)));
 
         // In some rare case, setting Link can fail. Only observed when interacting with Undo/Redo feature.
-        if (range.Link() != winrt::format(L"\"{}\"", winrt::to_hstring(id)))
+        if (range.Link() != winrt::format(LR"("{}")", winrt::to_hstring(id)))
         {
-            range.Delete(TextRangeUnit::Story, -1);
+            range.Delete(winrt::TextRangeUnit::Story, -1);
             return false;
         }
 
@@ -159,7 +160,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         {
             auto clone = range.GetClone();
             clone.Collapse(false);
-            clone.SetText(TextSetOptions::Unhide, L" ");
+            clone.SetText(winrt::TextSetOptions::Unhide, L" ");
             clone.Collapse(false);
             if (auto document = TextDocument())
             {
@@ -170,26 +171,26 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         return true;
     }
 
-    bool RichSuggestBox::TryExtractQueryFromSelection(winrt::hstring& prefix, winrt::hstring& query, ITextRange& range)
+    bool RichSuggestBox::TryExtractQueryFromSelection(winrt::hstring& prefix, winrt::hstring& query, winrt::ITextRange& range)
     {
         prefix = {};
         query = {};
         range = nullptr;
 		auto selection = TextDocument().Selection();
-        if (selection.Type() != SelectionType::InsertionPoint)
+        if (selection.Type() != winrt::SelectionType::InsertionPoint)
         {
             return false;
         }
 
         // Check if selection is on existing link (suggestion)
-        auto expandCount = selection.GetClone().Expand(TextRangeUnit::Link);
+        auto expandCount = selection.GetClone().Expand(winrt::TextRangeUnit::Link);
         if (expandCount != 0)
         {
             return false;
         }
 
         auto selectionClone = selection.GetClone();
-        selectionClone.MoveStart(TextRangeUnit::Word, -1);
+        selectionClone.MoveStart(winrt::TextRangeUnit::Word, -1);
         if (selectionClone.Length() == 0)
         {
             return false;
@@ -201,7 +202,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
             return true;
         }
 
-        selectionClone.MoveStart(TextRangeUnit::Word, -1);
+        selectionClone.MoveStart(winrt::TextRangeUnit::Word, -1);
         if (TryExtractQueryFromRange(selectionClone, prefix, query))
         {
             return true;
@@ -211,14 +212,14 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         return false;
     }
 
-    bool RichSuggestBox::TryExtractQueryFromRange(ITextRange const& range, winrt::hstring& prefix, winrt::hstring& query)
+    bool RichSuggestBox::TryExtractQueryFromRange(winrt::ITextRange const& range, winrt::hstring& prefix, winrt::hstring& query)
     {
         prefix = {};
         query = {};
         winrt::hstring possibleQuery;
-        range.GetText(TextGetOptions::NoHidden, possibleQuery);
+        range.GetText(winrt::TextGetOptions::NoHidden, possibleQuery);
         if (possibleQuery.size() > 0 && std::wstring_view(Prefixes()).contains(possibleQuery[0]) &&
-            !std::any_of(possibleQuery.begin(), possibleQuery.end(), iswspace) && range.Link().empty())
+            !std::any_of(possibleQuery.begin(), possibleQuery.end(), ::iswspace) && range.Link().empty())
         {
             if (possibleQuery.size() == 1)
             {
@@ -234,7 +235,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         return false;
     }
 
-    ITextCharacterFormat RichSuggestBox::CreateTokenFormat(ITextRange const& range) const
+    winrt::ITextCharacterFormat RichSuggestBox::CreateTokenFormat(winrt::ITextRange const& range) const
     {
         auto format = range.CharacterFormat().GetClone();
         if (auto background = TokenBackground())

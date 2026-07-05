@@ -1,7 +1,5 @@
 namespace XamlToolkit.WinUI.Controls
 {
-	[bindable]
-    [default_interface]
 	runtimeclass RichSuggestToken : Microsoft.UI.Xaml.Data.INotifyPropertyChanged, Windows.Foundation.IStringable
     {
         RichSuggestToken();

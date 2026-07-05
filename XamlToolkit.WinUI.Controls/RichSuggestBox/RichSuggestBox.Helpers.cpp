@@ -4,7 +4,7 @@
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-	bool RichSuggestBox::IsElementOnScreen([[maybe_unused]] FrameworkElement const& element, [[maybe_unused]] double offsetX, [[maybe_unused]] double offsetY)
+	bool RichSuggestBox::IsElementOnScreen([[maybe_unused]] winrt::FrameworkElement const& element, [[maybe_unused]] double offsetX, [[maybe_unused]] double offsetY)
 	{
 		// DisplayInformation only works in UWP. No alternative to get DisplayInformation.ScreenHeightInRawPixels
 		// Or Window position in Window.Current.Bounds
@@ -45,7 +45,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 //#endif
 	}
 
-	bool RichSuggestBox::IsElementInsideWindow([[maybe_unused]] FrameworkElement const& element, [[maybe_unused]] double offsetX, [[maybe_unused]] double offsetY)
+	bool RichSuggestBox::IsElementInsideWindow([[maybe_unused]] winrt::FrameworkElement const& element, [[maybe_unused]] double offsetX, [[maybe_unused]] double offsetY)
 	{
 		// THIS IS NOT SUPPORTED IN WINUI3
 //#if !WINAPPSDK
@@ -96,39 +96,39 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	/// </summary>
 	/// <param name="range">Range to pad.</param>
 	/// <param name="format">Character format to apply to the padding.</param>
-	void RichSuggestBox::PadRange(ITextRange const& range, ITextCharacterFormat const& format)
+	void RichSuggestBox::PadRange(winrt::ITextRange const& range, winrt::ITextCharacterFormat const& format)
 	{
 		auto startPosition = range.StartPosition();
 		auto endPosition = range.EndPosition() + 1;
 		auto clone = range.GetClone();
 		clone.Collapse(true);
-		clone.SetText(TextSetOptions::Unhide, L"\u200B");
+		clone.SetText(winrt::TextSetOptions::Unhide, L"\u200B");
 		clone.CharacterFormat().SetClone(format);
 		clone.SetRange(endPosition, endPosition);
-		clone.SetText(TextSetOptions::Unhide, L"\u200B");
+		clone.SetText(winrt::TextSetOptions::Unhide, L"\u200B");
 		clone.CharacterFormat().SetClone(format);
 		range.SetRange(startPosition, endPosition + 1);
 	}
 
-	void RichSuggestBox::ForEachLinkInDocument(RichEditTextDocument const& document, std::function<void(ITextRange const&)> const& action)
+	void RichSuggestBox::ForEachLinkInDocument(winrt::RichEditTextDocument const& document, std::function<void(winrt::ITextRange const&)> const& action)
 	{
 		auto range = document.GetRange(0, 0);
-		range.SetIndex(TextRangeUnit::Character, -1, false);
+		range.SetIndex(winrt::TextRangeUnit::Character, -1, false);
 
 		// Handle link at the very end of the document where GetIndex fails to detect
-		range.Expand(TextRangeUnit::Link);
+		range.Expand(winrt::TextRangeUnit::Link);
 		if (!range.Link().empty())
 		{
 			if (action) action(range);
 		}
 
-		auto nextIndex = range.GetIndex(TextRangeUnit::Link);
+		auto nextIndex = range.GetIndex(winrt::TextRangeUnit::Link);
 		while (nextIndex != 0 && nextIndex != 1)
 		{
-			range.Move(TextRangeUnit::Link, -1);
+			range.Move(winrt::TextRangeUnit::Link, -1);
 
 			auto linkRange = range.GetClone();
-			linkRange.Expand(TextRangeUnit::Link);
+			linkRange.Expand(winrt::TextRangeUnit::Link);
 
 			// Adjacent links have the same index. Manually check each link with Collapse and Expand.
 			auto previousStart = linkRange.StartPosition();
@@ -138,12 +138,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 				if (action) action(linkRange);
 
 				linkRange.Collapse(false);
-				linkRange.Expand(TextRangeUnit::Link);
+				linkRange.Expand(winrt::TextRangeUnit::Link);
 				hasAdjacentToken = !linkRange.Link().empty() && linkRange.StartPosition() != previousStart;
 				previousStart = linkRange.StartPosition();
 			}
 
-			nextIndex = range.GetIndex(TextRangeUnit::Link);
+			nextIndex = range.GetIndex(winrt::TextRangeUnit::Link);
 		}
 	}
 }
