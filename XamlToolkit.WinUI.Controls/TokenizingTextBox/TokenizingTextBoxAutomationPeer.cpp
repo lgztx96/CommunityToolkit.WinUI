@@ -10,7 +10,7 @@
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-	winrt::XamlToolkit::WinUI::Controls::TokenizingTextBox TokenizingTextBoxAutomationPeer::OwningTokenizingTextBox()
+	winrt::XamlToolkit::WinUI::Controls::TokenizingTextBox TokenizingTextBoxAutomationPeer::OwningTokenizingTextBox() const
 	{
 		return Owner().try_as<winrt::XamlToolkit::WinUI::Controls::TokenizingTextBox>();
 	}
@@ -38,13 +38,13 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			return name;
 		}
 
-		name = AutomationProperties::GetName(OwningTokenizingTextBox());
+		name = winrt::AutomationProperties::GetName(OwningTokenizingTextBox());
 		return !name.empty() ? name : base_type::GetNameCore();
 	}
 
-	IInspectable TokenizingTextBoxAutomationPeer::GetPatternCore(PatternInterface patternInterface)
+	winrt::IInspectable TokenizingTextBoxAutomationPeer::GetPatternCore(winrt::PatternInterface patternInterface)
 	{
-		if (patternInterface == PatternInterface::Value)
+		if (patternInterface == winrt::PatternInterface::Value)
 		{
 			return *this;
 		}
@@ -52,24 +52,24 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		return base_type::GetPatternCore(patternInterface);
 	}
 
-	IVector<AutomationPeer> TokenizingTextBoxAutomationPeer::GetChildrenCore()
+	winrt::IVector<winrt::AutomationPeer> TokenizingTextBoxAutomationPeer::GetChildrenCore()
 	{
 		winrt::XamlToolkit::WinUI::Controls::TokenizingTextBox owner = OwningTokenizingTextBox();
 
-		ItemCollection items = owner.Items();
+		winrt::ItemCollection items = owner.Items();
 		if (items.Size() == 0)
 		{
 			return { nullptr };
 		}
 
-		std::vector<AutomationPeer> peers;
+		std::vector<winrt::AutomationPeer> peers;
 		peers.reserve(items.Size());
 		for (uint32_t i = 0; i < items.Size(); i++)
 		{
 			if (auto element = owner.ContainerFromIndex(i).try_as<winrt::XamlToolkit::WinUI::Controls::TokenizingTextBoxItem>())
 			{
-				auto automationPeer = FrameworkElementAutomationPeer::FromElement(element);
-				peers.emplace_back(automationPeer ? automationPeer : FrameworkElementAutomationPeer::CreatePeerForElement(element));
+				auto automationPeer = winrt::FrameworkElementAutomationPeer::FromElement(element);
+				peers.emplace_back(automationPeer ? automationPeer : winrt::FrameworkElementAutomationPeer::CreatePeerForElement(element));
 			}
 		}
 

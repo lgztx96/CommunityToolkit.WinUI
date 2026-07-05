@@ -29,19 +29,18 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		}
 
 	public:
-		bool IsReadOnly() { return !OwningTokenizingTextBox().IsEnabled(); }
+		bool IsReadOnly() const { return !OwningTokenizingTextBox().IsEnabled(); }
 
-		hstring Value() { return OwningTokenizingTextBox().Text(); }
+		winrt::hstring Value() const { return OwningTokenizingTextBox().Text(); }
+		void SetValue(winrt::hstring const& value);
+
+		winrt::hstring GetClassNameCore();
+		winrt::hstring GetNameCore();
+		winrt::IInspectable GetPatternCore(winrt::PatternInterface patternInterface);
+		winrt::IVector<winrt::AutomationPeer> GetChildrenCore();
 
 	private:
-		winrt::XamlToolkit::WinUI::Controls::TokenizingTextBox OwningTokenizingTextBox();
-
-	public:
-		void SetValue(winrt::hstring const& value);
-		hstring GetClassNameCore();
-		hstring GetNameCore();
-		IInspectable GetPatternCore(PatternInterface patternInterface);
-		IVector<AutomationPeer> GetChildrenCore();
+		winrt::XamlToolkit::WinUI::Controls::TokenizingTextBox OwningTokenizingTextBox() const;
 	};
 }
 
