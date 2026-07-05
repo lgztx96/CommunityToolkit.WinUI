@@ -9,6 +9,10 @@
 #include <ranges>
 #include <string>
 #include <system_error>
+#include <winrt/Microsoft.UI.h>
+#else
+import std;
+import winrt.Microsoft.UI;
 #endif
 #include "ColorHelper.h"
 #if __has_include("ColorHelper.g.cpp")
@@ -21,13 +25,14 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
     constexpr auto split(std::basic_string_view<charT> view, std::basic_string_view<charT> delim)
     {
         return std::views::split(view, delim) | std::views::transform([](auto&& range)
-            {
-                return std::basic_string_view<charT>(range);
-            });
+        {
+            return std::basic_string_view<charT>(range);
+        });
     }
 
     template<std::integral T>
-    [[nodiscard]] constexpr std::optional<T> to_num(std::string_view s, int base = 10) noexcept {
+    [[nodiscard]] constexpr std::optional<T> to_num(std::string_view s, int base = 10) noexcept
+    {
         T value{};
         auto [ptr, ec] = std::from_chars(s.data(), s.data() + s.size(), value, base);
         if (ec == std::errc{} && ptr == s.data() + s.size())
@@ -36,7 +41,8 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
     }
 
     template<std::floating_point T>
-    [[nodiscard]] constexpr std::optional<T> to_num(std::string_view s, std::chars_format fmt = std::chars_format::general) noexcept {
+    [[nodiscard]] constexpr std::optional<T> to_num(std::string_view s, std::chars_format fmt = std::chars_format::general) noexcept 
+    {
         T value{};
         auto [ptr, ec] = std::from_chars(s.data(), s.data() + s.size(), value, fmt);
         if (ec == std::errc{} && ptr == s.data() + s.size())
@@ -71,16 +77,17 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
         return std::stod(std::wstring(s));
     };
 
-    Color ColorHelper::ToColor(winrt::hstring const& colorString)
+    winrt::Color ColorHelper::ToColor(winrt::hstring const& colorString)
     {
-        using namespace std::string_view_literals;
+		using std::string_view_literals::operator""sv;
+
         std::wstring_view colorView{ colorString.data(), colorString.size() };
         if (colorView.empty())
         {
             throw winrt::hresult_invalid_argument(L"The parameter \"colorString\" must not be null or empty.");
         }
 
-        static constexpr auto ThrowFormatException = []() -> Color
+        static constexpr auto ThrowFormatException = []() -> winrt::Color
         {
             throw winrt::hresult_invalid_argument(L"The parameter \"colorString\" is not a recognized Color format.");
         };
@@ -92,50 +99,50 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
             case 9:
             {
                 auto cuint = to_uint32(colorView.substr(1), 16);
-                auto a = (uint8_t)(cuint >> 24);
-                auto r = (uint8_t)((cuint >> 16) & 0xff);
-                auto g = (uint8_t)((cuint >> 8) & 0xff);
-                auto b = (uint8_t)(cuint & 0xff);
+                auto a = static_cast<uint8_t>(cuint >> 24);
+                auto r = static_cast<uint8_t>((cuint >> 16) & 0xff);
+                auto g = static_cast<uint8_t>((cuint >> 8) & 0xff);
+                auto b = static_cast<uint8_t>(cuint & 0xff);
 
-                return Windows::UI::ColorHelper::FromArgb(a, r, g, b);
+                return winrt::Microsoft::UI::ColorHelper::FromArgb(a, r, g, b);
             }
 
             case 7:
             {
                 auto cuint = to_uint32(colorView.substr(1), 16);
-                auto r = (uint8_t)((cuint >> 16) & 0xff);
-                auto g = (uint8_t)((cuint >> 8) & 0xff);
-                auto b = (uint8_t)(cuint & 0xff);
+                auto r = static_cast<uint8_t>((cuint >> 16) & 0xff);
+                auto g = static_cast<uint8_t>((cuint >> 8) & 0xff);
+                auto b = static_cast<uint8_t>(cuint & 0xff);
 
-                return Windows::UI::ColorHelper::FromArgb(255, r, g, b);
+                return winrt::Microsoft::UI::ColorHelper::FromArgb(255, r, g, b);
             }
 
             case 5:
             {
                 auto cuint = to_uint16(colorView.substr(1), 16);
-                auto a = (uint8_t)(cuint >> 12);
-                auto r = (uint8_t)((cuint >> 8) & 0xf);
-                auto g = (uint8_t)((cuint >> 4) & 0xf);
-                auto b = (uint8_t)(cuint & 0xf);
-                a = (uint8_t)(a << 4 | a);
-                r = (uint8_t)(r << 4 | r);
-                g = (uint8_t)(g << 4 | g);
-                b = (uint8_t)(b << 4 | b);
+                auto a = static_cast<uint8_t>(cuint >> 12);
+                auto r = static_cast<uint8_t>((cuint >> 8) & 0xf);
+                auto g = static_cast<uint8_t>((cuint >> 4) & 0xf);
+                auto b = static_cast<uint8_t>(cuint & 0xf);
+                a = static_cast<uint8_t>(a << 4 | a);
+                r = static_cast<uint8_t>(r << 4 | r);
+                g = static_cast<uint8_t>(g << 4 | g);
+                b = static_cast<uint8_t>(b << 4 | b);
 
-                return Windows::UI::ColorHelper::FromArgb(a, r, g, b);
+                return winrt::Microsoft::UI::ColorHelper::FromArgb(a, r, g, b);
             }
 
             case 4:
             {
                 auto cuint = to_uint16(colorView.substr(1), 16);
-                auto r = (uint8_t)((cuint >> 8) & 0xf);
-                auto g = (uint8_t)((cuint >> 4) & 0xf);
-                auto b = (uint8_t)(cuint & 0xf);
-                r = (uint8_t)(r << 4 | r);
-                g = (uint8_t)(g << 4 | g);
-                b = (uint8_t)(b << 4 | b);
+                auto r = static_cast<uint8_t>((cuint >> 8) & 0xf);
+                auto g = static_cast<uint8_t>((cuint >> 4) & 0xf);
+                auto b = static_cast<uint8_t>(cuint & 0xf);
+                r = static_cast<uint8_t>(r << 4 | r);
+                g = static_cast<uint8_t>(g << 4 | g);
+                b = static_cast<uint8_t>(b << 4 | b);
 
-                return Windows::UI::ColorHelper::FromArgb(255, r, g, b);
+                return winrt::Microsoft::UI::ColorHelper::FromArgb(255, r, g, b);
             }
 
             default: return ThrowFormatException();
@@ -153,7 +160,11 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
                 auto scG = to_double(values[2]);
                 auto scB = to_double(values[3]);
 
-                return Windows::UI::ColorHelper::FromArgb((uint8_t)(scA * 255), (uint8_t)(scR * 255), (uint8_t)(scG * 255), (uint8_t)(scB * 255));
+                return winrt::Microsoft::UI::ColorHelper::FromArgb(
+                    static_cast<uint8_t>(scA * 255), 
+                    static_cast<uint8_t>(scR * 255), 
+                    static_cast<uint8_t>(scG * 255), 
+                    static_cast<uint8_t>(scB * 255));
             }
 
             if (values.size() == 3)
@@ -162,7 +173,10 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
                 auto scG = to_double(values[1]);
                 auto scB = to_double(values[2]);
 
-                return Windows::UI::ColorHelper::FromArgb(255, (uint8_t)(scR * 255), (uint8_t)(scG * 255), (uint8_t)(scB * 255));
+                return winrt::Microsoft::UI::ColorHelper::FromArgb(255, 
+                    static_cast<uint8_t>(scR * 255), 
+                    static_cast<uint8_t>(scG * 255), 
+                    static_cast<uint8_t>(scB * 255));
             }
 
             return ThrowFormatException();
@@ -171,7 +185,7 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
         return ThrowFormatException();
     }
 
-    Color ColorHelper::ToColor(std::string_view colorString)
+    winrt::Color ColorHelper::ToColor(std::string_view colorString)
     {
         using namespace std::string_view_literals;
 
@@ -180,10 +194,10 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
             throw winrt::hresult_invalid_argument(L"The parameter \"colorString\" must not be null or empty.");
         }
 
-        static constexpr auto ThrowFormatException = []() -> Color
-            {
-                throw winrt::hresult_invalid_argument(L"The parameter \"colorString\" is not a recognized Color format.");
-            };
+        static constexpr auto ThrowFormatException = []() -> winrt::Color
+        {
+            throw winrt::hresult_invalid_argument(L"The parameter \"colorString\" is not a recognized Color format.");
+        };
 
         if (colorString[0] == '#')
         {
@@ -192,50 +206,50 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
             case 9:
             {
                 auto cuint = to_uint32(colorString.substr(1), 16);
-                auto a = (uint8_t)(cuint >> 24);
-                auto r = (uint8_t)((cuint >> 16) & 0xff);
-                auto g = (uint8_t)((cuint >> 8) & 0xff);
-                auto b = (uint8_t)(cuint & 0xff);
+                auto a = static_cast<uint8_t>(cuint >> 24);
+                auto r = static_cast<uint8_t>((cuint >> 16) & 0xff);
+                auto g = static_cast<uint8_t>((cuint >> 8) & 0xff);
+                auto b = static_cast<uint8_t>(cuint & 0xff);
 
-                return Windows::UI::ColorHelper::FromArgb(a, r, g, b);
+                return winrt::Microsoft::UI::ColorHelper::FromArgb(a, r, g, b);
             }
 
             case 7:
             {
                 auto cuint = to_uint32(colorString.substr(1), 16);
-                auto r = (uint8_t)((cuint >> 16) & 0xff);
-                auto g = (uint8_t)((cuint >> 8) & 0xff);
-                auto b = (uint8_t)(cuint & 0xff);
+                auto r = static_cast<uint8_t>((cuint >> 16) & 0xff);
+                auto g = static_cast<uint8_t>((cuint >> 8) & 0xff);
+                auto b = static_cast<uint8_t>(cuint & 0xff);
 
-                return Windows::UI::ColorHelper::FromArgb(255, r, g, b);
+                return winrt::Microsoft::UI::ColorHelper::FromArgb(255, r, g, b);
             }
 
             case 5:
             {
                 auto cuint = to_uint16(colorString.substr(1), 16);
-                auto a = (uint8_t)(cuint >> 12);
-                auto r = (uint8_t)((cuint >> 8) & 0xf);
-                auto g = (uint8_t)((cuint >> 4) & 0xf);
-                auto b = (uint8_t)(cuint & 0xf);
-                a = (uint8_t)(a << 4 | a);
-                r = (uint8_t)(r << 4 | r);
-                g = (uint8_t)(g << 4 | g);
-                b = (uint8_t)(b << 4 | b);
+                auto a = static_cast<uint8_t>(cuint >> 12);
+                auto r = static_cast<uint8_t>((cuint >> 8) & 0xf);
+                auto g = static_cast<uint8_t>((cuint >> 4) & 0xf);
+                auto b = static_cast<uint8_t>(cuint & 0xf);
+                a = static_cast<uint8_t>(a << 4 | a);
+                r = static_cast<uint8_t>(r << 4 | r);
+                g = static_cast<uint8_t>(g << 4 | g);
+                b = static_cast<uint8_t>(b << 4 | b);
 
-                return Windows::UI::ColorHelper::FromArgb(a, r, g, b);
+                return winrt::Microsoft::UI::ColorHelper::FromArgb(a, r, g, b);
             }
 
             case 4:
             {
                 auto cuint = to_uint16(colorString.substr(1), 16);
-                auto r = (uint8_t)((cuint >> 8) & 0xf);
-                auto g = (uint8_t)((cuint >> 4) & 0xf);
-                auto b = (uint8_t)(cuint & 0xf);
-                r = (uint8_t)(r << 4 | r);
-                g = (uint8_t)(g << 4 | g);
-                b = (uint8_t)(b << 4 | b);
+                auto r = static_cast<uint8_t>((cuint >> 8) & 0xf);
+                auto g = static_cast<uint8_t>((cuint >> 4) & 0xf);
+                auto b = static_cast<uint8_t>(cuint & 0xf);
+                r = static_cast<uint8_t>(r << 4 | r);
+                g = static_cast<uint8_t>(g << 4 | g);
+                b = static_cast<uint8_t>(b << 4 | b);
 
-                return Windows::UI::ColorHelper::FromArgb(255, r, g, b);
+                return winrt::Microsoft::UI::ColorHelper::FromArgb(255, r, g, b);
             }
 
             default: return ThrowFormatException();
@@ -253,7 +267,7 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
                 auto scG = to_double(values[2]);
                 auto scB = to_double(values[3]);
 
-                return Windows::UI::ColorHelper::FromArgb((uint8_t)(scA * 255), (uint8_t)(scR * 255), (uint8_t)(scG * 255), (uint8_t)(scB * 255));
+                return winrt::Microsoft::UI::ColorHelper::FromArgb((uint8_t)(scA * 255), (uint8_t)(scR * 255), (uint8_t)(scG * 255), (uint8_t)(scB * 255));
             }
 
             if (values.size() == 3)
@@ -262,7 +276,7 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
                 auto scG = to_double(values[1]);
                 auto scB = to_double(values[2]);
 
-                return Windows::UI::ColorHelper::FromArgb(255, (uint8_t)(scR * 255), (uint8_t)(scG * 255), (uint8_t)(scB * 255));
+                return winrt::Microsoft::UI::ColorHelper::FromArgb(255, (uint8_t)(scR * 255), (uint8_t)(scG * 255), (uint8_t)(scB * 255));
             }
 
             return ThrowFormatException();
@@ -271,19 +285,23 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
         return ThrowFormatException();
     }
 
-    winrt::hstring ColorHelper::ToHex(Color const& color)
+    winrt::hstring ColorHelper::ToHex(winrt::Color const& color)
     {
         return winrt::format(L"#{:02X}{:02X}{:02X}{:02X}", color.A, color.R, color.G, color.B);
     }
 
-    int ColorHelper::ToInt(Color const& color)
+    int ColorHelper::ToInt(winrt::Color const& color)
     {
-        auto a = color.A + 1;
-        auto col = (color.A << 24) | ((byte)((color.R * a) >> 8) << 16) | ((byte)((color.G * a) >> 8) << 8) | (byte)((color.B * a) >> 8);
-        return col;
+        std::uint32_t alpha = color.A + 1;
+
+        std::uint8_t r = (color.R * alpha) >> 8;
+        std::uint8_t g = (color.G * alpha) >> 8;
+        std::uint8_t b = (color.B * alpha) >> 8;
+
+        return (std::uint32_t(color.A) << 24) | (std::uint32_t(r) << 16) | (std::uint32_t(g) << 8) | std::uint32_t(b);
     }
 
-    HslColor ColorHelper::ToHsl(Color const& color)
+    HslColor ColorHelper::ToHsl(winrt::Color const& color)
     {
         constexpr double toDouble = 1.0 / 255.0;
         const double r = toDouble * color.R;
@@ -328,7 +346,7 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
         };
     }
 
-    HsvColor ColorHelper::ToHsv(Color const& color)
+    HsvColor ColorHelper::ToHsv(winrt::Color const& color)
     {
         constexpr double toDouble = 1.0 / 255;
         double r = toDouble * color.R;
@@ -368,7 +386,7 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
         return ret;
     }
 
-    Color ColorHelper::FromHsl(double hue, double saturation, double lightness, double alpha)
+    winrt::Color ColorHelper::FromHsl(double hue, double saturation, double lightness, double alpha)
     {
         if (hue < 0.0 || hue > 360.0)
         {
@@ -413,12 +431,13 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
             b1 = x;
         }
 
-        const auto to_byte = [](double v) -> uint8_t {
+        const auto to_byte = [](double v) -> uint8_t 
+        {
             v = std::clamp(v, 0.0, 1.0);
             return static_cast<uint8_t>(std::round(v * 255.0));
-            };
+        };
 
-        return Color
+        return winrt::Color
         {
             .A = to_byte(alpha),
             .R = to_byte(r1 + m),
@@ -427,7 +446,7 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
         };
     }
 
-    Color ColorHelper::FromHsv(double hue, double saturation, double value, double alpha)
+    winrt::Color ColorHelper::FromHsv(double hue, double saturation, double value, double alpha)
     {
         if (hue < 0.0 || hue > 360.0)
         {
@@ -471,6 +490,6 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
         uint8_t b = static_cast<uint8_t>(std::round(255.0 * (b1 + m)));
         uint8_t a = static_cast<uint8_t>(std::round(255.0 * alpha));
 
-        return winrt::Windows::UI::ColorHelper::FromArgb(a, r, g, b);
+        return winrt::Microsoft::UI::ColorHelper::FromArgb(a, r, g, b);
     }
 }
