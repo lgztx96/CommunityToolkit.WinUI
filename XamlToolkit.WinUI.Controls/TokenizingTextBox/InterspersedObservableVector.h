@@ -18,17 +18,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
     struct InterspersedObservableVector : InterspersedObservableVectorT<InterspersedObservableVector>
     {
-    private:
-        using VectorChangedHandler = VectorChangedEventHandler<IInspectable>;
+        using VectorChangedHandler = winrt::VectorChangedEventHandler<winrt::IInspectable>;
 
-        IVector<IInspectable> _itemsSource{ nullptr };
-        std::map<uint32_t, IInspectable> _interspersedObjects;
-        bool _isInsertingOriginal = false;
-        winrt::event<VectorChangedHandler> _vectorChanged;
-        IObservableVector<IInspectable>::VectorChanged_revoker _sourceRevoker;
-
-    public:
-        InterspersedObservableVector(IInspectable const& source);
+        InterspersedObservableVector(winrt::IInspectable const& source);
 
         winrt::event_token VectorChanged(VectorChangedHandler const& handler);
 
@@ -36,40 +28,39 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
         uint32_t Size() const noexcept;
 
-        IInspectable GetAt(uint32_t index) const;
+        winrt::IInspectable GetAt(uint32_t index) const;
 
-        IVectorView<IInspectable> GetView() const;
+        winrt::IVectorView<winrt::IInspectable> GetView() const;
 
-        bool IndexOf(IInspectable const& value, uint32_t& index) const;
+        bool IndexOf(winrt::IInspectable const& value, uint32_t& index) const;
 
-        void SetAt(uint32_t, IInspectable const&);
+        void SetAt(uint32_t, winrt::IInspectable const&);
 
-        void InsertAt(uint32_t outerIndex, IInspectable const& value);
+        void InsertAt(uint32_t outerIndex, winrt::IInspectable const& value);
 
         void RemoveAt(uint32_t index);
 
-        bool Remove(IInspectable const& value);
+        bool Remove(winrt::IInspectable const& value);
 
         void RemoveAtEnd();
 
-        void Append(IInspectable const& value);
+        void Append(winrt::IInspectable const& value);
 
-        void ReplaceAll(winrt::array_view<const IInspectable> newItems);
+        void ReplaceAll(winrt::array_view<const winrt::IInspectable> newItems);
 
-        uint32_t GetMany(uint32_t startIndex, array_view<IInspectable> values) const;
+        uint32_t GetMany(uint32_t startIndex, winrt::array_view<winrt::IInspectable> values) const;
 
         void Clear();
 
-        IIterator<IInspectable> First() const;
+        winrt::IIterator<winrt::IInspectable> First() const;
 
-        void Insert(uint32_t index, IInspectable const& value);
+        void Insert(uint32_t index, winrt::IInspectable const& value);
 
-        bool Contains(IInspectable const& value) const;
+        bool Contains(winrt::IInspectable const& value) const;
 
-        IVector<IInspectable> ItemsSource() const;
+        winrt::IVector<winrt::IInspectable> ItemsSource() const;
 
     private:
-
         void ReadjustKeys();
 
         void MoveKeysForward(uint32_t pivot, uint32_t amount);
@@ -82,9 +73,16 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
         uint32_t ToOuterIndexAfterRemoval(uint32_t innerIndexToProject) const;
 
-        void RaiseVectorChanged(CollectionChange change, uint32_t index);
+        void RaiseVectorChanged(winrt::CollectionChange change, uint32_t index);
 
-        void OnItemsSourceChanged(IObservableVector<IInspectable> const&, IVectorChangedEventArgs const& args);
+        void OnItemsSourceChanged(winrt::IObservableVector<winrt::IInspectable> const&, winrt::IVectorChangedEventArgs const& args);
+
+    private:
+        winrt::IVector<winrt::IInspectable> _itemsSource{ nullptr };
+        std::map<uint32_t, winrt::IInspectable> _interspersedObjects;
+        bool _isInsertingOriginal = false;
+        winrt::event<VectorChangedHandler> _vectorChanged;
+        winrt::IObservableVector<winrt::IInspectable>::VectorChanged_revoker _sourceRevoker;
     };
 }
 

@@ -11,7 +11,7 @@
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-	struct args : winrt::implements<args, IVectorChangedEventArgs>
+	struct args : winrt::implements<args, winrt::IVectorChangedEventArgs>
 	{
 		args(CollectionChange const change, uint32_t const index) :
 			_change(change),
@@ -31,13 +31,13 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 	private:
 
-		Windows::Foundation::Collections::CollectionChange const _change;
+		winrt::CollectionChange const _change;
 		uint32_t const _index;
 	};
 
-	InterspersedObservableVector::InterspersedObservableVector(IInspectable const& source)
+	InterspersedObservableVector::InterspersedObservableVector(winrt::IInspectable const& source)
 	{
-		if (auto items = source.try_as<IVector<IInspectable>>())
+		if (auto items = source.try_as<winrt::IVector<winrt::IInspectable>>())
 		{
 			_itemsSource = items;
 		}
@@ -45,15 +45,15 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			throw winrt::hresult_invalid_argument(L"The input items source must implement IVector.");
 		}
 
-		if (auto vec = source.try_as<IObservableVector<IInspectable>>())
+		if (auto vec = source.try_as<winrt::IObservableVector<winrt::IInspectable>>())
 		{
 			_sourceRevoker = vec.VectorChanged(winrt::auto_revoke, [weak = get_weak()](auto& sender, auto& args)
+			{
+				if (auto self = weak.get())
 				{
-					if (auto self = weak.get())
-					{
-						self->OnItemsSourceChanged(sender, args);
-					}
-				});
+					self->OnItemsSourceChanged(sender, args);
+				}
+			});
 		}
 	}
 
@@ -62,7 +62,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		return _vectorChanged.add(handler);
 	}
 
-	void InterspersedObservableVector::VectorChanged(event_token const& token) noexcept
+	void InterspersedObservableVector::VectorChanged(winrt::event_token const& token) noexcept
 	{
 		_vectorChanged.remove(token);
 	}
@@ -72,7 +72,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		return static_cast<uint32_t>(_itemsSource.Size() + _interspersedObjects.size());
 	}
 
-	IInspectable InterspersedObservableVector::GetAt(uint32_t index) const
+	winrt::IInspectable InterspersedObservableVector::GetAt(uint32_t index) const
 	{
 		if (auto it = _interspersedObjects.find(index); it != _interspersedObjects.end())
 		{
@@ -83,9 +83,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		return _itemsSource.GetAt(innerIndex);
 	}
 
-	IVectorView<IInspectable> InterspersedObservableVector::GetView() const
+	winrt::IVectorView<winrt::IInspectable> InterspersedObservableVector::GetView() const
 	{
-		auto snapshot = single_threaded_vector<IInspectable>();
+		auto snapshot = winrt::single_threaded_vector<winrt::IInspectable>();
 		for (uint32_t i = 0; i < Size(); ++i)
 		{
 			snapshot.Append(GetAt(i));
@@ -93,7 +93,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		return snapshot.GetView();
 	}
 
-	bool InterspersedObservableVector::IndexOf(IInspectable const& value, uint32_t& index) const
+	bool InterspersedObservableVector::IndexOf(winrt::IInspectable const& value, uint32_t& index) const
 	{
 		for (auto const& [key, val] : _interspersedObjects)
 		{
@@ -114,12 +114,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		return false;
 	}
 
-	void InterspersedObservableVector::SetAt(uint32_t, IInspectable const&)
+	void InterspersedObservableVector::SetAt(uint32_t, winrt::IInspectable const&)
 	{
-		throw hresult_not_implemented();
+		throw winrt::hresult_not_implemented();
 	}
 
-	void InterspersedObservableVector::InsertAt(uint32_t outerIndex, IInspectable const& value)
+	void InterspersedObservableVector::InsertAt(uint32_t outerIndex, winrt::IInspectable const& value)
 	{
 		uint32_t innerIndex = outerIndex;
 		for (auto const& kvp : _interspersedObjects)
@@ -147,7 +147,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			_interspersedObjects.erase(it);
 			MoveKeysBackward(index, 1);
 
-			RaiseVectorChanged(CollectionChange::ItemRemoved, index);
+			RaiseVectorChanged(winrt::CollectionChange::ItemRemoved, index);
 		}
 		else
 		{
@@ -163,7 +163,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			auto it = std::prev(_interspersedObjects.end());
 			uint32_t index = it->first;
 			_interspersedObjects.erase(it);
-			RaiseVectorChanged(CollectionChange::ItemRemoved, index);
+			RaiseVectorChanged(winrt::CollectionChange::ItemRemoved, index);
 		}
 		else
 		{
@@ -171,34 +171,34 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		}
 	}
 
-	void InterspersedObservableVector::Append(IInspectable const& value)
+	void InterspersedObservableVector::Append(winrt::IInspectable const& value)
 	{
 		uint32_t index = _itemsSource.Size();
 		_itemsSource.Append(value);
 		uint32_t outer = ToOuterIndex(index);
-		RaiseVectorChanged(CollectionChange::ItemInserted, outer);
+		RaiseVectorChanged(winrt::CollectionChange::ItemInserted, outer);
 	}
 
-	void InterspersedObservableVector::ReplaceAll([[maybe_unused]] winrt::array_view<const IInspectable> newItems)
+	void InterspersedObservableVector::ReplaceAll([[maybe_unused]] winrt::array_view<const winrt::IInspectable> newItems)
 	{
-		throw hresult_not_implemented();
+		throw winrt::hresult_not_implemented();
 	}
 
-	uint32_t InterspersedObservableVector::GetMany([[maybe_unused]] uint32_t startIndex, [[maybe_unused]] winrt::array_view<IInspectable> values) const
+	uint32_t InterspersedObservableVector::GetMany([[maybe_unused]] uint32_t startIndex, [[maybe_unused]] winrt::array_view<winrt::IInspectable> values) const
 	{
-		throw hresult_not_implemented();
+		throw winrt::hresult_not_implemented();
 	}
 
 	void InterspersedObservableVector::Clear()
 	{
 		_interspersedObjects.clear();
 		_itemsSource.Clear();
-		RaiseVectorChanged(CollectionChange::Reset, 0);
+		RaiseVectorChanged(winrt::CollectionChange::Reset, 0);
 	}
 
-	IIterator<IInspectable> InterspersedObservableVector::First() const
+	winrt::IIterator<winrt::IInspectable> InterspersedObservableVector::First() const
 	{
-		auto snapshot = single_threaded_vector<IInspectable>();
+		auto snapshot = winrt::single_threaded_vector<winrt::IInspectable>();
 		for (uint32_t i = 0; i < Size(); ++i)
 		{
 			snapshot.Append(GetAt(i));
@@ -206,14 +206,14 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		return snapshot.First();
 	}
 
-	void InterspersedObservableVector::Insert(uint32_t index, IInspectable const& value)
+	void InterspersedObservableVector::Insert(uint32_t index, winrt::IInspectable const& value)
 	{
 		MoveKeysForward(index, 1);
 		_interspersedObjects[index] = value;
-		RaiseVectorChanged(CollectionChange::ItemInserted, index);
+		RaiseVectorChanged(winrt::CollectionChange::ItemInserted, index);
 	}
 
-	bool InterspersedObservableVector::Contains(IInspectable const& value) const
+	bool InterspersedObservableVector::Contains(winrt::IInspectable const& value) const
 	{
 		for (auto const& [key, val] : _interspersedObjects)
 		{
@@ -226,18 +226,18 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		return _itemsSource.IndexOf(value, index);
 	}
 
-	IVector<IInspectable> InterspersedObservableVector::ItemsSource() const
+	winrt::IVector<winrt::IInspectable> InterspersedObservableVector::ItemsSource() const
 	{
 		return _itemsSource;
 	}
 
 	void InterspersedObservableVector::MoveKeysForward(uint32_t pivot, uint32_t amount)
 	{
-		std::map<uint32_t, IInspectable> updated;
+		std::map<uint32_t, winrt::IInspectable> updated;
 		for (auto it = _interspersedObjects.rbegin(); it != _interspersedObjects.rend(); ++it)
 		{
 			uint32_t key = it->first;
-			IInspectable val = it->second;
+			winrt::IInspectable val = it->second;
 			if (key < pivot)
 			{
 				updated[key] = val;
@@ -252,7 +252,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 	void InterspersedObservableVector::MoveKeysBackward(uint32_t pivot, uint32_t amount)
 	{
-		std::map<uint32_t, IInspectable> updated;
+		std::map<uint32_t, winrt::IInspectable> updated;
 		for (auto const& [key, val] : _interspersedObjects)
 		{
 			if (key <= pivot)
@@ -339,19 +339,19 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		}
 	}
 
-	void InterspersedObservableVector::RaiseVectorChanged(CollectionChange change, uint32_t index)
+	void InterspersedObservableVector::RaiseVectorChanged(winrt::CollectionChange change, uint32_t index)
 	{
 		_vectorChanged(*this, winrt::make<args>(change, index));
 	}
 
-	void InterspersedObservableVector::OnItemsSourceChanged(IObservableVector<IInspectable> const&, IVectorChangedEventArgs const& args)
+	void InterspersedObservableVector::OnItemsSourceChanged(winrt::IObservableVector<winrt::IInspectable> const&, winrt::IVectorChangedEventArgs const& args)
 	{
 		auto change = args.CollectionChange();
 		uint32_t index = args.Index();
 
 		switch (change)
 		{
-		case CollectionChange::ItemInserted:
+		case winrt::CollectionChange::ItemInserted:
 			if (!_isInsertingOriginal)
 			{
 				MoveKeysForward(index, 1);
@@ -360,7 +360,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			RaiseVectorChanged(change, ToOuterIndex(index));
 			break;
 
-		case CollectionChange::ItemRemoved:
+		case winrt::CollectionChange::ItemRemoved:
 		{
 			uint32_t outerIndex = ToOuterIndexAfterRemoval(index);
 			MoveKeysBackward(outerIndex, 1);
@@ -368,14 +368,14 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		}
 		break;
 
-		case CollectionChange::Reset:
+		case winrt::CollectionChange::Reset:
 			ReadjustKeys();
 			RaiseVectorChanged(change, 0);
 			break;
 		}
 	}
 
-	bool InterspersedObservableVector::Remove(IInspectable const& value)
+	bool InterspersedObservableVector::Remove(winrt::IInspectable const& value)
 	{
 		for (auto it = _interspersedObjects.begin(); it != _interspersedObjects.end(); ++it)
 		{
@@ -384,7 +384,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 				uint32_t index = it->first;
 				_interspersedObjects.erase(it);
 				MoveKeysBackward(index, 1);
-				RaiseVectorChanged(CollectionChange::ItemRemoved, index);
+				RaiseVectorChanged(winrt::CollectionChange::ItemRemoved, index);
 				return true;
 			}
 		}
