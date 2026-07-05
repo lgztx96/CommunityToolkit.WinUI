@@ -399,6 +399,7 @@
     <ClCompile Include="ColorPicker\ColorPickerButton.cpp">
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="ColorPicker\ColorPickerRenderingHelpers.cpp" />
     <ClCompile Include="ColorPicker\ColorPickerSlider.cpp">
       <SubType>Code</SubType>
     </ClCompile>

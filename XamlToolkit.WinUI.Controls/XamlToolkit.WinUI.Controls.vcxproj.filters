@@ -261,6 +261,9 @@
     <ClCompile Include="XamlTypeInfo.module.cpp" />
     <ClCompile Include="XamlTypeInfo.Impl.module.cpp" />
     <ClCompile Include="XamlMetaDataProvider.module.cpp" />
+    <ClCompile Include="ColorPicker\ColorPickerRenderingHelpers.cpp">
+      <Filter>ColorPicker</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
