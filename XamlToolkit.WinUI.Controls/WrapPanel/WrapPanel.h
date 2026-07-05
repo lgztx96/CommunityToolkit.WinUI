@@ -26,117 +26,92 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	public:
 		WrapPanel() = default;
 
-		Size MeasureOverride(Size availableSize);
+		winrt::Size MeasureOverride(winrt::Size availableSize);
 
-		Size ArrangeOverride(Size finalSize);
+		winrt::Size ArrangeOverride(winrt::Size finalSize);
 
-		static void LayoutPropertyChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e);
+		static void LayoutPropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 
-		double HorizontalSpacing()
+		double HorizontalSpacing() const
 		{
-			return winrt::unbox_value<double>(GetValue(HorizontalSpacingProperty));
+			return winrt::unbox_value<double>(GetValue(HorizontalSpacingProperty()));
 		}
+
 		void HorizontalSpacing(double value)
 		{
-			SetValue(HorizontalSpacingProperty, winrt::box_value(value));
+			SetValue(HorizontalSpacingProperty(), winrt::box_value(value));
 		}
 
-		static inline const wil::single_threaded_property<DependencyProperty> HorizontalSpacingProperty{
-			DependencyProperty::Register(
-				L"HorizontalSpacing",
-				winrt::xaml_typename<double>(),
-				winrt::xaml_typename<class_type>(),
-				PropertyMetadata(winrt::box_value(0.0), &WrapPanel::LayoutPropertyChanged))
-		};
+		static const wil::single_threaded_property<winrt::DependencyProperty> HorizontalSpacingProperty;
 
-		double VerticalSpacing()
+		double VerticalSpacing() const
 		{
 			return winrt::unbox_value<double>(GetValue(VerticalSpacingProperty));
 		}
+
 		void VerticalSpacing(double value)
 		{
 			SetValue(VerticalSpacingProperty, winrt::box_value(value));
 		}
 
-		static inline const wil::single_threaded_property<DependencyProperty> VerticalSpacingProperty{
-			DependencyProperty::Register(
-				L"VerticalSpacing",
-				winrt::xaml_typename<double>(),
-				winrt::xaml_typename<class_type>(),
-				PropertyMetadata(winrt::box_value(0.0), &WrapPanel::LayoutPropertyChanged))
-		};
+		static const wil::single_threaded_property<winrt::DependencyProperty> VerticalSpacingProperty;
 
-		Orientation Orientation()
+		winrt::Orientation Orientation() const
 		{
-			return winrt::unbox_value<enum Orientation>(GetValue(OrientationProperty));
+			return winrt::unbox_value<winrt::Orientation>(GetValue(OrientationProperty));
 		}
-		void Orientation(Microsoft::UI::Xaml::Controls::Orientation value)
+
+		void Orientation(winrt::Orientation value)
 		{
 			SetValue(OrientationProperty, winrt::box_value(value));
 		}
 
-		static inline const wil::single_threaded_property<DependencyProperty> OrientationProperty{
-			DependencyProperty::Register(
-				L"Orientation",
-				winrt::xaml_typename<enum Orientation>(),
-				winrt::xaml_typename<class_type>(),
-				PropertyMetadata(winrt::box_value(Orientation::Horizontal), &WrapPanel::LayoutPropertyChanged))
-		};
+		static const wil::single_threaded_property<winrt::DependencyProperty> OrientationProperty;
 
-		Thickness Padding()
+		winrt::Thickness Padding() const
 		{
-			return winrt::unbox_value<Thickness>(GetValue(PaddingProperty));
-		}
-		void Padding(Thickness const& value)
-		{
-			SetValue(PaddingProperty, winrt::box_value(value));
+			return winrt::unbox_value<winrt::Thickness>(GetValue(PaddingProperty()));
 		}
 
-		static inline const wil::single_threaded_property<DependencyProperty> PaddingProperty{
-			DependencyProperty::Register(
-				L"Padding",
-				winrt::xaml_typename<Thickness>(),
-				winrt::xaml_typename<class_type>(),
-				PropertyMetadata(winrt::box_value(Thickness{ 0,0,0,0 }), &WrapPanel::LayoutPropertyChanged))
-		};
-
-		winrt::XamlToolkit::WinUI::Controls::StretchChild StretchChild()
+		void Padding(winrt::Thickness const& value)
 		{
-			return winrt::unbox_value<enum StretchChild>(GetValue(StretchChildProperty));
+			SetValue(PaddingProperty(), winrt::box_value(value));
 		}
+
+		static const wil::single_threaded_property<winrt::DependencyProperty> PaddingProperty;
+
+		winrt::XamlToolkit::WinUI::Controls::StretchChild StretchChild() const
+		{
+			return winrt::unbox_value<enum StretchChild>(GetValue(StretchChildProperty()));
+		}
+
 		void StretchChild(winrt::XamlToolkit::WinUI::Controls::StretchChild value)
 		{
-			SetValue(StretchChildProperty, winrt::box_value(value));
+			SetValue(StretchChildProperty(), winrt::box_value(value));
 		}
 
-		static inline const wil::single_threaded_property<DependencyProperty> StretchChildProperty{
-			DependencyProperty::Register(
-				L"StretchChild",
-				winrt::xaml_typename<enum StretchChild>(),
-				winrt::xaml_typename<class_type>(),
-				PropertyMetadata(winrt::box_value(StretchChild::None), &WrapPanel::LayoutPropertyChanged))
-		};
+		static const wil::single_threaded_property<winrt::DependencyProperty> StretchChildProperty;
 
 	private:
 		struct UvMeasure
 		{
 			static UvMeasure Zero() { return UvMeasure{ 0.0, 0.0 }; }
-			double U;
 
+			double U;
 			double V;
 
 			UvMeasure() = default;
 
 			UvMeasure(double u, double v) : U(u), V(v) {}
 
-			UvMeasure(Microsoft::UI::Xaml::Controls::Orientation orientation, Size size)
+			UvMeasure(winrt::Orientation orientation, winrt::Size size)
 				: UvMeasure(orientation, size.Width, size.Height)
 			{
 			}
 
-			UvMeasure(Microsoft::UI::Xaml::Controls::Orientation orientation, double width, double height)
+			UvMeasure(winrt::Orientation orientation, double width, double height)
 			{
-				if (orientation == Orientation::Horizontal)
+				if (orientation == winrt::Orientation::Horizontal)
 				{
 					U = width;
 					V = height;
@@ -158,9 +133,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 				return Add(measure.U, measure.V);
 			}
 
-			Size ToSize(Microsoft::UI::Xaml::Controls::Orientation orientation)
+			winrt::Size ToSize(winrt::Orientation orientation)
 			{
-				return orientation == Microsoft::UI::Xaml::Controls::Orientation::Horizontal
+				return orientation == winrt::Orientation::Horizontal
 					? Size(static_cast<float>(U), static_cast<float>(V))
 					: Size(static_cast<float>(V), static_cast<float>(U));
 			}
@@ -172,11 +147,11 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 			UvMeasure Size;
 
-			Rect ToRect(Microsoft::UI::Xaml::Controls::Orientation orientation)
+			winrt::Rect ToRect(winrt::Orientation orientation)
 			{
-				if (orientation == winrt::Microsoft::UI::Xaml::Controls::Orientation::Vertical)
+				if (orientation == winrt::Orientation::Vertical)
 				{
-					return Rect
+					return winrt::Rect
 					{ 
 						static_cast<float>(Position.V), 
 						static_cast<float>(Position.U), 
@@ -184,9 +159,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 						static_cast<float>(Size.U)
 					};
 				}
-				else if (orientation == winrt::Microsoft::UI::Xaml::Controls::Orientation::Horizontal)
+				else if (orientation == winrt::Orientation::Horizontal)
 				{
-					return Rect
+					return winrt::Rect
 					{ 
 						static_cast<float>(Position.U), 
 						static_cast<float>(Position.V),
@@ -235,7 +210,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			}
 		};
 
-		Size UpdateRows(Size availableSize);
+		winrt::Size UpdateRows(winrt::Size availableSize);
 
 		std::vector<Row> _rows;
 	};
