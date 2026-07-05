@@ -11,6 +11,7 @@
 
 namespace winrt
 {
+	using namespace Windows::Foundation;
 	using namespace Microsoft::UI::Text;
 }
 
@@ -26,11 +27,11 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		wil::single_threaded_rw_property<winrt::hstring> DisplayText;
 
-		wil::single_threaded_rw_property<IInspectable> SelectedItem{ nullptr };
+		wil::single_threaded_rw_property<winrt::IInspectable> SelectedItem{ nullptr };
 
 		wil::single_threaded_rw_property<winrt::guid> Id;
 
-		wil::single_threaded_rw_property<ITextCharacterFormat> Format;
+		wil::single_threaded_rw_property<winrt::ITextCharacterFormat> Format;
 	};
 }
 

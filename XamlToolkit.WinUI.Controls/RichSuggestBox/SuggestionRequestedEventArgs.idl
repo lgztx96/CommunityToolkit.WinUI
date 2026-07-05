@@ -1,6 +1,5 @@
 namespace XamlToolkit.WinUI.Controls
 {
-    [default_interface]
     runtimeclass SuggestionRequestedEventArgs 
     {
         SuggestionRequestedEventArgs();
@@ -9,8 +8,8 @@ namespace XamlToolkit.WinUI.Controls
 
         String QueryText;
 
-        Windows.Foundation.Deferral GetDeferral();
+        Boolean Cancel;
 
-        Boolean Cancel{ get; };
+        Windows.Foundation.Deferral GetDeferral();
     }
 }

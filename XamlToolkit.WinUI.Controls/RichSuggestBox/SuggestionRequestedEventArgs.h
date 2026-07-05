@@ -18,10 +18,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
         wil::single_threaded_rw_property<winrt::hstring> QueryText;
 
-        bool Cancel() const
-        {
-            return false;
-		}
+        wil::single_threaded_rw_property<bool> Cancel{ false };
     };
 }
 
