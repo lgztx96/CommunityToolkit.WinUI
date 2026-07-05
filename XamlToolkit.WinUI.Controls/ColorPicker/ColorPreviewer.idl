@@ -1,6 +1,5 @@
 ﻿namespace XamlToolkit.WinUI.Controls.Primitives
 {
-    [default_interface]
     runtimeclass ColorPreviewer : Microsoft.UI.Xaml.Controls.Control
     {
         ColorPreviewer();

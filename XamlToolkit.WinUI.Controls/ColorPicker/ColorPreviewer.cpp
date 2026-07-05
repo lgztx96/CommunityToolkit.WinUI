@@ -12,6 +12,30 @@
 
 namespace winrt::XamlToolkit::WinUI::Controls::Primitives::implementation
 {
+	const wil::single_threaded_property<winrt::DependencyProperty> ColorPreviewer::HsvColorProperty =
+		winrt::DependencyProperty::Register(
+			L"HsvColor",
+			winrt::xaml_typename<winrt::XamlToolkit::WinUI::HsvColor>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata(winrt::box_value(winrt::XamlToolkit::WinUI::Helpers::ColorHelper::ToHsv(winrt::Microsoft::UI::Colors::Transparent())),
+			[](auto& s, auto& e)
+			{
+				auto self = winrt::get_self<ColorPreviewer>(s.template as<class_type>())->get_strong();
+				self->OnDependencyPropertyChanged(s, e);
+			}));
+
+	const wil::single_threaded_property<winrt::DependencyProperty> ColorPreviewer::ShowAccentColorsProperty =
+		winrt::DependencyProperty::Register(
+			L"ShowAccentColors",
+			winrt::xaml_typename<bool>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata(winrt::box_value(true),
+			[](auto& s, auto& e)
+			{
+				auto self = winrt::get_self<ColorPreviewer>(s.template as<class_type>())->get_strong();
+				self->OnDependencyPropertyChanged(s, e);
+			}));
+
 	ColorPreviewer::ColorPreviewer()
 	{
 		DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
@@ -19,29 +43,37 @@ namespace winrt::XamlToolkit::WinUI::Controls::Primitives::implementation
 
 	void ColorPreviewer::ConnectEvents(bool connected)
 	{
-		if (connected && eventsConnected == false)
+		if (connected && !eventsConnected)
 		{
 			// Add all events
-			if (CheckeredBackgroundBorder) {
+			if (CheckeredBackgroundBorder) 
+			{
 				checkeredLoadedToken = CheckeredBackgroundBorder.Loaded({ this, &ColorPreviewer::CheckeredBackgroundBorder_Loaded });
 			}
 
-			if (N1PreviewBorder) {
+			if (N1PreviewBorder) 
+			{
 				n1PointerPressedToken = N1PreviewBorder.PointerPressed({ this, &ColorPreviewer::PreviewBorder_PointerPressed });
 			}
-			if (N2PreviewBorder) {
+
+			if (N2PreviewBorder) 
+			{
 				n2PointerPressedToken = N2PreviewBorder.PointerPressed({ this,&ColorPreviewer::PreviewBorder_PointerPressed });
 			}
-			if (P1PreviewBorder) {
+
+			if (P1PreviewBorder) 
+			{
 				p1PointerPressedToken = P1PreviewBorder.PointerPressed({ this,&ColorPreviewer::PreviewBorder_PointerPressed });
 			}
-			if (P2PreviewBorder) {
+
+			if (P2PreviewBorder) 
+			{
 				p2PointerPressedToken = P2PreviewBorder.PointerPressed({ this, &ColorPreviewer::PreviewBorder_PointerPressed });
 			}
 
 			eventsConnected = true;
 		}
-		else if (connected == false && eventsConnected == true)
+		else if (!connected && eventsConnected)
 		{
 			// Remove all events
 			if (CheckeredBackgroundBorder) { CheckeredBackgroundBorder.Loaded(checkeredLoadedToken); }
@@ -60,12 +92,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::Primitives::implementation
 		// Remove any existing events present if the control was previously loaded then unloaded
 		ConnectEvents(false);
 
-		CheckeredBackgroundBorder = GetTemplateChild(L"CheckeredBackgroundBorder").try_as<Border>();
+		CheckeredBackgroundBorder = GetTemplateChild(L"CheckeredBackgroundBorder").try_as<winrt::Border>();
 
-		N1PreviewBorder = GetTemplateChild(L"N1PreviewBorder").try_as<Border>();
-		N2PreviewBorder = GetTemplateChild(L"N2PreviewBorder").try_as<Border>();
-		P1PreviewBorder = GetTemplateChild(L"P1PreviewBorder").try_as<Border>();
-		P2PreviewBorder = GetTemplateChild(L"P2PreviewBorder").try_as<Border>();
+		N1PreviewBorder = GetTemplateChild(L"N1PreviewBorder").try_as<winrt::Border>();
+		N2PreviewBorder = GetTemplateChild(L"N2PreviewBorder").try_as<winrt::Border>();
+		P1PreviewBorder = GetTemplateChild(L"P1PreviewBorder").try_as<winrt::Border>();
+		P2PreviewBorder = GetTemplateChild(L"P2PreviewBorder").try_as<winrt::Border>();
 
 		// Must connect after controls are resolved
 		ConnectEvents(true);
@@ -73,9 +105,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::Primitives::implementation
 		base_type::OnApplyTemplate();
 	}
 
-	void ColorPreviewer::OnDependencyPropertyChanged([[maybe_unused]] IInspectable const& sender, [[maybe_unused]] DependencyPropertyChangedEventArgs const& args)
+	void ColorPreviewer::OnDependencyPropertyChanged([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& args)
 	{
-		VisualStateManager::GoToState(*this, ShowAccentColors() ? L"AccentColorsVisible" : L"AccentColorsCollapsed", true);
+		winrt::VisualStateManager::GoToState(*this, ShowAccentColors() ? L"AccentColorsVisible" : L"AccentColorsCollapsed", true);
 	}
 
 	void ColorPreviewer::OnColorChangeRequested(winrt::XamlToolkit::WinUI::HsvColor color)
@@ -83,12 +115,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::Primitives::implementation
 		ColorChangeRequested.invoke(*this, color);
 	}
 
-	winrt::Windows::Foundation::IAsyncAction ColorPreviewer::CheckeredBackgroundBorder_Loaded(IInspectable const& sender, RoutedEventArgs const& e)
+	winrt::fire_and_forget ColorPreviewer::CheckeredBackgroundBorder_Loaded(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e)
 	{
-		if (auto border = sender.try_as<Border>())
+		if (const auto border = sender.try_as<winrt::Border>())
 		{
-			int width = static_cast<int>(border.ActualWidth());
-			int height = static_cast<int>(border.ActualHeight());
+			const int width = static_cast<int>(border.ActualWidth());
+			const int height = static_cast<int>(border.ActualHeight());
 
 			const auto& bitmap = co_await ColorPickerRenderingHelpers::CreateCheckeredBitmapAsync(
 				width,
@@ -102,17 +134,17 @@ namespace winrt::XamlToolkit::WinUI::Controls::Primitives::implementation
 		}
 	}
 
-	void ColorPreviewer::PreviewBorder_PointerPressed(IInspectable const& sender, [[maybe_unused]] PointerRoutedEventArgs const& e)
+	void ColorPreviewer::PreviewBorder_PointerPressed(winrt::IInspectable const& sender, [[maybe_unused]] winrt::PointerRoutedEventArgs const& e)
 	{
-		if (auto border = sender.try_as<Border>())
+		if (const auto border = sender.try_as<winrt::Border>())
 		{
 			int accentStep = 0;
-			auto hsvColor = HsvColor();
+			const auto hsvColor = HsvColor();
 
 			// Get the value component delta
 			try
 			{
-				if (auto tag = border.Tag().try_as<winrt::hstring>())
+				if (const auto tag = border.Tag().try_as<winrt::hstring>())
 				{
 					accentStep = std::stoi({ tag->data(), tag->size() });
 				}

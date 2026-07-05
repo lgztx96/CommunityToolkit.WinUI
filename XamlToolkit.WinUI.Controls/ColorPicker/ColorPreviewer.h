@@ -27,91 +27,65 @@ namespace winrt::XamlToolkit::WinUI::Controls::Primitives::implementation
 {
 	struct ColorPreviewer : ColorPreviewerT<ColorPreviewer>
 	{
-	public:
+		ColorPreviewer();
+
+		void OnApplyTemplate();
+
 		wil::untyped_event<winrt::XamlToolkit::WinUI::HsvColor> ColorChangeRequested;
 
+		static const wil::single_threaded_property<winrt::DependencyProperty> HsvColorProperty;
+
+		winrt::XamlToolkit::WinUI::HsvColor HsvColor() const
+		{
+			return winrt::unbox_value<winrt::XamlToolkit::WinUI::HsvColor>(GetValue(HsvColorProperty()));
+		}
+
+		void HsvColor(winrt::XamlToolkit::WinUI::HsvColor const& value)
+		{
+			SetValue(HsvColorProperty(), winrt::box_value(value));
+		}
+
+		static const wil::single_threaded_property<winrt::DependencyProperty> ShowAccentColorsProperty;
+
+		bool ShowAccentColors() const
+		{
+			return winrt::unbox_value<bool>(GetValue(ShowAccentColorsProperty()));
+		}
+
+		void ShowAccentColors(bool value)
+		{
+			if (ShowAccentColors() != value)
+			{
+				SetValue(ShowAccentColorsProperty(), winrt::box_value(value));
+			}
+		}
+
+	protected:
+		virtual void OnDependencyPropertyChanged(winrt::IInspectable const& sender, winrt::DependencyPropertyChangedEventArgs const& args);
+
+		virtual void OnColorChangeRequested(winrt::XamlToolkit::WinUI::HsvColor color);
+
 	private:
+		void ConnectEvents(bool connected);
+
+		winrt::fire_and_forget CheckeredBackgroundBorder_Loaded(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
+
+		void PreviewBorder_PointerPressed(winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e);
+
 		bool eventsConnected = false;
 
-		Border CheckeredBackgroundBorder;
+		winrt::Border CheckeredBackgroundBorder;
 
-		Border N1PreviewBorder;
-		Border N2PreviewBorder;
-		Border P1PreviewBorder;
-		Border P2PreviewBorder;
+		winrt::Border N1PreviewBorder;
+		winrt::Border N2PreviewBorder;
+		winrt::Border P1PreviewBorder;
+		winrt::Border P2PreviewBorder;
 
 		winrt::event_token checkeredLoadedToken{};
 		winrt::event_token n1PointerPressedToken{};
 		winrt::event_token n2PointerPressedToken{};
 		winrt::event_token p1PointerPressedToken{};
 		winrt::event_token p2PointerPressedToken{};
-
-	public:
-
-		static inline const wil::single_threaded_property<DependencyProperty> HsvColorProperty =
-			DependencyProperty::Register(
-				L"HsvColor",
-				winrt::xaml_typename<winrt::XamlToolkit::WinUI::HsvColor>(),
-				winrt::xaml_typename<class_type>(),
-				PropertyMetadata(winrt::box_value(winrt::XamlToolkit::WinUI::Helpers::ColorHelper::ToHsv(Colors::Transparent())),
-					[](auto& s, auto& e)
-					{
-						auto self = winrt::get_self<ColorPreviewer>(s.template as<class_type>())->get_strong();
-						self->OnDependencyPropertyChanged(s, e);
-					}));
-
-		winrt::XamlToolkit::WinUI::HsvColor HsvColor()
-		{
-			return winrt::unbox_value<winrt::XamlToolkit::WinUI::HsvColor>(GetValue(HsvColorProperty));
-		}
-
-		void HsvColor(winrt::XamlToolkit::WinUI::HsvColor const& value)
-		{
-			SetValue(HsvColorProperty, winrt::box_value(value));
-		}
-
-		static inline const wil::single_threaded_property<DependencyProperty> ShowAccentColorsProperty =
-			DependencyProperty::Register(
-				L"ShowAccentColors",
-				winrt::xaml_typename<bool>(),
-				winrt::xaml_typename<class_type>(),
-				PropertyMetadata(winrt::box_value(true),
-					[](auto& s, auto& e)
-					{
-						auto self = winrt::get_self<ColorPreviewer>(s.template as<class_type>())->get_strong();
-						self->OnDependencyPropertyChanged(s, e);
-					}));
-
-		bool ShowAccentColors()
-		{
-			return winrt::unbox_value<bool>(GetValue(ShowAccentColorsProperty));
-		}
-
-		void ShowAccentColors(bool value)
-		{
-			auto current = winrt::unbox_value<bool>(GetValue(ShowAccentColorsProperty));
-			if (current != value)
-			{
-				SetValue(ShowAccentColorsProperty, winrt::box_value(value));
-			}
-		}
-
-		ColorPreviewer();
-
-		void OnApplyTemplate();
-
-	private:
-		void ConnectEvents(bool connected);
-
-	protected:
-		virtual void OnDependencyPropertyChanged(IInspectable const& sender, DependencyPropertyChangedEventArgs const& args);
-
-		virtual void OnColorChangeRequested(winrt::XamlToolkit::WinUI::HsvColor color);
-
-	private:
-		winrt::Windows::Foundation::IAsyncAction CheckeredBackgroundBorder_Loaded(IInspectable const& sender, RoutedEventArgs const& e);
-
-		void PreviewBorder_PointerPressed(IInspectable const& sender, PointerRoutedEventArgs const& e);
 	};
 }
 
