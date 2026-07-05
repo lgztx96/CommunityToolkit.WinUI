@@ -12,12 +12,40 @@
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
+	const wil::single_threaded_property<winrt::DependencyProperty> StaggeredPanel::DesiredColumnWidthProperty =
+		winrt::DependencyProperty::Register(
+			L"DesiredColumnWidth",
+			winrt::xaml_typename<double>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata{ winrt::box_value(250.0), &StaggeredPanel::OnDesiredColumnWidthChanged });
+
+	const wil::single_threaded_property<winrt::DependencyProperty> StaggeredPanel::PaddingProperty =
+		winrt::DependencyProperty::Register(
+			L"Padding",
+			winrt::xaml_typename<winrt::Thickness>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata{ winrt::box_value(winrt::Thickness{ 0, 0, 0, 0 }), &StaggeredPanel::OnPaddingChanged });
+
+	const wil::single_threaded_property<winrt::DependencyProperty> StaggeredPanel::ColumnSpacingProperty =
+		winrt::DependencyProperty::Register(
+			L"ColumnSpacing",
+			winrt::xaml_typename<double>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata{ winrt::box_value(0.0), &StaggeredPanel::OnPaddingChanged });
+
+	const wil::single_threaded_property<winrt::DependencyProperty> StaggeredPanel::RowSpacingProperty =
+		winrt::DependencyProperty::Register(
+			L"RowSpacing",
+			winrt::xaml_typename<double>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata{ winrt::box_value(0.0), &StaggeredPanel::OnPaddingChanged });
+
 	StaggeredPanel::StaggeredPanel()
 	{
-		RegisterPropertyChangedCallback(FrameworkElement::HorizontalAlignmentProperty(), { this, &StaggeredPanel::OnHorizontalAlignmentChanged });
+		RegisterPropertyChangedCallback(winrt::FrameworkElement::HorizontalAlignmentProperty(), { this, &StaggeredPanel::OnHorizontalAlignmentChanged });
 	}
 
-	Size StaggeredPanel::MeasureOverride(Size availableSize)
+	winrt::Size StaggeredPanel::MeasureOverride(winrt::Size availableSize)
 	{
 		auto padding = Padding();
 		double availableWidth = availableSize.Width - padding.Left - padding.Right;
@@ -68,7 +96,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		return Size(static_cast<float>(availableWidth), static_cast<float>(desiredHeight));
 	}
 
-	Size StaggeredPanel::ArrangeOverride(Size finalSize)
+	winrt::Size StaggeredPanel::ArrangeOverride(winrt::Size finalSize)
 	{
 		double horizontalOffset = Padding().Left;
 		double verticalOffset = Padding().Top;
@@ -84,11 +112,11 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			totalWidth = _columnWidth + ((numColumns - 1) * (_columnWidth + ColumnSpacing()));
 		}
 
-		if (HorizontalAlignment() == HorizontalAlignment::Right)
+		if (HorizontalAlignment() == winrt::HorizontalAlignment::Right)
 		{
 			horizontalOffset += finalSize.Width - totalWidth;
 		}
-		else if (HorizontalAlignment() == HorizontalAlignment::Center)
+		else if (HorizontalAlignment() == winrt::HorizontalAlignment::Center)
 		{
 			horizontalOffset += (finalSize.Width - totalWidth) / 2;
 		}
@@ -112,7 +140,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			double itemHorizontalOffset = horizontalOffset + (_columnWidth * columnIndex) + (columnSpacing * columnIndex);
 			double itemVerticalOffset = columnHeights[columnIndex] + verticalOffset + (rowSpacing * itemsPerColumn[columnIndex]);
 
-			Rect bounds = Rect((float)itemHorizontalOffset, (float)itemVerticalOffset, (float)_columnWidth, (float)elementHeight);
+			winrt::Rect bounds(
+				static_cast<float>(itemHorizontalOffset), 
+				static_cast<float>(itemVerticalOffset), 
+				static_cast<float>(_columnWidth), 
+				static_cast<float>(elementHeight));
+
 			child.Arrange(bounds);
 
 			columnHeights[columnIndex] += elementSize.Height;
@@ -122,23 +155,23 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		return base_type::ArrangeOverride(finalSize);
 	}
 
-	void StaggeredPanel::OnDesiredColumnWidthChanged(DependencyObject const& d, [[maybe_unused]] DependencyPropertyChangedEventArgs const& e)
+	void StaggeredPanel::OnDesiredColumnWidthChanged(winrt::DependencyObject const& d, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& e)
 	{
-		if (auto panel = d.try_as<class_type>())
+		if (const auto panel = d.try_as<class_type>())
 		{
 			panel.InvalidateMeasure();
 		}
 	}
 
-	void StaggeredPanel::OnPaddingChanged(DependencyObject const& d, [[maybe_unused]] DependencyPropertyChangedEventArgs const& e)
+	void StaggeredPanel::OnPaddingChanged(winrt::DependencyObject const& d, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& e)
 	{
-		if (auto panel = d.try_as<class_type>())
+		if (const auto panel = d.try_as<class_type>())
 		{
 			panel.InvalidateMeasure();
 		}
 	}
 
-	void StaggeredPanel::OnHorizontalAlignmentChanged([[maybe_unused]] DependencyObject const& sender, [[maybe_unused]] DependencyProperty const& dp)
+	void StaggeredPanel::OnHorizontalAlignmentChanged([[maybe_unused]] winrt::DependencyObject const& sender, [[maybe_unused]] winrt::DependencyProperty const& dp)
 	{
 		InvalidateMeasure();
 	}

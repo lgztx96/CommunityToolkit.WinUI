@@ -20,91 +20,70 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
 	struct StaggeredPanel : StaggeredPanelT<StaggeredPanel>
 	{
-	private:
-		double _columnWidth{ 0.0 };
-
-		int GetColumnIndex(std::span<const double> columnHeights);
-
-		void OnHorizontalAlignmentChanged(DependencyObject const& sender, DependencyProperty const& dp);
-
-		static void OnDesiredColumnWidthChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e);
-
-		static void OnPaddingChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e);
-
-	public:
 		StaggeredPanel();
 
-		Size MeasureOverride(Size availableSize);
+		winrt::Size MeasureOverride(winrt::Size availableSize);
 
-		Size ArrangeOverride(Size finalSize);
+		winrt::Size ArrangeOverride(winrt::Size finalSize);
 
-		static inline const wil::single_threaded_property<DependencyProperty> DesiredColumnWidthProperty =
-			DependencyProperty::Register(
-				L"DesiredColumnWidth",
-				winrt::xaml_typename<double>(),
-				winrt::xaml_typename<class_type>(),
-				PropertyMetadata{ winrt::box_value(250.0), &StaggeredPanel::OnDesiredColumnWidthChanged });
+		static const wil::single_threaded_property<winrt::DependencyProperty> DesiredColumnWidthProperty;
 
-		static inline const wil::single_threaded_property<DependencyProperty> PaddingProperty =
-			DependencyProperty::Register(
-				L"Padding",
-				winrt::xaml_typename<Thickness>(),
-				winrt::xaml_typename<class_type>(),
-				PropertyMetadata{ winrt::box_value(Thickness{ 0, 0, 0, 0 }), &StaggeredPanel::OnPaddingChanged });
+		static const wil::single_threaded_property<winrt::DependencyProperty> PaddingProperty;
 
-		static inline const wil::single_threaded_property<DependencyProperty> ColumnSpacingProperty =
-			DependencyProperty::Register(
-				L"ColumnSpacing",
-				winrt::xaml_typename<double>(),
-				winrt::xaml_typename<class_type>(),
-				PropertyMetadata{ winrt::box_value(0.0), &StaggeredPanel::OnPaddingChanged });
+		static const wil::single_threaded_property<winrt::DependencyProperty> ColumnSpacingProperty;
 
-		static inline const wil::single_threaded_property<DependencyProperty> RowSpacingProperty =
-			DependencyProperty::Register(
-				L"RowSpacing",
-				winrt::xaml_typename<double>(),
-				winrt::xaml_typename<class_type>(),
-				PropertyMetadata{ winrt::box_value(0.0), &StaggeredPanel::OnPaddingChanged });
+		static const wil::single_threaded_property<winrt::DependencyProperty> RowSpacingProperty;
 
-		double DesiredColumnWidth()
+		double DesiredColumnWidth() const
 		{
-			return winrt::unbox_value<double>(GetValue(DesiredColumnWidthProperty));
+			return winrt::unbox_value<double>(GetValue(DesiredColumnWidthProperty()));
 		}
 
 		void DesiredColumnWidth(double value)
 		{
-			SetValue(DesiredColumnWidthProperty, winrt::box_value(value));
+			SetValue(DesiredColumnWidthProperty(), winrt::box_value(value));
 		}
 
-		Thickness Padding()
+		winrt::Thickness Padding() const
 		{
-			return winrt::unbox_value<Thickness>(GetValue(PaddingProperty));
+			return winrt::unbox_value<winrt::Thickness>(GetValue(PaddingProperty));
 		}
 
-		void Padding(Thickness value)
+		void Padding(winrt::Thickness value)
 		{
-			SetValue(PaddingProperty, winrt::box_value(value));
+			SetValue(PaddingProperty(), winrt::box_value(value));
 		}
 
-		double ColumnSpacing()
+		double ColumnSpacing() const
 		{
-			return winrt::unbox_value<double>(GetValue(ColumnSpacingProperty));
+			return winrt::unbox_value<double>(GetValue(ColumnSpacingProperty()));
 		}
 
 		void ColumnSpacing(double value)
 		{
-			SetValue(ColumnSpacingProperty, winrt::box_value(value));
+			SetValue(ColumnSpacingProperty(), winrt::box_value(value));
 		}
 
-		double RowSpacing()
+		double RowSpacing() const
 		{
-			return winrt::unbox_value<double>(GetValue(RowSpacingProperty));
+			return winrt::unbox_value<double>(GetValue(RowSpacingProperty()));
 		}
 
 		void RowSpacing(double value)
 		{
-			SetValue(RowSpacingProperty, winrt::box_value(value));
+			SetValue(RowSpacingProperty(), winrt::box_value(value));
 		}
+
+	private:
+		int GetColumnIndex(std::span<const double> columnHeights);
+
+		void OnHorizontalAlignmentChanged(winrt::DependencyObject const& sender, winrt::DependencyProperty const& dp);
+
+		static void OnDesiredColumnWidthChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
+
+		static void OnPaddingChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
+
+		double _columnWidth{ 0.0 };
 	};
 }
 
