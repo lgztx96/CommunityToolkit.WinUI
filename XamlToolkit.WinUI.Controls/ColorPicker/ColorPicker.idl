@@ -24,7 +24,6 @@ namespace XamlToolkit.WinUI.Controls
 		Windows.UI.Color GetColor(Int32 colorIndex, Int32 shadeIndex);
 	};
 
-	[default_interface]
 	runtimeclass ColorPicker : Microsoft.UI.Xaml.Controls.ColorPicker
 	{
 		ColorPicker();

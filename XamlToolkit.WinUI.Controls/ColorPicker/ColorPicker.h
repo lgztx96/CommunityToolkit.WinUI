@@ -3,6 +3,12 @@
 #include "ColorPicker.g.h"
 
 #ifdef __INTELLISENSE__
+#include <algorithm>
+#include <chrono>
+#include <cmath>
+#include <limits>
+#include <initializer_list>
+#include <optional>
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.Foundation.Collections.h>
 #include <winrt/Windows.UI.h>
@@ -11,16 +17,16 @@
 #include <winrt/Microsoft.UI.Xaml.Controls.h>
 #include <winrt/Microsoft.UI.Xaml.Controls.Primitives.h>
 #include <winrt/Microsoft.UI.Xaml.Input.h>
+#include <winrt/XamlToolkit.WinUI.h>
 #include <winrt/XamlToolkit.WinUI.Helpers.h>
+#include <winrt/XamlToolkit.WinUI.Controls.h>
 #include <winrt/XamlToolkit.WinUI.Controls.Primitives.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
-#include <optional>
-#include <initializer_list>
-#endif
-
+#else
 import winrt.XamlToolkit.WinUI.Controls;
 import winrt.XamlToolkit.WinUI.Controls.Primitives;
+#endif
 
 namespace winrt
 {
@@ -34,215 +40,87 @@ namespace winrt
 	using namespace XamlToolkit::WinUI;
 	using namespace XamlToolkit::WinUI::Helpers;
 	using namespace XamlToolkit::WinUI::Controls;
+	using namespace XamlToolkit::WinUI::Controls::Primitives;
 }
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
 	struct ColorPicker : ColorPickerT<ColorPicker>
 	{
-		wil::single_threaded_rw_property<winrt::Windows::UI::Color> CheckerBackgroundColor = Microsoft::UI::ColorHelper::FromArgb(0x19, 0x80, 0x80, 0x80); // Overridden later
-	private:
-		/// <summary>
-		/// The period that scheduled color updates will be applied.
-		/// This is only used when updating colors using the ScheduleColorUpdate() method.
-		/// Color changes made directly to the Color property will apply instantly.
-		/// </summary>
-		static constexpr int ColorUpdateInterval = 30; // Milliseconds
+		ColorPicker();
 
-		int64_t tokenColor;
+		~ColorPicker();
 
-		bool callbacksConnected = false;
-		bool eventsConnected = false;
-		bool isInitialized = false;
+		void OnApplyTemplate();
 
-		// Color information for updates
-		std::optional<winrt::XamlToolkit::WinUI::HsvColor> savedHsvColor;
-		std::optional<winrt::Windows::UI::Color> savedHsvColorRgbEquivalent;
-		std::optional<winrt::Windows::UI::Color> updatedRgbColor;
-		std::optional<winrt::Microsoft::UI::Dispatching::DispatcherQueueTimer> dispatcherQueueTimer;
+		wil::single_threaded_rw_property<winrt::Color> CheckerBackgroundColor = winrt::Microsoft::UI::ColorHelper::FromArgb(0x19, 0x80, 0x80, 0x80); // Overridden later
 
-		Controls::Segmented       ColorPanelSelector{ nullptr };
-		Controls::SwitchPresenter ContentContainer{ nullptr };
+		static const wil::single_threaded_property<winrt::DependencyProperty> CustomPaletteColorsProperty;
 
-		ColorSpectrum     ColorSpectrumControl{ nullptr };
-		Primitives::ColorPickerSlider ColorSpectrumAlphaSlider{ nullptr };
-		Primitives::ColorPickerSlider ColorSpectrumThirdDimensionSlider{ nullptr };
-		TextBox           HexInputTextBox{ nullptr };
-		ComboBox          ColorModeComboBox{ nullptr };
-		ListViewBase      PaletteColorsView{ nullptr };
-
-		NumberBox         Channel1NumberBox{ nullptr };
-		NumberBox         Channel2NumberBox{ nullptr };
-		NumberBox         Channel3NumberBox{ nullptr };
-		NumberBox         AlphaChannelNumberBox{ nullptr };
-
-		Primitives::ColorPickerSlider Channel1Slider{ nullptr };
-		Primitives::ColorPickerSlider Channel2Slider{ nullptr };
-		Primitives::ColorPickerSlider Channel3Slider{ nullptr };
-		Primitives::ColorPickerSlider AlphaChannelSlider{ nullptr };
-
-		winrt::XamlToolkit::WinUI::Controls::Primitives::ColorPreviewer ColorPreviewer{ nullptr };
-
-		// Up to 10 checkered backgrounds may be used by name anywhere in the template
-		Border CheckeredBackground1Border{ nullptr };
-		Border CheckeredBackground2Border{ nullptr };
-		Border CheckeredBackground3Border{ nullptr };
-		Border CheckeredBackground4Border{ nullptr };
-		Border CheckeredBackground5Border{ nullptr };
-		Border CheckeredBackground6Border{ nullptr };
-		Border CheckeredBackground7Border{ nullptr };
-		Border CheckeredBackground8Border{ nullptr };
-		Border CheckeredBackground9Border{ nullptr };
-		Border CheckeredBackground10Border{ nullptr };
-
-		winrt::Windows::Foundation::Collections::IObservableVector<winrt::Windows::UI::Color>::VectorChanged_revoker _vectorChangedRevoker;
-
-		Selector::SelectionChanged_revoker _colorPanelSelectorSelectionChangedRevoker;
-
-		Selector::SelectionChanged_revoker _colorsViewSelectionChangedRevoker;
-
-		ColorSpectrum::ColorChanged_revoker _colorSpectrumColorChangedRevoker;
-		Control::GotFocus_revoker _colorSpectrumGotFocusRevoker;
-
-		Control::KeyDown_revoker _hexInputTextBoxKeyDownRevoker;
-		Control::LostFocus_revoker _hexInputTextBoxLostFocusRevoker;
-
-		Selector::SelectionChanged_revoker _colorModeComboBoxSelectionChangedRevoker;
-
-		NumberBox::ValueChanged_revoker _channel1NumberBoxValueChangedRevoker;
-		NumberBox::ValueChanged_revoker _channel2NumberBoxValueChangedRevoker;
-		NumberBox::ValueChanged_revoker _channel3NumberBoxValueChangedRevoker;
-		NumberBox::ValueChanged_revoker _alphaChannelNumberBoxValueChangedRevoker;
-
-		Slider::ValueChanged_revoker _channel1SliderValueChangedRevoker;
-		Slider::ValueChanged_revoker _channel2SliderValueChangedRevoker;
-		Slider::ValueChanged_revoker _channel3SliderValueChangedRevoker;
-		Slider::ValueChanged_revoker _alphaChannelSliderValueChangedRevoker;
-		Slider::ValueChanged_revoker _colorSpectrumAlphaSliderValueChangedRevoker;
-		Slider::ValueChanged_revoker _colorSpectrumThirdDimensionSliderValueChangedRevoker;
-
-		FrameworkElement::Loaded_revoker _channel1SliderLoadedRevoker;
-		FrameworkElement::Loaded_revoker _channel2SliderLoadedRevoker;
-		FrameworkElement::Loaded_revoker _channel3SliderLoadedRevoker;
-		FrameworkElement::Loaded_revoker _alphaChannelSliderLoadedRevoker;
-		FrameworkElement::Loaded_revoker _colorSpectrumAlphaSliderLoadedRevoker;
-		FrameworkElement::Loaded_revoker _colorSpectrumThirdDimensionSliderLoadedRevoker;
-
-		Primitives::ColorPreviewer::ColorChangeRequested_revoker _colorPreviewerColorChangeRequestedRevoker;
-
-		FrameworkElement::Loaded_revoker _checkeredBackground1BorderLoadedRevoker;
-		FrameworkElement::Loaded_revoker _checkeredBackground2BorderLoadedRevoker;
-		FrameworkElement::Loaded_revoker _checkeredBackground3BorderLoadedRevoker;
-		FrameworkElement::Loaded_revoker _checkeredBackground4BorderLoadedRevoker;
-		FrameworkElement::Loaded_revoker _checkeredBackground5BorderLoadedRevoker;
-		FrameworkElement::Loaded_revoker _checkeredBackground6BorderLoadedRevoker;
-		FrameworkElement::Loaded_revoker _checkeredBackground7BorderLoadedRevoker;
-		FrameworkElement::Loaded_revoker _checkeredBackground8BorderLoadedRevoker;
-		FrameworkElement::Loaded_revoker _checkeredBackground9BorderLoadedRevoker;
-		FrameworkElement::Loaded_revoker _checkeredBackground10BorderLoadedRevoker;
-
-	public:
-
-		static void OnDependencyPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args);
-
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> CustomPaletteColorsProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
-				L"CustomPaletteColors",
-				winrt::xaml_typename<winrt::Windows::Foundation::Collections::IObservableVector<winrt::Windows::UI::Color>>(),
-				winrt::xaml_typename<class_type>(),
-				winrt::Microsoft::UI::Xaml::PropertyMetadata(nullptr, &ColorPicker::OnDependencyPropertyChanged));
-
-		winrt::Windows::Foundation::Collections::IObservableVector<winrt::Windows::UI::Color> CustomPaletteColors() const
+		winrt::IObservableVector<winrt::Color> CustomPaletteColors() const
 		{
-			return GetValue(CustomPaletteColorsProperty)
-				.as<winrt::Windows::Foundation::Collections::IObservableVector<winrt::Windows::UI::Color>>();
+			return GetValue(CustomPaletteColorsProperty()).try_as<winrt::IObservableVector<winrt::Color>>();
 		}
 
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> CustomPaletteColumnCountProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
-				L"CustomPaletteColumnCount",
-				winrt::xaml_typename<int>(),
-				winrt::xaml_typename<class_type>(),
-				winrt::Microsoft::UI::Xaml::PropertyMetadata(winrt::box_value(4), &ColorPicker::OnDependencyPropertyChanged));
+		static const wil::single_threaded_property<winrt::DependencyProperty> CustomPaletteColumnCountProperty;
 
 		int CustomPaletteColumnCount() const
 		{
-			return winrt::unbox_value<int>(GetValue(CustomPaletteColumnCountProperty));
+			return winrt::unbox_value<int>(GetValue(CustomPaletteColumnCountProperty()));
 		}
 
 		void CustomPaletteColumnCount(int value)
 		{
 			if (value != CustomPaletteColumnCount())
 			{
-				SetValue(CustomPaletteColumnCountProperty, winrt::box_value(value));
+				SetValue(CustomPaletteColumnCountProperty(), winrt::box_value(value));
 			}
 		}
 
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> CustomPaletteProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
-				L"CustomPalette",
-				winrt::xaml_typename<IColorPalette>(),
-				winrt::xaml_typename<class_type>(),
-				winrt::Microsoft::UI::Xaml::PropertyMetadata(nullptr, &ColorPicker::OnDependencyPropertyChanged));
+		static const wil::single_threaded_property<winrt::DependencyProperty> CustomPaletteProperty;
 
-		IColorPalette CustomPalette() const
+		winrt::XamlToolkit::WinUI::Controls::IColorPalette CustomPalette() const
 		{
-			return GetValue(CustomPaletteProperty).as<IColorPalette>();
+			return GetValue(CustomPaletteProperty()).try_as<winrt::XamlToolkit::WinUI::Controls::IColorPalette>();
 		}
 
 		void CustomPalette(IColorPalette const& value)
 		{
 			if (value != CustomPalette())
 			{
-				SetValue(CustomPaletteProperty, value);
+				SetValue(CustomPaletteProperty(), value);
 			}
 		}
 
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> IsColorPaletteVisibleProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
-				L"IsColorPaletteVisible",
-				winrt::xaml_typename<bool>(),
-				winrt::xaml_typename<class_type>(),
-				winrt::Microsoft::UI::Xaml::PropertyMetadata(winrt::box_value(true), &ColorPicker::OnDependencyPropertyChanged));
+		static const wil::single_threaded_property<winrt::DependencyProperty> IsColorPaletteVisibleProperty;
 
 		bool IsColorPaletteVisible() const
 		{
-			return winrt::unbox_value<bool>(GetValue(IsColorPaletteVisibleProperty));
+			return winrt::unbox_value<bool>(GetValue(IsColorPaletteVisibleProperty()));
 		}
 
 		void IsColorPaletteVisible(bool value)
 		{
 			if (value != IsColorPaletteVisible())
 			{
-				SetValue(IsColorPaletteVisibleProperty, winrt::box_value(value));
+				SetValue(IsColorPaletteVisibleProperty(), winrt::box_value(value));
 			}
 		}
 
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> ShowAccentColorsProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
-				L"ShowAccentColors",
-				winrt::xaml_typename<bool>(),
-				winrt::xaml_typename<class_type>(),
-				winrt::Microsoft::UI::Xaml::PropertyMetadata(winrt::box_value(true), &ColorPicker::OnDependencyPropertyChanged));
+		static const wil::single_threaded_property<winrt::DependencyProperty> ShowAccentColorsProperty;
 
 		bool ShowAccentColors() const
 		{
-			return winrt::unbox_value<bool>(GetValue(ShowAccentColorsProperty));
+			return winrt::unbox_value<bool>(GetValue(ShowAccentColorsProperty()));
 		}
 
 		void ShowAccentColors(bool value)
 		{
 			if (value != ShowAccentColors())
 			{
-				SetValue(ShowAccentColorsProperty, winrt::box_value(value));
+				SetValue(ShowAccentColorsProperty(), winrt::box_value(value));
 			}
 		}
-
-		ColorPicker();
-
-		~ColorPicker();
-
-		void OnApplyTemplate();
 
 	private:
 		/// <summary>
@@ -251,7 +129,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		/// </summary>
 		/// <param name="color">The Windows.UI.Color to calculate with.</param>
 		/// <returns>Whether the color is considered empty.</returns>
-		static bool IsColorEmpty(winrt::Windows::UI::Color color);
+		static bool IsColorEmpty(winrt::Color color);
 
 		/// <summary>
 		/// Connects or disconnects all dependency property callbacks.
@@ -294,7 +172,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		/// Application of this color will be scheduled to avoid overly rapid updates.
 		/// </summary>
 		/// <param name="newColor">The new color to set to the control. </param>
-		void ScheduleColorUpdate(winrt::Windows::UI::Color newColor);
+		void ScheduleColorUpdate(winrt::Color newColor);
 
 		/// <summary>
 		/// Updates the color values in all editing controls to match the current color.
@@ -319,7 +197,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		/// Updates a specific channel slider control background.
 		/// </summary>
 		/// <param name="slider">The color channel slider to update the background for.</param>
-		void UpdateChannelSliderBackground(Primitives::ColorPickerSlider const& slider);
+		void UpdateChannelSliderBackground(winrt::XamlToolkit::WinUI::Controls::Primitives::ColorPickerSlider const& slider);
 
 		/// <summary>
 		/// Sets the default color palette to the control.
@@ -332,7 +210,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		/// </summary>
 		void ValidateSelectedPanel();
 
-		void OnPanelVisibilityChanged(DependencyObject const& sender, DependencyProperty const& dp);
+		void OnPanelVisibilityChanged(winrt::DependencyObject const& sender, winrt::DependencyProperty const& dp);
+
+		static void OnDependencyPropertyChanged(winrt::DependencyObject const& sender, winrt::DependencyPropertyChangedEventArgs const& args);
 
 		/***************************************************************************************
 		 *
@@ -344,7 +224,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		void StopDispatcherQueueTimer();
 
-		void DispatcherQueueTimer_Tick(IInspectable const& sender, IInspectable const& e);
+		void DispatcherQueueTimer_Tick(winrt::IInspectable const& sender, winrt::IInspectable const& e);
 
 		/***************************************************************************************
 		 *
@@ -355,7 +235,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		 /// <summary>
 		 /// Callback for when the <see cref="Microsoft.UI.Xaml.Controls.ColorPicker.Color"/> dependency property value changes.
 		 /// </summary>
-		void OnColorChanged(DependencyObject const& d, DependencyProperty const& e);
+		void OnColorChanged(winrt::DependencyObject const& d, winrt::DependencyProperty const& e);
 
 		/***************************************************************************************
 		 *
@@ -366,81 +246,181 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		 /// <summary>
 		 /// Event handler for when the control has finished loaded.
 		 /// </summary>
-		void ColorPickerButton_Loaded(IInspectable const& sender, RoutedEventArgs const& e);
+		void ColorPickerButton_Loaded(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
 
 		/// <summary>
 		/// Event handler for when a color channel slider is loaded.
 		/// This will draw an initial background.
 		/// </summary>
-		void ChannelSlider_Loaded(IInspectable const& sender, RoutedEventArgs const& e);
+		void ChannelSlider_Loaded(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
 
 		/// <summary>
 		/// Event handler to draw checkered backgrounds on-demand as controls are loaded.
 		/// </summary>
-		winrt::Windows::Foundation::IAsyncAction CheckeredBackgroundBorder_Loaded(IInspectable const& sender, RoutedEventArgs const& e);
+		winrt::fire_and_forget CheckeredBackgroundBorder_Loaded(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
 
 		/// <summary>
 		/// Event handler for when the list of custom palette colors is changed.
 		/// </summary>
-		void CustomPaletteColors_CollectionChanged(IInspectable const& sender, IVectorChangedEventArgs const& e);
+		void CustomPaletteColors_CollectionChanged(winrt::IInspectable const& sender, winrt::IVectorChangedEventArgs const& e);
 
 		/// <summary>
 		/// Event handler for when the color panel selector selection changes.
 		/// We are setting the value here instead of ElementName binding as a workaround for AoT issues.
 		/// (See https://github.com/microsoft/microsoft-ui-xaml/issues/10214)
 		/// </summary>
-		void ColorPanelSelector_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
+		void ColorPanelSelector_SelectionChanged(winrt::IInspectable const& sender, winrt::SelectionChangedEventArgs const& e);
 
 		/// <summary>
 		/// Event handler for when the color spectrum color is changed.
 		/// This occurs when the user presses on the spectrum to select a new color.
 		/// </summary>
-		void ColorSpectrum_ColorChanged(ColorSpectrum const& sender, winrt::Microsoft::UI::Xaml::Controls::ColorChangedEventArgs const& args);
+		void ColorSpectrum_ColorChanged(winrt::ColorSpectrum const& sender, winrt::ColorChangedEventArgs const& args);
 
 		/// <summary>
 		/// Event handler for when the color spectrum is focused.
 		/// This is used only to work around some bugs that cause usability problems.
 		/// </summary>
-		void ColorSpectrum_GotFocus(IInspectable const& sender, RoutedEventArgs const& e);
+		void ColorSpectrum_GotFocus(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
 
 		/// <summary>
 		/// Event handler for when the selected color representation changes.
 		/// This will convert between RGB and HSV.
 		/// </summary>
-		void ColorModeComboBox_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
+		void ColorModeComboBox_SelectionChanged(winrt::IInspectable const& sender, winrt::SelectionChangedEventArgs const& e);
 
 		/// <summary>
 		/// Event handler for when a color is selected from the palette.
 		/// This will update the current color.
 		/// </summary>
-		void PaletteColorsView_SelectionChanged(IInspectable const& sender, SelectionChangedEventArgs const& e);
+		void PaletteColorsView_SelectionChanged(winrt::IInspectable const& sender, winrt::SelectionChangedEventArgs const& e);
 
 		/// <summary>
 		/// Event handler for when the color previewer requests a new color.
 		/// </summary>
-		void ColorPreviewer_ColorChangeRequested(IInspectable const& sender, HsvColor hsvColor);
+		void ColorPreviewer_ColorChangeRequested(winrt::IInspectable const& sender, HsvColor hsvColor);
 
 		/// <summary>
 		/// Event handler for when a key is pressed within the Hex RGB value TextBox.
-		/// This is used to trigger a re-evaluation of the color based on the TextBox value.
+		/// This is used to trigger a re-evaluation of the color based on the winrt::TextBox value.
 		/// </summary>
-		void HexInputTextBox_KeyDown(IInspectable const& sender, KeyRoutedEventArgs const& e);
+		void HexInputTextBox_KeyDown(winrt::IInspectable const& sender, winrt::KeyRoutedEventArgs const& e);
 
 		/// <summary>
-		/// Event handler for when the Hex RGB value TextBox looses focus.
-		/// This is used to trigger a re-evaluation of the color based on the TextBox value.
+		/// Event handler for when the Hex RGB value winrt::TextBox looses focus.
+		/// This is used to trigger a re-evaluation of the color based on the winrt::TextBox value.
 		/// </summary>
-		void HexInputTextBox_LostFocus(IInspectable const& sender, RoutedEventArgs const& e);
+		void HexInputTextBox_LostFocus(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
 
 		/// <summary>
 		/// Event handler for when the value within one of the channel NumberBoxes is changed.
 		/// </summary>
-		void ChannelNumberBox_ValueChanged(NumberBox const& sender, NumberBoxValueChangedEventArgs const& args);
+		void ChannelNumberBox_ValueChanged(winrt::NumberBox const& sender, winrt::NumberBoxValueChangedEventArgs const& args);
 
 		/// <summary>
 		/// Event handler for when the value within one of the channel Sliders is changed.
 		/// </summary>
-		void ChannelSlider_ValueChanged(IInspectable const& sender, RangeBaseValueChangedEventArgs const& e);
+		void ChannelSlider_ValueChanged(winrt::IInspectable const& sender, winrt::RangeBaseValueChangedEventArgs const& e);
+
+	private:
+		/// <summary>
+		/// The period that scheduled color updates will be applied.
+		/// This is only used when updating colors using the ScheduleColorUpdate() method.
+		/// Color changes made directly to the Color property will apply instantly.
+		/// </summary>
+		static constexpr int ColorUpdateInterval = 30; // Milliseconds
+
+		int64_t tokenColor;
+
+		bool callbacksConnected = false;
+		bool eventsConnected = false;
+		bool isInitialized = false;
+
+		// Color information for updates
+		std::optional<winrt::XamlToolkit::WinUI::HsvColor> savedHsvColor;
+		std::optional<winrt::Color> savedHsvColorRgbEquivalent;
+		std::optional<winrt::Color> updatedRgbColor;
+		std::optional<winrt::Microsoft::UI::Dispatching::DispatcherQueueTimer> dispatcherQueueTimer;
+
+		winrt::Segmented         ColorPanelSelector{ nullptr };
+		winrt::SwitchPresenter   ContentContainer{ nullptr };
+
+		winrt::ColorSpectrum     ColorSpectrumControl{ nullptr };
+		winrt::XamlToolkit::WinUI::Controls::Primitives::ColorPickerSlider ColorSpectrumAlphaSlider{ nullptr };
+		winrt::XamlToolkit::WinUI::Controls::Primitives::ColorPickerSlider ColorSpectrumThirdDimensionSlider{ nullptr };
+		winrt::TextBox           HexInputTextBox{ nullptr };
+		winrt::ComboBox          ColorModeComboBox{ nullptr };
+		winrt::ListViewBase      PaletteColorsView{ nullptr };
+
+		winrt::NumberBox         Channel1NumberBox{ nullptr };
+		winrt::NumberBox         Channel2NumberBox{ nullptr };
+		winrt::NumberBox         Channel3NumberBox{ nullptr };
+		winrt::NumberBox         AlphaChannelNumberBox{ nullptr };
+
+		winrt::XamlToolkit::WinUI::Controls::Primitives::ColorPickerSlider Channel1Slider{ nullptr };
+		winrt::XamlToolkit::WinUI::Controls::Primitives::ColorPickerSlider Channel2Slider{ nullptr };
+		winrt::XamlToolkit::WinUI::Controls::Primitives::ColorPickerSlider Channel3Slider{ nullptr };
+		winrt::XamlToolkit::WinUI::Controls::Primitives::ColorPickerSlider AlphaChannelSlider{ nullptr };
+
+		winrt::ColorPreviewer ColorPreviewer{ nullptr };
+
+		// Up to 10 checkered backgrounds may be used by name anywhere in the template
+		winrt::Border CheckeredBackground1Border{ nullptr };
+		winrt::Border CheckeredBackground2Border{ nullptr };
+		winrt::Border CheckeredBackground3Border{ nullptr };
+		winrt::Border CheckeredBackground4Border{ nullptr };
+		winrt::Border CheckeredBackground5Border{ nullptr };
+		winrt::Border CheckeredBackground6Border{ nullptr };
+		winrt::Border CheckeredBackground7Border{ nullptr };
+		winrt::Border CheckeredBackground8Border{ nullptr };
+		winrt::Border CheckeredBackground9Border{ nullptr };
+		winrt::Border CheckeredBackground10Border{ nullptr };
+
+		winrt::IObservableVector<winrt::Color>::VectorChanged_revoker _vectorChangedRevoker;
+
+		winrt::Selector::SelectionChanged_revoker _colorPanelSelectorSelectionChangedRevoker;
+
+		winrt::Selector::SelectionChanged_revoker _colorsViewSelectionChangedRevoker;
+
+		winrt::ColorSpectrum::ColorChanged_revoker _colorSpectrumColorChangedRevoker;
+		winrt::Control::GotFocus_revoker _colorSpectrumGotFocusRevoker;
+
+		winrt::Control::KeyDown_revoker _hexInputTextBoxKeyDownRevoker;
+		winrt::Control::LostFocus_revoker _hexInputTextBoxLostFocusRevoker;
+
+		winrt::Selector::SelectionChanged_revoker _colorModeComboBoxSelectionChangedRevoker;
+
+		winrt::NumberBox::ValueChanged_revoker _channel1NumberBoxValueChangedRevoker;
+		winrt::NumberBox::ValueChanged_revoker _channel2NumberBoxValueChangedRevoker;
+		winrt::NumberBox::ValueChanged_revoker _channel3NumberBoxValueChangedRevoker;
+		winrt::NumberBox::ValueChanged_revoker _alphaChannelNumberBoxValueChangedRevoker;
+
+		winrt::Slider::ValueChanged_revoker _channel1SliderValueChangedRevoker;
+		winrt::Slider::ValueChanged_revoker _channel2SliderValueChangedRevoker;
+		winrt::Slider::ValueChanged_revoker _channel3SliderValueChangedRevoker;
+		winrt::Slider::ValueChanged_revoker _alphaChannelSliderValueChangedRevoker;
+		winrt::Slider::ValueChanged_revoker _colorSpectrumAlphaSliderValueChangedRevoker;
+		winrt::Slider::ValueChanged_revoker _colorSpectrumThirdDimensionSliderValueChangedRevoker;
+
+		winrt::FrameworkElement::Loaded_revoker _channel1SliderLoadedRevoker;
+		winrt::FrameworkElement::Loaded_revoker _channel2SliderLoadedRevoker;
+		winrt::FrameworkElement::Loaded_revoker _channel3SliderLoadedRevoker;
+		winrt::FrameworkElement::Loaded_revoker _alphaChannelSliderLoadedRevoker;
+		winrt::FrameworkElement::Loaded_revoker _colorSpectrumAlphaSliderLoadedRevoker;
+		winrt::FrameworkElement::Loaded_revoker _colorSpectrumThirdDimensionSliderLoadedRevoker;
+
+		winrt::ColorPreviewer::ColorChangeRequested_revoker _colorPreviewerColorChangeRequestedRevoker;
+
+		winrt::FrameworkElement::Loaded_revoker _checkeredBackground1BorderLoadedRevoker;
+		winrt::FrameworkElement::Loaded_revoker _checkeredBackground2BorderLoadedRevoker;
+		winrt::FrameworkElement::Loaded_revoker _checkeredBackground3BorderLoadedRevoker;
+		winrt::FrameworkElement::Loaded_revoker _checkeredBackground4BorderLoadedRevoker;
+		winrt::FrameworkElement::Loaded_revoker _checkeredBackground5BorderLoadedRevoker;
+		winrt::FrameworkElement::Loaded_revoker _checkeredBackground6BorderLoadedRevoker;
+		winrt::FrameworkElement::Loaded_revoker _checkeredBackground7BorderLoadedRevoker;
+		winrt::FrameworkElement::Loaded_revoker _checkeredBackground8BorderLoadedRevoker;
+		winrt::FrameworkElement::Loaded_revoker _checkeredBackground9BorderLoadedRevoker;
+		winrt::FrameworkElement::Loaded_revoker _checkeredBackground10BorderLoadedRevoker;
 	};
 }
 

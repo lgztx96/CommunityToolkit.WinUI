@@ -1,15 +1,10 @@
 #include "pch.h"
 #include "winrt_module_imports.h"
-#ifdef __INTELLISENSE__
-#include <algorithm>
-#include <chrono>
-#include <cmath>
-#include <limits>
-#endif
 #include "ColorPicker.h"
 #if __has_include("ColorPicker.g.cpp")
 #include "ColorPicker.g.cpp"
 #endif
+
 #include "ColorToHexConverter.h"
 #include "ColorPickerRenderingHelpers.h"
 #include "FluentColorPalette.h"
@@ -18,23 +13,59 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
 	using WinUIColorPicker = winrt::Microsoft::UI::Xaml::Controls::ColorPicker;
 
+	const wil::single_threaded_property<winrt::DependencyProperty> ColorPicker::CustomPaletteColorsProperty =
+		winrt::DependencyProperty::Register(
+			L"CustomPaletteColors",
+			winrt::xaml_typename<winrt::IObservableVector<winrt::Color>>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata(nullptr, &ColorPicker::OnDependencyPropertyChanged));
+
+	const wil::single_threaded_property<winrt::DependencyProperty> ColorPicker::CustomPaletteColumnCountProperty =
+		winrt::DependencyProperty::Register(
+			L"CustomPaletteColumnCount",
+			winrt::xaml_typename<int>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata(winrt::box_value(4), &ColorPicker::OnDependencyPropertyChanged));
+
+	const wil::single_threaded_property<winrt::DependencyProperty> ColorPicker::CustomPaletteProperty =
+		winrt::DependencyProperty::Register(
+			L"CustomPalette",
+			winrt::xaml_typename<winrt::XamlToolkit::WinUI::Controls::IColorPalette>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata(nullptr, &ColorPicker::OnDependencyPropertyChanged));
+
+	const wil::single_threaded_property<winrt::DependencyProperty> ColorPicker::IsColorPaletteVisibleProperty =
+		winrt::DependencyProperty::Register(
+			L"IsColorPaletteVisible",
+			winrt::xaml_typename<bool>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata(winrt::box_value(true), &ColorPicker::OnDependencyPropertyChanged));
+
+	const wil::single_threaded_property<winrt::DependencyProperty> ColorPicker::ShowAccentColorsProperty =
+		winrt::DependencyProperty::Register(
+			L"ShowAccentColors",
+			winrt::xaml_typename<bool>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata(winrt::box_value(true), &ColorPicker::OnDependencyPropertyChanged));
+
 	ColorPicker::ColorPicker()
 	{
 		DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
 
 		// Workaround for https://github.com/microsoft/microsoft-ui-xaml/issues/3502
-		DefaultStyleResourceUri(Uri(L"ms-appx:///XamlToolkit.WinUI.Controls/Themes/Generic.xaml"));
+		DefaultStyleResourceUri(winrt::Uri(L"ms-appx:///XamlToolkit.WinUI.Controls/Themes/Generic.xaml"));
 
 		// Setup collections
-		auto collection = winrt::single_threaded_observable_vector<winrt::Windows::UI::Color>();
-		SetValue(CustomPaletteColorsProperty, collection);
+		auto collection = winrt::single_threaded_observable_vector<winrt::Color>();
+		SetValue(CustomPaletteColorsProperty(), collection);
 		_vectorChangedRevoker = CustomPaletteColors().VectorChanged(winrt::auto_revoke, { this, &ColorPicker::CustomPaletteColors_CollectionChanged });
 
 		Loaded({ this, &ColorPicker::ColorPickerButton_Loaded });
 
 		// Checkered background color is found only one time for performance
 		// This may need to change in the future if theme changes should be supported
-		CheckerBackgroundColor = winrt::unbox_value<winrt::Windows::UI::Color>(Application::Current().Resources().Lookup(winrt::box_value(L"SystemListLowColor")));
+		CheckerBackgroundColor = winrt::unbox_value<winrt::Color>(
+			winrt::Application::Current().Resources().Lookup(winrt::box_value(L"SystemListLowColor")));
 
 		ConnectCallbacks(true);
 		SetDefaultPalette();
@@ -63,12 +94,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	 /// </summary>
 	 /// <param name="color">The Windows.UI.Color to calculate with.</param>
 	 /// <returns>Whether the color is considered empty.</returns>
-	bool ColorPicker::IsColorEmpty(winrt::Windows::UI::Color color)
+	bool ColorPicker::IsColorEmpty(winrt::Color color)
 	{
-		return color.A == 0x00 &&
-			color.R == 0x00 &&
-			color.G == 0x00 &&
-			color.B == 0x00;
+		return color.A == 0x00 && color.R == 0x00 && color.G == 0x00 && color.B == 0x00;
 	}
 
 	/// <summary>
@@ -79,39 +107,48 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		// We need to disconnect old events first
 		ConnectEvents(false);
 
-		ColorPanelSelector = GetTemplateChild(L"ColorPanelSelector").try_as<Controls::Segmented>();
-		ContentContainer = GetTemplateChild(L"ContentContainer").try_as<Controls::SwitchPresenter>();
+		ColorPanelSelector = GetTemplateChild(L"ColorPanelSelector").try_as<winrt::Segmented>();
+		ContentContainer = GetTemplateChild(L"ContentContainer").try_as<winrt::SwitchPresenter>();
 
-		ColorSpectrumControl = GetTemplateChild(L"ColorSpectrumControl").try_as<ColorSpectrum>();
-		ColorSpectrumAlphaSlider = GetTemplateChild(L"ColorSpectrumAlphaSlider").try_as<Primitives::ColorPickerSlider>();
-		ColorSpectrumThirdDimensionSlider = GetTemplateChild(L"ColorSpectrumThirdDimensionSlider").try_as<Primitives::ColorPickerSlider>();
+		ColorSpectrumControl = GetTemplateChild(L"ColorSpectrumControl").try_as<winrt::ColorSpectrum>();
+		ColorSpectrumAlphaSlider = GetTemplateChild(L"ColorSpectrumAlphaSlider")
+			.try_as<winrt::XamlToolkit::WinUI::Controls::Primitives::ColorPickerSlider>();
+		ColorSpectrumThirdDimensionSlider = GetTemplateChild(L"ColorSpectrumThirdDimensionSlider")
+			.try_as<winrt::XamlToolkit::WinUI::Controls::Primitives::ColorPickerSlider>();
 
-		HexInputTextBox = GetTemplateChild(L"HexInputTextBox").try_as<TextBox>();
-		ColorModeComboBox = GetTemplateChild(L"ColorModeComboBox").try_as<ComboBox>();
-		PaletteColorsView = GetTemplateChild(L"PaletteColorsView").try_as<ListViewBase>();
+		HexInputTextBox = GetTemplateChild(L"HexInputTextBox").try_as<winrt::TextBox>();
+		ColorModeComboBox = GetTemplateChild(L"ColorModeComboBox").try_as<winrt::ComboBox>();
+		PaletteColorsView = GetTemplateChild(L"PaletteColorsView").try_as<winrt::ListViewBase>();
 
-		Channel1NumberBox = GetTemplateChild(L"Channel1NumberBox").try_as<NumberBox>();
-		Channel2NumberBox = GetTemplateChild(L"Channel2NumberBox").try_as<NumberBox>();
-		Channel3NumberBox = GetTemplateChild(L"Channel3NumberBox").try_as<NumberBox>();
-		AlphaChannelNumberBox = GetTemplateChild(L"AlphaChannelNumberBox").try_as<NumberBox>();
+		Channel1NumberBox = GetTemplateChild(L"Channel1NumberBox").try_as<winrt::NumberBox>();
+		Channel2NumberBox = GetTemplateChild(L"Channel2NumberBox").try_as<winrt::NumberBox>();
+		Channel3NumberBox = GetTemplateChild(L"Channel3NumberBox").try_as<winrt::NumberBox>();
+		AlphaChannelNumberBox = GetTemplateChild(L"AlphaChannelNumberBox").try_as<winrt::NumberBox>();
 
-		Channel1Slider = GetTemplateChild(L"Channel1Slider").try_as<Primitives::ColorPickerSlider>();
-		Channel2Slider = GetTemplateChild(L"Channel2Slider").try_as<Primitives::ColorPickerSlider>();
-		Channel3Slider = GetTemplateChild(L"Channel3Slider").try_as<Primitives::ColorPickerSlider>();
-		AlphaChannelSlider = GetTemplateChild(L"AlphaChannelSlider").try_as<Primitives::ColorPickerSlider>();
+		Channel1Slider = GetTemplateChild(L"Channel1Slider")
+			.try_as<winrt::XamlToolkit::WinUI::Controls::Primitives::ColorPickerSlider>();
 
-		ColorPreviewer = GetTemplateChild(L"ColorPreviewer").try_as<winrt::XamlToolkit::WinUI::Controls::Primitives::ColorPreviewer>();
+		Channel2Slider = GetTemplateChild(L"Channel2Slider")
+			.try_as<winrt::XamlToolkit::WinUI::Controls::Primitives::ColorPickerSlider>();
 
-		CheckeredBackground1Border = GetTemplateChild(L"CheckeredBackground1Border").try_as<Border>();
-		CheckeredBackground2Border = GetTemplateChild(L"CheckeredBackground2Border").try_as<Border>();
-		CheckeredBackground3Border = GetTemplateChild(L"CheckeredBackground3Border").try_as<Border>();
-		CheckeredBackground4Border = GetTemplateChild(L"CheckeredBackground4Border").try_as<Border>();
-		CheckeredBackground5Border = GetTemplateChild(L"CheckeredBackground5Border").try_as<Border>();
-		CheckeredBackground6Border = GetTemplateChild(L"CheckeredBackground6Border").try_as<Border>();
-		CheckeredBackground7Border = GetTemplateChild(L"CheckeredBackground7Border").try_as<Border>();
-		CheckeredBackground8Border = GetTemplateChild(L"CheckeredBackground8Border").try_as<Border>();
-		CheckeredBackground9Border = GetTemplateChild(L"CheckeredBackground9Border").try_as<Border>();
-		CheckeredBackground10Border = GetTemplateChild(L"CheckeredBackground10Border").try_as<Border>();
+		Channel3Slider = GetTemplateChild(L"Channel3Slider")
+			.try_as<winrt::XamlToolkit::WinUI::Controls::Primitives::ColorPickerSlider>();
+
+		AlphaChannelSlider = GetTemplateChild(L"AlphaChannelSlider")
+			.try_as<winrt::XamlToolkit::WinUI::Controls::Primitives::ColorPickerSlider>();
+
+		ColorPreviewer = GetTemplateChild(L"ColorPreviewer").try_as<winrt::ColorPreviewer>();
+
+		CheckeredBackground1Border = GetTemplateChild(L"CheckeredBackground1Border").try_as<winrt::Border>();
+		CheckeredBackground2Border = GetTemplateChild(L"CheckeredBackground2Border").try_as<winrt::Border>();
+		CheckeredBackground3Border = GetTemplateChild(L"CheckeredBackground3Border").try_as<winrt::Border>();
+		CheckeredBackground4Border = GetTemplateChild(L"CheckeredBackground4Border").try_as<winrt::Border>();
+		CheckeredBackground5Border = GetTemplateChild(L"CheckeredBackground5Border").try_as<winrt::Border>();
+		CheckeredBackground6Border = GetTemplateChild(L"CheckeredBackground6Border").try_as<winrt::Border>();
+		CheckeredBackground7Border = GetTemplateChild(L"CheckeredBackground7Border").try_as<winrt::Border>();
+		CheckeredBackground8Border = GetTemplateChild(L"CheckeredBackground8Border").try_as<winrt::Border>();
+		CheckeredBackground9Border = GetTemplateChild(L"CheckeredBackground9Border").try_as<winrt::Border>();
+		CheckeredBackground10Border = GetTemplateChild(L"CheckeredBackground10Border").try_as<winrt::Border>();
 
 		// Must connect after controls are resolved
 		ConnectEvents(true);
@@ -130,16 +167,14 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	/// </summary>
 	void ColorPicker::ConnectCallbacks(bool connected)
 	{
-		if (connected == true &&
-			callbacksConnected == false)
+		if (connected && !callbacksConnected)
 		{
 			// Add callbacks for dependency properties
 			tokenColor = RegisterPropertyChangedCallback(WinUIColorPicker::ColorProperty(), { this, &ColorPicker::OnColorChanged });
 
 			callbacksConnected = true;
 		}
-		else if (connected == false &&
-			callbacksConnected == true)
+		else if (!connected && callbacksConnected)
 		{
 			// Remove callbacks for dependency properties
 			UnregisterPropertyChangedCallback(WinUIColorPicker::ColorProperty(), tokenColor);
@@ -154,8 +189,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	/// <param name="connected">True to connect event handlers, otherwise false.</param>
 	void ColorPicker::ConnectEvents(bool connected)
 	{
-		if (connected == true &&
-			eventsConnected == false)
+		if (connected && !eventsConnected)
 		{
 			// Add all events
 			if (ColorPanelSelector)
@@ -345,7 +379,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 			eventsConnected = true;
 		}
-		else if (connected == false && eventsConnected == true)
+		else if (!connected && eventsConnected)
 		{
 			_colorPanelSelectorSelectionChangedRevoker.revoke();
 
@@ -398,12 +432,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	/// <param name="useTransitions">Whether transitions should occur when changing states.</param>
 	void ColorPicker::UpdateVisualState(bool useTransitions)
 	{
-		VisualStateManager::GoToState(*this, IsEnabled() ? L"Normal" : L"Disabled", useTransitions);
-		VisualStateManager::GoToState(*this, GetActiveColorRepresentation() == ColorRepresentation::Hsva ? L"HsvSelected" : L"RgbSelected", useTransitions);
-		VisualStateManager::GoToState(*this, IsColorPaletteVisible() ? L"ColorPaletteVisible" : L"ColorPaletteCollapsed", useTransitions);
+		winrt::VisualStateManager::GoToState(*this, IsEnabled() ? L"Normal" : L"Disabled", useTransitions);
+		winrt::VisualStateManager::GoToState(*this, GetActiveColorRepresentation() == ColorRepresentation::Hsva ? L"HsvSelected" : L"RgbSelected", useTransitions);
+		winrt::VisualStateManager::GoToState(*this, IsColorPaletteVisible() ? L"ColorPaletteVisible" : L"ColorPaletteCollapsed", useTransitions);
 
 		// Check if only a single vie is selected and hide the Segmented control
-		VisualStateManager::GoToState(*this, (Truth({ IsColorPaletteVisible(), IsColorSpectrumVisible(), IsColorChannelTextInputVisible() }) <= 1) ? L"ColorPanelSelectorCollapsed" : L"ColorPanelSelectorVisible", useTransitions);
+		winrt::VisualStateManager::GoToState(*this, (Truth({ IsColorPaletteVisible(), IsColorSpectrumVisible(), IsColorChannelTextInputVisible() }) <= 1) ? L"ColorPanelSelectorCollapsed" : L"ColorPanelSelectorVisible", useTransitions);
 	}
 
 	int ColorPicker::Truth(std::initializer_list<bool> booleans)
@@ -437,7 +471,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	{
 		bool eventsDisconnectedByMethod = false;
 
-		if (!colorRepresentation)
+		if (!colorRepresentation.has_value())
 		{
 			// Use the control's current value
 			colorRepresentation = GetActiveColorRepresentation();
@@ -476,22 +510,22 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	{
 		switch (ColorSpectrumComponents())
 		{
-		case Microsoft::UI::Xaml::Controls::ColorSpectrumComponents::SaturationValue:
-		case Microsoft::UI::Xaml::Controls::ColorSpectrumComponents::ValueSaturation:
+		case winrt::ColorSpectrumComponents::SaturationValue:
+		case winrt::ColorSpectrumComponents::ValueSaturation:
 		{
 			// Hue
 			return ColorChannel::Channel1;
 		}
 
-		case Microsoft::UI::Xaml::Controls::ColorSpectrumComponents::HueValue:
-		case Microsoft::UI::Xaml::Controls::ColorSpectrumComponents::ValueHue:
+		case winrt::ColorSpectrumComponents::HueValue:
+		case winrt::ColorSpectrumComponents::ValueHue:
 		{
 			// Saturation
 			return ColorChannel::Channel2;
 		}
 
-		case Microsoft::UI::Xaml::Controls::ColorSpectrumComponents::HueSaturation:
-		case Microsoft::UI::Xaml::Controls::ColorSpectrumComponents::SaturationHue:
+		case winrt::ColorSpectrumComponents::HueSaturation:
+		case winrt::ColorSpectrumComponents::SaturationHue:
 		{
 			// Value
 			return ColorChannel::Channel3;
@@ -506,12 +540,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	/// Application of this color will be scheduled to avoid overly rapid updates.
 	/// </summary>
 	/// <param name="newColor">The new color to set to the control. </param>
-	void ColorPicker::ScheduleColorUpdate(winrt::Windows::UI::Color newColor)
+	void ColorPicker::ScheduleColorUpdate(winrt::Color newColor)
 	{
 		// Coerce the value as needed
-		if (IsAlphaEnabled() == false)
+		if (!IsAlphaEnabled())
 		{
-			newColor = winrt::Windows::UI::Color
+			newColor = winrt::Color
 			{
 				.A = 255,
 				.R = newColor.R,
@@ -529,7 +563,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	void ColorPicker::UpdateColorControlValues()
 	{
 		bool eventsDisconnectedByMethod = false;
-		winrt::Windows::UI::Color rgbColor = Color();
+		winrt::Color rgbColor = Color();
 		HsvColor hsvColor;
 
 		if (isInitialized)
@@ -546,13 +580,13 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 				if (IsAlphaEnabled())
 				{
 					// Remove only the "#" sign
-					auto hex = Helpers::ColorHelper::ToHex(rgbColor);
+					auto hex = winrt::XamlToolkit::WinUI::Helpers::ColorHelper::ToHex(rgbColor);
 					HexInputTextBox.Text(winrt::hstring{ hex.data() + 1, hex.size() - 1 });
 				}
 				else
 				{
 					// Remove the "#" sign and alpha hex
-					auto hex = Helpers::ColorHelper::ToHex(rgbColor);
+					auto hex = winrt::XamlToolkit::WinUI::Helpers::ColorHelper::ToHex(rgbColor);
 					HexInputTextBox.Text(winrt::hstring{ hex.data() + 3, hex.size() - 3 });
 				}
 			}
@@ -561,15 +595,15 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			// Therefore, always calculate HSV color here
 			// Warning: Always maintain/use HSV information in the saved HSV color
 			// This avoids loss of precision and drift caused by continuously converting to/from RGB
-			if (!savedHsvColor)
+			if (!savedHsvColor.has_value())
 			{
-				hsvColor = Helpers::ColorHelper::ToHsv(rgbColor);
+				hsvColor = winrt::XamlToolkit::WinUI::Helpers::ColorHelper::ToHsv(rgbColor);
 
 				static auto round = [](double value, int decimals) -> double
-					{
-						double factor = std::pow(10.0, decimals);
-						return std::round(value * factor) / factor;
-					};
+				{
+					double factor = std::pow(10.0, decimals);
+					return std::round(value * factor) / factor;
+				};
 				// Round the channels, be sure rounding matches with the scaling next
 				// Rounding of SVA requires at MINIMUM 2 decimal places
 				int decimals = 0;
@@ -796,10 +830,10 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 				}
 			}
 
-			if (PaletteColorsView != nullptr)
+			if (PaletteColorsView)
 			{
 				bool contains = false;
-				if (auto colors = CustomPaletteColors())
+				if (const auto colors = CustomPaletteColors())
 				{
 					uint32_t index;
 					contains = colors.IndexOf(rgbColor, index);
@@ -822,13 +856,10 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	/// <param name="colorRepresentation">The color representation of the given channel.</param>
 	/// <param name="channel">The specified color channel to modify.</param>
 	/// <param name="newValue">The new color channel value.</param>
-	void ColorPicker::SetColorChannel(
-		ColorRepresentation colorRepresentation,
-		ColorChannel channel,
-		double newValue)
+	void ColorPicker::SetColorChannel(ColorRepresentation colorRepresentation, ColorChannel channel, double newValue)
 	{
-		winrt::Windows::UI::Color oldRgbColor = Color();
-		winrt::Windows::UI::Color newRgbColor;
+		winrt::Color oldRgbColor = Color();
+		winrt::Color newRgbColor;
 		HsvColor oldHsvColor;
 
 		if (colorRepresentation == ColorRepresentation::Hsva)
@@ -837,7 +868,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			// This avoids loss of precision and drift caused by continuously converting to/from RGB
 			if (!savedHsvColor)
 			{
-				oldHsvColor = Helpers::ColorHelper::ToHsv(oldRgbColor);
+				oldHsvColor = winrt::XamlToolkit::WinUI::Helpers::ColorHelper::ToHsv(oldRgbColor);
 			}
 			else
 			{
@@ -851,37 +882,30 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 			switch (channel)
 			{
-			case ColorChannel::Channel1:
-			{
-				hue = std::clamp((std::isnan(newValue) ? 0.0 : newValue), 0.0, 360.0);
-				break;
+				case ColorChannel::Channel1:
+				{
+					hue = std::clamp((std::isnan(newValue) ? 0.0 : newValue), 0.0, 360.0);
+					break;
+				}
+				case ColorChannel::Channel2:
+				{
+					saturation = std::clamp((std::isnan(newValue) ? 0 : newValue) / 100.0, 0.0, 1.0);
+					break;
+				}
+				case ColorChannel::Channel3:
+				{
+					value = std::clamp((std::isnan(newValue) ? 0 : newValue) / 100, 0.0, 1.0);
+					break;
+				}
+				case ColorChannel::Alpha:
+				{
+					// Unlike color channels, default to no transparency
+					alpha = std::clamp((std::isnan(newValue) ? 100 : newValue) / 100, 0.0, 1.0);
+					break;
+				}
 			}
 
-			case ColorChannel::Channel2:
-			{
-				saturation = std::clamp((std::isnan(newValue) ? 0 : newValue) / 100.0, 0.0, 1.0);
-				break;
-			}
-
-			case ColorChannel::Channel3:
-			{
-				value = std::clamp((std::isnan(newValue) ? 0 : newValue) / 100, 0.0, 1.0);
-				break;
-			}
-
-			case ColorChannel::Alpha:
-			{
-				// Unlike color channels, default to no transparency
-				alpha = std::clamp((std::isnan(newValue) ? 100 : newValue) / 100, 0.0, 1.0);
-				break;
-			}
-			}
-
-			newRgbColor = Helpers::ColorHelper::FromHsv(
-				hue,
-				saturation,
-				value,
-				alpha);
+			newRgbColor = winrt::XamlToolkit::WinUI::Helpers::ColorHelper::FromHsv(hue, saturation, value, alpha);
 
 			// Must update HSV color
 			savedHsvColor = HsvColor
@@ -902,33 +926,30 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 			switch (channel)
 			{
-			case ColorChannel::Channel1:
-			{
-				red = static_cast<uint8_t>(std::clamp(std::isnan(newValue) ? 0 : newValue, 0.0, 255.0));
-				break;
+				case ColorChannel::Channel1:
+				{
+					red = static_cast<uint8_t>(std::clamp(std::isnan(newValue) ? 0 : newValue, 0.0, 255.0));
+					break;
+				}
+				case ColorChannel::Channel2:
+				{
+					green = static_cast<uint8_t>(std::clamp(std::isnan(newValue) ? 0 : newValue, 0.0, 255.0));
+					break;
+				}
+				case ColorChannel::Channel3:
+				{
+					blue = static_cast<uint8_t>(std::clamp(std::isnan(newValue) ? 0 : newValue, 0.0, 255.0));
+					break;
+				}
+				case ColorChannel::Alpha:
+				{
+					// Unlike color channels, default to no transparency
+					alpha = static_cast<uint8_t>(std::clamp(std::isnan(newValue) ? 255 : newValue, 0.0, 255.0));
+					break;
+				}
 			}
 
-			case ColorChannel::Channel2:
-			{
-				green = static_cast<uint8_t>(std::clamp(std::isnan(newValue) ? 0 : newValue, 0.0, 255.0));
-				break;
-			}
-
-			case ColorChannel::Channel3:
-			{
-				blue = static_cast<uint8_t>(std::clamp(std::isnan(newValue) ? 0 : newValue, 0.0, 255.0));
-				break;
-			}
-
-			case ColorChannel::Alpha:
-			{
-				// Unlike color channels, default to no transparency
-				alpha = static_cast<uint8_t>(std::clamp(std::isnan(newValue) ? 255 : newValue, 0.0, 255.0));
-				break;
-			}
-			}
-
-			newRgbColor = winrt::Windows::UI::Color
+			newRgbColor = winrt::Color
 			{
 				.A = alpha,
 				.R = red,
@@ -961,7 +982,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	/// Updates a specific channel slider control background.
 	/// </summary>
 	/// <param name="slider">The color channel slider to update the background for.</param>
-	void ColorPicker::UpdateChannelSliderBackground(Primitives::ColorPickerSlider const& slider)
+	void ColorPicker::UpdateChannelSliderBackground(winrt::XamlToolkit::WinUI::Controls::Primitives::ColorPickerSlider const& slider)
 	{
 		if (slider)
 		{
@@ -969,12 +990,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			// Therefore, always calculate HSV color here
 			// Warning: Always maintain/use HSV information in the saved HSV color
 			// This avoids loss of precision and drift caused by continuously converting to/from RGB
-			if (savedHsvColor == std::nullopt)
+			if (!savedHsvColor.has_value())
 			{
-				auto rgbColor = Color();
+				const auto rgbColor = Color();
 
 				// Must update HSV color
-				savedHsvColor = Helpers::ColorHelper::ToHsv(rgbColor);
+				savedHsvColor = winrt::XamlToolkit::WinUI::Helpers::ColorHelper::ToHsv(rgbColor);
 				savedHsvColorRgbEquivalent = rgbColor;
 			}
 
@@ -1030,7 +1051,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	/// </summary>
 	void ColorPicker::ValidateSelectedPanel()
 	{
-		IInspectable selectedItem{ nullptr };
+		winrt::IInspectable selectedItem{ nullptr };
 
 		if (ColorPanelSelector)
 		{
@@ -1045,14 +1066,14 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 				selectedItem = ColorPanelSelector.SelectedItem();
 			}
 
-			if (auto selectedElement = selectedItem.try_as<UIElement>(); selectedElement &&
-				selectedElement.Visibility() == Visibility::Collapsed)
+			if (const auto selectedElement = selectedItem.try_as<winrt::UIElement>(); 
+				selectedElement && selectedElement.Visibility() == winrt::Visibility::Collapsed)
 			{
 				// Select the first visible item instead
-				for (auto item : ColorPanelSelector.Items())
+				for (const auto& item : ColorPanelSelector.Items())
 				{
-					if (auto element = item.try_as<UIElement>(); element &&
-						element.Visibility() == Visibility::Visible)
+					if (const auto element = item.try_as<winrt::UIElement>(); 
+						element && element.Visibility() == winrt::Visibility::Visible)
 					{
 						selectedItem = item;
 						break;
@@ -1066,34 +1087,33 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		return;
 	}
 
-	void ColorPicker::OnPanelVisibilityChanged([[maybe_unused]] DependencyObject const& sender, [[maybe_unused]] DependencyProperty const& dp)
+	void ColorPicker::OnPanelVisibilityChanged([[maybe_unused]] winrt::DependencyObject const& sender, [[maybe_unused]] winrt::DependencyProperty const& dp)
 	{
 		UpdateVisualState(false);
 		ValidateSelectedPanel();
 	}
 
-	void ColorPicker::OnDependencyPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+	void ColorPicker::OnDependencyPropertyChanged(winrt::DependencyObject const& sender, winrt::DependencyPropertyChangedEventArgs const& args)
 	{
 		if (auto senderControl = sender.try_as<class_type>())
 		{
 			/* Note: ColorProperty is defined in the base class and cannot be used here
 			 * See the OnColorChanged callback below
 			 */
-			auto self = winrt::get_self<ColorPicker>(senderControl)->get_strong();
-			if (args.Property() == CustomPaletteProperty)
+			auto self = winrt::get_self<ColorPicker>(senderControl);
+			if (args.Property() == CustomPaletteProperty())
 			{
-				IColorPalette palette = self->CustomPalette();
-
-				if (palette)
+				if (const auto palette = self->CustomPalette())
 				{
 					self->CustomPaletteColumnCount(palette.ColorCount());
-					self->CustomPaletteColors().Clear();
+					auto customPaletteColors = self->CustomPaletteColors();
+					customPaletteColors.Clear();
 
 					for (int shadeIndex = 0; shadeIndex < palette.ShadeCount(); shadeIndex++)
 					{
 						for (int colorIndex = 0; colorIndex < palette.ColorCount(); colorIndex++)
 						{
-							self->CustomPaletteColors().Append(palette.GetColor(colorIndex, shadeIndex));
+							customPaletteColors.Append(palette.GetColor(colorIndex, shadeIndex));
 						}
 					}
 				}
@@ -1128,18 +1148,18 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		}
 	}
 
-	void ColorPicker::DispatcherQueueTimer_Tick([[maybe_unused]] IInspectable const& sender, [[maybe_unused]] IInspectable const& e)
+	void ColorPicker::DispatcherQueueTimer_Tick([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::IInspectable const& e)
 	{
 		if (updatedRgbColor)
 		{
 			const auto& newColor = updatedRgbColor.value();
 
 			// Clear first to avoid timing issues if it takes longer than the timer interval to set the new color
-			updatedRgbColor = std::nullopt;
+			updatedRgbColor.reset();
 
 			// An equality check here is important
 			// Without it, OnColorChanged would continuously be invoked and preserveHsvColor overwritten when not wanted
-			if (newColor != GetValue(WinUIColorPicker::ColorProperty()).try_as<winrt::Windows::UI::Color>())
+			if (newColor != GetValue(WinUIColorPicker::ColorProperty()).try_as<winrt::Color>())
 			{
 				// Disable events here so the color update isn't repeated as other controls in the UI are updated through binding.
 				// For example, the Spectrum should be bound to Color, as soon as Color is changed here the Spectrum is updated.
@@ -1164,11 +1184,11 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	 /// <summary>
 	 /// Callback for when the <see cref="Microsoft.UI.Xaml.Controls.ColorPicker.Color"/> dependency property value changes.
 	 /// </summary>
-	void ColorPicker::OnColorChanged(DependencyObject const& d, DependencyProperty const& e)
+	void ColorPicker::OnColorChanged(winrt::DependencyObject const& d, winrt::DependencyProperty const& e)
 	{
 		// TODO: Coerce the value if Alpha is disabled, is this handled in the base ColorPicker?
 		if ((savedHsvColor) &&
-			(d.GetValue(e).try_as<winrt::Windows::UI::Color>() != savedHsvColorRgbEquivalent))
+			(d.GetValue(e).try_as<winrt::Color>() != savedHsvColorRgbEquivalent))
 		{
 			// The color was updated from an unknown source
 			// The RGB and HSV colors are no longer in sync so the HSV color must be cleared
@@ -1189,7 +1209,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	 /// <summary>
 	 /// Event handler for when the control has finished loaded.
 	 /// </summary>
-	void ColorPicker::ColorPickerButton_Loaded([[maybe_unused]] IInspectable const& sender, [[maybe_unused]] RoutedEventArgs const& e)
+	void ColorPicker::ColorPickerButton_Loaded([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
 	{
 		// Available but not currently used
 	}
@@ -1198,9 +1218,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	/// Event handler for when a color channel slider is loaded.
 	/// This will draw an initial background.
 	/// </summary>
-	void ColorPicker::ChannelSlider_Loaded(IInspectable const& sender, [[maybe_unused]] RoutedEventArgs const& e)
+	void ColorPicker::ChannelSlider_Loaded(winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
 	{
-		if (auto slider = sender.try_as<Primitives::ColorPickerSlider>())
+		if (const auto slider = sender.try_as<Primitives::ColorPickerSlider>())
 		{
 			UpdateChannelSliderBackground(slider);
 		}
@@ -1209,9 +1229,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	/// <summary>
 	/// Event handler to draw checkered backgrounds on-demand as controls are loaded.
 	/// </summary>
-	winrt::Windows::Foundation::IAsyncAction ColorPicker::CheckeredBackgroundBorder_Loaded(IInspectable const& sender, RoutedEventArgs const& e)
+	winrt::fire_and_forget ColorPicker::CheckeredBackgroundBorder_Loaded(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e)
 	{
-		if (auto border = sender.try_as<Border>())
+		if (const auto border = sender.try_as<winrt::Border>())
 		{
 			co_await ColorPickerRenderingHelpers::UpdateBorderBackgroundWithCheckerAsync(border, CheckerBackgroundColor);
 		}
@@ -1220,7 +1240,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	/// <summary>
 	/// Event handler for when the list of custom palette colors is changed.
 	/// </summary>
-	void ColorPicker::CustomPaletteColors_CollectionChanged([[maybe_unused]] IInspectable const& sender, [[maybe_unused]] IVectorChangedEventArgs const& e)
+	void ColorPicker::CustomPaletteColors_CollectionChanged([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::IVectorChangedEventArgs const& e)
 	{
 		// Available but not currently used
 	}
@@ -1230,21 +1250,19 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	/// We are setting the value here instead of ElementName binding as a workaround for AoT issues.
 	/// (See https://github.com/microsoft/microsoft-ui-xaml/issues/10214)
 	/// </summary>
-	void ColorPicker::ColorPanelSelector_SelectionChanged(IInspectable const& sender, [[maybe_unused]] SelectionChangedEventArgs const& e)
+	void ColorPicker::ColorPanelSelector_SelectionChanged(winrt::IInspectable const& sender, [[maybe_unused]] winrt::SelectionChangedEventArgs const& e)
 	{
 		if (ContentContainer == nullptr)
 		{
 			return;
 		}
 
-		auto segmented = sender.try_as<Controls::Segmented>();
-		if (!segmented)
+		if (const auto selector = sender.try_as<winrt::Selector>())
 		{
-			return;
-		}
-
-		if (auto selectedItem = segmented.SelectedItem().try_as<FrameworkElement>()) {
-			ContentContainer.Value(winrt::box_value(selectedItem.Name()));
+			if (const auto selectedItem = selector.SelectedItem().try_as<winrt::FrameworkElement>())
+			{
+				ContentContainer.Value(winrt::box_value(selectedItem.Name()));
+			}
 		}
 	}
 
@@ -1252,7 +1270,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	/// Event handler for when the color spectrum color is changed.
 	/// This occurs when the user presses on the spectrum to select a new color.
 	/// </summary>
-	void ColorPicker::ColorSpectrum_ColorChanged([[maybe_unused]] ColorSpectrum const& sender, [[maybe_unused]] winrt::Microsoft::UI::Xaml::Controls::ColorChangedEventArgs const& args)
+	void ColorPicker::ColorSpectrum_ColorChanged([[maybe_unused]] ColorSpectrum const& sender, [[maybe_unused]] winrt::ColorChangedEventArgs const& args)
 	{
 		// It is OK in this case to use the RGB representation
 		ScheduleColorUpdate(ColorSpectrumControl.Color());
@@ -1262,9 +1280,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	/// Event handler for when the color spectrum is focused.
 	/// This is used only to work around some bugs that cause usability problems.
 	/// </summary>
-	void ColorPicker::ColorSpectrum_GotFocus([[maybe_unused]] IInspectable const& sender, [[maybe_unused]] RoutedEventArgs const& e)
+	void ColorPicker::ColorSpectrum_GotFocus([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
 	{
-		winrt::Windows::UI::Color rgbColor = ColorSpectrumControl.Color();
+		const winrt::Color rgbColor = ColorSpectrumControl.Color();
 
 		/* If this control has a color that is currently empty (#00000000),
 		 * selecting a new color directly in the spectrum will fail. This is
@@ -1349,14 +1367,14 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			}
 			*/
 
-			ScheduleColorUpdate(Colors::White());
+			ScheduleColorUpdate(winrt::Microsoft::UI::Colors::White());
 		}
 		else if (rgbColor.A == 0x00)
 		{
 			// As an additional usability improvement, reset alpha to maximum when the spectrum is used.
 			// The color spectrum has no alpha channel and it is much more intuitive to do this for the user
 			// especially if the picker was initially set with Colors.Transparent.
-			ScheduleColorUpdate(winrt::Windows::UI::ColorHelper::FromArgb(0xFF, rgbColor.R, rgbColor.G, rgbColor.B));
+			ScheduleColorUpdate(winrt::Microsoft::UI::ColorHelper::FromArgb(0xFF, rgbColor.R, rgbColor.G, rgbColor.B));
 		}
 	}
 
@@ -1364,7 +1382,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	/// Event handler for when the selected color representation changes.
 	/// This will convert between RGB and HSV.
 	/// </summary>
-	void ColorPicker::ColorModeComboBox_SelectionChanged([[maybe_unused]] IInspectable const& sender, [[maybe_unused]] SelectionChangedEventArgs const& e)
+	void ColorPicker::ColorModeComboBox_SelectionChanged([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::SelectionChangedEventArgs const& e)
 	{
 		if (ColorModeComboBox.SelectedIndex() == 1)
 		{
@@ -1379,11 +1397,11 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		UpdateChannelSliderBackgrounds();
 	}
 
-	void ColorPicker::PaletteColorsView_SelectionChanged(IInspectable const& sender, [[maybe_unused]] SelectionChangedEventArgs const& e)
+	void ColorPicker::PaletteColorsView_SelectionChanged(winrt::IInspectable const& sender, [[maybe_unused]] winrt::SelectionChangedEventArgs const& e)
 	{
-		if (auto listViewBase = sender.try_as<ListViewBase>())
+		if (const auto listViewBase = sender.try_as<winrt::ListViewBase>())
 		{
-			if (auto selectedColor = listViewBase.SelectedValue().try_as<winrt::Windows::UI::Color>())
+			if (const auto selectedColor = listViewBase.SelectedValue().try_as<winrt::Color>())
 			{
 				Color(*selectedColor);
 			}
@@ -1393,9 +1411,10 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	/// <summary>
 	/// Event handler for when the color previewer requests a new color.
 	/// </summary>
-	void ColorPicker::ColorPreviewer_ColorChangeRequested([[maybe_unused]] IInspectable const& sender, HsvColor hsvColor)
+	void ColorPicker::ColorPreviewer_ColorChangeRequested([[maybe_unused]] winrt::IInspectable const& sender, HsvColor hsvColor)
 	{
-		winrt::Windows::UI::Color rgbColor = Helpers::ColorHelper::FromHsv(hsvColor.H, hsvColor.S, hsvColor.V, hsvColor.A);
+		const auto rgbColor = winrt::XamlToolkit::WinUI::Helpers::ColorHelper::FromHsv(
+			hsvColor.H, hsvColor.S, hsvColor.V, hsvColor.A);
 
 		// Regardless of the active color model, the previewer always uses HSV
 		// Therefore, always calculate HSV color here
@@ -1411,15 +1430,18 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	/// Event handler for when a key is pressed within the Hex RGB value TextBox.
 	/// This is used to trigger a re-evaluation of the color based on the TextBox value.
 	/// </summary>
-	void ColorPicker::HexInputTextBox_KeyDown(IInspectable const& sender, KeyRoutedEventArgs const& e)
+	void ColorPicker::HexInputTextBox_KeyDown(winrt::IInspectable const& sender, winrt::KeyRoutedEventArgs const& e)
 	{
 		if (e.Key() == winrt::Windows::System::VirtualKey::Enter)
 		{
 			try
 			{
-				auto converter = winrt::make<implementation::ColorToHexConverter>();
-				Color(converter.ConvertBack(winrt::box_value(sender.as<TextBox>().Text()), winrt::xaml_typename<TextBox>(), nullptr, L"")
-					.as<winrt::Windows::UI::Color>());
+				static const auto converter = winrt::make<implementation::ColorToHexConverter>();
+				Color(converter.ConvertBack(
+					winrt::box_value(sender.as<winrt::TextBox>().Text()), 
+					winrt::xaml_typename<TextBox>(), 
+					nullptr, 
+					L"").as<winrt::Color>());
 			}
 			catch (...)
 			{
@@ -1434,12 +1456,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	/// Event handler for when the Hex RGB value TextBox looses focus.
 	/// This is used to trigger a re-evaluation of the color based on the TextBox value.
 	/// </summary>
-	void ColorPicker::HexInputTextBox_LostFocus(IInspectable const& sender, [[maybe_unused]] RoutedEventArgs const& e)
+	void ColorPicker::HexInputTextBox_LostFocus(winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
 	{
 		try
 		{
-			auto converter = winrt::make<implementation::ColorToHexConverter>();
-			Color(converter.ConvertBack(winrt::box_value(sender.as<TextBox>().Text()), winrt::xaml_typename<TextBox>(), nullptr, L"").as<winrt::Windows::UI::Color>());
+			static const auto converter = winrt::make<implementation::ColorToHexConverter>();
+			Color(converter.ConvertBack(winrt::box_value(sender.as<winrt::TextBox>().Text()), winrt::xaml_typename<TextBox>(), nullptr, L"").as<winrt::Color>());
 		}
 		catch (...)
 		{
@@ -1452,9 +1474,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	/// <summary>
 	/// Event handler for when the value within one of the channel NumberBoxes is changed.
 	/// </summary>
-	void ColorPicker::ChannelNumberBox_ValueChanged(NumberBox const& sender, [[maybe_unused]] NumberBoxValueChangedEventArgs const& args)
+	void ColorPicker::ChannelNumberBox_ValueChanged(winrt::NumberBox const& sender, [[maybe_unused]] winrt::NumberBoxValueChangedEventArgs const& args)
 	{
-		double senderValue = sender.Value();
+		const double senderValue = sender.Value();
 
 		if (sender == Channel1NumberBox)
 		{
@@ -1477,9 +1499,10 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	/// <summary>
 	/// Event handler for when the value within one of the channel Sliders is changed.
 	/// </summary>
-	void ColorPicker::ChannelSlider_ValueChanged(IInspectable const& sender, [[maybe_unused]] RangeBaseValueChangedEventArgs const& e)
+	void ColorPicker::ChannelSlider_ValueChanged(winrt::IInspectable const& sender, [[maybe_unused]] winrt::RangeBaseValueChangedEventArgs const& e)
 	{
-		double senderValue = (sender.try_as<Slider>()) ? sender.as<Slider>().Value() : std::numeric_limits<double>::quiet_NaN();
+		const auto slider = sender.try_as<winrt::Slider>();
+		const auto senderValue = slider ? slider.Value() : std::numeric_limits<double>::quiet_NaN();
 
 		if (sender == Channel1Slider)
 		{
