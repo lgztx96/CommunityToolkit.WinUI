@@ -1,7 +1,7 @@
 #pragma once
 
 #ifdef __INTELLISENSE__
-#include <vector>
+#include <deque>
 #endif
 
 namespace winrt::XamlToolkit::WinUI::Controls
@@ -85,6 +85,6 @@ namespace winrt::XamlToolkit::WinUI::Controls
     private:
         int _height;
         int _width;
-        std::vector<bool> _spotsTaken;
+        std::deque<bool> _spotsTaken;
     };
 }

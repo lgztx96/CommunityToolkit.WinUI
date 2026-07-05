@@ -13,21 +13,62 @@
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-	Size UniformGrid::MeasureOverride(Size availableSize)
+	const wil::single_threaded_property<winrt::DependencyProperty> UniformGrid::AutoLayoutProperty =
+		winrt::DependencyProperty::RegisterAttached(
+			L"AutoLayout",
+			winrt::xaml_typename<winrt::IReference<bool>>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata{ nullptr });
+
+	const wil::single_threaded_property<winrt::DependencyProperty> UniformGrid::ColumnsProperty =
+		winrt::DependencyProperty::Register(
+			L"Columns",
+			winrt::xaml_typename<int32_t>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata{ winrt::box_value(0), &UniformGrid::OnPropertyChanged });
+
+	const wil::single_threaded_property<winrt::DependencyProperty> UniformGrid::FirstColumnProperty =
+		winrt::DependencyProperty::Register(
+			L"FirstColumn",
+			winrt::xaml_typename<int32_t>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata{ winrt::box_value(0), &UniformGrid::OnPropertyChanged });
+
+	const wil::single_threaded_property<winrt::DependencyProperty> UniformGrid::OrientationProperty =
+		winrt::DependencyProperty::Register(
+			L"Orientation",
+			winrt::xaml_typename<winrt::Orientation>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata{ winrt::box_value(winrt::Orientation::Horizontal), &UniformGrid::OnPropertyChanged });
+
+	const wil::single_threaded_property<winrt::DependencyProperty> UniformGrid::RowsProperty =
+		winrt::DependencyProperty::Register(
+			L"Rows",
+			winrt::xaml_typename<int32_t>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata{ winrt::box_value(0), &UniformGrid::OnPropertyChanged });
+
+	void UniformGrid::OnPropertyChanged(winrt::DependencyObject const& d, [[maybe_unused]] winrt::IInspectable const& newValue)
+	{
+		if (const auto self = d.try_as<class_type>())
+		{
+			self.InvalidateMeasure();
+		}
+	}
+
+	winrt::Size UniformGrid::MeasureOverride(winrt::Size availableSize)
 	{
 		// Get all Visible FrameworkElement Children
-
-		auto visible = Children()
-			| std::views::filter([](auto const& item)
-				{
-					return item.Visibility() != Visibility::Collapsed
-						&& item.template try_as<FrameworkElement>() != nullptr;
-				})
-			| std::views::transform([](auto const& item)
-				{
-					return item.template as<FrameworkElement>();
-				})
-			| std::ranges::to<std::vector>();
+		auto visible = Children() | 
+		std::views::filter([](const auto& item)
+		{
+			return item.Visibility() != winrt::Visibility::Collapsed
+				&& static_cast<bool>(item.template try_as<winrt::FrameworkElement>());
+		}) | 
+		std::views::transform([](const auto& item)
+		{
+			return item.template as<winrt::FrameworkElement>();
+		}) | std::ranges::to<std::vector>();
 
 		int rows, columns;
 		std::tie(rows, columns) = GetDimensions(visible, Rows(), Columns(), FirstColumn());
@@ -55,14 +96,14 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		}
 
 		// Figure out which children we should automatically layout and where available openings are.
-		for (auto& child : visible)
+		for (const auto& child : visible)
 		{
-			if (child != nullptr)
+			if (child)
 			{
-				auto row = Grid::GetRow(child);
-				auto col = Grid::GetColumn(child);
-				auto rowspan = Grid::GetRowSpan(child);
-				auto colspan = Grid::GetColumnSpan(child);
+				auto row = winrt::Grid::GetRow(child);
+				auto col = winrt::Grid::GetColumn(child);
+				auto rowspan = winrt::Grid::GetRowSpan(child);
+				auto colspan = winrt::Grid::GetColumnSpan(child);
 
 				// If an element needs to be forced in the 0, 0 position,
 				// they should manually set UniformGrid.AutoLayout to False for that element.
@@ -70,7 +111,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 				{
 					SetAutoLayout(child, true);
 				}
-				else if (auto layout = GetAutoLayout(child); layout && layout.GetBoolean()) {
+				else if (auto layout = GetAutoLayout(child); layout && layout.GetBoolean())
+				{
 					SetAutoLayout(child, true);
 				}
 				else
@@ -92,12 +134,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		auto childWidth = static_cast<float>((availableSize.Width - columnSpacingSize) / columns);
 		auto childHeight = static_cast<float>((availableSize.Height - rowSpacingSize) / rows);
-		Size childSize{ childWidth, childHeight };
+		winrt::Size childSize{ childWidth, childHeight };
 
 		double maxWidth = 0.0;
 		double maxHeight = 0.0;
 
-		auto freespots = GetFreeSpot(spotref, FirstColumn(), Orientation() == Orientation::Vertical);
+		auto freespots = GetFreeSpot(spotref, FirstColumn(), Orientation() == winrt::Orientation::Vertical);
 
 		auto spotIter = freespots.begin();
 		auto spotEnd = freespots.end();
@@ -114,11 +156,11 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 					std::tie(row, column) = *spotIter;
 					++spotIter;
 
-					Grid::SetRow(child, row);
-					Grid::SetColumn(child, column);
+					winrt::Grid::SetRow(child, row);
+					winrt::Grid::SetColumn(child, column);
 
-					auto rowspan = Grid::GetRowSpan(child);
-					auto colspan = Grid::GetColumnSpan(child);
+					auto rowspan = winrt::Grid::GetRowSpan(child);
+					auto colspan = winrt::Grid::GetColumnSpan(child);
 
 					if (rowspan > 1 || colspan > 1)
 					{
@@ -127,15 +169,15 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 				}
 				else
 				{
-					child.Measure(SizeHelper::Empty());
+					child.Measure(winrt::SizeHelper::Empty());
 					_overflow.push_back(child);
 					continue;
 				}
 			}
-			else if (Grid::GetRow(child) < 0 || Grid::GetRow(child) >= rows ||
-				Grid::GetColumn(child) < 0 || Grid::GetColumn(child) >= columns)
+			else if (winrt::Grid::GetRow(child) < 0 || winrt::Grid::GetRow(child) >= rows ||
+				winrt::Grid::GetColumn(child) < 0 || winrt::Grid::GetColumn(child) >= columns)
 			{
-				child.Measure(SizeHelper::Empty());
+				child.Measure(winrt::SizeHelper::Empty());
 				_overflow.push_back(child);
 				continue;
 			}
@@ -148,7 +190,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		// Return our desired size based on the largest child we found, our dimensions, and spacing.
 		float width = static_cast<float>((maxWidth * columns) + columnSpacingSize);
 		float height = static_cast<float>((maxHeight * rows) + rowSpacingSize);
-		Size desiredSize{ width, height };
+		winrt::Size desiredSize{ width, height };
 
 		// Required to perform regular grid measurement, but ignore result.
 		base_type::MeasureOverride(desiredSize);
@@ -156,15 +198,15 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		return desiredSize;
 	}
 
-	Size UniformGrid::ArrangeOverride(Size finalSize)
+	winrt::Size UniformGrid::ArrangeOverride(winrt::Size finalSize)
 	{
 		// Have grid to the bulk of our heavy lifting.
 		auto size = base_type::ArrangeOverride(finalSize);
 
 		// Make sure all overflown elements have no size.
-		for (auto& child : _overflow)
+		for (const auto& child : _overflow)
 		{
-			child.Arrange(Rect{ 0,0,0,0 });
+			child.Arrange(winrt::Rect{ 0,0,0,0 });
 		}
 
 		_overflow.clear(); // Reset for next time.
@@ -177,7 +219,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	{
 		if (topdown)
 		{
-			auto rows = arrayref->Height();
+			int rows = arrayref->Height();
 
 			// Layout spots from Top-Bottom, Left-Right (right-left handled automatically by Grid with Flow-Direction).
 			// Effectively transpose the Grid Layout.
@@ -195,7 +237,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		}
 		else
 		{
-			auto columns = arrayref->Width();
+			int columns = arrayref->Width();
 
 			// Layout spots as normal from Left-Right.
 			// (right-left handled automatically by Grid with Flow-Direction
@@ -217,23 +259,16 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	// Based on the number of visible children,
 	// returns the dimensions of the
 	// grid we need to hold all elements.
-	std::tuple<int, int> UniformGrid::GetDimensions(std::span<FrameworkElement> visible, int rows, int cols, int firstColumn)
+	std::tuple<int, int> UniformGrid::GetDimensions(std::span<winrt::FrameworkElement> visible, int rows, int cols, int firstColumn)
 	{
 		// If a dimension isn't specified, we need to figure out the other one (or both).
 		if (rows == 0 || cols == 0)
 		{
 			// Calculate the size & area of all objects in the grid to know how much space we need.
-			auto count = std::max(
-				1,
-				std::accumulate(
-					visible.begin(),
-					visible.end(),
-					0,
-					[](int sum, auto const& item)
-					{
-						return sum + Grid::GetRowSpan(item) * Grid::GetColumnSpan(item);
-					}
-				));
+			auto count = std::max(1, std::accumulate(visible.begin(), visible.end(), 0, [](int sum, auto const& item)
+			{
+				return sum + winrt::Grid::GetRowSpan(item) * winrt::Grid::GetColumnSpan(item);
+			}));
 
 			if (rows == 0)
 			{
@@ -277,8 +312,10 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	// underlying Grid layout for main arrange of UniformGrid.
 	void UniformGrid::SetupRowDefinitions(uint32_t rows)
 	{
+		auto rowDefinitions = RowDefinitions();
+		auto rowCount = rowDefinitions.Size();
 		// Mark initial definitions so we don't erase them.
-		for (const auto& rd : RowDefinitions())
+		for (const auto& rd : rowDefinitions)
 		{
 			if (GetAutoLayout(rd) == nullptr)
 			{
@@ -287,21 +324,21 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		}
 
 		// Remove non-autolayout rows we've added and then add them in the right spots.
-		if (rows != RowDefinitions().Size())
+		if (rows != rowCount)
 		{
-			for (int r = static_cast<int>(RowDefinitions().Size()) - 1; r >= 0; r--)
+			for (int r = static_cast<int>(rowCount) - 1; r >= 0; r--)
 			{
-				if (auto layout = GetAutoLayout(RowDefinitions().GetAt(r)); layout && layout.GetBoolean())
+				if (auto layout = GetAutoLayout(rowDefinitions.GetAt(r)); layout && layout.GetBoolean())
 				{
-					RowDefinitions().RemoveAt(r);
+					rowDefinitions.RemoveAt(r);
 				}
 			}
 
-			for (auto r = RowDefinitions().Size(); r < rows; r++)
+			for (auto r = rowCount; r < rows; r++)
 			{
-				auto rd = RowDefinition();
+				winrt::RowDefinition rd;
 				SetAutoLayout(rd, true);
-				RowDefinitions().InsertAt(r, rd);
+				rowDefinitions.InsertAt(r, rd);
 			}
 		}
 	}
@@ -310,8 +347,10 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	// underlying Grid layout for main arrange of UniformGrid.
 	void UniformGrid::SetupColumnDefinitions(uint32_t columns)
 	{
+		auto columnDefinitions = ColumnDefinitions();
+		auto columnCount = columnDefinitions.Size();
 		// Mark initial definitions so we don't erase them.
-		for (const auto& cd : ColumnDefinitions())
+		for (const auto& cd : columnDefinitions)
 		{
 			if (GetAutoLayout(cd) == nullptr)
 			{
@@ -320,21 +359,21 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		}
 
 		// Remove non-autolayout columns we've added and then add them in the right spots.
-		if (columns != ColumnDefinitions().Size())
+		if (columns != columnCount)
 		{
-			for (int c = static_cast<int>(ColumnDefinitions().Size()) - 1; c >= 0; c--)
+			for (int c = static_cast<int>(columnCount) - 1; c >= 0; c--)
 			{
-				if (auto layout = GetAutoLayout(ColumnDefinitions().GetAt(c)); layout && layout.GetBoolean())
+				if (auto layout = GetAutoLayout(columnDefinitions.GetAt(c)); layout && layout.GetBoolean())
 				{
-					ColumnDefinitions().RemoveAt(c);
+					columnDefinitions.RemoveAt(c);
 				}
 			}
 
-			for (auto c = ColumnDefinitions().Size(); c < columns; c++)
+			for (auto c = columnCount; c < columns; c++)
 			{
 				auto cd = ColumnDefinition();
 				SetAutoLayout(cd, true);
-				ColumnDefinitions().InsertAt(c, cd);
+				columnDefinitions.InsertAt(c, cd);
 			}
 		}
 	}

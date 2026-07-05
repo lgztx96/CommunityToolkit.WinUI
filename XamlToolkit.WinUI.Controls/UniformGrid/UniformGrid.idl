@@ -1,6 +1,5 @@
 ﻿namespace XamlToolkit.WinUI.Controls
 {
-    [default_interface]
 	runtimeclass UniformGrid : Microsoft.UI.Xaml.Controls.Grid
     {
         UniformGrid();
@@ -16,7 +15,16 @@
         static Microsoft.UI.Xaml.DependencyProperty OrientationProperty{ get; };
         static Microsoft.UI.Xaml.DependencyProperty RowsProperty{ get; };
 
+        [default_overload]
         static void SetAutoLayout(Microsoft.UI.Xaml.FrameworkElement element, Windows.Foundation.IReference<Boolean> value);
+
+        [default_overload]
         static Windows.Foundation.IReference<Boolean> GetAutoLayout(Microsoft.UI.Xaml.FrameworkElement element);
+
+        static void SetAutoLayout(Microsoft.UI.Xaml.Controls.RowDefinition element, Windows.Foundation.IReference<Boolean> value);
+        static Windows.Foundation.IReference<Boolean> GetAutoLayout(Microsoft.UI.Xaml.Controls.RowDefinition element);
+
+        static void SetAutoLayout(Microsoft.UI.Xaml.Controls.ColumnDefinition element, Windows.Foundation.IReference<Boolean> value);
+        static Windows.Foundation.IReference<Boolean> GetAutoLayout(Microsoft.UI.Xaml.Controls.ColumnDefinition element);
     }
 }
