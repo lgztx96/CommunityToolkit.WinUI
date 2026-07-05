@@ -76,7 +76,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 	winrt::IAsyncAction RichSuggestBox::CommitSuggestionAsync(winrt::IInspectable const& selectedItem)
 	{
-		const auto& currentQuery = _currentQuery;
+		std::shared_ptr<RichSuggestQuery> currentQuery = _currentQuery;
 		winrt::ITextRange range{ nullptr };
 		std::optional<winrt::hstring> prefix, query;
 
