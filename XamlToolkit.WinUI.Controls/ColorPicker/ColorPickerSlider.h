@@ -3,8 +3,8 @@
 #include "Primitives.ColorPickerSlider.g.h"
 
 #ifdef __INTELLISENSE__
-#include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.UI.h>
+#include <winrt/Windows.Foundation.h>
 #include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Microsoft.UI.Xaml.Media.h>
 #include <wil/wistd_type_traits.h>
@@ -13,8 +13,8 @@
 
 namespace winrt
 {
-	using namespace Windows::Foundation;
 	using namespace Windows::UI;
+    using namespace Windows::Foundation;
 	using namespace Microsoft::UI::Xaml;
 	using namespace Microsoft::UI::Xaml::Media;
 	using namespace XamlToolkit::WinUI::Controls;
@@ -26,17 +26,11 @@ namespace winrt::XamlToolkit::WinUI::Controls::Primitives::implementation
 {
     struct ColorPickerSlider : ColorPickerSliderT<ColorPickerSlider>
     {
-        wil::single_threaded_rw_property<Color> CheckerBackgroundColor = winrt::Windows::UI::ColorHelper::FromArgb(0x19, 0x80, 0x80, 0x80);
-
-    private:
-        Size oldSize;
-        Size measuredSize;
-        Size cachedSize;
-
-    public:
         ColorPickerSlider();
 
         void UpdateColors();
+
+        wil::single_threaded_rw_property<winrt::Color> CheckerBackgroundColor = winrt::Microsoft::UI::ColorHelper::FromArgb(0x19, 0x80, 0x80, 0x80);
 
         /// <summary>
         /// Measures the size in layout required for child elements and determines a size for the
@@ -55,148 +49,112 @@ namespace winrt::XamlToolkit::WinUI::Controls::Primitives::implementation
         /// is available.</param>
         /// <returns>The size that this element determines it needs during layout,
         /// based on its calculations of child element sizes.</returns>
-        Size MeasureOverride(Size availableSize);
+        winrt::Size MeasureOverride(winrt::Size availableSize);
 
-        static void OnDependencyPropertyChanged(IInspectable const& sender, DependencyPropertyChangedEventArgs const& args);
+        static void OnDependencyPropertyChanged(winrt::IInspectable const& sender, winrt::DependencyPropertyChangedEventArgs const& args);
 
-        winrt::Windows::UI::Color Color()
+        winrt::Color Color() const
         {
-            return winrt::unbox_value<winrt::Windows::UI::Color>(GetValue(ColorProperty));
+            return winrt::unbox_value<winrt::Color>(GetValue(ColorProperty()));
         }
 
-        void Color(winrt::Windows::UI::Color const& value)
+        void Color(winrt::Color const& value)
         {
-            SetValue(ColorProperty, winrt::box_value(value));
+            SetValue(ColorProperty(), winrt::box_value(value));
         }
 
-        static inline const wil::single_threaded_property<DependencyProperty> ColorProperty =
-            DependencyProperty::Register(
-                L"Color",
-                winrt::xaml_typename<winrt::Windows::UI::Color>(),
-                winrt::xaml_typename<class_type>(),
-                PropertyMetadata(winrt::box_value(Colors::White()), &ColorPickerSlider::OnDependencyPropertyChanged));
+        static const wil::single_threaded_property<winrt::DependencyProperty> ColorProperty;
 
-        winrt::XamlToolkit::WinUI::Controls::ColorChannel ColorChannel()
+        winrt::XamlToolkit::WinUI::Controls::ColorChannel ColorChannel() const
         {
-            return winrt::unbox_value<winrt::XamlToolkit::WinUI::Controls::ColorChannel>(GetValue(ColorChannelProperty));
+            return winrt::unbox_value<winrt::XamlToolkit::WinUI::Controls::ColorChannel>(GetValue(ColorChannelProperty()));
         }
 
         void ColorChannel(winrt::XamlToolkit::WinUI::Controls::ColorChannel const& value)
         {
-            SetValue(ColorChannelProperty, winrt::box_value(value));
+            SetValue(ColorChannelProperty(), winrt::box_value(value));
         }
 
-        static inline const wil::single_threaded_property<DependencyProperty> ColorChannelProperty =
-            DependencyProperty::Register(
-                L"ColorChannel",
-                winrt::xaml_typename<winrt::XamlToolkit::WinUI::Controls::ColorChannel>(),
-                winrt::xaml_typename<class_type>(),
-                PropertyMetadata(winrt::box_value(ColorChannel::Channel1), &ColorPickerSlider::OnDependencyPropertyChanged));
+        static const wil::single_threaded_property<winrt::DependencyProperty> ColorChannelProperty;
 
-        winrt::XamlToolkit::WinUI::Controls::ColorRepresentation ColorRepresentation()
+        winrt::XamlToolkit::WinUI::Controls::ColorRepresentation ColorRepresentation() const
         {
-            return winrt::unbox_value<winrt::XamlToolkit::WinUI::Controls::ColorRepresentation>(GetValue(ColorRepresentationProperty));
+            return winrt::unbox_value<winrt::XamlToolkit::WinUI::Controls::ColorRepresentation>(GetValue(ColorRepresentationProperty()));
         }
 
         void ColorRepresentation(winrt::XamlToolkit::WinUI::Controls::ColorRepresentation const& value)
         {
-            SetValue(ColorRepresentationProperty, winrt::box_value(value));
+            SetValue(ColorRepresentationProperty(), winrt::box_value(value));
         }
 
-        static inline const wil::single_threaded_property<DependencyProperty> ColorRepresentationProperty =
-            DependencyProperty::Register(
-                L"ColorRepresentation",
-                winrt::xaml_typename<winrt::XamlToolkit::WinUI::Controls::ColorRepresentation>(),
-                winrt::xaml_typename<class_type>(),
-                PropertyMetadata(winrt::box_value(ColorRepresentation::Rgba), &ColorPickerSlider::OnDependencyPropertyChanged));
+        static const wil::single_threaded_property<winrt::DependencyProperty> ColorRepresentationProperty;
 
-        Brush DefaultForeground()
+        winrt::Brush DefaultForeground() const
         {
-            return winrt::unbox_value<Brush>(GetValue(DefaultForegroundProperty));
+            return GetValue(DefaultForegroundProperty()).try_as<winrt::Brush>();
         }
 
-        void DefaultForeground(Brush const& value)
+        void DefaultForeground(winrt::Brush const& value)
         {
-            SetValue(DefaultForegroundProperty, winrt::box_value(value));
+            SetValue(DefaultForegroundProperty(), winrt::box_value(value));
         }
 
-        static inline const wil::single_threaded_property<DependencyProperty> DefaultForegroundProperty =
-            DependencyProperty::Register(
-                L"DefaultForeground",
-                winrt::xaml_typename<Brush>(),
-                winrt::xaml_typename<class_type>(),
-                PropertyMetadata(nullptr, &ColorPickerSlider::OnDependencyPropertyChanged));
+        static const wil::single_threaded_property<winrt::DependencyProperty> DefaultForegroundProperty;
 
-        winrt::XamlToolkit::WinUI::HsvColor HsvColor()
+        winrt::XamlToolkit::WinUI::HsvColor HsvColor() const
         {
-            return winrt::unbox_value<winrt::XamlToolkit::WinUI::HsvColor>(GetValue(HsvColorProperty));
+            return winrt::unbox_value<winrt::XamlToolkit::WinUI::HsvColor>(GetValue(HsvColorProperty()));
         }
 
         void HsvColor(winrt::XamlToolkit::WinUI::HsvColor const& value)
         {
-            SetValue(HsvColorProperty, winrt::box_value(value));
+            SetValue(HsvColorProperty(), winrt::box_value(value));
         }
 
-        static inline const wil::single_threaded_property<DependencyProperty> HsvColorProperty =
-            DependencyProperty::Register(
-                L"HsvColor",
-                winrt::xaml_typename<winrt::XamlToolkit::WinUI::HsvColor>(),
-                winrt::xaml_typename<class_type>(),
-                PropertyMetadata(winrt::box_value(winrt::XamlToolkit::WinUI::Helpers::ColorHelper::ToHsv(Colors::White())), &ColorPickerSlider::OnDependencyPropertyChanged));
+        static const wil::single_threaded_property<winrt::DependencyProperty> HsvColorProperty;
 
-        bool IsAlphaMaxForced()
+        bool IsAlphaMaxForced() const
         {
-            return winrt::unbox_value<bool>(GetValue(IsAlphaMaxForcedProperty));
+            return winrt::unbox_value<bool>(GetValue(IsAlphaMaxForcedProperty()));
         }
 
         void IsAlphaMaxForced(bool value)
         {
-            SetValue(IsAlphaMaxForcedProperty, winrt::box_value(value));
+            SetValue(IsAlphaMaxForcedProperty(), winrt::box_value(value));
         }
 
-        static inline const wil::single_threaded_property<DependencyProperty> IsAlphaMaxForcedProperty =
-            DependencyProperty::Register(
-                L"IsAlphaMaxForced",
-                winrt::xaml_typename<bool>(),
-                winrt::xaml_typename<class_type>(),
-                PropertyMetadata(winrt::box_value(true), &ColorPickerSlider::OnDependencyPropertyChanged));
+        static const wil::single_threaded_property<winrt::DependencyProperty> IsAlphaMaxForcedProperty;
 
-        bool IsAutoUpdatingEnabled()
+        bool IsAutoUpdatingEnabled() const
         {
-            return winrt::unbox_value<bool>(GetValue(IsAutoUpdatingEnabledProperty));
+            return winrt::unbox_value<bool>(GetValue(IsAutoUpdatingEnabledProperty()));
         }
 
         void IsAutoUpdatingEnabled(bool value)
         {
-            SetValue(IsAutoUpdatingEnabledProperty, winrt::box_value(value));
+            SetValue(IsAutoUpdatingEnabledProperty(), winrt::box_value(value));
         }
 
-        static inline const wil::single_threaded_property<DependencyProperty> IsAutoUpdatingEnabledProperty =
-            DependencyProperty::Register(
-                L"IsAutoUpdatingEnabled",
-                winrt::xaml_typename<bool>(),
-                winrt::xaml_typename<class_type>(),
-                PropertyMetadata(winrt::box_value(true), &ColorPickerSlider::OnDependencyPropertyChanged));
+        static const wil::single_threaded_property<winrt::DependencyProperty> IsAutoUpdatingEnabledProperty;
 
-        bool IsSaturationValueMaxForced()
+        bool IsSaturationValueMaxForced() const
         {
-            return winrt::unbox_value<bool>(GetValue(IsSaturationValueMaxForcedProperty));
+            return winrt::unbox_value<bool>(GetValue(IsSaturationValueMaxForcedProperty()));
         }
 
         void IsSaturationValueMaxForced(bool value)
         {
-            SetValue(IsSaturationValueMaxForcedProperty, winrt::box_value(value));
+            SetValue(IsSaturationValueMaxForcedProperty(), winrt::box_value(value));
         }
 
-        static inline const wil::single_threaded_property<DependencyProperty> IsSaturationValueMaxForcedProperty =
-            DependencyProperty::Register(
-                L"IsSaturationValueMaxForced",
-                winrt::xaml_typename<bool>(),
-                winrt::xaml_typename<class_type>(),
-                PropertyMetadata(winrt::box_value(true), &ColorPickerSlider::OnDependencyPropertyChanged));
+        static const wil::single_threaded_property<winrt::DependencyProperty> IsSaturationValueMaxForcedProperty;
         
     private:
-        winrt::Windows::Foundation::IAsyncAction UpdateBackground(winrt::XamlToolkit::WinUI::HsvColor color);
+        winrt::fire_and_forget UpdateBackground(winrt::XamlToolkit::WinUI::HsvColor color);
+
+        winrt::Size oldSize;
+        winrt::Size measuredSize;
+        winrt::Size cachedSize;
     };
 }
 

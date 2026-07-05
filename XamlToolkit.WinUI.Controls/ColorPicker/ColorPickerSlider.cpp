@@ -9,13 +9,64 @@
 #endif
 #include "ColorPickerRenderingHelpers.h"
 
-namespace winrt
-{
-	using namespace Microsoft::UI::Xaml;
-}
-
 namespace winrt::XamlToolkit::WinUI::Controls::Primitives::implementation
 {
+	const wil::single_threaded_property<winrt::DependencyProperty> ColorPickerSlider::ColorProperty =
+		winrt::DependencyProperty::Register(
+			L"Color",
+			winrt::xaml_typename<winrt::Windows::UI::Color>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata(winrt::box_value(winrt::Microsoft::UI::Colors::White()), &ColorPickerSlider::OnDependencyPropertyChanged));
+
+	const wil::single_threaded_property<winrt::DependencyProperty> ColorPickerSlider::ColorChannelProperty =
+		winrt::DependencyProperty::Register(
+			L"ColorChannel",
+			winrt::xaml_typename<winrt::XamlToolkit::WinUI::Controls::ColorChannel>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata(winrt::box_value(ColorChannel::Channel1), &ColorPickerSlider::OnDependencyPropertyChanged));
+
+	const wil::single_threaded_property<winrt::DependencyProperty> ColorPickerSlider::ColorRepresentationProperty =
+		winrt::DependencyProperty::Register(
+			L"ColorRepresentation",
+			winrt::xaml_typename<winrt::XamlToolkit::WinUI::Controls::ColorRepresentation>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata(winrt::box_value(ColorRepresentation::Rgba), &ColorPickerSlider::OnDependencyPropertyChanged));
+
+	const wil::single_threaded_property<winrt::DependencyProperty> ColorPickerSlider::DefaultForegroundProperty =
+		winrt::DependencyProperty::Register(
+			L"DefaultForeground",
+			winrt::xaml_typename<winrt::Brush>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata(nullptr, &ColorPickerSlider::OnDependencyPropertyChanged));
+
+	const wil::single_threaded_property<winrt::DependencyProperty> ColorPickerSlider::HsvColorProperty =
+		winrt::DependencyProperty::Register(
+			L"HsvColor",
+			winrt::xaml_typename<winrt::XamlToolkit::WinUI::HsvColor>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata(winrt::box_value(winrt::XamlToolkit::WinUI::Helpers::ColorHelper::ToHsv(winrt::Microsoft::UI::Colors::White())), &ColorPickerSlider::OnDependencyPropertyChanged));
+
+	const wil::single_threaded_property<winrt::DependencyProperty> ColorPickerSlider::IsAlphaMaxForcedProperty =
+		winrt::DependencyProperty::Register(
+			L"IsAlphaMaxForced",
+			winrt::xaml_typename<bool>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata(winrt::box_value(true), &ColorPickerSlider::OnDependencyPropertyChanged));
+
+	const wil::single_threaded_property<winrt::DependencyProperty> ColorPickerSlider::IsAutoUpdatingEnabledProperty =
+		winrt::DependencyProperty::Register(
+			L"IsAutoUpdatingEnabled",
+			winrt::xaml_typename<bool>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata(winrt::box_value(true), &ColorPickerSlider::OnDependencyPropertyChanged));
+
+	const wil::single_threaded_property<winrt::DependencyProperty> ColorPickerSlider::IsSaturationValueMaxForcedProperty =
+		winrt::DependencyProperty::Register(
+			L"IsSaturationValueMaxForced",
+			winrt::xaml_typename<bool>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata(winrt::box_value(true), &ColorPickerSlider::OnDependencyPropertyChanged));
+
 	/***************************************************************************************
 	 *
 	 * Constructor/Destructor
@@ -51,9 +102,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::Primitives::implementation
 		UpdateBackground(hsvColor);
 
 		// Calculate and set the foreground ensuring contrast with the background
-		auto rgbColor = ColorHelper::FromHsv(hsvColor.H, hsvColor.S, hsvColor.V, hsvColor.A);
-		winrt::Windows::UI::Color selectedRgbColor;
-		double sliderPercent = Value() / (Maximum() - Minimum());
+		auto rgbColor = winrt::XamlToolkit::WinUI::Helpers::ColorHelper::FromHsv(hsvColor.H, hsvColor.S, hsvColor.V, hsvColor.A);
+		winrt::Color selectedRgbColor;
+		const double sliderPercent = Value() / (Maximum() - Minimum());
 
 		if (ColorRepresentation() == ColorRepresentation::Hsva)
 		{
@@ -114,7 +165,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::Primitives::implementation
 			}
 			}
 
-			selectedRgbColor = ColorHelper::FromHsv(
+			selectedRgbColor = winrt::XamlToolkit::WinUI::Helpers::ColorHelper::FromHsv(
 				hsvColor.H,
 				hsvColor.S,
 				hsvColor.V,
@@ -175,7 +226,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::Primitives::implementation
 	/// <summary>
 	/// Generates a new background image for the color channel slider and applies it.
 	/// </summary>
-	winrt::Windows::Foundation::IAsyncAction ColorPickerSlider::UpdateBackground(winrt::XamlToolkit::WinUI::HsvColor color)
+	winrt::fire_and_forget ColorPickerSlider::UpdateBackground(winrt::XamlToolkit::WinUI::HsvColor color)
 	{
 		/* Updates may be requested when sliders are not in the visual tree.
 		 * For first-time load this is handled by the Loaded event.
@@ -240,7 +291,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::Primitives::implementation
 
 	/// <summary>
 	/// Measures the size in layout required for child elements and determines a size for the
-	/// FrameworkElement-derived class.
+	/// winrt::FrameworkElement-derived class.
 	/// </summary>
 	/// <remarks>
 	///
@@ -255,7 +306,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::Primitives::implementation
 	/// is available.</param>
 	/// <returns>The size that this element determines it needs during layout,
 	/// based on its calculations of child element sizes.</returns>
-	Size ColorPickerSlider::MeasureOverride(Size availableSize)
+	winrt::Size ColorPickerSlider::MeasureOverride(winrt::Size availableSize)
 	{
 		if (oldSize != availableSize)
 		{
@@ -266,15 +317,15 @@ namespace winrt::XamlToolkit::WinUI::Controls::Primitives::implementation
 		return measuredSize;
 	}
 
-	void ColorPickerSlider::OnDependencyPropertyChanged(IInspectable const& sender, DependencyPropertyChangedEventArgs const& args)
+	void ColorPickerSlider::OnDependencyPropertyChanged(winrt::IInspectable const& sender, winrt::DependencyPropertyChangedEventArgs const& args)
 	{
 		if (auto slider = sender.try_as<class_type>())
 		{
-			auto self = winrt::get_self<ColorPickerSlider>(slider)->get_strong();
+			auto self = winrt::get_self<ColorPickerSlider>(slider);
 			if (args.Property() == ColorProperty())
 			{
 				// Sync with HSV (which is primary)
-				self->HsvColor(ColorHelper::ToHsv(self->Color()));
+				self->HsvColor(winrt::XamlToolkit::WinUI::Helpers::ColorHelper::ToHsv(self->Color()));
 			}
 
 			if (self->IsAutoUpdatingEnabled())
