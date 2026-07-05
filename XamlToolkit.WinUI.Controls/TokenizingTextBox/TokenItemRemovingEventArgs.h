@@ -3,7 +3,7 @@
 #include "TokenItemRemovingEventArgs.g.h"
 
 #ifdef __INTELLISENSE__
-#include <wnrt/Windows.Foundation.h>
+#include <winrt/Windows.Foundation.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
 #endif
@@ -14,9 +14,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
     {
         TokenItemRemovingEventArgs() = default;
 
-        TokenItemRemovingEventArgs(IInspectable const& item, winrt::XamlToolkit::WinUI::Controls::TokenizingTextBoxItem const& token): Item(item), Token(token) {}
+        TokenItemRemovingEventArgs(winrt::Windows::Foundation::IInspectable const& item, winrt::XamlToolkit::WinUI::Controls::TokenizingTextBoxItem const& token): Item(item), Token(token) {}
 
-        wil::single_threaded_property<IInspectable> Item;
+        wil::single_threaded_property<winrt::Windows::Foundation::IInspectable> Item;
 
         wil::single_threaded_property<winrt::XamlToolkit::WinUI::Controls::TokenizingTextBoxItem> Token;
 

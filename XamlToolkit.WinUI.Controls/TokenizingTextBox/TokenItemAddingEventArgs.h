@@ -3,7 +3,7 @@
 #include "TokenItemAddingEventArgs.g.h"
 
 #ifdef __INTELLISENSE__
-#include <wnrt/Windows.Foundation.h>
+#include <winrt/Windows.Foundation.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
 #endif
@@ -18,7 +18,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
         wil::single_threaded_rw_property<winrt::hstring> TokenText;
 
-        wil::single_threaded_rw_property<IInspectable> Item;
+        wil::single_threaded_rw_property<winrt::Windows::Foundation::IInspectable> Item;
 
         wil::single_threaded_rw_property<bool> Cancel;
     };
