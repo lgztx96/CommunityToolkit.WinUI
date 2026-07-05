@@ -3,6 +3,7 @@
 #include "TokenizingTextBoxStyleSelector.g.h"
 
 #ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
 #include <winrt/Microsoft.UI.Xaml.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
@@ -10,6 +11,7 @@
 
 namespace winrt
 {
+	using namespace Windows::Foundation;
     using namespace Microsoft::UI::Xaml;
 }
 
@@ -19,11 +21,11 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
     {
         TokenizingTextBoxStyleSelector() = default;
 
-        wil::single_threaded_rw_property<Style> TokenStyle;
+        wil::single_threaded_rw_property<winrt::Style> TokenStyle;
 
-        wil::single_threaded_rw_property<Style> TextStyle;
+        wil::single_threaded_rw_property<winrt::Style> TextStyle;
 
-        Style SelectStyleCore(IInspectable const& item, DependencyObject const& container);
+        winrt::Style SelectStyleCore(winrt::IInspectable const& item, winrt::DependencyObject const& container);
     };
 }
 

@@ -7,7 +7,7 @@
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-    Style TokenizingTextBoxStyleSelector::SelectStyleCore(IInspectable const& item, [[maybe_unused]] DependencyObject const& container)
+    winrt::Style TokenizingTextBoxStyleSelector::SelectStyleCore(winrt::IInspectable const& item, [[maybe_unused]] winrt::DependencyObject const& container)
     {
         if (item.try_as<ITokenStringContainer>())
         {
