@@ -16,31 +16,31 @@ namespace winrt
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-	IInspectable ColorToHexConverter::Convert(IInspectable const& value, [[maybe_unused]] TypeName targetType, [[maybe_unused]] IInspectable const& parameter, [[maybe_unused]] winrt::hstring const& language)
+	winrt::IInspectable ColorToHexConverter::Convert(winrt::IInspectable const& value, [[maybe_unused]] winrt::TypeName targetType, [[maybe_unused]] winrt::IInspectable const& parameter, [[maybe_unused]] winrt::hstring const& language)
     {
-        Color color;
+        winrt::Color color;
 
-        if (auto valueColor = value.try_as<Color>())
+        if (const auto valueColor = value.try_as<winrt::Color>())
         {
             color = *valueColor;
         }
-        else if (auto valueBrush = value.try_as<SolidColorBrush>())
+        else if (const auto valueBrush = value.try_as<winrt::SolidColorBrush>())
         {
             color = valueBrush.Color();
         }
         else
         {
             // Invalid color value provided
-            return DependencyProperty::UnsetValue();
+            return winrt::DependencyProperty::UnsetValue();
         }
 
-        auto hexColor = Helpers::ColorHelper::ToHex(color);
+        const auto hexColor = winrt::XamlToolkit::WinUI::Helpers::ColorHelper::ToHex(color);
         return winrt::box_value(winrt::hstring{ hexColor.data() + 1, hexColor.size() - 1 });
 	}
 
-	IInspectable ColorToHexConverter::ConvertBack(IInspectable const& value, [[maybe_unused]] TypeName targetType, [[maybe_unused]] IInspectable const& parameter, [[maybe_unused]] winrt::hstring const& language) {
-
-        auto hexValue = winrt::unbox_value<winrt::hstring>(value);
+	winrt::IInspectable ColorToHexConverter::ConvertBack(winrt::IInspectable const& value, [[maybe_unused]] winrt::TypeName targetType, [[maybe_unused]] winrt::IInspectable const& parameter, [[maybe_unused]] winrt::hstring const& language)
+    {
+        const auto hexValue = winrt::unbox_value<winrt::hstring>(value);
 
         if (hexValue.starts_with(L"#"))
         {
@@ -51,7 +51,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
             catch(...)
             {
                 // Invalid hex color value provided
-                return DependencyProperty::UnsetValue();
+                return winrt::DependencyProperty::UnsetValue();
             }
         }
         else
@@ -63,7 +63,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
             catch(...)
             {
                 // Invalid hex color value provided
-                return DependencyProperty::UnsetValue();
+                return winrt::DependencyProperty::UnsetValue();
             }
         }
 	}

@@ -12,17 +12,17 @@ namespace winrt
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-    IInspectable NullToTransparentConverter::Convert(IInspectable const& value, [[maybe_unused]] TypeName targetType, [[maybe_unused]] IInspectable const& parameter, [[maybe_unused]] winrt::hstring const& language)
+    winrt::IInspectable NullToTransparentConverter::Convert(winrt::IInspectable const& value, [[maybe_unused]] winrt::TypeName targetType, [[maybe_unused]] winrt::IInspectable const& parameter, [[maybe_unused]] winrt::hstring const& language)
     {
         return value;
     }
 
-    IInspectable NullToTransparentConverter::ConvertBack([[maybe_unused]] IInspectable const& value, [[maybe_unused]] TypeName targetType, [[maybe_unused]] IInspectable const& parameter, [[maybe_unused]] winrt::hstring const& language)
+    winrt::IInspectable NullToTransparentConverter::ConvertBack([[maybe_unused]] winrt::IInspectable const& value, [[maybe_unused]] winrt::TypeName targetType, [[maybe_unused]] winrt::IInspectable const& parameter, [[maybe_unused]] winrt::hstring const& language)
     {
-        if (auto colorValue = value.try_as<Color>()) {
+        if (auto colorValue = value.try_as<winrt::Color>()) {
             return value;
         }
 
-        return winrt::box_value(winrt::Microsoft::UI::Colors::Transparent());
+        return winrt::box_value(winrt::Windows::UI::Colors::Transparent());
     }
 }

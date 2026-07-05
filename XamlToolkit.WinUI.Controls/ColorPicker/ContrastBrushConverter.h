@@ -19,16 +19,16 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
     struct ContrastBrushConverter : ContrastBrushConverterT<ContrastBrushConverter>
     {
-        uint8_t AlphaThreshold = 128;
+        static constexpr uint8_t AlphaThreshold = 128;
 
         ContrastBrushConverter() = default;
 
-        IInspectable Convert(IInspectable const& value, TypeName targetType, IInspectable const& parameter, winrt::hstring const& language);
+        winrt::IInspectable Convert(winrt::IInspectable const& value, winrt::TypeName targetType, winrt::IInspectable const& parameter, winrt::hstring const& language);
 
-        IInspectable ConvertBack(IInspectable const& value, TypeName targetType, IInspectable const& parameter, winrt::hstring const& language);
+        winrt::IInspectable ConvertBack(winrt::IInspectable const& value, winrt::TypeName targetType, winrt::IInspectable const& parameter, winrt::hstring const& language);
 
     private:
-        bool UseLightContrastColor(Color displayedColor);
+        bool UseLightContrastColor(winrt::Color displayedColor) const;
     };
 }
 

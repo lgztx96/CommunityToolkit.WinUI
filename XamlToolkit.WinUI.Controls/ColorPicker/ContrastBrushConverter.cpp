@@ -3,6 +3,8 @@
 #ifdef __INTELLISENSE__
 #include <cmath>
 #include <optional>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Media.h>
 #endif
 #include "ContrastBrushConverter.h"
 #if __has_include("ContrastBrushConverter.g.cpp")
@@ -18,31 +20,32 @@ namespace winrt
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-	IInspectable ContrastBrushConverter::Convert(IInspectable const& value, [[maybe_unused]] TypeName targetType, IInspectable const& parameter, [[maybe_unused]] winrt::hstring const& language) {
-        Color comparisonColor;
-        std::optional<Color> defaultColor;
+	winrt::IInspectable ContrastBrushConverter::Convert(winrt::IInspectable const& value, [[maybe_unused]] winrt::TypeName targetType, winrt::IInspectable const& parameter, [[maybe_unused]] winrt::hstring const& language) 
+    {
+        winrt::Color comparisonColor;
+        std::optional<winrt::Color> defaultColor;
 
         // Get the changing color to compare against
-        if (auto valueColor = value.try_as<Color>())
+        if (auto valueColor = value.try_as<winrt::Color>())
         {
             comparisonColor = *valueColor;
         }
-        else if (auto valueBrush = value.try_as<SolidColorBrush>())
+        else if (auto valueBrush = value.try_as<winrt::SolidColorBrush>())
         {
             comparisonColor = valueBrush.Color();
         }
         else
         {
             // Invalid color value provided
-            return DependencyProperty::UnsetValue();
+            return winrt::DependencyProperty::UnsetValue();
         }
 
         // Get the default color when transparency is high
-        if (auto parameterColor = parameter.try_as<Color>())
+        if (auto parameterColor = parameter.try_as<winrt::Color>())
         {
             defaultColor = parameterColor;
         }
-        else if (auto parameterBrush = parameter.try_as<SolidColorBrush>())
+        else if (auto parameterBrush = parameter.try_as<winrt::SolidColorBrush>())
         {
             defaultColor = parameterBrush.Color();
         }
@@ -51,28 +54,28 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         {
             // If the transparency is less than 50 %, just use the default brush
             // This can commonly be something like the TextControlForeground brush
-            return SolidColorBrush(defaultColor.value());
+            return winrt::SolidColorBrush(defaultColor.value());
         }
         else
         {
             // Chose a white/black brush based on contrast to the base color
             if (UseLightContrastColor(comparisonColor))
             {
-                return SolidColorBrush(Colors::White());
+                return winrt::SolidColorBrush(winrt::Microsoft::UI::Colors::White());
             }
             else
             {
-                return SolidColorBrush(Colors::Black());
+                return winrt::SolidColorBrush(winrt::Microsoft::UI::Colors::Black());
             }
         }
 	}
 
-	IInspectable ContrastBrushConverter::ConvertBack([[maybe_unused]] IInspectable const& value, [[maybe_unused]] TypeName targetType, [[maybe_unused]] IInspectable const& parameter, [[maybe_unused]] winrt::hstring const& language)
+	winrt::IInspectable ContrastBrushConverter::ConvertBack([[maybe_unused]] winrt::IInspectable const& value, [[maybe_unused]] winrt::TypeName targetType, [[maybe_unused]] winrt::IInspectable const& parameter, [[maybe_unused]] winrt::hstring const& language)
     {
-        return DependencyProperty::UnsetValue();
+        return winrt::DependencyProperty::UnsetValue();
 	}
 
-    bool ContrastBrushConverter::UseLightContrastColor(Color displayedColor)
+    bool ContrastBrushConverter::UseLightContrastColor(winrt::Color displayedColor) const
     {
         // The selection ellipse should be light if and only if the chosen color
         // contrasts more with black than it does with white.
