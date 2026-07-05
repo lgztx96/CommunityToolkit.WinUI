@@ -15,8 +15,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	constexpr auto Split(std::basic_string_view<charT> view, std::basic_string_view<charT> delim)
 	{
 		return std::views::split(view, delim) | std::views::transform([](auto&& range)
-			{
-				return std::basic_string_view<charT>(range);
-			});
+		{
+			return std::basic_string_view<charT>(range);
+		});
 	}
 }

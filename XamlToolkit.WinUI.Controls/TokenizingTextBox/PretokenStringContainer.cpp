@@ -7,5 +7,15 @@
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
+	const wil::single_threaded_property<winrt::DependencyProperty> PretokenStringContainer::TextProperty =
+		winrt::DependencyProperty::Register(
+			L"Text",
+			winrt::xaml_typename<winrt::hstring>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata(winrt::box_value(L"")));
 
+	winrt::hstring PretokenStringContainer::ToString() const
+	{
+		return Text();
+	}
 }
