@@ -7,6 +7,7 @@
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.System.h>
 #include <winrt/Windows.UI.Core.h>
+#include <winrt/Windows.ApplicationModel.DataTransfer.h>
 #include <winrt/Microsoft.UI.Dispatching.h>
 #include <winrt/Microsoft.UI.Input.h>
 #include <winrt/Microsoft.UI.Xaml.h>
@@ -24,6 +25,8 @@
 namespace winrt
 {
 	using namespace Windows::System;
+	using namespace Windows::Foundation;
+	using namespace Windows::ApplicationModel::DataTransfer;
 	using namespace Microsoft::UI::Xaml;
 	using namespace Microsoft::UI::Xaml::Input;
 	using namespace Microsoft::UI::Xaml::Controls;
@@ -50,231 +53,135 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		static constexpr std::wstring_view PART_UnfocusedState = L"Unfocused";
 		static constexpr std::wstring_view PART_MaxReachedState = L"MaxReachedState";
 
-		static bool IsShiftPressed()
-		{
-			const auto shiftState = InputKeyboardSource::GetKeyStateForCurrentThread(VirtualKey::Shift);
-			return (static_cast<uint32_t>(shiftState) & static_cast<uint32_t>(CoreVirtualKeyStates::Down))
-				== static_cast<uint32_t>(CoreVirtualKeyStates::Down);
-		}
-
-		static bool IsControlPressed()
-		{
-			const auto ctrlState = InputKeyboardSource::GetKeyStateForCurrentThread(VirtualKey::Control);
-			return (static_cast<uint32_t>(ctrlState) & static_cast<uint32_t>(CoreVirtualKeyStates::Down)) 
-				== static_cast<uint32_t>(CoreVirtualKeyStates::Down);
-		}
-
-		static inline wil::single_threaded_rw_property<bool> PauseTokenClearOnFocus;
-
-		Microsoft::UI::Dispatching::DispatcherQueue _dispatcherQueue{ nullptr };
-		Controls::InterspersedObservableVector _innerItemsSource{ nullptr };
-		ITokenStringContainer _currentTextEdit{ nullptr }; // Don't update this directly outside of initialization, use UpdateCurrentTextEdit Method - in future see https://github.com/dotnet/csharplang/issues/140#issuecomment-625012514
-		ITokenStringContainer _lastTextEdit{ nullptr };
-
-	public:
 		TokenizingTextBox();
 
-		static inline bool IsClearingForClick;
+		static bool IsShiftPressed();
 
-		DependencyObject GetContainerForItemOverride();
+		static bool IsControlPressed();
 
-		bool IsItemItsOwnContainerOverride(IInspectable const& item);
+		bool PauseTokenClearOnFocus;
 
-		void PrepareContainerForItemOverride(DependencyObject const& element, IInspectable const& item);
+		bool IsClearingForClick;
 
-		void ItemsSource_PropertyChanged(DependencyObject const& sender, DependencyProperty const& dp);
+		winrt::DependencyObject GetContainerForItemOverride() const;
 
-		void TokenizingTextBox_ItemClick(IInspectable const& sender, ItemClickEventArgs const& e);
+		bool IsItemItsOwnContainerOverride(winrt::IInspectable const& item);
 
-		void TokenizingTextBox_PreviewKeyUp(IInspectable const& sender, KeyRoutedEventArgs const& e);
+		void PrepareContainerForItemOverride(winrt::DependencyObject const& element, winrt::IInspectable const& item);
 
-		void OnTokenizingTextBoxPreviewKeyUp(VirtualKey key);
+		void ItemsSource_PropertyChanged(winrt::DependencyObject const& sender, winrt::DependencyProperty const& dp);
+
+		void TokenizingTextBox_ItemClick(winrt::IInspectable const& sender, winrt::ItemClickEventArgs const& e);
+
+		void TokenizingTextBox_PreviewKeyUp(winrt::IInspectable const& sender, winrt::KeyRoutedEventArgs const& e);
+
+		void OnTokenizingTextBoxPreviewKeyUp(winrt::VirtualKey key);
 
 		void FocusPrimaryAutoSuggestBox();
 
-		IAsyncAction TokenizingTextBox_PreviewKeyDown(IInspectable const& sender, KeyRoutedEventArgs const& e);
+		winrt::IAsyncAction TokenizingTextBox_PreviewKeyDown(winrt::IInspectable const& sender, winrt::KeyRoutedEventArgs e);
 
-		IAsyncOperation<bool> OnTokenizingTextBoxPreviewKeyDown(VirtualKey key);
+		winrt::IAsyncOperation<bool> OnTokenizingTextBoxPreviewKeyDown(winrt::VirtualKey key);
 
 		void OnApplyTemplate();
 
-		void RaiseQuerySubmitted(AutoSuggestBox const& sender, AutoSuggestBoxQuerySubmittedEventArgs const& args);
+		void RaiseQuerySubmitted(winrt::AutoSuggestBox const& sender, winrt::AutoSuggestBoxQuerySubmittedEventArgs const& args);
 
-		void RaiseSuggestionChosen(AutoSuggestBox const& sender, AutoSuggestBoxSuggestionChosenEventArgs const& args);
+		void RaiseSuggestionChosen(winrt::AutoSuggestBox const& sender, winrt::AutoSuggestBoxSuggestionChosenEventArgs const& args);
 
-		void RaiseTextChanged(AutoSuggestBox const& sender, AutoSuggestBoxTextChangedEventArgs const& args);
+		void RaiseTextChanged(winrt::AutoSuggestBox const& sender, winrt::AutoSuggestBoxTextChangedEventArgs const& args);
 
-		void AddTokenItem(IInspectable& data, bool atEnd = false);
+		void AddTokenItem(winrt::IInspectable& data, bool atEnd = false);
 
-		IAsyncAction ClearAsync();
+		winrt::IAsyncAction ClearAsync();
 
 		void UpdateCurrentTextEdit(ITokenStringContainer const& edit);
 
-		AutomationPeer OnCreateAutomationPeer();
+		winrt::AutomationPeer OnCreateAutomationPeer();
 
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> AutoSuggestBoxStyleProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
-				L"AutoSuggestBoxStyle",
-				winrt::xaml_typename<winrt::Microsoft::UI::Xaml::Style>(),
-				winrt::xaml_typename<class_type>(),
-				winrt::Microsoft::UI::Xaml::PropertyMetadata{ nullptr });
+		static const wil::single_threaded_property<winrt::DependencyProperty> AutoSuggestBoxStyleProperty;
 
-		winrt::Microsoft::UI::Xaml::Style AutoSuggestBoxStyle() const 
+		winrt::Style AutoSuggestBoxStyle() const 
 		{ 
-			return GetValue(AutoSuggestBoxStyleProperty).try_as<winrt::Microsoft::UI::Xaml::Style>();
+			return GetValue(AutoSuggestBoxStyleProperty()).try_as<winrt::Style>();
 		}
-		void AutoSuggestBoxStyle(winrt::Microsoft::UI::Xaml::Style const& value) const { SetValue(AutoSuggestBoxStyleProperty, value); }
+		void AutoSuggestBoxStyle(winrt::Style const& value) const { SetValue(AutoSuggestBoxStyleProperty, value); }
 
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> AutoSuggestBoxTextBoxStyleProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
-				L"AutoSuggestBoxTextBoxStyle",
-				winrt::xaml_typename<winrt::Microsoft::UI::Xaml::Style>(),
-				winrt::xaml_typename<class_type>(),
-				winrt::Microsoft::UI::Xaml::PropertyMetadata{ nullptr });
+		static const wil::single_threaded_property<winrt::DependencyProperty> AutoSuggestBoxTextBoxStyleProperty;
 
-		winrt::Microsoft::UI::Xaml::Style AutoSuggestBoxTextBoxStyle() const { return GetValue(AutoSuggestBoxTextBoxStyleProperty).try_as<winrt::Microsoft::UI::Xaml::Style>(); }
-		void AutoSuggestBoxTextBoxStyle(winrt::Microsoft::UI::Xaml::Style const& value) const { SetValue(AutoSuggestBoxTextBoxStyleProperty, value); }
+		winrt::Style AutoSuggestBoxTextBoxStyle() const { return GetValue(AutoSuggestBoxTextBoxStyleProperty).try_as<winrt::Style>(); }
+		void AutoSuggestBoxTextBoxStyle(winrt::Style const& value) const { SetValue(AutoSuggestBoxTextBoxStyleProperty, value); }
 
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> TextMemberPathProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
-				L"TextMemberPath",
-				winrt::xaml_typename<winrt::hstring>(),
-				winrt::xaml_typename<class_type>(),
-				winrt::Microsoft::UI::Xaml::PropertyMetadata{ nullptr });
+		static const wil::single_threaded_property<winrt::DependencyProperty> TextMemberPathProperty;
 
 		winrt::hstring TextMemberPath() const { return winrt::unbox_value<winrt::hstring>(GetValue(TextMemberPathProperty)); }
 		void TextMemberPath(winrt::hstring const& value) const { SetValue(TextMemberPathProperty, winrt::box_value(value)); }
 
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> TokenItemTemplateProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
-				L"TokenItemTemplate",
-				winrt::xaml_typename<winrt::Microsoft::UI::Xaml::DataTemplate>(),
-				winrt::xaml_typename<class_type>(),
-				winrt::Microsoft::UI::Xaml::PropertyMetadata{ nullptr });
+		static const wil::single_threaded_property<winrt::DependencyProperty> TokenItemTemplateProperty;
 
-		winrt::Microsoft::UI::Xaml::DataTemplate TokenItemTemplate() const { return GetValue(TokenItemTemplateProperty).try_as<winrt::Microsoft::UI::Xaml::DataTemplate>(); }
-		void TokenItemTemplate(winrt::Microsoft::UI::Xaml::DataTemplate const& value) const { SetValue(TokenItemTemplateProperty, value); }
+		winrt::DataTemplate TokenItemTemplate() const { return GetValue(TokenItemTemplateProperty).try_as<winrt::DataTemplate>(); }
+		void TokenItemTemplate(winrt::DataTemplate const& value) const { SetValue(TokenItemTemplateProperty, value); }
 
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> TokenItemTemplateSelectorProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
-				L"TokenItemTemplateSelector",
-				winrt::xaml_typename<winrt::Microsoft::UI::Xaml::Controls::DataTemplateSelector>(),
-				winrt::xaml_typename<class_type>(),
-				winrt::Microsoft::UI::Xaml::PropertyMetadata{ nullptr });
+		static const wil::single_threaded_property<winrt::DependencyProperty> TokenItemTemplateSelectorProperty;
 
-		winrt::Microsoft::UI::Xaml::Controls::DataTemplateSelector TokenItemTemplateSelector() const { return GetValue(TokenItemTemplateSelectorProperty).try_as<winrt::Microsoft::UI::Xaml::Controls::DataTemplateSelector>(); }
-		void TokenItemTemplateSelector(winrt::Microsoft::UI::Xaml::Controls::DataTemplateSelector const& value) const { SetValue(TokenItemTemplateSelectorProperty, value); }
+		winrt::DataTemplateSelector TokenItemTemplateSelector() const { return GetValue(TokenItemTemplateSelectorProperty).try_as<winrt::DataTemplateSelector>(); }
+		void TokenItemTemplateSelector(winrt::DataTemplateSelector const& value) const { SetValue(TokenItemTemplateSelectorProperty, value); }
 
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> TokenDelimiterProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
-				L"TokenDelimiter",
-				winrt::xaml_typename<winrt::hstring>(),
-				winrt::xaml_typename<class_type>(),
-				winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(L" ") });
+		static const wil::single_threaded_property<winrt::DependencyProperty> TokenDelimiterProperty;
 
 		winrt::hstring TokenDelimiter() const { return winrt::unbox_value<winrt::hstring>(GetValue(TokenDelimiterProperty)); }
 		void TokenDelimiter(winrt::hstring const& value) const { SetValue(TokenDelimiterProperty, winrt::box_value(value)); }
 
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> TokenSpacingProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
-				L"TokenSpacing",
-				winrt::xaml_typename<double>(),
-				winrt::xaml_typename<class_type>(),
-				winrt::Microsoft::UI::Xaml::PropertyMetadata{ nullptr });
+		static const wil::single_threaded_property<winrt::DependencyProperty> TokenSpacingProperty;
 
 		double TokenSpacing() const { return winrt::unbox_value_or(GetValue(TokenSpacingProperty), 0.0); }
 		void TokenSpacing(double value) const { SetValue(TokenSpacingProperty, winrt::box_value(value)); }
 
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> PlaceholderTextProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
-				L"PlaceholderText",
-				winrt::xaml_typename<winrt::hstring>(),
-				winrt::xaml_typename<class_type>(),
-				winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(L"") });
+		static const wil::single_threaded_property<winrt::DependencyProperty> PlaceholderTextProperty;
 
 		winrt::hstring PlaceholderText() const { return winrt::unbox_value<winrt::hstring>(GetValue(PlaceholderTextProperty)); }
 		void PlaceholderText(winrt::hstring const& value) const { SetValue(PlaceholderTextProperty, winrt::box_value(value)); }
 
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> QueryIconProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
-				L"QueryIcon",
-				winrt::xaml_typename<winrt::Microsoft::UI::Xaml::Controls::IconSource>(),
-				winrt::xaml_typename<class_type>(),
-				winrt::Microsoft::UI::Xaml::PropertyMetadata{ nullptr });
+		static const wil::single_threaded_property<winrt::DependencyProperty> QueryIconProperty;
 
-		winrt::Microsoft::UI::Xaml::Controls::IconSource QueryIcon() const { return GetValue(QueryIconProperty).try_as<winrt::Microsoft::UI::Xaml::Controls::IconSource>(); }
-		void QueryIcon(winrt::Microsoft::UI::Xaml::Controls::IconSource const& value) const { SetValue(QueryIconProperty, value); }
+		winrt::IconSource QueryIcon() const { return GetValue(QueryIconProperty).try_as<winrt::IconSource>(); }
+		void QueryIcon(winrt::IconSource const& value) const { SetValue(QueryIconProperty, value); }
 
-		static void OnTextPropertyChanged(winrt::Microsoft::UI::Xaml::DependencyObject const& d, winrt::Microsoft::UI::Xaml::DependencyPropertyChangedEventArgs const& e);
+		static void OnTextPropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> TextProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
-				L"Text",
-				winrt::xaml_typename<winrt::hstring>(),
-				winrt::xaml_typename<class_type>(),
-				winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(L""), &TokenizingTextBox::OnTextPropertyChanged });
+		static const wil::single_threaded_property<winrt::DependencyProperty> TextProperty;
 
 		winrt::hstring Text() const { return winrt::unbox_value<winrt::hstring>(GetValue(TextProperty)); }
 		void Text(winrt::hstring const& value) const { SetValue(TextProperty, winrt::box_value(value)); }
 
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> SuggestedItemsSourceProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
-				L"SuggestedItemsSource",
-				winrt::xaml_typename<winrt::Windows::Foundation::IInspectable>(),
-				winrt::xaml_typename<class_type>(),
-				winrt::Microsoft::UI::Xaml::PropertyMetadata{ nullptr });
+		static const wil::single_threaded_property<winrt::DependencyProperty> SuggestedItemsSourceProperty;
 
-		winrt::Windows::Foundation::IInspectable SuggestedItemsSource() const { return GetValue(SuggestedItemsSourceProperty); }
-		void SuggestedItemsSource(winrt::Windows::Foundation::IInspectable const& value) const { SetValue(SuggestedItemsSourceProperty, value); }
+		winrt::IInspectable SuggestedItemsSource() const { return GetValue(SuggestedItemsSourceProperty); }
+		void SuggestedItemsSource(winrt::IInspectable const& value) const { SetValue(SuggestedItemsSourceProperty, value); }
 
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> SuggestedItemTemplateProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
-				L"SuggestedItemTemplate",
-				winrt::xaml_typename<winrt::Microsoft::UI::Xaml::DataTemplate>(),
-				winrt::xaml_typename<class_type>(),
-				winrt::Microsoft::UI::Xaml::PropertyMetadata{ nullptr });
+		static const wil::single_threaded_property<winrt::DependencyProperty> SuggestedItemTemplateProperty;
 
-		winrt::Microsoft::UI::Xaml::DataTemplate SuggestedItemTemplate() const { return GetValue(SuggestedItemTemplateProperty).try_as<winrt::Microsoft::UI::Xaml::DataTemplate>(); }
-		void SuggestedItemTemplate(winrt::Microsoft::UI::Xaml::DataTemplate const& value) const { SetValue(SuggestedItemTemplateProperty, value); }
+		winrt::DataTemplate SuggestedItemTemplate() const { return GetValue(SuggestedItemTemplateProperty).try_as<winrt::DataTemplate>(); }
+		void SuggestedItemTemplate(winrt::DataTemplate const& value) const { SetValue(SuggestedItemTemplateProperty, value); }
 
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> SuggestedItemTemplateSelectorProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
-				L"SuggestedItemTemplateSelector",
-				winrt::xaml_typename<winrt::Microsoft::UI::Xaml::Controls::DataTemplateSelector>(),
-				winrt::xaml_typename<class_type>(),
-				winrt::Microsoft::UI::Xaml::PropertyMetadata{ nullptr });
+		static const wil::single_threaded_property<winrt::DependencyProperty> SuggestedItemTemplateSelectorProperty;
 
-		winrt::Microsoft::UI::Xaml::Controls::DataTemplateSelector SuggestedItemTemplateSelector() const { return GetValue(SuggestedItemTemplateSelectorProperty).try_as<winrt::Microsoft::UI::Xaml::Controls::DataTemplateSelector>(); }
-		void SuggestedItemTemplateSelector(winrt::Microsoft::UI::Xaml::Controls::DataTemplateSelector const& value) const { SetValue(SuggestedItemTemplateSelectorProperty, value); }
+		winrt::DataTemplateSelector SuggestedItemTemplateSelector() const { return GetValue(SuggestedItemTemplateSelectorProperty).try_as<winrt::DataTemplateSelector>(); }
+		void SuggestedItemTemplateSelector(winrt::DataTemplateSelector const& value) const { SetValue(SuggestedItemTemplateSelectorProperty, value); }
 
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> SuggestedItemContainerStyleProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
-				L"SuggestedItemContainerStyle",
-				winrt::xaml_typename<winrt::Microsoft::UI::Xaml::Style>(),
-				winrt::xaml_typename<class_type>(),
-				winrt::Microsoft::UI::Xaml::PropertyMetadata{ nullptr });
+		static const wil::single_threaded_property<winrt::DependencyProperty> SuggestedItemContainerStyleProperty;
 
-		winrt::Microsoft::UI::Xaml::Style SuggestedItemContainerStyle() const { return GetValue(SuggestedItemContainerStyleProperty).try_as<winrt::Microsoft::UI::Xaml::Style>(); }
-		void SuggestedItemContainerStyle(winrt::Microsoft::UI::Xaml::Style const& value) const { SetValue(SuggestedItemContainerStyleProperty, value); }
+		winrt::Style SuggestedItemContainerStyle() const { return GetValue(SuggestedItemContainerStyleProperty).try_as<winrt::Style>(); }
+		void SuggestedItemContainerStyle(winrt::Style const& value) const { SetValue(SuggestedItemContainerStyleProperty, value); }
 
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> TabNavigateBackOnArrowProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
-				L"TabNavigateBackOnArrow",
-				winrt::xaml_typename<bool>(),
-				winrt::xaml_typename<class_type>(),
-				winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(false) });
+		static const wil::single_threaded_property<winrt::DependencyProperty> TabNavigateBackOnArrowProperty;
 
 		bool TabNavigateBackOnArrow() const { return winrt::unbox_value<bool>(GetValue(TabNavigateBackOnArrowProperty)); }
 		void TabNavigateBackOnArrow(bool value) const { SetValue(TabNavigateBackOnArrowProperty, winrt::box_value(value)); }
 
-		static void OnMaximumTokensChanged(winrt::Microsoft::UI::Xaml::DependencyObject const& d, winrt::Microsoft::UI::Xaml::DependencyPropertyChangedEventArgs const& e);
+		static void OnMaximumTokensChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 		
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> MaximumTokensProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
-				L"MaximumTokens",
-				winrt::xaml_typename<int32_t>(),
-				winrt::xaml_typename<class_type>(),
-				winrt::Microsoft::UI::Xaml::PropertyMetadata{ nullptr, &TokenizingTextBox::OnMaximumTokensChanged });
+		static const wil::single_threaded_property<winrt::DependencyProperty> MaximumTokensProperty;
 
 		int32_t MaximumTokens() const { return winrt::unbox_value_or(GetValue(MaximumTokensProperty), 0); }
 		void MaximumTokens(int32_t value) const { SetValue(MaximumTokensProperty, winrt::box_value(value)); }
@@ -284,27 +191,27 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			return PrepareSelectionForClipboard();
 		}
 
-		wil::typed_event<AutoSuggestBox, AutoSuggestBoxTextChangedEventArgs> TextChanged;
+		wil::typed_event<winrt::AutoSuggestBox, winrt::AutoSuggestBoxTextChangedEventArgs> TextChanged;
 
-		wil::typed_event<AutoSuggestBox, AutoSuggestBoxSuggestionChosenEventArgs> SuggestionChosen;
+		wil::typed_event<winrt::AutoSuggestBox, winrt::AutoSuggestBoxSuggestionChosenEventArgs> SuggestionChosen;
 
-		wil::typed_event<AutoSuggestBox, AutoSuggestBoxQuerySubmittedEventArgs> QuerySubmitted;
+		wil::typed_event<winrt::AutoSuggestBox, winrt::AutoSuggestBoxQuerySubmittedEventArgs> QuerySubmitted;
 
-		winrt::event_token TokenItemAdding(TypedEventHandler<Controls::TokenizingTextBox, winrt::XamlToolkit::WinUI::Controls::TokenItemAddingEventArgs> const& handler);
+		winrt::event_token TokenItemAdding(winrt::TypedEventHandler<class_type, winrt::XamlToolkit::WinUI::Controls::TokenItemAddingEventArgs> const& handler);
 
 		void TokenItemAdding(winrt::event_token const& token) noexcept;
 
-		winrt::event_token TokenItemRemoving(TypedEventHandler<Controls::TokenizingTextBox, winrt::XamlToolkit::WinUI::Controls::TokenItemRemovingEventArgs> const& handler);
+		winrt::event_token TokenItemRemoving(winrt::TypedEventHandler<class_type, winrt::XamlToolkit::WinUI::Controls::TokenItemRemovingEventArgs> const& handler);
 
 		void TokenItemRemoving(winrt::event_token const& token) noexcept;
 
-		wil::typed_event<Controls::TokenizingTextBox, IInspectable> TokenItemAdded;
+		wil::typed_event<class_type, winrt::IInspectable> TokenItemAdded;
 
-		wil::typed_event<Controls::TokenizingTextBox, IInspectable> TokenItemRemoved;
+		wil::typed_event<class_type, winrt::IInspectable> TokenItemRemoved;
 
-		void SelectAllTokensAndText() const;
+		void SelectAllTokensAndText();
 
-		IAsyncAction AddTokenAsync(IInspectable data, std::optional<bool> atEnd = std::nullopt);
+		winrt::IAsyncAction AddTokenAsync(winrt::IInspectable data, std::optional<bool> atEnd = std::nullopt);
 
 		bool SelectPreviousItem(winrt::XamlToolkit::WinUI::Controls::TokenizingTextBoxItem const& item);
 
@@ -312,22 +219,22 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		void DeselectAllTokensAndText(winrt::XamlToolkit::WinUI::Controls::TokenizingTextBoxItem const& ignoreItem = nullptr);
 
-		IAsyncAction RemoveAllSelectedTokens();
+		winrt::IAsyncAction RemoveAllSelectedTokens();
 
 	private:
-		winrt::event<winrt::Windows::Foundation::TypedEventHandler<Controls::TokenizingTextBox, TokenItemAddingEventArgs>> _tokenItemAdding;
+		winrt::event<winrt::TypedEventHandler<class_type, TokenItemAddingEventArgs>> _tokenItemAdding;
 
-		winrt::event<winrt::Windows::Foundation::TypedEventHandler<Controls::TokenizingTextBox, TokenItemRemovingEventArgs>> _tokenItemRemoving;
+		winrt::event<winrt::TypedEventHandler<class_type, TokenItemRemovingEventArgs>> _tokenItemRemoving;
 
-		IAsyncAction TokenizingTextBox_CharacterReceived(UIElement const& sender, CharacterReceivedRoutedEventArgs const& args);
+		winrt::IAsyncAction TokenizingTextBox_CharacterReceived(winrt::UIElement const& sender, winrt::CharacterReceivedRoutedEventArgs const& args);
 
-		IInspectable GetFocusedElement();
+		winrt::IInspectable GetFocusedElement();
 
-		void TokenizingTextBoxItem_GotFocus(IInspectable const& sender, RoutedEventArgs const& e);
+		void TokenizingTextBoxItem_GotFocus(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
 
-		void TokenizingTextBoxItem_LostFocus(IInspectable const& sender, RoutedEventArgs const& e);
+		void TokenizingTextBoxItem_LostFocus(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
 
-		IAsyncOperation<bool> RemoveTokenAsync(winrt::XamlToolkit::WinUI::Controls::TokenizingTextBoxItem const& item, IInspectable data);
+		winrt::IAsyncOperation<bool> RemoveTokenAsync(winrt::XamlToolkit::WinUI::Controls::TokenizingTextBoxItem const& item, winrt::IInspectable data);
 
 		void GuardAgainstPlaceholderTextLayoutIssue();
 
@@ -339,13 +246,19 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		bool SelectNewItem(winrt::XamlToolkit::WinUI::Controls::TokenizingTextBoxItem const& item, int increment, std::function<bool(int)> testFunc);
 
-		IAsyncAction TokenizingTextBoxItem_ClearAllAction(winrt::XamlToolkit::WinUI::Controls::TokenizingTextBoxItem const& sender, RoutedEventArgs const& args);
+		winrt::IAsyncAction TokenizingTextBoxItem_ClearAllAction(winrt::XamlToolkit::WinUI::Controls::TokenizingTextBoxItem const& sender, winrt::RoutedEventArgs const& args);
 
-		IAsyncAction TokenizingTextBoxItem_ClearClicked(winrt::XamlToolkit::WinUI::Controls::TokenizingTextBoxItem const& sender, RoutedEventArgs const& args);
+		winrt::IAsyncAction TokenizingTextBoxItem_ClearClicked(winrt::XamlToolkit::WinUI::Controls::TokenizingTextBoxItem const& sender, winrt::RoutedEventArgs const& args);
 
 		void CopySelectedToClipboard();
 
 		winrt::hstring PrepareSelectionForClipboard() const;
+
+	private:
+		winrt::Microsoft::UI::Dispatching::DispatcherQueue _dispatcherQueue{ nullptr };
+		winrt::XamlToolkit::WinUI::Controls::InterspersedObservableVector _innerItemsSource{ nullptr };
+		ITokenStringContainer _currentTextEdit{ nullptr }; // Don't update this directly outside of initialization, use UpdateCurrentTextEdit Method - in future see https://github.com/dotnet/csharplang/issues/140#issuecomment-625012514
+		ITokenStringContainer _lastTextEdit{ nullptr };
 	};
 }
 

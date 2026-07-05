@@ -3,7 +3,6 @@ import "TokenizingTextBox/TokenItemRemovingEventArgs.idl";
 
 namespace XamlToolkit.WinUI.Controls
 {
-    [default_interface]
     runtimeclass TokenizingTextBox : Microsoft.UI.Xaml.Controls.ListViewBase
     {
         TokenizingTextBox();

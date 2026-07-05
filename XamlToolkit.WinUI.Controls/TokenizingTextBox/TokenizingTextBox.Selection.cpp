@@ -9,25 +9,19 @@
 #include "TokenizingTextBoxItem.h"
 #include "../SettingsControls/Helpers/ControlHelper.h"
 
-namespace winrt
-{
-	using namespace XamlToolkit::WinUI;
-}
-
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
     bool TokenizingTextBox::MoveFocusAndSelection(MoveDirection direction)
     {
         bool retVal = false;
-        auto currentContainerItem = GetCurrentContainerItem();
-
-        if (currentContainerItem != nullptr)
+        
+        if (auto currentContainerItem = GetCurrentContainerItem())
         {
             auto currentItem = ItemFromContainer(currentContainerItem);
             uint32_t previousIndex;
             auto items = Items();
             items.IndexOf(currentItem, previousIndex);
-            auto index = previousIndex;
+            uint32_t index = previousIndex;
 
             if (direction == MoveDirection::Previous)
             {
@@ -39,11 +33,10 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
                 {
                     if (TabNavigateBackOnArrow())
                     {
-                        FindNextElementOptions options;
+                        winrt::FindNextElementOptions options;
                         options.SearchRoot(XamlRoot().Content());
-                        FocusManager::TryMoveFocus(FocusNavigationDirection::Previous, options);
+                        winrt::FocusManager::TryMoveFocus(FocusNavigationDirection::Previous, options);
                     }
-
 
                     retVal = true;
                 }
@@ -73,27 +66,29 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
                             : self->_autoSuggestTextBox.Text().size());
                     }
 
-                    newItem.Focus(FocusState::Keyboard);
+                    newItem.Focus(winrt::FocusState::Keyboard);
 
                     // if no control keys are selected then the selection also becomes just this item
                     if (IsShiftPressed())
                     {
+						const auto selectedItems = SelectedItems();
+						const auto selectedIndex = SelectedIndex();
                         // What we do here depends on where the selection started
                         // if the previous item is between the start and new position then we add the new item to the selected range
                         // if the new item is between the start and the previous position then we remove the previous position
-                        int newDistance = std::abs(SelectedIndex() - static_cast<int>(index));
-                        int oldDistance = std::abs(SelectedIndex() - static_cast<int>(previousIndex));
+                        int newDistance = std::abs(selectedIndex - static_cast<int>(index));
+                        int oldDistance = std::abs(selectedIndex - static_cast<int>(previousIndex));
 
                         if (newDistance > oldDistance)
                         {
-                            SelectedItems().Append(items.GetAt(index));
+                            selectedItems.Append(items.GetAt(index));
                         }
                         else
                         {
                             uint32_t selectIndex;
-                            if (SelectedItems().IndexOf(items.GetAt(previousIndex), selectIndex))
+                            if (selectedItems.IndexOf(items.GetAt(previousIndex), selectIndex))
                             {
-                                SelectedItems().RemoveAt(selectIndex);
+                                selectedItems.RemoveAt(selectIndex);
                             }
                             
                         }
@@ -102,13 +97,14 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
                     {
                         SelectedIndex(index);
 
+                        auto selectedItems = SelectedItems();
                         // This looks like a bug in the underlying ListViewBase control.
                         // Might need to be reviewed if the base behavior is fixed
                         // When two consecutive items are selected and the navigation moves between them,
                         // the first time that happens the old focused item is not unselected
-                        if (SelectedItems().Size() > 1)
+                        if (selectedItems.Size() > 1)
                         {
-                            SelectedItems().Clear();
+                            selectedItems.Clear();
                             SelectedIndex(index);
                         }
                     }
@@ -125,24 +121,24 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
     {
         if (ControlHelpers::IsXamlRootAvailable() && XamlRoot())
         {
-            return FocusManager::GetFocusedElement(XamlRoot()).try_as<winrt::XamlToolkit::WinUI::Controls::TokenizingTextBoxItem>();
+            return winrt::FocusManager::GetFocusedElement(XamlRoot()).try_as<winrt::XamlToolkit::WinUI::Controls::TokenizingTextBoxItem>();
         }
         else
         {
-            return FocusManager::GetFocusedElement().try_as<winrt::XamlToolkit::WinUI::Controls::TokenizingTextBoxItem>();
+            return winrt::FocusManager::GetFocusedElement().try_as<winrt::XamlToolkit::WinUI::Controls::TokenizingTextBoxItem>();
         }
     }
 
-    void TokenizingTextBox::SelectAllTokensAndText() const
+    void TokenizingTextBox::SelectAllTokensAndText()
     {
-        std::ignore = _dispatcherQueue.TryEnqueue(Microsoft::UI::Dispatching::DispatcherQueuePriority::Normal, [=]()
+        std::ignore = _dispatcherQueue.TryEnqueue(winrt::Microsoft::UI::Dispatching::DispatcherQueuePriority::Normal, [=]()
         {
             ListViewExtensions::SelectAllSafe(*this);
 
             // need to synchronize the select all and the focus behavior on the text box
             // because there is no way to identify that the focus has been set from this point
             // to avoid instantly clearing the selection of tokens
-            PauseTokenClearOnFocus = true;
+            this->PauseTokenClearOnFocus = true;
 
             for (const auto& item : Items())
             {
@@ -160,7 +156,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
             if (auto container = ContainerFromIndex(Items().Size() - 1).try_as<winrt::XamlToolkit::WinUI::Controls::TokenizingTextBoxItem>())
             {
-                container.Focus(FocusState::Programmatic);
+                container.Focus(winrt::FocusState::Programmatic);
             }
         });
     }
@@ -174,7 +170,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
     void TokenizingTextBox::ClearAllTextSelections(winrt::XamlToolkit::WinUI::Controls::TokenizingTextBoxItem const& ignoreItem)
     {
         // Clear any selection in the text box
-        for (auto item : Items())
+        for (const auto& item : Items())
         {
             if (item.try_as<ITokenStringContainer>())
             {
@@ -205,15 +201,16 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         bool returnVal = false;
 
         // find the item in the list
-        auto currentIndex = IndexFromContainer(item);
+        const auto currentIndex = IndexFromContainer(item);
 
         // Select previous token item (if there is one).
         if (testFunc(currentIndex))
         {
-            if (auto newItem = ContainerFromItem(Items().GetAt(currentIndex + increment)).try_as<ListViewItem>())
+			auto items = Items();
+            if (auto newItem = ContainerFromItem(items.GetAt(currentIndex + increment)).try_as<winrt::ListViewItem>())
             {
-                newItem.Focus(FocusState::Keyboard);
-                SelectedItems().Append(Items().GetAt(currentIndex + increment));
+                newItem.Focus(winrt::FocusState::Keyboard);
+                SelectedItems().Append(items.GetAt(currentIndex + increment));
                 returnVal = true;
             }
         }
@@ -221,14 +218,13 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         return returnVal;
     }
 
-    IAsyncAction TokenizingTextBox::TokenizingTextBoxItem_ClearAllAction(winrt::XamlToolkit::WinUI::Controls::TokenizingTextBoxItem const& sender, RoutedEventArgs const& args)
+    winrt::IAsyncAction TokenizingTextBox::TokenizingTextBoxItem_ClearAllAction(winrt::XamlToolkit::WinUI::Controls::TokenizingTextBoxItem const& sender, winrt::RoutedEventArgs const& args)
     {
         // find the first item selected
         int newSelectedIndex = -1;
-
-        if (SelectedRanges().Size() > 0)
+        if (const auto selectedRanges = SelectedRanges(); selectedRanges.Size() > 0)
         {
-            newSelectedIndex = SelectedRanges().GetAt(0).FirstIndex() - 1;
+            newSelectedIndex = selectedRanges.GetAt(0).FirstIndex() - 1;
         }
 
         co_await RemoveAllSelectedTokens();
@@ -243,48 +239,47 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         // focus the item prior to the first selected item
         if (auto container = ContainerFromIndex(newSelectedIndex).try_as<winrt::XamlToolkit::WinUI::Controls::TokenizingTextBoxItem>())
         {
-            container.Focus(FocusState::Keyboard);
+            container.Focus(winrt::FocusState::Keyboard);
         }
     }
 
-    IAsyncAction TokenizingTextBox::TokenizingTextBoxItem_ClearClicked(Controls::TokenizingTextBoxItem const& sender, RoutedEventArgs const& args)
+    winrt::IAsyncAction TokenizingTextBox::TokenizingTextBoxItem_ClearClicked(winrt::XamlToolkit::WinUI::Controls::TokenizingTextBoxItem const& sender, winrt::RoutedEventArgs const& args)
     {
          co_await RemoveTokenAsync(sender, nullptr);
     }
 
-    IAsyncAction TokenizingTextBox::RemoveAllSelectedTokens()
+    winrt::IAsyncAction TokenizingTextBox::RemoveAllSelectedTokens()
     {
-        auto currentContainerItem = GetCurrentContainerItem();
-
-        while (SelectedItems().Size() > 0)
+        while (true)
         {
-            auto selectedItems = SelectedItems();
+            const auto selectedItems = SelectedItems();
+            if (selectedItems.Size() == 0)
+            {
+                break;
+            }
+
             if (auto container = ContainerFromItem(selectedItems.GetAt(0)).try_as<winrt::XamlToolkit::WinUI::Controls::TokenizingTextBoxItem>())
             {
                 auto self = winrt::get_self<TokenizingTextBoxItem>(container)->get_strong();
                 if (IndexFromContainer(container) != static_cast<int>(Items().Size()) - 1)
                 {
-                   
                     // if its a text box, remove any selected text, and if its then empty remove the container, unless its focused
                     if (selectedItems.GetAt(0).try_as<ITokenStringContainer>())
                     {
                         const auto& asb = self->_autoSuggestTextBox;
 
                         // grab any selected text
-                        std::wstring tempStr = asb.SelectionStart() == 0
-                            ? std::wstring{}
-                        : std::wstring{ std::wstring_view(asb.Text()).substr(
-                            0,
-                            asb.SelectionStart()) };
-                        tempStr +=
-                            asb.SelectionStart() +
-                            asb.SelectionLength() < static_cast<int>(asb.Text().size())
-                            ? std::wstring_view(asb.Text()).substr(
-                                asb.SelectionStart() +
-                                asb.SelectionLength())
-                            : L"";
-
-                        if (tempStr.size() == 0)
+						const auto selectionStart = asb.SelectionStart();
+						const auto selectionLength = asb.SelectionLength();
+                        const std::wstring_view sv = asb.Text();
+                        std::wstring tempStr{ sv.substr(0, selectionStart) };
+ 
+                        if ((selectionStart + selectionLength) < static_cast<int>(sv.size())) 
+                        {
+							tempStr += sv.substr(selectionStart + selectionLength);
+                        }
+    
+                        if (tempStr.empty())
                         {
                             // Need to be careful not to remove the last item in the list
                             co_await RemoveTokenAsync(container, nullptr);
@@ -315,15 +310,15 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
     void TokenizingTextBox::CopySelectedToClipboard()
     {
-        Windows::ApplicationModel::DataTransfer::DataPackage dataPackage;
-        dataPackage.RequestedOperation(Windows::ApplicationModel::DataTransfer::DataPackageOperation::Copy);
+        winrt::DataPackage dataPackage;
+        dataPackage.RequestedOperation(winrt::DataPackageOperation::Copy);
 
         auto tokenString = PrepareSelectionForClipboard();
 
         if (!tokenString.empty())
         {
             dataPackage.SetText(tokenString);
-            Windows::ApplicationModel::DataTransfer::Clipboard::SetContent(dataPackage);
+            winrt::Clipboard::SetContent(dataPackage);
         }
     }
 
@@ -333,7 +328,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         bool addSeparator = false;
 
         // Copy all items if none selected (and no text selected)
-        for(const auto& item : SelectedItems().Size() > 0 ? SelectedItems() : Items())
+		auto selectedItems = SelectedItems();
+        for(const auto& item : selectedItems.Size() > 0 ? selectedItems : Items())
         {
             if (addSeparator)
             {
@@ -350,7 +346,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
                 if (auto pretoken = ContainerFromItem(item).try_as<winrt::XamlToolkit::WinUI::Controls::TokenizingTextBoxItem>())
                 {
                     auto self = winrt::get_self<TokenizingTextBoxItem>(pretoken)->get_strong();
-                    if (self->_autoSuggestTextBox != nullptr) {
+                    if (self->_autoSuggestTextBox) 
+                    {
                         winrt::hstring text = self->_autoSuggestTextBox.Text();
                         tokenString += std::wstring_view(text).substr(
                             self->_autoSuggestTextBox.SelectionStart(),
