@@ -137,8 +137,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		/// <param name="e">Information about the event.</param>
 		static void ChildChanged(winrt::DependencyObject const& o, winrt::DependencyPropertyChangedEventArgs const& e)
 		{
-			winrt::get_self<LayoutTransformControl>(o.as<class_type>())->OnChildChanged(
-				e.NewValue().try_as<winrt::FrameworkElement>());
+			auto self = winrt::get_self<LayoutTransformControl>(o.as<class_type>())->get_strong();
+			self->OnChildChanged(e.NewValue().try_as<winrt::FrameworkElement>());
 		}
 		/// <summary>
 		/// Gets or sets the single child of the LayoutTransformControl.
@@ -147,18 +147,20 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		/// Corresponds to WPF's Decorator.Child
 		/// property.
 		/// </remarks>
-		winrt::FrameworkElement Child() const { return GetValue(ChildProperty()).try_as<winrt::FrameworkElement>(); }
-		void Child(winrt::IInspectable const& value) { return SetValue(ChildProperty(), value); }
+		winrt::FrameworkElement Child() const 
+		{ 
+			return GetValue(ChildProperty()).try_as<winrt::FrameworkElement>(); 
+		}
+
+		void Child(winrt::IInspectable const& value) 
+		{ 
+			SetValue(ChildProperty(), value);
+		}
 
 		/// <summary>
 		/// Identifies the ChildProperty.
 		/// </summary>
-		static inline const wil::single_threaded_property<winrt::DependencyProperty> ChildProperty = 
-			winrt::DependencyProperty::Register(
-				L"Child",
-				winrt::xaml_typename<winrt::FrameworkElement>(),
-				winrt::xaml_typename<class_type>(),
-				winrt::PropertyMetadata(nullptr, &LayoutTransformControl::ChildChanged));
+		static const wil::single_threaded_property<winrt::DependencyProperty> ChildProperty;
 
 		/// <summary>
 		/// Handles changes to the Transform DependencyProperty.
@@ -167,9 +169,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		/// <param name="e">Information about the event.</param>
 		static void TransformChanged(winrt::DependencyObject const& o, winrt::DependencyPropertyChangedEventArgs const& e)
 		{
-			winrt::get_self<LayoutTransformControl>(o.as<class_type>())->OnTransformChanged(
-				e.OldValue().try_as<winrt::Transform>(),
-				e.NewValue().try_as<winrt::Transform>());
+			auto self = winrt::get_self<LayoutTransformControl>(o.as<class_type>())->get_strong();
+			self->OnTransformChanged(e.OldValue().try_as<winrt::Transform>(), e.NewValue().try_as<winrt::Transform>());
 		}
 		/// <summary>
 		/// Gets or sets the Transform of the LayoutTransformControl.
@@ -181,20 +182,16 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		{
 			return GetValue(TransformProperty()).try_as<winrt::Transform>();
 		}
-		void Transform(winrt::Windows::Foundation::IInspectable const& value)
+
+		void Transform(winrt::IInspectable const& value)
 		{
-			return SetValue(TransformProperty(), value);
+			SetValue(TransformProperty(), value);
 		}
 
 		/// <summary>
 		/// Identifies the TransformProperty dependency property.
 		/// </summary>
-		static inline const wil::single_threaded_property<winrt::DependencyProperty> TransformProperty =
-			winrt::DependencyProperty::Register(
-				L"Transform",
-				winrt::xaml_typename<winrt::FrameworkElement>(),
-				winrt::xaml_typename<class_type>(),
-				winrt::PropertyMetadata(nullptr, &LayoutTransformControl::TransformChanged));
+		static const wil::single_threaded_property<winrt::DependencyProperty> TransformProperty;
 
 	private:
 		/// <summary>

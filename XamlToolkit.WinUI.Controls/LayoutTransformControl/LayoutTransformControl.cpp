@@ -18,6 +18,20 @@ namespace winrt
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
+	const wil::single_threaded_property<winrt::DependencyProperty> LayoutTransformControl::ChildProperty =
+		winrt::DependencyProperty::Register(
+			L"Child",
+			winrt::xaml_typename<winrt::FrameworkElement>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata(nullptr, &LayoutTransformControl::ChildChanged));
+
+	const wil::single_threaded_property<winrt::DependencyProperty> LayoutTransformControl::TransformProperty =
+		winrt::DependencyProperty::Register(
+			L"Transform",
+			winrt::xaml_typename<winrt::FrameworkElement>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata(nullptr, &LayoutTransformControl::TransformChanged));
+
 	/// <summary>
 	/// Initializes a instance of the <see cref="LayoutTransformControl"/> class.
 	/// </summary>
