@@ -6,6 +6,8 @@
 
         static String ToHex(Windows.UI.Color color);
 
+        static Int32 ToInt(Windows.UI.Color color);
+
         static XamlToolkit.WinUI.HslColor ToHsl(Windows.UI.Color color);
 
         static XamlToolkit.WinUI.HsvColor ToHsv(Windows.UI.Color color);

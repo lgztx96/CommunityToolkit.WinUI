@@ -294,9 +294,9 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
     {
         std::uint32_t alpha = color.A + 1;
 
-        std::uint8_t r = (color.R * alpha) >> 8;
-        std::uint8_t g = (color.G * alpha) >> 8;
-        std::uint8_t b = (color.B * alpha) >> 8;
+        std::uint8_t r = static_cast<std::uint8_t>((color.R * alpha) >> 8);
+        std::uint8_t g = static_cast<std::uint8_t>((color.G * alpha) >> 8);
+        std::uint8_t b = static_cast<std::uint8_t>((color.B * alpha) >> 8);
 
         return (std::uint32_t(color.A) << 24) | (std::uint32_t(r) << 16) | (std::uint32_t(g) << 8) | std::uint32_t(b);
     }
