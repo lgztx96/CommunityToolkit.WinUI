@@ -8,6 +8,7 @@
 
 namespace winrt
 {
+	using namespace Windows::Foundation;
     using namespace Microsoft::UI::Xaml::Input;
 }
 
@@ -18,8 +19,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         MetadataItem() = default;
         wil::single_threaded_rw_property<winrt::hstring> Label;
         wil::single_threaded_rw_property<winrt::hstring> AccessibleLabel;
-        wil::single_threaded_rw_property<ICommand> Command;
-        wil::single_threaded_rw_property<IInspectable> CommandParameter;
+        wil::single_threaded_rw_property<winrt::ICommand> Command;
+        wil::single_threaded_rw_property<winrt::IInspectable> CommandParameter;
     };
 }
 

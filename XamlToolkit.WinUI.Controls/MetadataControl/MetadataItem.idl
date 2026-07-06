@@ -1,7 +1,5 @@
 namespace XamlToolkit.WinUI.Controls
 {
-    [bindable]
-    [default_interface]
 	runtimeclass MetadataItem
 	{
 		MetadataItem();

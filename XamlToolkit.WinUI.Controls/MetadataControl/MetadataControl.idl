@@ -2,7 +2,6 @@ import "MetadataControl/MetadataItem.idl";
 
 namespace XamlToolkit.WinUI.Controls
 {
-	[default_interface]
 	runtimeclass MetadataControl : Microsoft.UI.Xaml.Controls.Control
 	{
 		MetadataControl();

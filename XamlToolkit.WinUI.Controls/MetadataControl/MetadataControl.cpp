@@ -19,6 +19,34 @@ namespace winrt
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
+	const wil::single_threaded_property<winrt::DependencyProperty> MetadataControl::SeparatorProperty =
+		winrt::DependencyProperty::Register(
+			L"Separator",
+			winrt::xaml_typename<hstring>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata{ winrt::box_value(L" • "), &MetadataControl::OnPropertyChanged });
+
+	const wil::single_threaded_property<winrt::DependencyProperty> MetadataControl::AccessibleSeparatorProperty =
+		winrt::DependencyProperty::Register(
+			L"AccessibleSeparator",
+			winrt::xaml_typename<hstring>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata{ winrt::box_value(L", "), &MetadataControl::OnPropertyChanged });
+
+	const wil::single_threaded_property<winrt::DependencyProperty> MetadataControl::ItemsProperty =
+		winrt::DependencyProperty::Register(
+			L"Items",
+			winrt::xaml_typename<winrt::IVector<MetadataItem>>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata{ nullptr, &MetadataControl::OnMetadataItemsChanged });
+
+	const wil::single_threaded_property<winrt::DependencyProperty> MetadataControl::TextBlockStyleProperty =
+		winrt::DependencyProperty::Register(
+			L"TextBlockStyle",
+			winrt::xaml_typename<winrt::Style>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata{ nullptr });
+
 	MetadataControl::MetadataControl() : _textContainer(nullptr)
 	{
 		DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
@@ -27,38 +55,38 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 	void MetadataControl::OnApplyTemplate()
 	{
-		_textContainer = GetTemplateChild(TextContainerPart).try_as<TextBlock>();
+		_textContainer = GetTemplateChild(TextContainerPart).try_as<winrt::TextBlock>();
 		Update();
 	}
 
-	void MetadataControl::OnMetadataItemsChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e)
+	void MetadataControl::OnMetadataItemsChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e)
 	{
 		if (auto control = d.try_as<class_type>())
 		{
 			auto self = winrt::get_self<MetadataControl>(control)->get_strong();
 
-			if (auto oldVec = e.OldValue().try_as<IObservableVector<IInspectable>>())
+			if (auto oldVec = e.OldValue().try_as<winrt::IObservableVector<winrt::IInspectable>>())
 			{
 				self->_vectorChangedRevoker.revoke();
 			}
 
-			if (auto newVec = e.NewValue().try_as<IObservableVector<IInspectable>>())
+			if (auto newVec = e.NewValue().try_as<winrt::IObservableVector<winrt::IInspectable>>())
 			{
 				self->_vectorChangedRevoker = newVec.VectorChanged(winrt::auto_revoke, [controlWeak{ winrt::make_weak(control) }](auto&, auto&)
+				{
+					if (auto controlStrong = controlWeak.get()) 
 					{
-						if (auto controlStrong = controlWeak.get()) 
-						{
-							auto self = winrt::get_self<MetadataControl>(controlStrong)->get_strong();
-							self->Update();
-						}
-					});
+						auto self = winrt::get_self<MetadataControl>(controlStrong)->get_strong();
+						self->Update();
+					}
+				});
 			}
 
 			self->Update();
 		}
 	}
 
-	void MetadataControl::OnPropertyChanged(DependencyObject const& d, [[maybe_unused]] DependencyPropertyChangedEventArgs const& e)
+	void MetadataControl::OnPropertyChanged(winrt::DependencyObject const& d, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& e)
 	{
 		if (auto control = d.try_as<class_type>())
 		{
@@ -67,7 +95,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		}
 	}
 
-	void MetadataControl::OnActualThemeChanged([[maybe_unused]] FrameworkElement const& sender, [[maybe_unused]] IInspectable const& args) { Update(); }
+	void MetadataControl::OnActualThemeChanged(
+		[[maybe_unused]] winrt::FrameworkElement const& sender, 
+		[[maybe_unused]] winrt::IInspectable const& args)
+	{ 
+		Update();
+	}
 
 	void MetadataControl::Update()
 	{
@@ -77,71 +110,76 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			return;
 		}
 
-		_textContainer.Inlines().Clear();
+		auto textInlines = _textContainer.Inlines();
+		textInlines.Clear();
 
-		if (Items() == nullptr)
+		auto items = Items();
+		if (items == nullptr)
 		{
-			AutomationProperties::SetName(_textContainer, L"");
+			winrt::AutomationProperties::SetName(_textContainer, L"");
 			NotifyLiveRegionChanged();
 			return;
 		}
 
-		Inline unitToAppend{ nullptr };
+		winrt::Inline unitToAppend{ nullptr };
 		std::wstring accessibleString;
-		for (const auto& unit : Items())
+		for (const auto& unit : items)
 		{
-			if (_textContainer.Inlines().Size() > 0)
+			if (textInlines.Size() > 0)
 			{
-				Run run;
+				winrt::Run run;
 				run.Text(Separator());
-				_textContainer.Inlines().Append(run);
-
-				accessibleString.append(!AccessibleSeparator().empty() ? AccessibleSeparator() : Separator());
+				textInlines.Append(run);
+				const auto accessibleSeparator = AccessibleSeparator();
+				accessibleString.append(!accessibleSeparator.empty() ? accessibleSeparator : Separator());
 			}
 
-			Run run;
+			winrt::Run run;
 			run.Text(unit.Label());
 			unitToAppend = run;
 
 			if (unit.Command())
 			{
-				Hyperlink hyperLink;
-				hyperLink.UnderlineStyle(UnderlineStyle::None);
-				hyperLink.Foreground(_textContainer.Foreground());
-				hyperLink.Inlines().Append(unitToAppend);
+				winrt::Hyperlink hyperlink;
+				hyperlink.UnderlineStyle(winrt::UnderlineStyle::None);
+				hyperlink.Foreground(_textContainer.Foreground());
+				hyperlink.Inlines().Append(unitToAppend);
 
-				hyperLink.Click([weakUnit{ winrt::make_weak(unit) }](auto&, auto&)
+				hyperlink.Click([weakUnit{ winrt::make_weak(unit) }](auto&, auto&)
+				{
+					if (auto strongUnit = weakUnit.get())
 					{
-						if (auto strongUnit = weakUnit.get())
+						auto command = strongUnit.Command();
+						auto parameter = strongUnit.CommandParameter();
+						if (command.CanExecute(parameter))
 						{
-							if (strongUnit.Command().CanExecute(strongUnit.CommandParameter()))
-							{
-								strongUnit.Command().Execute(strongUnit.CommandParameter());
-							}
+							command.Execute(parameter);
 						}
-					});
+					}
+				});
 
-				unitToAppend = hyperLink;
+				unitToAppend = hyperlink;
 			}
 
-			auto unitAccessibleLabel = !unit.AccessibleLabel().empty() ? unit.AccessibleLabel() : unit.Label();
-			AutomationProperties::SetName(unitToAppend, unitAccessibleLabel);
+			auto accessibleLabel = unit.AccessibleLabel();
+			auto unitAccessibleLabel = !accessibleLabel.empty() ? accessibleLabel : unit.Label();
+			winrt::AutomationProperties::SetName(unitToAppend, unitAccessibleLabel);
 			accessibleString.append(unitAccessibleLabel);
 
-			_textContainer.Inlines().Append(unitToAppend);
+			textInlines.Append(unitToAppend);
 		}
 
-		AutomationProperties::SetName(_textContainer, accessibleString);
+		winrt::AutomationProperties::SetName(_textContainer, accessibleString);
 		NotifyLiveRegionChanged();
 	}
 
 	void MetadataControl::NotifyLiveRegionChanged()
 	{
-		if (AutomationPeer::ListenerExists(AutomationEvents::LiveRegionChanged))
+		if (winrt::AutomationPeer::ListenerExists(winrt::AutomationEvents::LiveRegionChanged))
 		{
-			if (auto peer = FrameworkElementAutomationPeer::FromElement(*this))
+			if (auto peer = winrt::FrameworkElementAutomationPeer::FromElement(*this))
 			{
-				peer.RaiseAutomationEvent(AutomationEvents::LiveRegionChanged);
+				peer.RaiseAutomationEvent(winrt::AutomationEvents::LiveRegionChanged);
 			}
 		}
 	}
