@@ -12,6 +12,7 @@
 
 #include <winrt/Microsoft.UI.h>
 #include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Markup.h>
 
 #include <wil/cppwinrt.h>
 #include <wil/cppwinrt_helpers.h>
@@ -28,6 +29,7 @@ import winrt.Windows.ApplicationModel;
 
 import winrt.Microsoft.UI;
 import winrt.Microsoft.UI.Xaml;
+import winrt.Microsoft.UI.Xaml.Markup;
 
 import winrt.XamlToolkit.WinUI;
 

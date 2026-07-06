@@ -1,7 +1,7 @@
 #pragma once
 
 #include "CameraHelper.g.h"
-
+#include "../../XamlToolkit.WinUI/common.h"
 #ifdef __INTELLISENSE__
 #include <semaphore>
 #include <winrt/Windows.Foundation.h>
@@ -28,26 +28,26 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
     {
         CameraHelper() = default;
 
-        winrt::MediaFrameSourceGroup FrameSourceGroup();
+        winrt::MediaFrameSourceGroup FrameSourceGroup() const;
 
         void FrameSourceGroup(winrt::MediaFrameSourceGroup const& value);
 
-        winrt::IVectorView<winrt::MediaFrameFormat> FrameFormatsAvailable();
+        winrt::IVectorView<winrt::MediaFrameFormat> FrameFormatsAvailable() const;
 
-        winrt::MediaFrameSource PreviewFrameSource();
+        winrt::MediaFrameSource PreviewFrameSource() const;
 
-        wil::untyped_event<winrt::XamlToolkit::WinUI::Helpers::FrameEventArgs> FrameArrived;
+        wil::untyped_event<FrameEventArgs> FrameArrived;
 
-        winrt::IAsyncOperation<winrt::XamlToolkit::WinUI::Helpers::CameraHelperResult> InitializeAndStartCaptureAsync();
+        winrt::IAsyncOperation<CameraHelperResult> InitializeAndStartCaptureAsync();
 
         static winrt::IAsyncOperation<winrt::IVectorView<winrt::MediaFrameSourceGroup>> GetFrameSourceGroupsAsync();
 
         winrt::IAsyncAction CleanUpAsync();
 
-        void Close();
+        winrt::fire_and_forget Close();
 
     private:
-        std::binary_semaphore _semaphoreSlim{ 1 };
+        winrt::async_mutex _mutex;
 
         static inline winrt::IVectorView<winrt::MediaFrameSourceGroup> _frameSourceGroups{ nullptr };
 
@@ -63,7 +63,7 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
 
         winrt::MediaFrameReader::FrameArrived_revoker _frameArrivedRevoker;
 
-        winrt::IAsyncOperation<winrt::XamlToolkit::WinUI::Helpers::CameraHelperResult> InitializeMediaCaptureAsync();
+        winrt::IAsyncOperation<CameraHelperResult> InitializeMediaCaptureAsync();
 
         winrt::IAsyncAction StopReaderAsync();
 

@@ -13,4 +13,6 @@
 
 // STL headers must be included before import std; to avoid redefinition errors
 #include <algorithm>
+#include <cassert>
 #include <iterator>
+#include <unordered_set>
