@@ -6,7 +6,7 @@
 
 #include "XamlCompositionEffectBrushBase.g.h"
 #include "../../Pipelines/PipelineBuilder.h"
-#include "../../Extensions/async_mutex.h"
+#include "../XamlToolkit.WinUI/common.h"
 #ifdef __INTELLISENSE__
 #include <winrt/Microsoft.UI.Composition.h>
 #endif

@@ -380,9 +380,6 @@
     <ClInclude Include="Extensions\System\UriExtensions.h">
       <Filter>Extensions\System</Filter>
     </ClInclude>
-    <ClInclude Include="Extensions\async_mutex.h">
-      <Filter>Extensions</Filter>
-    </ClInclude>
   </ItemGroup>
   <!-- None -->
   <ItemGroup>

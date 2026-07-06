@@ -4,3 +4,4 @@
 #include "Extensions/Text/StringExtensions.h"
 #include "Extensions/Tree/DependencyObjectExtensions.h"
 #include "Extensions/Tree/FrameworkElementExtensions.h"
+#include "Extensions/async_mutex.h"

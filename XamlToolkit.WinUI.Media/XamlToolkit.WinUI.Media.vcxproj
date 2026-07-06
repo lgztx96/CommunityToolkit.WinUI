@@ -137,7 +137,6 @@
     <ClInclude Include="winrt_module_imports.h" />
     <ClInclude Include="wil_cppwinrt_module.h" />
     <ClInclude Include="Shadows\AttachedCardShadow.h" />
-    <ClInclude Include="Extensions\async_mutex.h" />
     <ClInclude Include="Extensions\System\UriExtensions.h" />
     <!-- Helpers -->
     <ClInclude Include="Helpers\CompositionObjectCache.h" />

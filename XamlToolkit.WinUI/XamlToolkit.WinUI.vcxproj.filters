@@ -168,6 +168,9 @@
     </ClInclude>
     <ClInclude Include="winrt_module_imports.h" />
     <ClInclude Include="wil_cppwinrt_module.h" />
+    <ClInclude Include="Extensions\async_mutex.h">
+      <Filter>Extensions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="XamlToolkit.WinUI.def" />

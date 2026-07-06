@@ -12,6 +12,7 @@
 #undef GetCurrentTime
 
 #include <algorithm>
+#include <cassert>
 #include <cmath>
 #include <format>
 #include <generator>
