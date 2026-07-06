@@ -18,9 +18,14 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         if (auto currentContainerItem = GetCurrentContainerItem())
         {
             auto currentItem = ItemFromContainer(currentContainerItem);
-            uint32_t previousIndex;
+            
             auto items = Items();
-            items.IndexOf(currentItem, previousIndex);
+            uint32_t previousIndex;
+            if (!items.IndexOf(currentItem, previousIndex))
+            {
+				return false;
+            }
+
             uint32_t index = previousIndex;
 
             if (direction == MoveDirection::Previous)
@@ -43,7 +48,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
             }
             else if (direction == MoveDirection::Next)
             {
-                if (previousIndex < items.Size() - 1)
+                if (previousIndex + 1 < items.Size())
                 {
                     index += 1;
                 }
@@ -90,7 +95,6 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
                             {
                                 selectedItems.RemoveAt(selectIndex);
                             }
-                            
                         }
                     }
                     else if (!IsControlPressed())

@@ -43,7 +43,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
             }
             else if (direction == MoveDirection::Next)
             {
-                if (previousIndex < items.Size() - 1)
+                if (previousIndex + 1 < items.Size())
                 {
                     index += 1;
                 }
