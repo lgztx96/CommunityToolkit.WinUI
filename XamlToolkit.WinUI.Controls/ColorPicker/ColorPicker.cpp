@@ -32,7 +32,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			L"CustomPalette",
 			winrt::xaml_typename<winrt::XamlToolkit::WinUI::Controls::IColorPalette>(),
 			winrt::xaml_typename<class_type>(),
-			winrt::PropertyMetadata(nullptr, &ColorPicker::OnDependencyPropertyChanged));
+			winrt::PropertyMetadata(winrt::make<FluentColorPalette>(), &ColorPicker::OnDependencyPropertyChanged));
 
 	const wil::single_threaded_property<winrt::DependencyProperty> ColorPicker::IsColorPaletteVisibleProperty =
 		winrt::DependencyProperty::Register(
@@ -154,6 +154,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		ConnectEvents(true);
 
 		base_type::OnApplyTemplate();
+		OnColorPaletteChanged();
 		UpdateVisualState(false);
 		ValidateSelectedPanel();
 		isInitialized = true;
@@ -1103,25 +1104,30 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			auto self = winrt::get_self<ColorPicker>(senderControl);
 			if (args.Property() == CustomPaletteProperty())
 			{
-				if (const auto palette = self->CustomPalette())
-				{
-					self->CustomPaletteColumnCount(palette.ColorCount());
-					auto customPaletteColors = self->CustomPaletteColors();
-					customPaletteColors.Clear();
-
-					for (int shadeIndex = 0; shadeIndex < palette.ShadeCount(); shadeIndex++)
-					{
-						for (int colorIndex = 0; colorIndex < palette.ColorCount(); colorIndex++)
-						{
-							customPaletteColors.Append(palette.GetColor(colorIndex, shadeIndex));
-						}
-					}
-				}
+				self->OnColorPaletteChanged();
 			}
 			else if (args.Property() == IsColorPaletteVisibleProperty())
 			{
 				self->UpdateVisualState(false);
 				self->ValidateSelectedPanel();
+			}
+		}
+	}
+
+	void ColorPicker::OnColorPaletteChanged()
+	{
+		if (const auto palette = CustomPalette())
+		{
+			CustomPaletteColumnCount(palette.ColorCount());
+			auto customPaletteColors = CustomPaletteColors();
+			customPaletteColors.Clear();
+
+			for (int shadeIndex = 0; shadeIndex < palette.ShadeCount(); shadeIndex++)
+			{
+				for (int colorIndex = 0; colorIndex < palette.ColorCount(); colorIndex++)
+				{
+					customPaletteColors.Append(palette.GetColor(colorIndex, shadeIndex));
+				}
 			}
 		}
 	}

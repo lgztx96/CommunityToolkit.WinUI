@@ -214,6 +214,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		static void OnDependencyPropertyChanged(winrt::DependencyObject const& sender, winrt::DependencyPropertyChangedEventArgs const& args);
 
+		void OnColorPaletteChanged();
+
 		/***************************************************************************************
 		 *
 		 * Color Update Timer
