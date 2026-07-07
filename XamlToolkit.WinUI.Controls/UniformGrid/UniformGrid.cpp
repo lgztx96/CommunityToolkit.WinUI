@@ -334,11 +334,13 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 				}
 			}
 
+			rowCount = rowDefinitions.Size();
+
 			for (auto r = rowCount; r < rows; r++)
 			{
 				winrt::RowDefinition rd;
 				SetAutoLayout(rd, true);
-				rowDefinitions.InsertAt(r, rd);
+				rowDefinitions.Append(rd);
 			}
 		}
 	}
@@ -369,11 +371,13 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 				}
 			}
 
+			columnCount = columnDefinitions.Size();
+
 			for (auto c = columnCount; c < columns; c++)
 			{
 				auto cd = ColumnDefinition();
 				SetAutoLayout(cd, true);
-				columnDefinitions.InsertAt(c, cd);
+				columnDefinitions.Append(cd);
 			}
 		}
 	}
