@@ -78,9 +78,9 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
 
     winrt::MediaFrameSource CameraHelper::PreviewFrameSource() const { return _previewFrameSource; }
 
-    winrt::IAsyncOperation<winrt::XamlToolkit::WinUI::Helpers::CameraHelperResult> CameraHelper::InitializeAndStartCaptureAsync()
+    winrt::IAsyncOperation<CameraHelperResult> CameraHelper::InitializeAndStartCaptureAsync()
     {
-        winrt::XamlToolkit::WinUI::Helpers::CameraHelperResult result = winrt::XamlToolkit::WinUI::Helpers::CameraHelperResult::Success;
+        CameraHelperResult result = CameraHelperResult::Success;
 
         auto guard = co_await _mutex.lock_async();
 
@@ -89,7 +89,7 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
             // if FrameSourceGroup hasn't changed from last initialization, just return back.
             if (_initialized && _group && !_groupChanged)
             {
-                co_return winrt::XamlToolkit::WinUI::Helpers::CameraHelperResult::Success;
+                co_return CameraHelperResult::Success;
             }
 
             _groupChanged = false;
@@ -226,7 +226,8 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
 
             for (auto const& fmt : _previewFrameSource.SupportedFormats())
             {
-                double fps = static_cast<double>(fmt.FrameRate().Numerator()) / fmt.FrameRate().Denominator();
+				auto frameRate = fmt.FrameRate();
+                double fps = static_cast<double>(frameRate.Numerator()) / frameRate.Denominator();
                 auto subtype = fmt.Subtype();
                 if (fps >= 15 &&
                     (compare_ignore_case(subtype, winrt::MediaEncodingSubtypes::Nv12()) ||

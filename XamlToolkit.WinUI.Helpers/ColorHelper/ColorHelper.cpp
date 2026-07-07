@@ -50,15 +50,18 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
         return std::nullopt;
     }
 
-    static constexpr uint32_t to_uint32(std::string_view s, int base = 10) noexcept {
+    static constexpr uint32_t to_uint32(std::string_view s, int base = 10) noexcept
+    {
         return to_num<uint32_t>(s, base).value_or(0);
     }
 
-    static constexpr uint16_t to_uint16(std::string_view s, int base = 10) noexcept {
+    static constexpr uint16_t to_uint16(std::string_view s, int base = 10) noexcept
+    {
         return to_num<uint16_t>(s, base).value_or(0);
     }
 
-    static constexpr double to_double(std::string_view s) noexcept {
+    static constexpr double to_double(std::string_view s) noexcept
+    {
         return to_num<double>(s).value_or(0.0);
     }
 
