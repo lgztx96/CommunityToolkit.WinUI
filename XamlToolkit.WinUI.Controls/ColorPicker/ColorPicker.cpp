@@ -58,7 +58,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		// Setup collections
 		auto collection = winrt::single_threaded_observable_vector<winrt::Color>();
 		SetValue(CustomPaletteColorsProperty(), collection);
-		_vectorChangedRevoker = CustomPaletteColors().VectorChanged(winrt::auto_revoke, { this, &ColorPicker::CustomPaletteColors_CollectionChanged });
+		_vectorChangedRevoker = collection.VectorChanged(winrt::auto_revoke, { this, &ColorPicker::CustomPaletteColors_CollectionChanged });
 
 		Loaded({ this, &ColorPicker::ColorPickerButton_Loaded });
 
@@ -68,7 +68,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			winrt::Application::Current().Resources().Lookup(winrt::box_value(L"SystemListLowColor")));
 
 		ConnectCallbacks(true);
-		SetDefaultPalette();
+		// SetDefaultPalette();
 		StartDispatcherQueueTimer();
 		RegisterPropertyChangedCallback(WinUIColorPicker::IsColorChannelTextInputVisibleProperty(), { this, &ColorPicker::OnPanelVisibilityChanged });
 		RegisterPropertyChangedCallback(WinUIColorPicker::IsColorSpectrumVisibleProperty(), { this,&ColorPicker::OnPanelVisibilityChanged });
@@ -1220,7 +1220,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	/// </summary>
 	void ColorPicker::ChannelSlider_Loaded(winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
 	{
-		if (const auto slider = sender.try_as<Primitives::ColorPickerSlider>())
+		if (const auto slider = sender.try_as<winrt::XamlToolkit::WinUI::Controls::Primitives::ColorPickerSlider>())
 		{
 			UpdateChannelSliderBackground(slider);
 		}
@@ -1439,7 +1439,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 				static const auto converter = winrt::make<implementation::ColorToHexConverter>();
 				Color(converter.ConvertBack(
 					winrt::box_value(sender.as<winrt::TextBox>().Text()), 
-					winrt::xaml_typename<TextBox>(), 
+					winrt::xaml_typename<winrt::TextBox>(),
 					nullptr, 
 					L"").as<winrt::Color>());
 			}
@@ -1461,7 +1461,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		try
 		{
 			static const auto converter = winrt::make<implementation::ColorToHexConverter>();
-			Color(converter.ConvertBack(winrt::box_value(sender.as<winrt::TextBox>().Text()), winrt::xaml_typename<TextBox>(), nullptr, L"").as<winrt::Color>());
+			Color(converter.ConvertBack(winrt::box_value(sender.as<winrt::TextBox>().Text()), winrt::xaml_typename<winrt::TextBox>(), nullptr, L"").as<winrt::Color>());
 		}
 		catch (...)
 		{
