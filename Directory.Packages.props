@@ -1,0 +1,23 @@
+﻿<Project>
+  <PropertyGroup>
+    <!-- Enable central package management, https://learn.microsoft.com/en-us/nuget/consume-packages/Central-Package-Management -->
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+  <!--  C++/C# shared Project References  -->
+  <ItemGroup>
+    <PackageVersion Include="Microsoft.Graphics.Win2D" Version="1.4.0" />
+    <PackageVersion Include="Microsoft.Web.WebView2" Version="1.0.4022.49" />
+    <PackageVersion Include="Microsoft.Windows.CppWinRT" Version="3.0.260520.1" />
+    <PackageVersion Include="Microsoft.Windows.ImplementationLibrary" Version="1.0.260126.7" />
+    <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.1839" />
+    <PackageVersion Include="Microsoft.Windows.SDK.BuildTools.MSIX" Version="1.7.260610101" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK.Base" Version="1.8.251216001" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK.Foundation" Version="1.8.260527000" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK.InteractiveExperiences" Version="1.8.260525001" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK.WinUI" Version="1.8.260528001" />
+  </ItemGroup>
+  <!--  C# Project References  -->
+  <ItemGroup>
+    <PackageVersion Include="Microsoft.Windows.CsWinRT" Version="2.2.0" />
+  </ItemGroup>
+</Project>
