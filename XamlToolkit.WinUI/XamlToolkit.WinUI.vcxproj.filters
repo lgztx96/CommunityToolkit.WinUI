@@ -174,7 +174,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="XamlToolkit.WinUI.def" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="Triggers\ControlSizeTrigger.idl">
@@ -247,9 +246,5 @@
     <Midl Include="Triggers\UserHandPreferenceStateTrigger.idl">
       <Filter>Triggers</Filter>
     </Midl>
-  </ItemGroup>
-  <ItemGroup>
-    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
-    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natstepfilter" />
   </ItemGroup>
 </Project>

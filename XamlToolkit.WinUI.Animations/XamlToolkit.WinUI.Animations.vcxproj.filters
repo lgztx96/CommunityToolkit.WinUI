@@ -554,7 +554,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="XamlToolkit.WinUI.Animations.def" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Expressions">
@@ -687,9 +686,5 @@
     <ClCompile Include="Expressions\ReferenceNodes\ReferenceNode.cpp">
       <Filter>Expressions\ReferenceNodes</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
-    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natstepfilter" />
   </ItemGroup>
 </Project>

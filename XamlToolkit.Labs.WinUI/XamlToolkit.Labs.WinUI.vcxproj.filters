@@ -468,7 +468,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="XamlToolkit.Labs.WinUI.def" />
-    <None Include="packages.config" />
     <None Include="MarkdownTextBlock\Highlight\cpp\highlights.scm">
       <Filter>MarkdownTextBlock\Highlight\cpp</Filter>
     </None>
@@ -543,9 +542,5 @@
     <Page Include="GradientSlider\GradientSliderThumbStyle.xaml">
       <Filter>GradientSlider</Filter>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
-    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natstepfilter" />
   </ItemGroup>
 </Project>
