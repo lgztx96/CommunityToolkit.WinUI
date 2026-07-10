@@ -85,7 +85,7 @@ namespace winrt::XamlToolkit::Labs::WinUI
 
 		void WriteText(std::wstring_view text);
 
-		static void AddInline(TextElements::IAddChild* parent, TextElements::IAddChild* child);
+		static void AddInline(TextElements::IAddChild* parent, IAddChild* child);
 
 		void BeginBlock(std::shared_ptr<TextElements::IAddChild> const& block);
 

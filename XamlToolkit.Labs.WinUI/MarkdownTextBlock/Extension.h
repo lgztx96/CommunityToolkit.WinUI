@@ -33,23 +33,23 @@ namespace winrt::XamlToolkit::Labs::WinUI
 
 		static std::wstring ToRomanNumerals(int x, bool lower = false);
 
-		static bool IsAtInsertionPosition(TextPointer const& position, LogicalDirection logicalDirection);
+		static bool IsAtInsertionPosition(winrt::TextPointer const& position, winrt::LogicalDirection logicalDirection);
 
-		static TextPointer GetNextInsertionPosition(TextPointer const& position, LogicalDirection logicalDirection);
+		static winrt::TextPointer GetNextInsertionPosition(winrt::TextPointer const& position, winrt::LogicalDirection logicalDirection);
 
 		static std::wstring_view RemoveImageSize(std::wstring_view url);
 
-		static Uri GetUri(std::wstring_view url, std::wstring_view base);
+		static winrt::Uri GetUri(std::wstring_view url, std::wstring_view base);
 
 		static HtmlElementType TagToType(std::string_view tag);
 
 		static bool IsHeading(std::wstring_view tag);
 
-		static Size GetSvgSize(std::wstring_view svgString);
+		static winrt::Size GetSvgSize(std::wstring_view svgString);
 
-		static Size GetMarkdownImageSize(std::wstring_view link);
+		static winrt::Size GetMarkdownImageSize(std::wstring_view link);
 
-		static SolidColorBrush GetAccentColorBrush(UIColorType colorType = UIColorType::Accent);
+		static winrt::SolidColorBrush GetAccentColorBrush(winrt::UIColorType colorType = winrt::UIColorType::Accent);
 
 		static std::wstring_view EscapeHtmlEntity(std::wstring_view entity);
 	};

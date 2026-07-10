@@ -14,10 +14,10 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
     class MdLineBreak final : public IAddChild
     {
     private:
-        LineBreak _lineBreak;
+        winrt::LineBreak _lineBreak;
 
     public:
-        Microsoft::UI::Xaml::Documents::TextElement TextElement() const override
+        winrt::TextElement TextElement() const override
         {
             return _lineBreak;
         }

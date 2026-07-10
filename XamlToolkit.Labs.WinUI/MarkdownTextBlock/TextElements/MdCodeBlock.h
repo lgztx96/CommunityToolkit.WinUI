@@ -32,14 +32,14 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 	class MdCodeBlock : public IAddChild
 	{
 	private:
-		Paragraph _paragraph;
-		TextBlock _richTextBlock;
+		winrt::Paragraph _paragraph;
+		winrt::TextBlock _richTextBlock;
 		MarkdownConfig _config;
 		std::wstring _language;
 		std::wstring _sourceCode;
 		bool _isDarkMode;
 
-		Microsoft::UI::Xaml::Documents::TextElement TextElement() const override
+		winrt::TextElement TextElement() const override
 		{
 			return _paragraph;
 		}
@@ -53,8 +53,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 		}
 
 		void Enter() override {
-			InlineUIContainer container;
-			Border border;
+			winrt::InlineUIContainer container;
+			winrt::Border border;
 			border.Background(_config.Themes().CodeBlockBackground());
 			border.BorderBrush(_config.Themes().CodeBlockBorderBrush());
 			border.BorderThickness(_config.Themes().CodeBlockBorderThickness());
@@ -63,10 +63,10 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 			border.CornerRadius(_config.Themes().CodeBlockCornerRadius());
 
 			_richTextBlock.IsTextSelectionEnabled(true);
-			_richTextBlock.FlowDirection(FlowDirection::LeftToRight);
+			_richTextBlock.FlowDirection(winrt::FlowDirection::LeftToRight);
 			_richTextBlock.FontFamily(_config.Themes().CodeBlockFontFamily());
 			_richTextBlock.Foreground(_config.Themes().CodeBlockForeground());
-			_richTextBlock.TextWrapping(TextWrapping::Wrap);
+			_richTextBlock.TextWrapping(winrt::TextWrapping::Wrap);
 
 			border.Child(_richTextBlock);
 			container.Child(border);
@@ -117,7 +117,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 			FormatInlines(_sourceCode, highlighter, _richTextBlock.Inlines());
 		}
 
-		void FormatInlines(std::wstring_view source, const IUtf16SyntaxHighlighter* highlighter, InlineCollection const& inlines) const {
+		void FormatInlines(std::wstring_view source, const IUtf16SyntaxHighlighter* highlighter, winrt::InlineCollection const& inlines) const {
 		
 			const auto tokens = highlighter->Highlight(source, _isDarkMode);
 			size_t lastPos = 0;
@@ -125,15 +125,15 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 
 				if (token.start > lastPos) {
 					std::wstring_view plain = source.substr(lastPos, token.start - lastPos);
-					Run run;
-					run.Text(hstring(plain));
+					winrt::Run run;
+					run.Text(winrt::hstring(plain));
 					inlines.Append(run);
 				}
 
 				std::wstring_view snippet = source.substr(token.start, token.length);
-				Run run;
-				run.Text(hstring(snippet));
-				run.Foreground(SolidColorBrush(XamlToolkit::WinUI::Helpers::ColorHelper::ToColor(token.color)));
+				winrt::Run run;
+				run.Text(winrt::hstring(snippet));
+				run.Foreground(winrt::SolidColorBrush(winrt::XamlToolkit::WinUI::Helpers::ColorHelper::ToColor(token.color)));
 				inlines.Append(run);
 
 				lastPos = token.start + token.length;
@@ -141,8 +141,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 
 			if (lastPos < source.size()) {
 				std::wstring_view plain = source.substr(lastPos);
-				Run run;
-				run.Text(hstring(plain));
+				winrt::Run run;
+				run.Text(winrt::hstring(plain));
 				inlines.Append(run);
 			}
 		}
@@ -151,11 +151,11 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 			_sourceCode.append(code);
 		}
 
-		void AddChild(TextElements::IAddChild* child) override
+		void AddChild(IAddChild* child) override
 		{
 			if (auto element = child->TextElement())
 			{
-				if (auto run = element.try_as<Run>()) {
+				if (auto run = element.try_as<winrt::Run>()) {
 					AddInlineText(run.Text());
 				}
 			}

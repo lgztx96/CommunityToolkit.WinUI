@@ -15,13 +15,13 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
     class MdBlockContainer final : public IAddChild
     {
     private:
-        InlineUIContainer _inlineUIContainer;
+        winrt::InlineUIContainer _inlineUIContainer;
         MdFlowDocument _flowDocument;
-        Paragraph _paragraph;
+        winrt::Paragraph _paragraph;
 
     public:
 
-        Microsoft::UI::Xaml::Documents::TextElement TextElement() const override
+        winrt::TextElement TextElement() const override
         {
             return _paragraph;
         }
@@ -32,7 +32,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
             _paragraph.Inlines().Append(_inlineUIContainer);
         }
 
-        void AddChild(TextElements::IAddChild* child) override
+        void AddChild(IAddChild* child) override
         {
             _flowDocument.AddChild(child);
         }

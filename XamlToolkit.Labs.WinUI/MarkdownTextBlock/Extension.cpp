@@ -26,7 +26,7 @@ namespace winrt::XamlToolkit::Labs::WinUI
 
 	bool Extensions::IsWhiteSpace(std::wstring_view sv)
 	{
-		return std::all_of(sv.cbegin(), sv.cend(), [](wchar_t c) { return iswspace(c); });
+		return std::all_of(sv.cbegin(), sv.cend(), [](wchar_t c) { return ::iswspace(c); });
 	}
 
 	std::wstring Extensions::ToAlphabetical(int index, bool upper)
@@ -57,10 +57,12 @@ namespace winrt::XamlToolkit::Labs::WinUI
 		return stringBuilder;
 	}
 
-	std::wstring Extensions::ToRomanNumerals(int x, bool lower) {
+	std::wstring Extensions::ToRomanNumerals(int x, bool lower)
+	{
 		if (x <= 0)
 			return L"Negative or zero!";
-		auto roman_digit = [](wchar_t one, wchar_t five, wchar_t ten, int x) {
+		auto roman_digit = [](wchar_t one, wchar_t five, wchar_t ten, int x)
+		{
 			if (x <= 3)
 				return std::wstring(x, one);
 			if (x <= 5)
@@ -68,28 +70,32 @@ namespace winrt::XamlToolkit::Labs::WinUI
 			if (x <= 8)
 				return five + std::wstring(x - 5, one);
 			return std::wstring(10 - x, one) + ten;
-			};
+		};
+
 		if (x >= 1000)
 			return x - 1000 > 0 ? L"M" + ToRomanNumerals(x - 1000) : L"M";
-		if (x >= 100) {
+		if (x >= 100) 
+		{
 			auto s = roman_digit(L'C', L'D', L'M', x / 100);
 			return x % 100 > 0 ? s + ToRomanNumerals(x % 100) : s;
 		}
-		if (x >= 10) {
+		if (x >= 10) 
+		{
 			auto s = roman_digit(L'X', L'L', L'C', x / 10);
 			return x % 10 > 0 ? s + ToRomanNumerals(x % 10) : s;
 		}
 
 		auto ret = roman_digit(L'I', L'V', L'X', x);
 
-		if (lower) {
+		if (lower)
+		{
 			ToLower(ret);
 		}
 
 		return ret;
 	}
 
-	TextPointer Extensions::GetNextInsertionPosition(TextPointer const& position, LogicalDirection logicalDirection)
+	winrt::TextPointer Extensions::GetNextInsertionPosition(winrt::TextPointer const& position, winrt::LogicalDirection logicalDirection)
 	{
 		// Check if the current position is already an insertion position
 		if (IsAtInsertionPosition(position, logicalDirection))
@@ -100,7 +106,7 @@ namespace winrt::XamlToolkit::Labs::WinUI
 		else
 		{
 			// Try to find the next insertion position by moving one symbol forward
-			TextPointer next = position.GetPositionAtOffset(1, logicalDirection);
+			winrt::TextPointer next = position.GetPositionAtOffset(1, logicalDirection);
 			// If there is no next position, return null
 			if (next == nullptr)
 			{
@@ -114,12 +120,12 @@ namespace winrt::XamlToolkit::Labs::WinUI
 		}
 	}
 
-	bool Extensions::IsAtInsertionPosition(TextPointer const& position, LogicalDirection logicalDirection)
+	bool Extensions::IsAtInsertionPosition(winrt::TextPointer const& position, winrt::LogicalDirection logicalDirection)
 	{
 		// Get the character rect of the current position
-		Rect currentRect = position.GetCharacterRect(logicalDirection);
+		winrt::Rect currentRect = position.GetCharacterRect(logicalDirection);
 		// Try to get the next position by moving one symbol forward
-		TextPointer next = position.GetPositionAtOffset(1, logicalDirection);
+		winrt::TextPointer next = position.GetPositionAtOffset(1, logicalDirection);
 		// If there is no next position, return false
 		if (next == nullptr)
 		{
@@ -128,7 +134,7 @@ namespace winrt::XamlToolkit::Labs::WinUI
 		else
 		{
 			// Get the character rect of the next position
-			Rect nextRect = next.GetCharacterRect(logicalDirection);
+			winrt::Rect nextRect = next.GetCharacterRect(logicalDirection);
 			// Compare the two rects and return true if they are different
 			return currentRect != nextRect;
 		}
@@ -199,17 +205,20 @@ namespace winrt::XamlToolkit::Labs::WinUI
 		return url;
 	}
 
-	Uri Extensions::GetUri(std::wstring_view url, std::wstring_view base) {
+	winrt::Uri Extensions::GetUri(std::wstring_view url, std::wstring_view base)
+	{
 		std::wstring_view validUrl = RemoveImageSize(url);
 
-		try {
+		try
+		{
 			//the url is already absolute
-			Uri result{ winrt::hstring(validUrl) };
+			winrt::Uri result{ winrt::hstring(validUrl) };
 			return result;
 		}
 		catch (...) {}
 
-		if (!IsWhiteSpace(base)) {
+		if (!IsWhiteSpace(base)) 
+		{
 			//the url is relative, so append the base
 			//trim any trailing "/" from the base and any leading "/" from the url
 			auto baseEnd = base.find_last_not_of(L'/');
@@ -222,7 +231,8 @@ namespace winrt::XamlToolkit::Labs::WinUI
 
 			return Uri(winrt::format(L"{}/{}", base, validUrl));
 		}
-		else {
+		else
+		{
 			//the url is relative to the file system
 			//add ms-appx
 			auto urlStart = validUrl.find_first_not_of(L'/');
@@ -261,27 +271,27 @@ namespace winrt::XamlToolkit::Labs::WinUI
 		return std::ranges::contains(headings, std::wstring_view{ copy.data(), copy.size() });
 	}
 
-	Size Extensions::GetSvgSize(std::wstring_view svgString)
+	winrt::Size Extensions::GetSvgSize(std::wstring_view svgString)
 	{
 		// Parse the SVG string as an XML document
-		XmlDocument svgDocument;
+		winrt::XmlDocument svgDocument;
 		svgDocument.LoadXml(svgString);
 
-		XmlElement svgElement = svgDocument.DocumentElement();
+		winrt::XmlElement svgElement = svgDocument.DocumentElement();
 
-		XmlAttribute heightAttribute = svgElement.GetAttributeNode(L"height");
+		winrt::XmlAttribute heightAttribute = svgElement.GetAttributeNode(L"height");
 
-		XmlAttribute widthAttribute = svgElement.GetAttributeNode(L"width");
+		winrt::XmlAttribute widthAttribute = svgElement.GetAttributeNode(L"width");
 
 		// Convert the attribute values to double
 		double height = _wtof(heightAttribute.Value().c_str());
 		double width = _wtof(widthAttribute.Value().c_str());
 
 		// Return the height and width as a tuple
-		return Size(static_cast<float>(width), static_cast<float>(height));
+		return winrt::Size(static_cast<float>(width), static_cast<float>(height));
 	}
 
-	Size Extensions::GetMarkdownImageSize(std::wstring_view url)
+	winrt::Size Extensions::GetMarkdownImageSize(std::wstring_view url)
 	{
 		using namespace std::string_view_literals;
 		//if (link == nullptr || !link.IsImage)
@@ -330,22 +340,24 @@ namespace winrt::XamlToolkit::Labs::WinUI
 		return { 0, 0 };
 	}
 
-	SolidColorBrush Extensions::GetAccentColorBrush(UIColorType colorType)
+	winrt::SolidColorBrush Extensions::GetAccentColorBrush(winrt::UIColorType colorType)
 	{
 		// Create a UISettings object to get the accent color
-		UISettings uiSettings;
+		winrt::UISettings uiSettings;
 
 		// Get the accent color as a Color value
 		auto accentColor = uiSettings.GetColorValue(colorType);
 
 		// Create a SolidColorBrush from the accent color
-		SolidColorBrush accentBrush(accentColor);
+		winrt::SolidColorBrush accentBrush(accentColor);
 
 		return accentBrush;
 	}
 
-	std::wstring_view Extensions::EscapeHtmlEntity(std::wstring_view entity) {
-		static const std::unordered_map<std::wstring_view, std::wstring_view> entities = {
+	std::wstring_view Extensions::EscapeHtmlEntity(std::wstring_view entity) 
+	{
+		static const std::unordered_map<std::wstring_view, std::wstring_view> entities =
+		{
 			{L"&nbsp;",  L"\u00A0"},
 			{L"&lt;",    L"\u003C"},
 			{L"&gt;",    L"\u003E"},

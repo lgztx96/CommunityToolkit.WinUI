@@ -18,15 +18,14 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
     class IAddChild
     {
     public:
+        using Block = winrt::Microsoft::UI::Xaml::Documents::Block;
+        using Inline = winrt::Microsoft::UI::Xaml::Documents::Inline;
 
-        using Block = Microsoft::UI::Xaml::Documents::Block;
-        using Inline = Microsoft::UI::Xaml::Documents::Inline;
-
-        virtual TextElement TextElement() const = 0;
+        virtual winrt::TextElement TextElement() const = 0;
         virtual void Enter() {};
         virtual void AddInlineText([[maybe_unused]] std::wstring_view text) {};
         virtual void Leave() {};
-        virtual void AddChild([[maybe_unused]] TextElements::IAddChild* child) {};
+        virtual void AddChild([[maybe_unused]] IAddChild* child) {};
         virtual ~IAddChild() {};
     };
 }

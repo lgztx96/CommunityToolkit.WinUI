@@ -36,9 +36,9 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 	class MdList final : public IAddChild
 	{
 	private:
-		Paragraph _paragraph;
-		InlineUIContainer _container;
-		StackPanel _stackPanel;
+		winrt::Paragraph _paragraph;
+		winrt::InlineUIContainer _container;
+		winrt::StackPanel _stackPanel;
 		BulletType _bulletType;
 		bool _isOrdered;
 		int _startIndex = 1;
@@ -48,7 +48,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 		wchar_t _delimiter = '.';
 
 	public:
-		Microsoft::UI::Xaml::Documents::TextElement TextElement() const override
+		winrt::TextElement TextElement() const override
 		{
 			return _paragraph;
 		}
@@ -64,24 +64,26 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 			_index = _startIndex;
 		}
 
-		void Enter() override {
-			_stackPanel.Orientation(Orientation::Vertical);
+		void Enter() override 
+		{
+			_stackPanel.Orientation(winrt::Orientation::Vertical);
 			_container.Child(_stackPanel);
 			_paragraph.Inlines().Append(_container);
 		}
 
-		void Leave()  override {
+		void Leave()  override
+		{
 
 		}
 
-		void AddChild(TextElements::IAddChild* child) override
+		void AddChild(IAddChild* child) override
 		{
-			auto grid = Grid();
-			auto column = ColumnDefinition();
-			column.Width(GridLength(1, GridUnitType::Auto));
+			winrt::Grid grid;
+			winrt::ColumnDefinition column;
+			column.Width(winrt::GridLength(1, winrt::GridUnitType::Auto));
 			grid.ColumnDefinitions().Append(column);
-			column = ColumnDefinition();
-			column.Width(GridLength(1, GridUnitType::Star));
+			column = winrt::ColumnDefinition();
+			column.Width(winrt::GridLength(1, winrt::GridUnitType::Star));
 			grid.ColumnDefinitions().Append(column);
 			winrt::hstring bullet;
 			if (_isOrdered)
@@ -113,17 +115,18 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 			{
 				bullet = _dot;
 			}
-			auto textBlock = TextBlock();
+
+			winrt::TextBlock textBlock;
 			textBlock.Text(bullet);
-			textBlock.SetValue(Grid::ColumnProperty(), winrt::box_value(0));
-			textBlock.VerticalAlignment(VerticalAlignment::Top);
+			textBlock.SetValue(winrt::Grid::ColumnProperty(), winrt::box_value(0));
+			textBlock.VerticalAlignment(winrt::VerticalAlignment::Top);
 			grid.Children().Append(textBlock);
-			auto flowDoc = MdFlowDocument();
+			MdFlowDocument flowDoc;
 			flowDoc.AddChild(child);
 
-			flowDoc.RichTextBlock().SetValue(Grid::ColumnProperty(), winrt::box_value(1));
-			flowDoc.RichTextBlock().Padding(Thickness(0));
-			flowDoc.RichTextBlock().VerticalAlignment(VerticalAlignment::Top);
+			flowDoc.RichTextBlock().SetValue(winrt::Grid::ColumnProperty(), winrt::box_value(1));
+			flowDoc.RichTextBlock().Padding(winrt::Thickness(0));
+			flowDoc.RichTextBlock().VerticalAlignment(winrt::VerticalAlignment::Top);
 			grid.Children().Append(flowDoc.RichTextBlock());
 
 			_stackPanel.Children().Append(grid);

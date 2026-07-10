@@ -56,7 +56,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements::Html
             StyleBlock();
         }
 
-        void AddChild(TextElements::IAddChild* child) override
+        void AddChild(IAddChild* child) override
         {
             if (auto blockChild = child->TextElement().try_as<Block>())
             {

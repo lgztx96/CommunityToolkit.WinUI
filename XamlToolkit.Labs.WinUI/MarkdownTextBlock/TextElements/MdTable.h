@@ -11,11 +11,11 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 {
     class MdTable final : public IAddChild
     {
-        Paragraph _paragraph;
+        winrt::Paragraph _paragraph;
         MdTableUIElement _tableElement{nullptr};
 
     public:
-        Microsoft::UI::Xaml::Documents::TextElement TextElement() const override
+        winrt::TextElement TextElement() const override
         {
             return _paragraph;
         }
@@ -37,21 +37,21 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
                 themes.TableMargin()
             );
 
-            InlineUIContainer inlineUIContainer;
+            winrt::InlineUIContainer inlineUIContainer;
             inlineUIContainer.Child(_tableElement);
             _paragraph.Inlines().Append(inlineUIContainer);
         }
 
-        void AddChild(TextElements::IAddChild* child) override
+        void AddChild(IAddChild* child) override
         {
             if (auto cellChild = dynamic_cast<const MdTableCell*>(child))
             {
                 auto cell = cellChild->Container();
 
-                Grid::SetColumn(cell, cellChild->ColumnIndex());
-                Grid::SetRow(cell, cellChild->RowIndex());
-                Grid::SetColumnSpan(cell, cellChild->ColumnSpan());
-                Grid::SetRowSpan(cell, cellChild->RowSpan());
+                winrt::Grid::SetColumn(cell, cellChild->ColumnIndex());
+                winrt::Grid::SetRow(cell, cellChild->RowIndex());
+                winrt::Grid::SetColumnSpan(cell, cellChild->ColumnSpan());
+                winrt::Grid::SetRowSpan(cell, cellChild->RowSpan());
 
                 _tableElement.Children().Append(cell);
             }

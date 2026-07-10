@@ -18,18 +18,16 @@ namespace winrt
 
 namespace winrt::XamlToolkit::Labs::WinUI::TextElements 
 {
-    using namespace winrt::Microsoft::UI::Xaml;
-
     class MdHeading final : public IAddChild
     {
     private:
-        Paragraph _paragraph;
+        winrt::Paragraph _paragraph;
         MarkdownConfig _config;
 
     public:
-        //bool IsHtml() const { return _htmlNode != nullptr; }
+        //bool IsHtml() const { return _htmlNode; }
 
-        Microsoft::UI::Xaml::Documents::TextElement TextElement() const override
+        winrt::TextElement TextElement() const override
         {
             return _paragraph;
         }
@@ -37,7 +35,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
         MdHeading(MarkdownConfig const& config) : _config(config)
         {
             auto level = 1;
-            _paragraph.FontSize([](int level, const auto& config) {
+            _paragraph.FontSize([](int level, const auto& config)
+            {
                 switch (level)
                 {
                 case 1:
@@ -54,7 +53,9 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
                     return config.Themes().H6FontSize();
                 }  
             }(level, _config));
-            _paragraph.Foreground([](int level, const auto& config) {
+
+            _paragraph.Foreground([](int level, const auto& config)
+            {
                 switch (level)
                 {
                 case 1:
@@ -70,8 +71,10 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
                 default:
                     return config.Themes().H6Foreground();
                 }
-                }(level, _config));
-            _paragraph.FontWeight([](int level, const auto& config) {
+            }(level, _config));
+
+            _paragraph.FontWeight([](int level, const auto& config)
+            {
                 switch (level)
                 {
                 case 1:
@@ -95,21 +98,22 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
             std::string align = ""; //_htmlNode.GetAttributeValue("align", "left");
 
             _paragraph.TextAlignment([&]
-                {
-                    if (align == "left")
-                        return TextAlignment::Left;
-                    else if (align == "right")
-                        return TextAlignment::Right;
-                    else if (align == "center")
-                        return TextAlignment::Center;
-                    else if (align == "justify")
-                        return TextAlignment::Justify;
-                    else
-                        return TextAlignment::Left;
-                }());
+            {
+                if (align == "left")
+                    return winrt::TextAlignment::Left;
+                else if (align == "right")
+                    return winrt::TextAlignment::Right;
+                else if (align == "center")
+                    return winrt::TextAlignment::Center;
+                else if (align == "justify")
+                    return winrt::TextAlignment::Justify;
+                else
+                    return winrt::TextAlignment::Left;
+            }());
 
             //auto level = level;// int.Parse(htmlNode.Name.Substring(1));
-            _paragraph.FontSize([](int level, const auto& config) {
+            _paragraph.FontSize([](int level, const auto& config)
+            {
                 switch (level)
                 {
                 case 1:
@@ -125,8 +129,10 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
                 default:
                     return config.Themes().H6FontSize();
                 }
-                }(level, _config));
-            _paragraph.Foreground([](int level, const auto& config) {
+            }(level, _config));
+
+            _paragraph.Foreground([](int level, const auto& config)
+            {
                 switch (level)
                 {
                 case 1:
@@ -142,8 +148,10 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
                 default:
                     return config.Themes().H6Foreground();
                 }
-                }(level, _config));
-            _paragraph.FontWeight([](int level, const auto& config) {
+            }(level, _config));
+
+            _paragraph.FontWeight([](int level, const auto& config)
+                {
                 switch (level)
                 {
                 case 1:
@@ -159,8 +167,10 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
                 default:
                     return config.Themes().H6FontWeight();
                 }
-                }(level, _config));
-            _paragraph.Margin([](int level, const auto& config) {
+            }(level, _config));
+
+            _paragraph.Margin([](int level, const auto& config) 
+            {
                 switch (level)
                 {
                 case 1:
@@ -177,12 +187,12 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
                 default:
                     return config.Themes().H6Margin();
                 }
-                }(level, _config));
+            }(level, _config));
         }
 
-        void AddChild(TextElements::IAddChild* child) override
+        void AddChild(IAddChild* child) override
         {
-            if (auto inlineChild = child->TextElement().try_as<Inline>())
+            if (auto inlineChild = child->TextElement().try_as<winrt::Inline>())
             {
                 _paragraph.Inlines().Append(inlineChild);
             }

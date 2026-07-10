@@ -24,9 +24,9 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
         WinUIRenderer* _renderer;
 
     public:
-       // bool IsHtml() const { return _htmlNode != nullptr; }
+       // bool IsHtml() const { return _htmlNode; }
 
-        Microsoft::UI::Xaml::Documents::TextElement TextElement() const override
+        winrt::TextElement TextElement() const override
         {
             if (_hyperlink) {
 				return _hyperlink->TextElement();
@@ -40,7 +40,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
         //MdHyperlink(std::optional<std::wstring> baseUrl)
         //{
         //    _baseUrl = baseUrl;
-        //    //auto url = linkInline.GetDynamicUrl != nullptr ? linkInline.GetDynamicUrl() ? ? linkInline.Url : linkInline.Url;
+        //    //auto url = linkInline.GetDynamicUrl ? linkInline.GetDynamicUrl() ? ? linkInline.Url : linkInline.Url;
         //    //_linkInline = linkInline;
         //    _hyperlink = Hyperlink();
         //    //{
@@ -61,7 +61,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
             //};
         }
 
-        void AddChild(TextElements::IAddChild* child) override
+        void AddChild(IAddChild* child) override
         {
             if (auto image = dynamic_cast<TextElements::MdImage*>(child))
             {
@@ -69,9 +69,9 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
                 _hyperlink = std::make_unique<MdHyperlinkButton>(_url, _baseUrl, _renderer);
                 _hyperlink->AddChild(child);
             }
-            else if (child && child->TextElement().try_as<Inline>())
+            else if (child && child->TextElement().try_as<winrt::Inline>())
             {
-                if (!_hyperlink) _hyperlink = std::make_unique<MdHyperlink>(_url, _baseUrl, _renderer);
+                if (!_hyperlink) _hyperlink = std::make_unique<winrt::MdHyperlink>(_url, _baseUrl, _renderer);
                 _hyperlink->AddChild(child);
             }
             else {

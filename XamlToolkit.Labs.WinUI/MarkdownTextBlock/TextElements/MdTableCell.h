@@ -16,20 +16,20 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
     class MdTableCell final : public IAddChild
     {
     private:
-        Paragraph _paragraph;
+        winrt::Paragraph _paragraph;
         MdFlowDocument _flowDocument;
         bool _isHeader;
         int _columnIndex;
         int _rowIndex;
-        Grid _container;
+        winrt::Grid _container;
 
     public:
-        Microsoft::UI::Xaml::Documents::TextElement TextElement() const override
+        winrt::TextElement TextElement() const override
         {
             return _paragraph;
         }
 
-        Grid Container() const
+        winrt::Grid Container() const
         {
             return _container;
         }
@@ -54,7 +54,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
             return _rowIndex;
         }
 
-        MdTableCell(TextAlignment textAlignment, bool isHeader, int columnIndex, int rowIndex, MarkdownThemes const& themes)
+        MdTableCell(winrt::TextAlignment textAlignment, bool isHeader, int columnIndex, int rowIndex, MarkdownThemes const& themes)
         {
             _isHeader = isHeader;
             _columnIndex = columnIndex;
@@ -67,14 +67,14 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
             {  
                 switch (textAlignment)
                 {
-                    case TextAlignment::Left:
+                    case winrt::TextAlignment::Left:
                         return HorizontalAlignment::Left;
-                    case TextAlignment::Center:
+                    case winrt::TextAlignment::Center:
                         return HorizontalAlignment::Center;
-                    case TextAlignment::Right:
-                        return HorizontalAlignment::Right;
+                    case winrt::TextAlignment::Right:
+                        return winrt::HorizontalAlignment::Right;
                     default:
-                        return HorizontalAlignment::Left;
+                        return winrt::HorizontalAlignment::Left;
                 }
             }());
 
@@ -89,21 +89,20 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
             {
                 switch (textAlignment)
                 {
-                    case
-                    TextAlignment::Left:
-                        return HorizontalAlignment::Left;
-                    case TextAlignment::Center:
-                        return HorizontalAlignment::Center;
-                    case TextAlignment::Right:
-                        return HorizontalAlignment::Right;
+                    case winrt::TextAlignment::Left:
+                        return winrt::HorizontalAlignment::Left;
+                    case winrt::TextAlignment::Center:
+                        return winrt::HorizontalAlignment::Center;
+                    case winrt::TextAlignment::Right:
+                        return winrt::HorizontalAlignment::Right;
                     default:
-                        return HorizontalAlignment::Left;
+                        return winrt::HorizontalAlignment::Left;
                 }
             }());
             _container.Children().Append(_flowDocument.RichTextBlock());
         }
 
-        void AddChild(TextElements::IAddChild* child) override
+        void AddChild(IAddChild* child) override
         {
             _flowDocument.AddChild(child);
         }

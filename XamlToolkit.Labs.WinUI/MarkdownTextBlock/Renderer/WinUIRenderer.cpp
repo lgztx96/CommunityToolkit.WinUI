@@ -36,7 +36,7 @@ namespace winrt::XamlToolkit::Labs::WinUI
 		return _markdownTextBlock;
 	}
 
-	void WinUIRenderer::AddChildToCurrent(TextElements::IAddChild* child)
+	void WinUIRenderer::AddChildToCurrent(IAddChild* child)
 	{
 		if (!_inlineStack.empty()) {
 			_inlineStack.back()->AddChild(child);
@@ -559,7 +559,7 @@ namespace winrt::XamlToolkit::Labs::WinUI
 		AddInlineLeaf(&textLeaf);
 	}
 
-	void WinUIRenderer::AddInline(TextElements::IAddChild* parent, TextElements::IAddChild* child)
+	void WinUIRenderer::AddInline(TextElements::IAddChild* parent, IAddChild* child)
 	{
 		parent->AddChild(child);
 	}

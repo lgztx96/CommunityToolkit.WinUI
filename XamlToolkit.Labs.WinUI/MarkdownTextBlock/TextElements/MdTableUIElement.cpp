@@ -12,7 +12,7 @@
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
-    MdTableUIElement::MdTableUIElement(int columnCount, int rowCount, float borderThickness, Brush const& borderBrush, Brush const& headingBrush, CornerRadius const& cornerRadius, Thickness const& tableMargin)
+    MdTableUIElement::MdTableUIElement(int columnCount, int rowCount, float borderThickness, winrt::Brush const& borderBrush, winrt::Brush const& headingBrush, winrt::CornerRadius const& cornerRadius, winrt::Thickness const& tableMargin)
     {
         _columnCount = columnCount;
         _rowCount = rowCount;
@@ -20,15 +20,15 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         Margin(tableMargin);
         auto children = Children();
         {
-            Border border;
+            winrt::Border border;
             border.Background(headingBrush);
             border.CornerRadius({ cornerRadius.TopLeft, cornerRadius.TopRight, 0, 0 });
             children.Append(border);
         }
 
         {
-            Border border;
-            border.BorderThickness(Thickness(_borderThickness, _borderThickness, _borderThickness, _borderThickness));
+            winrt::Border border;
+            border.BorderThickness(winrt::Thickness(_borderThickness, _borderThickness, _borderThickness, _borderThickness));
             border.CornerRadius(cornerRadius);
             border.BorderBrush(borderBrush);
             children.Append(border);
@@ -36,67 +36,67 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         for (int col = 1; col < columnCount; col++)
         {
-            Rectangle rect;
+            winrt::Rectangle rect;
             rect.Fill(borderBrush);
             children.Append(rect);
         }
 
         for (int row = 1; row < rowCount; row++)
         {
-            Rectangle rect;
+            winrt::Rectangle rect;
             rect.Fill(borderBrush);
             children.Append(rect);
         }
     }
 
     // Helper method to enumerate FrameworkElements instead of UIElements.
-    IVectorView<FrameworkElement> MdTableUIElement::ContentChildren() const
+    winrt::IVectorView<winrt::FrameworkElement> MdTableUIElement::ContentChildren() const
     {
         auto children = Children();
-        auto vector = winrt::single_threaded_vector<FrameworkElement>();
+        auto vector = winrt::single_threaded_vector<winrt::FrameworkElement>();
         for (uint32_t i = _columnCount + _rowCount; i < children.Size(); i++)
         {
-            vector.Append(children.GetAt(i).try_as<FrameworkElement>());
+            vector.Append(children.GetAt(i).try_as<winrt::FrameworkElement>());
         }
 
         return vector.GetView();
     }
 
     // Helper method to get table vertical edges.
-    IVectorView<Rectangle> MdTableUIElement::VerticalLines()
+    winrt::IVectorView<winrt::Rectangle> MdTableUIElement::VerticalLines()
     {
         auto children = Children();
-        auto vector = winrt::single_threaded_vector<Rectangle>();
+        auto vector = winrt::single_threaded_vector<winrt::Rectangle>();
         for (int i = 2; i < _columnCount + 1; i++)
         {
-            vector.Append(children.GetAt(i).try_as<Rectangle>());
+            vector.Append(children.GetAt(i).try_as<winrt::Rectangle>());
         }
 
         return vector.GetView();
     }
 
     // Helper method to get table horizontal edges.
-    IVectorView<Rectangle> MdTableUIElement::HorizontalLines()
+    winrt::IVectorView<winrt::Rectangle> MdTableUIElement::HorizontalLines()
     {
         auto children = Children();
-        auto vector = winrt::single_threaded_vector<Rectangle>();
+        auto vector = winrt::single_threaded_vector<winrt::Rectangle>();
         for (int i = _columnCount + 1; i < _columnCount + _rowCount; i++)
         {
-            vector.Append(children.GetAt(i).try_as<Rectangle>());
+            vector.Append(children.GetAt(i).try_as<winrt::Rectangle>());
         }
 
         return vector.GetView();
     }
 
-    Size MdTableUIElement::MeasureOverride(Size availableSize)
+    winrt::Size MdTableUIElement::MeasureOverride(winrt::Size availableSize)
     {
         // Measure the width of each column, with no horizontal width restrictions.
         std::vector<float> naturalColumnWidths;
         naturalColumnWidths.resize(_columnCount);
         for (const auto& child : ContentChildren())
         {
-            auto columnIndex = Grid::GetColumn(child);
-            child.Measure(Size(std::numeric_limits<float>::infinity(), std::numeric_limits<float>::infinity()));
+            auto columnIndex = winrt::Grid::GetColumn(child);
+            child.Measure(winrt::Size(std::numeric_limits<float>::infinity(), std::numeric_limits<float>::infinity()));
             naturalColumnWidths[columnIndex] = std::max<float>(naturalColumnWidths[columnIndex], child.DesiredSize().Width);
         }
 
@@ -144,17 +144,17 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         _rowHeights.resize(_rowCount);
         for (const auto& child : ContentChildren())
         {
-            auto columnIndex = Grid::GetColumn(child);
-            auto rowIndex = Grid::GetRow(child);
-            child.Measure(Size(_columnWidths[columnIndex], std::numeric_limits<float>::infinity()));
+            auto columnIndex = winrt::Grid::GetColumn(child);
+            auto rowIndex = winrt::Grid::GetRow(child);
+            child.Measure(winrt::Size(_columnWidths[columnIndex], std::numeric_limits<float>::infinity()));
             _rowHeights[rowIndex] = std::max<float>(_rowHeights[rowIndex], child.DesiredSize().Height);
         }
 
-        return Size(std::reduce(_columnWidths.begin(), _columnWidths.end()) + (_borderThickness * (_columnCount + 1)),
+        return winrt::Size(std::reduce(_columnWidths.begin(), _columnWidths.end()) + (_borderThickness * (_columnCount + 1)),
             std::reduce(_rowHeights.begin(), _rowHeights.end()) + ((_rowCount + 1) * _borderThickness));
     }
 
-    Size MdTableUIElement::ArrangeOverride(Size finalSize)
+    winrt::Size MdTableUIElement::ArrangeOverride(winrt::Size finalSize)
     {
         if (_columnWidths.empty() || _rowHeights.empty())
         {
@@ -166,10 +166,10 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         // Arrange content.
         for (const auto& child : ContentChildren())
         {
-            auto columnIndex = Grid::GetColumn(child);
-            auto rowIndex = Grid::GetRow(child);
+            auto columnIndex = winrt::Grid::GetColumn(child);
+            auto rowIndex = winrt::Grid::GetRow(child);
 
-            auto rect = Rect(_borderThickness, 0, 0, 0);
+            winrt::Rect rect(_borderThickness, 0, 0, 0);
 
             for (int col = 0; col < columnIndex; col++)
             {
@@ -194,7 +194,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
             for (const auto& borderLine : VerticalLines())
             {
                 x += _borderThickness + _columnWidths[colIndex];
-                borderLine.Arrange(Rect(x, 0, _borderThickness, finalSize.Height));
+                borderLine.Arrange(winrt::Rect(x, 0, _borderThickness, finalSize.Height));
                 if (colIndex >= static_cast<int>(_columnWidths.size()))
                 {
                     break;
@@ -206,14 +206,14 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         // Arrange horizontal border elements.
         {
-            children.GetAt(0).Arrange(Rect(0, 0, finalSize.Width, _rowHeights[0] + (_borderThickness * 2)));
-            children.GetAt(1).Arrange(Rect(0, 0, finalSize.Width, finalSize.Height));
+            children.GetAt(0).Arrange(winrt::Rect(0, 0, finalSize.Width, _rowHeights[0] + (_borderThickness * 2)));
+            children.GetAt(1).Arrange(winrt::Rect(0, 0, finalSize.Width, finalSize.Height));
             int rowIndex = 0;
             float y = 0;
             for (const auto& borderLine : HorizontalLines())
             {
                 y += _borderThickness + _rowHeights[rowIndex];
-                borderLine.Arrange(Rect(0, y, finalSize.Width, _borderThickness));
+                borderLine.Arrange(winrt::Rect(0, y, finalSize.Width, _borderThickness));
                 if (rowIndex >= static_cast<int>(_rowHeights.size()))
                 {
                     break;

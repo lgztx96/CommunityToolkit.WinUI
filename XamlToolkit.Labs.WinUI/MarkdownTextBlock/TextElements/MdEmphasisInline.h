@@ -25,7 +25,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
     class MdEmphasisInline final : public IAddChild
     {
     private:
-        Span _span;
+        winrt::Span _span;
 
         bool _isBold;
         bool _isItalic;
@@ -38,18 +38,18 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
         {
 		}
 
-        Microsoft::UI::Xaml::Documents::TextElement TextElement() const override
+        winrt::TextElement TextElement() const override
         {
             return _span;
         }
 
-        void AddChild(TextElements::IAddChild* child) override
+        void AddChild(IAddChild* child) override
         {
             try
             {
                 if (auto inlineText = dynamic_cast<const MdInlineText*>(child))
                 {
-                    _span.Inlines().Append(inlineText->TextElement().as<Run>());
+                    _span.Inlines().Append(inlineText->TextElement().as<winrt::Run>());
                 }
                 else if (auto emphasisInline = dynamic_cast<const MdEmphasisInline*>(child))
                 {
@@ -66,40 +66,40 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
             }
         }
 
-        void SetBold(std::optional<FontWeight> const& fontWeight = std::nullopt)
+        void SetBold(std::optional<winrt::FontWeight> const& fontWeight = std::nullopt)
         {
-            _span.FontWeight(fontWeight ? *fontWeight : winrt::Microsoft::UI::Text::FontWeights::Bold());
+            _span.FontWeight(fontWeight ? *fontWeight : winrt::FontWeights::Bold());
             _isBold = true;
         }
 
         void SetItalic()
         {
-            _span.FontStyle(FontStyle::Italic);
+            _span.FontStyle(winrt::FontStyle::Italic);
             _isItalic = true;
         }
 
         void SetStrikeThrough()
         {
 			assert(!_isUnderline);
-            _span.TextDecorations(Windows::UI::Text::TextDecorations::Strikethrough);
+            _span.TextDecorations(winrt::TextDecorations::Strikethrough);
             _isStrikeThrough = true;
         }
 
         void SetUnderline()
         {
 			assert(!_isStrikeThrough);
-            _span.TextDecorations(Windows::UI::Text::TextDecorations::Underline);
+            _span.TextDecorations(winrt::TextDecorations::Underline);
             _isUnderline = true;
         }
 
         void SetSubscript()
         {
-            _span.SetValue(Typography::VariantsProperty(), winrt::box_value(Microsoft::UI::Xaml::FontVariants::Subscript));
+            _span.SetValue(winrt::Typography::VariantsProperty(), winrt::box_value(winrt::FontVariants::Subscript));
         }
 
         void SetSuperscript()
         {
-            _span.SetValue(Typography::VariantsProperty(), winrt::box_value(Microsoft::UI::Xaml::FontVariants::Superscript));
+            _span.SetValue(winrt::Typography::VariantsProperty(), winrt::box_value(winrt::FontVariants::Superscript));
         }
     };
 }
