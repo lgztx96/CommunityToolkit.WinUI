@@ -22,9 +22,9 @@ namespace winrt::XamlToolkit::WinUI::implementation
         }
     }
 
-    void FrameworkElementExtensions::AncestorType_PropertyChanged(DependencyObject const& obj, DependencyPropertyChangedEventArgs const& args)
+    void FrameworkElementExtensions::AncestorType_PropertyChanged(winrt::DependencyObject const& obj, winrt::DependencyPropertyChangedEventArgs const& args)
     {
-        if (auto fe = obj.try_as<FrameworkElement>())
+        if (auto fe = obj.try_as<winrt::FrameworkElement>())
         {
             RemoveHandlers();
 
@@ -48,7 +48,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
         }
     }
 
-    DependencyObject FrameworkElementExtensions::FindAscendant(DependencyObject element, TypeName const& name)
+    winrt::DependencyObject FrameworkElementExtensions::FindAscendant(winrt::DependencyObject element, winrt::TypeName const& name)
     {
         while (true)
         {
@@ -63,9 +63,9 @@ namespace winrt::XamlToolkit::WinUI::implementation
         }
     }
 
-    void FrameworkElementExtensions::FrameworkElement_Loaded(IInspectable const& sender, [[maybe_unused]] RoutedEventArgs const& e)
+    void FrameworkElementExtensions::FrameworkElement_Loaded(winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
     {
-        if (auto fe = sender.try_as<FrameworkElement>())
+        if (auto fe = sender.try_as<winrt::FrameworkElement>())
         {
             SetAncestor(fe, FindAscendant(fe, GetAncestorType(fe)));
             if (const auto it = _handlerStates.find(fe); it != _handlerStates.end())
@@ -76,9 +76,9 @@ namespace winrt::XamlToolkit::WinUI::implementation
         }
     }
 
-    void FrameworkElementExtensions::FrameworkElement_Unloaded(IInspectable const& sender, [[maybe_unused]] RoutedEventArgs const& e)
+    void FrameworkElementExtensions::FrameworkElement_Unloaded(winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
     {
-        if (auto fe = sender.try_as<FrameworkElement>())
+        if (auto fe = sender.try_as<winrt::FrameworkElement>())
         {
             if (const auto it = _handlerStates.find(fe); it != _handlerStates.end()) 
             {
@@ -89,22 +89,22 @@ namespace winrt::XamlToolkit::WinUI::implementation
         }
     }
 
-    IInspectable FrameworkElementExtensions::GetAncestor(DependencyObject const& obj)
+    winrt::IInspectable FrameworkElementExtensions::GetAncestor(winrt::DependencyObject const& obj)
     {
         return obj.GetValue(AncestorProperty);
     }
 
-    void FrameworkElementExtensions::SetAncestor(DependencyObject const& obj, IInspectable const& value)
+    void FrameworkElementExtensions::SetAncestor(winrt::DependencyObject const& obj, winrt::IInspectable const& value)
     {
         obj.SetValue(AncestorProperty, value);
     }
 
-    TypeName FrameworkElementExtensions::GetAncestorType(FrameworkElement const& obj)
+    winrt::TypeName FrameworkElementExtensions::GetAncestorType(winrt::FrameworkElement const& obj)
     {
-        return winrt::unbox_value<TypeName>(obj.GetValue(AncestorTypeProperty));
+        return winrt::unbox_value<winrt::TypeName>(obj.GetValue(AncestorTypeProperty));
     }
 
-    void FrameworkElementExtensions::SetAncestorType(FrameworkElement const& obj, TypeName const& value)
+    void FrameworkElementExtensions::SetAncestorType(winrt::FrameworkElement const& obj, winrt::TypeName const& value)
     {
         obj.SetValue(AncestorTypeProperty, winrt::box_value(value));
     }
