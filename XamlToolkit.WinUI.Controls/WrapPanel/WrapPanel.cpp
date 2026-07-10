@@ -45,7 +45,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
             winrt::xaml_typename<class_type>(),
             winrt::PropertyMetadata(winrt::box_value(StretchChild::None), &WrapPanel::LayoutPropertyChanged));
 
-    void WrapPanel::LayoutPropertyChanged(DependencyObject const& d, [[maybe_unused]] DependencyPropertyChangedEventArgs const& e)
+    void WrapPanel::LayoutPropertyChanged(winrt::DependencyObject const& d, [[maybe_unused]] DependencyPropertyChangedEventArgs const& e)
     {
         if (const auto wp = d.try_as<class_type>())
         {
