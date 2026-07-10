@@ -12,17 +12,17 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
     }
 
-	void HeaderedItemsControl::OnFooterChanged([[maybe_unused]] IInspectable const& oldValue, [[maybe_unused]] IInspectable const& newValue) {}
+	void HeaderedItemsControl::OnFooterChanged([[maybe_unused]] winrt::IInspectable const& oldValue, [[maybe_unused]] winrt::IInspectable const& newValue) {}
 
-	void HeaderedItemsControl::OnHeaderChanged([[maybe_unused]] IInspectable const& oldValue, [[maybe_unused]] IInspectable const& newValue) {}
+	void HeaderedItemsControl::OnHeaderChanged([[maybe_unused]] winrt::IInspectable const& oldValue, [[maybe_unused]] winrt::IInspectable const& newValue) {}
 
-	void HeaderedItemsControl::OnFooterChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e)
+	void HeaderedItemsControl::OnFooterChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e)
 	{
 		auto control = winrt::get_self<HeaderedItemsControl>(d.as<class_type>())->get_strong();
 		control->OnFooterChanged(e.OldValue(), e.NewValue());
 	}
 
-	void HeaderedItemsControl::OnHeaderChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e)
+	void HeaderedItemsControl::OnHeaderChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e)
 	{
 		auto control = winrt::get_self<HeaderedItemsControl>(d.as<class_type>())->get_strong();
 		control->OnHeaderChanged(e.OldValue(), e.NewValue());
