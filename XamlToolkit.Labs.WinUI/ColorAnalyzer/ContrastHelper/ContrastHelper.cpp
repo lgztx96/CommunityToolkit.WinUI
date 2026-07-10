@@ -8,17 +8,17 @@
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
-    void ContrastHelper::ApplyContrastCheck(DependencyObject const& d)
+    void ContrastHelper::ApplyContrastCheck(winrt::DependencyObject const& d)
     {
-        DependencyProperty dp{ nullptr };
+        winrt::DependencyProperty dp{ nullptr };
         // Grab brush to update
         auto brush = FindBrush(d, &dp);
         if (brush == nullptr)
             return;
 
         // Retrieve colors to compare
-        Color base = GetOriginalColor(d);
-        Color opponent = GetOpponent(d);
+        winrt::Color base = GetOriginalColor(d);
+        winrt::Color opponent = GetOpponent(d);
 
         // Transparent is a sentinel value to say contrast ensurance should applied
         // regardless of contrast ratio
@@ -43,45 +43,45 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         UpdateContrastedProperties(d, contrastingColor);
     }
 
-    SolidColorBrush ContrastHelper::FindBrush(DependencyObject const& d, DependencyProperty* dp)
+    winrt::SolidColorBrush ContrastHelper::FindBrush(winrt::DependencyObject const& d, winrt::DependencyProperty* dp)
     {
-        if (auto brush = d.try_as<SolidColorBrush>())
+        if (auto brush = d.try_as<winrt::SolidColorBrush>())
         {
-            *dp = SolidColorBrush::ColorProperty();
+            *dp = winrt::SolidColorBrush::ColorProperty();
             return brush;
         }
 
-        if (auto tb = d.try_as<TextBlock>())
+        if (auto tb = d.try_as<winrt::TextBlock>())
         {
-            *dp = TextBlock::ForegroundProperty();
-            return tb.Foreground().try_as<SolidColorBrush>();
+            *dp = winrt::TextBlock::ForegroundProperty();
+            return tb.Foreground().try_as<winrt::SolidColorBrush>();
         }
 
-        if (auto ctrl = d.try_as<Control>())
+        if (auto ctrl = d.try_as<winrt::Control>())
         {
-            *dp = Control::ForegroundProperty();
-            return ctrl.Foreground().try_as<SolidColorBrush>();
+            *dp = winrt::Control::ForegroundProperty();
+            return ctrl.Foreground().try_as<winrt::SolidColorBrush>();
         }
 
         return nullptr;
     }
 
-    void ContrastHelper::UpdateContrastedProperties(DependencyObject const& d, winrt::Windows::UI::Color color)
+    void ContrastHelper::UpdateContrastedProperties(winrt::DependencyObject const& d, winrt::Windows::UI::Color color)
     {
         // Block the original color from updating
         _selfUpdate = true;
 
-        if (auto b = d.try_as<SolidColorBrush>())
+        if (auto b = d.try_as<winrt::SolidColorBrush>())
         {
             b.Color(color);
         }
-        else if (auto t = d.try_as<TextBlock>())
+        else if (auto t = d.try_as<winrt::TextBlock>())
         {
-            t.Foreground(SolidColorBrush{ color });
+            t.Foreground(winrt::SolidColorBrush{ color });
         }
-        else if (auto c = d.try_as<Control>())
+        else if (auto c = d.try_as<winrt::Control>())
         {
-            c.Foreground(SolidColorBrush{ color });
+            c.Foreground(winrt::SolidColorBrush{ color });
         }
 
         // Calculate the actual ratio, between the opponent and the actual color

@@ -4,7 +4,7 @@
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
-    void ContrastHelper::OnOpponentChanged(DependencyObject const& d, [[maybe_unused]] DependencyPropertyChangedEventArgs const& e)
+    void ContrastHelper::OnOpponentChanged(winrt::DependencyObject const& d, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& e)
     {
         // Subscribe to brush updates if not already
         if (GetCallbackObject(d) == nullptr)
@@ -16,7 +16,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         ApplyContrastCheck(d);
     }
 
-    void ContrastHelper::OnMinRatioChanged(DependencyObject const& d, [[maybe_unused]] DependencyPropertyChangedEventArgs const& e)
+    void ContrastHelper::OnMinRatioChanged(winrt::DependencyObject const& d, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& e)
     {
         // No opponent has been set, nothing to do
         if (GetCallback(d) == 0)
@@ -26,7 +26,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         ApplyContrastCheck(d);
     }
 
-    void ContrastHelper::OnOriginalChangedFromSource(DependencyObject const& obj, DependencyObject const& sender, [[maybe_unused]] DependencyProperty const& prop)
+    void ContrastHelper::OnOriginalChangedFromSource(winrt::DependencyObject const& obj, winrt::DependencyObject const& sender, [[maybe_unused]] winrt::DependencyProperty const& prop)
     {
         // The contrast helper is updating the color
         // Ignore the assignment.
@@ -36,7 +36,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         // Get the original color from the brush.
         // We use the sender, not the obj, because the sender is the object that changed.
         // Use Transparent as a sentinel value if the brush is not a SolidColorBrush
-		DependencyProperty dp{ nullptr };
+        winrt::DependencyProperty dp{ nullptr };
         auto brush = FindBrush(sender, &dp);
         auto color = brush ? brush.Color() : winrt::Microsoft::UI::Colors::Transparent();
 
@@ -46,7 +46,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         // The sender is the Foreground property, not the brush itself.
         // This means the brush changed and our callback on the brush is dead.
         // We need to subscribe to the new brush if it's a SolidColorBrush.
-        if (!sender.try_as<SolidColorBrush>())
+        if (!sender.try_as<winrt::SolidColorBrush>())
         {
             // Subscribe to the new brush
             // Notice we're finding the brush on the object, not the sender this time.
@@ -59,11 +59,11 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         ApplyContrastCheck(obj);
     }
 
-    void ContrastHelper::SubscribeToUpdates(DependencyObject const& d)
+    void ContrastHelper::SubscribeToUpdates(winrt::DependencyObject const& d)
     {
         // Get the original color from the brush and the property to monitor.
         // Use Transparent as a sentinel value if the brush is not a SolidColorBrush
-        DependencyProperty dp{ nullptr };
+        winrt::DependencyProperty dp{ nullptr };
         auto solidColorBrush = FindBrush(d, &dp);
         auto color = solidColorBrush ? solidColorBrush.Color() : winrt::Microsoft::UI::Colors::Transparent();
 
@@ -75,7 +75,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         // Foreground property. We just can't monitor the brush's Color property
 
         // If the original is not a SolidColorBrush, we need to monitor the Foreground property
-        if (!d.try_as< SolidColorBrush>())
+        if (!d.try_as<winrt::SolidColorBrush>())
         {
             // Subscribe to updates from the source Foreground
             d.RegisterPropertyChangedCallback(dp, [=](auto&& sender, auto&& prop)
@@ -89,7 +89,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         SubscribeToBrushUpdates(d, solidColorBrush);
     }
 
-    void ContrastHelper::SubscribeToBrushUpdates(DependencyObject const& d, SolidColorBrush const& brush)
+    void ContrastHelper::SubscribeToBrushUpdates(winrt::DependencyObject const& d, winrt::SolidColorBrush const& brush)
     {
         // No brush, nothing to do
         if (brush == nullptr)
@@ -98,10 +98,10 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         // Unsubscribe from previous brush if any
         auto oldBrush = GetCallbackObject(d);
         auto oldCallback = GetCallback(d);
-        if (oldBrush) oldBrush.UnregisterPropertyChangedCallback(SolidColorBrush::ColorProperty(), oldCallback);
+        if (oldBrush) oldBrush.UnregisterPropertyChangedCallback(winrt::SolidColorBrush::ColorProperty(), oldCallback);
 
         // Subscribe to updates from the source SolidColorBrush
-        auto callback = brush.RegisterPropertyChangedCallback(SolidColorBrush::ColorProperty(), [=](auto&& sender, auto&& prop)
+        auto callback = brush.RegisterPropertyChangedCallback(winrt::SolidColorBrush::ColorProperty(), [=](auto&& sender, auto&& prop)
         {
             OnOriginalChangedFromSource(d, sender, prop);
         });
