@@ -11,7 +11,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
     {
         DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
         RenderTransform(_layoutTransform);
-        ManipulationMode(ManipulationModes::TranslateX | ManipulationModes::TranslateY);
+        ManipulationMode(winrt::ManipulationModes::TranslateX | winrt::ManipulationModes::TranslateY);
         SizeChanged({ get_weak(), &ImageCropperThumb::ImageCropperThumb_SizeChanged });
     }
 
@@ -25,63 +25,63 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
     void ImageCropperThumb::UpdatePosition()
     {
-        if (_layoutTransform != nullptr)
+        if (_layoutTransform)
         {
             _layoutTransform.X(X() - (ActualWidth() / 2));
             _layoutTransform.Y(Y() - (ActualHeight() / 2));
         }
     }
 
-    void ImageCropperThumb::OnXChanged(DependencyObject const& d, [[maybe_unused]] DependencyPropertyChangedEventArgs const& e)
+    void ImageCropperThumb::OnXChanged(winrt::DependencyObject const& d, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& e)
     {
         auto target = winrt::get_self<ImageCropperThumb>(d.as<class_type>())->get_strong();
         target->UpdatePosition();
     }
 
-    void ImageCropperThumb::OnYChanged(DependencyObject const& d, [[maybe_unused]] DependencyPropertyChangedEventArgs const& e)
+    void ImageCropperThumb::OnYChanged(winrt::DependencyObject const& d, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& e)
     {
         auto target = winrt::get_self<ImageCropperThumb>(d.as<class_type>())->get_strong();
         target->UpdatePosition();
     }
 
-    void ImageCropperThumb::Control_PointerExited([[maybe_unused]] winrt::Windows::Foundation::IInspectable const& sender, PointerRoutedEventArgs const& e)
+    void ImageCropperThumb::Control_PointerExited([[maybe_unused]] winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e)
     {
         base_type::OnPointerExited(e);
-        VisualStateManager::GoToState(*this, NormalState, true);
+        winrt::VisualStateManager::GoToState(*this, NormalState, true);
     }
 
-    void ImageCropperThumb::OnPointerPressed(PointerRoutedEventArgs const& e)
+    void ImageCropperThumb::OnPointerPressed(winrt::PointerRoutedEventArgs const& e)
     {
         base_type::OnPointerPressed(e);
-        VisualStateManager::GoToState(*this, PressedState, true);
+        winrt::VisualStateManager::GoToState(*this, PressedState, true);
     }
 
-    void ImageCropperThumb::OnPointerReleased(PointerRoutedEventArgs const& e)
+    void ImageCropperThumb::OnPointerReleased(winrt::PointerRoutedEventArgs const& e)
     {
         base_type::OnPointerReleased(e);
-        VisualStateManager::GoToState(*this, NormalState, true);
+        winrt::VisualStateManager::GoToState(*this, NormalState, true);
     }
 
-    void ImageCropperThumb::Control_PointerEntered([[maybe_unused]] winrt::Windows::Foundation::IInspectable const& sender, PointerRoutedEventArgs const& e)
+    void ImageCropperThumb::Control_PointerEntered([[maybe_unused]] winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e)
     {
         base_type::OnPointerEntered(e);
-        VisualStateManager::GoToState(*this, PointerOverState, true);
+        winrt::VisualStateManager::GoToState(*this, PointerOverState, true);
     }
 
-    void ImageCropperThumb::ImageCropperThumb_SizeChanged([[maybe_unused]] winrt::Windows::Foundation::IInspectable const& sender, [[maybe_unused]] SizeChangedEventArgs const& e)
+    void ImageCropperThumb::ImageCropperThumb_SizeChanged([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::SizeChangedEventArgs const& e)
     {
         UpdatePosition();
     }
 
-    void ImageCropperThumb::Control_PointerCaptureLost([[maybe_unused]] winrt::Windows::Foundation::IInspectable const& sender, PointerRoutedEventArgs const& e)
+    void ImageCropperThumb::Control_PointerCaptureLost([[maybe_unused]] winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e)
     {
         base_type::OnPointerCaptureLost(e);
-        VisualStateManager::GoToState(*this, NormalState, true);
+        winrt::VisualStateManager::GoToState(*this, NormalState, true);
     }
 
-    void ImageCropperThumb::Control_PointerCanceled([[maybe_unused]] winrt::Windows::Foundation::IInspectable const& sender, PointerRoutedEventArgs const& e)
+    void ImageCropperThumb::Control_PointerCanceled([[maybe_unused]] winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e)
     {
         base_type::OnPointerCanceled(e);
-        VisualStateManager::GoToState(*this, NormalState, true);
+        winrt::VisualStateManager::GoToState(*this, NormalState, true);
     }
 }
