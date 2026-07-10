@@ -2,8 +2,6 @@
 #include "StaggeredItem.h"
 
 #ifdef __INTELLISENSE__
-#include <winrt/Windows.Foundation.h>
-#include <winrt/Microsoft.UI.Xaml.h>
 #include <vector>
 #endif
 
