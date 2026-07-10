@@ -11,46 +11,46 @@
 
 namespace winrt
 {
-	using namespace Microsoft::UI::Xaml;
-	using namespace Microsoft::UI::Xaml::Controls;
 	using namespace Microsoft::UI::Xaml::Hosting;
 	using namespace Microsoft::UI::Composition;
 }
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
-    const wil::single_threaded_property<DependencyProperty> ItemsReorderAnimation::DurationProperty = DependencyProperty::RegisterAttached(
-        L"Duration",
-        winrt::xaml_typename<winrt::Windows::Foundation::TimeSpan>(),
-        winrt::xaml_typename<class_type>(),
-        nullptr);
+    const wil::single_threaded_property<winrt::DependencyProperty> ItemsReorderAnimation::DurationProperty = 
+        winrt::DependencyProperty::RegisterAttached(
+            L"Duration",
+            winrt::xaml_typename<winrt::TimeSpan>(),
+            winrt::xaml_typename<class_type>(),
+            nullptr);
 
-    const wil::single_threaded_property<DependencyProperty> ItemsReorderAnimation::ReorderAnimationProperty = DependencyProperty::RegisterAttached(
-        L"ReorderAnimation",
-        winrt::xaml_typename<ImplicitAnimationCollection>(),
-        winrt::xaml_typename<class_type>(),
-        nullptr);
+    const wil::single_threaded_property<winrt::DependencyProperty> ItemsReorderAnimation::ReorderAnimationProperty = 
+        winrt::DependencyProperty::RegisterAttached(
+            L"ReorderAnimation",
+            winrt::xaml_typename<winrt::ImplicitAnimationCollection>(),
+            winrt::xaml_typename<class_type>(),
+            nullptr);
 
-    winrt::Windows::Foundation::TimeSpan ItemsReorderAnimation::GetDuration(ListViewBase const& listView)
+    winrt::TimeSpan ItemsReorderAnimation::GetDuration(winrt::ListViewBase const& listView)
     {
-        return winrt::unbox_value<winrt::Windows::Foundation::TimeSpan>(listView.GetValue(DurationProperty));
+        return winrt::unbox_value<winrt::TimeSpan>(listView.GetValue(DurationProperty()));
     }
 
-    void ItemsReorderAnimation::SetDuration(ListViewBase const& listView, winrt::Windows::Foundation::TimeSpan const& value)
+    void ItemsReorderAnimation::SetDuration(winrt::ListViewBase const& listView, winrt::TimeSpan const& value)
     {
-        listView.SetValue(DurationProperty, winrt::box_value(value));
+        listView.SetValue(DurationProperty(), winrt::box_value(value));
     }
 
-    void ItemsReorderAnimation::OnDurationChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e)
+    void ItemsReorderAnimation::OnDurationChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e)
     {
-        if (Windows::ApplicationModel::DesignMode::DesignModeEnabled())
+        if (winrt::Windows::ApplicationModel::DesignMode::DesignModeEnabled())
         {
             return;
         }
 
-        if (auto listView = d.try_as<ListViewBase>())
+        if (auto listView = d.try_as<winrt::ListViewBase>())
         {
-            auto duration = winrt::unbox_value<winrt::Windows::Foundation::TimeSpan>(e.NewValue());
+            auto duration = winrt::unbox_value<winrt::TimeSpan>(e.NewValue());
             AssignReorderAnimation(listView, duration);
 
             listView.ContainerContentChanging({ &ItemsReorderAnimation::OnContainerContentChanging });
@@ -58,19 +58,19 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         }
     }
 
-    void ItemsReorderAnimation::AssignReorderAnimation(ListViewBase const& listView, winrt::Windows::Foundation::TimeSpan const& duration)
+    void ItemsReorderAnimation::AssignReorderAnimation(winrt::ListViewBase const& listView, winrt::TimeSpan const& duration)
     {
-        auto visual = ElementCompositionPreview::GetElementVisual(listView);
+        auto visual = winrt::ElementCompositionPreview::GetElementVisual(listView);
         auto compositor = visual.Compositor();
-        auto animationCollection = listView.GetValue(ReorderAnimationProperty).try_as<ImplicitAnimationCollection>();
+        auto animationCollection = listView.GetValue(ReorderAnimationProperty()).try_as<winrt::ImplicitAnimationCollection>();
 
         if (!animationCollection)
         {
             animationCollection = compositor.CreateImplicitAnimationCollection();
-            listView.SetValue(ReorderAnimationProperty, animationCollection);
+            listView.SetValue(ReorderAnimationProperty(), animationCollection);
         }
 
-        if (duration == winrt::Windows::Foundation::TimeSpan{ 0 })
+        if (duration == winrt::TimeSpan{ 0 })
         {
             animationCollection.Remove(L"Offset");
         }
@@ -88,7 +88,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         }
     }
 
-    void ItemsReorderAnimation::OnContainerContentChanging(ListViewBase const& sender, ContainerContentChangingEventArgs const& args)
+    void ItemsReorderAnimation::OnContainerContentChanging(winrt::ListViewBase const& sender, winrt::ContainerContentChangingEventArgs const& args)
     {
         if (args.InRecycleQueue())
         {
@@ -96,13 +96,13 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         }
         else
         {
-            auto visual = ElementCompositionPreview::GetElementVisual(args.ItemContainer());
-            auto animationCollection = sender.GetValue(ReorderAnimationProperty).try_as<ImplicitAnimationCollection>();
+            auto visual = winrt::ElementCompositionPreview::GetElementVisual(args.ItemContainer());
+            auto animationCollection = sender.GetValue(ReorderAnimationProperty()).try_as<winrt::ImplicitAnimationCollection>();
             visual.ImplicitAnimations(animationCollection);
         }
     }
 
-    void ItemsReorderAnimation::OnChoosingItemContainer([[maybe_unused]] ListViewBase const& sender, ChoosingItemContainerEventArgs const& args)
+    void ItemsReorderAnimation::OnChoosingItemContainer([[maybe_unused]] winrt::ListViewBase const& sender, winrt::ChoosingItemContainerEventArgs const& args)
     {
         if (args.ItemContainer())
         {
@@ -110,10 +110,10 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         }
     }
 
-    void ItemsReorderAnimation::PokeUIElementZIndex(UIElement const& element)
+    void ItemsReorderAnimation::PokeUIElementZIndex(winrt::UIElement const& element)
     {
-        auto oldZIndex = Controls::Canvas::GetZIndex(element);
-        Controls::Canvas::SetZIndex(element, oldZIndex + 1);
-        Controls::Canvas::SetZIndex(element, oldZIndex);
+        auto oldZIndex = winrt::Canvas::GetZIndex(element);
+        winrt::Canvas::SetZIndex(element, oldZIndex + 1);
+        winrt::Canvas::SetZIndex(element, oldZIndex);
     }
 }

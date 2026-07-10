@@ -4,6 +4,7 @@
 #include "Xaml/AnimationDictionary.h"
 
 #ifdef __INTELLISENSE__
+#include <winrt/Microsoft.UI.Xaml.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
 #endif
@@ -11,7 +12,6 @@
 namespace winrt
 {
     using namespace Microsoft::UI::Xaml;
-    using namespace XamlToolkit::WinUI::Animations;
 }
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
@@ -27,12 +27,12 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         /// <summary>
         /// Gets the value of the AnimationsProperty property.
         /// </summary>
-        static Animations::AnimationDictionary GetAnimations(winrt::UIElement const& element);
+        static winrt::XamlToolkit::WinUI::Animations::AnimationDictionary GetAnimations(winrt::UIElement const& element);
 
         /// <summary>
         /// Sets the value of the AnimationsProperty property.
         /// </summary>
-        static void SetAnimations(winrt::UIElement const& element, winrt::AnimationDictionary const& value);
+        static void SetAnimations(winrt::UIElement const& element, winrt::XamlToolkit::WinUI::Animations::AnimationDictionary const& value);
 
         /// <summary>
         /// Identifies the AnimationsProperty dependency property.
