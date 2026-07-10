@@ -38,7 +38,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
             if (childrenCount > 0)
             {
                 auto childElement = winrt::VisualTreeHelper::GetChild(element, 0).try_as<winrt::FrameworkElement>();
-                if (childElement != nullptr)
+                if (childElement)
                 {
                     visualStateGroups = winrt::VisualStateManager::GetVisualStateGroups(childElement);
                 }
@@ -67,7 +67,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         if (VisualStateUtilities::HasVisualStateGroupsDefined(currentElement))
         {
             auto templatedParent = winrt::VisualTreeHelper::GetParent(currentElement).try_as<winrt::Controls::Control>();
-            if (templatedParent != nullptr)
+            if (templatedParent)
             {
                 return templatedParent;
             }
@@ -80,7 +80,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
     bool VisualStateUtilities::HasVisualStateGroupsDefined(winrt::FrameworkElement const& element)
     {
-        return element != nullptr && winrt::VisualStateManager::GetVisualStateGroups(element).Size() != 0;
+        return element && winrt::VisualStateManager::GetVisualStateGroups(element).Size() != 0;
     }
 
     bool VisualStateUtilities::ShouldContinueTreeWalk(winrt::FrameworkElement const& element)
@@ -90,7 +90,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
             return false;
         }
 
-        if (element.try_as<winrt::Controls::UserControl>() != nullptr)
+        if (element.try_as<winrt::Controls::UserControl>())
         {
             return false;
         }

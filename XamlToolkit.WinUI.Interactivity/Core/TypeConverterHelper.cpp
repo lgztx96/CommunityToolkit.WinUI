@@ -31,7 +31,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity
         auto xaml = winrt::format(ContentControlFormatString, scope, type, value);
 
         auto contentControl = winrt::Markup::XamlReader::Load(xaml).try_as<winrt::Controls::ContentControl>();
-        if (contentControl != nullptr)
+        if (contentControl)
         {
             return contentControl.Content();
         }

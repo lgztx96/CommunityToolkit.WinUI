@@ -58,7 +58,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 //		elementBounds.Y += offsetY;
 //
 //		// Get size of window itself
-//		auto windowBounds = IsXamlRootAvailable() && element.XamlRoot() != nullptr
+//		auto windowBounds = IsXamlRootAvailable() && element.XamlRoot()
 //			? element.XamlRoot().Size().ToRect()
 //			: ApplicationView::GetForCurrentView().VisibleBounds.ToSize().ToRect(); // Normalize
 //

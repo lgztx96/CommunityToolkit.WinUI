@@ -312,7 +312,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	void SettingsCard::CheckVerticalSpacingState(winrt::VisualState const& s)
 	{
 		// On state change, checking if the Content should be wrapped (e.g. when the card is made smaller or the ContentAlignment is set to Vertical). If the Content and the Header or Description are not null, we add spacing between the Content and the Header/Description.
-		if (s != nullptr && (s.Name() == RightWrappedState || s.Name() == RightWrappedNoIconState || s.Name() == VerticalState) && (Content() != nullptr) && (!IsNullOrEmptyString(Header()) || !IsNullOrEmptyString(Description())))
+		if (s && (s.Name() == RightWrappedState || s.Name() == RightWrappedNoIconState || s.Name() == VerticalState) && (Content()) && (!IsNullOrEmptyString(Header()) || !IsNullOrEmptyString(Description())))
 		{
 			winrt::VisualStateManager::GoToState(*this, ContentSpacingState, true);
 		}
@@ -324,7 +324,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 	winrt::FrameworkElement SettingsCard::GetFocusedElement()
 	{
-		if (ControlHelpers::IsXamlRootAvailable() && XamlRoot() != nullptr)
+		if (ControlHelpers::IsXamlRootAvailable() && XamlRoot())
 		{
 			return winrt::FocusManager::GetFocusedElement(XamlRoot()).try_as<winrt::FrameworkElement>();
 		}

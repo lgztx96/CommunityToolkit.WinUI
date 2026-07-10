@@ -44,7 +44,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 				return;
 			}
 
-			if (_associatedObject != nullptr)
+			if (_associatedObject)
 			{
 				throw winrt::hresult_error(E_FAIL, ResourceHelper::CannotAttachBehaviorMultipleTimesExceptionMessage());
 			}

@@ -59,14 +59,14 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
             return;
         }
 
-        if (_resolvedSource != nullptr)
+        if (_resolvedSource)
         {
             UnregisterEvent(EventName());
         }
 
         _resolvedSource = newSource;
 
-        if (_resolvedSource != nullptr)
+        if (_resolvedSource)
         {
             RegisterEvent(EventName());
         }
@@ -98,7 +98,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         else if (!_isLoadedEventRegistered)
         {
             auto element = _resolvedSource.try_as<winrt::FrameworkElement>();
-            if (element != nullptr && !IsElementLoaded(element))
+            if (element && !IsElementLoaded(element))
             {
                 _isLoadedEventRegistered = true;
                 _loadedToken = element.Loaded({ this, &EventTriggerBehavior::OnEvent });
@@ -179,7 +179,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
             parent = winrt::VisualTreeHelper::GetParent(element);
         }
 
-        return (parent != nullptr || (rootVisual != nullptr && element == rootVisual));
+        return (parent || (rootVisual && element == rootVisual));
     }
 }
 

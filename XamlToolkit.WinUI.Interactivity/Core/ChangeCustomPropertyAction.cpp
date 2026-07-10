@@ -83,12 +83,12 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
     {
         auto customPropertyProvider = targetObject.try_as<winrt::ICustomPropertyProvider>();
         winrt::ICustomProperty property{ nullptr };
-        if (customPropertyProvider != nullptr)
+        if (customPropertyProvider)
         {
             property = customPropertyProvider.GetCustomProperty(propertyPath);
         }
 
-        auto targetTypeName = customPropertyProvider != nullptr ? TypeNameToString(customPropertyProvider.Type()) : winrt::hstring{ L"Object" };
+        auto targetTypeName = customPropertyProvider ? TypeNameToString(customPropertyProvider.Type()) : winrt::hstring{ L"Object" };
         ValidateProperty(targetTypeName, property, propertyPath);
 
         try
@@ -98,7 +98,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         catch (winrt::hresult_error const&)
         {
             auto value = Value();
-            auto incomingTypeName = value != nullptr ? winrt::get_class_name(value) : winrt::hstring{ L"null" };
+            auto incomingTypeName = value ? winrt::get_class_name(value) : winrt::hstring{ L"null" };
             auto propertyTypeName = TypeNameToString(property.Type());
             auto message = ResourceHelper::Format(winrt::XamlToolkit::WinUI::Interactivity::ResourceHelper::ChangePropertyActionCannotSetValueExceptionMessage(), incomingTypeName, propertyPath, propertyTypeName);
             throw winrt::hresult_invalid_argument(message);
@@ -139,7 +139,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
             catch (winrt::hresult_error const&)
             {
                 auto converted = winrt::XamlToolkit::WinUI::Interactivity::TypeConverterHelper::Convert(asString, TypeNameToString(propertyType));
-                if (converted != nullptr)
+                if (converted)
                 {
                     return converted;
                 }

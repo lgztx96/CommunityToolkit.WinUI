@@ -83,12 +83,12 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
             return;
         }
 
-        if (oldCollection != nullptr && oldCollection.AssociatedObject() != nullptr)
+        if (oldCollection && oldCollection.AssociatedObject())
         {
             oldCollection.Detach();
         }
 
-        if (newCollection != nullptr && sender != nullptr)
+        if (newCollection && sender)
         {
             newCollection.Attach(sender);
         }

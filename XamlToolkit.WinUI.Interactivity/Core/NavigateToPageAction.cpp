@@ -82,7 +82,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
         // If the sender wasn't an INavigate, then keep looking up the tree from the
         // root we were given for another INavigate.
-        while (senderObject != nullptr && navigateElement == nullptr)
+        while (senderObject && navigateElement == nullptr)
         {
             navigateElement = senderObject.try_as<winrt::Controls::INavigate>();
             if (navigateElement == nullptr)
@@ -98,7 +98,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
         if (auto frame = navigateElement.try_as<winrt::Frame>())
         {
-            auto navigationParameter = Parameter() != nullptr ? Parameter() : parameter;
+            auto navigationParameter = Parameter() ? Parameter() : parameter;
             return winrt::box_value(frame.Navigate(xamlType.UnderlyingType(), navigationParameter));
         }
         else

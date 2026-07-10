@@ -94,7 +94,7 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
 
     bool ConnectionInformation::IsInternetOnMeteredConnection()
     {
-        return _connectionCost != nullptr && _connectionCost.NetworkCostType() != winrt::Windows::Networking::Connectivity::NetworkCostType::Unrestricted;
+        return _connectionCost && _connectionCost.NetworkCostType() != winrt::Windows::Networking::Connectivity::NetworkCostType::Unrestricted;
     }
 
     bool ConnectionInformation::IsInternetAvailable() { return _isInternetAvailable; }

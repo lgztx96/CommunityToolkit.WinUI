@@ -32,7 +32,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
             OnValueChanged(*args);
         }
 
-        if (_toolTip != nullptr)
+        if (_toolTip)
         {
             _toolTip.IsOpen(false);
         }
@@ -65,7 +65,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
         SyncThumbs();
 
-        if (_toolTip != nullptr)
+        if (_toolTip)
         {
             _toolTip.IsOpen(false);
         }
@@ -78,14 +78,14 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         if (_pointerManipulatingMin)
         {
             RangeStart(DragThumb(_minThumb, 0, DragLength(), position));
-            if (_toolTip != nullptr)
+            if (_toolTip)
             {
                 UpdateToolTip(_minThumb, RangeStart());
             }
         }
         else if (_pointerManipulatingMax)
         {
-            if (_toolTipText != nullptr)
+            if (_toolTipText)
             {
                 RangeEnd(DragThumb(_maxThumb, 0, DragLength(), position));
                 UpdateToolTip(_maxThumb, RangeEnd());
@@ -108,7 +108,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         {
             RangeEnd(normalizedPosition);
             _pointerManipulatingMax = true;
-            if (_maxThumb != nullptr)
+            if (_maxThumb)
             {
                 Thumb_DragStarted(_maxThumb);
             }
@@ -117,7 +117,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         {
             RangeStart(normalizedPosition);
             _pointerManipulatingMin = true;
-            if (_minThumb != nullptr)
+            if (_minThumb)
             {
                 Thumb_DragStarted(_minThumb);
             }

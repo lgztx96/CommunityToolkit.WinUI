@@ -38,12 +38,12 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 			return;
 		}
 
-		if (_associatedObject != nullptr)
+		if (_associatedObject)
 		{
 			throw winrt::hresult_error(E_FAIL, ResourceHelper::CannotAttachBehaviorMultipleTimesExceptionMessage());
 		}
 
-		WINRT_ASSERT(associatedObject != nullptr);
+		WINRT_ASSERT(associatedObject);
 		_associatedObject = associatedObject;
 
 		for (winrt::DependencyObject const& item : *this)
@@ -56,7 +56,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 	{
 		for (auto const& item : _oldCollection)
 		{
-			if (item.AssociatedObject() != nullptr)
+			if (item.AssociatedObject())
 			{
 				item.Detach();
 			}
@@ -76,7 +76,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 		{
 			for (auto const& behavior : _oldCollection)
 			{
-				if (behavior.AssociatedObject() != nullptr)
+				if (behavior.AssociatedObject())
 				{
 					behavior.Detach();
 				}
@@ -113,7 +113,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 		case winrt::CollectionChange::ItemChanged:
 		{
 			auto const& oldItem = _oldCollection[eventIndex];
-			if (oldItem.AssociatedObject() != nullptr)
+			if (oldItem.AssociatedObject())
 			{
 				oldItem.Detach();
 			}
@@ -125,7 +125,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 		case winrt::CollectionChange::ItemRemoved:
 		{
 			auto const& oldItem = _oldCollection[eventIndex];
-			if (oldItem.AssociatedObject() != nullptr)
+			if (oldItem.AssociatedObject())
 			{
 				oldItem.Detach();
 			}
