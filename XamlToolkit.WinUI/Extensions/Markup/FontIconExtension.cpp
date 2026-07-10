@@ -7,14 +7,14 @@
 
 namespace winrt::XamlToolkit::WinUI::implementation
 {
-	winrt::Windows::Foundation::IInspectable FontIconExtension::ProvideValue() const
+	winrt::IInspectable FontIconExtension::ProvideValue() const
 	{
 		if (Glyph().empty()) {
 			throw hresult_invalid_argument(
 				L"Glyph property must be set on FontIconExtension before calling ProvideValue.");
 		}
 
-		FontIcon fontIcon;
+		winrt::FontIcon fontIcon;
 		fontIcon.Glyph(Glyph());
 		fontIcon.FontFamily(FontFamily() ? FontFamily() : TextIconExtension::SymbolThemeFontFamily());
 		fontIcon.FontWeight(FontWeight());
@@ -35,7 +35,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		return fontIcon;
 	}
 
-	IInspectable FontIconExtension::ProvideValue([[maybe_unused]] winrt::Microsoft::UI::Xaml::IXamlServiceProvider const& provider)
+	winrt::IInspectable FontIconExtension::ProvideValue([[maybe_unused]] winrt::IXamlServiceProvider const& provider)
 	{
 		return ProvideValue();
 	}

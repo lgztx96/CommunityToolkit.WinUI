@@ -5,12 +5,13 @@
 
 #ifdef __INTELLISENSE__
 #include <winrt/Windows.Foundation.h>
-#include <winrt/Microsoft.UI.Xaml.Markup.h>
+#include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Microsoft.UI.Xaml.Controls.h>
 #endif
 
 namespace winrt
 {
+    using namespace Windows::Foundation;
     using namespace Microsoft::UI::Xaml;
     using namespace Microsoft::UI::Xaml::Controls;
 }
@@ -21,11 +22,11 @@ namespace winrt::XamlToolkit::WinUI::implementation
     {
         SymbolIconExtension() = default;
 
-        wil::single_threaded_rw_property<winrt::Microsoft::UI::Xaml::Controls::Symbol> Symbol;
+        wil::single_threaded_rw_property<winrt::Symbol> Symbol;
 
-        IInspectable ProvideValue() const;
+        winrt::IInspectable ProvideValue() const;
 
-        IInspectable ProvideValue(IXamlServiceProvider const& provider);
+        winrt::IInspectable ProvideValue(winrt::IXamlServiceProvider const& provider);
     };
 }
 
