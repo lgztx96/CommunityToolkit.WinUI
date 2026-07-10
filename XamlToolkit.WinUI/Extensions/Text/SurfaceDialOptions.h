@@ -19,7 +19,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
     {
         SurfaceDialOptions() = default;
 
-        static XamlToolkit::WinUI::SurfaceDialOptions Default();
+        static winrt::XamlToolkit::WinUI::SurfaceDialOptions Default();
 
         wil::single_threaded_rw_property<RadialControllerMenuKnownIcon> Icon = RadialControllerMenuKnownIcon::Ruler;
         wil::single_threaded_rw_property<double> StepValue{ 0.0 };

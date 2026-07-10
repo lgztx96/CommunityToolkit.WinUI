@@ -13,11 +13,11 @@ namespace winrt
 
 namespace winrt::XamlToolkit::WinUI
 {
-	float2 ToVector2(std::wstring_view text);
+	winrt::float2 ToVector2(std::wstring_view text);
 
-	float3 ToVector3(std::wstring_view text);
+	winrt::float3 ToVector3(std::wstring_view text);
 
-	winrt::hstring ToString(float2 const& value);
+	winrt::hstring ToString(winrt::float2 const& value);
 
-	winrt::hstring ToString(float3 const& value);
+	winrt::hstring ToString(winrt::float3 const& value);
 }

@@ -11,10 +11,10 @@
 
 namespace winrt
 {
+    using namespace Windows::Foundation;
     using namespace Microsoft::UI::Xaml;
     using namespace Microsoft::UI::Xaml::Input;
     using namespace Microsoft::UI::Xaml::Documents;
-    using namespace Windows::Foundation;
 }
 
 namespace winrt::XamlToolkit::WinUI::implementation
