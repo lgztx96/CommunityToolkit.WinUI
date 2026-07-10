@@ -19,9 +19,9 @@
 
 namespace winrt
 {
+    using namespace Windows::Foundation;
 	using namespace Microsoft::UI::Composition;
 	using namespace Microsoft::UI::Xaml::Media::Animation;
-	using namespace Windows::Foundation::Numerics;
 }
 
 namespace winrt::XamlToolkit::WinUI::Animations
@@ -40,17 +40,17 @@ namespace winrt::XamlToolkit::WinUI::Animations
         struct KeyFrameInfo : public IKeyFrameInfo
         {
         private:
-            TimeSpan progress;
+            winrt::TimeSpan progress;
             T value;
             std::optional<winrt::hstring> expression;
             EasingType easingType;
-            EasingMode easingMode;
+            winrt::EasingMode easingMode;
 
         public:
             /// <summary>
             /// Initializes a new instance of the <see cref="KeyFrameInfo"/> struct.
             /// </summary>
-            KeyFrameInfo(TimeSpan progress, T const& value, EasingType easingType, EasingMode easingMode)
+            KeyFrameInfo(winrt::TimeSpan progress, T const& value, EasingType easingType, winrt::EasingMode easingMode)
                 : progress(progress), value(value), easingType(easingType), easingMode(easingMode)
             {
             }
@@ -58,28 +58,28 @@ namespace winrt::XamlToolkit::WinUI::Animations
             /// <summary>
             /// Initializes a new instance of the <see cref="KeyFrameInfo"/> struct with an expression.
             /// </summary>
-            KeyFrameInfo(TimeSpan progress, winrt::hstring const& expression, EasingType easingType, EasingMode easingMode)
+            KeyFrameInfo(winrt::TimeSpan progress, winrt::hstring const& expression, EasingType easingType, winrt::EasingMode easingMode)
                 : progress(progress), value{}, expression(expression), easingType(easingType), easingMode(easingMode)
             {
             }
 
             EasingType GetEasingType() const override { return easingType; }
-            EasingMode GetEasingMode() const override { return easingMode; }
+            winrt::EasingMode GetEasingMode() const override { return easingMode; }
 
             T GetValue() const { return value; }
 
             bool HasExpression() const { return expression.has_value(); }
             winrt::hstring GetExpression() const { return expression.value_or(L""); }
 
-            bool TryInsertExpressionKeyFrame(KeyFrameAnimation const& animation, TimeSpan duration) override
+            bool TryInsertExpressionKeyFrame(winrt::KeyFrameAnimation const& animation, winrt::TimeSpan duration) override
             {
                 if (!expression.has_value())
                 {
                     return false;
                 }
 
-                CompositionEasingFunction easingFunction =
-                    CompositorExtensions::TryCreateEasingFunction(animation.Compositor(), easingType, easingMode);
+                winrt::CompositionEasingFunction easingFunction =
+                    winrt::CompositorExtensions::TryCreateEasingFunction(animation.Compositor(), easingType, easingMode);
 
                 float normalizedProgress = GetNormalizedProgress(duration);
 
@@ -95,13 +95,13 @@ namespace winrt::XamlToolkit::WinUI::Animations
                 return true;
             }
 
-            float GetNormalizedProgress(TimeSpan duration) override
+            float GetNormalizedProgress(winrt::TimeSpan duration) override
             {
                 double result = static_cast<double>(progress.count()) / static_cast<double>(duration.count());
                 return static_cast<float>(std::clamp(result, 0.0, 1.0));
             }
 
-            TimeSpan GetTimedProgress([[maybe_unused]] TimeSpan duration) override
+            winrt::TimeSpan GetTimedProgress([[maybe_unused]] winrt::TimeSpan duration) override
             {
                 return progress;
             }
@@ -115,7 +115,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
         /// <summary>
         /// The target delay for the animation, if any.
         /// </summary>
-        std::optional<TimeSpan> delay;
+        std::optional<winrt::TimeSpan> delay;
 
         /// <summary>
         /// The repeat options for the animation.
@@ -130,7 +130,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
         /// <summary>
         /// Initializes a new instance of the <see cref="TimedKeyFrameAnimationBuilder{T}"/> class.
         /// </summary>
-        TimedKeyFrameAnimationBuilder(winrt::hstring const& property, std::optional<TimeSpan> delay, RepeatOption repeat)
+        TimedKeyFrameAnimationBuilder(winrt::hstring const& property, std::optional<winrt::TimeSpan> delay, RepeatOption repeat)
             : property(property), delay(delay), repeat(repeat)
         {
         }
@@ -138,10 +138,10 @@ namespace winrt::XamlToolkit::WinUI::Animations
     public:
         /// <inheritdoc/>
         ITimedKeyFrameAnimationBuilder<T>& KeyFrame(
-            TimeSpan progress,
+            winrt::TimeSpan progress,
             T const& value,
             EasingType easingType = AnimationExtensions::DefaultEasingType(),
-            EasingMode easingMode = AnimationExtensions::DefaultEasingMode()) override
+            winrt::EasingMode easingMode = AnimationExtensions::DefaultEasingMode()) override
         {
             keyFrames.push_back(KeyFrameInfo(progress, value, easingType, easingMode));
             return *this;
@@ -163,7 +163,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
         /// <summary>
         /// Gets the delay.
         /// </summary>
-        std::optional<TimeSpan> GetDelay() const { return delay; }
+        std::optional<winrt::TimeSpan> GetDelay() const { return delay; }
 
         /// <summary>
         /// Gets the repeat option.

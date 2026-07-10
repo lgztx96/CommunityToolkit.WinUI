@@ -20,19 +20,21 @@
 #include <type_traits>
 #include <concepts>
 #include <wil/resource.h>
-#endif
-
+#else
 import std;
 import winrt.XamlToolkit.WinUI.Animations;
 import winrt.Windows.Foundation;
+import winrt.Windows.Foundation.Numerics;
 import winrt.Microsoft.UI.Composition;
 import winrt.Microsoft.UI.Xaml;
 import winrt.Microsoft.UI.Xaml.Hosting;
 import winrt.Microsoft.UI.Xaml.Media.Animation;
+#endif
 
 namespace winrt
 {
 	using namespace Windows::Foundation;
+	using namespace Windows::Foundation::Numerics;
 	using namespace Microsoft::UI::Xaml;
 	using namespace Microsoft::UI::Composition;
 	using namespace Microsoft::UI::Xaml::Media::Animation;
@@ -48,7 +50,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
     {
     public:
         virtual ~IXamlAnimationFactory() = default;
-        virtual Timeline GetAnimation(DependencyObject const& targetHint) = 0;
+        virtual winrt::Timeline GetAnimation(winrt::DependencyObject const& targetHint) = 0;
     };
 
     /// <summary>
@@ -58,7 +60,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
     {
     public:
         virtual ~ICompositionAnimationFactory() = default;
-        virtual CompositionAnimation GetAnimation(CompositionObject const& targetHint, CompositionObject& target) = 0;
+        virtual CompositionAnimation GetAnimation(winrt::CompositionObject const& targetHint, winrt::CompositionObject& target) = 0;
     };
 
     template<typename T>
@@ -86,32 +88,32 @@ namespace winrt::XamlToolkit::WinUI::Animations
             winrt::hstring const& property,
             T const& to,
             std::optional<T> from,
-            std::optional<winrt::Windows::Foundation::TimeSpan> delay,
-            std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+            std::optional<winrt::TimeSpan> delay,
+            std::optional<winrt::TimeSpan> duration,
             std::optional<RepeatOption> repeat,
             EasingType easingType,
-            EasingMode easingMode);
+            winrt::EasingMode easingMode);
 
         template<typename T>
         AnimationBuilder& AddXamlAnimationFactory(
             winrt::hstring const& property,
             T const& to,
             std::optional<T> from,
-            std::optional<winrt::Windows::Foundation::TimeSpan> delay,
-            std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+            std::optional<winrt::TimeSpan> delay,
+            std::optional<winrt::TimeSpan> duration,
             std::optional<RepeatOption> repeat,
             EasingType easingType,
-            EasingMode easingMode);
+            winrt::EasingMode easingMode);
 
         AnimationBuilder& AddXamlTransformDoubleAnimationFactory(
             winrt::hstring const& property,
             double to,
             std::optional<double> from,
-            std::optional<winrt::Windows::Foundation::TimeSpan> delay,
-            std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+            std::optional<winrt::TimeSpan> delay,
+            std::optional<winrt::TimeSpan> duration,
             std::optional<RepeatOption> repeat,
             EasingType easingType,
-            EasingMode easingMode);
+            winrt::EasingMode easingMode);
 
     public:
         /// <summary>
@@ -126,23 +128,23 @@ namespace winrt::XamlToolkit::WinUI::Animations
             Axis axis,
             double to,
             std::optional<double> from = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> delay = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> duration = std::nullopt,
+            std::optional<winrt::TimeSpan> delay = std::nullopt,
+            std::optional<winrt::TimeSpan> duration = std::nullopt,
             std::optional<RepeatOption> repeat = std::nullopt,
             EasingType easingType = EasingType::Default,
-            EasingMode easingMode = EasingMode::EaseInOut);
+            winrt::EasingMode easingMode = winrt::EasingMode::EaseInOut);
 
         /// <summary>
         /// Adds a new anchor point animation for the X and Y axes to the current schedule.
         /// </summary>
         AnimationBuilder& AnchorPoint(
-            winrt::Windows::Foundation::Numerics::float2 const& to,
-            std::optional<winrt::Windows::Foundation::Numerics::float2> from = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> delay = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> duration = std::nullopt,
+            winrt::float2 const& to,
+            std::optional<winrt::float2> from = std::nullopt,
+            std::optional<winrt::TimeSpan> delay = std::nullopt,
+            std::optional<winrt::TimeSpan> duration = std::nullopt,
             std::optional<RepeatOption> repeat = std::nullopt,
             EasingType easingType = EasingType::Default,
-            EasingMode easingMode = EasingMode::EaseInOut);
+            winrt::EasingMode easingMode = winrt::EasingMode::EaseInOut);
 
         /// <summary>
         /// Adds a new opacity animation to the current schedule.
@@ -150,11 +152,11 @@ namespace winrt::XamlToolkit::WinUI::Animations
         AnimationBuilder& Opacity(
             double to,
             std::optional<double> from = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> delay = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> duration = std::nullopt,
+            std::optional<winrt::TimeSpan> delay = std::nullopt,
+            std::optional<winrt::TimeSpan> duration = std::nullopt,
             std::optional<RepeatOption> repeat = std::nullopt,
             EasingType easingType = EasingType::Default,
-            EasingMode easingMode = EasingMode::EaseInOut,
+            winrt::EasingMode easingMode = winrt::EasingMode::EaseInOut,
             FrameworkLayer layer = FrameworkLayer::Composition);
 
         /// <summary>
@@ -164,37 +166,37 @@ namespace winrt::XamlToolkit::WinUI::Animations
             Axis axis,
             double to,
             std::optional<double> from = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> delay = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> duration = std::nullopt,
+            std::optional<winrt::TimeSpan> delay = std::nullopt,
+            std::optional<winrt::TimeSpan> duration = std::nullopt,
             std::optional<RepeatOption> repeat = std::nullopt,
             EasingType easingType = EasingType::Default,
-            EasingMode easingMode = EasingMode::EaseInOut,
+            winrt::EasingMode easingMode = winrt::EasingMode::EaseInOut,
             FrameworkLayer layer = FrameworkLayer::Composition);
 
         /// <summary>
         /// Adds a new translation animation for the X and Y axes to the current schedule.
         /// </summary>
         AnimationBuilder& Translation(
-            winrt::Windows::Foundation::Numerics::float2 const& to,
-            std::optional<winrt::Windows::Foundation::Numerics::float2> from = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> delay = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> duration = std::nullopt,
+            winrt::float2 const& to,
+            std::optional<winrt::float2> from = std::nullopt,
+            std::optional<winrt::TimeSpan> delay = std::nullopt,
+            std::optional<winrt::TimeSpan> duration = std::nullopt,
             std::optional<RepeatOption> repeat = std::nullopt,
             EasingType easingType = EasingType::Default,
-            EasingMode easingMode = EasingMode::EaseInOut,
+            winrt::EasingMode easingMode = winrt::EasingMode::EaseInOut,
             FrameworkLayer layer = FrameworkLayer::Composition);
 
         /// <summary>
         /// Adds a new composition translation animation for all axes to the current schedule.
         /// </summary>
         AnimationBuilder& Translation(
-            winrt::Windows::Foundation::Numerics::float3 const& to,
-            std::optional<winrt::Windows::Foundation::Numerics::float3> from = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> delay = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> duration = std::nullopt,
+            winrt::float3 const& to,
+            std::optional<winrt::float3> from = std::nullopt,
+            std::optional<winrt::TimeSpan> delay = std::nullopt,
+            std::optional<winrt::TimeSpan> duration = std::nullopt,
             std::optional<RepeatOption> repeat = std::nullopt,
             EasingType easingType = EasingType::Default,
-            EasingMode easingMode = EasingMode::EaseInOut);
+            winrt::EasingMode easingMode = winrt::EasingMode::EaseInOut);
 
         /// <summary>
         /// Adds a new uniform scale animation to the current schedule.
@@ -202,11 +204,11 @@ namespace winrt::XamlToolkit::WinUI::Animations
         AnimationBuilder& Scale(
             double to,
             std::optional<double> from = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> delay = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> duration = std::nullopt,
+            std::optional<winrt::TimeSpan> delay = std::nullopt,
+            std::optional<winrt::TimeSpan> duration = std::nullopt,
             std::optional<RepeatOption> repeat = std::nullopt,
             EasingType easingType = EasingType::Default,
-            EasingMode easingMode = EasingMode::EaseInOut,
+            winrt::EasingMode easingMode = winrt::EasingMode::EaseInOut,
             FrameworkLayer layer = FrameworkLayer::Composition);
 
         /// <summary>
@@ -216,37 +218,37 @@ namespace winrt::XamlToolkit::WinUI::Animations
             Axis axis,
             double to,
             std::optional<double> from = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> delay = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> duration = std::nullopt,
+            std::optional<winrt::TimeSpan> delay = std::nullopt,
+            std::optional<winrt::TimeSpan> duration = std::nullopt,
             std::optional<RepeatOption> repeat = std::nullopt,
             EasingType easingType = EasingType::Default,
-            EasingMode easingMode = EasingMode::EaseInOut,
+            winrt::EasingMode easingMode = winrt::EasingMode::EaseInOut,
             FrameworkLayer layer = FrameworkLayer::Composition);
 
         /// <summary>
         /// Adds a new scale animation for the X and Y axes to the current schedule.
         /// </summary>
         AnimationBuilder& Scale(
-            winrt::Windows::Foundation::Numerics::float2 const& to,
-            std::optional<winrt::Windows::Foundation::Numerics::float2> from = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> delay = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> duration = std::nullopt,
+            winrt::float2 const& to,
+            std::optional<winrt::float2> from = std::nullopt,
+            std::optional<winrt::TimeSpan> delay = std::nullopt,
+            std::optional<winrt::TimeSpan> duration = std::nullopt,
             std::optional<RepeatOption> repeat = std::nullopt,
             EasingType easingType = EasingType::Default,
-            EasingMode easingMode = EasingMode::EaseInOut,
+            winrt::EasingMode easingMode = winrt::EasingMode::EaseInOut,
             FrameworkLayer layer = FrameworkLayer::Composition);
 
         /// <summary>
         /// Adds a new composition scale animation for all axes to the current schedule.
         /// </summary>
         AnimationBuilder& Scale(
-            winrt::Windows::Foundation::Numerics::float3 const& to,
-            std::optional<winrt::Windows::Foundation::Numerics::float3> from = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> delay = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> duration = std::nullopt,
+            winrt::float3 const& to,
+            std::optional<winrt::float3> from = std::nullopt,
+            std::optional<winrt::TimeSpan> delay = std::nullopt,
+            std::optional<winrt::TimeSpan> duration = std::nullopt,
             std::optional<RepeatOption> repeat = std::nullopt,
             EasingType easingType = EasingType::Default,
-            EasingMode easingMode = EasingMode::EaseInOut);
+            winrt::EasingMode easingMode = winrt::EasingMode::EaseInOut);
 
         /// <summary>
         /// Adds a new composition offset animation for a single axis to the current schedule.
@@ -255,35 +257,35 @@ namespace winrt::XamlToolkit::WinUI::Animations
             Axis axis,
             double to,
             std::optional<double> from = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> delay = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> duration = std::nullopt,
+            std::optional<winrt::TimeSpan> delay = std::nullopt,
+            std::optional<winrt::TimeSpan> duration = std::nullopt,
             std::optional<RepeatOption> repeat = std::nullopt,
             EasingType easingType = EasingType::Default,
-            EasingMode easingMode = EasingMode::EaseInOut);
+            winrt::EasingMode easingMode = winrt::EasingMode::EaseInOut);
 
         /// <summary>
         /// Adds a new composition offset animation for the X and Y axes to the current schedule.
         /// </summary>
         AnimationBuilder& Offset(
-            winrt::Windows::Foundation::Numerics::float2 const& to,
-            std::optional<winrt::Windows::Foundation::Numerics::float2> from = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> delay = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> duration = std::nullopt,
+            winrt::float2 const& to,
+            std::optional<winrt::float2> from = std::nullopt,
+            std::optional<winrt::TimeSpan> delay = std::nullopt,
+            std::optional<winrt::TimeSpan> duration = std::nullopt,
             std::optional<RepeatOption> repeat = std::nullopt,
             EasingType easingType = EasingType::Default,
-            EasingMode easingMode = EasingMode::EaseInOut);
+            winrt::EasingMode easingMode = winrt::EasingMode::EaseInOut);
 
         /// <summary>
         /// Adds a new composition offset animation for all axes to the current schedule.
         /// </summary>
         AnimationBuilder& Offset(
-            winrt::Windows::Foundation::Numerics::float3 const& to,
-            std::optional<winrt::Windows::Foundation::Numerics::float3> from = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> delay = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> duration = std::nullopt,
+            winrt::float3 const& to,
+            std::optional<winrt::float3> from = std::nullopt,
+            std::optional<winrt::TimeSpan> delay = std::nullopt,
+            std::optional<winrt::TimeSpan> duration = std::nullopt,
             std::optional<RepeatOption> repeat = std::nullopt,
             EasingType easingType = EasingType::Default,
-            EasingMode easingMode = EasingMode::EaseInOut);
+            winrt::EasingMode easingMode = winrt::EasingMode::EaseInOut);
 
         /// <summary>
         /// Adds a new center point animation for a single axis to the current schedule.
@@ -292,37 +294,37 @@ namespace winrt::XamlToolkit::WinUI::Animations
             Axis axis,
             double to,
             std::optional<double> from = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> delay = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> duration = std::nullopt,
+            std::optional<winrt::TimeSpan> delay = std::nullopt,
+            std::optional<winrt::TimeSpan> duration = std::nullopt,
             std::optional<RepeatOption> repeat = std::nullopt,
             EasingType easingType = EasingType::Default,
-            EasingMode easingMode = EasingMode::EaseInOut,
+            winrt::EasingMode easingMode = winrt::EasingMode::EaseInOut,
             FrameworkLayer layer = FrameworkLayer::Composition);
 
         /// <summary>
         /// Adds a new center point animation for the X and Y axes to the current schedule.
         /// </summary>
         AnimationBuilder& CenterPoint(
-            winrt::Windows::Foundation::Numerics::float2 const& to,
-            std::optional<winrt::Windows::Foundation::Numerics::float2> from = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> delay = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> duration = std::nullopt,
+            winrt::float2 const& to,
+            std::optional<winrt::float2> from = std::nullopt,
+            std::optional<winrt::TimeSpan> delay = std::nullopt,
+            std::optional<winrt::TimeSpan> duration = std::nullopt,
             std::optional<RepeatOption> repeat = std::nullopt,
             EasingType easingType = EasingType::Default,
-            EasingMode easingMode = EasingMode::EaseInOut,
+            winrt::EasingMode easingMode = winrt::EasingMode::EaseInOut,
             FrameworkLayer layer = FrameworkLayer::Composition);
 
         /// <summary>
         /// Adds a new center point animation for all axes to the current schedule.
         /// </summary>
         AnimationBuilder& CenterPoint(
-            winrt::Windows::Foundation::Numerics::float3 const& to,
-            std::optional<winrt::Windows::Foundation::Numerics::float3> from = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> delay = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> duration = std::nullopt,
+            winrt::float3 const& to,
+            std::optional<winrt::float3> from = std::nullopt,
+            std::optional<winrt::TimeSpan> delay = std::nullopt,
+            std::optional<winrt::TimeSpan> duration = std::nullopt,
             std::optional<RepeatOption> repeat = std::nullopt,
             EasingType easingType = EasingType::Default,
-            EasingMode easingMode = EasingMode::EaseInOut);
+            winrt::EasingMode easingMode = winrt::EasingMode::EaseInOut);
 
         /// <summary>
         /// Adds a new rotation animation to the current schedule.
@@ -330,11 +332,11 @@ namespace winrt::XamlToolkit::WinUI::Animations
         AnimationBuilder& Rotation(
             double to,
             std::optional<double> from = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> delay = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> duration = std::nullopt,
+            std::optional<winrt::TimeSpan> delay = std::nullopt,
+            std::optional<winrt::TimeSpan> duration = std::nullopt,
             std::optional<RepeatOption> repeat = std::nullopt,
             EasingType easingType = EasingType::Default,
-            EasingMode easingMode = EasingMode::EaseInOut,
+            winrt::EasingMode easingMode = winrt::EasingMode::EaseInOut,
             FrameworkLayer layer = FrameworkLayer::Composition);
 
         /// <summary>
@@ -343,48 +345,48 @@ namespace winrt::XamlToolkit::WinUI::Animations
         AnimationBuilder& RotationInDegrees(
             double to,
             std::optional<double> from = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> delay = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> duration = std::nullopt,
+            std::optional<winrt::TimeSpan> delay = std::nullopt,
+            std::optional<winrt::TimeSpan> duration = std::nullopt,
             std::optional<RepeatOption> repeat = std::nullopt,
             EasingType easingType = EasingType::Default,
-            EasingMode easingMode = EasingMode::EaseInOut,
+            winrt::EasingMode easingMode = winrt::EasingMode::EaseInOut,
             FrameworkLayer layer = FrameworkLayer::Composition);
 
         /// <summary>
         /// Adds a new rotation axis animation to the current schedule.
         /// </summary>
         AnimationBuilder& RotationAxis(
-            winrt::Windows::Foundation::Numerics::float3 const& to,
-            std::optional<winrt::Windows::Foundation::Numerics::float3> from = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> delay = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> duration = std::nullopt,
+            winrt::float3 const& to,
+            std::optional<winrt::float3> from = std::nullopt,
+            std::optional<winrt::TimeSpan> delay = std::nullopt,
+            std::optional<winrt::TimeSpan> duration = std::nullopt,
             std::optional<RepeatOption> repeat = std::nullopt,
             EasingType easingType = EasingType::Default,
-            EasingMode easingMode = EasingMode::EaseInOut);
+            winrt::EasingMode easingMode = winrt::EasingMode::EaseInOut);
 
         /// <summary>
         /// Adds a new orientation animation to the current schedule.
         /// </summary>
         AnimationBuilder& Orientation(
-            winrt::Windows::Foundation::Numerics::quaternion const& to,
-            std::optional<winrt::Windows::Foundation::Numerics::quaternion> from = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> delay = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> duration = std::nullopt,
+            winrt::quaternion const& to,
+            std::optional<winrt::quaternion> from = std::nullopt,
+            std::optional<winrt::TimeSpan> delay = std::nullopt,
+            std::optional<winrt::TimeSpan> duration = std::nullopt,
             std::optional<RepeatOption> repeat = std::nullopt,
             EasingType easingType = EasingType::Default,
-            EasingMode easingMode = EasingMode::EaseInOut);
+            winrt::EasingMode easingMode = winrt::EasingMode::EaseInOut);
 
         /// <summary>
         /// Adds a new transform animation to the current schedule.
         /// </summary>
         AnimationBuilder& Transform(
-            winrt::Windows::Foundation::Numerics::float4x4 const& to,
-            std::optional<winrt::Windows::Foundation::Numerics::float4x4> from = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> delay = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> duration = std::nullopt,
+            winrt::float4x4 const& to,
+            std::optional<winrt::float4x4> from = std::nullopt,
+            std::optional<winrt::TimeSpan> delay = std::nullopt,
+            std::optional<winrt::TimeSpan> duration = std::nullopt,
             std::optional<RepeatOption> repeat = std::nullopt,
             EasingType easingType = EasingType::Default,
-            EasingMode easingMode = EasingMode::EaseInOut);
+            winrt::EasingMode easingMode = winrt::EasingMode::EaseInOut);
 
         /// <summary>
         /// Adds a new clip animation to the current schedule.
@@ -393,23 +395,23 @@ namespace winrt::XamlToolkit::WinUI::Animations
             Side side,
             double to,
             std::optional<double> from = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> delay = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> duration = std::nullopt,
+            std::optional<winrt::TimeSpan> delay = std::nullopt,
+            std::optional<winrt::TimeSpan> duration = std::nullopt,
             std::optional<RepeatOption> repeat = std::nullopt,
             EasingType easingType = EasingType::Default,
-            EasingMode easingMode = EasingMode::EaseInOut);
+            winrt::EasingMode easingMode = winrt::EasingMode::EaseInOut);
 
         /// <summary>
         /// Adds a new clip animation to the current schedule.
         /// </summary>
         AnimationBuilder& Clip(
-            winrt::Microsoft::UI::Xaml::Thickness const& to,
-            std::optional<winrt::Microsoft::UI::Xaml::Thickness> from = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> delay = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> duration = std::nullopt,
+            winrt::Thickness const& to,
+            std::optional<winrt::Thickness> from = std::nullopt,
+            std::optional<winrt::TimeSpan> delay = std::nullopt,
+            std::optional<winrt::TimeSpan> duration = std::nullopt,
             std::optional<RepeatOption> repeat = std::nullopt,
             EasingType easingType = EasingType::Default,
-            EasingMode easingMode = EasingMode::EaseInOut);
+            winrt::EasingMode easingMode = winrt::EasingMode::EaseInOut);
 
         /// <summary>
         /// Adds a new size animation for a single axis to the current schedule.
@@ -418,24 +420,24 @@ namespace winrt::XamlToolkit::WinUI::Animations
             Axis axis,
             double to,
             std::optional<double> from = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> delay = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> duration = std::nullopt,
+            std::optional<winrt::TimeSpan> delay = std::nullopt,
+            std::optional<winrt::TimeSpan> duration = std::nullopt,
             std::optional<RepeatOption> repeat = std::nullopt,
             EasingType easingType = EasingType::Default,
-            EasingMode easingMode = EasingMode::EaseInOut,
+            winrt::EasingMode easingMode = winrt::EasingMode::EaseInOut,
             FrameworkLayer layer = FrameworkLayer::Composition);
 
         /// <summary>
         /// Adds a new size animation for the X and Y axes to the current schedule.
         /// </summary>
         AnimationBuilder& Size(
-            winrt::Windows::Foundation::Numerics::float2 const& to,
-            std::optional<winrt::Windows::Foundation::Numerics::float2> from = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> delay = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> duration = std::nullopt,
+            winrt::float2 const& to,
+            std::optional<winrt::float2> from = std::nullopt,
+            std::optional<winrt::TimeSpan> delay = std::nullopt,
+            std::optional<winrt::TimeSpan> duration = std::nullopt,
             std::optional<RepeatOption> repeat = std::nullopt,
             EasingType easingType = EasingType::Default,
-            EasingMode easingMode = EasingMode::EaseInOut,
+            winrt::EasingMode easingMode = winrt::EasingMode::EaseInOut,
             FrameworkLayer layer = FrameworkLayer::Composition);
 
         /// <summary>
@@ -446,7 +448,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
         /// <summary>
         /// Adds a new anchor point property animation builder for the X and Y axes.
         /// </summary>
-        PropertyAnimationBuilder<winrt::Windows::Foundation::Numerics::float2> AnchorPoint();
+        PropertyAnimationBuilder<winrt::float2> AnchorPoint();
 
         /// <summary>
         /// Adds a new opacity property animation builder.
@@ -461,7 +463,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
         /// <summary>
         /// Adds a new translation property animation builder for all axes.
         /// </summary>
-        PropertyAnimationBuilder<winrt::Windows::Foundation::Numerics::float3> Translation();
+        PropertyAnimationBuilder<winrt::float3> Translation();
 
         /// <summary>
         /// Adds a new offset property animation builder for a single axis.
@@ -471,7 +473,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
         /// <summary>
         /// Adds a new offset property animation builder for all axes.
         /// </summary>
-        PropertyAnimationBuilder<winrt::Windows::Foundation::Numerics::float3> Offset();
+        PropertyAnimationBuilder<winrt::float3> Offset();
 
         /// <summary>
         /// Adds a new scale property animation builder for a single axis.
@@ -481,7 +483,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
         /// <summary>
         /// Adds a new scale property animation builder for all axes.
         /// </summary>
-        PropertyAnimationBuilder<winrt::Windows::Foundation::Numerics::float3> Scale();
+        PropertyAnimationBuilder<winrt::float3> Scale();
 
         /// <summary>
         /// Adds a new center point property animation builder for a single axis.
@@ -491,7 +493,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
         /// <summary>
         /// Adds a new center point property animation builder for all axes.
         /// </summary>
-        PropertyAnimationBuilder<winrt::Windows::Foundation::Numerics::float3> CenterPoint();
+        PropertyAnimationBuilder<winrt::float3> CenterPoint();
 
         /// <summary>
         /// Adds a new rotation property animation builder.
@@ -506,12 +508,12 @@ namespace winrt::XamlToolkit::WinUI::Animations
         /// <summary>
         /// Adds a new rotation axis property animation builder.
         /// </summary>
-        PropertyAnimationBuilder<winrt::Windows::Foundation::Numerics::float3> RotationAxis();
+        PropertyAnimationBuilder<winrt::float3> RotationAxis();
 
         /// <summary>
         /// Adds a new orientation property animation builder.
         /// </summary>
-        PropertyAnimationBuilder<winrt::Windows::Foundation::Numerics::quaternion> Orientation();
+        PropertyAnimationBuilder<winrt::quaternion> Orientation();
 
         /// <summary>
         /// Adds a new clip property animation builder.
@@ -526,7 +528,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
         /// <summary>
         /// Adds a new size property animation builder for all axes.
         /// </summary>
-        PropertyAnimationBuilder<winrt::Windows::Foundation::Numerics::float2> Size();
+        PropertyAnimationBuilder<winrt::float2> Size();
         /// <summary>
         /// Adds a custom animation based on normalized keyframes to the current schedule.
         /// </summary>
@@ -534,10 +536,10 @@ namespace winrt::XamlToolkit::WinUI::Animations
         AnimationBuilder& NormalizedKeyFrames(
             winrt::hstring const& property,
             std::function<void(INormalizedKeyFrameAnimationBuilder<T>&)> build,
-            std::optional<winrt::Windows::Foundation::TimeSpan> delay = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> duration = std::nullopt,
+            std::optional<winrt::TimeSpan> delay = std::nullopt,
+            std::optional<winrt::TimeSpan> duration = std::nullopt,
             std::optional<RepeatOption> repeatOption = std::nullopt,
-            std::optional<AnimationDelayBehavior> delayBehavior = std::nullopt,
+            std::optional<winrt::AnimationDelayBehavior> delayBehavior = std::nullopt,
             FrameworkLayer layer = FrameworkLayer::Composition);
 
         /// <summary>
@@ -548,10 +550,10 @@ namespace winrt::XamlToolkit::WinUI::Animations
             winrt::hstring const& property,
             TState state,
             std::function<void(INormalizedKeyFrameAnimationBuilder<T>&, TState)> build,
-            std::optional<winrt::Windows::Foundation::TimeSpan> delay = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> duration = std::nullopt,
+            std::optional<winrt::TimeSpan> delay = std::nullopt,
+            std::optional<winrt::TimeSpan> duration = std::nullopt,
             std::optional<RepeatOption> repeatOption = std::nullopt,
-            std::optional<AnimationDelayBehavior> delayBehavior = std::nullopt,
+            std::optional<winrt::AnimationDelayBehavior> delayBehavior = std::nullopt,
             FrameworkLayer layer = FrameworkLayer::Composition);
 
         /// <summary>
@@ -561,9 +563,9 @@ namespace winrt::XamlToolkit::WinUI::Animations
         AnimationBuilder& TimedKeyFrames(
             winrt::hstring const& property,
             std::function<void(ITimedKeyFrameAnimationBuilder<T>&)> build,
-            std::optional<winrt::Windows::Foundation::TimeSpan> delay = std::nullopt,
+            std::optional<winrt::TimeSpan> delay = std::nullopt,
             std::optional<RepeatOption> repeat = std::nullopt,
-            std::optional<AnimationDelayBehavior> delayBehavior = std::nullopt,
+            std::optional<winrt::AnimationDelayBehavior> delayBehavior = std::nullopt,
             FrameworkLayer layer = FrameworkLayer::Composition);
 
         /// <summary>
@@ -574,40 +576,40 @@ namespace winrt::XamlToolkit::WinUI::Animations
             winrt::hstring const& property,
             TState state,
             std::function<void(ITimedKeyFrameAnimationBuilder<T>&, TState)> build,
-            std::optional<winrt::Windows::Foundation::TimeSpan> delay = std::nullopt,
+            std::optional<winrt::TimeSpan> delay = std::nullopt,
             std::optional<RepeatOption> repeat = std::nullopt,
-            std::optional<AnimationDelayBehavior> delayBehavior = std::nullopt,
+            std::optional<winrt::AnimationDelayBehavior> delayBehavior = std::nullopt,
             FrameworkLayer layer = FrameworkLayer::Composition);
 
         /// <summary>
         /// Adds a new external composition animation to the current schedule.
         /// </summary>
-        AnimationBuilder& ExternalAnimation(CompositionAnimation const& animation);
+        AnimationBuilder& ExternalAnimation(winrt::CompositionAnimation const& animation);
 
         /// <summary>
         /// Adds a new external composition animation to the current schedule for a given target.
         /// </summary>
-        AnimationBuilder& ExternalAnimation(CompositionObject const& target, CompositionAnimation const& animation);
+        AnimationBuilder& ExternalAnimation(winrt::CompositionObject const& target, winrt::CompositionAnimation const& animation);
 
         /// <summary>
         /// Adds a new external XAML animation to the current schedule.
         /// </summary>
-        AnimationBuilder& ExternalAnimation(Timeline const& animation);
+        AnimationBuilder& ExternalAnimation(winrt::Timeline const& animation);
 
         /// <summary>
         /// Starts the animations present in the current AnimationBuilder instance.
         /// </summary>
-        void Start(UIElement const& element)
+        void Start(winrt::UIElement const& element)
         {
             if (!compositionAnimationFactories.empty())
             {
-                ElementCompositionPreview::SetIsTranslationEnabled(element, true);
+                winrt::ElementCompositionPreview::SetIsTranslationEnabled(element, true);
 
-                Visual visual = ElementCompositionPreview::GetElementVisual(element);
+                winrt::Visual visual = winrt::ElementCompositionPreview::GetElementVisual(element);
 
                 for (const auto& factory : compositionAnimationFactories)
                 {
-                    CompositionObject target{ nullptr };
+                    winrt::CompositionObject target{ nullptr };
                     auto animation = factory->GetAnimation(visual, target);
 
                     if (target == nullptr)
@@ -623,7 +625,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
 
             if (!xamlAnimationFactories.empty())
             {
-                Storyboard storyboard;
+                winrt::Storyboard storyboard;
                 auto children = storyboard.Children();
                 for (auto const& factory : xamlAnimationFactories)
                 {
@@ -637,7 +639,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
         /// <summary>
         /// Starts the animations present in the current AnimationBuilder instance.
         /// </summary>
-        void Start(UIElement const& element, std::function<void()> callback)
+        void Start(winrt::UIElement const& element, std::function<void()> callback)
         {
             // The point of this overload is to allow consumers to invoke a callback when an animation
             // completes, without having to create an async state machine. There are three different possible
@@ -652,16 +654,16 @@ namespace winrt::XamlToolkit::WinUI::Animations
                 if (xamlAnimationFactories.empty())
                 {
                     // Only Composition animations
-                    ElementCompositionPreview::SetIsTranslationEnabled(element, true);
+                    winrt::ElementCompositionPreview::SetIsTranslationEnabled(element, true);
 
-                    Visual visual = ElementCompositionPreview::GetElementVisual(element);
-                    CompositionScopedBatch batch = visual.Compositor().CreateScopedBatch(CompositionBatchTypes::Animation);
+                    winrt::Visual visual = winrt::ElementCompositionPreview::GetElementVisual(element);
+                    winrt::CompositionScopedBatch batch = visual.Compositor().CreateScopedBatch(winrt::CompositionBatchTypes::Animation);
 
                     batch.Completed([callback](auto&&, auto&&) { callback(); });
 
                     for (const auto& factory : compositionAnimationFactories)
                     {
-                        CompositionObject target{ nullptr };
+                        winrt::CompositionObject target{ nullptr };
                         auto animation = factory->GetAnimation(visual, target);
 
                         if (target == nullptr)
@@ -697,10 +699,10 @@ namespace winrt::XamlToolkit::WinUI::Animations
                     // (§III.1.8.1.2.2), which is not "verifier-assignable-to" (ie. directly assigning to it is not legal).
                     auto counter = std::make_shared<int>(2);
 
-                    ElementCompositionPreview::SetIsTranslationEnabled(element, true);
+                    winrt::ElementCompositionPreview::SetIsTranslationEnabled(element, true);
 
-                    Visual visual = ElementCompositionPreview::GetElementVisual(element);
-                    CompositionScopedBatch batch = visual.Compositor().CreateScopedBatch(CompositionBatchTypes::Animation);
+                    winrt::Visual visual = winrt::ElementCompositionPreview::GetElementVisual(element);
+                    winrt::CompositionScopedBatch batch = visual.Compositor().CreateScopedBatch(winrt::CompositionBatchTypes::Animation);
 
                     batch.Completed([counter, callback](auto&&, auto&&)
                     {
@@ -712,7 +714,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
 
                     for (const auto& factory : compositionAnimationFactories)
                     {
-                        CompositionObject target{ nullptr };
+                        winrt::CompositionObject target{ nullptr };
                         auto animation = factory->GetAnimation(visual, target);
 
                         if (target == nullptr)
@@ -727,7 +729,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
 
                     batch.End();
 
-                    Storyboard storyboard;
+                    winrt::Storyboard storyboard;
                     auto children = storyboard.Children();
                     for (auto const& factory : xamlAnimationFactories)
                     {
@@ -750,7 +752,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
                 // animations, with the main difference being that the Completed event is directly exposed from the
                 // Storyboard type, so we don't need a separate type to track the animation completion. The same
                 // considerations regarding the closure to capture the provided callback apply here as well.
-                Storyboard storyboard;
+                winrt::Storyboard storyboard;
                 auto children = storyboard.Children();
                 for (auto const& factory : xamlAnimationFactories)
                 {
@@ -765,22 +767,22 @@ namespace winrt::XamlToolkit::WinUI::Animations
         /// <summary>
         /// Starts the animations present in the current AnimationBuilder instance.
         /// </summary>
-        winrt::Windows::Foundation::IAsyncAction StartAsync(UIElement const& element)
+        winrt::IAsyncAction StartAsync(winrt::UIElement const& element)
         {
-            winrt::Windows::Foundation::IAsyncAction compositionTask{ nullptr };
-            winrt::Windows::Foundation::IAsyncAction xamlTask{ nullptr };
+            winrt::IAsyncAction compositionTask{ nullptr };
+            winrt::IAsyncAction xamlTask{ nullptr };
             auto cancelation_token{ co_await winrt::get_cancellation_token() };
 
-            std::vector<std::tuple<CompositionObject, winrt::hstring>> compositionAnimations;
+            std::vector<std::tuple<winrt::CompositionObject, winrt::hstring>> compositionAnimations;
 
             if (!compositionAnimationFactories.empty())
             {
                 wil::shared_event completionEvent(wil::EventOptions::ManualReset);
 
-                ElementCompositionPreview::SetIsTranslationEnabled(element, true);
+                winrt::ElementCompositionPreview::SetIsTranslationEnabled(element, true);
 
-                Visual visual = ElementCompositionPreview::GetElementVisual(element);
-                CompositionScopedBatch batch = visual.Compositor().CreateScopedBatch(CompositionBatchTypes::Animation);
+                winrt::Visual visual = winrt::ElementCompositionPreview::GetElementVisual(element);
+                winrt::CompositionScopedBatch batch = visual.Compositor().CreateScopedBatch(winrt::CompositionBatchTypes::Animation);
 
                 batch.Completed([completionEvent](auto&&, auto&&)
                 {
@@ -789,7 +791,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
 
                 for (const auto& factory : compositionAnimationFactories)
                 {
-                    CompositionObject target{ nullptr };
+                    winrt::CompositionObject target{ nullptr };
                     auto animation = factory->GetAnimation(visual, target);
 
                     if (target == nullptr)
@@ -806,17 +808,17 @@ namespace winrt::XamlToolkit::WinUI::Animations
 
                 batch.End();
 
-                compositionTask = [completionEvent]() -> winrt::Windows::Foundation::IAsyncAction
+                compositionTask = [completionEvent]() -> winrt::IAsyncAction
                 {
                     co_await winrt::resume_on_signal(completionEvent.get());
                 }();
             }
 
-            Storyboard storyboard{ nullptr };
+            winrt::Storyboard storyboard{ nullptr };
 
             if (!xamlAnimationFactories.empty())
             {
-                storyboard = Storyboard();
+                storyboard = winrt::Storyboard();
                 wil::shared_event completionEvent(wil::EventOptions::ManualReset);
 
                 auto children = storyboard.Children();
@@ -832,7 +834,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
 
                 storyboard.Begin();
 
-                xamlTask = [completionEvent]() -> winrt::Windows::Foundation::IAsyncAction
+                xamlTask = [completionEvent]() -> winrt::IAsyncAction
                 {
                      co_await winrt::resume_on_signal(completionEvent.get());
                 }();
@@ -871,12 +873,12 @@ namespace winrt::XamlToolkit::WinUI::Animations
 
         template<typename T>
             requires std::is_base_of_v<ICompositionAnimationFactory, std::remove_cvref_t<T>>
-        AnimationBuilder& AddCompositionAnimationFactory(T&& factory, CompositionObject const&)
+        AnimationBuilder& AddCompositionAnimationFactory(T&& factory, winrt::CompositionObject const&)
         {
             return AddCompositionAnimationFactory(std::forward<T>(factory));
         }
 
-        AnimationBuilder& AddCompositionAnimationFactory(CompositionAnimation const& animation, CompositionObject const& target);
+        AnimationBuilder& AddCompositionAnimationFactory(winrt::CompositionAnimation const& animation, winrt::CompositionObject const& target);
 
         /// <summary>
         /// Adds a XAML animation factory.
@@ -895,7 +897,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
             return AddXamlAnimationFactory(std::make_unique<FactoryType>(std::forward<T>(factory)));
         }
 
-        AnimationBuilder& AddXamlAnimationFactory(Timeline const& animation);
+        AnimationBuilder& AddXamlAnimationFactory(winrt::Timeline const& animation);
     };
 }
 

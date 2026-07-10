@@ -5,15 +5,22 @@
 #include "AnimationBuilder.Factories.h"
 
 #ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.Foundation.Numerics.h>
+#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
+#include <winrt/XamlToolkit.WinUI.Animations.h>
 #include <numbers>
+#else
+import winrt.XamlToolkit.WinUI.Animations;
 #endif
 
 #include <Windowsnumerics.h>
 
 namespace winrt
 {
-    using namespace Microsoft::UI::Xaml;
+	using namespace Windows::Foundation;
 	using namespace Windows::Foundation::Numerics;
+    using namespace Microsoft::UI::Xaml::Media::Animation;
 }
 
 namespace winrt::XamlToolkit::WinUI::Animations
@@ -22,23 +29,23 @@ namespace winrt::XamlToolkit::WinUI::Animations
         Axis axis,
         double to,
         std::optional<double> from,
-        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
-        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        std::optional<winrt::TimeSpan> delay,
+        std::optional<winrt::TimeSpan> duration,
         std::optional<RepeatOption> repeat,
         EasingType easingType,
-        EasingMode easingMode)
+        winrt::EasingMode easingMode)
     {
         return AddCompositionAnimationFactory(AnimationExtensions::Properties::Composition::AnchorPoint(axis), to, from, delay, duration, repeat, easingType, easingMode);
     }
 
     inline AnimationBuilder& AnimationBuilder::AnchorPoint(
-        float2 const& to,
-        std::optional<float2> from,
-        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
-        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        winrt::float2 const& to,
+        std::optional<winrt::float2> from,
+        std::optional<winrt::TimeSpan> delay,
+        std::optional<winrt::TimeSpan> duration,
         std::optional<RepeatOption> repeat,
         EasingType easingType,
-        EasingMode easingMode)
+        winrt::EasingMode easingMode)
     {
         return AddCompositionAnimationFactory(L"AnchorPoint", to, from, delay, duration, repeat, easingType, easingMode);
     }
@@ -46,11 +53,11 @@ namespace winrt::XamlToolkit::WinUI::Animations
     inline AnimationBuilder& AnimationBuilder::Opacity(
         double to,
         std::optional<double> from,
-        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
-        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        std::optional<winrt::TimeSpan> delay,
+        std::optional<winrt::TimeSpan> duration,
         std::optional<RepeatOption> repeat,
         EasingType easingType,
-        EasingMode easingMode,
+        winrt::EasingMode easingMode,
         FrameworkLayer layer)
     {
         return layer == FrameworkLayer::Composition ? AddCompositionAnimationFactory(L"Opacity", to, from, delay, duration, repeat, easingType, easingMode) : AddXamlAnimationFactory(L"Opacity", to, from, delay, duration, repeat, easingType, easingMode);
@@ -60,11 +67,11 @@ namespace winrt::XamlToolkit::WinUI::Animations
         Axis axis,
         double to,
         std::optional<double> from,
-        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
-        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        std::optional<winrt::TimeSpan> delay,
+        std::optional<winrt::TimeSpan> duration,
         std::optional<RepeatOption> repeat,
         EasingType easingType,
-        EasingMode easingMode,
+        winrt::EasingMode easingMode,
         FrameworkLayer layer)
     {
         return layer == FrameworkLayer::Composition
@@ -73,13 +80,13 @@ namespace winrt::XamlToolkit::WinUI::Animations
     }
 
     inline AnimationBuilder& AnimationBuilder::Translation(
-        float3 const& to,
-        std::optional<float3> from,
-        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
-        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        winrt::float3 const& to,
+        std::optional<winrt::float3> from,
+        std::optional<winrt::TimeSpan> delay,
+        std::optional<winrt::TimeSpan> duration,
         std::optional<RepeatOption> repeat,
         EasingType easingType,
-        EasingMode easingMode)
+        winrt::EasingMode easingMode)
     {
         return AddCompositionAnimationFactory(L"Translation", to, from, delay, duration, repeat, easingType, easingMode);
     }
@@ -88,11 +95,11 @@ namespace winrt::XamlToolkit::WinUI::Animations
         Axis axis,
         double to,
         std::optional<double> from,
-        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
-        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        std::optional<winrt::TimeSpan> delay,
+        std::optional<winrt::TimeSpan> duration,
         std::optional<RepeatOption> repeat,
         EasingType easingType,
-        EasingMode easingMode,
+        winrt::EasingMode easingMode,
         FrameworkLayer layer)
     {
         return layer == FrameworkLayer::Composition
@@ -103,19 +110,19 @@ namespace winrt::XamlToolkit::WinUI::Animations
     inline AnimationBuilder& AnimationBuilder::Scale(
         double to,
         std::optional<double> from,
-        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
-        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        std::optional<winrt::TimeSpan> delay,
+        std::optional<winrt::TimeSpan> duration,
         std::optional<RepeatOption> repeat,
         EasingType easingType,
-        EasingMode easingMode,
+        winrt::EasingMode easingMode,
         FrameworkLayer layer)
     {
         if (layer == FrameworkLayer::Composition)
         {
             float toValue = static_cast<float>(to);
-            std::optional<float3> fromValue = from ? std::optional<float3>(float3{ static_cast<float>(from.value()) }) : std::nullopt;
+            std::optional<winrt::float3> fromValue = from ? std::optional<winrt::float3>(winrt::float3{ static_cast<float>(from.value()) }) : std::nullopt;
 
-            return AddCompositionAnimationFactory(L"Scale", float3{ toValue, toValue, toValue }, fromValue, delay, duration, repeat, easingType, easingMode);
+            return AddCompositionAnimationFactory(L"Scale", winrt::float3{ toValue, toValue, toValue }, fromValue, delay, duration, repeat, easingType, easingMode);
         }
 
         AddXamlTransformDoubleAnimationFactory(L"ScaleX", to, from, delay, duration, repeat, easingType, easingMode);
@@ -128,23 +135,23 @@ namespace winrt::XamlToolkit::WinUI::Animations
         Axis axis,
         double to,
         std::optional<double> from,
-        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
-        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        std::optional<winrt::TimeSpan> delay,
+        std::optional<winrt::TimeSpan> duration,
         std::optional<RepeatOption> repeat,
         EasingType easingType,
-        EasingMode easingMode)
+        winrt::EasingMode easingMode)
     {
         return AddCompositionAnimationFactory(AnimationExtensions::Properties::Composition::Offset(axis), to, from, delay, duration, repeat, easingType, easingMode);
     }
 
     inline AnimationBuilder& AnimationBuilder::Offset(
-        float3 const& to,
-        std::optional<float3> from,
-        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
-        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        winrt::float3 const& to,
+        std::optional<winrt::float3> from,
+        std::optional<winrt::TimeSpan> delay,
+        std::optional<winrt::TimeSpan> duration,
         std::optional<RepeatOption> repeat,
         EasingType easingType,
-        EasingMode easingMode)
+        winrt::EasingMode easingMode)
     {
         return AddCompositionAnimationFactory(L"Offset", to, from, delay, duration, repeat, easingType, easingMode);
     }
@@ -153,11 +160,11 @@ namespace winrt::XamlToolkit::WinUI::Animations
         Axis axis,
         double to,
         std::optional<double> from,
-        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
-        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        std::optional<winrt::TimeSpan> delay,
+        std::optional<winrt::TimeSpan> duration,
         std::optional<RepeatOption> repeat,
         EasingType easingType,
-        EasingMode easingMode,
+        winrt::EasingMode easingMode,
         FrameworkLayer layer)
     {
         return layer == FrameworkLayer::Composition
@@ -166,13 +173,13 @@ namespace winrt::XamlToolkit::WinUI::Animations
     }
 
     inline AnimationBuilder& AnimationBuilder::CenterPoint(
-        float3 const& to,
-        std::optional<float3> from,
-        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
-        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        winrt::float3 const& to,
+        std::optional<winrt::float3> from,
+        std::optional<winrt::TimeSpan> delay,
+        std::optional<winrt::TimeSpan> duration,
         std::optional<RepeatOption> repeat,
         EasingType easingType,
-        EasingMode easingMode)
+        winrt::EasingMode easingMode)
     {
         return AddCompositionAnimationFactory(L"CenterPoint", to, from, delay, duration, repeat, easingType, easingMode);
     }
@@ -180,11 +187,11 @@ namespace winrt::XamlToolkit::WinUI::Animations
     inline AnimationBuilder& AnimationBuilder::Rotation(
         double to,
         std::optional<double> from,
-        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
-        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        std::optional<winrt::TimeSpan> delay,
+        std::optional<winrt::TimeSpan> duration,
         std::optional<RepeatOption> repeat,
         EasingType easingType,
-        EasingMode easingMode,
+        winrt::EasingMode easingMode,
         FrameworkLayer layer)
     {
         if (layer == FrameworkLayer::Composition)
@@ -202,11 +209,11 @@ namespace winrt::XamlToolkit::WinUI::Animations
     inline AnimationBuilder& AnimationBuilder::RotationInDegrees(
         double to,
         std::optional<double> from,
-        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
-        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        std::optional<winrt::TimeSpan> delay,
+        std::optional<winrt::TimeSpan> duration,
         std::optional<RepeatOption> repeat,
         EasingType easingType,
-        EasingMode easingMode,
+        winrt::EasingMode easingMode,
         FrameworkLayer layer)
     {
         if (layer == FrameworkLayer::Composition)
@@ -218,13 +225,13 @@ namespace winrt::XamlToolkit::WinUI::Animations
     }
 
     inline AnimationBuilder& AnimationBuilder::Translation(
-        float2 const& to,
-        std::optional<float2> from,
-        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
-        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        winrt::float2 const& to,
+        std::optional<winrt::float2> from,
+        std::optional<winrt::TimeSpan> delay,
+        std::optional<winrt::TimeSpan> duration,
         std::optional<RepeatOption> repeat,
         EasingType easingType,
-        EasingMode easingMode,
+        winrt::EasingMode easingMode,
         FrameworkLayer layer)
     {
         if (layer == FrameworkLayer::Composition)
@@ -239,13 +246,13 @@ namespace winrt::XamlToolkit::WinUI::Animations
     }
 
     inline AnimationBuilder& AnimationBuilder::Scale(
-        float2 const& to,
-        std::optional<float2> from,
-        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
-        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        winrt::float2 const& to,
+        std::optional<winrt::float2> from,
+        std::optional<winrt::TimeSpan> delay,
+        std::optional<winrt::TimeSpan> duration,
         std::optional<RepeatOption> repeat,
         EasingType easingType,
-        EasingMode easingMode,
+        winrt::EasingMode easingMode,
         FrameworkLayer layer)
     {
         if (layer == FrameworkLayer::Composition)
@@ -260,37 +267,37 @@ namespace winrt::XamlToolkit::WinUI::Animations
     }
 
     inline AnimationBuilder& AnimationBuilder::Scale(
-        float3 const& to,
-        std::optional<float3> from,
-        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
-        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        winrt::float3 const& to,
+        std::optional<winrt::float3> from,
+        std::optional<winrt::TimeSpan> delay,
+        std::optional<winrt::TimeSpan> duration,
         std::optional<RepeatOption> repeat,
         EasingType easingType,
-        EasingMode easingMode)
+        winrt::EasingMode easingMode)
     {
         return AddCompositionAnimationFactory(L"Scale", to, from, delay, duration, repeat, easingType, easingMode);
     }
 
     inline AnimationBuilder& AnimationBuilder::Offset(
-        float2 const& to,
-        std::optional<float2> from,
-        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
-        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        winrt::float2 const& to,
+        std::optional<winrt::float2> from,
+        std::optional<winrt::TimeSpan> delay,
+        std::optional<winrt::TimeSpan> duration,
         std::optional<RepeatOption> repeat,
         EasingType easingType,
-        EasingMode easingMode)
+        winrt::EasingMode easingMode)
     {
         return AddCompositionAnimationFactory(AnimationExtensions::Properties::Composition::OffsetXY(), to, from, delay, duration, repeat, easingType, easingMode);
     }
 
     inline AnimationBuilder& AnimationBuilder::CenterPoint(
-        float2 const& to,
-        std::optional<float2> from,
-        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
-        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        winrt::float2 const& to,
+        std::optional<winrt::float2> from,
+        std::optional<winrt::TimeSpan> delay,
+        std::optional<winrt::TimeSpan> duration,
         std::optional<RepeatOption> repeat,
         EasingType easingType,
-        EasingMode easingMode,
+        winrt::EasingMode easingMode,
         FrameworkLayer layer)
     {
         if (layer == FrameworkLayer::Composition)
@@ -305,25 +312,25 @@ namespace winrt::XamlToolkit::WinUI::Animations
     }
 
     inline AnimationBuilder& AnimationBuilder::RotationAxis(
-        float3 const& to,
-        std::optional<float3> from,
-        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
-        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        winrt::float3 const& to,
+        std::optional<winrt::float3> from,
+        std::optional<winrt::TimeSpan> delay,
+        std::optional<winrt::TimeSpan> duration,
         std::optional<RepeatOption> repeat,
         EasingType easingType,
-        EasingMode easingMode)
+        winrt::EasingMode easingMode)
     {
         return AddCompositionAnimationFactory(L"RotationAxis", to, from, delay, duration, repeat, easingType, easingMode);
     }
 
     inline AnimationBuilder& AnimationBuilder::Orientation(
-        quaternion const& to,
-        std::optional<quaternion> from,
-        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
-        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        winrt::quaternion const& to,
+        std::optional<winrt::quaternion> from,
+        std::optional<winrt::TimeSpan> delay,
+        std::optional<winrt::TimeSpan> duration,
         std::optional<RepeatOption> repeat,
         EasingType easingType,
-        EasingMode easingMode)
+        winrt::EasingMode easingMode)
     {
         return AddCompositionAnimationFactory(L"Orientation", to, from, delay, duration, repeat, easingType, easingMode);
     }
@@ -331,30 +338,30 @@ namespace winrt::XamlToolkit::WinUI::Animations
     inline AnimationBuilder& AnimationBuilder::Transform(
         float4x4 const& to,
         std::optional<float4x4> from,
-        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
-        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        std::optional<winrt::TimeSpan> delay,
+        std::optional<winrt::TimeSpan> duration,
         std::optional<RepeatOption> repeat,
         EasingType easingType,
-        EasingMode easingMode)
+        winrt::EasingMode easingMode)
     {
-        float3 toScale{};
-        quaternion toRotation{};
-        float3 toTranslation{};
+        winrt::float3 toScale{};
+        winrt::quaternion toRotation{};
+        winrt::float3 toTranslation{};
 
         if (!decompose(to, &toScale, &toRotation, &toTranslation))
         {
             throw winrt::hresult_invalid_argument(L"The destination matrix could not be decomposed");
         }
 
-        std::optional<float3> fromScale = std::nullopt;
-        std::optional<quaternion> fromRotation = std::nullopt;
-        std::optional<float3> fromTranslation = std::nullopt;
+        std::optional<winrt::float3> fromScale = std::nullopt;
+        std::optional<winrt::quaternion> fromRotation = std::nullopt;
+        std::optional<winrt::float3> fromTranslation = std::nullopt;
 
         if (from.has_value())
         {
-            float3 scale3{};
-            quaternion rotation4{};
-            float3 translation3{};
+            winrt::float3 scale3{};
+            winrt::quaternion rotation4{};
+            winrt::float3 translation3{};
 
             if (!decompose(from.value(), &scale3, &rotation4, &translation3))
             {
@@ -377,11 +384,11 @@ namespace winrt::XamlToolkit::WinUI::Animations
         Side side,
         double to,
         std::optional<double> from,
-        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
-        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        std::optional<winrt::TimeSpan> delay,
+        std::optional<winrt::TimeSpan> duration,
         std::optional<RepeatOption> repeat,
         EasingType easingType,
-        EasingMode easingMode)
+        winrt::EasingMode easingMode)
     {
          auto animation = std::make_unique<CompositionClipScalarAnimation>(
             AnimationExtensions::Properties::Composition::Clip(side),
@@ -399,13 +406,13 @@ namespace winrt::XamlToolkit::WinUI::Animations
     }
 
     inline AnimationBuilder& AnimationBuilder::Clip(
-        winrt::Microsoft::UI::Xaml::Thickness const& to,
-        std::optional<winrt::Microsoft::UI::Xaml::Thickness> from,
-        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
-        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        winrt::Thickness const& to,
+        std::optional<winrt::Thickness> from,
+        std::optional<winrt::TimeSpan> delay,
+        std::optional<winrt::TimeSpan> duration,
         std::optional<RepeatOption> repeat,
         EasingType easingType,
-        EasingMode easingMode)
+        winrt::EasingMode easingMode)
     {
         Clip(Side::Left, to.Left, from ? std::optional<double>(from->Left) : std::nullopt, delay, duration, repeat, easingType, easingMode);
         Clip(Side::Top, to.Top, from ? std::optional<double>(from->Top) : std::nullopt, delay, duration, repeat, easingType, easingMode);
@@ -419,11 +426,11 @@ namespace winrt::XamlToolkit::WinUI::Animations
         Axis axis,
         double to,
         std::optional<double> from,
-        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
-        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        std::optional<winrt::TimeSpan> delay,
+        std::optional<winrt::TimeSpan> duration,
         std::optional<RepeatOption> repeat,
         EasingType easingType,
-        EasingMode easingMode,
+        winrt::EasingMode easingMode,
         FrameworkLayer layer)
     {
         return layer == FrameworkLayer::Composition
@@ -432,13 +439,13 @@ namespace winrt::XamlToolkit::WinUI::Animations
     }
 
     inline AnimationBuilder& AnimationBuilder::Size(
-        float2 const& to,
-        std::optional<float2> from,
-        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
-        std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+        winrt::float2 const& to,
+        std::optional<winrt::float2> from,
+        std::optional<winrt::TimeSpan> delay,
+        std::optional<winrt::TimeSpan> duration,
         std::optional<RepeatOption> repeat,
         EasingType easingType,
-        EasingMode easingMode,
+        winrt::EasingMode easingMode,
         FrameworkLayer layer)
     {
         if (layer == FrameworkLayer::Composition)

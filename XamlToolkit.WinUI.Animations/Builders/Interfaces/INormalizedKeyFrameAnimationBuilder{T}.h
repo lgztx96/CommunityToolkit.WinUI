@@ -3,18 +3,6 @@
 #include "../../Extensions/AnimationExtensions.h"
 #include "../AnimationBuilder.h"
 
-#ifdef __INTELLISENSE__
-#include <winrt/Windows.Foundation.h>
-#include <winrt/Microsoft.UI.Composition.h>
-#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
-#endif
-
-namespace winrt
-{
-	using namespace Microsoft::UI::Composition;
-	using namespace Microsoft::UI::Xaml::Media::Animation;
-}
-
 namespace winrt::XamlToolkit::WinUI::Animations
 {
     /// <summary>

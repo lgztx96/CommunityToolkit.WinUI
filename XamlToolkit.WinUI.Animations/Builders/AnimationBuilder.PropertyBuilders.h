@@ -10,7 +10,6 @@ namespace winrt
     using namespace Microsoft::UI::Composition;
     using namespace Microsoft::UI::Xaml;
     using namespace Microsoft::UI::Xaml::Media;
-    using namespace Microsoft::UI::Xaml::Media::Animation;
     using namespace Windows::Foundation::Numerics;
 }
 
@@ -29,16 +28,16 @@ namespace winrt::XamlToolkit::WinUI::Animations
         {
         }
 
-        CompositionAnimation GetAnimation(CompositionObject const& targetHint, CompositionObject& target) override
+        winrt::CompositionAnimation GetAnimation(winrt::CompositionObject const& targetHint, winrt::CompositionObject& target) override
         {
-            auto visual = targetHint.try_as<Visual>();
+            auto visual = targetHint.try_as<winrt::Visual>();
 
             if (!visual)
             {
                 throw winrt::hresult_invalid_argument(L"Clip property animations require a Visual target.");
             }
 
-            auto clip = visual.Clip().try_as<InsetClip>();
+            auto clip = visual.Clip().try_as<winrt::InsetClip>();
 
             if (!clip)
             {
@@ -46,7 +45,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
                 visual.Clip(clip);
             }
 
-            CompositionObject ignored{ nullptr };
+            winrt::CompositionObject ignored{ nullptr };
             auto animation = factory.GetAnimation(clip, ignored);
 
             target = clip;
@@ -68,20 +67,20 @@ namespace winrt::XamlToolkit::WinUI::Animations
         {
         }
 
-        Timeline GetAnimation(DependencyObject const& targetHint) override
+        Timeline GetAnimation(winrt::DependencyObject const& targetHint) override
         {
-            auto element = targetHint.try_as<UIElement>();
+            auto element = targetHint.try_as<winrt::UIElement>();
 
             if (!element)
             {
                 throw winrt::hresult_invalid_argument(L"XAML transform property animations require a UIElement target.");
             }
 
-            auto transform = element.RenderTransform().try_as<CompositeTransform>();
+            auto transform = element.RenderTransform().try_as<winrt::CompositeTransform>();
 
             if (!transform)
             {
-                transform = CompositeTransform();
+                transform = winrt::CompositeTransform();
                 element.RenderTransform(transform);
             }
 
@@ -145,10 +144,10 @@ namespace winrt::XamlToolkit::WinUI::Animations
 
         AnimationBuilder& NormalizedKeyFrames(
             std::function<void(INormalizedKeyFrameAnimationBuilder<T>&)> build,
-            std::optional<winrt::Windows::Foundation::TimeSpan> delay = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> duration = std::nullopt,
+            std::optional<winrt::TimeSpan> delay = std::nullopt,
+            std::optional<winrt::TimeSpan> duration = std::nullopt,
             std::optional<RepeatOption> repeatOption = std::nullopt,
-            std::optional<AnimationDelayBehavior> delayBehavior = std::nullopt) override
+            std::optional<winrt::AnimationDelayBehavior> delayBehavior = std::nullopt) override
         {
             if (targetKind == PropertyAnimationBuilderTarget::Default)
             {
@@ -184,9 +183,9 @@ namespace winrt::XamlToolkit::WinUI::Animations
 
         AnimationBuilder& TimedKeyFrames(
             std::function<void(ITimedKeyFrameAnimationBuilder<T>&)> build,
-            std::optional<winrt::Windows::Foundation::TimeSpan> delay = std::nullopt,
+            std::optional<winrt::TimeSpan> delay = std::nullopt,
             std::optional<RepeatOption> repeatOption = std::nullopt,
-            std::optional<AnimationDelayBehavior> delayBehavior = std::nullopt) override
+            std::optional<winrt::AnimationDelayBehavior> delayBehavior = std::nullopt) override
         {
             if (targetKind == PropertyAnimationBuilderTarget::Default)
             {

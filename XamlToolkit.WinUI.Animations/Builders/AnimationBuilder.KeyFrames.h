@@ -10,26 +10,31 @@
 
 #ifdef __INTELLISENSE__
 #include <winrt/Windows.Foundation.h>
-#include <winrt/Microsoft.UI.Composition.h>
 #include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Composition.h>
 #include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
 #include <functional>
 #include <optional>
 #endif
 
+namespace winrt
+{
+	using namespace Windows::Foundation;
+	using namespace Windows::Foundation::Numerics;
+	using namespace Microsoft::UI::Composition;
+	using namespace Microsoft::UI::Xaml::Media::Animation;
+}
+
 namespace winrt::XamlToolkit::WinUI::Animations
 {
-	using namespace winrt::Microsoft::UI::Composition;
-	using namespace winrt::Microsoft::UI::Xaml::Media::Animation;
-
 	inline PropertyAnimationBuilder<double> AnimationBuilder::AnchorPoint(Axis axis)
 	{
 		return PropertyAnimationBuilder<double>(*this, AnimationExtensions::Properties::Composition::AnchorPoint(axis), FrameworkLayer::Composition);
 	}
 
-	inline PropertyAnimationBuilder<float2> AnimationBuilder::AnchorPoint()
+	inline PropertyAnimationBuilder<winrt::float2> AnimationBuilder::AnchorPoint()
 	{
-		return PropertyAnimationBuilder<float2>(*this, L"AnchorPoint", FrameworkLayer::Composition);
+		return PropertyAnimationBuilder<winrt::float2>(*this, L"AnchorPoint", FrameworkLayer::Composition);
 	}
 
 	inline PropertyAnimationBuilder<double> AnimationBuilder::Opacity(FrameworkLayer layer)
@@ -47,9 +52,9 @@ namespace winrt::XamlToolkit::WinUI::Animations
 		return PropertyAnimationBuilder<double>::CreateXamlTransform(*this, AnimationExtensions::Properties::Xaml::Translation(axis));
 	}
 
-	inline PropertyAnimationBuilder<float3> AnimationBuilder::Translation()
+	inline PropertyAnimationBuilder<winrt::float3> AnimationBuilder::Translation()
 	{
-		return PropertyAnimationBuilder<float3>(*this, L"Translation", FrameworkLayer::Composition);
+		return PropertyAnimationBuilder<winrt::float3>(*this, L"Translation", FrameworkLayer::Composition);
 	}
 
 	inline PropertyAnimationBuilder<double> AnimationBuilder::Offset(Axis axis)
@@ -57,9 +62,9 @@ namespace winrt::XamlToolkit::WinUI::Animations
 		return PropertyAnimationBuilder<double>(*this, AnimationExtensions::Properties::Composition::Offset(axis), FrameworkLayer::Composition);
 	}
 
-	inline PropertyAnimationBuilder<float3> AnimationBuilder::Offset()
+	inline PropertyAnimationBuilder<winrt::float3> AnimationBuilder::Offset()
 	{
-		return PropertyAnimationBuilder<float3>(*this, L"Offset", FrameworkLayer::Composition);
+		return PropertyAnimationBuilder<winrt::float3>(*this, L"Offset", FrameworkLayer::Composition);
 	}
 
 	inline PropertyAnimationBuilder<double> AnimationBuilder::Scale(Axis axis, FrameworkLayer layer)
@@ -72,9 +77,9 @@ namespace winrt::XamlToolkit::WinUI::Animations
 		return PropertyAnimationBuilder<double>::CreateXamlTransform(*this, AnimationExtensions::Properties::Xaml::Scale(axis));
 	}
 
-	inline PropertyAnimationBuilder<float3> AnimationBuilder::Scale()
+	inline PropertyAnimationBuilder<winrt::float3> AnimationBuilder::Scale()
 	{
-		return PropertyAnimationBuilder<float3>(*this, L"Scale", FrameworkLayer::Composition);
+		return PropertyAnimationBuilder<winrt::float3>(*this, L"Scale", FrameworkLayer::Composition);
 	}
 
 	inline PropertyAnimationBuilder<double> AnimationBuilder::CenterPoint(Axis axis, FrameworkLayer layer)
@@ -87,9 +92,9 @@ namespace winrt::XamlToolkit::WinUI::Animations
 		return PropertyAnimationBuilder<double>::CreateXamlTransform(*this, AnimationExtensions::Properties::Xaml::CenterPoint(axis));
 	}
 
-	inline PropertyAnimationBuilder<float3> AnimationBuilder::CenterPoint()
+	inline PropertyAnimationBuilder<winrt::float3> AnimationBuilder::CenterPoint()
 	{
-		return PropertyAnimationBuilder<float3>(*this, L"CenterPoint", FrameworkLayer::Composition);
+		return PropertyAnimationBuilder<winrt::float3>(*this, L"CenterPoint", FrameworkLayer::Composition);
 	}
 
 	inline PropertyAnimationBuilder<double> AnimationBuilder::Rotation()
@@ -107,14 +112,14 @@ namespace winrt::XamlToolkit::WinUI::Animations
 		return PropertyAnimationBuilder<double>::CreateXamlTransform(*this, L"Rotation");
 	}
 
-	inline PropertyAnimationBuilder<float3> AnimationBuilder::RotationAxis()
+	inline PropertyAnimationBuilder<winrt::float3> AnimationBuilder::RotationAxis()
 	{
-		return PropertyAnimationBuilder<float3>(*this, L"RotationAxis", FrameworkLayer::Composition);
+		return PropertyAnimationBuilder<winrt::float3>(*this, L"RotationAxis", FrameworkLayer::Composition);
 	}
 
-	inline PropertyAnimationBuilder<quaternion> AnimationBuilder::Orientation()
+	inline PropertyAnimationBuilder<winrt::quaternion> AnimationBuilder::Orientation()
 	{
-		return PropertyAnimationBuilder<quaternion>(*this, L"Orientation", FrameworkLayer::Composition);
+		return PropertyAnimationBuilder<winrt::quaternion>(*this, L"Orientation", FrameworkLayer::Composition);
 	}
 
 	inline PropertyAnimationBuilder<double> AnimationBuilder::Clip(Side side)
@@ -132,9 +137,9 @@ namespace winrt::XamlToolkit::WinUI::Animations
 		return PropertyAnimationBuilder<double>(*this, AnimationExtensions::Properties::Xaml::Size(axis), layer);
 	}
 
-	inline PropertyAnimationBuilder<float2> AnimationBuilder::Size()
+	inline PropertyAnimationBuilder<winrt::float2> AnimationBuilder::Size()
 	{
-		return PropertyAnimationBuilder<float2>(*this, AnimationExtensions::Properties::Composition::Size(), FrameworkLayer::Composition);
+		return PropertyAnimationBuilder<winrt::float2>(*this, AnimationExtensions::Properties::Composition::Size(), FrameworkLayer::Composition);
 	}
 
 	/// <summary>
@@ -154,10 +159,10 @@ namespace winrt::XamlToolkit::WinUI::Animations
 	inline AnimationBuilder& AnimationBuilder::NormalizedKeyFrames(
 		winrt::hstring const& property,
 		std::function<void(INormalizedKeyFrameAnimationBuilder<T>&)> build,
-		std::optional<winrt::Windows::Foundation::TimeSpan> delay,
-		std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+		std::optional<winrt::TimeSpan> delay,
+		std::optional<winrt::TimeSpan> duration,
 		std::optional<RepeatOption> repeatOption,
-		std::optional<AnimationDelayBehavior> delayBehavior,
+		std::optional<winrt::AnimationDelayBehavior> delayBehavior,
 		FrameworkLayer layer)
 	{
 		if (layer == FrameworkLayer::Composition)
@@ -208,10 +213,10 @@ namespace winrt::XamlToolkit::WinUI::Animations
 		winrt::hstring const& property,
 		TState state,
 		std::function<void(INormalizedKeyFrameAnimationBuilder<T>&, TState)> build,
-		std::optional<winrt::Windows::Foundation::TimeSpan> delay,
-		std::optional<winrt::Windows::Foundation::TimeSpan> duration,
+		std::optional<winrt::TimeSpan> delay,
+		std::optional<winrt::TimeSpan> duration,
 		std::optional<RepeatOption> repeatOption,
-		std::optional<AnimationDelayBehavior> delayBehavior,
+		std::optional<winrt::AnimationDelayBehavior> delayBehavior,
 		FrameworkLayer layer)
 	{
 		if (layer == FrameworkLayer::Composition)
@@ -259,9 +264,9 @@ namespace winrt::XamlToolkit::WinUI::Animations
 	inline AnimationBuilder& AnimationBuilder::TimedKeyFrames(
 		winrt::hstring const& property,
 		std::function<void(ITimedKeyFrameAnimationBuilder<T>&)> build,
-		std::optional<winrt::Windows::Foundation::TimeSpan> delay,
+		std::optional<winrt::TimeSpan> delay,
 		std::optional<RepeatOption> repeatOption,
-		std::optional<AnimationDelayBehavior> delayBehavior,
+		std::optional<winrt::AnimationDelayBehavior> delayBehavior,
 		FrameworkLayer layer)
 	{
 		if (layer == FrameworkLayer::Composition)
@@ -312,7 +317,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
 		std::function<void(ITimedKeyFrameAnimationBuilder<T>&, TState)> build,
 		std::optional<TimeSpan> delay,
 		std::optional<RepeatOption> repeatOption,
-		std::optional<AnimationDelayBehavior> delayBehavior,
+		std::optional<winrt::AnimationDelayBehavior> delayBehavior,
 		FrameworkLayer layer)
 	{
 		if (layer == FrameworkLayer::Composition)

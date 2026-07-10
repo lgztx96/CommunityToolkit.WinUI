@@ -4,6 +4,7 @@
 
 #ifdef __INTELLISENSE__
 #include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.UI.h>
 #include <winrt/Windows.Foundation.Numerics.h>
 #include <winrt/Microsoft.UI.Composition.h>
 #include <winrt/Microsoft.UI.Xaml.h>
@@ -12,10 +13,10 @@
 
 namespace winrt
 {
-    using namespace Microsoft::UI::Composition;
-    using namespace Microsoft::UI::Xaml;
-    using namespace Microsoft::UI::Xaml::Media::Animation;
+    using namespace Windows::UI;
     using namespace Windows::Foundation::Numerics;
+    using namespace Microsoft::UI::Composition;
+    using namespace Microsoft::UI::Xaml::Media::Animation;
 }
 
 namespace winrt::XamlToolkit::WinUI::Animations
@@ -26,20 +27,20 @@ namespace winrt::XamlToolkit::WinUI::Animations
 #pragma warning(push)
 #pragma warning(disable:4702)
     template<typename T, typename TKeyFrame>
-    CompositionAnimation BuildCompositionKeyFrameAnimation(
-        CompositionObject target,
+    winrt::CompositionAnimation BuildCompositionKeyFrameAnimation(
+        winrt::CompositionObject target,
         winrt::hstring const& property,
-        std::optional<winrt::Windows::Foundation::TimeSpan> delay,
-        winrt::Windows::Foundation::TimeSpan duration,
+        std::optional<winrt::TimeSpan> delay,
+        winrt::TimeSpan duration,
         RepeatOption repeat,
-        AnimationDelayBehavior delayBehavior,
+        winrt::AnimationDelayBehavior delayBehavior,
         std::span<TKeyFrame> keyFrames)
     {
-        KeyFrameAnimation animation{ nullptr };
+        winrt::KeyFrameAnimation animation{ nullptr };
 
         if constexpr (std::is_same_v<T, bool>)
         {
-            BooleanKeyFrameAnimation boolAnimation = target.Compositor().CreateBooleanKeyFrameAnimation();
+            winrt::BooleanKeyFrameAnimation boolAnimation = target.Compositor().CreateBooleanKeyFrameAnimation();
 
             for (auto& keyFrame : keyFrames)
             {
@@ -55,7 +56,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
         }
         else if constexpr (std::is_same_v<T, float>)
         {
-            ScalarKeyFrameAnimation scalarAnimation = target.Compositor().CreateScalarKeyFrameAnimation();
+            winrt::ScalarKeyFrameAnimation scalarAnimation = target.Compositor().CreateScalarKeyFrameAnimation();
 
             for (auto& keyFrame : keyFrames)
             {
@@ -64,7 +65,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
                     continue;
                 }
 
-                CompositionEasingFunction easingFunction = CompositorExtensions::TryCreateEasingFunction(target.Compositor(), keyFrame.GetEasingType(), keyFrame.GetEasingMode());
+                winrt::CompositionEasingFunction easingFunction = winrt::CompositorExtensions::TryCreateEasingFunction(target.Compositor(), keyFrame.GetEasingType(), keyFrame.GetEasingMode());
 
                 if (easingFunction)
                 {
@@ -80,7 +81,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
         }
         else if constexpr (std::is_same_v<T, double>)
         {
-            ScalarKeyFrameAnimation scalarAnimation = target.Compositor().CreateScalarKeyFrameAnimation();
+            winrt::ScalarKeyFrameAnimation scalarAnimation = target.Compositor().CreateScalarKeyFrameAnimation();
 
             for (auto& keyFrame : keyFrames)
             {
@@ -89,7 +90,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
                     continue;
                 }
 
-                CompositionEasingFunction easingFunction = CompositorExtensions::TryCreateEasingFunction(target.Compositor(), keyFrame.GetEasingType(), keyFrame.GetEasingMode());
+                winrt::CompositionEasingFunction easingFunction = winrt::CompositorExtensions::TryCreateEasingFunction(target.Compositor(), keyFrame.GetEasingType(), keyFrame.GetEasingMode());
 
                 float value = static_cast<float>(keyFrame.GetValue());
                 if (easingFunction)
@@ -104,9 +105,9 @@ namespace winrt::XamlToolkit::WinUI::Animations
 
             animation = scalarAnimation;
         }
-        else if constexpr (std::is_same_v<T, float2>)
+        else if constexpr (std::is_same_v<T, winrt::float2>)
         {
-            Vector2KeyFrameAnimation vector2Animation = target.Compositor().CreateVector2KeyFrameAnimation();
+            winrt::Vector2KeyFrameAnimation vector2Animation = target.Compositor().CreateVector2KeyFrameAnimation();
 
             for (auto& keyFrame : keyFrames)
             {
@@ -115,7 +116,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
                     continue;
                 }
 
-                CompositionEasingFunction easingFunction = CompositorExtensions::TryCreateEasingFunction(target.Compositor(), keyFrame.GetEasingType(), keyFrame.GetEasingMode());
+                winrt::CompositionEasingFunction easingFunction = winrt::CompositorExtensions::TryCreateEasingFunction(target.Compositor(), keyFrame.GetEasingType(), keyFrame.GetEasingMode());
 
                 if (easingFunction)
                 {
@@ -129,9 +130,9 @@ namespace winrt::XamlToolkit::WinUI::Animations
 
             animation = vector2Animation;
         }
-        else if constexpr (std::is_same_v<T, float3>)
+        else if constexpr (std::is_same_v<T, winrt::float3>)
         {
-            Vector3KeyFrameAnimation vector3Animation = target.Compositor().CreateVector3KeyFrameAnimation();
+            winrt::Vector3KeyFrameAnimation vector3Animation = target.Compositor().CreateVector3KeyFrameAnimation();
 
             for (auto& keyFrame : keyFrames)
             {
@@ -140,7 +141,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
                     continue;
                 }
 
-                CompositionEasingFunction easingFunction = CompositorExtensions::TryCreateEasingFunction(target.Compositor(), keyFrame.GetEasingType(), keyFrame.GetEasingMode());
+                winrt::CompositionEasingFunction easingFunction = winrt::CompositorExtensions::TryCreateEasingFunction(target.Compositor(), keyFrame.GetEasingType(), keyFrame.GetEasingMode());
 
                 if (easingFunction)
                 {
@@ -154,9 +155,9 @@ namespace winrt::XamlToolkit::WinUI::Animations
 
             animation = vector3Animation;
         }
-        else if constexpr (std::is_same_v<T, float4>)
+        else if constexpr (std::is_same_v<T, winrt::float4>)
         {
-            Vector4KeyFrameAnimation vector4Animation = target.Compositor().CreateVector4KeyFrameAnimation();
+            winrt::Vector4KeyFrameAnimation vector4Animation = target.Compositor().CreateVector4KeyFrameAnimation();
 
             for (auto& keyFrame : keyFrames)
             {
@@ -165,7 +166,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
                     continue;
                 }
 
-                CompositionEasingFunction easingFunction = CompositorExtensions::TryCreateEasingFunction(target.Compositor(), keyFrame.GetEasingType(), keyFrame.GetEasingMode());
+                winrt::CompositionEasingFunction easingFunction = winrt::CompositorExtensions::TryCreateEasingFunction(target.Compositor(), keyFrame.GetEasingType(), keyFrame.GetEasingMode());
 
                 if (easingFunction)
                 {
@@ -179,9 +180,9 @@ namespace winrt::XamlToolkit::WinUI::Animations
 
             animation = vector4Animation;
         }
-        else if constexpr (std::is_same_v<T, winrt::Windows::UI::Color>)
+        else if constexpr (std::is_same_v<T, winrt::Color>)
         {
-            ColorKeyFrameAnimation colorAnimation = target.Compositor().CreateColorKeyFrameAnimation();
+            winrt::ColorKeyFrameAnimation colorAnimation = target.Compositor().CreateColorKeyFrameAnimation();
 
             for (auto& keyFrame : keyFrames)
             {
@@ -190,7 +191,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
                     continue;
                 }
 
-                CompositionEasingFunction easingFunction = CompositorExtensions::TryCreateEasingFunction(target.Compositor(), keyFrame.GetEasingType(), keyFrame.GetEasingMode());
+                winrt::CompositionEasingFunction easingFunction = winrt::CompositorExtensions::TryCreateEasingFunction(target.Compositor(), keyFrame.GetEasingType(), keyFrame.GetEasingMode());
 
                 if (easingFunction)
                 {
@@ -204,9 +205,9 @@ namespace winrt::XamlToolkit::WinUI::Animations
 
             animation = colorAnimation;
         }
-        else if constexpr (std::is_same_v<T, quaternion>)
+        else if constexpr (std::is_same_v<T, winrt::quaternion>)
         {
-            QuaternionKeyFrameAnimation quaternionAnimation = target.Compositor().CreateQuaternionKeyFrameAnimation();
+            winrt::QuaternionKeyFrameAnimation quaternionAnimation = target.Compositor().CreateQuaternionKeyFrameAnimation();
 
             for (auto& keyFrame : keyFrames)
             {
@@ -215,7 +216,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
                     continue;
                 }
 
-                CompositionEasingFunction easingFunction = CompositorExtensions::TryCreateEasingFunction(target.Compositor(), keyFrame.GetEasingType(), keyFrame.GetEasingMode());
+                winrt::CompositionEasingFunction easingFunction = winrt::CompositorExtensions::TryCreateEasingFunction(target.Compositor(), keyFrame.GetEasingType(), keyFrame.GetEasingMode());
 
                 if (easingFunction)
                 {
@@ -244,7 +245,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
 
         animation.Target(property);
 
-        AnimationIterationBehavior iterationBehavior;
+        winrt::AnimationIterationBehavior iterationBehavior;
         int iterationCount;
         RepeatOptionHelper::ToBehaviorAndCount(repeat, iterationBehavior, iterationCount);
         animation.IterationBehavior(iterationBehavior);
@@ -261,7 +262,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
     class NormalizedKeyFrameAnimationBuilderComposition : public NormalizedKeyFrameAnimationBuilder<T>, public ICompositionAnimationFactory
     {
     private:
-        AnimationDelayBehavior delayBehavior;
+        winrt::AnimationDelayBehavior delayBehavior;
 
     public:
         /// <summary>
@@ -269,10 +270,10 @@ namespace winrt::XamlToolkit::WinUI::Animations
         /// </summary>
         NormalizedKeyFrameAnimationBuilderComposition(
             winrt::hstring const& property,
-            std::optional<TimeSpan> delay,
-            TimeSpan duration,
+            std::optional<winrt::TimeSpan> delay,
+            winrt::TimeSpan duration,
             RepeatOption repeat,
-            AnimationDelayBehavior delayBehavior)
+            winrt::AnimationDelayBehavior delayBehavior)
             : NormalizedKeyFrameAnimationBuilder<T>(property, delay, duration, repeat), delayBehavior(delayBehavior)
         {
         }
@@ -282,14 +283,14 @@ namespace winrt::XamlToolkit::WinUI::Animations
             double progress,
             winrt::hstring const& expression,
             EasingType easingType = AnimationExtensions::DefaultEasingType(),
-            EasingMode easingMode = AnimationExtensions::DefaultEasingMode()) override
+            winrt::EasingMode easingMode = AnimationExtensions::DefaultEasingMode()) override
         {
             this->keyFrames.push_back(typename NormalizedKeyFrameAnimationBuilder<T>::KeyFrameInfo(progress, expression, easingType, easingMode));
             return *this;
         }
 
         /// <inheritdoc/>
-        CompositionAnimation GetAnimation(CompositionObject const& targetHint, CompositionObject& target) override
+        winrt::CompositionAnimation GetAnimation(winrt::CompositionObject const& targetHint, winrt::CompositionObject& target) override
         {
             target = nullptr;
 

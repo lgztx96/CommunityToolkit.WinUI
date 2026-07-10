@@ -10,6 +10,7 @@
 
 namespace winrt
 {
+	using namespace Windows::Foundation;
 	using namespace Microsoft::UI::Composition;
 	using namespace Microsoft::UI::Xaml::Media::Animation;
 }
@@ -49,21 +50,21 @@ namespace winrt::XamlToolkit::WinUI::Animations
         /// <param name="animation">The target <see cref="KeyFrameAnimation"/> instance.</param>
         /// <param name="duration">The total duration for the full animation.</param>
         /// <returns>Whether or not the current <see cref="IKeyFrameInfo"/> instance contained an expression.</returns>
-        virtual bool TryInsertExpressionKeyFrame(KeyFrameAnimation const& animation, winrt::Windows::Foundation::TimeSpan duration) = 0;
+        virtual bool TryInsertExpressionKeyFrame(winrt::KeyFrameAnimation const& animation, winrt::TimeSpan duration) = 0;
 
         /// <summary>
         /// Gets the normalized progress for the current keyframe.
         /// </summary>
         /// <param name="duration">The total duration for the full animation.</param>
         /// <returns>The normalized progress for the current keyframe.</returns>
-        virtual float GetNormalizedProgress(winrt::Windows::Foundation::TimeSpan duration) = 0;
+        virtual float GetNormalizedProgress(winrt::TimeSpan duration) = 0;
 
         /// <summary>
         /// Gets the timed progress for the current keyframe.
         /// </summary>
         /// <param name="duration">The total duration for the full animation.</param>
         /// <returns>The timed progress for the current keyframe.</returns>
-        virtual winrt::Windows::Foundation::TimeSpan GetTimedProgress(winrt::Windows::Foundation::TimeSpan duration) = 0;
+        virtual winrt::TimeSpan GetTimedProgress(winrt::TimeSpan duration) = 0;
 
         virtual ~IKeyFrameInfo() = default;
 

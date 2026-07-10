@@ -4,14 +4,11 @@
 
 #ifdef __INTELLISENSE__
 #include <winrt/Windows.Foundation.h>
-#include <winrt/Microsoft.UI.Composition.h>
-#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
 #endif
 
 namespace winrt
 {
-	using namespace Microsoft::UI::Composition;
-	using namespace Microsoft::UI::Xaml::Media::Animation;
+	using namespace Windows::Foundation;
 }
 
 namespace winrt::XamlToolkit::WinUI::Animations
@@ -33,7 +30,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
         /// <param name="easingMode">The easing mode to use to reach the new keyframe.</param>
         /// <returns>The same <see cref="ITimedKeyFrameAnimationBuilder{T}"/> instance that the method was invoked upon.</returns>
         virtual ITimedKeyFrameAnimationBuilder<T>& KeyFrame(
-            winrt::Windows::Foundation::TimeSpan progress,
+            winrt::TimeSpan progress,
             T const& value,
             EasingType easingType = AnimationExtensions::DefaultEasingType(),
             EasingMode easingMode = AnimationExtensions::DefaultEasingMode()) = 0;
@@ -49,7 +46,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
         /// <returns>The same <see cref="ITimedKeyFrameAnimationBuilder{T}"/> instance that the method was invoked upon.</returns>
         /// <exception cref="InvalidOperationException">Thrown when the animation being built targets the XAML layer.</exception>
         virtual ITimedKeyFrameAnimationBuilder<T>& ExpressionKeyFrame(
-            winrt::Windows::Foundation::TimeSpan progress,
+            winrt::TimeSpan progress,
             winrt::hstring const& expression,
             EasingType easingType = AnimationExtensions::DefaultEasingType(),
             EasingMode easingMode = AnimationExtensions::DefaultEasingMode()) = 0;
