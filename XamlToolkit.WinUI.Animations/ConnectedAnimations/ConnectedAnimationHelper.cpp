@@ -8,14 +8,10 @@
 
 namespace winrt::XamlToolkit::WinUI::Animations
 {
-    using namespace winrt::Microsoft::UI::Xaml;
-    using namespace winrt::Microsoft::UI::Xaml::Controls;
-    using namespace winrt::Microsoft::UI::Xaml::Navigation;
-    using namespace winrt::Microsoft::UI::Xaml::Media::Animation;
-
+  
     namespace
     {
-        bool IsNullOrEmptyStringParameter(winrt::Windows::Foundation::IInspectable const& value)
+        bool IsNullOrEmptyStringParameter(winrt::IInspectable const& value)
         {
             if (!value)
             {
@@ -26,13 +22,13 @@ namespace winrt::XamlToolkit::WinUI::Animations
             return text.empty();
         }
 
-        uintptr_t GetObjectKey(winrt::Windows::Foundation::IInspectable const& value)
+        uintptr_t GetObjectKey(winrt::IInspectable const& value)
         {
             return reinterpret_cast<uintptr_t>(winrt::get_abi(value));
         }
     }
 
-    ConnectedAnimationHelper::ConnectedAnimationHelper(Frame const& frame)
+    ConnectedAnimationHelper::ConnectedAnimationHelper(winrt::Frame const& frame)
     {
         if (!frame)
         {
@@ -44,16 +40,16 @@ namespace winrt::XamlToolkit::WinUI::Animations
         navigatedToken = this->frame.Navigated({ this, &ConnectedAnimationHelper::Frame_Navigated });
     }
 
-    void ConnectedAnimationHelper::SetParameterForNextFrameNavigation(winrt::Windows::Foundation::IInspectable const& parameter)
+    void ConnectedAnimationHelper::SetParameterForNextFrameNavigation(winrt::IInspectable const& parameter)
     {
         nextParameter = parameter;
     }
 
     void ConnectedAnimationHelper::Frame_Navigating(
-        [[maybe_unused]] winrt::Windows::Foundation::IInspectable const& sender,
-        NavigatingCancelEventArgs const& e)
+        [[maybe_unused]] winrt::IInspectable const& sender,
+        winrt::NavigatingCancelEventArgs const& e)
     {
-        winrt::Windows::Foundation::IInspectable parameter;
+        winrt::IInspectable parameter;
 
         if (nextParameter)
         {
@@ -64,8 +60,8 @@ namespace winrt::XamlToolkit::WinUI::Animations
             parameter = e.Parameter();
         }
 
-        auto cas = ConnectedAnimationService::GetForCurrentView();
-        auto page = frame.Content().try_as<Page>();
+        auto cas = winrt::ConnectedAnimationService::GetForCurrentView();
+        auto page = frame.Content().try_as<winrt::Page>();
 
         if (!page)
         {
@@ -76,7 +72,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
 
         for (auto const& [key, props] : connectedProps)
         {
-            ConnectedAnimation animation{ nullptr };
+            winrt::ConnectedAnimation animation{ nullptr };
 
             if (props.IsListAnimation() && parameter)
             {
@@ -113,7 +109,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
 
             if (animation)
             {
-                if (e.NavigationMode() == NavigationMode::Back)
+                if (e.NavigationMode() == winrt::NavigationMode::Back)
                 {
                     UseDirectConnectedAnimationConfiguration(animation);
                 }
@@ -124,10 +120,10 @@ namespace winrt::XamlToolkit::WinUI::Animations
     }
 
     void ConnectedAnimationHelper::Frame_Navigated(
-        [[maybe_unused]] winrt::Windows::Foundation::IInspectable const& sender,
-        NavigationEventArgs const& e)
+        [[maybe_unused]] winrt::IInspectable const& sender,
+        winrt::NavigationEventArgs const& e)
     {
-        auto navigatedPage = frame.Content().try_as<Page>();
+        auto navigatedPage = frame.Content().try_as<winrt::Page>();
 
         if (!navigatedPage)
         {
@@ -137,9 +133,9 @@ namespace winrt::XamlToolkit::WinUI::Animations
         auto weakFrame = winrt::make_weak(frame);
         auto token = std::make_shared<winrt::event_token>();
 
-        *token = navigatedPage.Loaded([this, weakFrame, token, e](winrt::Windows::Foundation::IInspectable const& source, RoutedEventArgs const&)
+        *token = navigatedPage.Loaded([this, weakFrame, token, e](winrt::IInspectable const& source, winrt::RoutedEventArgs const&)
         {
-            auto page = source.try_as<Page>();
+            auto page = source.try_as<winrt::Page>();
 
             if (!page)
             {
@@ -148,13 +144,13 @@ namespace winrt::XamlToolkit::WinUI::Animations
 
             page.Loaded(*token);
 
-            winrt::Windows::Foundation::IInspectable parameter;
+            winrt::IInspectable parameter{ nullptr };
 
             if (nextParameter)
             {
                 parameter = nextParameter;
             }
-            else if (e.NavigationMode() == NavigationMode::Back)
+            else if (e.NavigationMode() == winrt::NavigationMode::Back)
             {
                 if (auto strongFrame = weakFrame.get())
                 {
@@ -170,7 +166,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
                 parameter = e.Parameter();
             }
 
-            auto cas = ConnectedAnimationService::GetForCurrentView();
+            auto cas = winrt::ConnectedAnimationService::GetForCurrentView();
             auto& connectedProps = implementation::Connected::GetPageConnectedAnimationProperties(page);
             auto& coordinated = implementation::Connected::GetPageCoordinatedAnimationElements(page);
 
@@ -213,7 +209,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
 
                         if (it != coordinated.end() && !it->second.empty())
                         {
-                            auto list = winrt::single_threaded_vector<UIElement>();
+                            auto list = winrt::single_threaded_vector<winrt::UIElement>();
                             for (auto const& value : it->second)
                             {
                                 list.Append(value);
@@ -249,8 +245,8 @@ namespace winrt::XamlToolkit::WinUI::Animations
         });
     }
 
-    void ConnectedAnimationHelper::UseDirectConnectedAnimationConfiguration(ConnectedAnimation const& animation)
+    void ConnectedAnimationHelper::UseDirectConnectedAnimationConfiguration(winrt::ConnectedAnimation const& animation)
     {
-        animation.Configuration(DirectConnectedAnimationConfiguration{});
+        animation.Configuration(winrt::DirectConnectedAnimationConfiguration{});
     }
 }

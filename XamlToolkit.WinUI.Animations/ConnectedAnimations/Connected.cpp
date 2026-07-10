@@ -14,27 +14,21 @@
 
 namespace
 {
-    using namespace winrt;
-    using namespace winrt::Microsoft::UI::Xaml;
-    using namespace winrt::Microsoft::UI::Xaml::Controls;
-
-    uintptr_t GetObjectKey(winrt::Windows::Foundation::IInspectable const& value)
+    uintptr_t GetObjectKey(winrt::IInspectable const& value)
     {
         return reinterpret_cast<uintptr_t>(winrt::get_abi(value));
     }
 
-    Frame FindAncestorFrame(DependencyObject current)
+    winrt::Frame FindAncestorFrame(winrt::DependencyObject current)
     {
-        using namespace winrt::Microsoft::UI::Xaml::Media;
-
         while (current)
         {
-            if (auto frame = current.try_as<Frame>())
+            if (auto frame = current.try_as<winrt::Frame>())
             {
                 return frame;
             }
 
-            current = VisualTreeHelper::GetParent(current);
+            current = winrt::VisualTreeHelper::GetParent(current);
         }
 
         return nullptr;
@@ -42,84 +36,80 @@ namespace
 
     std::unordered_map<uintptr_t, std::shared_ptr<winrt::XamlToolkit::WinUI::Animations::ConnectedAnimationHelper>> frameHelpers;
     std::unordered_map<uintptr_t, std::map<winrt::hstring, winrt::XamlToolkit::WinUI::Animations::ConnectedAnimationProperties>> pageConnectedAnimationProperties;
-    std::unordered_map<uintptr_t, std::unordered_map<uintptr_t, std::vector<UIElement>>> pageCoordinatedAnimationElements;
+    std::unordered_map<uintptr_t, std::unordered_map<uintptr_t, std::vector<winrt::UIElement>>> pageCoordinatedAnimationElements;
 }
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
-    using namespace winrt::Microsoft::UI::Xaml;
-    using namespace winrt::Microsoft::UI::Xaml::Controls;
-    using namespace winrt::Windows::Foundation::Collections;
-
-    const wil::single_threaded_property<DependencyProperty> Connected::KeyProperty =
-        DependencyProperty::RegisterAttached(
+    const wil::single_threaded_property<winrt::DependencyProperty> Connected::KeyProperty =
+        winrt::DependencyProperty::RegisterAttached(
             L"Key",
             winrt::xaml_typename<winrt::hstring>(),
             winrt::xaml_typename<class_type>(),
-            PropertyMetadata(nullptr, PropertyChangedCallback{ &Connected::OnKeyChanged }));
+            winrt::PropertyMetadata(nullptr, &Connected::OnKeyChanged));
 
-    const wil::single_threaded_property<DependencyProperty> Connected::AnchorElementProperty =
-        DependencyProperty::RegisterAttached(
+    const wil::single_threaded_property<winrt::DependencyProperty> Connected::AnchorElementProperty =
+        winrt::DependencyProperty::RegisterAttached(
             L"AnchorElement",
             winrt::xaml_typename<UIElement>(),
             winrt::xaml_typename<class_type>(),
-            PropertyMetadata(nullptr, PropertyChangedCallback{ &Connected::OnAnchorElementChanged }));
+            winrt::PropertyMetadata(nullptr, &Connected::OnAnchorElementChanged));
 
-    const wil::single_threaded_property<DependencyProperty> Connected::ListItemKeyProperty =
-        DependencyProperty::RegisterAttached(
+    const wil::single_threaded_property<winrt::DependencyProperty> Connected::ListItemKeyProperty =
+        winrt::DependencyProperty::RegisterAttached(
             L"ListItemKey",
             winrt::xaml_typename<winrt::hstring>(),
             winrt::xaml_typename<class_type>(),
-            PropertyMetadata(nullptr, PropertyChangedCallback{ &Connected::OnListItemKeyChanged }));
+            winrt::PropertyMetadata(nullptr, &Connected::OnListItemKeyChanged));
 
-    const wil::single_threaded_property<DependencyProperty> Connected::ListItemElementNameProperty =
-        DependencyProperty::RegisterAttached(
+    const wil::single_threaded_property<winrt::DependencyProperty> Connected::ListItemElementNameProperty =
+        winrt::DependencyProperty::RegisterAttached(
             L"ListItemElementName",
             winrt::xaml_typename<winrt::hstring>(),
             winrt::xaml_typename<class_type>(),
-            PropertyMetadata(nullptr, PropertyChangedCallback{ &Connected::OnListItemElementNameChanged }));
+            winrt::PropertyMetadata(nullptr, &Connected::OnListItemElementNameChanged));
 
-    winrt::hstring Connected::GetKey(DependencyObject const& obj)
+    winrt::hstring Connected::GetKey(winrt::DependencyObject const& obj)
     {
         return winrt::unbox_value_or<winrt::hstring>(obj.GetValue(KeyProperty), L"");
     }
 
-    void Connected::SetKey(DependencyObject const& obj, winrt::hstring const& value)
+    void Connected::SetKey(winrt::DependencyObject const& obj, winrt::hstring const& value)
     {
         obj.SetValue(KeyProperty, winrt::box_value(value));
     }
 
-    UIElement Connected::GetAnchorElement(DependencyObject const& obj)
+    winrt::UIElement Connected::GetAnchorElement(winrt::DependencyObject const& obj)
     {
-        return obj.GetValue(AnchorElementProperty).try_as<UIElement>();
+        return obj.GetValue(AnchorElementProperty).try_as<winrt::UIElement>();
     }
 
-    void Connected::SetAnchorElement(DependencyObject const& obj, UIElement const& value)
+    void Connected::SetAnchorElement(winrt::DependencyObject const& obj, winrt::UIElement const& value)
     {
         obj.SetValue(AnchorElementProperty, value);
     }
 
-    winrt::hstring Connected::GetListItemKey(DependencyObject const& obj)
+    winrt::hstring Connected::GetListItemKey(winrt::DependencyObject const& obj)
     {
         return winrt::unbox_value_or<winrt::hstring>(obj.GetValue(ListItemKeyProperty), L"");
     }
 
-    void Connected::SetListItemKey(DependencyObject const& obj, winrt::hstring const& value)
+    void Connected::SetListItemKey(winrt::DependencyObject const& obj, winrt::hstring const& value)
     {
         obj.SetValue(ListItemKeyProperty, winrt::box_value(value));
     }
 
-    winrt::hstring Connected::GetListItemElementName(DependencyObject const& obj)
+    winrt::hstring Connected::GetListItemElementName(winrt::DependencyObject const& obj)
     {
         return winrt::unbox_value_or<winrt::hstring>(obj.GetValue(ListItemElementNameProperty), L"");
     }
 
-    void Connected::SetListItemElementName(DependencyObject const& obj, winrt::hstring const& value)
+    void Connected::SetListItemElementName(winrt::DependencyObject const& obj, winrt::hstring const& value)
     {
         obj.SetValue(ListItemElementNameProperty, winrt::box_value(value));
     }
 
-    std::shared_ptr<ConnectedAnimationHelper> Connected::GetConnectedAnimationHelper(Frame const& frame)
+    std::shared_ptr<ConnectedAnimationHelper> Connected::GetConnectedAnimationHelper(winrt::Frame const& frame)
     {
         if (!frame)
         {
@@ -140,21 +130,21 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         return helper;
     }
 
-    std::map<winrt::hstring, ConnectedAnimationProperties>& Connected::GetPageConnectedAnimationProperties(Page const& page)
+    std::map<winrt::hstring, ConnectedAnimationProperties>& Connected::GetPageConnectedAnimationProperties(winrt::Page const& page)
     {
         return pageConnectedAnimationProperties[GetObjectKey(page)];
     }
 
-    std::unordered_map<uintptr_t, std::vector<UIElement>>& Connected::GetPageCoordinatedAnimationElements(Page const& page)
+    std::unordered_map<uintptr_t, std::vector<winrt::UIElement>>& Connected::GetPageCoordinatedAnimationElements(winrt::Page const& page)
     {
         return pageCoordinatedAnimationElements[GetObjectKey(page)];
     }
 
     void Connected::RegisterElementForConnectedAnimation(
-        Page const& page,
+        winrt::Page const& page,
         winrt::hstring const& key,
-        UIElement const& element,
-        IIterable<UIElement> const& anchors)
+        winrt::UIElement const& element,
+        winrt::IIterable<winrt::UIElement> const& anchors)
     {
         if (!page || key.empty() || !element)
         {
@@ -177,7 +167,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         }
     }
 
-    void Connected::UnregisterElementForConnectedAnimation(Page const& page, winrt::hstring const& key)
+    void Connected::UnregisterElementForConnectedAnimation(winrt::Page const& page, winrt::hstring const& key)
     {
         if (!page || key.empty())
         {
@@ -199,7 +189,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         coordinatedElements[GetObjectKey(anchor)].push_back(element);
     }
 
-    void Connected::RemoveAnchoredElementForConnectedAnimation(Page const& page, UIElement const& element, UIElement const& anchor)
+    void Connected::RemoveAnchoredElementForConnectedAnimation(winrt::Page const& page, winrt::UIElement const& element, winrt::UIElement const& anchor)
     {
         if (!page || !element || !anchor)
         {
@@ -216,15 +206,15 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
 
         auto& anchored = it->second;
 
-        std::erase_if(anchored, [&](UIElement const& current) 
+        std::erase_if(anchored, [&](winrt::UIElement const& current)
         {
             return GetObjectKey(current) == GetObjectKey(element);
         });
     }
 
     void Connected::RegisterListItemForConnectedAnimation(
-        Page const& page,
-        ListViewBase const& listViewBase,
+        winrt::Page const& page,
+        winrt::ListViewBase const& listViewBase,
         winrt::hstring const& key,
         winrt::hstring const& elementName)
     {
@@ -263,7 +253,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         }
     }
 
-    void Connected::UnregisterListItemForConnectedAnimation(Page const& page, ListViewBase const& listViewBase, winrt::hstring const& key)
+    void Connected::UnregisterListItemForConnectedAnimation(winrt::Page const& page, winrt::ListViewBase const& listViewBase, winrt::hstring const& key)
     {
         if (!page || !listViewBase || key.empty())
         {
@@ -291,7 +281,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         }
     }
 
-    void Connected::SetListDataItemForNextConnectedAnimation(Frame const& frame, winrt::Windows::Foundation::IInspectable const& item)
+    void Connected::SetListDataItemForNextConnectedAnimation(winrt::Frame const& frame, winrt::IInspectable const& item)
     {
         if (auto helper = GetConnectedAnimationHelper(frame))
         {
@@ -299,18 +289,18 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         }
     }
 
-    void Connected::OnKeyChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e)
+    void Connected::OnKeyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e)
     {
-        auto element = d.try_as<FrameworkElement>();
+        auto element = d.try_as<winrt::FrameworkElement>();
 
         if (!element)
         {
             return;
         }
 
-        GetParentFrameAndExecuteAction(element, [element, e](Frame const& frame)
+        GetParentFrameAndExecuteAction(element, [element, e](winrt::Frame const& frame)
         {
-            auto page = frame.Content().try_as<Page>();
+            auto page = frame.Content().try_as<winrt::Page>();
 
             if (!page)
             {
@@ -333,18 +323,18 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         });
     }
 
-    void Connected::OnAnchorElementChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e)
+    void Connected::OnAnchorElementChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e)
     {
-        auto element = d.try_as<FrameworkElement>();
+        auto element = d.try_as<winrt::FrameworkElement>();
 
         if (!element)
         {
             return;
         }
 
-        GetParentFrameAndExecuteAction(element, [element, e](Frame const& frame)
+        GetParentFrameAndExecuteAction(element, [element, e](winrt::Frame const& frame)
         {
-            auto page = frame.Content().try_as<Page>();
+            auto page = frame.Content().try_as<winrt::Page>();
 
             if (!page)
             {
@@ -353,30 +343,30 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
 
             (void)GetConnectedAnimationHelper(frame);
 
-            if (auto oldAnchor = e.OldValue().try_as<UIElement>())
+            if (auto oldAnchor = e.OldValue().try_as<winrt::UIElement>())
             {
                 RemoveAnchoredElementForConnectedAnimation(page, element, oldAnchor);
             }
 
-            if (auto newAnchor = e.NewValue().try_as<UIElement>())
+            if (auto newAnchor = e.NewValue().try_as<winrt::UIElement>())
             {
                 AttachAnchorElementForConnectedAnimation(page, element, newAnchor);
             }
         });
     }
 
-    void Connected::OnListItemKeyChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e)
+    void Connected::OnListItemKeyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e)
     {
-        auto listViewBase = d.try_as<ListViewBase>();
+        auto listViewBase = d.try_as<winrt::ListViewBase>();
 
         if (!listViewBase)
         {
             return;
         }
 
-        GetParentFrameAndExecuteAction(listViewBase, [listViewBase, e](Frame const& frame)
+        GetParentFrameAndExecuteAction(listViewBase, [listViewBase, e](winrt::Frame const& frame)
         {
-            auto page = frame.Content().try_as<Page>();
+            auto page = frame.Content().try_as<winrt::Page>();
 
             if (!page)
             {
@@ -395,18 +385,18 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         });
     }
 
-    void Connected::OnListItemElementNameChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e)
+    void Connected::OnListItemElementNameChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e)
     {
-        auto listViewBase = d.try_as<ListViewBase>();
+        auto listViewBase = d.try_as<winrt::ListViewBase>();
 
         if (!listViewBase)
         {
             return;
         }
 
-        GetParentFrameAndExecuteAction(listViewBase, [listViewBase, e](Frame const& frame)
+        GetParentFrameAndExecuteAction(listViewBase, [listViewBase, e](winrt::Frame const& frame)
         {
-            auto page = frame.Content().try_as<Page>();
+            auto page = frame.Content().try_as<winrt::Page>();
 
             if (!page)
             {
@@ -430,8 +420,8 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
     }
 
     void Connected::GetParentFrameAndExecuteAction(
-        FrameworkElement const& element,
-        std::function<void(Frame const&)> const& action)
+        winrt::FrameworkElement const& element,
+        std::function<void(winrt::Frame const&)> const& action)
     {
         if (!element)
         {
@@ -449,7 +439,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         auto weakElement = winrt::make_weak(element);
         auto token = std::make_shared<winrt::event_token>();
 
-        *token = element.Loaded([weakElement, token, action](winrt::Windows::Foundation::IInspectable const&, RoutedEventArgs const&)
+        *token = element.Loaded([weakElement, token, action](winrt::IInspectable const&, winrt::RoutedEventArgs const&)
         {
             if (auto value = weakElement.get())
             {
@@ -463,7 +453,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         });
     }
 
-    void Connected::AddListViewBaseItemAnimationDetails(Page const& page, ListViewBase const& listViewBase)
+    void Connected::AddListViewBaseItemAnimationDetails(winrt::Page const& page, winrt::ListViewBase const& listViewBase)
     {
         if (!page || !listViewBase)
         {
