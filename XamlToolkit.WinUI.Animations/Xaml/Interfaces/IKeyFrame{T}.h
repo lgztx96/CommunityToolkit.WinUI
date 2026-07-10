@@ -5,10 +5,6 @@
 #pragma once
 #include "../../Builders/AnimationBuilder.h"
 
-#ifdef __INTELLISENSE__
-#include <winrt/Windows.Foundation.h>
-#endif
-
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
     /// <summary>
