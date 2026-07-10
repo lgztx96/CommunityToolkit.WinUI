@@ -8,45 +8,37 @@
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
-	const wil::single_threaded_property<winrt::DependencyProperty> TokenItem::IsRemoveableProperty{
+	const wil::single_threaded_property<winrt::DependencyProperty> TokenItem::IsRemoveableProperty =
 		winrt::DependencyProperty::Register(
 			L"IsRemoveable",
 			winrt::xaml_typename<bool>(),
 			winrt::xaml_typename<winrt::XamlToolkit::Labs::WinUI::TokenItem>(),
-			winrt::PropertyMetadata{
-				winrt::box_value(false),
-				[](auto& d, auto& e)
+			winrt::PropertyMetadata(winrt::box_value(false), [](auto& d, auto& e)
+			{
+				if (auto tokenItem = d.template try_as<winrt::XamlToolkit::Labs::WinUI::TokenItem>())
 				{
-					if (auto tokenItem = d.template try_as<winrt::XamlToolkit::Labs::WinUI::TokenItem>())
-					{
-						auto self = winrt::get_self<TokenItem>(tokenItem)->get_strong();
-						auto oldValue = winrt::unbox_value<bool>(e.OldValue());
-						auto newValue = winrt::unbox_value<bool>(e.NewValue());
-						self->OnIsRemoveablePropertyChanged(oldValue, newValue);
-					}
+					auto self = winrt::get_self<TokenItem>(tokenItem)->get_strong();
+					auto oldValue = winrt::unbox_value<bool>(e.OldValue());
+					auto newValue = winrt::unbox_value<bool>(e.NewValue());
+					self->OnIsRemoveablePropertyChanged(oldValue, newValue);
 				}
-			})
-	};
+			}));
 
-	const wil::single_threaded_property<winrt::DependencyProperty> TokenItem::IconProperty{
+	const wil::single_threaded_property<winrt::DependencyProperty> TokenItem::IconProperty =
 		winrt::DependencyProperty::Register(
 			L"Icon",
 			winrt::xaml_typename<winrt::IconElement>(),
 			winrt::xaml_typename<winrt::XamlToolkit::Labs::WinUI::TokenItem>(),
-			winrt::PropertyMetadata{
-				nullptr,
-				[](auto& d, auto& e)
+			winrt::PropertyMetadata(nullptr, [](auto& d, auto& e)
+			{
+				if (auto tokenItem = d.template try_as<winrt::XamlToolkit::Labs::WinUI::TokenItem>())
 				{
-					if (auto tokenItem = d.template try_as<winrt::XamlToolkit::Labs::WinUI::TokenItem>())
-					{
-						auto self = winrt::get_self<TokenItem>(tokenItem)->get_strong();
-						auto oldValue = e.OldValue().try_as<winrt::IconElement>();
-						auto newValue = e.NewValue().try_as<winrt::IconElement>();
-						self->OnIconPropertyChanged(oldValue, newValue);
-					}
+					auto self = winrt::get_self<TokenItem>(tokenItem)->get_strong();
+					auto oldValue = e.OldValue().try_as<winrt::IconElement>();
+					auto newValue = e.NewValue().try_as<winrt::IconElement>();
+					self->OnIconPropertyChanged(oldValue, newValue);
 				}
-			})
-	};
+			}));
 
 	TokenItem::TokenItem()
 	{
@@ -61,7 +53,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
 		_tokenItemRemoveButton = GetTemplateChild(TokenItemRemoveButtonName).try_as<winrt::ButtonBase>();
 
-		if (_tokenItemRemoveButton != nullptr)
+		if (_tokenItemRemoveButton)
 		{
 			_tokenItemRemoveButton.Click({ get_weak(), &TokenItem::TokenItemRemoveButton_Click });
 		}
@@ -87,7 +79,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
 	void TokenItem::ContentChanged()
 	{
-		if (Content() != nullptr)
+		if (Content())
 		{
 			winrt::VisualStateManager::GoToState(*this, IconLeftState, true);
 		}
@@ -104,7 +96,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
 	void TokenItem::IconChanged()
 	{
-		if (Icon() != nullptr)
+		if (Icon())
 		{
 			winrt::VisualStateManager::GoToState(*this, IconLeftState, true);
 		}

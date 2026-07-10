@@ -36,7 +36,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
     void TokenView::TokenViewScroller_ViewChanging([[maybe_unused]] winrt::IInspectable const& sender, winrt::ScrollViewerViewChangingEventArgs const& e)
     {
-        if (_tokenViewScrollBackButton != nullptr)
+        if (_tokenViewScrollBackButton)
         {
             if (e.FinalView().HorizontalOffset() < 1)
             {
@@ -48,9 +48,9 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
             }
         }
 
-        if (_tokenViewScrollForwardButton != nullptr)
+        if (_tokenViewScrollForwardButton)
         {
-            if (_tokenViewScroller != nullptr)
+            if (_tokenViewScroller)
             {
                 if (e.FinalView().HorizontalOffset() > _tokenViewScroller.ScrollableWidth() - 1)
                 {
@@ -66,35 +66,35 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
     void TokenView::ScrollViewer_Loaded([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
     {
-        if (_tokenViewScroller != nullptr)
+        if (_tokenViewScroller)
         {
             _tokenViewScrollerLoadedRevoker.revoke();
             _scrollViewChangingClickRevoker.revoke();
         }
 
-        if (_tokenViewScrollBackButton != nullptr)
+        if (_tokenViewScrollBackButton)
         {
             _scrollBackButtonClickRevoker.revoke();
         }
 
-        if (_tokenViewScrollForwardButton != nullptr)
+        if (_tokenViewScrollForwardButton)
         {
             _scrollForwardButtonClickRevoker.revoke();
         }
 
-        if (_tokenViewScroller != nullptr)
+        if (_tokenViewScroller)
         {
             _scrollViewChangingClickRevoker = _tokenViewScroller.ViewChanging(winrt::auto_revoke, { get_weak(), &TokenView::TokenViewScroller_ViewChanging });
             _tokenViewScrollBackButton = winrt::DependencyObjectEx::FindDescendant(_tokenViewScroller, TokenViewScrollBackButtonName).try_as<winrt::ButtonBase>();
             _tokenViewScrollForwardButton = winrt::DependencyObjectEx::FindDescendant(_tokenViewScroller, TokenViewScrollForwardButtonName).try_as<winrt::ButtonBase>();
         }
 
-        if (_tokenViewScrollBackButton != nullptr)
+        if (_tokenViewScrollBackButton)
         {
             _scrollBackButtonClickRevoker = _tokenViewScrollBackButton.Click(winrt::auto_revoke, { get_weak(), &TokenView::ScrollTabBackButton_Click });
         }
 
-        if (_tokenViewScrollForwardButton != nullptr)
+        if (_tokenViewScrollForwardButton)
         {
             _scrollForwardButtonClickRevoker = _tokenViewScrollForwardButton.Click(winrt::auto_revoke, { get_weak(), &TokenView::ScrollTabForwardButton_Click });
         }
@@ -119,7 +119,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
             }
             else
             {
-                if (_tokenViewScroller != nullptr)
+                if (_tokenViewScroller)
                 {
                     _tokenViewScroller.UpdateLayout();
                 }
@@ -148,7 +148,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
     void TokenView::OnIsWrappedChanged()
     {
-        if (_tokenViewScroller != nullptr)
+        if (_tokenViewScroller)
         {
             if (IsWrapped())
             {
