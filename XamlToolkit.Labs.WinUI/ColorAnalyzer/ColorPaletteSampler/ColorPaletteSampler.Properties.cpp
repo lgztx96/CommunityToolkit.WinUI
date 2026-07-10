@@ -4,7 +4,7 @@
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
-    winrt::Windows::Foundation::Collections::IVectorView<PaletteColor> ColorPaletteSampler::Palette() const
+    winrt::IVectorView<PaletteColor> ColorPaletteSampler::Palette() const
     {
 		return _palette ? _palette.GetView() : nullptr;
     }
@@ -19,16 +19,14 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         SetValue(SourceProperty, value);
     }
 
-    const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> ColorPaletteSampler::SourceProperty =
-        winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> ColorPaletteSampler::SourceProperty =
+        winrt::DependencyProperty::Register(
             L"Source",
             winrt::xaml_typename<ColorSource>(),
             winrt::xaml_typename<class_type>(),
-            winrt::Microsoft::UI::Xaml::PropertyMetadata{ nullptr, &ColorPaletteSampler::OnSourceChanged });
+            winrt::PropertyMetadata{ nullptr, &ColorPaletteSampler::OnSourceChanged });
 
-    void ColorPaletteSampler::OnSourceChanged(
-        winrt::Microsoft::UI::Xaml::DependencyObject const& d,
-        winrt::Microsoft::UI::Xaml::DependencyPropertyChangedEventArgs const& e)
+    void ColorPaletteSampler::OnSourceChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e)
     {
         auto analyzer = d.try_as<winrt::XamlToolkit::Labs::WinUI::ColorPaletteSampler>();
         if (!analyzer)
@@ -50,7 +48,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         analyzerImpl->UpdatePaletteAsync();
     }
 
-    void ColorPaletteSampler::OnSourceUpdated([[maybe_unused]] IInspectable const& sender, [[maybe_unused]] IInspectable const& e)
+    void ColorPaletteSampler::OnSourceUpdated([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::IInspectable const& e)
     {
         UpdatePaletteAsync();
     }
