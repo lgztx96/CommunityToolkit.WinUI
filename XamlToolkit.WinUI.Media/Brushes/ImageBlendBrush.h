@@ -6,16 +6,23 @@
 
 #include "ImageBlendBrush.g.h"
 #ifdef __INTELLISENSE__
-#include <winrt/Microsoft.UI.Xaml.Media.Imaging.h>
-#include <winrt/Microsoft.Graphics.Canvas.Effects.h>
-#include <winrt/XamlToolkit.WinUI.Media.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Composition.h>
+#include <winrt/Microsoft.UI.Xaml.Media.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
-#endif
-
+#else
 import winrt.Microsoft.UI.Xaml;
 import winrt.Microsoft.UI.Xaml.Media;
 import winrt.Microsoft.UI.Composition;
+#endif
+
+namespace winrt
+{
+    using namespace winrt::Microsoft::UI::Xaml;
+    using namespace winrt::Microsoft::UI::Composition;
+    using namespace winrt::Microsoft::UI::Xaml::Media;
+}
 
 namespace winrt::XamlToolkit::WinUI::Media::implementation
 {
@@ -26,42 +33,41 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
     {
         ImageBlendBrush() = default;
 
-        winrt::Microsoft::UI::Xaml::Media::ImageSource Source() const;
-        void Source(winrt::Microsoft::UI::Xaml::Media::ImageSource const& value);
+        winrt::ImageSource Source() const;
+        void Source(winrt::ImageSource const& value);
 
-        static const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> SourceProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> SourceProperty;
 
-        winrt::Microsoft::UI::Xaml::Media::Stretch Stretch() const;
-        void Stretch(winrt::Microsoft::UI::Xaml::Media::Stretch value);
+        winrt::Stretch Stretch() const;
+        void Stretch(winrt::Stretch value);
 
-        static const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> StretchProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> StretchProperty;
 
         winrt::XamlToolkit::WinUI::Media::ImageBlendMode Mode() const;
         void Mode(winrt::XamlToolkit::WinUI::Media::ImageBlendMode value);
 
-        static const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> ModeProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> ModeProperty;
 
         void OnConnected();
         void OnDisconnected();
 
     private:
-        winrt::Microsoft::UI::Xaml::Media::LoadedImageSurface _surface{ nullptr };
+        winrt::LoadedImageSurface _surface{ nullptr };
         winrt::Microsoft::UI::Composition::CompositionSurfaceBrush _surfaceBrush{ nullptr };
 
         static void OnSourceChanged(
-            winrt::Microsoft::UI::Xaml::DependencyObject const& d,
-            winrt::Microsoft::UI::Xaml::DependencyPropertyChangedEventArgs const& e);
+            winrt::DependencyObject const& d,
+            winrt::DependencyPropertyChangedEventArgs const& e);
 
         static void OnStretchChanged(
-            winrt::Microsoft::UI::Xaml::DependencyObject const& d,
-            winrt::Microsoft::UI::Xaml::DependencyPropertyChangedEventArgs const& e);
+            winrt::DependencyObject const& d,
+            winrt::DependencyPropertyChangedEventArgs const& e);
 
         static void OnModeChanged(
-            winrt::Microsoft::UI::Xaml::DependencyObject const& d,
-            winrt::Microsoft::UI::Xaml::DependencyPropertyChangedEventArgs const& e);
+            winrt::DependencyObject const& d,
+            winrt::DependencyPropertyChangedEventArgs const& e);
 
-        static winrt::Microsoft::UI::Composition::CompositionStretch CompositionStretchFromStretch(
-            winrt::Microsoft::UI::Xaml::Media::Stretch value);
+        static winrt::CompositionStretch CompositionStretchFromStretch(winrt::Stretch value);
     };
 }
 

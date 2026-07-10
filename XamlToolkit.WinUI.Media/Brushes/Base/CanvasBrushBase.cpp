@@ -9,20 +9,10 @@
 #include "CanvasBrushBase.g.cpp"
 #endif
 
-import winrt.Windows.Foundation;
-import winrt.Windows.Foundation.Numerics;
-import winrt.Microsoft.Graphics.Canvas;
-import winrt.Microsoft.Graphics.DirectX;
-import winrt.Microsoft.Graphics.Canvas.UI.Composition;
-import winrt.Microsoft.UI.Composition;
-
 namespace winrt 
 {
-    using namespace Windows::Foundation;
-    using namespace Windows::Foundation::Numerics;
-    using namespace Microsoft::Graphics::Canvas;
+    using namespace winrt::Microsoft::UI::Xaml::Media;
     using namespace Microsoft::Graphics::Canvas::UI::Composition;
-    using namespace Microsoft::UI::Composition;
     using namespace Microsoft::Graphics::DirectX;
 }
 
@@ -37,7 +27,7 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
         }
 
         // Get shared Canvas device
-        _device = CanvasDevice::GetSharedDevice();
+        _device = winrt::CanvasDevice::GetSharedDevice();
         _deviceLostToken = _device.DeviceLost({ this, &CanvasBrushBase::OnDeviceLost });
 
         // Unregister previous graphics events if any
@@ -47,35 +37,35 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
         }
 
         // Create CompositionGraphicsDevice
-        auto compositor = winrt::Microsoft::UI::Xaml::Media::CompositionTarget::GetCompositorForCurrentThread();
-        _graphics = CanvasComposition::CreateCompositionGraphicsDevice(compositor, _device);
+        auto compositor = winrt::CompositionTarget::GetCompositorForCurrentThread();
+        _graphics = winrt::CanvasComposition::CreateCompositionGraphicsDevice(compositor, _device);
         _renderingDeviceReplacedToken = _graphics.RenderingDeviceReplaced({ this, &CanvasBrushBase::OnRenderingDeviceReplaced });
 
         // Delay creating composition resources until they're required
         if (CompositionBrush() == nullptr)
         {
             // Check if effects are supported
-            auto compositionCapabilities = winrt::Microsoft::UI::Composition::CompositionCapabilities{};
+            winrt::CompositionCapabilities compositionCapabilities;
             if (!compositionCapabilities.AreEffectsSupported())
             {
                 return;
             }
 
-            auto size = float2{ _surfaceWidth, _surfaceHeight };
+            winrt::float2 size{ _surfaceWidth, _surfaceHeight };
             auto surface = _graphics.CreateDrawingSurface(
-                winrt::Windows::Foundation::Size{ _surfaceWidth, _surfaceHeight },
-                DirectXPixelFormat::B8G8R8A8UIntNormalized,
-                DirectXAlphaMode::Premultiplied);
+                winrt::Size{ _surfaceWidth, _surfaceHeight },
+                winrt::DirectXPixelFormat::B8G8R8A8UIntNormalized,
+                winrt::DirectXAlphaMode::Premultiplied);
 
             // Create drawing session and call OnDraw
-            auto session = CanvasComposition::CreateDrawingSession(surface);
+            auto session = winrt::CanvasComposition::CreateDrawingSession(surface);
             if (!OnDraw(_device, session, size))
             {
                 return;
             }
 
             _surfaceBrush = compositor.CreateSurfaceBrush(surface);
-            _surfaceBrush.Stretch(CompositionStretch::Fill);
+            _surfaceBrush.Stretch(winrt::CompositionStretch::Fill);
 
             CompositionBrush(_surfaceBrush);
         }
@@ -110,13 +100,13 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
         }
     }
 
-    void CanvasBrushBase::OnDeviceLost([[maybe_unused]] CanvasDevice const& sender, [[maybe_unused]] IInspectable const& args)
+    void CanvasBrushBase::OnDeviceLost([[maybe_unused]] winrt::CanvasDevice const& sender, [[maybe_unused]] winrt::IInspectable const& args)
     {
         OnDisconnected();
         OnConnected();
     }
 
-    void CanvasBrushBase::OnRenderingDeviceReplaced([[maybe_unused]] CompositionGraphicsDevice const& sender, [[maybe_unused]] IInspectable const& args)
+    void CanvasBrushBase::OnRenderingDeviceReplaced([[maybe_unused]] winrt::CompositionGraphicsDevice const& sender, [[maybe_unused]] winrt::IInspectable const& args)
     {
         OnDisconnected();
         OnConnected();

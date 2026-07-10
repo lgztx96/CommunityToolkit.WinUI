@@ -9,13 +9,21 @@
 #ifdef __INTELLISENSE__
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
-#endif
-
+#else
 import std;
 import winrt.Windows.Foundation;
 import winrt.Windows.UI;
 import winrt.Microsoft.UI.Xaml;
 import winrt.Microsoft.UI.Composition;
+#endif
+
+namespace winrt
+{
+    using namespace winrt::Windows::UI;
+    using namespace winrt::Windows::Foundation;
+    using namespace winrt::Microsoft::UI::Xaml;
+    using namespace winrt::Microsoft::UI::Composition;
+}
 
 namespace winrt::XamlToolkit::WinUI::Media::implementation
 {
@@ -29,45 +37,45 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
         double BlurAmount() const;
         void BlurAmount(double value);
 
-        static const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> BlurAmountProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> BlurAmountProperty;
 
-        winrt::Windows::UI::Color TintColor() const;
-        void TintColor(winrt::Windows::UI::Color value);
+        winrt::Color TintColor() const;
+        void TintColor(winrt::Color value);
 
-        static const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> TintColorProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> TintColorProperty;
 
         double TintOpacity() const;
         void TintOpacity(double value);
 
-        static const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> TintOpacityProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> TintOpacityProperty;
 
-        winrt::Windows::Foundation::Uri TextureUri() const;
-        void TextureUri(winrt::Windows::Foundation::Uri const& value);
+        winrt::Uri TextureUri() const;
+        void TextureUri(winrt::Uri const& value);
 
-        static const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> TextureUriProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> TextureUriProperty;
 
         Pipelines::PipelineBuilder OnPipelineRequested() override;
 
     private:
-        std::function<void(winrt::Microsoft::UI::Composition::CompositionBrush const&, float const&)> _blurAmountSetter;
-        std::function<void(winrt::Microsoft::UI::Composition::CompositionBrush const&, winrt::Windows::UI::Color const&)> _tintColorSetter;
-        std::function<void(winrt::Microsoft::UI::Composition::CompositionBrush const&, float const&)> _tintOpacitySetter;
+        std::function<void(winrt::CompositionBrush const&, float const&)> _blurAmountSetter;
+        std::function<void(winrt::CompositionBrush const&, winrt::Color const&)> _tintColorSetter;
+        std::function<void(winrt::CompositionBrush const&, float const&)> _tintOpacitySetter;
 
         static void OnBlurAmountPropertyChanged(
-            winrt::Microsoft::UI::Xaml::DependencyObject const& d,
-            winrt::Microsoft::UI::Xaml::DependencyPropertyChangedEventArgs const& e);
+            winrt::DependencyObject const& d,
+            winrt::DependencyPropertyChangedEventArgs const& e);
 
         static void OnTintColorPropertyChanged(
-            winrt::Microsoft::UI::Xaml::DependencyObject const& d,
-            winrt::Microsoft::UI::Xaml::DependencyPropertyChangedEventArgs const& e);
+            winrt::DependencyObject const& d,
+            winrt::DependencyPropertyChangedEventArgs const& e);
 
         static void OnTintOpacityPropertyChanged(
-            winrt::Microsoft::UI::Xaml::DependencyObject const& d,
-            winrt::Microsoft::UI::Xaml::DependencyPropertyChangedEventArgs const& e);
+            winrt::DependencyObject const& d,
+            winrt::DependencyPropertyChangedEventArgs const& e);
 
         static void OnTextureUriPropertyChanged(
-            winrt::Microsoft::UI::Xaml::DependencyObject const& d,
-            winrt::Microsoft::UI::Xaml::DependencyPropertyChangedEventArgs const& e);
+            winrt::DependencyObject const& d,
+            winrt::DependencyPropertyChangedEventArgs const& e);
     };
 }
 

@@ -11,12 +11,12 @@
 
 namespace winrt::XamlToolkit::WinUI::Media::implementation
 {
-    const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> BackdropBlurBrush::AmountProperty =
-        winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> BackdropBlurBrush::AmountProperty =
+        winrt::DependencyProperty::Register(
             L"Amount",
             winrt::xaml_typename<double>(),
             winrt::xaml_typename<class_type>(),
-            winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(0.0), &BackdropBlurBrush::OnAmountChanged });
+            winrt::PropertyMetadata{ winrt::box_value(0.0), &BackdropBlurBrush::OnAmountChanged });
 
     double BackdropBlurBrush::Amount() const
     {
@@ -29,8 +29,8 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
     }
 
     void BackdropBlurBrush::OnAmountChanged(
-        winrt::Microsoft::UI::Xaml::DependencyObject const& d,
-        [[maybe_unused]] winrt::Microsoft::UI::Xaml::DependencyPropertyChangedEventArgs const& e)
+        winrt::DependencyObject const& d,
+        [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& e)
     {
         auto brush = d.as<winrt::XamlToolkit::WinUI::Media::BackdropBlurBrush>();
 		auto self = winrt::get_self<BackdropBlurBrush>(brush);

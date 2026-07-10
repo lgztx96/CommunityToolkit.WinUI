@@ -7,12 +7,17 @@
 #include "BackdropBlurBrush.g.h"
 #include "Base/XamlCompositionEffectBrushBase.h"
 #ifdef __INTELLISENSE__
+#include <winrt/Microsoft.UI.Xaml.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
+#else
+import winrt.Microsoft.UI.Xaml;
 #endif
 
-import winrt.Microsoft.UI.Xaml;
-import winrt.Microsoft.UI.Composition;
+namespace winrt
+{
+    using namespace winrt::Microsoft::UI::Xaml;
+}
 
 namespace winrt::XamlToolkit::WinUI::Media::implementation
 {
@@ -26,16 +31,16 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
         double Amount() const;
         void Amount(double value);
 
-        static const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> AmountProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> AmountProperty;
 
         Pipelines::PipelineBuilder OnPipelineRequested() override;
 
     private:
-        std::function<void(winrt::Microsoft::UI::Composition::CompositionBrush const&, float const&)> _amountSetter;
+        std::function<void(winrt::CompositionBrush const&, float const&)> _amountSetter;
 
         static void OnAmountChanged(
-            winrt::Microsoft::UI::Xaml::DependencyObject const& d,
-            winrt::Microsoft::UI::Xaml::DependencyPropertyChangedEventArgs const& e);
+            winrt::DependencyObject const& d,
+            winrt::DependencyPropertyChangedEventArgs const& e);
     };
 }
 

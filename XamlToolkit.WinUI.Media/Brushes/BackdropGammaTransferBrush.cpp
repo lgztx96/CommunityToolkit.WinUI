@@ -12,123 +12,123 @@
 namespace winrt::XamlToolkit::WinUI::Media::implementation
 {
     // Alpha channel properties
-    const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> BackdropGammaTransferBrush::AlphaAmplitudeProperty =
-        winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> BackdropGammaTransferBrush::AlphaAmplitudeProperty =
+        winrt::DependencyProperty::Register(
             L"AlphaAmplitude",
             winrt::xaml_typename<double>(),
             winrt::xaml_typename<class_type>(),
-            winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(1.0), OnScalarPropertyChangedHelper(L"AlphaAmplitude") });
+            winrt::PropertyMetadata{ winrt::box_value(1.0), OnScalarPropertyChangedHelper(L"AlphaAmplitude") });
 
-    const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> BackdropGammaTransferBrush::AlphaDisableProperty =
-        winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> BackdropGammaTransferBrush::AlphaDisableProperty =
+        winrt::DependencyProperty::Register(
             L"AlphaDisable",
             winrt::xaml_typename<bool>(),
             winrt::xaml_typename<class_type>(),
-            winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(false), &BackdropGammaTransferBrush::OnBooleanPropertyChanged });
+            winrt::PropertyMetadata{ winrt::box_value(false), &BackdropGammaTransferBrush::OnBooleanPropertyChanged });
 
-    const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> BackdropGammaTransferBrush::AlphaExponentProperty =
-        winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> BackdropGammaTransferBrush::AlphaExponentProperty =
+        winrt::DependencyProperty::Register(
             L"AlphaExponent",
             winrt::xaml_typename<double>(),
             winrt::xaml_typename<class_type>(),
-            winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(1.0), OnScalarPropertyChangedHelper(L"AlphaExponent") });
+            winrt::PropertyMetadata{ winrt::box_value(1.0), OnScalarPropertyChangedHelper(L"AlphaExponent") });
 
-    const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> BackdropGammaTransferBrush::AlphaOffsetProperty =
-        winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> BackdropGammaTransferBrush::AlphaOffsetProperty =
+        winrt::DependencyProperty::Register(
             L"AlphaOffset",
             winrt::xaml_typename<double>(),
             winrt::xaml_typename<class_type>(),
-            winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(0.0), OnScalarPropertyChangedHelper(L"AlphaOffset") });
+            winrt::PropertyMetadata{ winrt::box_value(0.0), OnScalarPropertyChangedHelper(L"AlphaOffset") });
 
 
     // Red channel properties
-    const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> BackdropGammaTransferBrush::RedAmplitudeProperty =
-        winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> BackdropGammaTransferBrush::RedAmplitudeProperty =
+        winrt::DependencyProperty::Register(
             L"RedAmplitude",
             winrt::xaml_typename<double>(),
             winrt::xaml_typename<class_type>(),
-            winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(1.0), OnScalarPropertyChangedHelper(L"RedAmplitude") });
+            winrt::PropertyMetadata{ winrt::box_value(1.0), OnScalarPropertyChangedHelper(L"RedAmplitude") });
 
-    const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> BackdropGammaTransferBrush::RedDisableProperty =
-        winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> BackdropGammaTransferBrush::RedDisableProperty =
+        winrt::DependencyProperty::Register(
             L"RedDisable",
             winrt::xaml_typename<bool>(),
             winrt::xaml_typename<class_type>(),
-            winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(false), &BackdropGammaTransferBrush::OnBooleanPropertyChanged });
+            winrt::PropertyMetadata{ winrt::box_value(false), &BackdropGammaTransferBrush::OnBooleanPropertyChanged });
 
-    const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> BackdropGammaTransferBrush::RedExponentProperty =
-        winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> BackdropGammaTransferBrush::RedExponentProperty =
+        winrt::DependencyProperty::Register(
             L"RedExponent",
             winrt::xaml_typename<double>(),
             winrt::xaml_typename<class_type>(),
-            winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(1.0), OnScalarPropertyChangedHelper(L"RedExponent") });
+            winrt::PropertyMetadata{ winrt::box_value(1.0), OnScalarPropertyChangedHelper(L"RedExponent") });
 
-    const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> BackdropGammaTransferBrush::RedOffsetProperty =
-        winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> BackdropGammaTransferBrush::RedOffsetProperty =
+        winrt::DependencyProperty::Register(
             L"RedOffset",
             winrt::xaml_typename<double>(),
             winrt::xaml_typename<class_type>(),
-            winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(0.0), OnScalarPropertyChangedHelper(L"RedOffset") });
+            winrt::PropertyMetadata{ winrt::box_value(0.0), OnScalarPropertyChangedHelper(L"RedOffset") });
 
 
     // Green channel properties
-    const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> BackdropGammaTransferBrush::GreenAmplitudeProperty =
-        winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> BackdropGammaTransferBrush::GreenAmplitudeProperty =
+        winrt::DependencyProperty::Register(
             L"GreenAmplitude",
             winrt::xaml_typename<double>(),
             winrt::xaml_typename<class_type>(),
-            winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(1.0), OnScalarPropertyChangedHelper(L"GreenAmplitude") });
+            winrt::PropertyMetadata{ winrt::box_value(1.0), OnScalarPropertyChangedHelper(L"GreenAmplitude") });
 
-    const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> BackdropGammaTransferBrush::GreenDisableProperty =
-        winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> BackdropGammaTransferBrush::GreenDisableProperty =
+        winrt::DependencyProperty::Register(
             L"GreenDisable",
             winrt::xaml_typename<bool>(),
             winrt::xaml_typename<class_type>(),
-            winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(false), &BackdropGammaTransferBrush::OnBooleanPropertyChanged });
+            winrt::PropertyMetadata{ winrt::box_value(false), &BackdropGammaTransferBrush::OnBooleanPropertyChanged });
 
-    const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> BackdropGammaTransferBrush::GreenExponentProperty =
-        winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> BackdropGammaTransferBrush::GreenExponentProperty =
+        winrt::DependencyProperty::Register(
             L"GreenExponent",
             winrt::xaml_typename<double>(),
             winrt::xaml_typename<class_type>(),
-            winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(1.0), OnScalarPropertyChangedHelper(L"GreenExponent") });
+            winrt::PropertyMetadata{ winrt::box_value(1.0), OnScalarPropertyChangedHelper(L"GreenExponent") });
 
-    const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> BackdropGammaTransferBrush::GreenOffsetProperty =
-        winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> BackdropGammaTransferBrush::GreenOffsetProperty =
+        winrt::DependencyProperty::Register(
             L"GreenOffset",
             winrt::xaml_typename<double>(),
             winrt::xaml_typename<class_type>(),
-            winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(0.0), OnScalarPropertyChangedHelper(L"GreenOffset") });
+            winrt::PropertyMetadata{ winrt::box_value(0.0), OnScalarPropertyChangedHelper(L"GreenOffset") });
 
 
     // Blue channel properties
-    const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> BackdropGammaTransferBrush::BlueAmplitudeProperty =
-        winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> BackdropGammaTransferBrush::BlueAmplitudeProperty =
+        winrt::DependencyProperty::Register(
             L"BlueAmplitude",
             winrt::xaml_typename<double>(),
             winrt::xaml_typename<class_type>(),
-            winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(1.0), OnScalarPropertyChangedHelper(L"BlueAmplitude") });
+            winrt::PropertyMetadata{ winrt::box_value(1.0), OnScalarPropertyChangedHelper(L"BlueAmplitude") });
 
-    const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> BackdropGammaTransferBrush::BlueDisableProperty =
-        winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> BackdropGammaTransferBrush::BlueDisableProperty =
+        winrt::DependencyProperty::Register(
             L"BlueDisable",
             winrt::xaml_typename<bool>(),
             winrt::xaml_typename<class_type>(),
-            winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(false), &BackdropGammaTransferBrush::OnBooleanPropertyChanged });
+            winrt::PropertyMetadata{ winrt::box_value(false), &BackdropGammaTransferBrush::OnBooleanPropertyChanged });
 
-    const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> BackdropGammaTransferBrush::BlueExponentProperty =
-        winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> BackdropGammaTransferBrush::BlueExponentProperty =
+        winrt::DependencyProperty::Register(
             L"BlueExponent",
             winrt::xaml_typename<double>(),
             winrt::xaml_typename<class_type>(),
-            winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(1.0), OnScalarPropertyChangedHelper(L"BlueExponent") });
+            winrt::PropertyMetadata{ winrt::box_value(1.0), OnScalarPropertyChangedHelper(L"BlueExponent") });
 
-    const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> BackdropGammaTransferBrush::BlueOffsetProperty =
-        winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> BackdropGammaTransferBrush::BlueOffsetProperty =
+        winrt::DependencyProperty::Register(
             L"BlueOffset",
             winrt::xaml_typename<double>(),
             winrt::xaml_typename<class_type>(),
-            winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(0.0), OnScalarPropertyChangedHelper(L"BlueOffset") });
+            winrt::PropertyMetadata{ winrt::box_value(0.0), OnScalarPropertyChangedHelper(L"BlueOffset") });
 
     // Alpha channel setters
 	double BackdropGammaTransferBrush::AlphaAmplitude() const { return winrt::unbox_value<double>(GetValue(AlphaAmplitudeProperty())); }
@@ -182,7 +182,7 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
 	double BackdropGammaTransferBrush::BlueOffset() const { return winrt::unbox_value<double>(GetValue(BlueOffsetProperty())); }
     void BackdropGammaTransferBrush::BlueOffset(double value) { SetValue(BlueOffsetProperty(), winrt::box_value(value)); }
 
-    winrt::Microsoft::UI::Xaml::PropertyChangedCallback BackdropGammaTransferBrush::OnScalarPropertyChangedHelper(std::wstring_view propertyName)
+    winrt::PropertyChangedCallback BackdropGammaTransferBrush::OnScalarPropertyChangedHelper(std::wstring_view propertyName)
     {
         return [&](auto&& d, auto&& e)
         {
@@ -197,8 +197,8 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
     }
 
     void BackdropGammaTransferBrush::OnBooleanPropertyChanged(
-        winrt::Microsoft::UI::Xaml::DependencyObject const& d,
-        [[maybe_unused]] winrt::Microsoft::UI::Xaml::DependencyPropertyChangedEventArgs const& e)
+        winrt::DependencyObject const& d,
+        [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& e)
     {
         auto brush = d.as<winrt::XamlToolkit::WinUI::Media::BackdropGammaTransferBrush>();
 		auto self = winrt::get_self<BackdropGammaTransferBrush>(brush);
@@ -220,7 +220,7 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
                 co_return;
             }
 
-            auto compositor = winrt::Microsoft::UI::Xaml::Media::CompositionTarget::GetCompositorForCurrentThread();
+            auto compositor = winrt::CompositionTarget::GetCompositorForCurrentThread();
 
             auto backdrop = compositor.CreateBackdropBrush();
 

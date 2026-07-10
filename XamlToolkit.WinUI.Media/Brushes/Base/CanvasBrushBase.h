@@ -10,13 +10,22 @@
 #include <winrt/Microsoft.Graphics.Canvas.UI.Composition.h>
 #include <winrt/Microsoft.UI.Composition.h>
 #include <winrt/Windows.Graphics.DirectX.h>
-#endif
-
-import std;
+#else
 import winrt.Windows.Foundation;
 import winrt.Windows.Foundation.Numerics;
 import winrt.Microsoft.Graphics.Canvas;
+import winrt.Microsoft.Graphics.DirectX;
+import winrt.Microsoft.Graphics.Canvas.UI.Composition;
 import winrt.Microsoft.UI.Composition;
+#endif
+
+namespace winrt
+{
+    using namespace winrt::Windows::Foundation;
+    using namespace winrt::Windows::Foundation::Numerics;
+    using namespace winrt::Microsoft::UI::Composition;
+    using namespace winrt::Microsoft::Graphics::Canvas;
+}
 
 namespace winrt::XamlToolkit::WinUI::Media::implementation
 {
@@ -47,9 +56,9 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
         /// <param name="size">Size of surface to draw on.</param>
         /// <returns>True if drawing was completed and the brush is ready, otherwise return False to not create brush yet.</returns>
         virtual bool OnDraw(
-            [[maybe_unused]] winrt::Microsoft::Graphics::Canvas::CanvasDevice const& device,
-            [[maybe_unused]] winrt::Microsoft::Graphics::Canvas::CanvasDrawingSession const& session,
-            [[maybe_unused]] winrt::Windows::Foundation::Numerics::float2 const& size)
+            [[maybe_unused]] winrt::CanvasDevice const& device,
+            [[maybe_unused]] winrt::CanvasDrawingSession const& session,
+            [[maybe_unused]] winrt::float2 const& size)
         {
             return true;
         }
@@ -61,20 +70,20 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
         float _surfaceWidth{ 100.0f };
         float _surfaceHeight{ 100.0f };
 
-        winrt::Microsoft::Graphics::Canvas::CanvasDevice _device{ nullptr };
-        winrt::Microsoft::UI::Composition::CompositionGraphicsDevice _graphics{ nullptr };
-        winrt::Microsoft::UI::Composition::CompositionSurfaceBrush _surfaceBrush{ nullptr };
+        winrt::CanvasDevice _device{ nullptr };
+        winrt::CompositionGraphicsDevice _graphics{ nullptr };
+        winrt::CompositionSurfaceBrush _surfaceBrush{ nullptr };
 
         winrt::event_token _deviceLostToken;
         winrt::event_token _renderingDeviceReplacedToken;
 
         void OnDeviceLost(
-            winrt::Microsoft::Graphics::Canvas::CanvasDevice const& sender,
-            winrt::Windows::Foundation::IInspectable const& args);
+            winrt::CanvasDevice const& sender,
+            winrt::IInspectable const& args);
 
         void OnRenderingDeviceReplaced(
-            winrt::Microsoft::UI::Composition::CompositionGraphicsDevice const& sender,
-            winrt::Windows::Foundation::IInspectable const& args);
+            winrt::CompositionGraphicsDevice const& sender,
+            winrt::IInspectable const& args);
     };
 }
 

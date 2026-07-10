@@ -9,10 +9,10 @@
 #include "../XamlToolkit.WinUI/common.h"
 #ifdef __INTELLISENSE__
 #include <winrt/Microsoft.UI.Composition.h>
-#endif
-
+#else
 import std;
 import winrt.Microsoft.UI.Composition;
+#endif
 
 namespace winrt::XamlToolkit::WinUI::Media::implementation
 {

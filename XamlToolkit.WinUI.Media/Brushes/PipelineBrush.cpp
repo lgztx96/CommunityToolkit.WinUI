@@ -11,17 +11,17 @@
 
 namespace winrt::XamlToolkit::WinUI::Media::implementation
 {
-    const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> PipelineBrush::EffectsProperty =
-        winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> PipelineBrush::EffectsProperty =
+        winrt::DependencyProperty::Register(
             L"Effects",
-            winrt::xaml_typename<winrt::Windows::Foundation::Collections::IVector<IPipelineEffect>>(),
+            winrt::xaml_typename<winrt::IVector<IPipelineEffect>>(),
             winrt::xaml_typename<class_type>(),
-            nullptr);
+            winrt::PropertyMetadata(nullptr));
 
-    winrt::Windows::Foundation::Collections::IVector<IPipelineEffect> PipelineBrush::Effects() const
+    winrt::IVector<IPipelineEffect> PipelineBrush::Effects() const
     {
         auto effects = GetValue(EffectsProperty())
-            .try_as<winrt::Windows::Foundation::Collections::IVector<IPipelineEffect>>();
+            .try_as<winrt::IVector<IPipelineEffect>>();
 
         if (!effects)
         {
@@ -31,7 +31,7 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
         return effects;
     }
 
-    void PipelineBrush::Effects(winrt::Windows::Foundation::Collections::IVector<IPipelineEffect> const& value)
+    void PipelineBrush::Effects(winrt::IVector<IPipelineEffect> const& value)
     {
         SetValue(EffectsProperty(), value);
     }

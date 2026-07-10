@@ -8,44 +8,47 @@
 #if __has_include("ImageBlendBrush.g.cpp")
 #include "ImageBlendBrush.g.cpp"
 #endif
-
+#ifdef __INTELLISENSE__
+#include <winrt/Microsoft.UI.Xaml.Media.Imaging.h>
+#include <winrt/Microsoft.Graphics.Canvas.Effects.h>
+#else
 import winrt.Microsoft.UI.Xaml.Media.Imaging;
 import winrt.Microsoft.Graphics.Canvas.Effects;
+#endif
 
 namespace winrt
 {
-    using namespace Microsoft::UI::Composition;
-    using namespace Microsoft::UI::Xaml::Media;
-    using namespace Microsoft::UI::Xaml::Media::Imaging;
-    using namespace Microsoft::Graphics::Canvas::Effects;
+    using namespace winrt::Windows::Foundation;
+    using namespace winrt::Microsoft::UI::Xaml::Media::Imaging;
+    using namespace winrt::Microsoft::Graphics::Canvas::Effects;
 }
 
 namespace winrt::XamlToolkit::WinUI::Media::implementation
 {
-    const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> ImageBlendBrush::SourceProperty =
-        winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> ImageBlendBrush::SourceProperty =
+        winrt::DependencyProperty::Register(
             L"Source",
             winrt::xaml_typename<ImageSource>(),
             winrt::xaml_typename<class_type>(),
-            winrt::Microsoft::UI::Xaml::PropertyMetadata{ nullptr, &ImageBlendBrush::OnSourceChanged });
+            winrt::PropertyMetadata{ nullptr, &ImageBlendBrush::OnSourceChanged });
 
-    const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> ImageBlendBrush::StretchProperty =
-        winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> ImageBlendBrush::StretchProperty =
+        winrt::DependencyProperty::Register(
             L"Stretch",
-            winrt::xaml_typename<winrt::Microsoft::UI::Xaml::Media::Stretch>(),
+            winrt::xaml_typename<winrt::Stretch>(),
             winrt::xaml_typename<class_type>(),
-            winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(Stretch::None), &ImageBlendBrush::OnStretchChanged });
+            winrt::PropertyMetadata{ winrt::box_value(Stretch::None), &ImageBlendBrush::OnStretchChanged });
 
-    const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> ImageBlendBrush::ModeProperty =
-        winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> ImageBlendBrush::ModeProperty =
+        winrt::DependencyProperty::Register(
             L"Mode",
             winrt::xaml_typename<ImageBlendMode>(),
             winrt::xaml_typename<class_type>(),
-            winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(ImageBlendMode::Multiply), &ImageBlendBrush::OnModeChanged });
+            winrt::PropertyMetadata{ winrt::box_value(ImageBlendMode::Multiply), &ImageBlendBrush::OnModeChanged });
 
-    winrt::Microsoft::UI::Xaml::Media::ImageSource ImageBlendBrush::Source() const
+    winrt::ImageSource ImageBlendBrush::Source() const
     { 
-        return GetValue(SourceProperty()).try_as<winrt::Microsoft::UI::Xaml::Media::ImageSource>();
+        return GetValue(SourceProperty()).try_as<winrt::ImageSource>();
     }
 
     void ImageBlendBrush::Source(ImageSource const& value)
@@ -53,12 +56,12 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
         SetValue(SourceProperty(), value);
     }
 
-    winrt::Microsoft::UI::Xaml::Media::Stretch ImageBlendBrush::Stretch() const 
+    winrt::Stretch ImageBlendBrush::Stretch() const 
     { 
-        return winrt::unbox_value<winrt::Microsoft::UI::Xaml::Media::Stretch>(GetValue(StretchProperty()));
+        return winrt::unbox_value<winrt::Stretch>(GetValue(StretchProperty()));
     }
 
-    void ImageBlendBrush::Stretch(winrt::Microsoft::UI::Xaml::Media::Stretch value)
+    void ImageBlendBrush::Stretch(winrt::Stretch value)
     {
         SetValue(StretchProperty(), winrt::box_value(value));
     }
@@ -74,16 +77,16 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
     }
 
     void ImageBlendBrush::OnSourceChanged(
-        winrt::Microsoft::UI::Xaml::DependencyObject const& d,
-        winrt::Microsoft::UI::Xaml::DependencyPropertyChangedEventArgs const& e)
+        winrt::DependencyObject const& d,
+        winrt::DependencyPropertyChangedEventArgs const& e)
     {
         auto brush = d.as<ImageBlendBrush>();
 
         if (brush->_surfaceBrush)
         {
-            auto bitmap = e.NewValue().try_as<BitmapImage>();
-            auto uri = bitmap ? bitmap.UriSource() : winrt::Windows::Foundation::Uri{ L"ms-appx:///" };
-            auto newSurface = LoadedImageSurface::StartLoadFromUri(uri);
+            auto bitmap = e.NewValue().try_as<winrt::BitmapImage>();
+            auto uri = bitmap ? bitmap.UriSource() : winrt::Uri{ L"ms-appx:///" };
+            auto newSurface = winrt::LoadedImageSurface::StartLoadFromUri(uri);
 
             brush->_surface = newSurface;
             brush->_surfaceBrush.Surface(newSurface);
@@ -97,8 +100,8 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
     }
 
     void ImageBlendBrush::OnStretchChanged(
-        winrt::Microsoft::UI::Xaml::DependencyObject const& d,
-        winrt::Microsoft::UI::Xaml::DependencyPropertyChangedEventArgs const& e)
+        winrt::DependencyObject const& d,
+        winrt::DependencyPropertyChangedEventArgs const& e)
     {
         auto brush = d.as<ImageBlendBrush>();
 
@@ -106,14 +109,14 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
         if (brush->_surfaceBrush)
         {
             // Modify the stretch property on our brush.
-			auto stretchValue = winrt::unbox_value<winrt::Microsoft::UI::Xaml::Media::Stretch>(e.NewValue());
+			auto stretchValue = winrt::unbox_value<winrt::Stretch>(e.NewValue());
             brush->_surfaceBrush.Stretch(CompositionStretchFromStretch(stretchValue));
         }
     }
 
     void ImageBlendBrush::OnModeChanged(
-        winrt::Microsoft::UI::Xaml::DependencyObject const& d,
-        [[maybe_unused]] winrt::Microsoft::UI::Xaml::DependencyPropertyChangedEventArgs const& e)
+        winrt::DependencyObject const& d,
+        [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& e)
     {
         auto brush = d.as<ImageBlendBrush>();
 
@@ -122,44 +125,44 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
         brush->OnConnected();
     }
 
-    CompositionStretch ImageBlendBrush::CompositionStretchFromStretch(winrt::Microsoft::UI::Xaml::Media::Stretch value)
+    winrt::CompositionStretch ImageBlendBrush::CompositionStretchFromStretch(winrt::Stretch value)
     {
         switch (value)
         {
-        case Stretch::None:
-            return CompositionStretch::None;
-        case Stretch::Fill:
-            return CompositionStretch::Fill;
-        case Stretch::Uniform:
-            return CompositionStretch::Uniform;
-        case Stretch::UniformToFill:
-            return CompositionStretch::UniformToFill;
+        case winrt::Stretch::None:
+            return winrt::CompositionStretch::None;
+        case winrt::Stretch::Fill:
+            return winrt::CompositionStretch::Fill;
+        case winrt::Stretch::Uniform:
+            return winrt::CompositionStretch::Uniform;
+        case winrt::Stretch::UniformToFill:
+            return winrt::CompositionStretch::UniformToFill;
         }
-        return CompositionStretch::None;
+        return winrt::CompositionStretch::None;
     }
 
     void ImageBlendBrush::OnConnected()
     {
-        auto compositor = CompositionTarget::GetCompositorForCurrentThread();
+        auto compositor = winrt::CompositionTarget::GetCompositorForCurrentThread();
 
         // Delay creating composition resources until they're required.
         if (CompositionBrush() == nullptr && Source())
         {
-            auto bitmap = Source().try_as<BitmapImage>();
+            auto bitmap = Source().try_as<winrt::BitmapImage>();
             if (!bitmap)
             {
                 return;
             }
 
             // Use LoadedImageSurface API to get ICompositionSurface from image uri
-            _surface = LoadedImageSurface::StartLoadFromUri(bitmap.UriSource());
+            _surface = winrt::LoadedImageSurface::StartLoadFromUri(bitmap.UriSource());
 
             // Load Surface onto SurfaceBrush
             _surfaceBrush = compositor.CreateSurfaceBrush(_surface);
             _surfaceBrush.Stretch(CompositionStretchFromStretch(Stretch()));
 
             // Check if effects are supported
-            CompositionCapabilities compositionCapabilities;
+            winrt::CompositionCapabilities compositionCapabilities;
             if (!compositionCapabilities.AreEffectsSupported())
             {
                 // Just use image straight-up, if we don't support effects
@@ -170,11 +173,11 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
             auto backdrop = compositor.CreateBackdropBrush();
 
             // Use a Win2D Blend affect applied to a CompositionBackdropBrush.
-            winrt::Microsoft::Graphics::Canvas::Effects::BlendEffect graphicsEffect;
+            winrt::BlendEffect graphicsEffect;
             graphicsEffect.Name(L"Blend");
-            graphicsEffect.Mode(static_cast<BlendEffectMode>(Mode()));
-            graphicsEffect.Background(winrt::Microsoft::UI::Composition::CompositionEffectSourceParameter{ L"backdrop" });
-            graphicsEffect.Foreground(winrt::Microsoft::UI::Composition::CompositionEffectSourceParameter{ L"image" });
+            graphicsEffect.Mode(static_cast<winrt::BlendEffectMode>(Mode()));
+            graphicsEffect.Background(winrt::CompositionEffectSourceParameter{ L"backdrop" });
+            graphicsEffect.Foreground(winrt::CompositionEffectSourceParameter{ L"image" });
 
             auto effectFactory = compositor.CreateEffectFactory(graphicsEffect);
             auto effectBrush = effectFactory.CreateBrush();
