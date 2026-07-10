@@ -11,6 +11,13 @@
 #include "Pipelines.PipelineBuilder.g.cpp"
 #endif
 
+namespace winrt 
+{
+    using namespace winrt::Windows::Graphics::Effects;
+    using namespace winrt::Microsoft::UI::Xaml;
+    using namespace winrt::Microsoft::UI::Xaml::Media;
+}
+
 namespace winrt::XamlToolkit::WinUI::Media::Pipelines
 {
     namespace
@@ -30,24 +37,24 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
 
     winrt::hstring PipelineBuilderImpl::GenerateId()
     {
-        return GuidToUppercaseAscii(winrt::Windows::Foundation::GuidHelper::CreateNewGuid());
+        return GuidToUppercaseAscii(winrt::GuidHelper::CreateNewGuid());
     }
 
-    PipelineBuilderImpl::PipelineBuilderImpl(std::function<IAsyncOperation<CompositionBrush>()> factory)
+    PipelineBuilderImpl::PipelineBuilderImpl(std::function<winrt::IAsyncOperation<winrt::CompositionBrush>()> factory)
     {
         _state = std::make_shared<State>();
         winrt::hstring id = GenerateId();
-        _state->_sourceProducer = [id]() -> IAsyncOperation<IGraphicsEffectSource>
+        _state->_sourceProducer = [id]() -> winrt::IAsyncOperation<winrt::IGraphicsEffectSource>
         {
-            co_return CompositionEffectSourceParameter(id);
+            co_return winrt::CompositionEffectSourceParameter(id);
         };
 		_state->_lazyParameters.emplace(id, std::move(factory));
     }
 
     PipelineBuilderImpl::PipelineBuilderImpl(
-        std::function<IAsyncOperation<IGraphicsEffectSource>()> factory,
+        std::function<winrt::IAsyncOperation<winrt::IGraphicsEffectSource>()> factory,
         std::vector<winrt::hstring> animations,
-        std::unordered_map<winrt::hstring, std::function<IAsyncOperation<CompositionBrush>()>> lazy)
+        std::unordered_map<winrt::hstring, std::function<winrt::IAsyncOperation<winrt::CompositionBrush>()>> lazy)
     {
         _state = std::make_shared<State>();
         _state->_sourceProducer = std::move(factory);
@@ -57,9 +64,9 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
 
     PipelineBuilderImpl::PipelineBuilderImpl(
         PipelineBuilderImpl const& source,
-        std::function<IAsyncOperation<IGraphicsEffectSource>()> factory,
+        std::function<winrt::IAsyncOperation<winrt::IGraphicsEffectSource>()> factory,
         std::vector<winrt::hstring> animations,
-        std::unordered_map<winrt::hstring, std::function<IAsyncOperation<CompositionBrush>()>> lazy)
+        std::unordered_map<winrt::hstring, std::function<winrt::IAsyncOperation<winrt::CompositionBrush>()>> lazy)
     {
         _state = std::make_shared<State>();
         _state->_sourceProducer = std::move(factory);
@@ -72,11 +79,11 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
     }
 
     PipelineBuilderImpl::PipelineBuilderImpl(
-        std::function<IAsyncOperation<IGraphicsEffectSource>()> factory,
+        std::function<winrt::IAsyncOperation<winrt::IGraphicsEffectSource>()> factory,
         PipelineBuilderImpl const& a,
         PipelineBuilderImpl const& b,
         std::vector<winrt::hstring> animations,
-        std::unordered_map<winrt::hstring, std::function<IAsyncOperation<CompositionBrush>()>> lazy)
+        std::unordered_map<winrt::hstring, std::function<winrt::IAsyncOperation<winrt::CompositionBrush>()>> lazy)
     {
         _state = std::make_shared<State>();
         _state->_sourceProducer = std::move(factory);
@@ -92,12 +99,12 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
             : Merge(std::move(lazy), std::move(mergedLazy));
     }
 
-    winrt::Windows::Foundation::IAsyncOperation<CompositionBrush> PipelineBuilderImpl::BuildAsync()
+    winrt::IAsyncOperation<winrt::CompositionBrush> PipelineBuilderImpl::BuildAsync()
     {
-        auto compositor = winrt::Microsoft::UI::Xaml::Media::CompositionTarget::GetCompositorForCurrentThread();
+        auto compositor = winrt::CompositionTarget::GetCompositorForCurrentThread();
 
         const auto& effectSource = co_await _state->_sourceProducer();
-        auto effect = effectSource.try_as<winrt::Windows::Graphics::Effects::IGraphicsEffect>();
+        auto effect = effectSource.try_as<winrt::IGraphicsEffect>();
 
         // Validate the pipeline
         if (!effect)
@@ -105,7 +112,7 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
             throw winrt::hresult_error(E_FAIL, L"The pipeline doesn't contain a valid effects sequence");
         }
 
-        CompositionEffectFactory factory{ nullptr };
+        winrt::CompositionEffectFactory factory{ nullptr };
         if (!_state->_animationProperties.empty())
         {
             factory = compositor.CreateEffectFactory(effect, _state->_animationProperties);
@@ -126,25 +133,25 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
         co_return effectBrush;
     }
 
-    winrt::Windows::Foundation::IAsyncOperation<winrt::Microsoft::UI::Composition::SpriteVisual> PipelineBuilderImpl::AttachAsync(UIElement const& target, UIElement const& reference)
+    winrt::IAsyncOperation<winrt::SpriteVisual> PipelineBuilderImpl::AttachAsync(winrt::UIElement const& target, winrt::UIElement const& reference)
     {
-        auto compositor = winrt::Microsoft::UI::Xaml::Media::CompositionTarget::GetCompositorForCurrentThread();
+        auto compositor = winrt::CompositionTarget::GetCompositorForCurrentThread();
 
-        SpriteVisual visual = compositor.CreateSpriteVisual();
+        winrt::SpriteVisual visual = compositor.CreateSpriteVisual();
 
         visual.Brush(co_await BuildAsync());
 
-        ElementCompositionPreview::SetElementChildVisual(target, visual);
+        winrt::ElementCompositionPreview::SetElementChildVisual(target, visual);
 
         if (reference)
         {
             if (reference == target)
             {
-                visual.RelativeSizeAdjustment(winrt::Windows::Foundation::Numerics::float2{ 1.0f, 1.0f });
+                visual.RelativeSizeAdjustment(winrt::float2{ 1.0f, 1.0f });
             }
             else
             {
-                Extensions::CompositionObjectExtensions::BindSize(visual, reference);
+                winrt::XamlToolkit::WinUI::Media::Extensions::CompositionObjectExtensions::BindSize(visual, reference);
             }
         }
 

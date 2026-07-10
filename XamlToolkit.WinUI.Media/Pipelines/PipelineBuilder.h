@@ -7,10 +7,24 @@
 #include "Pipelines.PipelineBuilder.g.h"
 #include "PipelineBuilderImpl.h"
 
+#include "../XamlToolkit.WinUI/common.h"
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.UI.h>
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Composition.h>
+#include <winrt/XamlToolkit.WinUI.Media.Pipelines.h>
+#else
 import winrt.Windows.UI;
 import winrt.Windows.Foundation;
 import winrt.Microsoft.UI.Composition;
 import winrt.XamlToolkit.WinUI.Media.Pipelines;
+#endif
+
+namespace winrt
+{
+    using namespace winrt::Windows::Foundation;
+    using namespace winrt::Microsoft::UI::Composition;
+}
 
 namespace winrt::XamlToolkit::WinUI::Media::Pipelines::implementation
 {
@@ -33,12 +47,12 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines::implementation
             return winrt::make<PipelineBuilder>(PipelineBuilderImpl::FromColor(color));
         }
 
-        static winrt::XamlToolkit::WinUI::Media::Pipelines::PipelineBuilder FromImage(winrt::Windows::Foundation::Uri const& uri, Media::DpiMode dpiMode, Media::CacheMode cacheMode)
+        static winrt::XamlToolkit::WinUI::Media::Pipelines::PipelineBuilder FromImage(winrt::Uri const& uri, Media::DpiMode dpiMode, Media::CacheMode cacheMode)
         {
             return winrt::make<PipelineBuilder>(PipelineBuilderImpl::FromImage(uri, dpiMode, cacheMode));
         }
 
-        static winrt::XamlToolkit::WinUI::Media::Pipelines::PipelineBuilder FromTiles(winrt::Windows::Foundation::Uri const& uri, Media::DpiMode dpiMode, Media::CacheMode cacheMode)
+        static winrt::XamlToolkit::WinUI::Media::Pipelines::PipelineBuilder FromTiles(winrt::Uri const& uri, Media::DpiMode dpiMode, Media::CacheMode cacheMode)
         {
             return winrt::make<PipelineBuilder>(PipelineBuilderImpl::FromTiles(uri, dpiMode, cacheMode));
         }
@@ -156,13 +170,12 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines::implementation
             return winrt::make<PipelineBuilder>(_impl.CrossFade(pipelineImpl->_impl, factor, id));
         }
 
-        winrt::Windows::Foundation::IAsyncOperation<winrt::Microsoft::UI::Composition::CompositionBrush> BuildAsync()
+        winrt::IAsyncOperation<winrt::CompositionBrush> BuildAsync()
         {
             return _impl.BuildAsync();
         }
 
-        winrt::Windows::Foundation::IAsyncOperation<winrt::Microsoft::UI::Composition::SpriteVisual> AttachAsync(
-            UIElement const& target, UIElement const& reference) 
+        winrt::IAsyncOperation<winrt::SpriteVisual> AttachAsync(winrt::UIElement const& target, winrt::UIElement const& reference)
         {
 			return _impl.AttachAsync(target, reference);
         }
