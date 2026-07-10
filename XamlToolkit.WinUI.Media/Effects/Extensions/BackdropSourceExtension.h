@@ -6,10 +6,17 @@
 
 #include "BackdropSourceExtension.g.h"
 #include "../Pipelines/PipelineBuilder.h"
-
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/XamlToolkit.WinUI.Media.Pipelines.h>
+#include <wil/wistd_type_traits.h>
+#include <wil/cppwinrt_authoring.h>
+#else
 import winrt.Windows.Foundation;
 import winrt.Microsoft.UI.Xaml;
 import winrt.XamlToolkit.WinUI.Media.Pipelines;
+#endif
 
 namespace winrt::XamlToolkit::WinUI::Media::implementation
 {

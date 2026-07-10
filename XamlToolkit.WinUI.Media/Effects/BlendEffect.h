@@ -8,15 +8,26 @@
 #include "Abstract/PipelineEffect.h"
 #ifdef __INTELLISENSE__
 #include <winrt/Windows.Foundation.Collections.h>
+#include <winrt/Microsoft.UI.Composition.h>
+#include <winrt/Microsoft.Graphics.Canvas.Effects.h>
+#include <winrt/XamlToolkit.WinUI.Media.h>
+#include <winrt/XamlToolkit.WinUI.Media.Pipelines.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
-#endif
-
-import winrt.Windows.Foundation;
+#else
 import winrt.Windows.Foundation.Collections;
-import winrt.Microsoft.UI.Xaml;
+import winrt.Microsoft.UI.Composition;
+import winrt.Microsoft.Graphics.Canvas.Effects;
 import winrt.XamlToolkit.WinUI.Media;
 import winrt.XamlToolkit.WinUI.Media.Pipelines;
+#endif
+
+namespace winrt
+{
+    using namespace winrt::Windows::Foundation::Collections;
+    using namespace winrt::Microsoft::UI::Composition;
+    using namespace winrt::Microsoft::Graphics::Canvas::Effects;
+}
 
 namespace winrt::XamlToolkit::WinUI::Media::implementation
 {
@@ -33,7 +44,7 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
         /// <summary>
         /// Gets or sets the effects to apply to the input to merge with the current instance
         /// </summary>
-        wil::single_threaded_rw_property<winrt::Windows::Foundation::Collections::IVector<IPipelineEffect>> Effects = winrt::single_threaded_vector<IPipelineEffect>();
+        wil::single_threaded_rw_property<winrt::IVector<IPipelineEffect>> Effects = winrt::single_threaded_vector<IPipelineEffect>();
 
         /// <summary>
         /// Gets or sets the blending mode to use (the default mode is Multiply)
@@ -43,7 +54,7 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
         /// <summary>
         /// Gets or sets the placement of the input builder with respect to the current one (the default is Foreground)
         /// </summary>
-        wil::single_threaded_rw_property<Media::Placement> Placement = Placement::Foreground;
+        wil::single_threaded_rw_property<winrt::XamlToolkit::WinUI::Media::Placement> Placement = Placement::Foreground;
 
         Pipelines::PipelineBuilder AppendToBuilder(Pipelines::PipelineBuilder const& builder) override
         {
@@ -60,10 +71,10 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
                 sourcePipeline = effect.AppendToBuilder(sourcePipeline);
             }
 
-            return builder.Blend(sourcePipeline, static_cast<Microsoft::Graphics::Canvas::Effects::BlendEffectMode>(Mode()), Placement());
+            return builder.Blend(sourcePipeline, static_cast<winrt::BlendEffectMode>(Mode()), Placement());
         }
 
-        void NotifyCompositionBrushInUse(winrt::Microsoft::UI::Composition::CompositionBrush const& brush) override
+        void NotifyCompositionBrushInUse(winrt::CompositionBrush const& brush) override
         {
             PipelineEffect::NotifyCompositionBrushInUse(brush);
 

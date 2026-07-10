@@ -7,9 +7,15 @@
 #include "TileSourceExtension.g.h"
 #include "../Abstract/ImageSourceBaseExtension.h"
 #include "../Pipelines/PipelineBuilder.h"
-
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <wil/wistd_type_traits.h>
+#include <wil/cppwinrt_authoring.h>
+#else
 import winrt.Windows.Foundation;
 import winrt.Microsoft.UI.Xaml;
+#endif
 
 namespace winrt::XamlToolkit::WinUI::Media::implementation
 {
