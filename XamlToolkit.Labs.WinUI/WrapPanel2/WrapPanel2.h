@@ -24,43 +24,43 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 	{
 		WrapPanel2();
 
-		Size MeasureOverride(Size availableSize);
+		winrt::Size MeasureOverride(winrt::Size availableSize);
 
-		Size ArrangeOverride(Size finalSize);
+		winrt::Size ArrangeOverride(winrt::Size finalSize);
 
-		static const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> LayoutLengthProperty;
+		static const wil::single_threaded_property<winrt::DependencyProperty> LayoutLengthProperty;
 
-		static const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> OrientationProperty;
+		static const wil::single_threaded_property<winrt::DependencyProperty> OrientationProperty;
 
-		static const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> ItemSpacingProperty;
+		static const wil::single_threaded_property<winrt::DependencyProperty> ItemSpacingProperty;
 
-		static const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> LineSpacingProperty;
+		static const wil::single_threaded_property<winrt::DependencyProperty> LineSpacingProperty;
 
-		static const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> ItemsJustificationProperty;
+		static const wil::single_threaded_property<winrt::DependencyProperty> ItemsJustificationProperty;
 
-		static const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> ItemsStretchProperty;
+		static const wil::single_threaded_property<winrt::DependencyProperty> ItemsStretchProperty;
 
-		Orientation Orientation()
+		winrt::Orientation Orientation() const
 		{
-			return winrt::unbox_value<enum Orientation>(GetValue(OrientationProperty()));
+			return winrt::unbox_value<winrt::Orientation>(GetValue(OrientationProperty()));
 		}
 
-		void Orientation(enum Orientation const& value)
+		void Orientation(winrt::Orientation const& value)
 		{
 			SetValue(OrientationProperty(), winrt::box_value(value));
 		}
 
-		double ItemSpacing()
+		double ItemSpacing() const
 		{
 			return winrt::unbox_value<double>(GetValue(ItemSpacingProperty()));
 		}
 
-		void ItemSpacing(double value)
+		void ItemSpacing(double value) const
 		{
 			SetValue(ItemSpacingProperty(), winrt::box_value(value));
 		}
 
-		double LineSpacing()
+		double LineSpacing() const
 		{
 			return winrt::unbox_value<double>(GetValue(LineSpacingProperty()));
 		}
@@ -70,7 +70,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 			SetValue(LineSpacingProperty(), winrt::box_value(value));
 		}
 
-		WrapPanelItemsJustification ItemsJustification()
+		WrapPanelItemsJustification ItemsJustification() const
 		{
 			return winrt::unbox_value<WrapPanelItemsJustification>(GetValue(ItemsJustificationProperty()));
 		}
@@ -80,7 +80,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 			SetValue(ItemsJustificationProperty(), winrt::box_value(value));
 		}
 
-		WrapPanelItemsStretch ItemsStretch()
+		WrapPanelItemsStretch ItemsStretch() const
 		{
 			return winrt::unbox_value<WrapPanelItemsStretch>(GetValue(ItemsStretchProperty()));
 		}
@@ -90,21 +90,21 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 			SetValue(ItemsStretchProperty(), winrt::box_value(value));
 		}
 
-		static GridLength GetLayoutLength(FrameworkElement const& obj)
+		static winrt::GridLength GetLayoutLength(winrt::FrameworkElement const& obj)
 		{
-			return winrt::unbox_value<GridLength>(obj.GetValue(LayoutLengthProperty()));
+			return winrt::unbox_value<winrt::GridLength>(obj.GetValue(LayoutLengthProperty()));
 		}
 
-		static void SetLayoutLength(FrameworkElement const& obj, GridLength const& value)
+		static void SetLayoutLength(winrt::FrameworkElement const& obj, winrt::GridLength const& value)
 		{
 			obj.SetValue(LayoutLengthProperty(), winrt::box_value(value));
 		}
 
 	private:
 
-		static void OnPropertyChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e);
+		static void OnPropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 
-		static void OnAlignmentPropertyChanged(DependencyObject const& obj, DependencyProperty const& prop);
+		static void OnAlignmentPropertyChanged(winrt::DependencyObject const& obj, winrt::DependencyProperty const& prop);
 
 		static bool IsSpacingJustified(WrapPanelItemsJustification justification);
 
@@ -119,11 +119,11 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 			bool _horizontal{};
 
 		public:
-			UVCoord(double x, double y, enum Orientation orientation)
-				: X(x), Y(y), _horizontal(orientation == Orientation::Horizontal)
+			UVCoord(double x, double y, winrt::Orientation orientation)
+				: X(x), Y(y), _horizontal(orientation == winrt::Orientation::Horizontal)
 			{}
 
-			UVCoord(Size const& size, enum Orientation orientation)
+			UVCoord(winrt::Size const& size, winrt::Orientation orientation)
 				: UVCoord(size.Width, size.Height, orientation)
 			{}
 
@@ -153,7 +153,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 					X = value;
 			}
 
-			Size ToSize() const
+			winrt::Size ToSize() const
 			{
 				return { static_cast<float>(X), static_cast<float>(Y) };
 			}
@@ -170,19 +170,19 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
 			RowSpec() = default;
 
-			RowSpec(GridLength const& layout, UVCoord const& desiredSize)
+			RowSpec(winrt::GridLength const& layout, UVCoord const& desiredSize)
 			{
 				switch (layout.GridUnitType)
 				{
-				case GridUnitType::Auto:
+				case winrt::GridUnitType::Auto:
 					ReservedSpace = desiredSize.U();
 					break;
 
-				case GridUnitType::Pixel:
+				case winrt::GridUnitType::Pixel:
 					ReservedSpace = layout.Value;
 					break;
 
-				case GridUnitType::Star:
+				case winrt::GridUnitType::Star:
 					PortionsSum = layout.Value;
 					MinPortionSize = desiredSize.U() / layout.Value;
 					break;
@@ -259,25 +259,25 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 			Stretch
 		};
 
-		void ArrangeRow(UVCoord& pos, RowSpec const& row, UVCoord const& uvFinalSize, std::vector<FrameworkElement> const& childQueue, size_t& cursor);
+		void ArrangeRow(UVCoord& pos, RowSpec const& row, UVCoord const& uvFinalSize, std::vector<winrt::FrameworkElement> const& childQueue, size_t& cursor);
 
-		double GetChildSize(winrt::Microsoft::UI::Xaml::FrameworkElement const& child);
+		double GetChildSize(winrt::FrameworkElement const& child) const;
 
-		UVCoord GetChildSize(FrameworkElement const& child, int indexInRow, RowSpec const& row, double portionSize, bool forceStretch);
+		UVCoord GetChildSize(winrt::FrameworkElement const& child, int indexInRow, RowSpec const& row, double portionSize, bool forceStretch);
 
 		double GetStartByAlignment(Alignment alignment, double size, double availableSize);
 
-		Alignment GetAlignment();
+		Alignment GetAlignment() const;
 
-		Alignment GetOffAlignment();
+		Alignment GetOffAlignment() const;
 
-		Alignment GetJustificationAlignment();
+		Alignment GetJustificationAlignment() const;
 
-		bool IsMainAxisStretch(double availableSize);
+		bool IsMainAxisStretch(double availableSize) const;
 
-		bool JustifiedSpacing();
+		bool JustifiedSpacing() const;
 
-		WrapPanelItemsJustification RealJustification();
+		WrapPanelItemsJustification RealJustification() const;
 
 		std::vector<RowSpec> _rowSpecs;
 		double _longestRowSize = 0;

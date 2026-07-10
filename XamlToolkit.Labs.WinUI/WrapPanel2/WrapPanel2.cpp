@@ -13,65 +13,65 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
     WrapPanel2::WrapPanel2()
     {
-        RegisterPropertyChangedCallback(FrameworkElement::HorizontalAlignmentProperty(), &WrapPanel2::OnAlignmentPropertyChanged);
-        RegisterPropertyChangedCallback(FrameworkElement::VerticalAlignmentProperty(), &WrapPanel2::OnAlignmentPropertyChanged);
+        RegisterPropertyChangedCallback(winrt::FrameworkElement::HorizontalAlignmentProperty(), &WrapPanel2::OnAlignmentPropertyChanged);
+        RegisterPropertyChangedCallback(winrt::FrameworkElement::VerticalAlignmentProperty(), &WrapPanel2::OnAlignmentPropertyChanged);
     }
 
-    const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> WrapPanel2::LayoutLengthProperty =
-        DependencyProperty::RegisterAttached(
+    const wil::single_threaded_property<winrt::DependencyProperty> WrapPanel2::LayoutLengthProperty =
+        winrt::DependencyProperty::RegisterAttached(
             L"LayoutLength",
             winrt::xaml_typename<GridLength>(),
             winrt::xaml_typename<class_type>(),
-            PropertyMetadata{ winrt::box_value(GridLengthHelper::Auto()) });
+            winrt::PropertyMetadata{ winrt::box_value(GridLengthHelper::Auto()) });
 
-    const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> WrapPanel2::OrientationProperty =
-        DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> WrapPanel2::OrientationProperty =
+        winrt::DependencyProperty::Register(
             L"Orientation",
             winrt::xaml_typename<Controls::Orientation>(),
             winrt::xaml_typename<class_type>(),
-            PropertyMetadata{ winrt::box_value(Controls::Orientation::Horizontal), &WrapPanel2::OnPropertyChanged });
+            winrt::PropertyMetadata{ winrt::box_value(Controls::Orientation::Horizontal), &WrapPanel2::OnPropertyChanged });
 
-    const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> WrapPanel2::ItemSpacingProperty =
-        DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> WrapPanel2::ItemSpacingProperty =
+        winrt::DependencyProperty::Register(
             L"ItemSpacing",
             winrt::xaml_typename<double>(),
             winrt::xaml_typename<class_type>(),
-            PropertyMetadata{ winrt::box_value(0.0), &WrapPanel2::OnPropertyChanged });
+            winrt::PropertyMetadata{ winrt::box_value(0.0), &WrapPanel2::OnPropertyChanged });
 
-    const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> WrapPanel2::LineSpacingProperty =
-        DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> WrapPanel2::LineSpacingProperty =
+        winrt::DependencyProperty::Register(
             L"LineSpacing",
             winrt::xaml_typename<double>(),
             winrt::xaml_typename<class_type>(),
-            PropertyMetadata{ winrt::box_value(0.0), &WrapPanel2::OnPropertyChanged });
+            winrt::PropertyMetadata{ winrt::box_value(0.0), &WrapPanel2::OnPropertyChanged });
 
-    const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> WrapPanel2::ItemsJustificationProperty =
-        DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> WrapPanel2::ItemsJustificationProperty =
+        winrt::DependencyProperty::Register(
             L"ItemsJustification",
             winrt::xaml_typename<WrapPanelItemsJustification>(),
             winrt::xaml_typename<class_type>(),
-            PropertyMetadata{ winrt::box_value(WrapPanelItemsJustification::Start), &WrapPanel2::OnPropertyChanged });
+            winrt::PropertyMetadata{ winrt::box_value(WrapPanelItemsJustification::Start), &WrapPanel2::OnPropertyChanged });
 
-    const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> WrapPanel2::ItemsStretchProperty =
-        DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> WrapPanel2::ItemsStretchProperty =
+        winrt::DependencyProperty::Register(
             L"ItemsStretch",
             winrt::xaml_typename<WrapPanelItemsStretch>(),
             winrt::xaml_typename<class_type>(),
-            PropertyMetadata{ winrt::box_value(WrapPanelItemsStretch::None), &WrapPanel2::OnPropertyChanged });
+            winrt::PropertyMetadata{ winrt::box_value(WrapPanelItemsStretch::None), &WrapPanel2::OnPropertyChanged });
 
-    void WrapPanel2::OnPropertyChanged(DependencyObject const& d, [[maybe_unused]] DependencyPropertyChangedEventArgs const& e)
+    void WrapPanel2::OnPropertyChanged(winrt::DependencyObject const& d, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& e)
     {
         auto panel = d.as<class_type>();
         panel.InvalidateMeasure();
     }
 
-    void WrapPanel2::OnAlignmentPropertyChanged(DependencyObject const& obj, [[maybe_unused]] DependencyProperty const& prop)
+    void WrapPanel2::OnAlignmentPropertyChanged(winrt::DependencyObject const& obj, [[maybe_unused]] winrt::DependencyProperty const& prop)
     {
         auto panel = obj.as<class_type>();
         panel.InvalidateMeasure();
     }
 
-    Size WrapPanel2::MeasureOverride(Size availableSize)
+    winrt::Size WrapPanel2::MeasureOverride(winrt::Size availableSize)
     {
         _rowSpecs.clear();
         _longestRowSize = 0;
@@ -89,17 +89,17 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         auto elements = children
             | std::views::filter([](const auto& e)
             {
-                return e.Visibility() == winrt::Microsoft::UI::Xaml::Visibility::Visible;
+                return e.Visibility() == winrt::Visibility::Visible;
             })
             | std::views::transform([](const auto& item)
             {
-                return item.template as<FrameworkElement>();
+                return item.template as<winrt::FrameworkElement>();
             });
 
         // Do nothing if the panel is empty
         if (elements.empty())
         {
-            return Size(0, 0);
+            return winrt::Size(0, 0);
         }
 
         for (const auto& child : elements)
@@ -110,7 +110,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
             auto layoutLength = GetLayoutLength(child);
 
             // Attempt to add the child to the current row/column
-             RowSpec spec(layoutLength, uvDesiredSize);
+            RowSpec spec(layoutLength, uvDesiredSize);
             if (!currentRowSpec.TryAdd(spec, itemSpacing, uvAvailableSize.U(), itemStretch, realJustification))
             {
                 // Could not add to current row/column
@@ -151,11 +151,11 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         return uvSize.ToSize();
     }
 
-    Size WrapPanel2::ArrangeOverride(Size finalSize)
+    winrt::Size WrapPanel2::ArrangeOverride(winrt::Size finalSize)
     {
         // Do nothing if there are no rows/columns
         if (_rowSpecs.empty())
-            return Size(0, 0);
+            return winrt::Size(0, 0);
 
         // Create XY/UV coordinate variables
 		auto orientation = Orientation();
@@ -181,11 +181,11 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         auto childQueue = children 
         | std::views::filter([](const auto& e)
         {
-            return e.Visibility() == winrt::Microsoft::UI::Xaml::Visibility::Visible;
+            return e.Visibility() == winrt::Visibility::Visible;
         })
         | std::views::transform([](const auto& item)
         {
-            return item.template as<FrameworkElement>();
+            return item.template as<winrt::FrameworkElement>();
         })
         | std::ranges::to<std::vector>();
 
@@ -200,13 +200,13 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         for (const auto& child : std::span(childQueue).subspan(cursor))
         {
             // Arrange with zero size
-            child.Arrange(winrt::Windows::Foundation::Rect{ 0, 0, 0, 0 });
+            child.Arrange(winrt::Rect{ 0, 0, 0, 0 });
         }
 
         return finalSize;
     }
 
-    void WrapPanel2::ArrangeRow(UVCoord& pos, RowSpec const& row, UVCoord const& uvFinalSize, std::vector<FrameworkElement> const& childQueue, size_t& cursor)
+    void WrapPanel2::ArrangeRow(UVCoord& pos, RowSpec const& row, UVCoord const& uvFinalSize, std::vector<winrt::FrameworkElement> const& childQueue, size_t& cursor)
     {
 		auto itemSpacing = ItemSpacing();
 		auto realJustification = RealJustification();
@@ -337,12 +337,13 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
             auto size = GetChildSize(child, i, row, portionSize, forceStretch);
 
             // NOTE: The arrange method is still in X/Y coordinate system
-            child.Arrange(winrt::Windows::Foundation::Rect{
+            child.Arrange(winrt::Rect
+            {
                 static_cast<float>(pos.X),
                 static_cast<float>(pos.Y),
                 static_cast<float>(size.X),
                 static_cast<float>(size.Y)
-                });
+            });
 
             // Advance the position
             pos.U(pos.U() + size.U() + itemSpacing);
@@ -352,7 +353,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         pos.V(pos.V() + row.MaxOffAxisSize + LineSpacing());
     }
 
-    WrapPanel2::UVCoord WrapPanel2::GetChildSize(FrameworkElement const& child, int indexInRow, RowSpec const& row, double portionSize, bool forceStretch)
+    WrapPanel2::UVCoord WrapPanel2::GetChildSize(winrt::FrameworkElement const& child, int indexInRow, RowSpec const& row, double portionSize, bool forceStretch)
     {
         // Get layout and desired size
         auto layoutLength = GetLayoutLength(child);
@@ -361,7 +362,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         // Override the layout based on the forced stretch method if necessary
         if (forceStretch)
         {
-            GridLength oneStar(1, GridUnitType::Star);
+            winrt::GridLength oneStar(1, winrt::GridUnitType::Star);
             auto stretch = ItemsStretch();
 
             if (stretch == WrapPanelItemsStretch::First && indexInRow == 0)
@@ -384,13 +385,13 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
                 // Override all item's layouts to star sizes proportional to their original size
                 switch (layoutLength.GridUnitType)
                 {
-                case GridUnitType::Auto:
-                    layoutLength = GridLength(uvDesiredSize.U(), GridUnitType::Star);
+                case winrt::GridUnitType::Auto:
+                    layoutLength = winrt::GridLength(uvDesiredSize.U(), winrt::GridUnitType::Star);
                     break;
 
-                case GridUnitType::Pixel:
+                case winrt::GridUnitType::Pixel:
                 default:
-                    layoutLength = GridLength(layoutLength.Value, GridUnitType::Star);
+                    layoutLength = winrt::GridLength(layoutLength.Value, winrt::GridUnitType::Star);
                     break;
                 }
             }
@@ -401,15 +402,15 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         switch (layoutLength.GridUnitType)
         {
-        case GridUnitType::Auto:
+        case winrt::GridUnitType::Auto:
             uSize = uvDesiredSize.U();
             break;
 
-        case GridUnitType::Pixel:
+        case winrt::GridUnitType::Pixel:
             uSize = layoutLength.Value;
             break;
 
-        case GridUnitType::Star:
+        case winrt::GridUnitType::Star:
             uSize = layoutLength.Value * portionSize;
             break;
 
@@ -443,23 +444,23 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         }
     }
 
-    WrapPanel2::Alignment WrapPanel2::GetAlignment()
+    WrapPanel2::Alignment WrapPanel2::GetAlignment() const
     {
         switch (Orientation())
         {
         case Orientation::Horizontal:
             switch (HorizontalAlignment())
             {
-            case winrt::Microsoft::UI::Xaml::HorizontalAlignment::Left:
+            case winrt::HorizontalAlignment::Left:
                 return Alignment::Start;
 
-            case winrt::Microsoft::UI::Xaml::HorizontalAlignment::Center:
+            case winrt::HorizontalAlignment::Center:
                 return Alignment::Center;
 
-            case winrt::Microsoft::UI::Xaml::HorizontalAlignment::Right:
+            case winrt::HorizontalAlignment::Right:
                 return Alignment::End;
 
-            case winrt::Microsoft::UI::Xaml::HorizontalAlignment::Stretch:
+            case winrt::HorizontalAlignment::Stretch:
                 return Alignment::Stretch;
 
             default:
@@ -469,16 +470,16 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         case Orientation::Vertical:
             switch (VerticalAlignment())
             {
-            case winrt::Microsoft::UI::Xaml::VerticalAlignment::Top:
+            case winrt::VerticalAlignment::Top:
                 return Alignment::Start;
 
-            case winrt::Microsoft::UI::Xaml::VerticalAlignment::Center:
+            case winrt::VerticalAlignment::Center:
                 return Alignment::Center;
 
-            case winrt::Microsoft::UI::Xaml::VerticalAlignment::Bottom:
+            case winrt::VerticalAlignment::Bottom:
                 return Alignment::End;
 
-            case winrt::Microsoft::UI::Xaml::VerticalAlignment::Stretch:
+            case winrt::VerticalAlignment::Stretch:
                 return Alignment::Stretch;
 
             default:
@@ -490,23 +491,23 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         }
     }
 
-    WrapPanel2::Alignment WrapPanel2::GetOffAlignment()
+    WrapPanel2::Alignment WrapPanel2::GetOffAlignment() const
     {
         switch (Orientation())
         {
         case Orientation::Horizontal:
             switch (VerticalAlignment())
             {
-            case winrt::Microsoft::UI::Xaml::VerticalAlignment::Top:
+            case winrt::VerticalAlignment::Top:
                 return Alignment::Start;
 
-            case winrt::Microsoft::UI::Xaml::VerticalAlignment::Center:
+            case winrt::VerticalAlignment::Center:
                 return Alignment::Center;
 
-            case winrt::Microsoft::UI::Xaml::VerticalAlignment::Bottom:
+            case winrt::VerticalAlignment::Bottom:
                 return Alignment::End;
 
-            case winrt::Microsoft::UI::Xaml::VerticalAlignment::Stretch:
+            case winrt::VerticalAlignment::Stretch:
                 return Alignment::Stretch;
 
             default:
@@ -516,16 +517,16 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         case Orientation::Vertical:
             switch (HorizontalAlignment())
             {
-            case winrt::Microsoft::UI::Xaml::HorizontalAlignment::Left:
+            case winrt::HorizontalAlignment::Left:
                 return Alignment::Start;
 
-            case winrt::Microsoft::UI::Xaml::HorizontalAlignment::Center:
+            case winrt::HorizontalAlignment::Center:
                 return Alignment::Center;
 
-            case winrt::Microsoft::UI::Xaml::HorizontalAlignment::Right:
+            case winrt::HorizontalAlignment::Right:
                 return Alignment::End;
 
-            case winrt::Microsoft::UI::Xaml::HorizontalAlignment::Stretch:
+            case winrt::HorizontalAlignment::Stretch:
                 return Alignment::Stretch;
 
             default:
@@ -537,7 +538,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         }
     }
 
-    WrapPanel2::Alignment WrapPanel2::GetJustificationAlignment()
+    WrapPanel2::Alignment WrapPanel2::GetJustificationAlignment() const
     {
         switch (RealJustification())
         {
@@ -555,17 +556,17 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         }
     }
 
-    bool WrapPanel2::IsMainAxisStretch(double availableSize)
+    bool WrapPanel2::IsMainAxisStretch(double availableSize) const
     {
         return GetAlignment() == Alignment::Stretch && !std::isinf(availableSize);
     }
 
-    bool WrapPanel2::JustifiedSpacing()
+    bool WrapPanel2::JustifiedSpacing() const
     {
         return IsSpacingJustified(RealJustification());
     }
 
-    WrapPanelItemsJustification WrapPanel2::RealJustification()
+    WrapPanelItemsJustification WrapPanel2::RealJustification() const
     {
         if (ItemsJustification() == WrapPanelItemsJustification::Automatic)
         {
@@ -626,19 +627,19 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         }
     }
 
-    double WrapPanel2::GetChildSize(winrt::Microsoft::UI::Xaml::FrameworkElement const& child)
+    double WrapPanel2::GetChildSize(winrt::FrameworkElement const& child) const
     {
         auto childLayout = GetLayoutLength(child);
 
         switch (childLayout.GridUnitType)
         {
-        case GridUnitType::Auto:
+        case winrt::GridUnitType::Auto:
         {
             UVCoord uv(child.DesiredSize(), Orientation());
             return uv.U();
         }
 
-        case GridUnitType::Pixel:
+        case winrt::GridUnitType::Pixel:
             return childLayout.Value;
 
         default:
