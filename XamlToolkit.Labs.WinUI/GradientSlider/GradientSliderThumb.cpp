@@ -23,7 +23,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
     {
         base_type::OnApplyTemplate();
 
-        _border = GetTemplateChild(BorderPartName).try_as<Border>();
+        _border = GetTemplateChild(BorderPartName).try_as<winrt::Border>();
         _colorPicker = GetTemplateChild(ColorPickerPartName).try_as<winrt::Microsoft::UI::Xaml::Controls::ColorPicker>();
 
         _pointerEnteredRevoker = PointerEntered(winrt::auto_revoke, { this, &GradientSliderThumb::GradientSliderThumb_PointerEntered });
@@ -47,8 +47,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         GradientStop().Color(args.NewColor());
     }
 
-    void GradientSliderThumb::GradientSliderThumb_Tapped(IInspectable const&, TappedRoutedEventArgs const&)
+    void GradientSliderThumb::GradientSliderThumb_Tapped(winrt::IInspectable const&, winrt::TappedRoutedEventArgs const&)
     {
-        FlyoutBase::ShowAttachedFlyout(_border);
+        winrt::FlyoutBase::ShowAttachedFlyout(_border);
     }
 }

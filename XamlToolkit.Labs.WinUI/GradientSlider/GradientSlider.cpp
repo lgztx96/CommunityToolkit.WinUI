@@ -23,14 +23,14 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
     {
         DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
 
-        GradientStopCollection stops;
+        winrt::GradientStopCollection stops;
 
-        auto blackStop = GradientStop();
-        blackStop.Color(Colors::Black());
+        winrt::GradientStop blackStop;
+        blackStop.Color(winrt::Colors::Black());
         blackStop.Offset(0.0);
 
-        auto whiteStop = GradientStop();
-        whiteStop.Color(Colors::White());
+        winrt::GradientStop whiteStop;
+        whiteStop.Color(winrt::Colors::White());
         whiteStop.Offset(1.0);
 
         stops.Append(blackStop);
@@ -48,9 +48,9 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
             _containerCanvasSizeChangedRevoker.revoke();
         }
 
-        _containerCanvas = GetTemplateChild(ContainerCanvasPartName).try_as<Canvas>();
-        _placeholderThumb = GetTemplateChild(PlaceholderThumbPartName).try_as<Thumb>();
-        _backgroundRectangle = GetTemplateChild(BackgroundRectanglePartName).try_as<Rectangle>();
+        _containerCanvas = GetTemplateChild(ContainerCanvasPartName).try_as<winrt::Canvas>();
+        _placeholderThumb = GetTemplateChild(PlaceholderThumbPartName).try_as<winrt::Thumb>();
+        _backgroundRectangle = GetTemplateChild(BackgroundRectanglePartName).try_as<winrt::Rectangle>();
 
         if (_containerCanvas)
         {
@@ -65,18 +65,18 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
             _containerCanvasPointerPressedRevoker = _containerCanvas.PointerPressed(winrt::auto_revoke, { this, &GradientSlider::ContainerCanvas_PointerPressed });
             _containerCanvasPointerReleasedRevoker = _containerCanvas.PointerReleased(winrt::auto_revoke, { this, &GradientSlider::ContainerCanvas_PointerReleased });
 
-            _placeholderThumb.Visibility(Visibility::Collapsed);
+            _placeholderThumb.Visibility(winrt::Visibility::Collapsed);
         }
 
         RefreshThumbs();
     }
 
-    void GradientSlider::ContainerCanvas_SizeChanged(IInspectable const&, SizeChangedEventArgs const&)
+    void GradientSlider::ContainerCanvas_SizeChanged(winrt::IInspectable const&, winrt::SizeChangedEventArgs const&)
     {
         SyncThumbs();
     }
 
-    winrt::XamlToolkit::Labs::WinUI::GradientSliderThumb GradientSlider::AddStopThumb(GradientStop const& stop)
+    winrt::XamlToolkit::Labs::WinUI::GradientSliderThumb GradientSlider::AddStopThumb(winrt::GradientStop const& stop)
     {
         if (!_containerCanvas)
         {
@@ -96,8 +96,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         thumb.RightTapped({ this, &GradientSlider::Thumb_RightTapped });
 
         auto token = stop.RegisterPropertyChangedCallback(
-            GradientStop::OffsetProperty(),
-            DependencyPropertyChangedCallback{ this, &GradientSlider::OnGradientStopOffsetChanged });
+            winrt::GradientStop::OffsetProperty(), 
+            { this, &GradientSlider::OnGradientStopOffsetChanged });
 
         _stopCallbacks.insert_or_assign(stop, token);
 
@@ -108,7 +108,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         return thumb;
     }
 
-    void GradientSlider::RemoveStopThumb(GradientStop const& stop)
+    void GradientSlider::RemoveStopThumb(winrt::GradientStop const& stop)
     {
         if (!_containerCanvas)
             return;
@@ -122,7 +122,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         if (auto callbackIt = _stopCallbacks.find(stop); callbackIt != _stopCallbacks.end())
         {
-            stop.UnregisterPropertyChangedCallback(GradientStop::OffsetProperty(), callbackIt->second);
+            stop.UnregisterPropertyChangedCallback(winrt::GradientStop::OffsetProperty(), callbackIt->second);
             _stopCallbacks.erase(callbackIt);
         }
 
@@ -149,7 +149,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
     void GradientSlider::ClearThumbs()
     {
-        std::vector<GradientStop> stopsToRemove;
+        std::vector<winrt::GradientStop> stopsToRemove;
         for (auto const& [key, thumb] : _stopThumbs)
         {
             stopsToRemove.push_back(key);
@@ -174,15 +174,15 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         if (!_containerCanvas || !_backgroundRectangle)
             return;
 
-        auto brush = LinearGradientBrush();
+        winrt::LinearGradientBrush brush;
         brush.GradientStops(GradientStops());
-        brush.StartPoint(Point(0.0f, 0.5f));
-        brush.EndPoint(Point(1.0f, 0.5f));
+        brush.StartPoint(winrt::Point(0.0f, 0.5f));
+        brush.EndPoint(winrt::Point(1.0f, 0.5f));
 
         _backgroundRectangle.Fill(brush);
     }
 
-    void GradientSlider::Thumb_Loaded(IInspectable const& sender, RoutedEventArgs const&)
+    void GradientSlider::Thumb_Loaded(winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
     {
         auto thumb = sender.try_as<winrt::XamlToolkit::Labs::WinUI::GradientSliderThumb>();
         if (!thumb)
@@ -193,9 +193,9 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         UpdateThumbPosition(thumb);
     }
 
-    void GradientSlider::OnGradientStopOffsetChanged(DependencyObject const& d, DependencyProperty const&)
+    void GradientSlider::OnGradientStopOffsetChanged(winrt::DependencyObject const& d, [[maybe_unused]] winrt::DependencyProperty const& e)
     {
-        auto stop = d.try_as<GradientStop>();
+        auto stop = d.try_as<winrt::GradientStop>();
         if (!stop)
             return;
 
@@ -212,6 +212,6 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
             return;
 
         auto dragWidth = _containerCanvas.ActualWidth() - thumb.ActualWidth();
-        Canvas::SetLeft(thumb, thumb.GradientStop().Offset() * dragWidth);
+        winrt::Canvas::SetLeft(thumb, thumb.GradientStop().Offset() * dragWidth);
     }
 }

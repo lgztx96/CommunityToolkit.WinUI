@@ -8,7 +8,7 @@
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
-    winrt::event_token GradientSlider::ThumbDragStarted(DragStartedEventHandler const& handler)
+    winrt::event_token GradientSlider::ThumbDragStarted(winrt::DragStartedEventHandler const& handler)
     {
         return _thumbDragStarted.add(handler);
     }
@@ -18,7 +18,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         _thumbDragStarted.remove(token);
     }
 
-    winrt::event_token GradientSlider::ThumbDragCompleted(DragCompletedEventHandler const& handler)
+    winrt::event_token GradientSlider::ThumbDragCompleted(winrt::DragCompletedEventHandler const& handler)
     {
         return _thumbDragCompleted.add(handler);
     }
@@ -28,12 +28,12 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         _thumbDragCompleted.remove(token);
     }
 
-    void GradientSlider::OnThumbDragStarted(DragStartedEventArgs const& e)
+    void GradientSlider::OnThumbDragStarted(winrt::DragStartedEventArgs const& e)
     {
         if (_thumbDragStarted) _thumbDragStarted(*this, e);
     }
 
-    void GradientSlider::OnThumbDragCompleted(DragCompletedEventArgs const& e)
+    void GradientSlider::OnThumbDragCompleted(winrt::DragCompletedEventArgs const& e)
     {
         if (_thumbDragCompleted) _thumbDragCompleted(*this, e);
     }

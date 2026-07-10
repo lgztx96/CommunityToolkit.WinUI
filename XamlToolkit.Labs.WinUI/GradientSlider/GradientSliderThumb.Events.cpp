@@ -8,7 +8,7 @@
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
-    winrt::event_token GradientSliderThumb::DragStarted(DragStartedEventHandler const& handler)
+    winrt::event_token GradientSliderThumb::DragStarted(winrt::DragStartedEventHandler const& handler)
     {
         return _dragStarted.add(handler);
     }
@@ -17,7 +17,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
     {
         _dragStarted.remove(token);
     }
-    winrt::event_token GradientSliderThumb::DragDelta(DragDeltaEventHandler const& handler)
+    winrt::event_token GradientSliderThumb::DragDelta(winrt::DragDeltaEventHandler const& handler)
     {
         return _dragDelta.add(handler);
     }
@@ -27,7 +27,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         _dragDelta.remove(token);
     }
 
-    winrt::event_token GradientSliderThumb::DragCompleted(DragCompletedEventHandler const& handler)
+    winrt::event_token GradientSliderThumb::DragCompleted(winrt::DragCompletedEventHandler const& handler)
     {
         return _dragCompleted.add(handler);
     }
@@ -37,27 +37,27 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         _dragCompleted.remove(token);
     }
 
-    void GradientSliderThumb::GradientSliderThumb_PointerEntered(IInspectable const&, PointerRoutedEventArgs const&)
+    void GradientSliderThumb::GradientSliderThumb_PointerEntered(winrt::IInspectable const&, winrt::PointerRoutedEventArgs const&)
     {
         _pointerOver = true;
 
         if (!_pressed)
         {
-            VisualStateManager::GoToState(*this, PointerOverStateName, true);
+            winrt::VisualStateManager::GoToState(*this, PointerOverStateName, true);
         }
     }
 
-    void GradientSliderThumb::GradientSliderThumb_PointerExited(IInspectable const&, PointerRoutedEventArgs const&)
+    void GradientSliderThumb::GradientSliderThumb_PointerExited(winrt::IInspectable const&, winrt::PointerRoutedEventArgs const&)
     {
         _pointerOver = false;
 
         if (!_pressed)
         {
-            VisualStateManager::GoToState(*this, NormalStateName, true);
+            winrt::VisualStateManager::GoToState(*this, NormalStateName, true);
         }
     }
 
-    void GradientSliderThumb::GradientSliderThumb_PointerPressed(IInspectable const&, PointerRoutedEventArgs const& e)
+    void GradientSliderThumb::GradientSliderThumb_PointerPressed(winrt::IInspectable const&, winrt::PointerRoutedEventArgs const& e)
     {
         _pressed = true;
         _isDragging = true;
@@ -67,13 +67,13 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         _dragStartPosition = e.GetCurrentPoint(nullptr).Position();
         _lastPosition = _dragStartPosition;
 
-        DragStartedEventArgs dragStartedArgs(_dragStartPosition.X, _dragStartPosition.Y);
+        winrt::DragStartedEventArgs dragStartedArgs(_dragStartPosition.X, _dragStartPosition.Y);
         if (_dragStarted) _dragStarted(*this, dragStartedArgs);
 
-        VisualStateManager::GoToState(*this, PressedStateName, true);
+        winrt::VisualStateManager::GoToState(*this, PressedStateName, true);
     }
 
-    void GradientSliderThumb::GradientSliderThumb_PointerMoved(IInspectable const&, PointerRoutedEventArgs const& e)
+    void GradientSliderThumb::GradientSliderThumb_PointerMoved(winrt::IInspectable const&, winrt::PointerRoutedEventArgs const& e)
     {
         if (!_isDragging)
             return;
@@ -85,11 +85,11 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         _lastPosition = position;
 
-        DragDeltaEventArgs dragDeltaArgs(deltaX, deltaY);
+        winrt::DragDeltaEventArgs dragDeltaArgs(deltaX, deltaY);
         if (_dragDelta) _dragDelta(*this, dragDeltaArgs);
     }
 
-    void GradientSliderThumb::GradientSliderThumb_PointerReleased(IInspectable const&, PointerRoutedEventArgs const& e)
+    void GradientSliderThumb::GradientSliderThumb_PointerReleased(winrt::IInspectable const&, winrt::PointerRoutedEventArgs const& e)
     {
         if (_isDragging)
         {
@@ -98,7 +98,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
             double totalX = end.X - _dragStartPosition.X;
             double totalY = end.Y - _dragStartPosition.Y;
 
-            DragCompletedEventArgs dragCompletedArgs(totalX, totalY, false);
+            winrt::DragCompletedEventArgs dragCompletedArgs(totalX, totalY, false);
             if (_dragCompleted) _dragCompleted(*this, dragCompletedArgs);
         }
 
@@ -107,14 +107,14 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         ReleasePointerCapture(e.Pointer());
 
-        VisualStateManager::GoToState(*this, _pointerOver ? PointerOverStateName : NormalStateName, true);
+        winrt::VisualStateManager::GoToState(*this, _pointerOver ? PointerOverStateName : NormalStateName, true);
     }
 
-    void GradientSliderThumb::GradientSliderThumb_PointerCanceled(IInspectable const&, PointerRoutedEventArgs const& e)
+    void GradientSliderThumb::GradientSliderThumb_PointerCanceled(winrt::IInspectable const&, winrt::PointerRoutedEventArgs const& e)
     {
         if (_isDragging)
         {
-            DragCompletedEventArgs dragCompletedArgs(0, 0, true);
+            winrt::DragCompletedEventArgs dragCompletedArgs(0, 0, true);
             if (_dragCompleted) _dragCompleted(*this, dragCompletedArgs);
         }
 
@@ -122,11 +122,11 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         _pressed = false;
 
         ReleasePointerCapture(e.Pointer());
-        VisualStateManager::GoToState(*this, NormalStateName, true);
+        winrt::VisualStateManager::GoToState(*this, NormalStateName, true);
     }
 
-    void GradientSliderThumb::GradientSliderThumb_IsEnabledChanged(IInspectable const&, DependencyPropertyChangedEventArgs const&)
+    void GradientSliderThumb::GradientSliderThumb_IsEnabledChanged(winrt::IInspectable const&, winrt::DependencyPropertyChangedEventArgs const&)
     {
-        VisualStateManager::GoToState(*this, IsEnabled() ? NormalStateName : DisabledStateName, true);
+        winrt::VisualStateManager::GoToState(*this, IsEnabled() ? NormalStateName : DisabledStateName, true);
     }
 }
