@@ -5,8 +5,12 @@
 #include <functional>
 #include <string_view>
 #include <winrt/Windows.Foundation.h>
-#include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Windows.UI.Xaml.Interop.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#else
+import winrt.Windows.Foundation;
+import winrt.Windows.UI.Xaml.Interop;
+import winrt.Microsoft.UI.Xaml;
 #endif
 
 namespace winrt
@@ -24,6 +28,8 @@ namespace winrt
 
 namespace winrt
 {
+    using namespace Windows::Foundation;
+    using namespace Windows::UI::Xaml::Interop;
     using namespace Microsoft::UI::Xaml;
 }
 
@@ -39,16 +45,18 @@ namespace winrt::XamlToolkit::WinUI
     {
         std::wstring_view name;
 
-        inline bool operator()(FrameworkElement const& element) const {
+        inline bool operator()(winrt::FrameworkElement const& element) const
+        {
             return name == element.Name();
         }
     };
 
     struct PredicateByType
     {
-        winrt::Windows::UI::Xaml::Interop::TypeName type;
+        winrt::TypeName type;
 
-        inline bool operator()(Windows::Foundation::IInspectable const& element) const {
+        inline bool operator()(winrt::IInspectable const& element) const 
+        {
             return winrt::get_class_name(element) == type.Name;
         }
     };
@@ -56,7 +64,8 @@ namespace winrt::XamlToolkit::WinUI
     template <typename T>
     struct PredicateByAny {
 
-        constexpr bool operator()([[maybe_unused]] const T& element) const noexcept {
+        constexpr bool operator()([[maybe_unused]] const T& element) const noexcept 
+        {
             return true;
         }
     };
@@ -104,7 +113,7 @@ namespace winrt::XamlToolkit::WinUI
         /// </summary>
         /// <param name="predicate">The predicatee to use to match items.</param>
     public:
-        PredicateByFunc(const std::function<bool(T)>& predicate) : predicate(predicate) {}
+        PredicateByFunc(const std::function<bool(T)>& predicate) : predicate(predicate) { }
 
         inline bool operator()(T element)
         {

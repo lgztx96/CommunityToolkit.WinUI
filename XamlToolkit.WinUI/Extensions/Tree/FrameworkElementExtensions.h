@@ -6,10 +6,18 @@
 #include <vector>
 #include <generator>
 #include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.UI.Xaml.Interop.h>
 #include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Microsoft.UI.Xaml.Controls.h>
-#include <winrt/Microsoft.UI.Xaml.Media.h>
 #include <winrt/Microsoft.UI.Xaml.Markup.h>
+#include <winrt/Microsoft.UI.Xaml.Media.h>
+#else
+import winrt.Windows.Foundation;
+import winrt.Windows.UI.Xaml.Interop;
+import winrt.Microsoft.UI.Xaml;
+import winrt.Microsoft.UI.Xaml.Controls;
+import winrt.Microsoft.UI.Xaml.Markup;
+import winrt.Microsoft.UI.Xaml.Media;
 #endif
 
 #ifdef FindResource
@@ -18,9 +26,12 @@
 
 namespace winrt
 {
+	using namespace Windows::Foundation;
+	using namespace Windows::UI::Xaml::Interop;
     using namespace Microsoft::UI::Xaml;
     using namespace Microsoft::UI::Xaml::Media;
     using namespace Microsoft::UI::Xaml::Controls;
+	using namespace Microsoft::UI::Xaml::Markup;
 }
 
 namespace winrt::XamlToolkit::WinUI
@@ -28,32 +39,32 @@ namespace winrt::XamlToolkit::WinUI
 	class FrameworkElementEx
 	{
 	public:
-		static FrameworkElement FindChild(FrameworkElement const& element, std::wstring_view name)
+		static winrt::FrameworkElement FindChild(winrt::FrameworkElement const& element, std::wstring_view name)
 		{
 			PredicateByName predicateByName(name);
 
-			return FindChild<FrameworkElement, PredicateByName>(element, predicateByName);
+			return FindChild<winrt::FrameworkElement, PredicateByName>(element, predicateByName);
 		}
 
 		template <typename T>
-		static T FindChild(FrameworkElement const& element)
-			requires winrt::derived_from<T, FrameworkElement>
+		static T FindChild(winrt::FrameworkElement const& element)
+			requires winrt::derived_from<T, winrt::FrameworkElement>
 		{
 			PredicateByAny<T> predicateByAny;
 
 			return FindChild<T, PredicateByAny<T>>(element, predicateByAny);
 		}
 
-		static FrameworkElement FindChild(FrameworkElement const& element, winrt::Windows::UI::Xaml::Interop::TypeName type)
+		static winrt::FrameworkElement FindChild(winrt::FrameworkElement const& element, winrt::TypeName type)
 		{
 			PredicateByType predicateByType(type);
 
-			return FindChild<FrameworkElement, PredicateByType>(element, predicateByType);
+			return FindChild<winrt::FrameworkElement, PredicateByType>(element, predicateByType);
 		}
 
 		template <typename T>
-		static T FindChild(FrameworkElement const& element, const std::function<bool(T)>& predicate)
-			requires winrt::derived_from<T, FrameworkElement>
+		static T FindChild(winrt::FrameworkElement const& element, const std::function<bool(T)>& predicate)
+			requires winrt::derived_from<T, winrt::FrameworkElement>
 		{
 			PredicateByFunc<T> predicateByFunc(predicate);
 
@@ -61,8 +72,8 @@ namespace winrt::XamlToolkit::WinUI
 		}
 
 		template <typename T, typename TState>
-		static T FindChild(FrameworkElement const& element, TState state, const std::function<bool(T, TState)>& predicate)
-			requires winrt::derived_from<T, FrameworkElement>
+		static T FindChild(winrt::FrameworkElement const& element, TState state, const std::function<bool(T, TState)>& predicate)
+			requires winrt::derived_from<T, winrt::FrameworkElement>
 		{
 			PredicateByFunc<T, TState> predicateByFunc(state, predicate);
 
@@ -70,8 +81,8 @@ namespace winrt::XamlToolkit::WinUI
 		}
 
 		template <typename T, IPredicate<T> TPredicate>
-		static T FindChild(FrameworkElement element, TPredicate predicate)
-			requires winrt::derived_from<T, FrameworkElement>
+		static T FindChild(winrt::FrameworkElement element, TPredicate predicate)
+			requires winrt::derived_from<T, winrt::FrameworkElement>
 		{
 			// Jump label to manually optimize the tail recursive paths for elements with a single
 			// child by just overwriting the current element and jumping back to the start of the
@@ -82,7 +93,7 @@ namespace winrt::XamlToolkit::WinUI
 			{
 				for (const auto& child : panel.Children())
 				{
-					auto current = child.try_as<FrameworkElement>();
+					auto current = child.try_as<winrt::FrameworkElement>();
 					if (!current)
 					{
 						continue;
@@ -95,17 +106,17 @@ namespace winrt::XamlToolkit::WinUI
 
 					T descendant = FindChild<T, TPredicate>(current, predicate);
 
-					if (descendant != nullptr)
+					if (descendant)
 					{
 						return descendant;
 					}
 				}
 			}
-			else if (auto itemsControl = element.try_as<ItemsControl>())
+			else if (auto itemsControl = element.try_as<winrt::ItemsControl>())
 			{
-				for (Windows::Foundation::IInspectable item : itemsControl.Items())
+				for (const auto& item : itemsControl.Items())
 				{
-					auto current = item.try_as<FrameworkElement>();
+					auto current = item.try_as<winrt::FrameworkElement>();
 					if (!current)
 					{
 						continue;
@@ -118,15 +129,15 @@ namespace winrt::XamlToolkit::WinUI
 
 					T descendant = FindChild<T, TPredicate>(current, predicate);
 
-					if (descendant != nullptr)
+					if (descendant)
 					{
 						return descendant;
 					}
 				}
 			}
-			else if (auto contentControl = element.try_as<ContentControl>())
+			else if (auto contentControl = element.try_as<winrt::ContentControl>())
 			{
-				if (auto content = contentControl.Content().try_as<FrameworkElement>())
+				if (auto content = contentControl.Content().try_as<winrt::FrameworkElement>())
 				{
 					if (auto result = content.try_as<T>(); result && predicate(result))
 					{
@@ -138,9 +149,9 @@ namespace winrt::XamlToolkit::WinUI
 					goto Start;
 				}
 			}
-			else if (auto border = element.try_as<Border>())
+			else if (auto border = element.try_as<winrt::Border>())
 			{
-				if (auto child = border.Child().try_as<FrameworkElement>())
+				if (auto child = border.Child().try_as<winrt::FrameworkElement>())
 				{
 					if (auto result = child.try_as<T>(); result && predicate(result))
 					{
@@ -152,12 +163,12 @@ namespace winrt::XamlToolkit::WinUI
 					goto Start;
 				}
 			}
-			else if (auto contentPresenter = element.try_as<ContentPresenter>())
+			else if (auto contentPresenter = element.try_as<winrt::ContentPresenter>())
 			{
 				// Sometimes ContentPresenter is used in control templates instead of ContentControl,
 				// therefore we should still check if its Content is a matching FrameworkElement instance.
 				// This also makes work for SwitchPresenter.
-				if (auto content = contentPresenter.Content().try_as<FrameworkElement>())
+				if (auto content = contentPresenter.Content().try_as<winrt::FrameworkElement>())
 				{
 					if (auto result = content.try_as<T>(); result && predicate(result))
 					{
@@ -169,9 +180,9 @@ namespace winrt::XamlToolkit::WinUI
 					goto Start;
 				}
 			}
-			else if (auto viewbox = element.try_as<Viewbox>())
+			else if (auto viewbox = element.try_as<winrt::Viewbox>())
 			{
-				if (auto child = viewbox.Child().try_as<FrameworkElement>())
+				if (auto child = viewbox.Child().try_as<winrt::FrameworkElement>())
 				{
 					if (auto result = child.try_as<T>(); result && predicate(result))
 					{
@@ -183,11 +194,11 @@ namespace winrt::XamlToolkit::WinUI
 					goto Start;
 				}
 			}
-			else if (auto userControl = element.try_as<UserControl>())
+			else if (auto userControl = element.try_as<winrt::UserControl>())
 			{
 				// We put UserControl right before the slower reflection fallback path as
 				// type is less likely to be used compared to the other ones above.
-				if (auto content = userControl.Content().try_as<FrameworkElement>())
+				if (auto content = userControl.Content().try_as<winrt::FrameworkElement>())
 				{
 					if (auto result = content.try_as<T>(); result && predicate(result))
 					{
@@ -199,7 +210,7 @@ namespace winrt::XamlToolkit::WinUI
 					goto Start;
 				}
 			}
-			else if (auto containedControl = GetContentControl(element).try_as<FrameworkElement>())
+			else if (auto containedControl = GetContentControl(element).try_as<winrt::FrameworkElement>())
 			{
 				if (auto result = containedControl.try_as<T>(); result && predicate(result))
 				{
@@ -214,7 +225,7 @@ namespace winrt::XamlToolkit::WinUI
 			return nullptr;
 		}
 
-		static FrameworkElement FindChildOrSelf(FrameworkElement const& element, std::wstring_view name)
+		static winrt::FrameworkElement FindChildOrSelf(winrt::FrameworkElement const& element, std::wstring_view name)
 		{
 			if (name == element.Name())
 			{
@@ -225,8 +236,8 @@ namespace winrt::XamlToolkit::WinUI
 		}
 
 		template<typename T>
-		static T FindChildOrSelf(FrameworkElement const& element)
-			requires winrt::derived_from<T, FrameworkElement>
+		static T FindChildOrSelf(winrt::FrameworkElement const& element)
+			requires winrt::derived_from<T, winrt::FrameworkElement>
 		{
 			if (auto result = element.try_as<T>())
 			{
@@ -236,7 +247,7 @@ namespace winrt::XamlToolkit::WinUI
 			return FindChild<T>(element);
 		}
 
-		static FrameworkElement FindChildOrSelf(FrameworkElement const& element, winrt::Windows::UI::Xaml::Interop::TypeName type)
+		static winrt::FrameworkElement FindChildOrSelf(winrt::FrameworkElement const& element, winrt::TypeName type)
 		{
 			if (winrt::get_class_name(element) == type.Name)
 			{
@@ -247,8 +258,8 @@ namespace winrt::XamlToolkit::WinUI
 		}
 
 		template<typename T>
-		static T FindChildOrSelf(FrameworkElement const& element, const std::function<bool(T)>& predicate)
-			requires winrt::derived_from<T, FrameworkElement>
+		static T FindChildOrSelf(winrt::FrameworkElement const& element, const std::function<bool(T)>& predicate)
+			requires winrt::derived_from<T, winrt::FrameworkElement>
 		{
 			if (auto result = element.try_as<T>(); result && predicate(result))
 			{
@@ -259,8 +270,8 @@ namespace winrt::XamlToolkit::WinUI
 		}
 
 		template<typename T, typename TState>
-		static T FindChildOrSelf(FrameworkElement const& element, TState state, const std::function<bool(T, TState)>& predicate)
-			requires winrt::derived_from<T, FrameworkElement>
+		static T FindChildOrSelf(winrt::FrameworkElement const& element, TState state, const std::function<bool(T, TState)>& predicate)
+			requires winrt::derived_from<T, winrt::FrameworkElement>
 		{
 			if (auto result = element.try_as<T>(); result && predicate(result, state))
 			{
@@ -270,7 +281,7 @@ namespace winrt::XamlToolkit::WinUI
 			return FindChild(element, state, predicate);
 		}
 
-		static void FindChildren(FrameworkElement element, std::vector<FrameworkElement>& vec)
+		static void FindChildren(winrt::FrameworkElement element, std::vector<winrt::FrameworkElement>& vec)
 		{
 		Start:
 
@@ -278,7 +289,7 @@ namespace winrt::XamlToolkit::WinUI
 			{
 				for (const auto& child : panel.Children())
 				{
-					auto current = child.try_as<FrameworkElement>();
+					auto current = child.try_as<winrt::FrameworkElement>();
 					if (!current)
 					{
 						continue;
@@ -286,28 +297,7 @@ namespace winrt::XamlToolkit::WinUI
 
 					vec.emplace_back(current);
 
-					std::vector<FrameworkElement> childrenOfChild;
-					FindChildren(current, childrenOfChild);
-
-					for (FrameworkElement childOfChild : childrenOfChild)
-					{
-						vec.emplace_back(childOfChild);
-					}
-				}
-			}
-			else if (auto itemsControl = element.try_as<ItemsControl>())
-			{
-				for (Windows::Foundation::IInspectable item : itemsControl.Items())
-				{
-					auto current = item.try_as<FrameworkElement>();
-					if (!current)
-					{
-						continue;
-					}
-
-					vec.emplace_back(current);
-
-					std::vector<FrameworkElement> childrenOfChild;
+					std::vector<winrt::FrameworkElement> childrenOfChild;
 					FindChildren(current, childrenOfChild);
 
 					for (const auto& childOfChild : childrenOfChild)
@@ -316,9 +306,30 @@ namespace winrt::XamlToolkit::WinUI
 					}
 				}
 			}
-			else if (auto contentControl = element.try_as<ContentControl>())
+			else if (auto itemsControl = element.try_as<winrt::ItemsControl>())
 			{
-				if (auto content = contentControl.Content().try_as<FrameworkElement>())
+				for (const auto& item : itemsControl.Items())
+				{
+					auto current = item.try_as<winrt::FrameworkElement>();
+					if (!current)
+					{
+						continue;
+					}
+
+					vec.emplace_back(current);
+
+					std::vector<winrt::FrameworkElement> childrenOfChild;
+					FindChildren(current, childrenOfChild);
+
+					for (const auto& childOfChild : childrenOfChild)
+					{
+						vec.emplace_back(childOfChild);
+					}
+				}
+			}
+			else if (auto contentControl = element.try_as<winrt::ContentControl>())
+			{
+				if (auto content = contentControl.Content().try_as<winrt::FrameworkElement>())
 				{
 					vec.emplace_back(content);
 
@@ -327,9 +338,9 @@ namespace winrt::XamlToolkit::WinUI
 					goto Start;
 				}
 			}
-			else if (auto border = element.try_as<Border>())
+			else if (auto border = element.try_as<winrt::Border>())
 			{
-				if (auto child = border.Child().try_as<FrameworkElement>())
+				if (auto child = border.Child().try_as<winrt::FrameworkElement>())
 				{
 					vec.emplace_back(child);
 
@@ -338,9 +349,9 @@ namespace winrt::XamlToolkit::WinUI
 					goto Start;
 				}
 			}
-			else if (auto contentPresenter = element.try_as<ContentPresenter>())
+			else if (auto contentPresenter = element.try_as<winrt::ContentPresenter>())
 			{
-				if (auto content = contentPresenter.Content().try_as<FrameworkElement>())
+				if (auto content = contentPresenter.Content().try_as<winrt::FrameworkElement>())
 				{
 					vec.emplace_back(content);
 
@@ -349,9 +360,9 @@ namespace winrt::XamlToolkit::WinUI
 					goto Start;
 				}
 			}
-			else if (auto viewbox = element.try_as<Viewbox>())
+			else if (auto viewbox = element.try_as<winrt::Viewbox>())
 			{
-				if (auto child = viewbox.Child().try_as<FrameworkElement>())
+				if (auto child = viewbox.Child().try_as<winrt::FrameworkElement>())
 				{
 					vec.emplace_back(child);
 
@@ -360,9 +371,9 @@ namespace winrt::XamlToolkit::WinUI
 					goto Start;
 				}
 			}
-			else if (auto userControl = element.try_as<UserControl>())
+			else if (auto userControl = element.try_as<winrt::UserControl>())
 			{
-				if (auto content = userControl.Content().try_as<FrameworkElement>())
+				if (auto content = userControl.Content().try_as<winrt::FrameworkElement>())
 				{
 					vec.emplace_back(content);
 
@@ -371,7 +382,7 @@ namespace winrt::XamlToolkit::WinUI
 					goto Start;
 				}
 			}
-			else if (auto containedControl = GetContentControl(element).try_as<FrameworkElement>())
+			else if (auto containedControl = GetContentControl(element).try_as<winrt::FrameworkElement>())
 			{
 				vec.emplace_back(containedControl);
 
@@ -381,32 +392,32 @@ namespace winrt::XamlToolkit::WinUI
 			}
 		}
 
-		static FrameworkElement FindParent(FrameworkElement const& element, std::wstring_view name)
+		static winrt::FrameworkElement FindParent(winrt::FrameworkElement const& element, std::wstring_view name)
 		{
 			PredicateByName predicateByName(name);
 
-			return FindParent<FrameworkElement, PredicateByName>(element, predicateByName);
+			return FindParent<winrt::FrameworkElement, PredicateByName>(element, predicateByName);
 		}
 
 		template<typename T>
-		static T FindParent(FrameworkElement element)
-			requires winrt::derived_from<T, FrameworkElement>
+		static T FindParent(winrt::FrameworkElement element)
+			requires winrt::derived_from<T, winrt::FrameworkElement>
 		{
 			PredicateByAny<T> predicateByAny;
 
 			return FindParent<T, PredicateByAny<T>>(element, predicateByAny);
 		}
 
-		static FrameworkElement FindParent(FrameworkElement const& element, winrt::Windows::UI::Xaml::Interop::TypeName type)
+		static winrt::FrameworkElement FindParent(winrt::FrameworkElement const& element, winrt::TypeName type)
 		{
 			PredicateByType predicateByType(type);
 
-			return FindParent<FrameworkElement, PredicateByType>(element, predicateByType);
+			return FindParent<winrt::FrameworkElement, PredicateByType>(element, predicateByType);
 		}
 
 		template<typename T>
-		static T FindParent(FrameworkElement const& element, const std::function<bool(T)>& predicate)
-			requires winrt::derived_from<T, FrameworkElement>
+		static T FindParent(winrt::FrameworkElement const& element, const std::function<bool(T)>& predicate)
+			requires winrt::derived_from<T, winrt::FrameworkElement>
 		{
 			PredicateByFunc<T> predicateByFunc(predicate);
 
@@ -414,8 +425,8 @@ namespace winrt::XamlToolkit::WinUI
 		}
 
 		template<typename T, typename TState>
-		static T FindParent(FrameworkElement const& element, TState state, std::function<bool(T, TState)> predicate)
-			requires winrt::derived_from<T, FrameworkElement>
+		static T FindParent(winrt::FrameworkElement const& element, TState state, std::function<bool(T, TState)> predicate)
+			requires winrt::derived_from<T, winrt::FrameworkElement>
 		{
 			PredicateByFunc<T, TState> predicateByFunc(state, predicate);
 
@@ -423,12 +434,12 @@ namespace winrt::XamlToolkit::WinUI
 		}
 
 		template<typename T, IPredicate<T> TPredicate>
-		static T FindParent(FrameworkElement element, TPredicate predicate)
-			requires winrt::derived_from<T, FrameworkElement>
+		static T FindParent(winrt::FrameworkElement element, TPredicate predicate)
+			requires winrt::derived_from<T, winrt::FrameworkElement>
 		{
 			while (true)
 			{
-				auto parent = element.Parent().try_as<FrameworkElement>();
+				auto parent = element.Parent().try_as<winrt::FrameworkElement>();
 
 				if (!parent)
 				{
@@ -444,7 +455,7 @@ namespace winrt::XamlToolkit::WinUI
 			}
 		}
 
-		static FrameworkElement FindParentOrSelf(FrameworkElement const& element, std::wstring_view name)
+		static winrt::FrameworkElement FindParentOrSelf(winrt::FrameworkElement const& element, std::wstring_view name)
 		{
 			if (name == element.Name())
 			{
@@ -455,8 +466,8 @@ namespace winrt::XamlToolkit::WinUI
 		}
 
 		template<typename T>
-		static T FindParentOrSelf(FrameworkElement const& element)
-			requires winrt::derived_from<T, FrameworkElement>
+		static T FindParentOrSelf(winrt::FrameworkElement const& element)
+			requires winrt::derived_from<T, winrt::FrameworkElement>
 		{
 			if (auto result = element.try_as<T>())
 			{
@@ -466,7 +477,7 @@ namespace winrt::XamlToolkit::WinUI
 			return FindParent<T>(element);
 		}
 
-		static FrameworkElement FindParentOrSelf(FrameworkElement const& element, winrt::Windows::UI::Xaml::Interop::TypeName type)
+		static winrt::FrameworkElement FindParentOrSelf(winrt::FrameworkElement const& element, winrt::TypeName type)
 		{
 			if (winrt::get_class_name(element) == type.Name)
 			{
@@ -477,8 +488,8 @@ namespace winrt::XamlToolkit::WinUI
 		}
 
 		template<typename T>
-		static T FindParentOrSelf(FrameworkElement const& element, const std::function<bool(T)>& predicate)
-			requires winrt::derived_from<T, FrameworkElement>
+		static T FindParentOrSelf(winrt::FrameworkElement const& element, const std::function<bool(T)>& predicate)
+			requires winrt::derived_from<T, winrt::FrameworkElement>
 		{
 			if (auto result = element.try_as<T>(); result && predicate(result))
 			{
@@ -489,8 +500,8 @@ namespace winrt::XamlToolkit::WinUI
 		}
 
 		template<typename T, typename TState>
-		static T FindParentOrSelf(FrameworkElement const& element, TState state, const std::function<bool(T, TState)>& predicate)
-			requires winrt::derived_from<T, FrameworkElement>
+		static T FindParentOrSelf(winrt::FrameworkElement const& element, TState state, const std::function<bool(T, TState)>& predicate)
+			requires winrt::derived_from<T, winrt::FrameworkElement>
 		{
 			if (auto result = element.try_as<T>(); result && predicate(result, state))
 			{
@@ -500,11 +511,11 @@ namespace winrt::XamlToolkit::WinUI
 			return FindParent(element, state, predicate);
 		}
 
-		static std::generator<FrameworkElement> FindParents(FrameworkElement element)
+		static std::generator<winrt::FrameworkElement> FindParents(winrt::FrameworkElement element)
 		{
 			while (true)
 			{
-				auto parent = element.Parent().try_as<FrameworkElement>();
+				auto parent = element.Parent().try_as<winrt::FrameworkElement>();
 
 				if (parent == nullptr)
 				{
@@ -522,30 +533,36 @@ namespace winrt::XamlToolkit::WinUI
 		/// </summary>
 		/// <param name="element">The parent element.</param>
 		/// <returns>The retrieved content control, or <see langword="null"/> if not available.</returns>
-		static UIElement GetContentControl(FrameworkElement const& element)
+		static winrt::UIElement GetContentControl(winrt::FrameworkElement const& element)
 		{
-			Application app = Application::Current();
+			winrt::Application app = Application::Current();
 
-			if (!app) return nullptr;
+			if (!app)
+			{
+				return nullptr;
+			}
 
-			winrt::Microsoft::UI::Xaml::Markup::IXamlMetadataProvider provider = app.try_as<
-				winrt::Microsoft::UI::Xaml::Markup::IXamlMetadataProvider>();
-			if (!provider) return nullptr;
+			winrt::IXamlMetadataProvider provider = app.try_as<winrt::IXamlMetadataProvider>();
+			if (!provider)
+			{
+				return nullptr;
+			}
 
 			auto type = winrt::get_class_name(element);
 
-			winrt::Microsoft::UI::Xaml::Markup::IXamlType xamlType = provider.GetXamlType(type);
-			if (!xamlType) return nullptr;
+			winrt::IXamlType xamlType = provider.GetXamlType(type);
+			if (!xamlType) 
+			{
+				return nullptr;
+			}
 
 			while (xamlType)
 			{
 				// We need to manually explore the custom attributes this way as the target one
 				// is not returned by any of the other available GetCustomAttribute<T> APIs.
-				winrt::Microsoft::UI::Xaml::Markup::IXamlMember member = xamlType.ContentProperty();
-
-				if (member)
+				if (winrt::IXamlMember member = xamlType.ContentProperty())
 				{
-					return member.GetValue(element).try_as<UIElement>();
+					return member.GetValue(element).try_as<winrt::UIElement>();
 				}
 
 				xamlType = xamlType.BaseType();
@@ -554,9 +571,9 @@ namespace winrt::XamlToolkit::WinUI
 			return nullptr;
 		}
 
-		static Windows::Foundation::IInspectable FindResource(FrameworkElement const& element, Windows::Foundation::IInspectable resourceKey)
+		static winrt::IInspectable FindResource(winrt::FrameworkElement const& element, winrt::IInspectable resourceKey)
 		{
-			Windows::Foundation::IInspectable value{ nullptr };
+			winrt::IInspectable value{ nullptr };
 			if (TryFindResource(element, resourceKey, value))
 			{
 				return value;
@@ -565,9 +582,9 @@ namespace winrt::XamlToolkit::WinUI
 			throw winrt::hresult_out_of_bounds(winrt::format(L"No resource was found with the key {}", winrt::get_class_name(resourceKey)));
 		}
 
-		static Windows::Foundation::IInspectable TryFindResource(FrameworkElement const& element, Windows::Foundation::IInspectable resourceKey)
+		static winrt::IInspectable TryFindResource(winrt::FrameworkElement const& element, winrt::IInspectable resourceKey)
 		{
-			FrameworkElement current = element;
+			winrt::FrameworkElement current = element;
 
 			// Look in our dictionary and then walk-up parents. We use a do-while loop here
 			// so that an implicit NRE will be thrown at the first iteration in case the
@@ -579,16 +596,16 @@ namespace winrt::XamlToolkit::WinUI
 					return value;
 				}
 
-				current = current.Parent().try_as<FrameworkElement>();
+				current = current.Parent().try_as<winrt::FrameworkElement>();
 			} while (current);
 
 			// Finally try application resources
-			return Application::Current().Resources().TryLookup(resourceKey);
+			return winrt::Application::Current().Resources().TryLookup(resourceKey);
 		}
 
-		static bool TryFindResource(FrameworkElement const& element, Windows::Foundation::IInspectable const& resourceKey, Windows::Foundation::IInspectable& value)
+		static bool TryFindResource(winrt::FrameworkElement const& element, winrt::IInspectable const& resourceKey, winrt::IInspectable& value)
 		{
-			return ((value = TryFindResource(element, resourceKey)) != nullptr);
+			return static_cast<bool>((value = TryFindResource(element, resourceKey)));
 		}
 	};
 }
