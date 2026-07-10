@@ -3,7 +3,9 @@
 #include "OpacityMaskView.g.h"
 
 #ifdef __INTELLISENSE__
+#include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Microsoft.UI.Xaml.Media.h>
+#include <winrt/Microsoft.UI.Composition.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
 #include <string_view>
@@ -12,7 +14,9 @@
 namespace winrt
 {
     using namespace Microsoft::UI::Xaml;
+    using namespace Microsoft::UI::Xaml::Media;
 	using namespace Microsoft::UI::Composition;
+    using namespace Windows::Foundation::Numerics;
 }
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
@@ -21,17 +25,13 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
     {
         OpacityMaskView();
 
-        UIElement OpacityMask();
+        winrt::UIElement OpacityMask() const;
 
-        void OpacityMask(UIElement const& value);
+        void OpacityMask(winrt::UIElement const& value);
 
-        static void OnOpacityMaskChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e);
+        static void OnOpacityMaskChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 
-        static inline const wil::single_threaded_property<DependencyProperty> OpacityMaskProperty = DependencyProperty::Register(
-            L"OpacityMask",
-            winrt::xaml_typename<UIElement>(),
-            winrt::xaml_typename<class_type>(),
-            PropertyMetadata(nullptr, &OpacityMaskView::OnOpacityMaskChanged));
+        static const wil::single_threaded_property<winrt::DependencyProperty> OpacityMaskProperty;
 
         void OnApplyTemplate();
 
@@ -40,11 +40,11 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         static constexpr std::wstring_view MaskContainerTemplateName = L"PART_MaskContainer";
         static constexpr std::wstring_view RootGridTemplateName = L"PART_RootGrid";
 
-        Compositor _compositor{ nullptr };
-        CompositionBrush _mask{ nullptr };
-        CompositionMaskBrush _maskBrush{ nullptr };
+        winrt::Compositor _compositor{ nullptr };
+        winrt::CompositionBrush _mask{ nullptr };
+        winrt::CompositionMaskBrush _maskBrush{ nullptr };
 
-        static CompositionBrush GetVisualBrush(UIElement const& element);
+        static winrt::CompositionBrush GetVisualBrush(winrt::UIElement const& element);
     };
 }
 
