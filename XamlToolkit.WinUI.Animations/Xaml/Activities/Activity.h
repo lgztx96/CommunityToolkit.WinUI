@@ -9,6 +9,12 @@
 #include <wil/cppwinrt_authoring.h>
 #endif
 
+namespace winrt
+{
+    using namespace Windows::Foundation;
+    using namespace Microsoft::UI::Xaml;
+}
+
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
     struct Activity : ActivityT<Activity>
@@ -16,12 +22,12 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
     public:
         Activity() = default;
 
-        winrt::Windows::Foundation::IReference<winrt::Windows::Foundation::TimeSpan> Delay();
-        void Delay(winrt::Windows::Foundation::IReference<winrt::Windows::Foundation::TimeSpan> const& value);
+        winrt::IReference<winrt::TimeSpan> Delay() const;
+        void Delay(winrt::IReference<winrt::TimeSpan> const& value);
 
-        static const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> DelayProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> DelayProperty;
 
-        virtual winrt::Windows::Foundation::IAsyncAction InvokeAsync(Microsoft::UI::Xaml::UIElement const& element);
+        virtual winrt::IAsyncAction InvokeAsync(winrt::UIElement const& element);
     };
 }
 

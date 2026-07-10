@@ -8,6 +8,12 @@
 #include <winrt/Microsoft.UI.Xaml.h>
 #endif
 
+namespace winrt
+{
+    using namespace Windows::Foundation;
+    using namespace Microsoft::UI::Xaml;
+}
+
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
     struct StopAnimationActivity : StopAnimationActivityT<StopAnimationActivity, Activity>
@@ -17,26 +23,26 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
 
         winrt::XamlToolkit::WinUI::Animations::AnimationSet Animation() const
         {
-            return GetValue(AnimationProperty).try_as<winrt::XamlToolkit::WinUI::Animations::AnimationSet>();
+            return GetValue(AnimationProperty()).try_as<winrt::XamlToolkit::WinUI::Animations::AnimationSet>();
         }
         void Animation(winrt::XamlToolkit::WinUI::Animations::AnimationSet const& value)
         {
-            SetValue(AnimationProperty, winrt::box_value(value));
+            SetValue(AnimationProperty(), winrt::box_value(value));
         }
 
-        winrt::Microsoft::UI::Xaml::UIElement TargetObject() const
+        winrt::UIElement TargetObject() const
         {
-            return GetValue(TargetObjectProperty).try_as<Microsoft::UI::Xaml::UIElement>();
+            return GetValue(TargetObjectProperty()).try_as<winrt::UIElement>();
         }
-        void TargetObject(Microsoft::UI::Xaml::UIElement const& value)
+        void TargetObject(winrt::UIElement const& value)
         {
-            SetValue(TargetObjectProperty, winrt::box_value(value));
+            SetValue(TargetObjectProperty(), winrt::box_value(value));
         }
 
-        winrt::Windows::Foundation::IAsyncAction InvokeAsync(winrt::Microsoft::UI::Xaml::UIElement const& element) override;
+        winrt::IAsyncAction InvokeAsync(winrt::UIElement const& element) override;
 
-        static const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> AnimationProperty;
-        static const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> TargetObjectProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> AnimationProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> TargetObjectProperty;
     };
 }
 
