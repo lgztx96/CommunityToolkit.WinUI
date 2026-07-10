@@ -8,14 +8,17 @@
 #include "EffectAnimationBase.h"
 #include "../Effects/TintEffect.h"
 #ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/XamlToolkit.WinUI.Animations.h>
+#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
-#endif
-
+#else
 import std;
 import winrt.Windows.Foundation;
 import winrt.XamlToolkit.WinUI.Animations;
 import winrt.Microsoft.UI.Xaml.Media.Animation;
+#endif
 
 namespace winrt::XamlToolkit::WinUI::Media::Animations::implementation
 {
