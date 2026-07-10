@@ -4,11 +4,8 @@
 #pragma once
 #include "RepeatOptionHelper.g.h"
 #ifdef __INTELLISENSE__
-#include <winrt/Windows.Foundation.h>
 #include <winrt/Microsoft.UI.Composition.h>
-#include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
-#include <tuple>
 #endif
 
 namespace winrt
@@ -42,12 +39,12 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         /// <summary>
         /// Gets a RepeatBehavior value corresponding to the current RepeatOption value.
         /// </summary>
-        static RepeatBehavior ToRepeatBehavior(RepeatOption const& option);
+        static winrt::RepeatBehavior ToRepeatBehavior(RepeatOption const& option);
 
         /// <summary>
         /// Gets the AnimationIterationBehavior and count values matching the current RepeatOption value.
         /// </summary>
-        static void ToBehaviorAndCount(RepeatOption const& option, AnimationIterationBehavior& behavior, int& count);
+        static void ToBehaviorAndCount(RepeatOption const& option, winrt::AnimationIterationBehavior& behavior, int& count);
 
         /// <summary>
         /// Parses a <see cref="RepeatOption"/> value from a <see cref="string"/>.
