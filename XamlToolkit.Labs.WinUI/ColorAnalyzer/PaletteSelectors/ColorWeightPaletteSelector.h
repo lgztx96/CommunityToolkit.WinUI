@@ -23,11 +23,10 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
             // Order by weight and ensure we have at least MinColorCount colors
             std::vector<PaletteColor> temp(palette.begin(), palette.end());
 
-            std::sort(temp.begin(), temp.end(),
-                [](auto const& a, auto const& b)
-                {
-                    return a.Weight > b.Weight;
-                });
+            std::sort(temp.begin(), temp.end(), [](auto const& a, auto const& b)
+            {
+                return a.Weight > b.Weight;
+            });
 
             std::vector<winrt::Windows::UI::Color> colors;
             for (auto const& item : temp)
@@ -35,7 +34,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
                 colors.push_back(item.Color);
             }
 
-            auto result = single_threaded_vector<Color>(std::move(colors));
+            auto result = single_threaded_vector<winrt::Windows::UI::Color>(std::move(colors));
 
             ColorPaletteSelectorExtensions::EnsureMinColorCount(result, MinColorCount());
 

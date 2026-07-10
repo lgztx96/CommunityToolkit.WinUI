@@ -27,13 +27,12 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
                 colors.push_back(item.Color);
             }
 
-            std::sort(colors.begin(), colors.end(),
-                [](auto const& a, auto const& b)
-                {
-                    return ColorExtensions::FindColorfulness(a) > ColorExtensions::FindColorfulness(b);
-                });
+            std::sort(colors.begin(), colors.end(), [](auto const& a, auto const& b)
+            {
+                return ColorExtensions::FindColorfulness(a) > ColorExtensions::FindColorfulness(b);
+            });
 
-            auto result = single_threaded_vector<Color>(std::move(colors));
+            auto result = single_threaded_vector<winrt::Windows::UI::Color>(std::move(colors));
 
             ColorPaletteSelectorExtensions::EnsureMinColorCount(result, MinColorCount());
 

@@ -7,26 +7,26 @@
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
-    const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> ColorPaletteSelector::SelectedColorsProperty =
-        winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> ColorPaletteSelector::SelectedColorsProperty =
+        winrt::DependencyProperty::Register(
             L"SelectedColors",
-            winrt::xaml_typename<winrt::Windows::Foundation::Collections::IVector<winrt::Windows::UI::Color>>(),
+            winrt::xaml_typename<winrt::IVector<winrt::Color>>(),
             winrt::xaml_typename<class_type>(),
-            winrt::Microsoft::UI::Xaml::PropertyMetadata{ nullptr });
+            winrt::PropertyMetadata{ nullptr });
 
-    const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> ColorPaletteSelector::MinColorCountProperty =
-        winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> ColorPaletteSelector::MinColorCountProperty =
+        winrt::DependencyProperty::Register(
             L"MinColorCount",
             winrt::xaml_typename<int32_t>(),
             winrt::xaml_typename<class_type>(),
-            winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(1), &ColorPaletteSelector::OnMinColorCountChanged });
+            winrt::PropertyMetadata{ winrt::box_value(1), &ColorPaletteSelector::OnMinColorCountChanged });
 
-    winrt::Windows::Foundation::Collections::IVector<winrt::Windows::UI::Color> ColorPaletteSelector::SelectedColors()
+    winrt::IVector<winrt::Color> ColorPaletteSelector::SelectedColors()
     {
-        return GetValue(SelectedColorsProperty).try_as<winrt::Windows::Foundation::Collections::IVector<winrt::Windows::UI::Color>>();
+        return GetValue(SelectedColorsProperty).try_as<winrt::IVector<winrt::Color>>();
     }
 
-    void ColorPaletteSelector::SelectedColors(winrt::Windows::Foundation::Collections::IVector<winrt::Windows::UI::Color> const& value)
+    void ColorPaletteSelector::SelectedColors(winrt::IVector<winrt::Color> const& value)
     {
         SetValue(SelectedColorsProperty, value);
     }
@@ -41,14 +41,14 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         SetValue(MinColorCountProperty, winrt::box_value(value));
     }
 
-    void ColorPaletteSelector::SelectColors(winrt::Windows::Foundation::Collections::IIterable<PaletteColor> const& palette)
+    void ColorPaletteSelector::SelectColors(winrt::IIterable<PaletteColor> const& palette)
     {
         _palette = palette;
     }
 
     void ColorPaletteSelector::OnMinColorCountChanged(
-        winrt::Microsoft::UI::Xaml::DependencyObject const& d,
-        winrt::Microsoft::UI::Xaml::DependencyPropertyChangedEventArgs const&)
+        winrt::DependencyObject const& d,
+        winrt::DependencyPropertyChangedEventArgs const&)
     {
         auto selector = d.try_as<ColorPaletteSelector>();
         if (!selector || !selector->_palette)
