@@ -5,9 +5,9 @@
 
 #ifdef __INTELLISENSE__
 #include <winrt/Windows.Foundation.h>
-#include <winrt/Microsoft.UI.Composition.h>
 #include <winrt/Microsoft.UI.Xaml.h>
-#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
+#include <wil/wistd_type_traits.h>
+#include <wil/cppwinrt_authoring.h>
 #include <optional>
 #endif
 
@@ -41,12 +41,12 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         }
 
         /// <inheritdoc/>
-        Animations::AnimationBuilder& AppendToBuilder(
-            Animations::AnimationBuilder& builder,
-            std::optional<winrt::Windows::Foundation::TimeSpan> delayHint = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> durationHint = std::nullopt,
+        winrt::XamlToolkit::WinUI::Animations::AnimationBuilder& AppendToBuilder(
+            winrt::XamlToolkit::WinUI::Animations::AnimationBuilder& builder,
+            std::optional<winrt::TimeSpan> delayHint = std::nullopt,
+            std::optional<winrt::TimeSpan> durationHint = std::nullopt,
             std::optional<enum EasingType> easingTypeHint = std::nullopt,
-            std::optional<enum EasingMode> easingModeHint = std::nullopt) override
+            std::optional<winrt::EasingMode> easingModeHint = std::nullopt) override
         {
             auto explicitTarget = ExplicitTarget();
 

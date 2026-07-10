@@ -8,9 +8,16 @@
 #include <winrt/Microsoft.UI.Composition.h>
 #include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Microsoft.UI.Xaml.Hosting.h>
-#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
 #include <optional>
 #endif
+
+namespace winrt
+{
+    using namespace Windows::Foundation;
+    using namespace Microsoft::UI::Xaml;
+    using namespace Microsoft::UI::Xaml::Hosting;
+    using namespace Microsoft::UI::Composition;
+}
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
@@ -44,8 +51,8 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         wil::single_threaded_rw_property<winrt::hstring> ImplicitTarget = L"";
 
         /// <inheritdoc/>
-        winrt::Microsoft::UI::Composition::CompositionAnimation GetAnimation(
-            winrt::Microsoft::UI::Xaml::UIElement const& element,
+        winrt::CompositionAnimation GetAnimation(
+            winrt::UIElement const& element,
             winrt::hstring& target) override
         {
             auto explicitTarget = this->ExplicitTarget();
@@ -55,10 +62,10 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
                 throw winrt::hresult_invalid_argument(L"ExplicitTarget property cannot be null");
             }
 
-            auto builder = Animations::NormalizedKeyFrameAnimationBuilderComposition<parsed_value_type>(
+            auto builder = NormalizedKeyFrameAnimationBuilderComposition<parsed_value_type>(
                 explicitTarget,
-                this->Delay() ? this->Delay().Value() : Animations::AnimationExtensions::DefaultDelay(),
-                this->Duration() ? this->Duration().Value() : Animations::AnimationExtensions::DefaultDuration(),
+                this->Delay() ? this->Delay().Value() : AnimationExtensions::DefaultDelay(),
+                this->Duration() ? this->Duration().Value() : AnimationExtensions::DefaultDuration(),
                 this->Repeat(),
                 this->DelayBehavior());
 
@@ -87,8 +94,8 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
                 if (from.has_value())
                 {
                     builder.KeyFrame(0.0, from.value(), 
-                        Animations::AnimationExtensions::DefaultEasingType(), 
-                        Animations::AnimationExtensions::DefaultEasingMode());
+                        AnimationExtensions::DefaultEasingType(), 
+                        AnimationExtensions::DefaultEasingMode());
                 }
 
                 for (auto keyFrame : this->KeyFrames())
@@ -100,15 +107,15 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
 
             target = ImplicitTarget();
 
-            auto visual = winrt::Microsoft::UI::Xaml::Hosting::ElementCompositionPreview::GetElementVisual(element);
-            winrt::Microsoft::UI::Composition::CompositionObject ignored{ nullptr };
+            auto visual = winrt::ElementCompositionPreview::GetElementVisual(element);
+            winrt::CompositionObject ignored{ nullptr };
             return builder.GetAnimation(visual, ignored);
         }
 
     protected:
         void RaiseAnimationPropertyChanged(
-            [[maybe_unused]] DependencyObject const& sender,
-            [[maybe_unused]] DependencyProperty const& property)
+            [[maybe_unused]] winrt::DependencyObject const& sender,
+            [[maybe_unused]] winrt::DependencyProperty const& property)
         {
             this->AnimationPropertyChanged.invoke(*this, nullptr);
         }

@@ -8,9 +8,15 @@
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Microsoft.UI.Composition.h>
 #include <winrt/Microsoft.UI.Xaml.h>
-#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
 #include <optional>
 #endif
+
+namespace winrt
+{
+	using namespace Windows::Foundation;
+	using namespace Microsoft::UI::Xaml;
+	using namespace Microsoft::UI::Composition;
+}
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
@@ -25,17 +31,19 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
 
         ShadowAnimationBase() = default;
 
-        static inline const wil::single_threaded_property<DependencyProperty> TargetProperty =
-            DependencyProperty::Register(L"Target",
+        static inline const wil::single_threaded_property<winrt::DependencyProperty> TargetProperty =
+            winrt::DependencyProperty::Register(
+                L"Target",
                 winrt::xaml_typename<winrt::XamlToolkit::WinUI::IAttachedShadow>(),
-                winrt::xaml_typename<traits_type::class_type>(), nullptr);
+                winrt::xaml_typename<traits_type::class_type>(),
+                winrt::PropertyMetadata(nullptr));
 
         /// <summary>
         /// Gets or sets the linked <see cref="IAttachedShadow"/> instance to animate.
         /// </summary>
         winrt::XamlToolkit::WinUI::IAttachedShadow Target() const
         {
-            return Animation::GetValue(TargetProperty).try_as<winrt::XamlToolkit::WinUI::IAttachedShadow>();
+            return Animation::GetValue(TargetProperty()).try_as<winrt::XamlToolkit::WinUI::IAttachedShadow>();
         }
 
         /// <summary>
@@ -46,25 +54,23 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
             Animation::SetValue(TargetProperty(), value);
         }
 
-        /// <inheritdoc/>
-        Animations::AnimationBuilder& AppendToBuilder(
-            Animations::AnimationBuilder&,
-            [[maybe_unused]] std::optional<winrt::Windows::Foundation::TimeSpan> delayHint = std::nullopt,
-            [[maybe_unused]] std::optional<winrt::Windows::Foundation::TimeSpan> durationHint = std::nullopt,
+        winrt::XamlToolkit::WinUI::Animations::AnimationBuilder& AppendToBuilder(
+            winrt::XamlToolkit::WinUI::Animations::AnimationBuilder&,
+            [[maybe_unused]] std::optional<winrt::TimeSpan> delayHint = std::nullopt,
+            [[maybe_unused]] std::optional<winrt::TimeSpan> durationHint = std::nullopt,
             [[maybe_unused]] std::optional<enum EasingType> easingTypeHint = std::nullopt,
-            [[maybe_unused]] std::optional<enum EasingMode> easingModeHint = std::nullopt) override
+            [[maybe_unused]] std::optional<winrt::EasingMode> easingModeHint = std::nullopt) override
         {
             throw winrt::hresult_illegal_method_call(L"Shadow animations require a parent UIElement context.");
         }
 
-        /// <inheritdoc/>
-        Animations::AnimationBuilder& AppendToBuilder(
-            Animations::AnimationBuilder& builder,
-            winrt::Microsoft::UI::Xaml::UIElement parent,
-            std::optional<winrt::Windows::Foundation::TimeSpan> delayHint = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> durationHint = std::nullopt,
+        winrt::XamlToolkit::WinUI::Animations::AnimationBuilder& AppendToBuilder(
+            winrt::XamlToolkit::WinUI::Animations::AnimationBuilder& builder,
+            winrt::UIElement parent,
+            std::optional<winrt::TimeSpan> delayHint = std::nullopt,
+            std::optional<winrt::TimeSpan> durationHint = std::nullopt,
             std::optional<enum EasingType> easingTypeHint = std::nullopt,
-            std::optional<enum EasingMode> easingModeHint = std::nullopt) override
+            std::optional<winrt::EasingMode> easingModeHint = std::nullopt) override
         {
             auto explicitTarget = this->ExplicitTarget();
 
@@ -73,10 +79,10 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
                 throw winrt::hresult_invalid_argument(L"The target shadow cannot be animated at this time.");
             }
 
-            auto keyFrameBuilder = Animations::NormalizedKeyFrameAnimationBuilderComposition<parsed_value_type>(
+            auto keyFrameBuilder = NormalizedKeyFrameAnimationBuilderComposition<parsed_value_type>(
                 explicitTarget,
-                this->Delay() ? this->Delay().Value() : delayHint.value_or(Animations::AnimationExtensions::DefaultDelay()),
-                this->Duration() ? this->Duration().Value() : durationHint.value_or(Animations::AnimationExtensions::DefaultDuration()),
+                this->Delay() ? this->Delay().Value() : delayHint.value_or(AnimationExtensions::DefaultDelay()),
+                this->Duration() ? this->Duration().Value() : durationHint.value_or(AnimationExtensions::DefaultDuration()),
                 this->Repeat(),
                 this->DelayBehavior());
 
@@ -85,14 +91,14 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
                 easingTypeHint,
                 easingModeHint);
 
-            auto appendAnimation = [&](winrt::Microsoft::UI::Composition::DropShadow const& shadow)
+            auto appendAnimation = [&](winrt::DropShadow const& shadow)
             {
                 if (!shadow)
                 {
                     return;
                 }
 
-                winrt::Microsoft::UI::Composition::CompositionObject targetObject{ nullptr };
+                winrt::CompositionObject targetObject{ nullptr };
                 auto animation = keyFrameBuilder.GetAnimation(shadow, targetObject);
                 builder.ExternalAnimation(targetObject ? targetObject : shadow, animation);
             };
@@ -107,7 +113,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
                 return builder;
             }
 
-            if (auto frameworkElement = parent.try_as<winrt::Microsoft::UI::Xaml::FrameworkElement>())
+            if (auto frameworkElement = parent.try_as<winrt::FrameworkElement>())
             {
                 if (auto shadowBase = winrt::XamlToolkit::WinUI::Effects::GetShadow(frameworkElement))
                 {

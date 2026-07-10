@@ -2,8 +2,17 @@
 
 #include "KeyFrame.g.h"
 
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
+#include <wil/wistd_type_traits.h>
+#include <wil/cppwinrt_authoring.h>
+#endif
+
 namespace winrt
 {
+	using namespace Windows::Foundation;
     using namespace Microsoft::UI::Xaml;
     using namespace Microsoft::UI::Xaml::Media::Animation;
 }
@@ -24,11 +33,11 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         /// </summary>
         double Key() const
         {
-            return winrt::unbox_value<double>(GetValue(KeyProperty));
+            return winrt::unbox_value<double>(GetValue(KeyProperty()));
         }
         void Key(double value)
         {
-            SetValue(KeyProperty, winrt::box_value(value));
+            SetValue(KeyProperty(), winrt::box_value(value));
         }
 
         /// <summary>
@@ -46,46 +55,46 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         /// <summary>
         /// Gets or sets the optional easing function type for the keyframe.
         /// </summary>
-        winrt::Windows::Foundation::IReference<enum EasingType> EasingType() const
+        winrt::IReference<enum EasingType> EasingType() const
         {
-            return GetValue(EasingTypeProperty).try_as<winrt::Windows::Foundation::IReference<enum EasingType>>();
+            return GetValue(EasingTypeProperty()).try_as<winrt::IReference<enum EasingType>>();
         }
-        void EasingType(winrt::Windows::Foundation::IReference<enum EasingType> const& value)
+        void EasingType(winrt::IReference<enum EasingType> const& value)
         {
-            SetValue(EasingTypeProperty, winrt::box_value(value));
+            SetValue(EasingTypeProperty(), winrt::box_value(value));
         }
 
         /// <summary>
         /// Gets or sets the optional easing function mode for the keyframe.
         /// </summary>
-        winrt::Windows::Foundation::IReference<enum EasingMode> EasingMode() const
+        winrt::IReference<winrt::EasingMode> EasingMode() const
         {
-            return GetValue(EasingModeProperty).try_as<winrt::Windows::Foundation::IReference<enum EasingMode>>();
+            return GetValue(EasingModeProperty()).try_as<winrt::IReference<winrt::EasingMode>>();
         }
-        void EasingMode(winrt::Windows::Foundation::IReference<enum EasingMode> const& value)
+        void EasingMode(winrt::IReference<winrt::EasingMode> const& value)
         {
-            SetValue(EasingModeProperty, winrt::box_value(value));
+            SetValue(EasingModeProperty(), winrt::box_value(value));
         }
 
         /// <summary>
         /// Dependency property for Key.
         /// </summary>
-        static const wil::single_threaded_property<DependencyProperty> KeyProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> KeyProperty;
 
         /// <summary>
         /// Dependency property for Expression.
         /// </summary>
-        static const wil::single_threaded_property<DependencyProperty> ExpressionProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> ExpressionProperty;
 
         /// <summary>
         /// Dependency property for EasingType.
         /// </summary>
-        static const wil::single_threaded_property<DependencyProperty> EasingTypeProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> EasingTypeProperty;
 
         /// <summary>
         /// Dependency property for EasingMode.
         /// </summary>
-        static const wil::single_threaded_property<DependencyProperty> EasingModeProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> EasingModeProperty;
     };
 }
 
