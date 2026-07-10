@@ -36,8 +36,8 @@ namespace winrt::XamlToolkit::WinUI::Animations
         /// <param name="property">The target <see cref="Visual"/> property to animate.</param>
         /// <returns>An <see cref="ExpressionAnimation"/> instance that represents an already running animation.</returns>
         static ExpressionAnimation StartExpressionAnimation(
-            ScrollViewer const& scroller,
-            UIElement const& target,
+            winrt::ScrollViewer const& scroller,
+            winrt::UIElement const& target,
             Axis axis,
             VisualProperty property = VisualProperty::Translation)
         {
@@ -54,28 +54,28 @@ namespace winrt::XamlToolkit::WinUI::Animations
         /// <param name="property">The target <see cref="Visual"/> property to animate.</param>
         /// <returns>An <see cref="ExpressionAnimation"/> instance that represents an already running animation.</returns>
         static ExpressionAnimation StartExpressionAnimation(
-            ScrollViewer const& scroller,
-            UIElement const& target,
+            winrt::ScrollViewer const& scroller,
+            winrt::UIElement const& target,
             Axis sourceAxis,
             Axis targetAxis,
             VisualProperty property = VisualProperty::Translation)
         {
-            CompositionPropertySet scrollSet = ElementCompositionPreview::GetScrollViewerManipulationPropertySet(scroller);
+            winrt::CompositionPropertySet scrollSet = winrt::ElementCompositionPreview::GetScrollViewerManipulationPropertySet(scroller);
 
             winrt::hstring axisName = GetAxisName(sourceAxis);
             winrt::hstring expression = L"scroller.Translation." + axisName;
 
-            ExpressionAnimation animation = scrollSet.Compositor().CreateExpressionAnimation(expression);
+            winrt::ExpressionAnimation animation = scrollSet.Compositor().CreateExpressionAnimation(expression);
             animation.SetReferenceParameter(L"scroller", scrollSet);
 
-            Visual visual = ElementCompositionPreview::GetElementVisual(target);
+            winrt::Visual visual = winrt::ElementCompositionPreview::GetElementVisual(target);
 
             winrt::hstring targetAxisName = GetAxisName(targetAxis);
 
             switch (property)
             {
             case VisualProperty::Translation:
-                ElementCompositionPreview::SetIsTranslationEnabled(target, true);
+                winrt::ElementCompositionPreview::SetIsTranslationEnabled(target, true);
                 visual.StartAnimation(L"Translation." + targetAxisName, animation);
                 break;
             case VisualProperty::Offset:

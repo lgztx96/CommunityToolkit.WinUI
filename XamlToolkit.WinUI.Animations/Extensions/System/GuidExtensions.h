@@ -1,7 +1,7 @@
 #pragma once
 
 #ifdef __INTELLISENSE__
-#include <winrt/Windows.Foundation.h>
+#include <winrt/base.h>
 #include <format>
 #include <string>
 #endif

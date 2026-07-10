@@ -33,7 +33,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
             EasingType easingType = AnimationExtensions::DefaultEasingType(),
             EasingMode easingMode = AnimationExtensions::DefaultEasingMode())
         {
-            return builder.KeyFrame(winrt::Windows::Foundation::TimeSpan{ static_cast<int64_t>(progress) * 10000 }, value, easingType, easingMode);
+            return builder.KeyFrame(winrt::TimeSpan{ static_cast<int64_t>(progress) * 10000 }, value, easingType, easingMode);
         }
     };
 }

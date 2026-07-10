@@ -2,18 +2,13 @@
 #include "../Extensions/AnimationExtensions.h"
 
 #ifdef __INTELLISENSE__
-#include <winrt/Windows.Foundation.h>
-#include <winrt/Microsoft.UI.Xaml.h>
-#include <winrt/Microsoft.UI.Xaml.Media.h>
 #include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
-#endif
-
+#else
 import winrt.Microsoft.UI.Xaml.Media.Animation;
+#endif
 
 namespace winrt
 {
-    using namespace Microsoft::UI::Xaml;
-    using namespace Microsoft::UI::Xaml::Media;
     using namespace Microsoft::UI::Xaml::Media::Animation;
 }
 
@@ -31,7 +26,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
         /// <param name="easingType">The desired easing function type.</param>
         /// <param name="easingMode">The desired easing mode.</param>
         /// <returns>An <see cref="EasingFunctionBase"/> instance corresponding to the input parameters.</returns>
-        static EasingFunctionBase ToEasingFunction(EasingType easingType, EasingMode easingMode = AnimationExtensions::DefaultEasingMode())
+        static winrt::EasingFunctionBase ToEasingFunction(EasingType easingType, winrt::EasingMode easingMode = AnimationExtensions::DefaultEasingMode())
         {
             switch (easingType)
             {
@@ -41,90 +36,80 @@ namespace winrt::XamlToolkit::WinUI::Animations
             case EasingType::Default:
                 if (easingMode == EasingMode::EaseIn)
                 {
-                    ExponentialEase ease;
+                    winrt::ExponentialEase ease;
                     ease.Exponent(4.5);
                     ease.EasingMode(EasingMode::EaseIn);
                     return ease;
                 }
                 else if (easingMode == EasingMode::EaseOut)
                 {
-                    ExponentialEase ease;
+                    winrt::ExponentialEase ease;
                     ease.Exponent(7);
                     ease.EasingMode(EasingMode::EaseOut);
                     return ease;
                 }
                 else if (easingMode == EasingMode::EaseInOut)
                 {
-                    CircleEase ease;
+                    winrt::CircleEase ease;
                     ease.EasingMode(EasingMode::EaseInOut);
                     return ease;
                 }
-
                 throw winrt::hresult_invalid_argument(L"Invalid easing type");
 
             case EasingType::Cubic:
             {
-                CubicEase ease;
+                winrt::CubicEase ease;
                 ease.EasingMode(easingMode);
                 return ease;
             }
-
             case EasingType::Back:
             {
-                BackEase ease;
+                winrt::BackEase ease;
                 ease.EasingMode(easingMode);
                 return ease;
             }
-
             case EasingType::Bounce:
             {
-                BounceEase ease;
+                winrt::BounceEase ease;
                 ease.EasingMode(easingMode);
                 return ease;
             }
-
             case EasingType::Elastic:
             {
-                ElasticEase ease;
+                winrt::ElasticEase ease;
                 ease.EasingMode(easingMode);
                 return ease;
             }
-
             case EasingType::Circle:
             {
-                CircleEase ease;
+                winrt::CircleEase ease;
                 ease.EasingMode(easingMode);
                 return ease;
             }
-
             case EasingType::Quadratic:
             {
-                QuadraticEase ease;
+                winrt::QuadraticEase ease;
                 ease.EasingMode(easingMode);
                 return ease;
             }
-
             case EasingType::Quartic:
             {
-                QuarticEase ease;
+                winrt::QuarticEase ease;
                 ease.EasingMode(easingMode);
                 return ease;
             }
-
             case EasingType::Quintic:
             {
-                QuinticEase ease;
+                winrt::QuinticEase ease;
                 ease.EasingMode(easingMode);
                 return ease;
             }
-
             case EasingType::Sine:
             {
-                SineEase ease;
+                winrt::SineEase ease;
                 ease.EasingMode(easingMode);
                 return ease;
             }
-
             default:
                 throw winrt::hresult_invalid_argument(L"Invalid easing type");
             }
