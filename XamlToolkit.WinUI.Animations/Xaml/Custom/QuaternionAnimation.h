@@ -12,20 +12,20 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
     struct QuaternionAnimationTraits
     {
         using owner_type = QuaternionAnimation;
-        using class_type = Animations::QuaternionAnimation;
+        using class_type = winrt::XamlToolkit::WinUI::Animations::QuaternionAnimation;
         using public_value_type = winrt::hstring;
         using parsed_value_type = winrt::Windows::Foundation::Numerics::quaternion;
         using keyframe_impl_type = implementation::QuaternionKeyFrame;
-        using keyframe_type = Animations::QuaternionKeyFrame;
+        using keyframe_type = winrt::XamlToolkit::WinUI::Animations::QuaternionKeyFrame;
 
-        static std::optional<parsed_value_type> Parse(winrt::hstring const& value)
+        static std::optional<parsed_value_type> Parse(public_value_type const& value)
         {
             if (value.empty())
             {
                 return std::nullopt;
             }
 
-            return Animations::AnimationExtensions::ToQuaternion(value);
+            return AnimationExtensions::ToQuaternion(value);
         }
     };
 

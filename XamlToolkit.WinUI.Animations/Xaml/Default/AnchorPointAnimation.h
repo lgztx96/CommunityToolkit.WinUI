@@ -12,19 +12,19 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
     struct AnchorPointAnimationTraits
     {
         using owner_type = AnchorPointAnimation;
-        using class_type = Animations::AnchorPointAnimation;
+        using class_type = winrt::XamlToolkit::WinUI::Animations::AnchorPointAnimation;
         using public_value_type = winrt::hstring;
         using parsed_value_type = winrt::Windows::Foundation::Numerics::float2;
         using keyframe_impl_type = implementation::Vector2KeyFrame;
-        using keyframe_type = Animations::Vector2KeyFrame;
-        static std::optional<parsed_value_type> Parse(winrt::hstring const& value)
+        using keyframe_type = winrt::XamlToolkit::WinUI::Animations::Vector2KeyFrame;
+        static std::optional<parsed_value_type> Parse(public_value_type const& value)
         {
             if (value.empty())
             {
                 return std::nullopt;
             }
 
-            return Animations::AnimationExtensions::ToVector2(value);
+            return AnimationExtensions::ToVector2(value);
         }
     };
 

@@ -12,11 +12,11 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
     struct OffsetDropShadowAnimationTraits
     {
         using owner_type = OffsetDropShadowAnimation;
-        using class_type = Animations::OffsetDropShadowAnimation;
+        using class_type = winrt::XamlToolkit::WinUI::Animations::OffsetDropShadowAnimation;
         using public_value_type = winrt::hstring;
         using parsed_value_type = winrt::Windows::Foundation::Numerics::float3;
         using keyframe_impl_type = implementation::Vector3KeyFrame;
-        using keyframe_type = Animations::Vector3KeyFrame;
+        using keyframe_type = winrt::XamlToolkit::WinUI::Animations::Vector3KeyFrame;
         static std::optional<parsed_value_type> Parse(winrt::hstring const& value)
         {
             if (value.empty())
@@ -24,7 +24,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
                 return std::nullopt;
             }
 
-            return Animations::AnimationExtensions::ToVector3(value);
+            return AnimationExtensions::ToVector3(value);
         }
     };
 

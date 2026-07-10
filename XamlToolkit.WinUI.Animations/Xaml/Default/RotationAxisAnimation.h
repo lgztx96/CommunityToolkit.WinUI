@@ -12,19 +12,19 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
     struct RotationAxisAnimationTraits
     {
         using owner_type = RotationAxisAnimation;
-        using class_type = Animations::RotationAxisAnimation;
+        using class_type = winrt::XamlToolkit::WinUI::Animations::RotationAxisAnimation;
         using public_value_type = winrt::hstring;
         using parsed_value_type = winrt::Windows::Foundation::Numerics::float3;
         using keyframe_impl_type = implementation::Vector3KeyFrame;
-        using keyframe_type = Animations::Vector3KeyFrame;
-        static std::optional<parsed_value_type> Parse(winrt::hstring const& value)
+        using keyframe_type = winrt::XamlToolkit::WinUI::Animations::Vector3KeyFrame;
+        static std::optional<parsed_value_type> Parse(public_value_type const& value)
         {
             if (value.empty())
             {
                 return std::nullopt;
             }
 
-            return Animations::AnimationExtensions::ToVector3(value);
+            return AnimationExtensions::ToVector3(value);
         }
     };
 

@@ -9,10 +9,10 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
     Animations::AnimationBuilder& ClipAnimation::AppendToBuilder(
         Animations::AnimationBuilder& builder,
-        std::optional<winrt::Windows::Foundation::TimeSpan> delayHint,
-        std::optional<winrt::Windows::Foundation::TimeSpan> durationHint,
+        std::optional<winrt::TimeSpan> delayHint,
+        std::optional<winrt::TimeSpan> durationHint,
         std::optional<enum EasingType> easingTypeHint,
-        std::optional<enum EasingMode> easingModeHint)
+        std::optional<winrt::EasingMode> easingModeHint)
     {
         auto to = To();
 

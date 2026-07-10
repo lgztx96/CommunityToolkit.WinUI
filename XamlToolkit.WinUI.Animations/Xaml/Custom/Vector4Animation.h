@@ -12,19 +12,19 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
     struct Vector4AnimationTraits
     {
         using owner_type = Vector4Animation;
-        using class_type = Animations::Vector4Animation;
+        using class_type = winrt::XamlToolkit::WinUI::Animations::Vector4Animation;
         using public_value_type = winrt::hstring;
         using parsed_value_type = winrt::Windows::Foundation::Numerics::float4;
         using keyframe_impl_type = implementation::Vector4KeyFrame;
-        using keyframe_type = Animations::Vector4KeyFrame;
-        static std::optional<parsed_value_type> Parse(winrt::hstring const& value)
+        using keyframe_type = winrt::XamlToolkit::WinUI::Animations::Vector4KeyFrame;
+        static std::optional<parsed_value_type> Parse(public_value_type const& value)
         {
             if (value.empty())
             {
                 return std::nullopt;
             }
 
-            return Animations::AnimationExtensions::ToVector4(value);
+            return AnimationExtensions::ToVector4(value);
         }
     };
 
