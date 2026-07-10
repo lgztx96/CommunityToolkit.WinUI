@@ -8,7 +8,8 @@
 #endif
 
 template<typename charT>
-struct HighlightedToken {
+struct HighlightedToken 
+{
     size_t start;
     size_t length;
     std::wstring_view token;
