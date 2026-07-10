@@ -17,9 +17,9 @@
 namespace
 {
     bool TryAppendTimelineNode(
-        winrt::Windows::Foundation::IInspectable const& node,
+        winrt::IInspectable const& node,
         winrt::XamlToolkit::WinUI::Animations::AnimationBuilder& builder,
-        winrt::Microsoft::UI::Xaml::UIElement const& element)
+        winrt::UIElement const& element)
     {
         if (auto animation = node.try_as<winrt::XamlToolkit::WinUI::Animations::Animation>())
         {
@@ -63,17 +63,17 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         co_await StartAsync();
     }
 
-    winrt::fire_and_forget AnimationSet::Start(UIElement const& element)
+    winrt::fire_and_forget AnimationSet::Start(winrt::UIElement const& element)
     {
         co_await StartAsync(element);
     }
 
-    winrt::Windows::Foundation::IAsyncAction AnimationSet::StartAsync()
+    winrt::IAsyncAction AnimationSet::StartAsync()
     {
         return StartAsync(GetParent());
     }
 
-    winrt::Windows::Foundation::IAsyncAction AnimationSet::StartAsync(UIElement const& element)
+    winrt::IAsyncAction AnimationSet::StartAsync(winrt::UIElement const& element)
     {
         Stop(element);
 
@@ -87,7 +87,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         return StartAsync(element, cancellationState);
     }
 
-    winrt::Windows::Foundation::IAsyncAction AnimationSet::StartAsync(UIElement element, std::shared_ptr<std::atomic<bool>> cancellationState)
+    winrt::IAsyncAction AnimationSet::StartAsync(winrt::UIElement element, std::shared_ptr<std::atomic<bool>> cancellationState)
     {
         auto strongThis = get_strong();
 
@@ -177,7 +177,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         Stop(GetParent());
     }
 
-    void AnimationSet::Stop(UIElement const& element)
+    void AnimationSet::Stop(winrt::UIElement const& element)
     {
         std::shared_ptr<std::atomic<bool>> cancellationState;
 

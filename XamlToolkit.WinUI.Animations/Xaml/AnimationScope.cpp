@@ -10,40 +10,40 @@
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
-    const wil::single_threaded_property<DependencyProperty> AnimationScope::DelayProperty =
-        DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> AnimationScope::DelayProperty =
+        winrt::DependencyProperty::Register(
             L"Delay",
-            winrt::xaml_typename<winrt::Windows::Foundation::IReference<winrt::Windows::Foundation::TimeSpan>>(),
+            winrt::xaml_typename<winrt::IReference<winrt::TimeSpan>>(),
             winrt::xaml_typename<class_type>(),
-            nullptr);
+            winrt::PropertyMetadata(nullptr));
 
-    const wil::single_threaded_property<DependencyProperty> AnimationScope::DurationProperty =
-        DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> AnimationScope::DurationProperty =
+        winrt::DependencyProperty::Register(
             L"Duration",
-            winrt::xaml_typename<winrt::Windows::Foundation::IReference<winrt::Windows::Foundation::TimeSpan>>(),
+            winrt::xaml_typename<winrt::IReference<winrt::TimeSpan>>(),
             winrt::xaml_typename<class_type>(),
-            nullptr);
+            winrt::PropertyMetadata(nullptr));
 
-    const wil::single_threaded_property<DependencyProperty> AnimationScope::EasingTypeProperty =
-        DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> AnimationScope::EasingTypeProperty =
+        winrt::DependencyProperty::Register(
             L"EasingType",
-            winrt::xaml_typename<winrt::Windows::Foundation::IReference<enum EasingType>>(),
+            winrt::xaml_typename<winrt::IReference<enum EasingType>>(),
             winrt::xaml_typename<class_type>(),
-            nullptr);
+            winrt::PropertyMetadata(nullptr));
 
-    const wil::single_threaded_property<DependencyProperty> AnimationScope::EasingModeProperty =
-        DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> AnimationScope::EasingModeProperty =
+        winrt::DependencyProperty::Register(
             L"EasingMode",
-            winrt::xaml_typename<winrt::Windows::Foundation::IReference<enum EasingMode>>(),
+            winrt::xaml_typename<winrt::IReference<winrt::EasingMode>>(),
             winrt::xaml_typename<class_type>(),
-            nullptr);
+            winrt::PropertyMetadata(nullptr));
 
     Animations::AnimationBuilder& AnimationScope::AppendToBuilder(
         Animations::AnimationBuilder& builder,
-        std::optional<winrt::Windows::Foundation::TimeSpan> delayHint,
-        std::optional<winrt::Windows::Foundation::TimeSpan> durationHint,
+        std::optional<winrt::TimeSpan> delayHint,
+        std::optional<winrt::TimeSpan> durationHint,
         std::optional<enum EasingType> easingTypeHint,
-        std::optional<enum EasingMode> easingModeHint)
+        std::optional<winrt::EasingMode> easingModeHint)
     {
         auto delay = Delay();
         auto duration = Duration();
