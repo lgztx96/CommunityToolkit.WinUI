@@ -9,37 +9,53 @@
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
-    GridLength DataColumn::DesiredWidth() const { return winrt::unbox_value<GridLength>(GetValue(DesiredWidthProperty)); }
-    void DataColumn::DesiredWidth(GridLength value) { SetValue(DesiredWidthProperty, winrt::box_value(value)); }
+    winrt::GridLength DataColumn::DesiredWidth() const 
+    { 
+        return winrt::unbox_value<winrt::GridLength>(GetValue(DesiredWidthProperty()));
+    }
 
-    const wil::single_threaded_property<DependencyProperty> DataColumn::DesiredWidthProperty =
-        DependencyProperty::Register(L"DesiredWidth", 
-            winrt::xaml_typename<GridLength>(), 
+    void DataColumn::DesiredWidth(winrt::GridLength value) 
+    { 
+        SetValue(DesiredWidthProperty(), winrt::box_value(value));
+    }
+
+    const wil::single_threaded_property<winrt::DependencyProperty> DataColumn::DesiredWidthProperty =
+        winrt::DependencyProperty::Register(
+            L"DesiredWidth",
+            winrt::xaml_typename<winrt::GridLength>(), 
             winrt::xaml_typename<class_type>(),
-            PropertyMetadata(winrt::box_value(GridLengthHelper::Auto()), &DataColumn::DesiredWidth_PropertyChanged ));
+            winrt::PropertyMetadata(winrt::box_value(winrt::GridLengthHelper::Auto()), &DataColumn::DesiredWidth_PropertyChanged ));
 
-    bool DataColumn::CanResize() const { return winrt::unbox_value<bool>(GetValue(CanResizeProperty)); }
-    void DataColumn::CanResize(bool value) { SetValue(CanResizeProperty, winrt::box_value(value)); }
+    bool DataColumn::CanResize() const 
+    { 
+        return winrt::unbox_value<bool>(GetValue(CanResizeProperty())); 
+    }
 
-    const wil::single_threaded_property<DependencyProperty> DataColumn::CanResizeProperty =
-        DependencyProperty::Register(L"CanResize",
+    void DataColumn::CanResize(bool value) 
+    { 
+        SetValue(CanResizeProperty(), winrt::box_value(value));
+    }
+
+    const wil::single_threaded_property<winrt::DependencyProperty> DataColumn::CanResizeProperty =
+        winrt::DependencyProperty::Register(
+            L"CanResize",
             winrt::xaml_typename<bool>(),
             winrt::xaml_typename<class_type>(),
-            PropertyMetadata(winrt::box_value(false)));
+            winrt::PropertyMetadata(winrt::box_value(false)));
 
     DataColumn::DataColumn()
     {
         DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
     }
 
-    GridLength DataColumn::CurrentWidth() const
+    winrt::GridLength DataColumn::CurrentWidth() const
     {
 		return _currentWidth;
     }
 
     void DataColumn::OnApplyTemplate()
     {
-        if (_columnSizer != nullptr)
+        if (_columnSizer)
         {
             _columnSizer.TargetControl(nullptr);
             _columnSizerManipulationDeltaRevoker.revoke();
@@ -48,7 +64,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         _columnSizer = GetTemplateChild(PartColumnSizer).try_as<winrt::XamlToolkit::WinUI::Controls::ContentSizer>();
 
-        if (_columnSizer != nullptr)
+        if (_columnSizer)
         {
             _columnSizer.TargetControl(*this);
             _columnSizerManipulationDeltaRevoker = _columnSizer.ManipulationDelta(winrt::auto_revoke, { this, &DataColumn::ColumnSizer_ManipulationDelta });
@@ -56,8 +72,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         }
 
         // Get DataTable parent weak reference for when we manipulate columns.
-        auto parent = winrt::XamlToolkit::WinUI::DependencyObjectEx::FindAscendant<winrt::XamlToolkit::Labs::WinUI::DataTable>(*this);
-        if (parent != nullptr)
+        if (auto parent = winrt::XamlToolkit::WinUI::DependencyObjectEx::FindAscendant<winrt::XamlToolkit::Labs::WinUI::DataTable>(*this))
         {
             _parent = winrt::make_weak(parent);
         }
@@ -65,12 +80,12 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         base_type::OnApplyTemplate();
     }
 
-    void DataColumn::ColumnSizer_ManipulationDelta([[maybe_unused]] winrt::Windows::Foundation::IInspectable const& sender, [[maybe_unused]] ManipulationDeltaRoutedEventArgs const& e)
+    void DataColumn::ColumnSizer_ManipulationDelta([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::ManipulationDeltaRoutedEventArgs const& e)
     {
         ColumnResizedByUserSizer();
     }
 
-    void DataColumn::ColumnSizer_ManipulationCompleted([[maybe_unused]] winrt::Windows::Foundation::IInspectable const& sender, [[maybe_unused]] ManipulationCompletedRoutedEventArgs const& e)
+    void DataColumn::ColumnSizer_ManipulationCompleted([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::ManipulationCompletedRoutedEventArgs const& e)
     {
         ColumnResizedByUserSizer();
     }
@@ -78,7 +93,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
     void DataColumn::ColumnResizedByUserSizer()
     {
         // Update our internal representation to be our size now as a fixed value.
-        _currentWidth = GridLength(ActualWidth());
+        _currentWidth = winrt::GridLength(ActualWidth());
 
         // Notify the rest of the table to update
         if (auto parent = _parent.get())
@@ -88,7 +103,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         }
     }
 
-    void DataColumn::DesiredWidth_PropertyChanged(DependencyObject const& d, [[maybe_unused]] DependencyPropertyChangedEventArgs const& e)
+    void DataColumn::DesiredWidth_PropertyChanged(winrt::DependencyObject const& d, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& e)
     {
         // If the developer updates the size of the column, update our internal copy
         if (auto col = d.try_as<winrt::XamlToolkit::Labs::WinUI::DataColumn>())

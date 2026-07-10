@@ -15,16 +15,16 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 	{
 		DataRow();
 
-		Size MeasureOverride(Size availableSize);
+		winrt::Size MeasureOverride(winrt::Size availableSize);
 
-		Size ArrangeOverride(Size finalSize);
+		winrt::Size ArrangeOverride(winrt::Size finalSize);
 
 	private:
-		Panel InitializeParentHeaderConnection();
+		winrt::Panel InitializeParentHeaderConnection();
 
-		void DataRow_Unloaded(winrt::Windows::Foundation::IInspectable const& sender, RoutedEventArgs const& e);
+		void DataRow_Unloaded(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
 
-		Panel _parentPanel{ nullptr };
+		winrt::Panel _parentPanel{ nullptr };
 		winrt::XamlToolkit::Labs::WinUI::DataTable _parentTable{ nullptr };
 
 		bool _isTreeView{ false };

@@ -3,6 +3,8 @@
 #include "DataTable.g.h"
 
 #ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Xaml.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
 #include <set>
@@ -32,11 +34,11 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         bool ColumnSpacing() const;
         void ColumnSpacing(double value);
 
-        static const wil::single_threaded_property<DependencyProperty> ColumnSpacingProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> ColumnSpacingProperty;
 
-        Size MeasureOverride(Size availableSize);
+        winrt::Size MeasureOverride(winrt::Size availableSize);
 
-        Size ArrangeOverride(Size finalSize);
+        winrt::Size ArrangeOverride(winrt::Size finalSize);
 
     private:
 		std::set<winrt::XamlToolkit::Labs::WinUI::DataRow> _rows;
