@@ -3,30 +3,37 @@
 #include "ColorKeyFrame.g.h"
 #include "../Abstract/KeyFrame{TValue,TKeyFrame}.h"
 
+namespace winrt 
+{
+    using namespace Windows::UI;
+    using namespace Windows::Foundation;
+    using namespace Microsoft::UI::Xaml;
+}
+
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
-    struct ColorKeyFrame : ColorKeyFrameT<ColorKeyFrame, KeyFrameBase<winrt::Windows::Foundation::IReference<Windows::UI::Color>, Windows::UI::Color>>
+    struct ColorKeyFrame : ColorKeyFrameT<ColorKeyFrame, KeyFrameBase<winrt::IReference<winrt::Color>, winrt::Color>>
     {
     public:
         ColorKeyFrame() = default;
 
-        winrt::Windows::Foundation::IReference<Windows::UI::Color> Value() const
+        winrt::IReference<winrt::Color> Value() const
         {
-            return GetValue(ValueProperty).try_as<winrt::Windows::Foundation::IReference<Windows::UI::Color>>();
+            return GetValue(ValueProperty()).try_as<winrt::IReference<winrt::Color>>();
         }
-        void Value(winrt::Windows::Foundation::IReference<Windows::UI::Color> const& value)
+        void Value(winrt::IReference<winrt::Color> const& value)
         {
-            SetValue(ValueProperty, winrt::box_value(value));
+            SetValue(ValueProperty(), winrt::box_value(value));
         }
 
     protected:
-        std::optional<Windows::UI::Color> GetParsedValue() const override
+        std::optional<winrt::Color> GetParsedValue() const override
         {
             return Value();
         }
 
     public:
-        static const wil::single_threaded_property<Microsoft::UI::Xaml::DependencyProperty> ValueProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> ValueProperty;
     };
 }
 

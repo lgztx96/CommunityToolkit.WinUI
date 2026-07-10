@@ -7,10 +7,10 @@
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
-    const wil::single_threaded_property<DependencyProperty> QuaternionKeyFrame::ValueProperty =
-        DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> QuaternionKeyFrame::ValueProperty =
+        winrt::DependencyProperty::Register(
             L"Value",
             winrt::xaml_typename<winrt::hstring>(),
             winrt::xaml_typename<class_type>(),
-            nullptr);
+            winrt::PropertyMetadata(nullptr));
 }

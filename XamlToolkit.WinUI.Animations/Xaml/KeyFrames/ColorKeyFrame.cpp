@@ -7,10 +7,10 @@
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
-    const wil::single_threaded_property<DependencyProperty> ColorKeyFrame::ValueProperty =
-        DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> ColorKeyFrame::ValueProperty =
+        winrt::DependencyProperty::Register(
             L"Value",
-            winrt::xaml_typename<winrt::Windows::Foundation::IReference<Windows::UI::Color>>(),
+            winrt::xaml_typename<winrt::IReference<winrt::Color>>(),
             winrt::xaml_typename<class_type>(),
-            nullptr);
+            winrt::PropertyMetadata(nullptr));
 }

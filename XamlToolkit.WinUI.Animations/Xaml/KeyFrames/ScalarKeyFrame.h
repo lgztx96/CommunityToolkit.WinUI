@@ -3,20 +3,26 @@
 #include "ScalarKeyFrame.g.h"
 #include "../Abstract/KeyFrame{TValue,TKeyFrame}.h"
 
+namespace winrt
+{
+    using namespace Windows::Foundation;
+    using namespace Microsoft::UI::Xaml;
+}
+
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
-    struct ScalarKeyFrame : ScalarKeyFrameT<ScalarKeyFrame, KeyFrameBase<winrt::Windows::Foundation::IReference<double>, double>>
+    struct ScalarKeyFrame : ScalarKeyFrameT<ScalarKeyFrame, KeyFrameBase<winrt::IReference<double>, double>>
     {
     public:
         ScalarKeyFrame() = default;
 
-        winrt::Windows::Foundation::IReference<double> Value() const
+        winrt::IReference<double> Value() const
         {
-            return GetValue(ValueProperty).try_as<winrt::Windows::Foundation::IReference<double>>();
+            return GetValue(ValueProperty()).try_as<winrt::IReference<double>>();
         }
-        void Value(winrt::Windows::Foundation::IReference<double> const& value)
+        void Value(winrt::IReference<double> const& value)
         {
-            SetValue(ValueProperty, winrt::box_value(value));
+            SetValue(ValueProperty(), winrt::box_value(value));
         }
 
     protected:
@@ -26,7 +32,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         }
 
     public:
-        static const wil::single_threaded_property<Microsoft::UI::Xaml::DependencyProperty> ValueProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> ValueProperty;
     };
 }
 
