@@ -3,6 +3,10 @@
 #include "Marquee.g.h"
 
 #ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
+#include <winrt/Microsoft.UI.Xaml.Media.h>
 #include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
@@ -43,17 +47,17 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		static constexpr auto LoopingVisualStateName = L"Looping";
 		static constexpr auto BouncingVisualStateName = L"Bouncing";
 
-		Panel _marqueeContainer;
-		ContentPresenter _segment1;
-		ContentPresenter _segment2;
-		TranslateTransform _marqueeTransform;
-		Storyboard _marqueeStoryboard;
+		winrt::Panel _marqueeContainer;
+		winrt::ContentPresenter _segment1;
+		winrt::ContentPresenter _segment2;
+		winrt::TranslateTransform _marqueeTransform;
+		winrt::Storyboard _marqueeStoryboard;
 
 		bool _isActive;
 		bool _isPaused;
 
 		double _stoppedPosition;
-		DependencyProperty _animationProperty;
+		winrt::DependencyProperty _animationProperty;
 
 	private:
 		static std::wstring_view GetVisualStateName(MarqueeDirection direction);
@@ -75,7 +79,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
 		void StopMarquee();
 
-		bool AutoPlay()
+		bool AutoPlay() const
 		{
 			return winrt::unbox_value<bool>(GetValue(AutoPlayProperty()));
 		}
@@ -85,7 +89,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 			SetValue(AutoPlayProperty(), winrt::box_value(value));
 		}
 
-		double Speed()
+		double Speed() const
 		{
 			return winrt::unbox_value<double>(GetValue(SpeedProperty()));
 		}
@@ -95,17 +99,17 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 			SetValue(SpeedProperty(), winrt::box_value(value));
 		}
 
-		RepeatBehavior RepeatBehavior()
+		RepeatBehavior RepeatBehavior() const
 		{
-			return winrt::unbox_value<winrt::Microsoft::UI::Xaml::Media::Animation::RepeatBehavior>(GetValue(RepeatBehaviorProperty()));
+			return winrt::unbox_value<winrt::RepeatBehavior>(GetValue(RepeatBehaviorProperty()));
 		}
 
-		void RepeatBehavior(winrt::Microsoft::UI::Xaml::Media::Animation::RepeatBehavior const& value)
+		void RepeatBehavior(winrt::RepeatBehavior const& value)
 		{
 			SetValue(RepeatBehaviorProperty(), winrt::box_value(value));
 		}
 
-		MarqueeBehavior Behavior()
+		MarqueeBehavior Behavior() const
 		{
 			return winrt::unbox_value<MarqueeBehavior>(GetValue(BehaviorProperty()));
 		}
@@ -115,7 +119,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 			SetValue(BehaviorProperty(), winrt::box_value(value));
 		}
 
-		MarqueeDirection Direction()
+		MarqueeDirection Direction() const
 		{
 			return winrt::unbox_value<MarqueeDirection>(GetValue(DirectionProperty()));
 		}
@@ -130,39 +134,39 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
 		void UpdateMarquee(bool onTheFly);
 
-		bool UpdateAnimation(TimeSpan& seekPoint);
+		bool UpdateAnimation(winrt::TimeSpan& seekPoint);
 
-		Storyboard CreateMarqueeStoryboardAnimation(double start, double end, TimeSpan duration, std::wstring_view targetProperty);
+		winrt::Storyboard CreateMarqueeStoryboardAnimation(double start, double end, winrt::TimeSpan duration, std::wstring_view targetProperty);
 
 		void ClipMarquee(double width = 0, double height = 0);
 
-		static void BehaviorPropertyChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e);
+		static void BehaviorPropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 
-		static void DirectionPropertyChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e);
+		static void DirectionPropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 
-		static void PropertyChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e);
+		static void PropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 
-		bool IsTicker()
+		bool IsTicker() const
 		{
 			return Behavior() == MarqueeBehavior::Ticker;
 		}
 
-		bool IsLooping()
+		bool IsLooping() const
 		{
 			return Behavior() == MarqueeBehavior::Looping;
 		}
 
-		bool IsBouncing()
+		bool IsBouncing() const
 		{
 			return Behavior() == MarqueeBehavior::Bouncing;
 		}
 
-		bool IsDirectionHorizontal()
+		bool IsDirectionHorizontal() const
 		{
 			return Direction() == MarqueeDirection::Left || Direction() == MarqueeDirection::Right;
 		}
 
-		bool IsDirectionInverse()
+		bool IsDirectionInverse() const
 		{
 			return Direction() == MarqueeDirection::Up || Direction() == MarqueeDirection::Right;
 		}
@@ -178,38 +182,57 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
 		wil::typed_event<class_type, IInspectable> MarqueeCompleted;
 
-		static inline const wil::single_threaded_property<DependencyProperty> AutoPlayProperty =
-			DependencyProperty::Register(L"AutoPlay", winrt::xaml_typename<bool>(), winrt::xaml_typename<class_type>(), PropertyMetadata(winrt::box_value(false)));
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> AutoPlayProperty =
+			winrt::DependencyProperty::Register(
+				L"AutoPlay", 
+				winrt::xaml_typename<bool>(), 
+				winrt::xaml_typename<class_type>(), 
+				winrt::PropertyMetadata(winrt::box_value(false)));
 
-		static inline const wil::single_threaded_property<DependencyProperty> SpeedProperty =
-			DependencyProperty::Register(L"Speed", winrt::xaml_typename<double>(), winrt::xaml_typename<class_type>(), PropertyMetadata(winrt::box_value(32.0), &Marquee::PropertyChanged));
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> SpeedProperty =
+			winrt::DependencyProperty::Register(
+				L"Speed", 
+				winrt::xaml_typename<double>(), 
+				winrt::xaml_typename<class_type>(), 
+				winrt::PropertyMetadata(winrt::box_value(32.0), &Marquee::PropertyChanged));
 
-		static inline const wil::single_threaded_property<DependencyProperty> RepeatBehaviorProperty =
-			DependencyProperty::Register(L"RepeatBehavior", winrt::xaml_typename<winrt::Microsoft::UI::Xaml::Media::Animation::RepeatBehavior>(), winrt::xaml_typename<class_type>(), PropertyMetadata(winrt::box_value(winrt::Microsoft::UI::Xaml::Media::Animation::RepeatBehaviorHelper::FromCount(1)), &Marquee::PropertyChanged));
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> RepeatBehaviorProperty =
+			winrt::DependencyProperty::Register(
+				L"RepeatBehavior", 
+				winrt::xaml_typename<winrt::RepeatBehavior>(), 
+				winrt::xaml_typename<class_type>(), 
+				winrt::PropertyMetadata(winrt::box_value(winrt::RepeatBehaviorHelper::FromCount(1)), &Marquee::PropertyChanged));
 
-		static inline const wil::single_threaded_property<DependencyProperty> BehaviorProperty =
-			DependencyProperty::Register(L"Behavior", winrt::xaml_typename<MarqueeBehavior>(), winrt::xaml_typename<class_type>(), PropertyMetadata(winrt::box_value(MarqueeBehavior::Ticker), &Marquee::BehaviorPropertyChanged));
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> BehaviorProperty =
+			winrt::DependencyProperty::Register(
+				L"Behavior",
+				winrt::xaml_typename<MarqueeBehavior>(), 
+				winrt::xaml_typename<class_type>(), 
+				winrt::PropertyMetadata(winrt::box_value(MarqueeBehavior::Ticker), &Marquee::BehaviorPropertyChanged));
 
-		static inline const wil::single_threaded_property<DependencyProperty> DirectionProperty =
-			DependencyProperty::Register(L"Direction", winrt::xaml_typename<MarqueeDirection>(), winrt::xaml_typename<class_type>(), PropertyMetadata(winrt::box_value(MarqueeDirection::Left), &Marquee::DirectionPropertyChanged));
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> DirectionProperty =
+			winrt::DependencyProperty::Register(
+				L"Direction", 
+				winrt::xaml_typename<MarqueeDirection>(), 
+				winrt::xaml_typename<class_type>(), 
+				winrt::PropertyMetadata(winrt::box_value(MarqueeDirection::Left), &Marquee::DirectionPropertyChanged));
 
 	private:
+		winrt::FrameworkElement::Loaded_revoker _loadedRevoker;
+		winrt::FrameworkElement::Unloaded_revoker _unloadedRevoker;
+		winrt::FrameworkElement::SizeChanged_revoker _containerSizeChangedRevoker;
+		winrt::FrameworkElement::SizeChanged_revoker _segmentSizeChangedRevoker;
+		winrt::Timeline::Completed_revoker _storyBoardCompletedRevoker;
 
-		FrameworkElement::Loaded_revoker _loadedRevoker;
-		FrameworkElement::Unloaded_revoker _unloadedRevoker;
-		FrameworkElement::SizeChanged_revoker _containerSizeChangedRevoker;
-		FrameworkElement::SizeChanged_revoker _segmentSizeChangedRevoker;
-		Timeline::Completed_revoker _storyBoardCompletedRevoker;
+		void Marquee_Loaded(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
 
-		void Marquee_Loaded(IInspectable const& sender, RoutedEventArgs const& e);
+		void Marquee_Unloaded(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
 
-		void Marquee_Unloaded(IInspectable const& sender, RoutedEventArgs const& e);
+		void Container_SizeChanged(winrt::IInspectable const& sender, winrt::SizeChangedEventArgs const& e);
 
-		void Container_SizeChanged(IInspectable const& sender, SizeChangedEventArgs const& e);
+		void Segment_SizeChanged(winrt::IInspectable const& sender, winrt::SizeChangedEventArgs const& e);
 
-		void Segment_SizeChanged(IInspectable const& sender, SizeChangedEventArgs const& e);
-
-		void StoryBoard_Completed(IInspectable const& sender, IInspectable const& e);
+		void StoryBoard_Completed(winrt::IInspectable const& sender, winrt::IInspectable const& e);
 	};
 }
 
