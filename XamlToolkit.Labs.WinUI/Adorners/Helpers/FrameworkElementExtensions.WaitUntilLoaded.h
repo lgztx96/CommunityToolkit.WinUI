@@ -13,7 +13,7 @@ namespace winrt::XamlToolkit::WinUI::Future
 		static winrt::Windows::Foundation::IAsyncOperation<bool>
 			WaitUntilLoadedAsync(winrt::Microsoft::UI::Xaml::FrameworkElement const& element)
 		{
-			if (element.IsLoaded() && element.Parent() != nullptr)
+			if (element.IsLoaded() && element.Parent())
 			{
 				co_return true;
 			}

@@ -9,6 +9,12 @@
 #include <string_view>
 #endif
 
+namespace winrt
+{
+    using namespace Windows::Foundation;
+    using namespace Microsoft::UI::Xaml;
+}
+
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
     struct AdornerDecorator : AdornerDecoratorT<AdornerDecorator>
@@ -17,23 +23,22 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         static constexpr std::wstring_view PartAdornerLayer = L"AdornerLayer";
 
     public:
-        winrt::Microsoft::UI::Xaml::UIElement Child() const
+        winrt::UIElement Child() const
         {
-            return GetValue(ChildProperty()).try_as<winrt::Microsoft::UI::Xaml::UIElement>();
+            return GetValue(ChildProperty()).try_as<winrt::UIElement>();
         }
 
-        void Child(winrt::Microsoft::UI::Xaml::UIElement const& value)
+        void Child(winrt::UIElement const& value)
         {
             SetValue(ChildProperty(), value);
         }
 
-        static inline const wil::single_threaded_property<
-            winrt::Microsoft::UI::Xaml::DependencyProperty> ChildProperty =
-            winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+        static inline const wil::single_threaded_property<winrt::DependencyProperty> ChildProperty =
+            winrt::DependencyProperty::Register(
                 L"Child",
-                winrt::xaml_typename<winrt::Microsoft::UI::Xaml::UIElement>(),
+                winrt::xaml_typename<winrt::UIElement>(),
                 winrt::xaml_typename<class_type>(),
-                winrt::Microsoft::UI::Xaml::PropertyMetadata{ nullptr });
+                winrt::PropertyMetadata{ nullptr });
 
         wil::single_threaded_rw_property<winrt::XamlToolkit::Labs::WinUI::AdornerLayer> AdornerLayer;
 

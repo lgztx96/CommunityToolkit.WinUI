@@ -7,7 +7,7 @@
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
-    bool ResizeThumb::IsValidHeight(FrameworkElement const& target, double newHeight, double parentActualHeight)
+    bool ResizeThumb::IsValidHeight(winrt::FrameworkElement const& target, double newHeight, double parentActualHeight)
     {
         auto minHeight = target.MinHeight();
         if (newHeight < 0 || (!std::isnan(minHeight) && newHeight < minHeight))
@@ -29,7 +29,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         return true;
     }
 
-    bool ResizeThumb::IsValidWidth(FrameworkElement const& target, double newWidth, double parentActualWidth)
+    bool ResizeThumb::IsValidWidth(winrt::FrameworkElement const& target, double newWidth, double parentActualWidth)
     {
         auto minWidth = target.MinWidth();
         if (newWidth < 0 || (!std::isnan(minWidth) && newWidth < minWidth))

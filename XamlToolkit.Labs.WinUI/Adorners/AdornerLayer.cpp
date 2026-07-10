@@ -14,21 +14,21 @@
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
-	const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> AdornerLayer::XamlProperty =
-		winrt::Microsoft::UI::Xaml::DependencyProperty::RegisterAttached(
+	const wil::single_threaded_property<winrt::DependencyProperty> AdornerLayer::XamlProperty =
+		winrt::DependencyProperty::RegisterAttached(
 			L"Xaml",
-			winrt::xaml_typename<winrt::Microsoft::UI::Xaml::UIElement>(),
+			winrt::xaml_typename<winrt::UIElement>(),
 			winrt::xaml_typename<class_type>(),
-			winrt::Microsoft::UI::Xaml::PropertyMetadata{ nullptr, &AdornerLayer::OnXamlPropertyChanged });
+			winrt::PropertyMetadata{ nullptr, &AdornerLayer::OnXamlPropertyChanged });
 
 	AdornerLayer::AdornerLayer()
 	{
 		SizeChanged({ this, &AdornerLayer::AdornerLayer_SizeChanged });
 	}
 
-	void AdornerLayer::AdornerLayer_SizeChanged([[maybe_unused]] winrt::Windows::Foundation::IInspectable const& sender, [[maybe_unused]] SizeChangedEventArgs const& e)
+	void AdornerLayer::AdornerLayer_SizeChanged([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::SizeChangedEventArgs const& e)
 	{
-		for (auto adornerXaml : Children())
+		for (const auto& adornerXaml : Children())
 		{
 			if (auto adorner = adornerXaml.try_as<winrt::XamlToolkit::Labs::WinUI::Adorner>())
 			{
@@ -39,20 +39,20 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		}
 	}
 
-	winrt::Windows::Foundation::IAsyncAction AdornerLayer::OnXamlPropertyChanged(DependencyObject const& dependencyObject, DependencyPropertyChangedEventArgs const& args)
+	winrt::IAsyncAction AdornerLayer::OnXamlPropertyChanged(winrt::DependencyObject const& dependencyObject, winrt::DependencyPropertyChangedEventArgs const& args)
 	{
-		if (auto fe = dependencyObject.try_as<FrameworkElement>())
+		if (auto fe = dependencyObject.try_as<winrt::FrameworkElement>())
 		{
 			if (!fe.IsLoaded() || fe.Parent() == nullptr)
 			{
 				auto loadedToken = std::make_shared<winrt::event_token>();
 				*loadedToken = fe.Loaded([=](auto& s, auto& e)
-					{
-						s.template as<FrameworkElement>().Loaded(*loadedToken);
-						XamlPropertyFrameworkElement_Loaded(s, e);
-					});
+				{
+					s.template as<winrt::FrameworkElement>().Loaded(*loadedToken);
+					XamlPropertyFrameworkElement_Loaded(s, e);
+				});
 			}
-			else if (auto adorner = args.NewValue().try_as<UIElement>())
+			else if (auto adorner = args.NewValue().try_as<winrt::UIElement>())
 			{
 				if (auto layer = co_await GetAdornerLayerAsync(fe))
 				{
@@ -61,7 +61,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 			}
 			else if (args.NewValue() == nullptr)
 			{
-				if (auto oldAdorner = args.OldValue().try_as<UIElement>())
+				if (auto oldAdorner = args.OldValue().try_as<winrt::UIElement>())
 				{
 					if (auto layer = co_await GetAdornerLayerAsync(fe))
 					{
@@ -72,9 +72,9 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		}
 	}
 
-	winrt::Windows::Foundation::IAsyncAction AdornerLayer::XamlPropertyFrameworkElement_Loaded(winrt::Windows::Foundation::IInspectable const& sender, RoutedEventArgs const& e)
+	winrt::IAsyncAction AdornerLayer::XamlPropertyFrameworkElement_Loaded(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e)
 	{
-		if (auto fe = sender.try_as<FrameworkElement>())
+		if (auto fe = sender.try_as<winrt::FrameworkElement>())
 		{
 			if (auto layer = co_await GetAdornerLayerAsync(fe))
 			{
@@ -87,42 +87,42 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		}
 	}
 
-	winrt::Windows::Foundation::IAsyncOperation<winrt::XamlToolkit::Labs::WinUI::AdornerLayer> AdornerLayer::GetAdornerLayerAsync(FrameworkElement const& adornedElement)
+	winrt::IAsyncOperation<winrt::XamlToolkit::Labs::WinUI::AdornerLayer> AdornerLayer::GetAdornerLayerAsync(winrt::FrameworkElement const& adornedElement)
 	{
 		// 1. Find Adorner Layer for element or top-most element
-		FrameworkElement lastElement{ nullptr };
+		winrt::FrameworkElement lastElement{ nullptr };
 
-		auto adornerLayerOrTopMostElement = winrt::XamlToolkit::WinUI::DependencyObjectEx::FindAscendant<FrameworkElement>(adornedElement, [&](auto&& element) -> bool
+		auto adornerLayerOrTopMostElement = winrt::XamlToolkit::WinUI::DependencyObjectEx::FindAscendant<winrt::FrameworkElement>(adornedElement, [&](auto&& element) -> bool
+		{
+			lastElement = element; // TODO: should this be after our if, does it matter?
+
+			if (element.template try_as<winrt::XamlToolkit::Labs::WinUI::AdornerDecorator>())
 			{
-				lastElement = element; // TODO: should this be after our if, does it matter?
+				return true;
+			}
+			else if (element.template try_as<winrt::XamlToolkit::Labs::WinUI::AdornerLayer>())
+			{
+				return true;
+			}
+			else if (element.template try_as<winrt::ScrollViewer>())
+			{
+				return true;
+			}
+			// TODO: Need to figure out porting new DO toolkit helpers to Uno, only needed for custom adorner layer placement...
+			/*else
+			{
+				// TODO: Use BreadthFirst Search w/ Depth Limited?
+				auto child = element.FindFirstLevelDescendants<AdornerLayer>();
 
-				if (element.template try_as<winrt::XamlToolkit::Labs::WinUI::AdornerDecorator>())
+				if (child != null)
 				{
+					lastElement = child;
 					return true;
 				}
-				else if (element.template try_as<winrt::XamlToolkit::Labs::WinUI::AdornerLayer>())
-				{
-					return true;
-				}
-				else if (element.template try_as<ScrollViewer>())
-				{
-					return true;
-				}
-				// TODO: Need to figure out porting new DO toolkit helpers to Uno, only needed for custom adorner layer placement...
-				/*else
-				{
-					// TODO: Use BreadthFirst Search w/ Depth Limited?
-					auto child = element.FindFirstLevelDescendants<AdornerLayer>();
+			}*/
 
-					if (child != null)
-					{
-						lastElement = child;
-						return true;
-					}
-				}*/
-
-				return false;
-			});
+			return false;
+		});
 		
 		if (adornerLayerOrTopMostElement == nullptr)
 			adornerLayerOrTopMostElement = lastElement;
@@ -154,9 +154,9 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
 			// ScrollViewers need AdornerLayers so they can provide adorners that scroll with the adorned elements (as it worked in WPF).
 			// Note: ScrollViewers and the Window were the main AdornerLayer integration points in WPF.
-			if (auto scroller = adornerLayerOrTopMostElement.try_as<ScrollViewer>())
+			if (auto scroller = adornerLayerOrTopMostElement.try_as<winrt::ScrollViewer>())
 			{
-				auto content = scroller.Content().try_as<FrameworkElement>();
+				auto content = scroller.Content().try_as<winrt::FrameworkElement>();
 				// Extra code for RootScrollViewer TODO: Can we detect this better?
 				if (scroller.Parent() == nullptr)
 				{
@@ -177,14 +177,14 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 				co_return layerContainer.AdornerLayer();
 			}
 			// Grid seems like the easiest place for us to inject AdornerLayers automatically at the top-level (if needed) - not sure how common this will be?
-			else if (auto grid = adornerLayerOrTopMostElement.try_as<Grid>())
+			else if (auto grid = adornerLayerOrTopMostElement.try_as<winrt::Grid>())
 			{
 				// TODO: Not sure how we want to handle AdornerDecorator in this scenario...
 				auto adornerLayer = winrt::make<AdornerLayer>();
 
 				// TODO: Handle if grid row/columns change.
-				Grid::SetRowSpan(adornerLayer, grid.RowDefinitions().Size());
-				Grid::SetColumnSpan(adornerLayer, grid.ColumnDefinitions().Size());
+				winrt::Grid::SetRowSpan(adornerLayer, grid.RowDefinitions().Size());
+				winrt::Grid::SetColumnSpan(adornerLayer, grid.ColumnDefinitions().Size());
 				grid.Children().Append(adornerLayer);
 
 				co_await winrt::XamlToolkit::WinUI::Future::FrameworkElementExtensions::WaitUntilLoadedAsync(adornerLayer);
@@ -196,7 +196,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		co_return nullptr;
 	}
 
-	void AdornerLayer::AttachAdorner(winrt::XamlToolkit::Labs::WinUI::AdornerLayer const& layer, FrameworkElement const& adornedElement, UIElement const& adornerXaml)
+	void AdornerLayer::AttachAdorner(winrt::XamlToolkit::Labs::WinUI::AdornerLayer const& layer, winrt::FrameworkElement const& adornedElement, winrt::UIElement const& adornerXaml)
 	{
 		auto adorner = adornerXaml.try_as<winrt::XamlToolkit::Labs::WinUI::Adorner>();
 		if (adorner)
@@ -217,7 +217,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		layer.Children().Append(adorner);
 	}
 
-	void AdornerLayer::RemoveAdorner(winrt::XamlToolkit::Labs::WinUI::AdornerLayer const& layer, UIElement const& adornerXaml)
+	void AdornerLayer::RemoveAdorner(winrt::XamlToolkit::Labs::WinUI::AdornerLayer const& layer, winrt::UIElement const& adornerXaml)
 	{
 		if (auto adorner = XamlToolkit::WinUI::DependencyObjectEx::FindAscendantOrSelf<winrt::XamlToolkit::Labs::WinUI::Adorner>(adornerXaml))
 		{
@@ -229,7 +229,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 			if (uint32_t index; children.IndexOf(adorner, index)) 
 				children.RemoveAt(index);
 
-			VisualTreeHelper::DisconnectChildrenRecursive(adorner);
+			winrt::VisualTreeHelper::DisconnectChildrenRecursive(adorner);
 		}
 	}
 }

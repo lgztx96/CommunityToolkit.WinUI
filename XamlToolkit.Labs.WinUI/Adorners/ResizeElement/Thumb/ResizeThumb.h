@@ -16,6 +16,7 @@ namespace winrt
 {
     using namespace Windows::Foundation;
     using namespace Microsoft::UI::Xaml;
+    using namespace Microsoft::UI::Input;
     using namespace Microsoft::UI::Xaml::Input;
 }
 
@@ -29,9 +30,9 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
 		void OnApplyTemplate();
 
-		void OnManipulationStarting(ManipulationStartingRoutedEventArgs const& e);
+		void OnManipulationStarting(winrt::ManipulationStartingRoutedEventArgs const& e);
 
-		void OnManipulationDelta(ManipulationDeltaRoutedEventArgs const& e);
+		void OnManipulationDelta(winrt::ManipulationDeltaRoutedEventArgs const& e);
 
         wil::typed_event<winrt::XamlToolkit::Labs::WinUI::ResizeThumb, ITargetControlResizedEventArgs> TargetControlResized;
 
@@ -40,50 +41,50 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         void Direction(ResizeDirection value);
 
-        static void OnDirectionPropertyChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const&);
+        static void OnDirectionPropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const&);
 
-        static const wil::single_threaded_property<DependencyProperty> DirectionProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> DirectionProperty;
 
         ResizePositionMode PositionMode() const;
 
         void PositionMode(ResizePositionMode value);
 
-        static const wil::single_threaded_property<DependencyProperty> PositionModeProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> PositionModeProperty;
 
         CursorEnum Cursor() const;
 
         void Cursor(CursorEnum value);
 
-        static void OnCursorPropertyChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const&);
+        static void OnCursorPropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const&);
 
-        static const wil::single_threaded_property<DependencyProperty> CursorProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> CursorProperty;
 
-        FrameworkElement TargetControl() const;
+        winrt::FrameworkElement TargetControl() const;
 
-        void TargetControl(FrameworkElement const& value);
+        void TargetControl(winrt::FrameworkElement const& value);
 
-        static const wil::single_threaded_property<DependencyProperty> TargetControlProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> TargetControlProperty;
 
         double DragIncrement() const;
 
         void DragIncrement(double value);
 
-        static const wil::single_threaded_property<DependencyProperty> DragIncrementProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> DragIncrementProperty;
 #pragma endregion
 
 #pragma region Helpers
     protected:
-        static bool IsValidHeight(FrameworkElement const& target, double newHeight, double parentActualHeight);
+        static bool IsValidHeight(winrt::FrameworkElement const& target, double newHeight, double parentActualHeight);
 
-        static bool IsValidWidth(FrameworkElement const& target, double newWidth, double parentActualWidth);
+        static bool IsValidWidth(winrt::FrameworkElement const& target, double newWidth, double parentActualWidth);
 #pragma endregion
 
 	private:
-		void ResizeThumb_Loaded(IInspectable const& sender, RoutedEventArgs const& e);
+		void ResizeThumb_Loaded(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
 
-        std::optional<Thickness> _originalMargin;
-        std::optional<Point> _originalPosition;
-        std::optional<Size> _originalSize;
+        std::optional<winrt::Thickness> _originalMargin;
+        std::optional<winrt::Point> _originalPosition;
+        std::optional<winrt::Size> _originalSize;
 	};
 }
 

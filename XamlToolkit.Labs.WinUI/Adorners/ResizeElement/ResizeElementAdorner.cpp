@@ -48,16 +48,16 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         }
 
         std::array<winrt::XamlToolkit::Labs::WinUI::ResizeThumb, 8> parts =
-            {
-                    TopThumbPart,
-                    BottomThumbPart,
-                    LeftThumbPart,
-                    RightThumbPart,
-                    TopLeftThumbPart,
-                    TopRightThumbPart,
-                    BottomLeftThumbPart,
-                    BottomRightThumbPart
-            };
+        {
+            TopThumbPart,
+            BottomThumbPart,
+            LeftThumbPart,
+            RightThumbPart,
+            TopLeftThumbPart,
+            TopRightThumbPart,
+            BottomLeftThumbPart,
+            BottomRightThumbPart
+        };
 
         for (size_t i = 0; i < parts.size(); i++)
         {
@@ -78,14 +78,14 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         std::array<winrt::XamlToolkit::Labs::WinUI::ResizeThumb, 8> parts =
         {
-                TopThumbPart,
-                BottomThumbPart,
-                LeftThumbPart,
-                RightThumbPart,
-                TopLeftThumbPart,
-                TopRightThumbPart,
-                BottomLeftThumbPart,
-                BottomRightThumbPart
+            TopThumbPart,
+            BottomThumbPart,
+            LeftThumbPart,
+            RightThumbPart,
+            TopLeftThumbPart,
+            TopRightThumbPart,
+            BottomLeftThumbPart,
+            BottomRightThumbPart
         };
 
         for (size_t i = 0; i < parts.size(); i++)
@@ -100,7 +100,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         _manipulationDeltaRevoker.revoke();
     }
 
-    void ResizeElementAdorner::OnTargetManipulated([[maybe_unused]] IInspectable const& sender, [[maybe_unused]] ManipulationDeltaRoutedEventArgs const& e)
+    void ResizeElementAdorner::OnTargetManipulated([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::ManipulationDeltaRoutedEventArgs const& e)
     {
         // If the underlying adorned element moves than we need to update our layout.
         UpdateLayout();

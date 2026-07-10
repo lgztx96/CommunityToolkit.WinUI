@@ -22,9 +22,9 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
     {
         Adorner();
 
-        UIElement AdornedElement() const noexcept;
+        winrt::UIElement AdornedElement() const noexcept;
 
-        void AdornedElement(UIElement const& value);
+        void AdornedElement(winrt::UIElement const& value);
 
         wil::single_threaded_rw_property<winrt::XamlToolkit::Labs::WinUI::AdornerLayer> AdornerLayer;
 
@@ -36,22 +36,22 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         void UpdateLayout();
 
-        void OnLayoutUpdated(IInspectable const& sender, IInspectable const& e);
+        void OnLayoutUpdated(winrt::IInspectable const& sender, winrt::IInspectable const& e);
 
     private:
-        void OnAdornedElementChanged(UIElement const& oldvalue, UIElement const& newvalue);
+        void OnAdornedElementChanged(winrt::UIElement const& oldvalue, winrt::UIElement const& newvalue);
 
-        void OnSizeChanged(IInspectable const& sender, SizeChangedEventArgs const& e);
+        void OnSizeChanged(winrt::IInspectable const& sender, winrt::SizeChangedEventArgs const& e);
 
-        void OnAdornedElementLoaded(IInspectable const& source, RoutedEventArgs const& eventArgs);
+        void OnAdornedElementLoaded(winrt::IInspectable const& source, winrt::RoutedEventArgs const& eventArgs);
 
-        void OnAdornedElementUnloaded(IInspectable const& source, RoutedEventArgs const& eventArgs);
+        void OnAdornedElementUnloaded(winrt::IInspectable const& source, winrt::RoutedEventArgs const& eventArgs);
 
-        UIElement _adornedElement;
+        winrt::UIElement _adornedElement;
 
-        FrameworkElement::SizeChanged_revoker _adornedElementSizeChangedRevoker;
-        FrameworkElement::Loaded_revoker _adornedElementLoadedRevoker;
-        FrameworkElement::Unloaded_revoker _adornedElementUnloadedRevoker;
+        winrt::FrameworkElement::SizeChanged_revoker _adornedElementSizeChangedRevoker;
+        winrt::FrameworkElement::Loaded_revoker _adornedElementLoadedRevoker;
+        winrt::FrameworkElement::Unloaded_revoker _adornedElementUnloadedRevoker;
     };
 }
 
