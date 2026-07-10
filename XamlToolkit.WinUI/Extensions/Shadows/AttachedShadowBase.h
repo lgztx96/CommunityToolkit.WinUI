@@ -7,14 +7,18 @@
 #ifdef __INTELLISENSE__
 #include <unordered_map>
 #include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.Foundation.Collections.h>
+#include <winrt/Windows.UI.h>
 #include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Microsoft.UI.Composition.h>
 #include <winrt/Microsoft.UI.Xaml.Hosting.h>
-#include <winrt/Windows.UI.h>
 #endif
 
 namespace winrt
 {
+	using namespace Windows::UI;
+	using namespace Windows::Foundation;
+	using namespace Windows::Foundation::Collections;
 	using namespace Microsoft::UI::Xaml;
 	using namespace Microsoft::UI::Composition;
 	using namespace Microsoft::UI::Xaml::Hosting;
@@ -40,78 +44,81 @@ namespace winrt::XamlToolkit::WinUI::implementation
 	{
 		AttachedShadowBase() = default;
 
-		std::unordered_map<winrt::weak_ref<FrameworkElement>, XamlToolkit::WinUI::AttachedShadowElementContext, WeakElementHash<FrameworkElement>> ShadowElementContextTable;
+		std::unordered_map<winrt::weak_ref<winrt::FrameworkElement>, XamlToolkit::WinUI::AttachedShadowElementContext, WeakElementHash<winrt::FrameworkElement>> ShadowElementContextTable;
 
-		static void OnDependencyPropertyChanged(IInspectable const& sender, DependencyPropertyChangedEventArgs const& args);
+		static void OnDependencyPropertyChanged(winrt::IInspectable const& sender, winrt::DependencyPropertyChangedEventArgs const& args);
 
-		static inline const wil::single_threaded_property<DependencyProperty> BlurRadiusProperty =
-			DependencyProperty::Register(L"BlurRadius",
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> BlurRadiusProperty =
+			winrt::DependencyProperty::Register(
+				L"BlurRadius",
 				winrt::xaml_typename<double>(),
 				winrt::xaml_typename<class_type>(),
-				PropertyMetadata(winrt::box_value(12.0), OnDependencyPropertyChanged));
+				winrt::PropertyMetadata(winrt::box_value(12.0), &AttachedShadowBase::OnDependencyPropertyChanged));
 
 		double BlurRadius() const { return winrt::unbox_value<double>(GetValue(BlurRadiusProperty)); }
 		void BlurRadius(double value) const { SetValue(BlurRadiusProperty, winrt::box_value(value)); }
 
-		static inline const wil::single_threaded_property<DependencyProperty> ColorProperty =
-			DependencyProperty::Register(L"Color",
-				winrt::xaml_typename<Windows::UI::Color>(),
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> ColorProperty =
+			winrt::DependencyProperty::Register(
+				L"Color",
+				winrt::xaml_typename<winrt::Color>(),
 				winrt::xaml_typename<class_type>(),
-				PropertyMetadata(winrt::box_value(Microsoft::UI::Colors::Black()), OnDependencyPropertyChanged));
+				winrt::PropertyMetadata(winrt::box_value(winrt::Microsoft::UI::Colors::Black()), &AttachedShadowBase::OnDependencyPropertyChanged));
 
-		Windows::UI::Color Color() const { return winrt::unbox_value<Windows::UI::Color>(GetValue(ColorProperty)); }
-		void Color(Windows::UI::Color value) const { SetValue(ColorProperty, winrt::box_value(value)); }
+		winrt::Color Color() const { return winrt::unbox_value<winrt::Color>(GetValue(ColorProperty)); }
+		void Color(winrt::Color value) const { SetValue(ColorProperty, winrt::box_value(value)); }
 
-		static inline const wil::single_threaded_property<DependencyProperty> OffsetProperty =
-			DependencyProperty::Register(L"Offset",
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> OffsetProperty =
+			winrt::DependencyProperty::Register(
+				L"Offset",
 				winrt::xaml_typename<winrt::hstring>(),
 				winrt::xaml_typename<class_type>(),
-				PropertyMetadata(winrt::box_value(L""), OnDependencyPropertyChanged));
+				winrt::PropertyMetadata(winrt::box_value(L""), &AttachedShadowBase::OnDependencyPropertyChanged));
 
 		winrt::hstring Offset() const { return winrt::unbox_value<winrt::hstring>(GetValue(OffsetProperty)); }
 		void Offset(winrt::hstring value) const { SetValue(OffsetProperty, winrt::box_value(value)); }
 
-		static inline const wil::single_threaded_property<DependencyProperty> OpacityProperty =
-			DependencyProperty::Register(L"Opacity",
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> OpacityProperty =
+			winrt::DependencyProperty::Register(L"Opacity",
 				winrt::xaml_typename<double>(),
 				winrt::xaml_typename<class_type>(),
-				PropertyMetadata(winrt::box_value(1.0), OnDependencyPropertyChanged));
+				winrt::PropertyMetadata(winrt::box_value(1.0), &AttachedShadowBase::OnDependencyPropertyChanged));
 
 		double Opacity() const { return winrt::unbox_value<double>(GetValue(OpacityProperty)); }
 		void Opacity(double value) const { SetValue(OpacityProperty, winrt::box_value(value)); }
 
-		void ConnectElement(FrameworkElement const& element);
+		void ConnectElement(winrt::FrameworkElement const& element);
 
-		void DisconnectElement(FrameworkElement const& element);
+		void DisconnectElement(winrt::FrameworkElement const& element);
 
-		XamlToolkit::WinUI::AttachedShadowElementContext GetElementContext(FrameworkElement const& element);
+		winrt::XamlToolkit::WinUI::AttachedShadowElementContext GetElementContext(winrt::FrameworkElement const& element);
 
 		virtual bool SupportsOnSizeChangedEvent() const noexcept;
 
 		virtual void OnSizeChanged(
-			XamlToolkit::WinUI::AttachedShadowElementContext const& context,
-			Windows::Foundation::Size newSize,
-			Windows::Foundation::Size previousSize);
+			winrt::XamlToolkit::WinUI::AttachedShadowElementContext const& context,
+			winrt::Size newSize,
+			winrt::Size previousSize);
 
-		virtual void OnElementContextInitialized(XamlToolkit::WinUI::AttachedShadowElementContext const& context);
+		virtual void OnElementContextInitialized(winrt::XamlToolkit::WinUI::AttachedShadowElementContext const& context);
 
-		virtual void OnElementContextUninitialized(XamlToolkit::WinUI::AttachedShadowElementContext const& context);
+		virtual void OnElementContextUninitialized(winrt::XamlToolkit::WinUI::AttachedShadowElementContext const& context);
 
-		Windows::Foundation::Collections::IVector<XamlToolkit::WinUI::AttachedShadowElementContext> EnumerateElementContexts();
+		winrt::IVector<winrt::XamlToolkit::WinUI::AttachedShadowElementContext> EnumerateElementContexts();
 
 		virtual void SetElementChildVisual(XamlToolkit::WinUI::AttachedShadowElementContext const& context);
 
-		void CallPropertyChangedForEachElement(DependencyProperty const& property, IInspectable const& oldValue, IInspectable const& newValue);
+		void CallPropertyChangedForEachElement(winrt::DependencyProperty const& property, winrt::IInspectable const& oldValue, winrt::IInspectable const& newValue);
 
-		virtual CompositionBrush GetShadowMask(XamlToolkit::WinUI::AttachedShadowElementContext const& context);
+		virtual winrt::CompositionBrush GetShadowMask(winrt::XamlToolkit::WinUI::AttachedShadowElementContext const& context);
 
-		virtual CompositionClip GetShadowClip(XamlToolkit::WinUI::AttachedShadowElementContext const& context);
+		virtual winrt::CompositionClip GetShadowClip(winrt::XamlToolkit::WinUI::AttachedShadowElementContext const& context);
 
-		void UpdateShadowMask(XamlToolkit::WinUI::AttachedShadowElementContext const& context);
+		void UpdateShadowMask(winrt::XamlToolkit::WinUI::AttachedShadowElementContext const& context);
 
-		void UpdateShadowClip(XamlToolkit::WinUI::AttachedShadowElementContext const& context);
+		void UpdateShadowClip(winrt::XamlToolkit::WinUI::AttachedShadowElementContext const& context);
 
-		virtual void OnPropertyChanged(XamlToolkit::WinUI::AttachedShadowElementContext const& context, DependencyProperty const& property, IInspectable const& oldValue, IInspectable const& newValue);
+		virtual void OnPropertyChanged(winrt::XamlToolkit::WinUI::AttachedShadowElementContext const& context, winrt::DependencyProperty const& property, winrt::IInspectable const& oldValue, winrt::IInspectable const& newValue);
 	};
 }
 
