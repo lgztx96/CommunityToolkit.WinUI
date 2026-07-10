@@ -56,24 +56,24 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		// High-contrast accessibility
         static inline winrt::XamlToolkit::WinUI::Helpers::ThemeListener ThemeListener;
-		SolidColorBrush _needleBrush{ nullptr };
-		SolidColorBrush _needleBorderBrush{ nullptr };
-		Brush _trailBrush{ nullptr };
-		Brush _scaleBrush{ nullptr };
-		SolidColorBrush _scaleTickBrush{ nullptr };
-		SolidColorBrush _tickBrush{ nullptr };
-		Brush _foreground{ nullptr };
+        winrt::SolidColorBrush _needleBrush{ nullptr };
+        winrt::SolidColorBrush _needleBorderBrush{ nullptr };
+        winrt::Brush _trailBrush{ nullptr };
+        winrt::Brush _scaleBrush{ nullptr };
+        winrt::SolidColorBrush _scaleTickBrush{ nullptr };
+        winrt::SolidColorBrush _tickBrush{ nullptr };
+        winrt::Brush _foreground{ nullptr };
 
 		double _normalizedMinAngle;
 		double _normalizedMaxAngle;
 
-		Compositor _compositor{ nullptr };
-		ContainerVisual _root{ nullptr };
-		CompositionSpriteShape _needle{ nullptr };
+        winrt::Compositor _compositor{ nullptr };
+        winrt::ContainerVisual _root{ nullptr };
+        winrt::CompositionSpriteShape _needle{ nullptr };
 
-        UIElement::PointerReleased_revoker _pointerReleasedRevoker;
-        Control::IsEnabledChanged_revoker _isEnabledChangedRevoker;
-        FrameworkElement::Unloaded_revoker _unloadedRevoker;
+        winrt::UIElement::PointerReleased_revoker _pointerReleasedRevoker;
+        winrt::Control::IsEnabledChanged_revoker _isEnabledChangedRevoker;
+        winrt::FrameworkElement::Unloaded_revoker _unloadedRevoker;
 
         winrt::event_token _tappedToken;
         winrt::event_token _manipulationDeltaToken;
@@ -89,7 +89,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		double NormalizedMaxAngle() const { return _normalizedMaxAngle; }
 
-		AutomationPeer OnCreateAutomationPeer();
+        winrt::AutomationPeer OnCreateAutomationPeer();
 
 		void OnMinimumChanged(double oldMinimum, double newMinimum);
 
@@ -97,203 +97,203 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		void OnValueChanged(double oldValue, double newValue);
 
-        static void OnInteractivityChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e);
+        static void OnInteractivityChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 
-        static void OnUnitChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e);
+        static void OnUnitChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 
-        static void OnScaleChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e);
+        static void OnScaleChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 
-        static void OnFaceChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e);
+        static void OnFaceChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 
 #pragma region Properties
-        static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> IsInteractiveProperty =
-            winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+        static inline const wil::single_threaded_property<winrt::DependencyProperty> IsInteractiveProperty =
+            winrt::DependencyProperty::Register(
                 L"IsInteractive",
                 winrt::xaml_typename<bool>(),
                 winrt::xaml_typename<class_type>(),
-                winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(true), &RadialGauge::OnInteractivityChanged });
+                winrt::PropertyMetadata{ winrt::box_value(true), &RadialGauge::OnInteractivityChanged });
 
-        static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> ScaleWidthProperty =
-            winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+        static inline const wil::single_threaded_property<winrt::DependencyProperty> ScaleWidthProperty =
+            winrt::DependencyProperty::Register(
                 L"ScaleWidth",
                 winrt::xaml_typename<double>(),
                 winrt::xaml_typename<class_type>(),
-                winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(12.0), &RadialGauge::OnScaleChanged });
+                winrt::PropertyMetadata{ winrt::box_value(12.0), &RadialGauge::OnScaleChanged });
 
-        static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> StepSizeProperty =
-            winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+        static inline const wil::single_threaded_property<winrt::DependencyProperty> StepSizeProperty =
+            winrt::DependencyProperty::Register(
                 L"StepSize",
                 winrt::xaml_typename<double>(),
                 winrt::xaml_typename<class_type>(),
-                winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(0.0) });
+                winrt::PropertyMetadata{ winrt::box_value(0.0) });
 
-        static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> NeedleBrushProperty =
-            winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+        static inline const wil::single_threaded_property<winrt::DependencyProperty> NeedleBrushProperty =
+            winrt::DependencyProperty::Register(
                 L"NeedleBrush",
-                winrt::xaml_typename<winrt::Microsoft::UI::Xaml::Media::SolidColorBrush>(),
+                winrt::xaml_typename<winrt::SolidColorBrush>(),
                 winrt::xaml_typename<class_type>(),
-                winrt::Microsoft::UI::Xaml::PropertyMetadata{ nullptr, &RadialGauge::OnFaceChanged });
+                winrt::PropertyMetadata{ nullptr, &RadialGauge::OnFaceChanged });
 
-        static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> NeedleBorderBrushProperty =
-            winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+        static inline const wil::single_threaded_property<winrt::DependencyProperty> NeedleBorderBrushProperty =
+            winrt::DependencyProperty::Register(
                 L"NeedleBorderBrush",
-                winrt::xaml_typename<winrt::Microsoft::UI::Xaml::Media::SolidColorBrush>(),
+                winrt::xaml_typename<winrt::SolidColorBrush>(),
                 winrt::xaml_typename<class_type>(),
-                winrt::Microsoft::UI::Xaml::PropertyMetadata{ nullptr, &RadialGauge::OnFaceChanged });
+                winrt::PropertyMetadata{ nullptr, &RadialGauge::OnFaceChanged });
 
-        static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> UnitProperty =
-            winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+        static inline const wil::single_threaded_property<winrt::DependencyProperty> UnitProperty =
+            winrt::DependencyProperty::Register(
                 L"Unit",
                 winrt::xaml_typename<winrt::hstring>(),
                 winrt::xaml_typename<class_type>(),
-                winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(L""), &RadialGauge::OnUnitChanged });
+                winrt::PropertyMetadata{ winrt::box_value(L""), &RadialGauge::OnUnitChanged });
 
-        static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> TrailBrushProperty =
-            winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+        static inline const wil::single_threaded_property<winrt::DependencyProperty> TrailBrushProperty =
+            winrt::DependencyProperty::Register(
                 L"TrailBrush",
-                winrt::xaml_typename<winrt::Microsoft::UI::Xaml::Media::Brush>(),
+                winrt::xaml_typename<winrt::Brush>(),
                 winrt::xaml_typename<class_type>(),
-                winrt::Microsoft::UI::Xaml::PropertyMetadata{ nullptr });
+                winrt::PropertyMetadata{ nullptr });
 
-        static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> ScaleBrushProperty =
-            winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+        static inline const wil::single_threaded_property<winrt::DependencyProperty> ScaleBrushProperty =
+            winrt::DependencyProperty::Register(
                 L"ScaleBrush",
-                winrt::xaml_typename<winrt::Microsoft::UI::Xaml::Media::Brush>(),
+                winrt::xaml_typename<winrt::Brush>(),
                 winrt::xaml_typename<class_type>(),
-                winrt::Microsoft::UI::Xaml::PropertyMetadata{ nullptr });
+                winrt::PropertyMetadata{ nullptr });
 
-        static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> ScaleTickBrushProperty =
-            winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+        static inline const wil::single_threaded_property<winrt::DependencyProperty> ScaleTickBrushProperty =
+            winrt::DependencyProperty::Register(
                 L"ScaleTickBrush",
-                winrt::xaml_typename<winrt::Microsoft::UI::Xaml::Media::SolidColorBrush>(),
+                winrt::xaml_typename<winrt::SolidColorBrush>(),
                 winrt::xaml_typename<class_type>(),
-                winrt::Microsoft::UI::Xaml::PropertyMetadata{ nullptr, &RadialGauge::OnFaceChanged });
+                winrt::PropertyMetadata{ nullptr, &RadialGauge::OnFaceChanged });
 
-        static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> TickBrushProperty =
-            winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+        static inline const wil::single_threaded_property<winrt::DependencyProperty> TickBrushProperty =
+            winrt::DependencyProperty::Register(
                 L"TickBrush",
-                winrt::xaml_typename<winrt::Microsoft::UI::Xaml::Media::SolidColorBrush>(),
+                winrt::xaml_typename<winrt::SolidColorBrush>(),
                 winrt::xaml_typename<class_type>(),
-                winrt::Microsoft::UI::Xaml::PropertyMetadata{ nullptr, &RadialGauge::OnFaceChanged });
+                winrt::PropertyMetadata{ nullptr, &RadialGauge::OnFaceChanged });
 
-        static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> ValueStringFormatProperty =
-            winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+        static inline const wil::single_threaded_property<winrt::DependencyProperty> ValueStringFormatProperty =
+            winrt::DependencyProperty::Register(
                 L"ValueStringFormat",
                 winrt::xaml_typename<winrt::hstring>(),
                 winrt::xaml_typename<class_type>(),
-                winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(L"{:.0f}"), [](auto& s, auto&) 
+                winrt::PropertyMetadata{ winrt::box_value(L"{:.0f}"), [](auto& s, auto&) 
                 { 
                     auto radialGauge = s.template try_as<class_type>();
                     auto self = winrt::get_self<RadialGauge>(radialGauge)->get_strong();
                     self->OnValueChanged(s);
                 }});
 
-        static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> NeedleLengthProperty =
-            winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+        static inline const wil::single_threaded_property<winrt::DependencyProperty> NeedleLengthProperty =
+            winrt::DependencyProperty::Register(
                 L"NeedleLength",
                 winrt::xaml_typename<double>(),
                 winrt::xaml_typename<class_type>(),
-                winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(58.0), &RadialGauge::OnFaceChanged });
+                winrt::PropertyMetadata{ winrt::box_value(58.0), &RadialGauge::OnFaceChanged });
 
-        static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> NeedleBorderThicknessProperty =
-            winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+        static inline const wil::single_threaded_property<winrt::DependencyProperty> NeedleBorderThicknessProperty =
+            winrt::DependencyProperty::Register(
                 L"NeedleBorderThickness",
                 winrt::xaml_typename<double>(),
                 winrt::xaml_typename<class_type>(),
-                winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(1.0), &RadialGauge::OnFaceChanged });
+                winrt::PropertyMetadata{ winrt::box_value(1.0), &RadialGauge::OnFaceChanged });
 
-        static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> NeedleWidthProperty =
-            winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+        static inline const wil::single_threaded_property<winrt::DependencyProperty> NeedleWidthProperty =
+            winrt::DependencyProperty::Register(
                 L"NeedleWidth",
                 winrt::xaml_typename<double>(),
                 winrt::xaml_typename<class_type>(),
-                winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(5.0), &RadialGauge::OnFaceChanged });
+                winrt::PropertyMetadata{ winrt::box_value(5.0), &RadialGauge::OnFaceChanged });
 
-        static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> ScalePaddingProperty =
-            winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+        static inline const wil::single_threaded_property<winrt::DependencyProperty> ScalePaddingProperty =
+            winrt::DependencyProperty::Register(
                 L"ScalePadding",
                 winrt::xaml_typename<double>(),
                 winrt::xaml_typename<class_type>(),
-                winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(0.0), &RadialGauge::OnFaceChanged });
+                winrt::PropertyMetadata{ winrt::box_value(0.0), &RadialGauge::OnFaceChanged });
 
-        static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> ScaleTickWidthProperty =
-            winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+        static inline const wil::single_threaded_property<winrt::DependencyProperty> ScaleTickWidthProperty =
+            winrt::DependencyProperty::Register(
                 L"ScaleTickWidth",
                 winrt::xaml_typename<double>(),
                 winrt::xaml_typename<class_type>(),
-                winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(0.0), &RadialGauge::OnFaceChanged });
+                winrt::PropertyMetadata{ winrt::box_value(0.0), &RadialGauge::OnFaceChanged });
 
-        static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> ScaleTickLengthProperty =
-            winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+        static inline const wil::single_threaded_property<winrt::DependencyProperty> ScaleTickLengthProperty =
+            winrt::DependencyProperty::Register(
                 L"ScaleTickLength",
                 winrt::xaml_typename<double>(),
                 winrt::xaml_typename<class_type>(),
-                winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(12.0), &RadialGauge::OnFaceChanged });
+                winrt::PropertyMetadata{ winrt::box_value(12.0), &RadialGauge::OnFaceChanged });
 
-        static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> ScaleTickCornerRadiusProperty =
-            winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+        static inline const wil::single_threaded_property<winrt::DependencyProperty> ScaleTickCornerRadiusProperty =
+            winrt::DependencyProperty::Register(
                 L"ScaleTickCornerRadius",
                 winrt::xaml_typename<double>(),
                 winrt::xaml_typename<class_type>(),
-                winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(2.0), &RadialGauge::OnFaceChanged });
+                winrt::PropertyMetadata{ winrt::box_value(2.0), &RadialGauge::OnFaceChanged });
 
-        static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> TickSpacingProperty =
-            winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+        static inline const wil::single_threaded_property<winrt::DependencyProperty> TickSpacingProperty =
+            winrt::DependencyProperty::Register(
                 L"TickSpacing",
                 winrt::xaml_typename<int32_t>(),
                 winrt::xaml_typename<class_type>(),
-                winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(15), &RadialGauge::OnFaceChanged });
+                winrt::PropertyMetadata{ winrt::box_value(15), &RadialGauge::OnFaceChanged });
 
-        static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> TickWidthProperty =
-            winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+        static inline const wil::single_threaded_property<winrt::DependencyProperty> TickWidthProperty =
+            winrt::DependencyProperty::Register(
                 L"TickWidth",
                 winrt::xaml_typename<double>(),
                 winrt::xaml_typename<class_type>(),
-                winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(2.0), &RadialGauge::OnFaceChanged });
+                winrt::PropertyMetadata{ winrt::box_value(2.0), &RadialGauge::OnFaceChanged });
 
-        static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> TickLengthProperty =
-            winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+        static inline const wil::single_threaded_property<winrt::DependencyProperty> TickLengthProperty =
+            winrt::DependencyProperty::Register(
                 L"TickLength",
                 winrt::xaml_typename<double>(),
                 winrt::xaml_typename<class_type>(),
-                winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(6.0), &RadialGauge::OnFaceChanged });
+                winrt::PropertyMetadata{ winrt::box_value(6.0), &RadialGauge::OnFaceChanged });
 
-        static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> TickPaddingProperty =
-            winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+        static inline const wil::single_threaded_property<winrt::DependencyProperty> TickPaddingProperty =
+            winrt::DependencyProperty::Register(
                 L"TickPadding",
                 winrt::xaml_typename<double>(),
                 winrt::xaml_typename<class_type>(),
-                winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(24.0), &RadialGauge::OnFaceChanged });
+                winrt::PropertyMetadata{ winrt::box_value(24.0), &RadialGauge::OnFaceChanged });
 
-        static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> TickCornerRadiusProperty =
-            winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+        static inline const wil::single_threaded_property<winrt::DependencyProperty> TickCornerRadiusProperty =
+            winrt::DependencyProperty::Register(
                 L"TickCornerRadius",
                 winrt::xaml_typename<double>(),
                 winrt::xaml_typename<class_type>(),
-                winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(2.0), &RadialGauge::OnFaceChanged });
+                winrt::PropertyMetadata{ winrt::box_value(2.0), &RadialGauge::OnFaceChanged });
 
-        static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> MinAngleProperty =
-            winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+        static inline const wil::single_threaded_property<winrt::DependencyProperty> MinAngleProperty =
+            winrt::DependencyProperty::Register(
                 L"MinAngle",
                 winrt::xaml_typename<int32_t>(),
                 winrt::xaml_typename<class_type>(),
-                winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(-150), &RadialGauge::OnScaleChanged });
+                winrt::PropertyMetadata{ winrt::box_value(-150), &RadialGauge::OnScaleChanged });
 
-        static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> MaxAngleProperty =
-            winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+        static inline const wil::single_threaded_property<winrt::DependencyProperty> MaxAngleProperty =
+            winrt::DependencyProperty::Register(
                 L"MaxAngle",
                 winrt::xaml_typename<int32_t>(),
                 winrt::xaml_typename<class_type>(),
-                winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(150), &RadialGauge::OnScaleChanged });
+                winrt::PropertyMetadata{ winrt::box_value(150), &RadialGauge::OnScaleChanged });
 
-        static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> ValueAngleProperty =
-            winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+        static inline const wil::single_threaded_property<winrt::DependencyProperty> ValueAngleProperty =
+            winrt::DependencyProperty::Register(
                 L"ValueAngle",
                 winrt::xaml_typename<double>(),
                 winrt::xaml_typename<class_type>(),
-                winrt::Microsoft::UI::Xaml::PropertyMetadata{ nullptr });
+                winrt::PropertyMetadata{ nullptr });
 
-        bool IsInteractive()
+        bool IsInteractive() const
         {
             return winrt::unbox_value<bool>(GetValue(IsInteractiveProperty));
         }
@@ -303,7 +303,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
             SetValue(IsInteractiveProperty, winrt::box_value(value));
         }
 
-        double ScaleWidth()
+        double ScaleWidth() const
         {
             return winrt::unbox_value<double>(GetValue(ScaleWidthProperty));
         }
@@ -313,7 +313,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
             SetValue(ScaleWidthProperty, winrt::box_value(value));
         }
 
-        double StepSize()
+        double StepSize() const
         {
             return winrt::unbox_value<double>(GetValue(StepSizeProperty));
         }
@@ -323,27 +323,27 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
             SetValue(StepSizeProperty, winrt::box_value(value));
         }
 
-        winrt::Microsoft::UI::Xaml::Media::SolidColorBrush NeedleBrush()
+        winrt::SolidColorBrush NeedleBrush() const
         {
-            return GetValue(NeedleBrushProperty).try_as<winrt::Microsoft::UI::Xaml::Media::SolidColorBrush>();
+            return GetValue(NeedleBrushProperty).try_as<winrt::SolidColorBrush>();
         }
 
-        void NeedleBrush(winrt::Microsoft::UI::Xaml::Media::SolidColorBrush const& value)
+        void NeedleBrush(winrt::SolidColorBrush const& value)
         {
             SetValue(NeedleBrushProperty, value);
         }
 
-        winrt::Microsoft::UI::Xaml::Media::SolidColorBrush NeedleBorderBrush()
+        winrt::SolidColorBrush NeedleBorderBrush() const
         {
-            return GetValue(NeedleBorderBrushProperty).try_as<winrt::Microsoft::UI::Xaml::Media::SolidColorBrush>();
+            return GetValue(NeedleBorderBrushProperty).try_as<winrt::SolidColorBrush>();
         }
 
-        void NeedleBorderBrush(winrt::Microsoft::UI::Xaml::Media::SolidColorBrush const& value)
+        void NeedleBorderBrush(winrt::SolidColorBrush const& value)
         {
             SetValue(NeedleBorderBrushProperty, value);
         }
 
-        winrt::hstring Unit()
+        winrt::hstring Unit() const
         {
             return winrt::unbox_value<winrt::hstring>(GetValue(UnitProperty));
         }
@@ -353,47 +353,47 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
             SetValue(UnitProperty, winrt::box_value(value));
         }
 
-        winrt::Microsoft::UI::Xaml::Media::Brush TrailBrush()
+        winrt::Brush TrailBrush() const
         {
-            return GetValue(TrailBrushProperty).try_as<winrt::Microsoft::UI::Xaml::Media::Brush>();
+            return GetValue(TrailBrushProperty).try_as<winrt::Brush>();
         }
 
-        void TrailBrush(winrt::Microsoft::UI::Xaml::Media::Brush const& value)
+        void TrailBrush(winrt::Brush const& value)
         {
             SetValue(TrailBrushProperty, value);
         }
 
-        winrt::Microsoft::UI::Xaml::Media::Brush ScaleBrush()
+        winrt::Brush ScaleBrush() const
         {
-            return GetValue(ScaleBrushProperty).try_as<winrt::Microsoft::UI::Xaml::Media::Brush>();
+            return GetValue(ScaleBrushProperty).try_as<winrt::Brush>();
         }
 
-        void ScaleBrush(winrt::Microsoft::UI::Xaml::Media::Brush const& value)
+        void ScaleBrush(winrt::Brush const& value)
         {
             SetValue(ScaleBrushProperty, value);
         }
 
-        winrt::Microsoft::UI::Xaml::Media::SolidColorBrush ScaleTickBrush()
+        winrt::SolidColorBrush ScaleTickBrush() const
         {
-            return GetValue(ScaleTickBrushProperty).try_as<winrt::Microsoft::UI::Xaml::Media::SolidColorBrush>();
+            return GetValue(ScaleTickBrushProperty).try_as<winrt::SolidColorBrush>();
         }
 
-        void ScaleTickBrush(winrt::Microsoft::UI::Xaml::Media::SolidColorBrush const& value)
+        void ScaleTickBrush(winrt::SolidColorBrush const& value)
         {
             SetValue(ScaleTickBrushProperty, value);
         }
 
-        winrt::Microsoft::UI::Xaml::Media::SolidColorBrush TickBrush()
+        winrt::SolidColorBrush TickBrush() const
         {
-            return GetValue(TickBrushProperty).try_as<winrt::Microsoft::UI::Xaml::Media::SolidColorBrush>();
+            return GetValue(TickBrushProperty).try_as<winrt::SolidColorBrush>();
         }
 
-        void TickBrush(winrt::Microsoft::UI::Xaml::Media::SolidColorBrush const& value)
+        void TickBrush(winrt::SolidColorBrush const& value)
         {
             SetValue(TickBrushProperty, value);
         }
 
-        winrt::hstring ValueStringFormat()
+        winrt::hstring ValueStringFormat() const
         {
             return winrt::unbox_value<winrt::hstring>(GetValue(ValueStringFormatProperty));
         }
@@ -403,7 +403,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
             SetValue(ValueStringFormatProperty, winrt::box_value(value));
         }
 
-        double NeedleLength()
+        double NeedleLength() const
         {
             return winrt::unbox_value<double>(GetValue(NeedleLengthProperty));
         }
@@ -413,7 +413,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
             SetValue(NeedleLengthProperty, winrt::box_value(value));
         }
 
-        double NeedleBorderThickness()
+        double NeedleBorderThickness() const
         {
             return winrt::unbox_value<double>(GetValue(NeedleBorderThicknessProperty));
         }
@@ -423,7 +423,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
             SetValue(NeedleBorderThicknessProperty, winrt::box_value(value));
         }
 
-        double NeedleWidth()
+        double NeedleWidth() const
         {
             return winrt::unbox_value<double>(GetValue(NeedleWidthProperty));
         }
@@ -433,7 +433,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
             SetValue(NeedleWidthProperty, winrt::box_value(value));
         }
 
-        double ScalePadding()
+        double ScalePadding() const
         {
             return winrt::unbox_value<double>(GetValue(ScalePaddingProperty));
         }
@@ -443,7 +443,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
             SetValue(ScalePaddingProperty, winrt::box_value(value));
         }
 
-        double ScaleTickWidth()
+        double ScaleTickWidth() const
         {
             return winrt::unbox_value<double>(GetValue(ScaleTickWidthProperty));
         }
@@ -453,7 +453,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
             SetValue(ScaleTickWidthProperty, winrt::box_value(value));
         }
 
-        double ScaleTickLength()
+        double ScaleTickLength() const
         {
             return winrt::unbox_value<double>(GetValue(ScaleTickLengthProperty));
         }
@@ -463,7 +463,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
             SetValue(ScaleTickLengthProperty, winrt::box_value(value));
         }
 
-        double ScaleTickCornerRadius()
+        double ScaleTickCornerRadius() const
         {
             return winrt::unbox_value<double>(GetValue(ScaleTickCornerRadiusProperty));
         }
@@ -473,7 +473,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
             SetValue(ScaleTickCornerRadiusProperty, winrt::box_value(value));
         }
 
-        int32_t TickSpacing()
+        int32_t TickSpacing() const
         {
             return winrt::unbox_value<int32_t>(GetValue(TickSpacingProperty));
         }
@@ -482,7 +482,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
             SetValue(TickSpacingProperty, winrt::box_value(value));
         }
 
-        double TickWidth()
+        double TickWidth() const
         {
             return winrt::unbox_value<double>(GetValue(TickWidthProperty));
         }
@@ -492,7 +492,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
             SetValue(TickWidthProperty, winrt::box_value(value));
         }
 
-        double TickLength()
+        double TickLength() const
         {
             return winrt::unbox_value<double>(GetValue(TickLengthProperty));
         }
@@ -502,7 +502,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
             SetValue(TickLengthProperty, winrt::box_value(value));
         }
 
-        double TickPadding()
+        double TickPadding() const
         {
             return winrt::unbox_value<double>(GetValue(TickPaddingProperty));
         }
@@ -512,7 +512,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
             SetValue(TickPaddingProperty, winrt::box_value(value));
         }
 
-        double TickCornerRadius()
+        double TickCornerRadius() const
         {
             return winrt::unbox_value<double>(GetValue(TickCornerRadiusProperty));
         }
@@ -522,7 +522,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
             SetValue(TickCornerRadiusProperty, winrt::box_value(value));
         }
 
-        int32_t MinAngle()
+        int32_t MinAngle() const
         {
             return winrt::unbox_value<int32_t>(GetValue(MinAngleProperty));
         }
@@ -532,7 +532,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
             SetValue(MinAngleProperty, winrt::box_value(value));
         }
 
-        int32_t MaxAngle()
+        int32_t MaxAngle() const
         {
             return winrt::unbox_value<int32_t>(GetValue(MaxAngleProperty));
         }
@@ -542,7 +542,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
             SetValue(MaxAngleProperty, winrt::box_value(value));
         }
 
-        double ValueAngle()
+        double ValueAngle() const
         {
             return winrt::unbox_value<double>(GetValue(ValueAngleProperty));
         }
@@ -555,35 +555,35 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 #pragma endregion
 
 	private:
-		void RadialGauge_Unloaded(IInspectable const& sender, RoutedEventArgs const& e);
+		void RadialGauge_Unloaded(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
 
 		void ThemeListener_ThemeChanged(struct ThemeListener const& sender);
 
-		void RadialGauge_IsEnabledChanged(IInspectable const& sender, DependencyPropertyChangedEventArgs const& e);
+		void RadialGauge_IsEnabledChanged(winrt::IInspectable const& sender, winrt::DependencyPropertyChangedEventArgs const& e);
 
-		static void OnValueChanged(DependencyObject const& d);
+		static void OnValueChanged(winrt::DependencyObject const& d);
 
-		static void OnInteractivityChanged(DependencyObject const& d);
+		static void OnInteractivityChanged(winrt::DependencyObject const& d);
 
-		static void OnScaleChanged(DependencyObject const& d);
+		static void OnScaleChanged(winrt::DependencyObject const& d);
 
-		static void OnFaceChanged(DependencyObject const& d);
+		static void OnFaceChanged(winrt::DependencyObject const& d);
 
 		void OnColorsChanged();
 
 		void OnEnabledChanged();
 
-		static void OnUnitChanged(DependencyObject const& d);
+		static void OnUnitChanged(winrt::DependencyObject const& d);
 
-		void ClearBrush(Brush const& brush, DependencyProperty const& prop);
+		void ClearBrush(winrt::Brush const& brush, winrt::DependencyProperty const& prop);
 
-		void RestoreBrush(Brush const& source, DependencyProperty const& prop);
+		void RestoreBrush(winrt::Brush const& source, winrt::DependencyProperty const& prop);
 
 		void UpdateNormalizedAngles();
 
-		void SetGaugeValueFromPoint(Point const& p);
+		void SetGaugeValueFromPoint(winrt::Point const& p);
 
-		Point ScalePoint(double angle, double middleOfScale);
+        winrt::Point ScalePoint(double angle, double middleOfScale);
 
 		double ValueToAngle(double value);
 
@@ -592,18 +592,18 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		double RoundToMultiple(double number, double multiple);
 
 #pragma region Input
-        void RadialGauge_ManipulationDelta(IInspectable const& sender, ManipulationDeltaRoutedEventArgs const& e);
+        void RadialGauge_ManipulationDelta(winrt::IInspectable const& sender, winrt::ManipulationDeltaRoutedEventArgs const& e);
 
-        void RadialGauge_Tapped(IInspectable const& sender, TappedRoutedEventArgs const& e);
+        void RadialGauge_Tapped(winrt::IInspectable const& sender, winrt::TappedRoutedEventArgs const& e);
 
-        void RadialGauge_PointerReleased(IInspectable const& sender, PointerRoutedEventArgs const& e);
+        void RadialGauge_PointerReleased(winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e);
 
         void SetKeyboardAccelerators();
 
         void AddKeyboardAccelerator(
-            VirtualKeyModifiers keyModifiers,
-            VirtualKey key,
-            TypedEventHandler<KeyboardAccelerator, KeyboardAcceleratorInvokedEventArgs> const& handler);
+            winrt::VirtualKeyModifiers keyModifiers,
+            winrt::VirtualKey key,
+            winrt::TypedEventHandler<winrt::KeyboardAccelerator, winrt::KeyboardAcceleratorInvokedEventArgs> const& handler);
 #pragma endregion
 	};
 }

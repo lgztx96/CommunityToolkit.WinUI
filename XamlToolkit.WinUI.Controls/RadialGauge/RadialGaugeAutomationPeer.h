@@ -42,13 +42,13 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
         void SetValue(double value);
 
-        IVector<AutomationPeer> GetChildrenCore();
+        winrt::IVector<winrt::AutomationPeer> GetChildrenCore();
 
         winrt::hstring GetNameCore();
 
-        IInspectable GetPatternCore(PatternInterface patternInterface);
+        winrt::IInspectable GetPatternCore(winrt::PatternInterface patternInterface);
 
-        AutomationControlType GetAutomationControlTypeCore();
+        winrt::AutomationControlType GetAutomationControlTypeCore();
 
         void RaiseValueChangedEvent(double oldValue, double newValue);
     };
