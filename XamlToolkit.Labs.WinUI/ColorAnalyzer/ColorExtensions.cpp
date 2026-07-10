@@ -7,7 +7,7 @@
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
-    Color ColorExtensions::ToColor(float3 color)
+    winrt::Color ColorExtensions::ToColor(winrt::float3 color)
     {
         color *= 255;
         return winrt::Microsoft::UI::ColorHelper::FromArgb(255, 
@@ -16,16 +16,16 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
             static_cast<uint8_t>(color.z));
     }
 
-    float3 ColorExtensions::ToVector3(Color color)
+    winrt::float3 ColorExtensions::ToVector3(winrt::Color color)
     {
-        auto vector = float3(color.R, color.G, color.B);
+        auto vector = winrt::float3(color.R, color.G, color.B);
         return vector / 255;
     }
 
     /// <summary>
     /// Get WCAG contrast ratio between two colors.
     /// </summary>
-    double ColorExtensions::ContrastRatio(Color color1, Color color2)
+    double ColorExtensions::ContrastRatio(winrt::Color color1, winrt::Color color2)
     {
         // Using the formula for contrast ratio
         // Source WCAG guidelines: https://www.w3.org/TR/WCAG20/#contrast-ratiodef
@@ -42,7 +42,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         return (lighter + 0.05) / (darker + 0.05);
     }
 
-    double ColorExtensions::RelativeLuminance(Color color)
+    double ColorExtensions::RelativeLuminance(winrt::Color color)
     {
         // Color theory is a massive iceberg. Here's a peek at the tippy top:
 
@@ -68,12 +68,13 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         // Adjust channels relative luminance out of sRGB:
         // https://www.w3.org/WAI/GL/wiki/Relative_luminance#Definition_as_Stated_in_WCAG_2.x
         auto sRGBtoRGB = [](float s) -> float
+        {
+            if (s <= 0.03928f)
             {
-                if (s <= 0.03928f)
-                    return s / 12.92f;
-
-                return std::pow(((s + 0.055f) / 1.055f), 2.4f);
-            };
+                return s / 12.92f;
+            }
+            return std::pow(((s + 0.055f) / 1.055f), 2.4f);
+        };
 
         auto vec = ToVector3(color);
         auto r = sRGBtoRGB(vec.x);
@@ -84,29 +85,28 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         return (0.2126f * r + 0.7152f * g + 0.0722 * b);
     }
 
-    float ColorExtensions::FindColorfulness(Color color)
+    float ColorExtensions::FindColorfulness(winrt::Color color)
     {
         auto vectorColor = ToVector3(color);
         auto rg = vectorColor.x - vectorColor.y;
         auto yb = ((vectorColor.x + vectorColor.y) / 2) - vectorColor.z;
-        return 0.3f * length(float2(rg, yb));
+        return 0.3f * length(winrt::float2(rg, yb));
     }
 
-    float ColorExtensions::FindColorfulness(std::span<Color> colors)
+    float ColorExtensions::FindColorfulness(std::span<winrt::Color> colors)
     {
-    
         auto vectorColors = colors | std::views::transform(ToVector3);
 
         // Isolate rg and yb
-        auto rg = vectorColors | std::views::transform([](const float3& x)
-                {
-                    return std::abs(x.x - x.y);
-                });
+        auto rg = vectorColors | std::views::transform([](const winrt::float3& x)
+        {
+            return std::abs(x.x - x.y);
+        });
 
-        auto yb = vectorColors | std::views::transform([](const float3& x)
-                {
-                    return std::abs(0.5f * (x.x + x.y) - x.z);
-                });
+        auto yb = vectorColors | std::views::transform([](const winrt::float3& x)
+        {
+            return std::abs(0.5f * (x.x + x.y) - x.z);
+        });
 
         // Evaluate rg and yb mean and std
         float rg_mean;
@@ -115,8 +115,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         auto yb_std = FindStandardDeviation(yb, yb_mean);
 
         // Combine means and standard deviations
-        auto std = length(float2(rg_mean, yb_mean));
-        auto mean = length(float2(rg_std, yb_std));
+        auto std = length(winrt::float2(rg_mean, yb_mean));
+        auto mean = length(winrt::float2(rg_std, yb_std));
 
         // Return colorfulness
         return std + (0.3f * mean);

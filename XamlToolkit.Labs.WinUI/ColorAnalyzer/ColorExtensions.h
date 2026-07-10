@@ -11,9 +11,9 @@
 
 namespace winrt
 {
+    using namespace Windows::UI;
 	using namespace Windows::Foundation;
     using namespace Windows::Foundation::Numerics;
-	using namespace Windows::UI;
 }
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
@@ -23,17 +23,17 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
 	struct ColorExtensions
 	{
-        static Color ToColor(float3 color);
+        static winrt::Color ToColor(winrt::float3 color);
 
-        static float3 ToVector3(Color color);
+        static winrt::float3 ToVector3(winrt::Color color);
 
-        static double ContrastRatio(Color color1, Color color2);
+        static double ContrastRatio(winrt::Color color1, winrt::Color color2);
 
-        static double RelativeLuminance(Color color);
+        static double RelativeLuminance(winrt::Color color);
 
-        static float FindColorfulness(Color color);
+        static float FindColorfulness(winrt::Color color);
 
-        static float FindColorfulness(std::span<Color> colors);
+        static float FindColorfulness(std::span<winrt::Color> colors);
 
         private:
             template<typename R> requires std::ranges::forward_range<R> && input_range_of<R, float>
