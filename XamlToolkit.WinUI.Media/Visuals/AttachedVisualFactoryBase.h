@@ -6,12 +6,14 @@
 
 #include "AttachedVisualFactoryBase.g.h"
 #ifdef __INTELLISENSE__
-#include <winrt/Microsoft.UI.Xaml.Hosting.h>
-#endif
-
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Composition.h>
+#else
 import winrt.Windows.Foundation;
 import winrt.Microsoft.UI.Xaml;
 import winrt.Microsoft.UI.Composition;
+#endif
 
 namespace winrt::XamlToolkit::WinUI::Media::implementation
 {

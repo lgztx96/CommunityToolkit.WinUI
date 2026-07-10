@@ -8,15 +8,25 @@
 #include "PipelineVisualFactoryBase.h"
 #ifdef __INTELLISENSE__
 #include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.Foundation.Collections.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Composition.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
-#endif
-
+#else
 import winrt.Windows.Foundation;
 import winrt.Windows.Foundation.Collections;
 import winrt.Microsoft.UI.Xaml;
 import winrt.Microsoft.UI.Composition;
 import winrt.XamlToolkit.WinUI.Media.Pipelines;
+#endif
+
+namespace winrt 
+{
+    using namespace winrt::Windows::Foundation::Collections;
+    using namespace winrt::Microsoft::UI::Xaml;
+    using namespace winrt::Microsoft::UI::Composition;
+}
 
 namespace winrt::XamlToolkit::WinUI::Media::implementation
 {
@@ -35,9 +45,9 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
         /// <summary>
         /// Gets or sets the collection of effects to use in the current pipeline.
         /// </summary>
-        winrt::Windows::Foundation::Collections::IVector<IPipelineEffect > Effects() const
+        winrt::IVector<IPipelineEffect > Effects() const
         {
-            auto effects = GetValue(EffectsProperty()).try_as<winrt::Windows::Foundation::Collections::IVector<IPipelineEffect>>();
+            auto effects = GetValue(EffectsProperty()).try_as<winrt::IVector<IPipelineEffect>>();
             if (!effects)
             {
 				effects = winrt::single_threaded_vector<IPipelineEffect>();
@@ -47,21 +57,21 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
             return effects;
 		}
 
-        void Effects(winrt::Windows::Foundation::Collections::IVector<IPipelineEffect> const& value)
+        void Effects(winrt::IVector<IPipelineEffect> const& value)
         {
             SetValue(EffectsProperty(), value);
 		}
 
-		static const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> EffectsProperty;
+		static const wil::single_threaded_property<winrt::DependencyProperty> EffectsProperty;
 
         /// <summary>
         /// Creates a <see cref="Visual"/> to attach to the target element.
         /// </summary>
-        winrt::Windows::Foundation::IAsyncOperation<winrt::Microsoft::UI::Composition::Visual> GetAttachedVisualAsync(winrt::Microsoft::UI::Xaml::UIElement const& element) override
+        winrt::IAsyncOperation<winrt::Visual> GetAttachedVisualAsync(winrt::UIElement const& element) override
         {
             auto visual = co_await PipelineVisualFactoryBase::GetAttachedVisualAsync(element);
 
-            auto spriteVisual = visual.as<winrt::Microsoft::UI::Composition::SpriteVisual>();
+            auto spriteVisual = visual.as<winrt::SpriteVisual>();
 
             for (const auto& effect : Effects())
             {
