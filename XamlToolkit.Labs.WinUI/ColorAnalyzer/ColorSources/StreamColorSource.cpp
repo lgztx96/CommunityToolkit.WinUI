@@ -7,30 +7,30 @@
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
-    const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> StreamColorSource::SourceProperty =
-        winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> StreamColorSource::SourceProperty =
+        winrt::DependencyProperty::Register(
             L"Source",
-            winrt::xaml_typename<winrt::Windows::Storage::Streams::IRandomAccessStream>(),
+            winrt::xaml_typename<winrt::IRandomAccessStream>(),
             winrt::xaml_typename<class_type>(),
-            winrt::Microsoft::UI::Xaml::PropertyMetadata{ nullptr, &StreamColorSource::OnSourceChanged });
+            winrt::PropertyMetadata{ nullptr, &StreamColorSource::OnSourceChanged });
 
-    winrt::Windows::Storage::Streams::IRandomAccessStream StreamColorSource::Source() const
+    winrt::IRandomAccessStream StreamColorSource::Source() const
     {
-        return GetValue(SourceProperty()).try_as<winrt::Windows::Storage::Streams::IRandomAccessStream>();
+        return GetValue(SourceProperty()).try_as<winrt::IRandomAccessStream>();
     }
 
-    void StreamColorSource::Source(winrt::Windows::Storage::Streams::IRandomAccessStream const& value)
+    void StreamColorSource::Source(winrt::IRandomAccessStream const& value)
     {
         SetValue(SourceProperty(), value);
     }
 
-    winrt::Windows::Foundation::IAsyncOperation<winrt::Windows::Storage::Streams::IRandomAccessStream> StreamColorSource::GetPixelDataAsync(int requestedSamples)
+    winrt::IAsyncOperation<winrt::IRandomAccessStream> StreamColorSource::GetPixelDataAsync(int requestedSamples)
     {
-        auto decoder = co_await winrt::Windows::Graphics::Imaging::BitmapDecoder::CreateAsync(Source());
+        auto decoder = co_await winrt::BitmapDecoder::CreateAsync(Source());
         auto pixelData = co_await decoder.GetPixelDataAsync();
         auto bytes = pixelData.DetachPixelData();
-        winrt::Windows::Storage::Streams::InMemoryRandomAccessStream randomAccessStream;
-        Windows::Storage::Streams::DataWriter writer;
+        winrt::InMemoryRandomAccessStream randomAccessStream;
+        winrt::DataWriter writer;
 		writer.WriteBytes(bytes);
 
         co_await randomAccessStream.WriteAsync(writer.DetachBuffer());
@@ -38,9 +38,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         co_return randomAccessStream;
     }
 
-    void StreamColorSource::OnSourceChanged(
-        winrt::Microsoft::UI::Xaml::DependencyObject const& d, 
-        [[maybe_unused]] winrt::Microsoft::UI::Xaml::DependencyPropertyChangedEventArgs const& e)
+    void StreamColorSource::OnSourceChanged(winrt::DependencyObject const& d, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& e)
     {
         if (auto source = d.try_as<class_type>())
         {

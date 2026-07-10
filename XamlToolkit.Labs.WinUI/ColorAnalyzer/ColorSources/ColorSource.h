@@ -9,15 +9,21 @@
 #include <wil/cppwinrt_authoring.h>
 #endif
 
+namespace winrt
+{
+    using namespace Windows::Foundation;
+    using namespace Windows::Storage::Streams;
+}
+
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
     struct ColorSource : ColorSourceT<ColorSource>
     {
         ColorSource() = default;
 
-        wil::untyped_event<IInspectable> SourceUpdated;
+        wil::untyped_event<winrt::IInspectable> SourceUpdated;
 
-        virtual winrt::Windows::Foundation::IAsyncOperation<winrt::Windows::Storage::Streams::IRandomAccessStream> GetPixelDataAsync([[maybe_unused]] int32_t requestedSamples) { return nullptr;  };
+        virtual winrt::IAsyncOperation<winrt::IRandomAccessStream> GetPixelDataAsync([[maybe_unused]] int32_t requestedSamples) { return nullptr;  };
 
         void InvokeSourceUpdated() { SourceUpdated.invoke(*this, nullptr); }
     };

@@ -10,33 +10,34 @@
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
-    const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> UIColorSource::SourceProperty =
-        winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> UIColorSource::SourceProperty =
+        winrt::DependencyProperty::Register(
             L"Source",
             winrt::xaml_typename<UIElement>(),
             winrt::xaml_typename<class_type>(),
-            winrt::Microsoft::UI::Xaml::PropertyMetadata{ nullptr, &UIColorSource::OnSourceChanged });
+            winrt::PropertyMetadata{ nullptr, &UIColorSource::OnSourceChanged });
 
-    UIElement UIColorSource::Source() const
+    winrt::UIElement UIColorSource::Source() const
     {
-        return GetValue(SourceProperty()).try_as<UIElement>();
+        return GetValue(SourceProperty()).try_as<winrt::UIElement>();
     }
 
-    void UIColorSource::Source(UIElement const& value)
+    void UIColorSource::Source(winrt::UIElement const& value)
     {
         SetValue(SourceProperty(), value);
     }
 
-    winrt::Windows::Foundation::IAsyncOperation<winrt::Windows::Storage::Streams::IRandomAccessStream> UIColorSource::GetPixelDataAsync(int requestedSamples)
+    winrt::IAsyncOperation<winrt::IRandomAccessStream> UIColorSource::GetPixelDataAsync(int requestedSamples)
     {
         // Ensure the source is populated
-        if (Source() == nullptr)
+		auto source = Source();
+        if (source == nullptr)
             co_return nullptr;
 
         // Grab actual size
         // If actualSize is 0, replace with 1:1 aspect ratio
-        auto sourceSize = Source().ActualSize();
-        sourceSize = sourceSize != float2::zero() ? sourceSize : float2::one();
+        auto sourceSize = source.ActualSize();
+        sourceSize = sourceSize != winrt::float2::zero() ? sourceSize : winrt::float2::one();
 
         // Calculate size of scaled rerender using the actual size
         // scaled down to the sample count, maintaining aspect ration
@@ -46,13 +47,13 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         // Rerender the UIElement to a bitmap of about sampleCount pixels
         // Note: RenderTargetBitmap is not supported with Uno Platform.
-        winrt::Microsoft::UI::Xaml::Media::Imaging::RenderTargetBitmap bitmap;
-        co_await bitmap.RenderAsync(Source(), (int)sampleSize.x, (int)sampleSize.y);
+        winrt::RenderTargetBitmap bitmap;
+        co_await bitmap.RenderAsync(source, (int)sampleSize.x, (int)sampleSize.y);
 
         // Create a stream from the bitmap
         auto pixels = co_await bitmap.GetPixelsAsync();
 
-        winrt::Windows::Storage::Streams::InMemoryRandomAccessStream randomAccessStream;
+        winrt::InMemoryRandomAccessStream randomAccessStream;
 
         co_await randomAccessStream.WriteAsync(pixels);
         randomAccessStream.Seek(0);
@@ -61,8 +62,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
     }
 
     void UIColorSource::OnSourceChanged(
-        winrt::Microsoft::UI::Xaml::DependencyObject const& d,
-        [[maybe_unused]] winrt::Microsoft::UI::Xaml::DependencyPropertyChangedEventArgs const& e)
+        winrt::DependencyObject const& d,
+        [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& e)
     {
         if (auto source = d.try_as<class_type>())
         {
