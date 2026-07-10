@@ -4,10 +4,10 @@
 #include <string>
 #include <string_view>
 #include <winrt/Windows.Foundation.h>
-#endif
-
+#else
 import std;
 import winrt.Windows.Foundation;
+#endif
 
 namespace winrt::XamlToolkit::WinUI::Media
 {

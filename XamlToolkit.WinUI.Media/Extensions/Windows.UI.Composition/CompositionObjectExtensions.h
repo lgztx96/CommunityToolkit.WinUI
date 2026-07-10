@@ -10,13 +10,13 @@
 #include <winrt/Microsoft.UI.Xaml.Hosting.h>
 #include <functional>
 #include <wil/resource.h>
-#endif
-
+#else
 import winrt.Windows.Foundation;
 import winrt.Windows.Foundation.Numerics;
 import winrt.Microsoft.UI.Composition;
 import winrt.Microsoft.UI.Xaml;
 import winrt.Microsoft.UI.Xaml.Hosting;
+#endif
 
 namespace winrt 
 {
@@ -39,9 +39,9 @@ namespace winrt::XamlToolkit::WinUI::Media::Extensions
         /// </summary>
         /// <param name="source">The Visual to start the animation on</param>
         /// <param name="target">The target UIElement to read the size updates from</param>
-        static void BindSize(Visual const& source, UIElement const& target)
+        static void BindSize(winrt::Visual const& source, winrt::UIElement const& target)
         {
-            auto visual = ElementCompositionPreview::GetElementVisual(target);
+            auto visual = winrt::ElementCompositionPreview::GetElementVisual(target);
             auto bindSizeAnimation = source.Compositor().CreateExpressionAnimation(L"visual.Size");
 
             bindSizeAnimation.SetReferenceParameter(L"visual", visual);
@@ -53,18 +53,19 @@ namespace winrt::XamlToolkit::WinUI::Media::Extensions
         /// <summary>
         /// Starts an animation on the given property of a CompositionObject (scalar)
         /// </summary>
-        static IAsyncAction StartAnimationAsync(CompositionObject const& target, winrt::hstring const& property, float value, TimeSpan const& duration)
+        static winrt::IAsyncAction StartAnimationAsync(winrt::CompositionObject const& target, winrt::hstring const& property, float value, winrt::TimeSpan const& duration)
         {
             // Stop previous animations
             target.StopAnimation(property);
 
+            auto compositor = target.Compositor();
             // Setup the animation to run
-            auto animation = target.Compositor().CreateScalarKeyFrameAnimation();
+            auto animation = compositor.CreateScalarKeyFrameAnimation();
             animation.InsertKeyFrame(1.0f, value);
             animation.Duration(duration);
 
             // Get the batch and start the animations
-            auto batch = target.Compositor().CreateScopedBatch(CompositionBatchTypes::Animation);
+            auto batch = compositor.CreateScopedBatch(winrt::CompositionBatchTypes::Animation);
 
             wil::shared_event completionEvent(wil::EventOptions::ManualReset);
 
@@ -83,18 +84,19 @@ namespace winrt::XamlToolkit::WinUI::Media::Extensions
         /// <summary>
         /// Starts an animation on the given property of a CompositionObject (Color)
         /// </summary>
-        static IAsyncAction StartAnimationAsync(CompositionObject const& target, winrt::hstring const& property, winrt::Windows::UI::Color const& value, TimeSpan const& duration)
+        static winrt::IAsyncAction StartAnimationAsync(winrt::CompositionObject const& target, winrt::hstring const& property, winrt::Windows::UI::Color const& value, TimeSpan const& duration)
         {
             // Stop previous animations
             target.StopAnimation(property);
 
+            auto compositor = target.Compositor();
             // Setup the animation to run
-            auto animation = target.Compositor().CreateColorKeyFrameAnimation();
+            auto animation = compositor.CreateColorKeyFrameAnimation();
             animation.InsertKeyFrame(1.0f, value);
             animation.Duration(duration);
 
             // Get the batch and start the animations
-            auto batch = target.Compositor().CreateScopedBatch(CompositionBatchTypes::Animation);
+            auto batch = compositor.CreateScopedBatch(winrt::CompositionBatchTypes::Animation);
 
             wil::shared_event completionEvent(wil::EventOptions::ManualReset);
 
@@ -113,7 +115,7 @@ namespace winrt::XamlToolkit::WinUI::Media::Extensions
         /// <summary>
         /// Starts an animation on the given property of a CompositionObject (Vector4)
         /// </summary>
-        static IAsyncAction StartAnimationAsync(CompositionObject const& target, winrt::hstring const& property, float4 const& value, TimeSpan const& duration)
+        static winrt::IAsyncAction StartAnimationAsync(winrt::CompositionObject const& target, winrt::hstring const& property, winrt::float4 const& value, winrt::TimeSpan const& duration)
         {
             // Stop previous animations
             target.StopAnimation(property);
@@ -124,7 +126,7 @@ namespace winrt::XamlToolkit::WinUI::Media::Extensions
             animation.Duration(duration);
 
             // Get the batch and start the animations
-            auto batch = target.Compositor().CreateScopedBatch(CompositionBatchTypes::Animation);
+            auto batch = target.Compositor().CreateScopedBatch(winrt::CompositionBatchTypes::Animation);
 
             wil::shared_event completionEvent(wil::EventOptions::ManualReset);
 
