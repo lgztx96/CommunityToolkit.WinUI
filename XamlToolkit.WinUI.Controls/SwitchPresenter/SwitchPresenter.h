@@ -19,85 +19,84 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
 	struct SwitchPresenter : SwitchPresenterT<SwitchPresenter>
 	{
-		winrt::XamlToolkit::WinUI::Controls::Case CurrentCase()
+		winrt::XamlToolkit::WinUI::Controls::Case CurrentCase() const
 		{
-			return winrt::unbox_value<winrt::XamlToolkit::WinUI::Controls::Case>(GetValue(CurrentCaseProperty));
+			return GetValue(CurrentCaseProperty()).try_as<winrt::XamlToolkit::WinUI::Controls::Case>();
 		}
 
 		void CurrentCase(winrt::XamlToolkit::WinUI::Controls::Case const& value)
 		{
-			SetValue(CurrentCaseProperty, value);
+			SetValue(CurrentCaseProperty(), value);
 		}
 
-		static inline const wil::single_threaded_property<DependencyProperty> CurrentCaseProperty =
-			DependencyProperty::Register(
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> CurrentCaseProperty =
+			winrt::DependencyProperty::Register(
 				L"CurrentCase",
 				winrt::xaml_typename<winrt::XamlToolkit::WinUI::Controls::Case>(),
 				winrt::xaml_typename<class_type>(),
-				PropertyMetadata(nullptr));
+				winrt::PropertyMetadata(nullptr));
 
-		Controls::CaseCollection SwitchCases()
+		winrt::XamlToolkit::WinUI::Controls::CaseCollection SwitchCases() const
 		{
-			return winrt::unbox_value<Controls::CaseCollection>(GetValue(SwitchCasesProperty));
+			return GetValue(SwitchCasesProperty()).try_as<winrt::XamlToolkit::WinUI::Controls::CaseCollection>();
 		}
 
-		void SwitchCases(Controls::CaseCollection const& value)
+		void SwitchCases(winrt::XamlToolkit::WinUI::Controls::CaseCollection const& value)
 		{
-			SetValue(SwitchCasesProperty, value);
+			SetValue(SwitchCasesProperty(), value);
 		}
 
-		static void OnSwitchCasesPropertyChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e);
+		static void OnSwitchCasesPropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 
-		static inline const wil::single_threaded_property<DependencyProperty> SwitchCasesProperty =
-			DependencyProperty::Register(
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> SwitchCasesProperty =
+			winrt::DependencyProperty::Register(
 				L"SwitchCases",
-				winrt::xaml_typename<Controls::CaseCollection>(),
+				winrt::xaml_typename<winrt::XamlToolkit::WinUI::Controls::CaseCollection>(),
 				winrt::xaml_typename<class_type>(),
-				PropertyMetadata(nullptr, &SwitchPresenter::OnSwitchCasesPropertyChanged));
+				winrt::PropertyMetadata(nullptr, &SwitchPresenter::OnSwitchCasesPropertyChanged));
 
-		winrt::Windows::Foundation::IInspectable Value()
+		winrt::IInspectable Value() const
 		{
-			return GetValue(ValueProperty);
+			return GetValue(ValueProperty());
 		}
 
-		void Value(winrt::Windows::Foundation::IInspectable const& value)
+		void Value(winrt::IInspectable const& value)
 		{
-			SetValue(ValueProperty, value);
+			SetValue(ValueProperty(), value);
 		}
 
-		static void OnValuePropertyChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e);
+		static void OnValuePropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 
-		static inline const wil::single_threaded_property<DependencyProperty> ValueProperty =
-			DependencyProperty::Register(
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> ValueProperty =
+			winrt::DependencyProperty::Register(
 				L"Value",
-				winrt::xaml_typename<winrt::Windows::Foundation::IInspectable>(),
+				winrt::xaml_typename<winrt::IInspectable>(),
 				winrt::xaml_typename<class_type>(),
-				PropertyMetadata(nullptr, &SwitchPresenter::OnValuePropertyChanged));
+				winrt::PropertyMetadata(nullptr, &SwitchPresenter::OnValuePropertyChanged));
 
-		/*IReference<winrt::Windows::UI::Xaml::Interop::TypeName> TargetType()
+		/*winrt::IReference<winrt::TypeName> TargetType()
 		{
-			return GetValue(TargetTypeProperty).try_as<IReference<winrt::Windows::UI::Xaml::Interop::TypeName>>();
+			return GetValue(TargetTypeProperty()).try_as<winrt::IReference<winrt::TypeName>>();
 		}
 
-		void TargetType(IReference<winrt::Windows::UI::Xaml::Interop::TypeName> const& value)
+		void TargetType(winrt::IReference<winrt::TypeName> const& value)
 		{
-			SetValue(TargetTypeProperty, winrt::box_value(value));
+			SetValue(TargetTypeProperty(), value);
 		}
 
-		static inline const wil::single_threaded_property<DependencyProperty> TargetTypeProperty =
-			DependencyProperty::Register(
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> TargetTypeProperty =
+			winrt::DependencyProperty::Register(
 				L"TargetType",
-				winrt::xaml_typename<winrt::Windows::UI::Xaml::Interop::TypeName>(),
+				winrt::xaml_typename<winrt::TypeName>(),
 				winrt::xaml_typename<class_type>(),
-				PropertyMetadata(nullptr));*/
+				winrt::PropertyMetadata(nullptr));*/
 
 		SwitchPresenter();
 
 		void OnApplyTemplate();
 
 	private:
-
-		void SwitchPresenter_Loaded(IInspectable const& sender, RoutedEventArgs const& e);
+		void SwitchPresenter_Loaded(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
 
 		void EvaluateCases();
 	};
