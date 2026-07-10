@@ -8,7 +8,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
     class DropShadowReferenceNode final : public ReferenceNodeBase<DropShadowReferenceNode>
     {
     public:
-        DropShadowReferenceNode(std::optional<winrt::hstring> paramName = std::nullopt, Windows::UI::Composition::DropShadow const& source = nullptr) : ReferenceNodeBase(paramName, source) {}
+        DropShadowReferenceNode(std::optional<winrt::hstring> paramName = std::nullopt, winrt::Microsoft::UI::Composition::DropShadow const& source = nullptr) : ReferenceNodeBase(paramName, source) {}
         static DropShadowReferenceNode CreateTargetReference() { DropShadowReferenceNode node; node.NodeType = ExpressionNodeType::TargetReference; return node; }
         ScalarNode BlurRadius() const { return ReferenceProperty<ScalarNode>(L"BlurRadius"); }
         ScalarNode Opacity() const { return ReferenceProperty<ScalarNode>(L"Opacity"); }

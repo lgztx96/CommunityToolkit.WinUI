@@ -9,7 +9,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
     class SpotLightReferenceNode final : public ReferenceNodeBase<SpotLightReferenceNode>
     {
     public:
-        SpotLightReferenceNode(std::optional<winrt::hstring> paramName = std::nullopt, Windows::UI::Composition::SpotLight const& light = nullptr) : ReferenceNodeBase(paramName, light) {}
+        SpotLightReferenceNode(std::optional<winrt::hstring> paramName = std::nullopt, winrt::Microsoft::UI::Composition::SpotLight const& light = nullptr) : ReferenceNodeBase(paramName, light) {}
         static SpotLightReferenceNode CreateTargetReference() { SpotLightReferenceNode node; node.NodeType = ExpressionNodeType::TargetReference; return node; }
         ScalarNode ConstantAttenuation() const { return ReferenceProperty<ScalarNode>(L"ConstantAttenuation"); }
         ScalarNode LinearAttenuation() const { return ReferenceProperty<ScalarNode>(L"LinearAttenuation"); }

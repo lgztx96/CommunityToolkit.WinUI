@@ -4,7 +4,6 @@
 
 namespace winrt::XamlToolkit::WinUI::Animations::Expressions
 {
-
         ScalarNode ExpressionFunctions::ACos(ScalarNode val)
         {
             return Function<ScalarNode>(ExpressionNodeType::Acos, { val });

@@ -6,9 +6,13 @@
 #include "../ExpressionForward.h"
 
 #ifdef __INTELLISENSE__
-#include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.Foundation.Numerics.h>
 #endif
+
+namespace winrt
+{
+    using namespace Windows::Foundation::Numerics;
+}
 
 namespace winrt::XamlToolkit::WinUI::Animations::Expressions
 {
@@ -20,9 +24,9 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
         enum class Subchannel { X, Y, Z };
 
         Vector3Node() = default;
-        explicit Vector3Node(float3 const& value);
+        explicit Vector3Node(winrt::float3 const& value);
         explicit Vector3Node(winrt::hstring const& paramName);
-        Vector3Node(winrt::hstring const& paramName, float3 const& value);
+        Vector3Node(winrt::hstring const& paramName, winrt::float3 const& value);
 
         ScalarNode X() const;
         ScalarNode Y() const;
@@ -41,6 +45,6 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
         winrt::hstring GetValue() const override;
 
     private:
-        float3 value{};
+        winrt::float3 value{};
     };
 }

@@ -18,16 +18,18 @@
 
 #ifdef __INTELLISENSE__
 #include <winrt/Windows.Foundation.h>
-#include <winrt/Windows.UI.Composition.h>
-#include <winrt/Windows.UI.Composition.Interactions.h>
+#include <winrt/Microsoft.UI.Composition.h>
+#include <winrt/Microsoft.UI.Composition.Interactions.h>
 #include <type_traits>
 #include <concepts>
+#else
+import winrt.Microsoft.UI.Composition.Interactions;
 #endif
 
 namespace winrt 
 {
-	using namespace Windows::UI::Composition;
-	using namespace Windows::UI::Composition::Interactions;
+	using namespace Microsoft::UI::Composition;
+	using namespace Microsoft::UI::Composition::Interactions;
 }
 
 namespace winrt::XamlToolkit::WinUI::Animations::Expressions
@@ -37,21 +39,21 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
     /// </summary>
     struct CompositionExtensions final
     {
-        static AmbientLightReferenceNode GetReference(AmbientLight const& compObj);
-        static ColorBrushReferenceNode GetReference(CompositionColorBrush const& compObj);
-        static DistantLightReferenceNode GetReference(DistantLight const& compObj);
-        static DropShadowReferenceNode GetReference(DropShadow const& compObj);
-        static InsetClipReferenceNode GetReference(InsetClip const& compObj);
+        static AmbientLightReferenceNode GetReference(winrt::AmbientLight const& compObj);
+        static ColorBrushReferenceNode GetReference(winrt::CompositionColorBrush const& compObj);
+        static DistantLightReferenceNode GetReference(winrt::DistantLight const& compObj);
+        static DropShadowReferenceNode GetReference(winrt::DropShadow const& compObj);
+        static InsetClipReferenceNode GetReference(winrt::InsetClip const& compObj);
         static InteractionTrackerReferenceNode GetReference(InteractionTracker const& compObj);
-        static NineGridBrushReferenceNode GetReference(CompositionNineGridBrush const& compObj);
-        static PointLightReferenceNode GetReference(PointLight const& compObj);
-        static PropertySetReferenceNode GetReference(CompositionPropertySet const& compObj);
-        static SpotLightReferenceNode GetReference(SpotLight const& compObj);
-        static SurfaceBrushReferenceNode GetReference(CompositionSurfaceBrush const& compObj);
-        static VisualReferenceNode GetReference(Visual const& compObj);
+        static NineGridBrushReferenceNode GetReference(winrt::CompositionNineGridBrush const& compObj);
+        static PointLightReferenceNode GetReference(winrt::PointLight const& compObj);
+        static PropertySetReferenceNode GetReference(winrt::CompositionPropertySet const& compObj);
+        static SpotLightReferenceNode GetReference(winrt::SpotLight const& compObj);
+        static SurfaceBrushReferenceNode GetReference(winrt::CompositionSurfaceBrush const& compObj);
+        static VisualReferenceNode GetReference(winrt::Visual const& compObj);
 
         template<typename T>
-        static T GetSpecializedReference(CompositionPropertySet const& ps)
+        static T GetSpecializedReference(winrt::CompositionPropertySet const& ps)
             requires std::is_base_of_v<PropertySetReferenceNode, T>
         {
             if constexpr (std::is_same_v<T, ManipulationPropertySetReferenceNode>)
@@ -68,16 +70,16 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
             }
         }
 
-        static void StartAnimation(CompositionObject const& compObject, winrt::hstring const& propertyName, ExpressionNode& expressionNode);
-        static void InsertExpressionKeyFrame(KeyFrameAnimation const& keyframeAnimation, float normalizedProgressKey, ExpressionNode& expressionNode, CompositionEasingFunction const& easing = nullptr);
-        static void SetCondition(InteractionTrackerInertiaRestingValue const& modifier, ExpressionNode& expressionNode);
-        static void SetRestingValue(InteractionTrackerInertiaRestingValue const& modifier, ExpressionNode& expressionNode);
-        static void SetCondition(InteractionTrackerInertiaMotion const& modifier, ExpressionNode& expressionNode);
-        static void SetMotion(InteractionTrackerInertiaMotion const& modifier, ExpressionNode& expressionNode);
-        static void SetCondition(CompositionConditionalValue const& modifier, ExpressionNode& expressionNode);
-        static void SetValue(CompositionConditionalValue const& modifier, ExpressionNode& expressionNode);
+        static void StartAnimation(winrt::CompositionObject const& compObject, winrt::hstring const& propertyName, ExpressionNode& expressionNode);
+        static void InsertExpressionKeyFrame(winrt::KeyFrameAnimation const& keyframeAnimation, float normalizedProgressKey, ExpressionNode& expressionNode, winrt::CompositionEasingFunction const& easing = nullptr);
+        static void SetCondition(winrt::InteractionTrackerInertiaRestingValue const& modifier, ExpressionNode& expressionNode);
+        static void SetRestingValue(winrt::InteractionTrackerInertiaRestingValue const& modifier, ExpressionNode& expressionNode);
+        static void SetCondition(winrt::InteractionTrackerInertiaMotion const& modifier, ExpressionNode& expressionNode);
+        static void SetMotion(winrt::InteractionTrackerInertiaMotion const& modifier, ExpressionNode& expressionNode);
+        static void SetCondition(winrt::CompositionConditionalValue const& modifier, ExpressionNode& expressionNode);
+        static void SetValue(winrt::CompositionConditionalValue const& modifier, ExpressionNode& expressionNode);
 
     private:
-        static ExpressionAnimation CreateExpressionAnimationFromNode(Compositor const& compositor, ExpressionNode& expressionNode);
+        static winrt::ExpressionAnimation CreateExpressionAnimationFromNode(winrt::Compositor const& compositor, ExpressionNode& expressionNode);
     };
 }

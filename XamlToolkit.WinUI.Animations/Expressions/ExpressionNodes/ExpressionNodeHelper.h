@@ -3,10 +3,6 @@
 #include <initializer_list>
 #include "ExpressionNode.h"
 
-#ifdef __INTELLISENSE__
-#include <winrt/Windows.Foundation.h>
-#endif
-
 namespace winrt::XamlToolkit::WinUI::Animations::Expressions
 {
     struct ExpressionNodeHelper final

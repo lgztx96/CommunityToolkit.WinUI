@@ -6,23 +6,25 @@
 #include "../ExpressionForward.h"
 
 #ifdef __INTELLISENSE__
-#include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.Foundation.Numerics.h>
 #endif
 
-namespace winrt::XamlToolkit::WinUI::Animations::Expressions
+namespace winrt
 {
     using namespace Windows::Foundation::Numerics;
+}
 
+namespace winrt::XamlToolkit::WinUI::Animations::Expressions
+{
     class Matrix3x2Node final : public ExpressionNodeBase<Matrix3x2Node>
     {
     public:
         enum class Subchannel { Channel11, Channel12, Channel21, Channel22, Channel31, Channel32 };
 
         Matrix3x2Node() = default;
-        explicit Matrix3x2Node(float3x2 const& value);
+        explicit Matrix3x2Node(winrt::float3x2 const& value);
         explicit Matrix3x2Node(winrt::hstring const& paramName);
-        Matrix3x2Node(winrt::hstring const& paramName, float3x2 const& value);
+        Matrix3x2Node(winrt::hstring const& paramName, winrt::float3x2 const& value);
 
         ScalarNode Channel11() const;
         ScalarNode Channel12() const;
@@ -43,6 +45,6 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
         winrt::hstring GetValue() const override;
 
     private:
-        float3x2 value{};
+        winrt::float3x2 value{};
     };
 }

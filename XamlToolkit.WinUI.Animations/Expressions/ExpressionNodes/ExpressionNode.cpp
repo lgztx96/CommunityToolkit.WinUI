@@ -11,17 +11,22 @@
 #include "../ReferenceNodes/ReferenceNode.h"
 #include "../../Extensions/System/FloatExtensions.h"
 
+namespace winrt
+{
+    using namespace Windows::UI;
+    using namespace Windows::Foundation;
+    using namespace Windows::Foundation::Numerics;
+    using namespace Microsoft::UI::Composition;
+}
+
 namespace winrt::XamlToolkit::WinUI::Animations::Expressions
 {
-    using namespace Windows::Foundation::Numerics;
-    using namespace Windows::UI::Composition;
-
     void ExpressionNode::AddChild(ExpressionNode const& child)
     {
         Children.push_back(child.Clone());
     }
 
-    void ExpressionNode::SetReferenceParameter(winrt::hstring const& parameterName, CompositionObject const& compObj)
+    void ExpressionNode::SetReferenceParameter(winrt::hstring const& parameterName, winrt::CompositionObject const& compObj)
     {
         EnsureReferenceInfo();
 
@@ -36,13 +41,13 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
 
     void ExpressionNode::SetBooleanParameter(winrt::hstring const& parameterName, bool value) { constantParameters[parameterName] = winrt::box_value(value); }
     void ExpressionNode::SetScalarParameter(winrt::hstring const& parameterName, float value) { constantParameters[parameterName] = winrt::box_value(value); }
-    void ExpressionNode::SetVector2Parameter(winrt::hstring const& parameterName, float2 const& value) { constantParameters[parameterName] = winrt::box_value(value); }
-    void ExpressionNode::SetVector3Parameter(winrt::hstring const& parameterName, float3 const& value) { constantParameters[parameterName] = winrt::box_value(value); }
-    void ExpressionNode::SetVector4Parameter(winrt::hstring const& parameterName, float4 const& value) { constantParameters[parameterName] = winrt::box_value(value); }
-    void ExpressionNode::SetColorParameter(winrt::hstring const& parameterName, Windows::UI::Color const& value) { constantParameters[parameterName] = winrt::box_value(value); }
-    void ExpressionNode::SetQuaternionParameter(winrt::hstring const& parameterName, quaternion const& value) { constantParameters[parameterName] = winrt::box_value(value); }
-    void ExpressionNode::SetMatrix3x2Parameter(winrt::hstring const& parameterName, float3x2 const& value) { constantParameters[parameterName] = winrt::box_value(value); }
-    void ExpressionNode::SetMatrix4x4Parameter(winrt::hstring const& parameterName, float4x4 const& value) { constantParameters[parameterName] = winrt::box_value(value); }
+    void ExpressionNode::SetVector2Parameter(winrt::hstring const& parameterName, winrt::float2 const& value) { constantParameters[parameterName] = winrt::box_value(value); }
+    void ExpressionNode::SetVector3Parameter(winrt::hstring const& parameterName, winrt::float3 const& value) { constantParameters[parameterName] = winrt::box_value(value); }
+    void ExpressionNode::SetVector4Parameter(winrt::hstring const& parameterName, winrt::float4 const& value) { constantParameters[parameterName] = winrt::box_value(value); }
+    void ExpressionNode::SetColorParameter(winrt::hstring const& parameterName, winrt::Color const& value) { constantParameters[parameterName] = winrt::box_value(value); }
+    void ExpressionNode::SetQuaternionParameter(winrt::hstring const& parameterName, winrt::quaternion const& value) { constantParameters[parameterName] = winrt::box_value(value); }
+    void ExpressionNode::SetMatrix3x2Parameter(winrt::hstring const& parameterName, winrt::float3x2 const& value) { constantParameters[parameterName] = winrt::box_value(value); }
+    void ExpressionNode::SetMatrix4x4Parameter(winrt::hstring const& parameterName, winrt::float4x4 const& value) { constantParameters[parameterName] = winrt::box_value(value); }
 
     void ExpressionNode::Dispose()
     {
@@ -88,21 +93,21 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
         }
 
         std::set<ReferenceNode*> referenceNodes;
-        std::map<winrt::hstring, Windows::Foundation::IInspectable, std::less<>> rootParameters = constantParameters;
+        std::map<winrt::hstring, winrt::IInspectable, std::less<>> rootParameters = constantParameters;
         PopulateParameterNodes(rootParameters, referenceNodes);
         constantParameters = std::move(rootParameters);
 
-        std::set<CompositionObject> compositionObjects;
+        std::set<winrt::CompositionObject> compositionObjects;
 
         for (auto* refNode : referenceNodes)
         {
-            if (refNode->Reference != nullptr && !refNode->GetReferenceNodeString().has_value())
+            if (refNode->Reference && !refNode->GetReferenceNodeString().has_value())
             {
                 compositionObjects.insert(refNode->Reference);
             }
         }
 
-        compObjToNodeNameMap = std::map<CompositionObject, winrt::hstring>{};
+        compObjToNodeNameMap = std::map<winrt::CompositionObject, winrt::hstring>{};
         uint32_t paramCount = 0;
 
         for (auto const& compObj : compositionObjects)
@@ -149,7 +154,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
         return winrt::hstring{ characters };
     }
 
-    void ExpressionNode::SetAllParameters(CompositionAnimation const& animation)
+    void ExpressionNode::SetAllParameters(winrt::CompositionAnimation const& animation)
     {
         EnsureReferenceInfo();
 
@@ -160,39 +165,39 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
 
         for (auto const& [key, value] : constantParameters)
         {
-            if (auto boxedBool = value.try_as<winrt::Windows::Foundation::IReference<bool>>())
+            if (auto boxedBool = value.try_as<winrt::IReference<bool>>())
             {
                 animation.SetBooleanParameter(key, boxedBool.Value());
             }
-            else if (auto boxedScalar = value.try_as<winrt::Windows::Foundation::IReference<float>>())
+            else if (auto boxedScalar = value.try_as<winrt::IReference<float>>())
             {
                 animation.SetScalarParameter(key, boxedScalar.Value());
             }
-            else if (auto boxedVector2 = value.try_as<winrt::Windows::Foundation::IReference<float2>>())
+            else if (auto boxedVector2 = value.try_as<winrt::IReference<winrt::float2>>())
             {
                 animation.SetVector2Parameter(key, boxedVector2.Value());
             }
-            else if (auto boxedVector3 = value.try_as<winrt::Windows::Foundation::IReference<float3>>())
+            else if (auto boxedVector3 = value.try_as<winrt::IReference<winrt::float3>>())
             {
                 animation.SetVector3Parameter(key, boxedVector3.Value());
             }
-            else if (auto boxedVector4 = value.try_as<winrt::Windows::Foundation::IReference<float4>>())
+            else if (auto boxedVector4 = value.try_as<winrt::IReference<winrt::float4>>())
             {
                 animation.SetVector4Parameter(key, boxedVector4.Value());
             }
-            else if (auto boxedColor = value.try_as<winrt::Windows::Foundation::IReference<Windows::UI::Color>>())
+            else if (auto boxedColor = value.try_as<winrt::IReference<winrt::Color>>())
             {
                 animation.SetColorParameter(key, boxedColor.Value());
             }
-            else if (auto boxedQuaternion = value.try_as<winrt::Windows::Foundation::IReference<quaternion>>())
+            else if (auto boxedQuaternion = value.try_as<winrt::IReference<winrt::quaternion>>())
             {
                 animation.SetQuaternionParameter(key, boxedQuaternion.Value());
             }
-            else if (auto boxedMatrix3x2 = value.try_as<winrt::Windows::Foundation::IReference<float3x2>>())
+            else if (auto boxedMatrix3x2 = value.try_as<winrt::IReference<winrt::float3x2>>())
             {
                 animation.SetMatrix3x2Parameter(key, boxedMatrix3x2.Value());
             }
-            else if (auto boxedMatrix4x4 = value.try_as<winrt::Windows::Foundation::IReference<float4x4>>())
+            else if (auto boxedMatrix4x4 = value.try_as<winrt::IReference<winrt::float4x4>>())
             {
                 animation.SetMatrix4x4Parameter(key, boxedMatrix4x4.Value());
             }
@@ -204,7 +209,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
     }
 
     void ExpressionNode::PopulateParameterNodes(
-        std::map<winrt::hstring, Windows::Foundation::IInspectable, std::less<>>& constParamMap,
+        std::map<winrt::hstring, winrt::IInspectable, std::less<>>& constParamMap,
         std::set<ReferenceNode*>& referenceNodes)
     {
         if (auto* refNode = dynamic_cast<ReferenceNode*>(this))

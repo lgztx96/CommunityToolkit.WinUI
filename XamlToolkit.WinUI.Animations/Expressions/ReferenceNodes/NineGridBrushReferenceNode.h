@@ -7,7 +7,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
     class NineGridBrushReferenceNode final : public ReferenceNodeBase<NineGridBrushReferenceNode>
     {
     public:
-        NineGridBrushReferenceNode(std::optional<winrt::hstring> paramName = std::nullopt, Windows::UI::Composition::CompositionNineGridBrush const& brush = nullptr) : ReferenceNodeBase(paramName, brush) {}
+        NineGridBrushReferenceNode(std::optional<winrt::hstring> paramName = std::nullopt, winrt::Microsoft::UI::Composition::CompositionNineGridBrush const& brush = nullptr) : ReferenceNodeBase(paramName, brush) {}
         static NineGridBrushReferenceNode CreateTargetReference() { NineGridBrushReferenceNode node; node.NodeType = ExpressionNodeType::TargetReference; return node; }
         ScalarNode BottomInset() const { return ReferenceProperty<ScalarNode>(L"BottomInset"); }
         ScalarNode BottomInsetScale() const { return ReferenceProperty<ScalarNode>(L"BottomInsetScale"); }

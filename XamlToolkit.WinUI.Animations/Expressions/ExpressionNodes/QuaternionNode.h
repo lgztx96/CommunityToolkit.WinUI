@@ -5,14 +5,16 @@
 #include "../../Extensions/System/FloatExtensions.h"
 
 #ifdef __INTELLISENSE__
-#include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.Foundation.Numerics.h>
 #endif
 
-namespace winrt::XamlToolkit::WinUI::Animations::Expressions
+namespace winrt
 {
     using namespace Windows::Foundation::Numerics;
+}
 
+namespace winrt::XamlToolkit::WinUI::Animations::Expressions
+{
     class QuaternionNode final : public ExpressionNodeBase<QuaternionNode>
     {
     public:
@@ -50,6 +52,6 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
         }
 
     private:
-        quaternion value{};
+        winrt::quaternion value{};
     };
 }

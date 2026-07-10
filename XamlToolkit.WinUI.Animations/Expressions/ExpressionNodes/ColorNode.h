@@ -15,7 +15,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
     public:
         ColorNode() = default;
 
-        explicit ColorNode(Windows::UI::Color const& value)
+        explicit ColorNode(winrt::Windows::UI::Color const& value)
             : value(value)
         {
             NodeType = ExpressionNodeType::ConstantValue;
@@ -27,7 +27,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
             NodeType = ExpressionNodeType::ConstantParameter;
         }
 
-        ColorNode(winrt::hstring const& paramName, Windows::UI::Color const& value)
+        ColorNode(winrt::hstring const& paramName, winrt::Windows::UI::Color const& value)
             : value(value)
         {
             ParamName = paramName;
@@ -42,6 +42,6 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
         }
 
     private:
-        Windows::UI::Color value{};
+        winrt::Windows::UI::Color value{};
     };
 }

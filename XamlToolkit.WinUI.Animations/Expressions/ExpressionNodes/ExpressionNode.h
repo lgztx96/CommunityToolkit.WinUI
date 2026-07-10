@@ -18,15 +18,20 @@
 #include <functional>
 #endif
 
+namespace winrt
+{
+    using namespace Windows::UI;
+    using namespace Windows::Foundation;
+    using namespace Windows::Foundation::Numerics;
+    using namespace Microsoft::UI::Composition;
+}
+
 namespace winrt::XamlToolkit::WinUI::Animations::Expressions
 {
-    using namespace Windows::Foundation::Numerics;
-    using namespace Windows::UI::Composition;
-
     struct ReferenceInfo
     {
         winrt::hstring ParameterName;
-        CompositionObject CompObject{ nullptr };
+        winrt::CompositionObject CompObject{ nullptr };
     };
 
     /// <summary>
@@ -76,35 +81,35 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
 
         void AddChild(ExpressionNode const& child);
 
-        void SetReferenceParameter(winrt::hstring const& parameterName, CompositionObject const& compObj);
+        void SetReferenceParameter(winrt::hstring const& parameterName, winrt::CompositionObject const& compObj);
         void SetBooleanParameter(winrt::hstring const& parameterName, bool value);
         void SetScalarParameter(winrt::hstring const& parameterName, float value);
-        void SetVector2Parameter(winrt::hstring const& parameterName, float2 const& value);
-        void SetVector3Parameter(winrt::hstring const& parameterName, float3 const& value);
-        void SetVector4Parameter(winrt::hstring const& parameterName, float4 const& value);
-        void SetColorParameter(winrt::hstring const& parameterName, Windows::UI::Color const& value);
-        void SetQuaternionParameter(winrt::hstring const& parameterName, quaternion const& value);
-        void SetMatrix3x2Parameter(winrt::hstring const& parameterName, float3x2 const& value);
-        void SetMatrix4x4Parameter(winrt::hstring const& parameterName, float4x4 const& value);
+        void SetVector2Parameter(winrt::hstring const& parameterName, winrt::float2 const& value);
+        void SetVector3Parameter(winrt::hstring const& parameterName, winrt::float3 const& value);
+        void SetVector4Parameter(winrt::hstring const& parameterName, winrt::float4 const& value);
+        void SetColorParameter(winrt::hstring const& parameterName, winrt::Color const& value);
+        void SetQuaternionParameter(winrt::hstring const& parameterName, winrt::quaternion const& value);
+        void SetMatrix3x2Parameter(winrt::hstring const& parameterName, winrt::float3x2 const& value);
+        void SetMatrix4x4Parameter(winrt::hstring const& parameterName, winrt::float4x4 const& value);
 
         void Dispose();
         winrt::hstring ToExpressionString();
         void ClearReferenceInfo();
         void EnsureReferenceInfo();
-        void SetAllParameters(CompositionAnimation const& animation);
+        void SetAllParameters(winrt::CompositionAnimation const& animation);
 
         std::optional<winrt::hstring> PropertyName;
         ExpressionNodeType NodeType{ ExpressionNodeType::Count };
         std::vector<std::shared_ptr<ExpressionNode>> Children;
         std::optional<winrt::hstring> ParamName;
         std::optional<winrt::hstring> NodeName;
-        ExpressionAnimation ExpressionAnimation{ nullptr };
+        winrt::ExpressionAnimation ExpressionAnimation{ nullptr };
         std::vector<winrt::hstring> Subchannels;
 
     protected:
         virtual winrt::hstring GetValue() const = 0;
         void PopulateParameterNodes(
-            std::map<winrt::hstring, Windows::Foundation::IInspectable, std::less<>>& constParamMap,
+            std::map<winrt::hstring, winrt::IInspectable, std::less<>>& constParamMap,
             std::set<ReferenceNode*>& referenceNodes);
 
     private:
@@ -112,8 +117,8 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
         winrt::hstring ToExpressionStringInternal();
 
         std::optional<std::vector<ReferenceInfo>> referenceInfo;
-        std::optional<std::map<CompositionObject, winrt::hstring>> compObjToNodeNameMap;
-        std::map<winrt::hstring, Windows::Foundation::IInspectable, std::less<>> constantParameters;
+        std::optional<std::map<winrt::CompositionObject, winrt::hstring>> compObjToNodeNameMap;
+        std::map<winrt::hstring, winrt::IInspectable, std::less<>> constantParameters;
     };
 
     template<typename TDerived>
