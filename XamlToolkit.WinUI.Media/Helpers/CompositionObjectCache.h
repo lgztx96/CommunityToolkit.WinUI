@@ -9,14 +9,14 @@
 #include <memory>
 #include <mutex>
 #include <functional>
-#endif
-
+#else
 import std;
 import winrt.Microsoft.UI.Composition;
+#endif
 
 namespace winrt
 {
-	using namespace Microsoft::UI::Composition;
+	using namespace winrt::Microsoft::UI::Composition;
 }
 
 namespace winrt::XamlToolkit::WinUI::Media::Helpers

@@ -7,25 +7,43 @@
 #include "CompositionObjectCache.h"
 #include "../XamlToolkit.WinUI/common.h"
 #ifdef __INTELLISENSE__
+#include <winrt/Windows.UI.h>
 #include <winrt/Microsoft.UI.Composition.h>
 #include <winrt/Microsoft.Graphics.Canvas.h>
+#include <winrt/Microsoft.Graphics.DirectX.h>
+#include <winrt/Microsoft.Graphics.Canvas.Text.h>
 #include <winrt/Microsoft.Graphics.Canvas.UI.Composition.h>
-#include <winrt/Windows.Graphics.Display.h>
 #include <winrt/Microsoft.UI.Xaml.Hosting.h>
-#include <winrt/Windows.Foundation.h>
-#include <winrt/Windows.Storage.Streams.h>
 #include <winrt/XamlToolkit.WinUI.Media.h>
 #include <mutex>
 #include <memory>
 #include <functional>
-#endif
-
-import winrt.XamlToolkit.WinUI.Media;
-import winrt.Windows.Foundation;
+#else
 import winrt.Windows.UI;
+import winrt.Windows.Foundation;
+import winrt.Windows.Foundation.Numerics;
+import winrt.Microsoft.UI.Xaml;
+import winrt.Microsoft.UI.Xaml.Hosting;
 import winrt.Microsoft.UI.Composition;
 import winrt.Microsoft.Graphics.Canvas;
+import winrt.Microsoft.Graphics.DirectX;
 import winrt.Microsoft.Graphics.Canvas.Text;
+import winrt.Microsoft.Graphics.Canvas.UI.Composition;
+import winrt.XamlToolkit.WinUI.Media;
+#endif
+
+namespace winrt
+{
+    using namespace winrt::Windows::Foundation;
+    using namespace winrt::Windows::Foundation::Numerics;
+    using namespace winrt::Microsoft::UI::Xaml;
+    using namespace winrt::Microsoft::UI::Composition;
+    using namespace winrt::Microsoft::UI::Xaml::Hosting;
+    using namespace winrt::Microsoft::Graphics::Canvas;
+    using namespace winrt::Microsoft::Graphics::DirectX;
+    using namespace winrt::Microsoft::Graphics::Canvas::Text;
+    using namespace winrt::Microsoft::Graphics::Canvas::UI::Composition;
+}
 
 namespace winrt::XamlToolkit::WinUI::Media::Helpers
 {
@@ -44,22 +62,22 @@ namespace winrt::XamlToolkit::WinUI::Media::Helpers
         /// <summary>
         /// Gets a SurfaceLoader instance for a given compositor.
         /// </summary>
-        static std::shared_ptr<SurfaceLoader> GetInstance(winrt::Microsoft::UI::Composition::Compositor const& compositor);
+        static std::shared_ptr<SurfaceLoader> GetInstance(winrt::Compositor const& compositor);
 
         /// <summary>
         /// Loads a CompositionBrush instance with the target image.
         /// </summary>
-        static winrt::Windows::Foundation::IAsyncOperation<winrt::Microsoft::UI::Composition::CompositionBrush> LoadImageAsync(
-            winrt::Windows::Foundation::Uri uri,
+        static winrt::IAsyncOperation<winrt::CompositionBrush> LoadImageAsync(
+            winrt::Uri uri,
             Media::DpiMode dpiMode,
             Media::CacheMode cacheMode = Media::CacheMode::Default);
 
         /// <summary>
         /// Loads a CompositionDrawingSurface from URI.
         /// </summary>
-        winrt::Windows::Foundation::IAsyncOperation<winrt::Microsoft::UI::Composition::CompositionDrawingSurface> LoadFromUri(
-            winrt::Windows::Foundation::Uri const& uri,
-            winrt::Windows::Foundation::Size sizeTarget = {});
+        winrt::IAsyncOperation<winrt::CompositionDrawingSurface> LoadFromUri(
+            winrt::Uri const& uri,
+            winrt::Size sizeTarget = {});
 
         /// <summary>
         /// Loads the text on to a <see cref="CompositionDrawingSurface"/>.
@@ -70,27 +88,27 @@ namespace winrt::XamlToolkit::WinUI::Media::Helpers
         /// <param name="textColor">Color of the text.</param>
         /// <param name="bgColor">Color of the bg.</param>
         /// <returns><see cref="CompositionDrawingSurface"/></returns>
-        winrt::Microsoft::UI::Composition::CompositionDrawingSurface LoadText(
+        winrt::CompositionDrawingSurface LoadText(
             winrt::hstring const& text,
-            winrt::Windows::Foundation::Size sizeTarget,
-            winrt::Microsoft::Graphics::Canvas::Text::CanvasTextFormat const& textFormat,
+            winrt::Size sizeTarget,
+            winrt::CanvasTextFormat const& textFormat,
             winrt::Windows::UI::Color const& textColor,
             winrt::Windows::UI::Color const& bgColor);
 
         /// <summary>
         /// Gets the canvas device for this instance.
         /// </summary>
-        winrt::Microsoft::Graphics::Canvas::CanvasDevice CanvasDevice() const { return _canvasDevice; }
+        winrt::CanvasDevice CanvasDevice() const { return _canvasDevice; }
 
         /// <summary>
         /// Gets the composition graphics device for this instance.
         /// </summary>
-        winrt::Microsoft::UI::Composition::CompositionGraphicsDevice CompositionDevice() const { return _compositionDevice; }
+        winrt::CompositionGraphicsDevice CompositionDevice() const { return _compositionDevice; }
 
     private:
         SurfaceLoader() = default;
 
-		SurfaceLoader(winrt::Microsoft::UI::Composition::Compositor const& compositor)
+		SurfaceLoader(winrt::Compositor const& compositor)
 		{
 			_compositor = compositor;
             InitializeDevices();
@@ -98,27 +116,27 @@ namespace winrt::XamlToolkit::WinUI::Media::Helpers
 
         void InitializeDevices();
 
-        void CanvasDevice_DeviceLost(winrt::Microsoft::Graphics::Canvas::CanvasDevice const& sender, winrt::Windows::Foundation::IInspectable const& args);
+        void CanvasDevice_DeviceLost(winrt::CanvasDevice const& sender, winrt::IInspectable const& args);
 
-        void CompositionDevice_RenderingDeviceReplaced(winrt::Microsoft::UI::Composition::CompositionGraphicsDevice const& sender, winrt::Microsoft::UI::Composition::RenderingDeviceReplacedEventArgs const& args);
+        void CompositionDevice_RenderingDeviceReplaced(winrt::CompositionGraphicsDevice const& sender, winrt::RenderingDeviceReplacedEventArgs const& args);
 
-        winrt::Microsoft::UI::Composition::Compositor _compositor{ nullptr };
-        winrt::Microsoft::Graphics::Canvas::CanvasDevice _canvasDevice{ nullptr };
-        winrt::Microsoft::UI::Composition::CompositionGraphicsDevice _compositionDevice{ nullptr };
+        winrt::Compositor _compositor{ nullptr };
+        winrt::CanvasDevice _canvasDevice{ nullptr };
+        winrt::CompositionGraphicsDevice _compositionDevice{ nullptr };
 
-		winrt::Microsoft::Graphics::Canvas::CanvasDevice::DeviceLost_revoker _deviceLostRevoker;
-		winrt::Microsoft::UI::Composition::CompositionGraphicsDevice::RenderingDeviceReplaced_revoker _deviceReplacedRevoker;
+		winrt::CanvasDevice::DeviceLost_revoker _deviceLostRevoker;
+		winrt::CompositionGraphicsDevice::RenderingDeviceReplaced_revoker _deviceReplacedRevoker;
 
         static inline std::mutex _instanceMutex;
-        static inline std::map<winrt::Microsoft::UI::Composition::Compositor, std::shared_ptr<SurfaceLoader>> Instances;
+        static inline std::map<winrt::Compositor, std::shared_ptr<SurfaceLoader>> Instances;
 
         static inline winrt::async_mutex _win2dMutex;
-        static inline CompositionObjectCacheWithKey<winrt::Windows::Foundation::Uri, winrt::Microsoft::UI::Composition::CompositionBrush> Cache;
+        static inline CompositionObjectCacheWithKey<winrt::Uri, winrt::CompositionBrush> Cache;
 
-        static winrt::Windows::Foundation::IAsyncOperation<winrt::Microsoft::UI::Composition::CompositionBrush> LoadSurfaceBrushAsync(
-            winrt::Microsoft::Graphics::Canvas::CanvasDevice const& canvasDevice,
-            winrt::Microsoft::UI::Composition::Compositor const& compositor,
-            winrt::Windows::Foundation::Uri const& uri,
+        static winrt::IAsyncOperation<winrt::CompositionBrush> LoadSurfaceBrushAsync(
+            winrt::CanvasDevice const& canvasDevice,
+            winrt::Compositor const& compositor,
+            winrt::Uri const& uri,
             Media::DpiMode dpiMode);
     };
 }
