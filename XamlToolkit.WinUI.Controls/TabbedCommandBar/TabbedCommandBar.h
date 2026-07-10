@@ -23,29 +23,28 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
 	struct TabbedCommandBar : TabbedCommandBarT<TabbedCommandBar>
 	{
-	private:
 		static constexpr auto ContentPartName = L"PART_TabbedCommandBarContent";
 		static constexpr auto ContentBorderPartName = L"PART_TabbedCommandBarContentBorder";
 		static constexpr auto TabChangedStoryboardPartName = L"TabChangedStoryboard";
 
-		ContentControl _tabbedCommandBarContent{ nullptr };
-		Border _tabbedCommandBarContentBorder{ nullptr };
-		Storyboard _tabChangedStoryboard{ nullptr };
-
-		winrt::XamlToolkit::WinUI::Controls::TabbedCommandBarItem _previousSelectedItem{ nullptr };
-		int64_t _visibilityChangedToken;
-
-	public:
 		TabbedCommandBar();
 
 		void OnApplyTemplate();
 
 	private:
-		void TabbedCommandBar_Loaded(IInspectable const& sender, RoutedEventArgs const& e);
+		void TabbedCommandBar_Loaded(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
 
-		void SelectedItemChanged(NavigationView const& sender, NavigationViewSelectionChangedEventArgs const& args);
+		void SelectedItemChanged(winrt::NavigationView const& sender, winrt::NavigationViewSelectionChangedEventArgs const& args);
 
-		void SelectedItemVisibilityChanged(DependencyObject const& sender, DependencyProperty const& dp);
+		void SelectedItemVisibilityChanged(winrt::DependencyObject const& sender, winrt::DependencyProperty const& dp);
+
+	private:
+		winrt::ContentControl _tabbedCommandBarContent{ nullptr };
+		winrt::Border _tabbedCommandBarContentBorder{ nullptr };
+		winrt::Storyboard _tabChangedStoryboard{ nullptr };
+
+		winrt::XamlToolkit::WinUI::Controls::TabbedCommandBarItem _previousSelectedItem{ nullptr };
+		int64_t _visibilityChangedToken;
 	};
 }
 

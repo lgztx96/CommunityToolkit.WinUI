@@ -7,20 +7,17 @@
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-	DataTemplate TabbedCommandBarItemTemplateSelector::SelectTemplateCore(IInspectable const& item)
+	winrt::DataTemplate TabbedCommandBarItemTemplateSelector::SelectTemplateCore(winrt::IInspectable const& item) const
 	{
-		if (auto t = item.try_as<winrt::XamlToolkit::WinUI::Controls::TabbedCommandBarItem>()) 
+		if (auto t = item.try_as<winrt::XamlToolkit::WinUI::Controls::TabbedCommandBarItem>(); t && t.IsContextual())
 		{
-			if (t.IsContextual())
-			{
-				return Contextual();
-			}
+			return Contextual();
 		}
 
 		return Normal();
 	}
 
-	DataTemplate TabbedCommandBarItemTemplateSelector::SelectTemplateCore(IInspectable const& item, [[maybe_unused]] DependencyObject const& container)
+	winrt::DataTemplate TabbedCommandBarItemTemplateSelector::SelectTemplateCore(winrt::IInspectable const& item, [[maybe_unused]] winrt::DependencyObject const& container)
 	{
 		return SelectTemplateCore(item);
 	}

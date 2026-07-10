@@ -10,39 +10,52 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	TabbedCommandBarItem::TabbedCommandBarItem()
 	{
 		DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
-		DefaultStyleResourceUri(Uri(L"ms-appx:///XamlToolkit.WinUI.Controls/Themes/Generic.xaml"));
+		DefaultStyleResourceUri(winrt::Uri(L"ms-appx:///XamlToolkit.WinUI.Controls/Themes/Generic.xaml"));
 	}
 
 	void TabbedCommandBarItem::OnApplyTemplate()
 	{
 		base_type::OnApplyTemplate();
 
-		_primaryItemsControl = GetTemplateChild(PrimaryItemsControlPartName).try_as<ItemsControl>();
+		if (_commandAlignmentChangedToken)
+		{
+			UnregisterPropertyChangedCallback(CommandAlignmentProperty(), _commandAlignmentChangedToken);
+			_commandAlignmentChangedToken = 0;
+		}
+
+		_primaryItemsControl = GetTemplateChild(PrimaryItemsControlPartName).try_as<winrt::ItemsControl>();
 		if (_primaryItemsControl)
 		{
 			_primaryItemsControl.HorizontalAlignment(CommandAlignment());
-			RegisterPropertyChangedCallback(CommandAlignmentProperty, [](auto const& sender, auto const& dp)
+
+			_commandAlignmentChangedToken = RegisterPropertyChangedCallback(CommandAlignmentProperty(), [](auto const& sender, auto const& dp)
+			{
+				if (auto item = sender.template try_as<class_type>())
 				{
-					if (auto item = sender.template try_as<class_type>())
-					{
-						auto self = winrt::get_self<TabbedCommandBarItem>(item)->get_strong();
-						self->_primaryItemsControl.HorizontalAlignment(winrt::unbox_value<enum HorizontalAlignment>(sender.GetValue(dp)));
-					}
-				});
+					auto self = winrt::get_self<TabbedCommandBarItem>(item)->get_strong();
+					self->_primaryItemsControl.HorizontalAlignment(winrt::unbox_value<winrt::HorizontalAlignment>(sender.GetValue(dp)));
+				}
+			});
 		}
 
-		_moreButton = GetTemplateChild(MoreButtonPartName).try_as<Button>();
+		if (_overflowAlignmentChangedToken)
+		{
+			UnregisterPropertyChangedCallback(OverflowButtonAlignmentProperty(), _overflowAlignmentChangedToken);
+			_overflowAlignmentChangedToken = 0;
+		}
+
+		_moreButton = GetTemplateChild(MoreButtonPartName).try_as<winrt::Button>();
 		if (_moreButton)
 		{
 			_moreButton.HorizontalAlignment(OverflowButtonAlignment());
-			RegisterPropertyChangedCallback(OverflowButtonAlignmentProperty, [](auto const& sender, auto const& dp)
+			_overflowAlignmentChangedToken = RegisterPropertyChangedCallback(OverflowButtonAlignmentProperty(), [](auto const& sender, auto const& dp)
+			{
+				if (auto item = sender.template try_as<class_type>())
 				{
-					if (auto item = sender.template try_as<class_type>())
-					{
-						auto self = winrt::get_self<TabbedCommandBarItem>(item)->get_strong();
-						self->_moreButton.HorizontalAlignment(winrt::unbox_value<enum HorizontalAlignment>(sender.GetValue(dp)));
-					}
-				});
+					auto self = winrt::get_self<TabbedCommandBarItem>(item)->get_strong();
+					self->_moreButton.HorizontalAlignment(winrt::unbox_value<winrt::HorizontalAlignment>(sender.GetValue(dp)));
+				}
+			});
 		}
 	}
 }

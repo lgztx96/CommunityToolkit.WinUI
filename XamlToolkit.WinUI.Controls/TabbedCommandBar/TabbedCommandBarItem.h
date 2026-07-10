@@ -21,88 +21,88 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
 	struct TabbedCommandBarItem : TabbedCommandBarItemT<TabbedCommandBarItem>
 	{
-	private:
 		static constexpr auto PrimaryItemsControlPartName = L"PrimaryItemsControl";
 		static constexpr auto MoreButtonPartName = L"MoreButton";
 
-		ItemsControl _primaryItemsControl{ nullptr };
-		Button _moreButton{ nullptr };
-
-	public:
 		TabbedCommandBarItem();
 
 		void OnApplyTemplate();
 
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> HeaderProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> HeaderProperty =
+			winrt::DependencyProperty::Register(
 				L"Header",
 				winrt::xaml_typename<winrt::Windows::Foundation::IInspectable>(),
 				winrt::xaml_typename<class_type>(),
-				winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(L"") }
+				winrt::PropertyMetadata{ winrt::box_value(L"") }
 			);
 
-		IInspectable Header()
+		winrt::IInspectable Header() const
 		{
-			return GetValue(HeaderProperty).try_as<IInspectable>();
+			return GetValue(HeaderProperty()).try_as<winrt::IInspectable>();
 		}
 
-		void Header(IInspectable const& value) {
-			SetValue(HeaderProperty, value);
+		void Header(winrt::IInspectable const& value) 
+		{
+			SetValue(HeaderProperty(), value);
 		}
 
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> IsContextualProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> IsContextualProperty =
+			winrt::DependencyProperty::Register(
 				L"IsContextual",
 				winrt::xaml_typename<bool>(),
 				winrt::xaml_typename<class_type>(),
-				winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(false) }
-			);
+				winrt::PropertyMetadata{ winrt::box_value(false) });
 
-		bool IsContextual()
+		bool IsContextual() const
 		{
-			return winrt::unbox_value<bool>(GetValue(IsContextualProperty));
+			return winrt::unbox_value<bool>(GetValue(IsContextualProperty()));
 		}
 
 		void IsContextual(bool const& value)
 		{
-			SetValue(IsContextualProperty, winrt::box_value(value));
+			SetValue(IsContextualProperty(), winrt::box_value(value));
 		}
 
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> OverflowButtonAlignmentProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> OverflowButtonAlignmentProperty =
+			winrt::DependencyProperty::Register(
 				L"OverflowButtonAlignment",
-				winrt::xaml_typename<winrt::Microsoft::UI::Xaml::HorizontalAlignment>(),
+				winrt::xaml_typename<winrt::HorizontalAlignment>(),
 				winrt::xaml_typename<class_type>(),
-				winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(winrt::Microsoft::UI::Xaml::HorizontalAlignment::Left) }
-			);
+				winrt::PropertyMetadata{ winrt::box_value(winrt::HorizontalAlignment::Left) });
 
-		winrt::Microsoft::UI::Xaml::HorizontalAlignment OverflowButtonAlignment()
+		winrt::HorizontalAlignment OverflowButtonAlignment() const
 		{
-			return winrt::unbox_value<winrt::Microsoft::UI::Xaml::HorizontalAlignment>(GetValue(OverflowButtonAlignmentProperty));
+			return winrt::unbox_value<winrt::HorizontalAlignment>(GetValue(OverflowButtonAlignmentProperty()));
 		}
 
-		void OverflowButtonAlignment(winrt::Microsoft::UI::Xaml::HorizontalAlignment const& value)
+		void OverflowButtonAlignment(winrt::HorizontalAlignment const& value)
 		{
-			SetValue(OverflowButtonAlignmentProperty, winrt::box_value(value));
+			SetValue(OverflowButtonAlignmentProperty(), winrt::box_value(value));
 		}
 
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> CommandAlignmentProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> CommandAlignmentProperty =
+			winrt::DependencyProperty::Register(
 				L"CommandAlignment",
-				winrt::xaml_typename<winrt::Microsoft::UI::Xaml::HorizontalAlignment>(),
+				winrt::xaml_typename<winrt::HorizontalAlignment>(),
 				winrt::xaml_typename<class_type>(),
-				winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(winrt::Microsoft::UI::Xaml::HorizontalAlignment::Stretch) }
-			);
+				winrt::PropertyMetadata{ winrt::box_value(winrt::HorizontalAlignment::Stretch) });
 
-		winrt::Microsoft::UI::Xaml::HorizontalAlignment CommandAlignment()
+		winrt::HorizontalAlignment CommandAlignment() const
 		{
-			return winrt::unbox_value<winrt::Microsoft::UI::Xaml::HorizontalAlignment>(GetValue(CommandAlignmentProperty));
+			return winrt::unbox_value<winrt::HorizontalAlignment>(GetValue(CommandAlignmentProperty()));
 		}
 
-		void CommandAlignment(winrt::Microsoft::UI::Xaml::HorizontalAlignment const& value)
+		void CommandAlignment(winrt::HorizontalAlignment const& value)
 		{
-			SetValue(CommandAlignmentProperty, winrt::box_value(value));
+			SetValue(CommandAlignmentProperty(), winrt::box_value(value));
 		}
+
+	private:
+		winrt::ItemsControl _primaryItemsControl{ nullptr };
+		winrt::Button _moreButton{ nullptr };
+
+		int64_t _commandAlignmentChangedToken{ 0 };
+		int64_t _overflowAlignmentChangedToken{ 0 };
 	};
 }
 
