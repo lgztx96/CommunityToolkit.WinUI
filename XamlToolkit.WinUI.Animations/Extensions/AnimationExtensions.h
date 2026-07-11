@@ -6,6 +6,8 @@
 #ifdef __INTELLISENSE__
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.Foundation.Numerics.h>
+#include <winrt/XamlToolkit.WinUI.Animations.h>
+#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
 #include <chrono>
 #include <string_view>
 #include <tuple>
@@ -17,6 +19,7 @@ namespace winrt
 {
     using namespace Windows::Foundation;
     using namespace Windows::Foundation::Numerics;
+	using namespace Microsoft::UI::Xaml::Media::Animation;
 }
 
 namespace winrt::XamlToolkit::WinUI::Animations
@@ -64,7 +67,8 @@ namespace winrt::XamlToolkit::WinUI::Animations
 			}
 		};
 
-		static inline const std::unordered_map<EasingKey, EasingValue, EasingKeyHash> EasingMaps = {
+		static inline const std::unordered_map<EasingKey, EasingValue, EasingKeyHash> EasingMaps =
+		{
 			// The default/inout combination is missing, as in this case we just skip creating
 			// an easing function entirely, and rely on the composition APIs using the implicit
 			// easing automatically. This is a bit more efficient, and results in the same
@@ -554,7 +558,6 @@ namespace winrt::XamlToolkit::WinUI::Animations
 			/// Throws a new <see cref="ArgumentException"/> with a given message.
 			/// </summary>
 		private:
-
 			template<typename T = winrt::hstring>
 			static inline T ThrowArgumentException(winrt::hstring const& message)
 			{

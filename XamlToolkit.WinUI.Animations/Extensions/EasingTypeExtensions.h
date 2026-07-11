@@ -2,6 +2,7 @@
 #include "../Extensions/AnimationExtensions.h"
 
 #ifdef __INTELLISENSE__
+#include <winrt/XamlToolkit.WinUI.Animations.h>
 #include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
 #else
 import winrt.Microsoft.UI.Xaml.Media.Animation;

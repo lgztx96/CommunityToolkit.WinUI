@@ -6,6 +6,7 @@
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.Foundation.Numerics.h>
 #include <winrt/Microsoft.UI.Composition.h>
+#include <winrt/XamlToolkit.WinUI.Animations.h>
 #endif
 
 namespace winrt

@@ -5,7 +5,14 @@
 
 #ifdef __INTELLISENSE__
 #include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
 #endif
+
+namespace winrt 
+{
+    using namespace Windows::Foundation;
+    using namespace Microsoft::UI::Xaml::Media::Animation;
+}
 
 namespace winrt::XamlToolkit::WinUI::Animations
 {
@@ -31,7 +38,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
             int progress,
             T const& value,
             EasingType easingType = AnimationExtensions::DefaultEasingType(),
-            EasingMode easingMode = AnimationExtensions::DefaultEasingMode())
+            winrt::EasingMode easingMode = AnimationExtensions::DefaultEasingMode())
         {
             return builder.KeyFrame(winrt::TimeSpan{ static_cast<int64_t>(progress) * 10000 }, value, easingType, easingMode);
         }
