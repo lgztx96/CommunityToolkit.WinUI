@@ -11,6 +11,7 @@
 namespace winrt
 {
     using namespace Windows::Foundation::Numerics;
+    using namespace XamlToolkit::WinUI::Animations;
 }
 
 namespace winrt::XamlToolkit::WinUI::Animations::Expressions
@@ -45,10 +46,10 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
         {
             return winrt::format(
                 L"Quaternion({},{},{},{})",
-                winrt::XamlToolkit::WinUI::Animations::FloatExtensions::ToCompositionString(value.x),
-                winrt::XamlToolkit::WinUI::Animations::FloatExtensions::ToCompositionString(value.y),
-                winrt::XamlToolkit::WinUI::Animations::FloatExtensions::ToCompositionString(value.z),
-                winrt::XamlToolkit::WinUI::Animations::FloatExtensions::ToCompositionString(value.w));
+                winrt::FloatExtensions::ToCompositionString(value.x),
+                winrt::FloatExtensions::ToCompositionString(value.y),
+                winrt::FloatExtensions::ToCompositionString(value.z),
+                winrt::FloatExtensions::ToCompositionString(value.w));
         }
 
     private:

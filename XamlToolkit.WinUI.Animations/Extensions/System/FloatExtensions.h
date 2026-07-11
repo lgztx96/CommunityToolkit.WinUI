@@ -1,12 +1,11 @@
 #pragma once
 
 #ifdef __INTELLISENSE__
-#include <cmath>
-#include <sstream>
+#include <array>
+#include <charconv>
+#include <format>
 #include <string>
 #endif
-
-#include <iomanip>
 
 namespace winrt::XamlToolkit::WinUI::Animations
 {
@@ -21,50 +20,18 @@ namespace winrt::XamlToolkit::WinUI::Animations
         /// </summary>
         /// <param name="number">The input <see cref="float"/> to process</param>
         /// <returns>A <see cref="string"/> representation of <paramref name="number"/> that can be used in a expression animation</returns>
-        static std::wstring ToCompositionString(float number)
+        static winrt::hstring ToCompositionString(float number)
         {
-            std::wostringstream ss;
-            ss << std::fixed << number;
+            std::array<char, 64> buf;
 
-            std::wstring result = ss.str();
+            auto [ptr, ec] = std::to_chars(buf.data(), buf.data() + buf.size(), number, std::chars_format::fixed);
 
-            // Check if scientific notation would be used
-            double absNumber = std::abs(number);
-            if (absNumber >= 1e6 || (absNumber < 1e-4 && absNumber > 0))
+            if (ec != std::errc{})
             {
-                // For very large or very small numbers, use fixed notation
-                ss.str(L"");
-                ss.clear();
-                if (absNumber >= 1e6)
-                {
-                    ss << std::fixed << std::setprecision(0) << number;
-                }
-                else
-                {
-                    // For very small numbers, use enough decimal places
-                    int decimalPlaces = static_cast<int>(-std::log10(absNumber)) + 6;
-                    ss << std::fixed << std::setprecision(decimalPlaces) << number;
-                }
-                result = ss.str();
+                throw std::runtime_error(std::format("std::to_chars failed for value {}", number));
             }
 
-            // Remove trailing zeros after decimal point
-            size_t dotPos = result.find(L'.');
-            if (dotPos != std::wstring::npos)
-            {
-                size_t lastNonZero = result.find_last_not_of(L'0');
-                if (lastNonZero != std::wstring::npos && lastNonZero > dotPos)
-                {
-                    result = result.substr(0, lastNonZero + 1);
-                }
-                // Remove trailing decimal point if no decimals left
-                if (result.back() == L'.')
-                {
-                    result.pop_back();
-                }
-            }
-
-            return result;
+            return winrt::to_hstring(std::string_view(buf.data(), ptr - buf.data()));
         }
     };
 }
