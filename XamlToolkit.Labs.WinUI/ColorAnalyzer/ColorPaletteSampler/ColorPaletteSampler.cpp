@@ -21,6 +21,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
     winrt::IAsyncAction ColorPaletteSampler::UpdatePaletteAsync()
     {
+        auto strongThis = get_strong();
         // No palettes to update.
         // Skip a lot of unnecessary computation
         if (PaletteSelectors().Size() == 0)

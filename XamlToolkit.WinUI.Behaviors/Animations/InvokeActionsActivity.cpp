@@ -28,6 +28,7 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
 
     winrt::IAsyncAction InvokeActionsActivity::InvokeAsync(winrt::UIElement const& element)
     {
+        auto strongThis = get_strong();
 		co_await base_type::InvokeAsync(element);
         winrt::XamlToolkit::WinUI::Interactivity::Interaction::ExecuteActions(element, Actions(), nullptr);
     }

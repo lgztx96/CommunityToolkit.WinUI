@@ -24,6 +24,8 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
 
     winrt::IAsyncAction StopAnimationActivity::InvokeAsync(winrt::UIElement const& element)
     {
+        auto strongThis = get_strong();
+
         auto animation = Animation();
 
         if (!animation)

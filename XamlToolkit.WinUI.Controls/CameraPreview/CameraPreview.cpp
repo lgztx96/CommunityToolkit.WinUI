@@ -58,6 +58,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 	winrt::IAsyncAction CameraPreview::StartAsync(winrt::CameraHelper const& cameraHelper)
 	{
+		auto strongThis = get_strong();
+
 		CameraHelper = cameraHelper ? cameraHelper : winrt::CameraHelper();
 		_frameSourceGroups = co_await CameraHelper.GetFrameSourceGroupsAsync();
 

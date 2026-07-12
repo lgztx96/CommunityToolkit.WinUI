@@ -69,6 +69,8 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
         /// </summary>
         winrt::IAsyncOperation<winrt::Visual> GetAttachedVisualAsync(winrt::UIElement const& element) override
         {
+            auto strongThis = get_strong();
+
             auto visual = co_await PipelineVisualFactoryBase::GetAttachedVisualAsync(element);
 
             auto spriteVisual = visual.as<winrt::SpriteVisual>();

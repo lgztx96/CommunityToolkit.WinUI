@@ -359,6 +359,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 	winrt::IAsyncAction ImageCropper::LoadImageFromFile(winrt::StorageFile const& imageFile)
 	{
+		auto strongThis = get_strong();
+
 		const auto writeableBitmap = winrt::WriteableBitmap(1, 1);
 		const auto& stream = co_await imageFile.OpenReadAsync();
 		co_await writeableBitmap.SetSourceAsync(stream);
