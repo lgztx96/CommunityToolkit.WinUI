@@ -58,7 +58,6 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         co_await randomAccessStream.WriteAsync(pixels);
         randomAccessStream.Seek(0);
         co_return randomAccessStream;
-        
     }
 
     void UIColorSource::OnSourceChanged(
