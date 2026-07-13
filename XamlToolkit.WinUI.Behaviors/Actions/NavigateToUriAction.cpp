@@ -5,6 +5,10 @@
 #include "NavigateToUriAction.g.cpp"
 #endif
 
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.System.h>
+#endif
+
 namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
 {
     const wil::single_threaded_property<winrt::DependencyProperty> NavigateToUriAction::NavigateUriProperty =

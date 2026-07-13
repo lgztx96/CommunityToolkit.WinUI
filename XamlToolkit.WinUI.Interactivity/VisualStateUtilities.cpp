@@ -98,7 +98,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         if (element.Parent() == nullptr)
         {
             auto templatedParent = winrt::VisualTreeHelper::GetParent(element).try_as<winrt::FrameworkElement>();
-            if (templatedParent == nullptr || (templatedParent.try_as<winrt::Controls::Control>() == nullptr && templatedParent.try_as<winrt::Controls::ContentPresenter>() == nullptr))
+            if (templatedParent == nullptr || (templatedParent.try_as<winrt::Control>() == nullptr && templatedParent.try_as<winrt::ContentPresenter>() == nullptr))
             {
                 return false;
             }

@@ -99,7 +99,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 			}
 		}
 
-		auto mediaElement = winrt::MediaPlayerElement{};
+		winrt::MediaPlayerElement mediaElement;
 		_popup.Child(mediaElement);
 
 		mediaElement.Visibility(winrt::Visibility::Collapsed);

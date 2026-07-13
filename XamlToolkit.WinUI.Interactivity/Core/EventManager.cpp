@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "winrt_module_imports.h"
 #ifdef __INTELLISENSE__
+#include <winrt/Microsoft.UI.Xaml.Controls.Primitives.h>
 #include <string>
 #include <unordered_map>
 #endif
