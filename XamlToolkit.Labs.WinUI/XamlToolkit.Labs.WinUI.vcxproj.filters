@@ -105,6 +105,12 @@
     <Filter Include="GradientSlider">
       <UniqueIdentifier>{fc44c88e-0a41-479a-baef-c846857523d5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="StoreNavigationView">
+      <UniqueIdentifier>{2ca8aac3-4797-4c0a-8996-2720dc99408f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StoreNavigationView\Attach">
+      <UniqueIdentifier>{0ff75050-0f6a-4dd0-8e6d-48d186d7ec98}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -394,6 +400,7 @@
     </ClInclude>
     <ClInclude Include="wil_cppwinrt_module.h" />
     <ClInclude Include="winrt_module_imports.h" />
+    <ClInclude Include="StoreNavigationView\Attach\string_utils.h" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="MarkdownTextBlock\MarkdownTextBlock.idl">
@@ -464,6 +471,15 @@
     </Midl>
     <Midl Include="WrapPanel2\WrapPanel2.idl">
       <Filter>WrapPanel2</Filter>
+    </Midl>
+    <Midl Include="StoreNavigationView\ImplicitOffsetAnimationHelper.idl">
+      <Filter>StoreNavigationView</Filter>
+    </Midl>
+    <Midl Include="StoreNavigationView\Attach\StoreNavigationViewItemAttach.idl">
+      <Filter>StoreNavigationView\Attach</Filter>
+    </Midl>
+    <Midl Include="StoreNavigationView\Attach\VisualAttach.idl">
+      <Filter>StoreNavigationView\Attach</Filter>
     </Midl>
   </ItemGroup>
   <ItemGroup>
@@ -542,6 +558,9 @@
     </Page>
     <Page Include="GradientSlider\GradientSliderThumbStyle.xaml">
       <Filter>GradientSlider</Filter>
+    </Page>
+    <Page Include="StoreNavigationView\StoreNavigationViewStyle.xaml">
+      <Filter>StoreNavigationView</Filter>
     </Page>
   </ItemGroup>
   <ItemGroup>

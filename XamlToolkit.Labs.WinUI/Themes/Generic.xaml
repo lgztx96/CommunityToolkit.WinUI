@@ -18,5 +18,6 @@
         <ResourceDictionary Source="ms-appx:///XamlToolkit.Labs.WinUI/DataTable/DataColumn.xaml" />
         <ResourceDictionary Source="ms-appx:///XamlToolkit.Labs.WinUI/GradientSlider/GradientSliderStyle.xaml" />
         <ResourceDictionary Source="ms-appx:///XamlToolkit.Labs.WinUI/GradientSlider/GradientSliderThumbStyle.xaml" />
+        <ResourceDictionary Source="ms-appx:///XamlToolkit.Labs.WinUI/StoreNavigationView/StoreNavigationViewStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

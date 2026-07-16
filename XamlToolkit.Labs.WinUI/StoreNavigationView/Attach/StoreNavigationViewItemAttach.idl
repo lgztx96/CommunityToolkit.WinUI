@@ -1,0 +1,23 @@
+namespace XamlToolkit.Labs.WinUI
+{
+    [default_interface] runtimeclass StoreNavigationViewItemAttach : Microsoft.UI.Xaml.DependencyObject
+    {
+        StoreNavigationViewItemAttach();
+
+		static Microsoft.UI.Xaml.DependencyProperty SelectedIconProperty { get; };
+		static Object GetSelectedIcon(Microsoft.UI.Xaml.DependencyObject obj);
+		static void SetSelectedIcon(Microsoft.UI.Xaml.DependencyObject obj, Object value);
+
+		static Microsoft.UI.Xaml.DependencyProperty ShowNotificationDotProperty { get; };
+		static Boolean GetShowNotificationDot(Microsoft.UI.Xaml.DependencyObject obj);
+		static void SetShowNotificationDot(Microsoft.UI.Xaml.DependencyObject obj, Boolean value);
+
+		static Microsoft.UI.Xaml.DependencyProperty UnselectedIconProperty { get; };
+		static Object GetUnselectedIcon(Microsoft.UI.Xaml.DependencyObject obj);
+		static void SetUnselectedIcon(Microsoft.UI.Xaml.DependencyObject obj, Object value);
+
+		static Microsoft.UI.Xaml.DependencyProperty StaticIconVisibilityProperty { get; };
+		static Microsoft.UI.Xaml.Visibility GetStaticIconVisibility(Microsoft.UI.Xaml.DependencyObject obj);
+		static void SetStaticIconVisibility(Microsoft.UI.Xaml.DependencyObject obj, Microsoft.UI.Xaml.Visibility value);
+    }
+}

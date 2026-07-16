@@ -1,0 +1,11 @@
+namespace XamlToolkit.Labs.WinUI
+{
+    [default_interface] runtimeclass ImplicitOffsetAnimationHelper : Microsoft.UI.Xaml.DependencyObject
+    {
+        ImplicitOffsetAnimationHelper();
+     
+        static Boolean GetEnableOffsetAnimation(Microsoft.UI.Xaml.UIElement element);
+        static void SetEnableOffsetAnimation(Microsoft.UI.Xaml.UIElement element, Boolean value);
+        static Microsoft.UI.Xaml.DependencyProperty EnableOffsetAnimationProperty { get; };
+    }
+}
