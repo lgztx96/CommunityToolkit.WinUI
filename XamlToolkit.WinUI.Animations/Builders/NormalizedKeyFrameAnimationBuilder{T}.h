@@ -45,7 +45,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
             T value;
             std::optional<winrt::hstring> expression;
             EasingType easingType;
-            EasingMode easingMode;
+            winrt::EasingMode easingMode;
 
         public:
             /// <summary>
@@ -65,7 +65,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
             }
 
             EasingType GetEasingType() const override { return easingType; }
-            EasingMode GetEasingMode() const override { return easingMode; }
+            winrt::EasingMode GetEasingMode() const override { return easingMode; }
 
             T GetValue() const { return value; }
 
@@ -143,7 +143,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
             double progress,
             T const& value,
             EasingType easingType = AnimationExtensions::DefaultEasingType(),
-            EasingMode easingMode = AnimationExtensions::DefaultEasingMode()) override
+            winrt::EasingMode easingMode = AnimationExtensions::DefaultEasingMode()) override
         {
             keyFrames.push_back(KeyFrameInfo(progress, value, easingType, easingMode));
             return *this;

@@ -18,17 +18,17 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
     }
 
-    winrt::UIElement OpacityMaskView::OpacityMask() const 
-    { 
-        return GetValue(OpacityMaskProperty()).try_as<winrt::UIElement>();
-    }
-
     const wil::single_threaded_property<winrt::DependencyProperty> OpacityMaskView::OpacityMaskProperty =
         winrt::DependencyProperty::Register(
             L"OpacityMask",
             winrt::xaml_typename<winrt::UIElement>(),
             winrt::xaml_typename<class_type>(),
             winrt::PropertyMetadata(nullptr, &OpacityMaskView::OnOpacityMaskChanged));
+
+    winrt::UIElement OpacityMaskView::OpacityMask() const 
+    { 
+        return GetValue(OpacityMaskProperty()).try_as<winrt::UIElement>();
+    }
 
     void OpacityMaskView::OpacityMask(winrt::UIElement const& value) 
     { 

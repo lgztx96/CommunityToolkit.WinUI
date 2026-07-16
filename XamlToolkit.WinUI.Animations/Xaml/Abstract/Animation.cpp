@@ -12,7 +12,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
             L"Delay",
             winrt::xaml_typename<winrt::IReference<winrt::TimeSpan>>(),
             winrt::xaml_typename<class_type>(),
-            nullptr);
+            winrt::PropertyMetadata(nullptr));
 
     const wil::single_threaded_property<winrt::DependencyProperty> Animation::DurationProperty =
         winrt::DependencyProperty::Register(

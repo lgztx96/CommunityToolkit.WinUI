@@ -18,7 +18,8 @@ namespace winrt
 
 namespace winrt::XamlToolkit::WinUI::Animations
 {
-	class CompositorExtensions {
+	class CompositorExtensions
+	{
 	public:
 		/// <summary>
 		/// Creates the appropriate <see cref="CompositionEasingFunction"/> from the given easing type and mode.

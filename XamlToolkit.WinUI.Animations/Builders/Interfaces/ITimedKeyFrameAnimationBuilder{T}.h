@@ -33,7 +33,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
             winrt::TimeSpan progress,
             T const& value,
             EasingType easingType = AnimationExtensions::DefaultEasingType(),
-            EasingMode easingMode = AnimationExtensions::DefaultEasingMode()) = 0;
+            winrt::EasingMode easingMode = AnimationExtensions::DefaultEasingMode()) = 0;
 
         /// <summary>
         /// Adds a new timed expressionkeyframe to the builder in use.
@@ -49,7 +49,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
             winrt::TimeSpan progress,
             winrt::hstring const& expression,
             EasingType easingType = AnimationExtensions::DefaultEasingType(),
-            EasingMode easingMode = AnimationExtensions::DefaultEasingMode()) = 0;
+            winrt::EasingMode easingMode = AnimationExtensions::DefaultEasingMode()) = 0;
 
         virtual ~ITimedKeyFrameAnimationBuilder() = default;
     };
