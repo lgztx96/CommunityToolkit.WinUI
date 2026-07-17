@@ -17,9 +17,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\XamlToolkit.WinUI.Controls\XamlToolkit.WinUI.Controls.vcxproj" />
-		<ProjectReference Include="..\XamlToolkit.WinUI.Converters\XamlToolkit.WinUI.Converters.Interop.csproj" />
-		<ProjectReference Include="..\XamlToolkit.WinUI.Helpers\XamlToolkit.WinUI.Helpers.Interop.csproj" />
-		<ProjectReference Include="..\XamlToolkit.WinUI\XamlToolkit.WinUI.Interop.csproj" />
+		<ProjectReference Include="..\..\XamlToolkit.WinUI.Controls\XamlToolkit.WinUI.Controls.vcxproj" ReferenceOutputAssembly="false" />
+		<ProjectReference Include="..\XamlToolkit.WinUI.Converters\XamlToolkit.WinUI.Converters.Interop.csproj" ReferenceOutputAssembly="false" />
+		<ProjectReference Include="..\XamlToolkit.WinUI.Helpers\XamlToolkit.WinUI.Helpers.Interop.csproj" ReferenceOutputAssembly="false" />
+		<ProjectReference Include="..\XamlToolkit.WinUI\XamlToolkit.WinUI.Interop.csproj" ReferenceOutputAssembly="false" />
 	</ItemGroup>
 </Project>

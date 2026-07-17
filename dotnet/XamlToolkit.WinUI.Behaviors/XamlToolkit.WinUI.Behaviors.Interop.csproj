@@ -16,9 +16,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\XamlToolkit.WinUI.Behaviors\XamlToolkit.WinUI.Behaviors.vcxproj" />
-		<ProjectReference Include="..\XamlToolkit.WinUI\XamlToolkit.WinUI.Interop.csproj" />
-		<ProjectReference Include="..\XamlToolkit.WinUI.Interactivity\XamlToolkit.WinUI.Interactivity.Interop.csproj" />
-		<ProjectReference Include="..\XamlToolkit.WinUI.Animations\XamlToolkit.WinUI.Animations.Interop.csproj" />
+		<ProjectReference Include="..\..\XamlToolkit.WinUI.Behaviors\XamlToolkit.WinUI.Behaviors.vcxproj" ReferenceOutputAssembly="false" />
+		<ProjectReference Include="..\XamlToolkit.WinUI\XamlToolkit.WinUI.Interop.csproj" ReferenceOutputAssembly="false" />
+		<ProjectReference Include="..\XamlToolkit.WinUI.Interactivity\XamlToolkit.WinUI.Interactivity.Interop.csproj" ReferenceOutputAssembly="false" />
+		<ProjectReference Include="..\XamlToolkit.WinUI.Animations\XamlToolkit.WinUI.Animations.Interop.csproj" ReferenceOutputAssembly="false" />
 	</ItemGroup>
 </Project>

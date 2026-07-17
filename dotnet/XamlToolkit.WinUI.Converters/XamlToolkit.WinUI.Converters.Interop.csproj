@@ -16,6 +16,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\XamlToolkit.WinUI.Converters\XamlToolkit.WinUI.Converters.vcxproj" />
+		<ProjectReference Include="..\..\XamlToolkit.WinUI.Converters\XamlToolkit.WinUI.Converters.vcxproj" ReferenceOutputAssembly="false" />
 	</ItemGroup>
 </Project>
