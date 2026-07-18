@@ -36,8 +36,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
                 L"UnselectedIcon",
                 winrt::xaml_typename<IInspectable>(),
                 winrt::xaml_typename<class_type>(),
-                winrt::PropertyMetadata(nullptr)
-            );
+                winrt::PropertyMetadata(nullptr));
+
         static inline wil::single_threaded_property<DependencyProperty> StaticIconVisibilityProperty =
             winrt::DependencyProperty::RegisterAttached(
                 L"StaticIconVisibility",

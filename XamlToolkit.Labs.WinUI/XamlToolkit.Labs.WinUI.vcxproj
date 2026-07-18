@@ -302,17 +302,8 @@
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="pch.h" />
-    <ClInclude Include="StoreNavigationView\Attach\StoreNavigationViewItemAttach.h">
-      <DependentUpon>StoreNavigationView\Attach\StoreNavigationViewItemAttach.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
-    <ClInclude Include="StoreNavigationView\Attach\string_utils.h" />
-    <ClInclude Include="StoreNavigationView\Attach\VisualAttach.h">
-      <DependentUpon>StoreNavigationView\Attach\VisualAttach.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
-    <ClInclude Include="StoreNavigationView\ImplicitOffsetAnimationHelper.h">
-      <DependentUpon>StoreNavigationView\ImplicitOffsetAnimationHelper.idl</DependentUpon>
+    <ClInclude Include="StoreNavigationView\StoreNavigationViewItemAttach.h">
+      <DependentUpon>StoreNavigationView\StoreNavigationViewItemAttach.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="wil_cppwinrt_module.h" />
@@ -538,16 +529,8 @@
     <ClCompile Include="Shimmer\Shimmer.cpp">
       <SubType>Code</SubType>
     </ClCompile>
-    <ClCompile Include="StoreNavigationView\Attach\StoreNavigationViewItemAttach.cpp">
-      <DependentUpon>StoreNavigationView\Attach\StoreNavigationViewItemAttach.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
-    <ClCompile Include="StoreNavigationView\Attach\VisualAttach.cpp">
-      <DependentUpon>StoreNavigationView\Attach\VisualAttach.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
-    <ClCompile Include="StoreNavigationView\ImplicitOffsetAnimationHelper.cpp">
-      <DependentUpon>StoreNavigationView\ImplicitOffsetAnimationHelper.idl</DependentUpon>
+    <ClCompile Include="StoreNavigationView\StoreNavigationViewItemAttach.cpp">
+      <DependentUpon>StoreNavigationView\StoreNavigationViewItemAttach.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="TokenView\TokenItem.cpp">
@@ -693,13 +676,7 @@
       <DependentUpon>Shimmer\Shimmer.cpp</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
-    <Midl Include="StoreNavigationView\Attach\StoreNavigationViewItemAttach.idl">
-      <SubType>Designer</SubType>
-    </Midl>
-    <Midl Include="StoreNavigationView\Attach\VisualAttach.idl">
-      <SubType>Designer</SubType>
-    </Midl>
-    <Midl Include="StoreNavigationView\ImplicitOffsetAnimationHelper.idl">
+    <Midl Include="StoreNavigationView\StoreNavigationViewItemAttach.idl">
       <SubType>Designer</SubType>
     </Midl>
     <Midl Include="TokenView\TokenItem.idl">
@@ -736,6 +713,9 @@
     <Page Include="TokenView\TokenView.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\XamlToolkit.WinUI.Animations\XamlToolkit.WinUI.Animations.vcxproj">
+      <Project>{37cd7b40-3e54-41ce-af73-43c6746ef315}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\XamlToolkit.WinUI.Controls\XamlToolkit.WinUI.Controls.vcxproj">
       <Project>{ef5f53e1-2ddb-4936-a78f-517fc8be74ff}</Project>
     </ProjectReference>
