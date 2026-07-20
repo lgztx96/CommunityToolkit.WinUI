@@ -11,10 +11,10 @@
     <PackageVersion Include="Microsoft.Windows.ImplementationLibrary" Version="1.0.260126.7" />
     <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.2270" />
     <PackageVersion Include="Microsoft.Windows.SDK.BuildTools.MSIX" Version="1.7.260610101" />
-    <PackageVersion Include="Microsoft.WindowsAppSDK.Base" Version="2.0.4" />
-    <PackageVersion Include="Microsoft.WindowsAppSDK.Foundation" Version="2.3.5" />
-    <PackageVersion Include="Microsoft.WindowsAppSDK.InteractiveExperiences" Version="2.1.3" />
-    <PackageVersion Include="Microsoft.WindowsAppSDK.WinUI" Version="2.3.2" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK.Base" Version="1.8.251216001" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK.Foundation" Version="1.8.260527000" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK.InteractiveExperiences" Version="1.8.260708001" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK.WinUI" Version="1.8.260528001" />
   </ItemGroup>
   <!--  C# Project References  -->
   <ItemGroup>
