@@ -33,9 +33,9 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
 		ResizeElementAdorner();
 
-		FrameworkElement AdornedElement() const
+		winrt::FrameworkElement AdornedElement() const
 		{
-			return base_type::AdornedElement().try_as<FrameworkElement>();
+			return base_type::AdornedElement().try_as<winrt::FrameworkElement>();
 		}
 
 		void OnApplyTemplate();
@@ -45,7 +45,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		void OnDetaching() override;
 
 	private:
-		void OnTargetManipulated(IInspectable const& sender, ManipulationDeltaRoutedEventArgs const& e);
+		void OnTargetManipulated(winrt::IInspectable const& sender, winrt::ManipulationDeltaRoutedEventArgs const& e);
 
 		void OnTargetControlResized(winrt::XamlToolkit::Labs::WinUI::ResizeThumb const& sender, ITargetControlResizedEventArgs const& args);
 
@@ -58,7 +58,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		winrt::XamlToolkit::Labs::WinUI::ResizeThumb BottomLeftThumbPart{ nullptr };
 		winrt::XamlToolkit::Labs::WinUI::ResizeThumb BottomRightThumbPart{ nullptr };
 
-		UIElement::ManipulationDelta_revoker _manipulationDeltaRevoker;
+		winrt::UIElement::ManipulationDelta_revoker _manipulationDeltaRevoker;
 		std::array<winrt::event_token, 8> _thumbTokens{};
 	};
 }

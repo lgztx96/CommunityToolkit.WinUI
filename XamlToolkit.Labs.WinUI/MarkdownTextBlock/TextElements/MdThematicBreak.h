@@ -25,19 +25,19 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
     class MdThematicBreak final : public IAddChild
     {
     private:
-        Paragraph _paragraph;
+        winrt::Paragraph _paragraph;
 
     public:
-        Microsoft::UI::Xaml::Documents::TextElement TextElement() const override
+        winrt::TextElement TextElement() const override
         {
             return _paragraph;
         }
 
         MdThematicBreak(MarkdownThemes const& themes)
         {
-            InlineUIContainer inlineUIContainer;
-            Line line;
-            line.Stretch(Stretch::Fill);
+            winrt::InlineUIContainer inlineUIContainer;
+            winrt::Line line;
+            line.Stretch(winrt::Stretch::Fill);
             line.Stroke(themes.HorizontalRuleBrush()
                 ? themes.HorizontalRuleBrush() : themes.BorderBrush());
             line.X2(1.0);

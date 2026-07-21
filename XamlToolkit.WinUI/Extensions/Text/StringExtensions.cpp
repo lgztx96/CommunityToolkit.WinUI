@@ -22,11 +22,11 @@ namespace winrt::XamlToolkit::WinUI
 		return text;
 	}
 
-	float2 ToVector2(std::wstring_view text)
+	winrt::float2 ToVector2(std::wstring_view text)
 	{
 		if (text.empty())
 		{
-			float2::zero();
+			return float2::zero();
 		}
 
 		text = Unbracket(text);
@@ -34,7 +34,7 @@ namespace winrt::XamlToolkit::WinUI
 		{
 			float result = std::wcstof(text.data(), nullptr);
 
-			return winrt::Windows::Foundation::Numerics::float2{ result };
+			return winrt::float2{ result };
 		}
 		else
 		{
@@ -46,18 +46,18 @@ namespace winrt::XamlToolkit::WinUI
 			{
 				float result2 = std::wcstof(vec[0].data(), nullptr);
 				float result3 = std::wcstof(vec[1].data(), nullptr);
-				return winrt::Windows::Foundation::Numerics::float2(result2, result3);
+				return winrt::float2(result2, result3);
 			}
 		}
 
 		throw winrt::hresult_invalid_argument(winrt::format(L"Cannot convert {} to Vector3. Use the format \"float, float\"", text));
 	}
 
-	float3 ToVector3(std::wstring_view text)
+	winrt::float3 ToVector3(std::wstring_view text)
 	{
 		if (text.empty())
 		{
-			return winrt::Windows::Foundation::Numerics::float3::zero();
+			return winrt::float3::zero();
 		}
 
 		text = Unbracket(text);
@@ -65,7 +65,7 @@ namespace winrt::XamlToolkit::WinUI
 		{
 			float result = std::wcstof(text.data(), nullptr);
 
-			return float3{ result };
+			return winrt::float3{ result };
 		}
 		else
 		{
@@ -78,23 +78,23 @@ namespace winrt::XamlToolkit::WinUI
 				float result2 = std::wcstof(vec[0].data(), nullptr);
 				float result3 = std::wcstof(vec[1].data(), nullptr);
 				float result4 = std::wcstof(vec[2].data(), nullptr);
-				return float3(result2, result3, result4);
+				return winrt::float3(result2, result3, result4);
 			}
 			else if (vec.size() == 2)
 			{
-				return float3(ToVector2(text), 0.0f);
+				return winrt::float3(ToVector2(text), 0.0f);
 			}
 		}
 
 		throw winrt::hresult_invalid_argument(winrt::format(L"Cannot convert {} to Vector3. Use the format \"float, float\"", text));
 	}
 
-	winrt::hstring ToString(float2 const& value)
+	winrt::hstring ToString(winrt::float2 const& value)
 	{
 		return winrt::format(L"<{}, {}>", value.x, value.y);
 	}
 
-	winrt::hstring ToString(float3 const& value)
+	winrt::hstring ToString(winrt::float3 const& value)
 	{
 		return winrt::format(L"<{}, {}, {}>", value.x, value.y, value.z);
 	}

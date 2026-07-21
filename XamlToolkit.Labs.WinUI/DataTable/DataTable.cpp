@@ -17,14 +17,15 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
     {
         auto children = Children();
         return std::any_of(children.begin(), children.end(), [](auto&& e)
+        {
+            if (auto column = e.template try_as<winrt::XamlToolkit::Labs::WinUI::DataColumn>()) 
             {
-                if (auto column = e.template try_as<winrt::XamlToolkit::Labs::WinUI::DataColumn>()) {
-                    auto columnImpl = winrt::get_self<winrt::XamlToolkit::Labs::WinUI::implementation::DataColumn>(column);
-                    return columnImpl->CurrentWidth().GridUnitType == GridUnitType::Auto;
-                }
+                auto columnImpl = winrt::get_self<implementation::DataColumn>(column);
+                return columnImpl->CurrentWidth().GridUnitType == winrt::GridUnitType::Auto;
+            }
 
-                return false;
-            });
+            return false;
+        });
     }
 
 	std::set<winrt::XamlToolkit::Labs::WinUI::DataRow>& DataTable::Rows() { return _rows; }
@@ -33,19 +34,23 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
     {
         InvalidateArrange();
 
-        for (auto& row : Rows())
+        for (const auto& row : Rows())
         {
             row.InvalidateArrange();
         }
     }
 
-    bool DataTable::ColumnSpacing() const { return winrt::unbox_value<double>(GetValue(ColumnSpacingProperty)); }
-    void DataTable::ColumnSpacing(double value) { SetValue(ColumnSpacingProperty, winrt::box_value(value)); }
+    bool DataTable::ColumnSpacing() const { return winrt::unbox_value<double>(GetValue(ColumnSpacingProperty())); }
+    void DataTable::ColumnSpacing(double value) { SetValue(ColumnSpacingProperty(), winrt::box_value(value)); }
 
-    const wil::single_threaded_property<DependencyProperty> DataTable::ColumnSpacingProperty =
-        DependencyProperty::Register(L"ColumnSpacing", winrt::xaml_typename<double>(), winrt::xaml_typename<class_type>(), PropertyMetadata(winrt::box_value(0.0)));
+    const wil::single_threaded_property<winrt::DependencyProperty> DataTable::ColumnSpacingProperty =
+        winrt::DependencyProperty::Register(
+            L"ColumnSpacing", 
+            winrt::xaml_typename<double>(), 
+            winrt::xaml_typename<class_type>(), 
+            winrt::PropertyMetadata(winrt::box_value(0.0)));
 
-    Size DataTable::MeasureOverride(Size availableSize)
+    winrt::Size DataTable::MeasureOverride(winrt::Size availableSize)
     {
         double fixedWidth = 0;
         double proportionalUnits = 0;
@@ -54,19 +59,19 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         double maxHeight = 0;
 
         auto elements = Children()
-            | std::ranges::views::filter([](auto&& e) { return e.Visibility() == Visibility::Visible && e.template try_as<winrt::XamlToolkit::Labs::WinUI::DataColumn>(); })
+            | std::ranges::views::filter([](auto&& e) { return e.Visibility() == winrt::Visibility::Visible && e.template try_as<winrt::XamlToolkit::Labs::WinUI::DataColumn>(); })
             | std::ranges::views::transform([](auto&& e) { return e.template as<winrt::XamlToolkit::Labs::WinUI::DataColumn>(); })
             | std::ranges::to<std::vector>();
 
         // We only need to measure elements that are visible
         for (const auto& column : elements)
         {
-			auto columnImpl = winrt::get_self<winrt::XamlToolkit::Labs::WinUI::implementation::DataColumn>(column);
-            if (GridLengthHelper::GetIsStar(columnImpl->CurrentWidth()))
+			auto columnImpl = winrt::get_self<implementation::DataColumn>(column);
+            if (winrt::GridLengthHelper::GetIsStar(columnImpl->CurrentWidth()))
             {
                 proportionalUnits += columnImpl->DesiredWidth().Value;
             }
-            else if (GridLengthHelper::GetIsAbsolute(columnImpl->CurrentWidth()))
+            else if (winrt::GridLengthHelper::GetIsAbsolute(columnImpl->CurrentWidth()))
             {
                 fixedWidth += columnImpl->DesiredWidth().Value;
             }
@@ -80,14 +85,14 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         for (const auto& column : elements)
         {
-            auto columnImpl = winrt::get_self<winrt::XamlToolkit::Labs::WinUI::implementation::DataColumn>(column);
-            if (GridLengthHelper::GetIsStar(columnImpl->CurrentWidth()))
+            auto columnImpl = winrt::get_self<implementation::DataColumn>(column);
+            if (winrt::GridLengthHelper::GetIsStar(columnImpl->CurrentWidth()))
             {
-                column.Measure(Size(static_cast<float>(proportionalAmount * columnImpl->CurrentWidth().Value), availableSize.Height));
+                column.Measure(winrt::Size(static_cast<float>(proportionalAmount * columnImpl->CurrentWidth().Value), availableSize.Height));
             }
-            else if (GridLengthHelper::GetIsAbsolute(columnImpl->CurrentWidth()))
+            else if (winrt::GridLengthHelper::GetIsAbsolute(columnImpl->CurrentWidth()))
             {
-                column.Measure(Size(static_cast<float>(columnImpl->CurrentWidth().Value), availableSize.Height));
+                column.Measure(winrt::Size(static_cast<float>(columnImpl->CurrentWidth().Value), availableSize.Height));
             }
             else
             {
@@ -101,7 +106,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
                 // For now, we'll just use the header content as a guideline to see if things work.
 
                 // Avoid negative values when columns don't fit `availableSize`. Otherwise the `Size` constructor will throw.
-                column.Measure(Size(std::max<float>(static_cast<float>(availableSize.Width - fixedWidth - autoSized), 0), availableSize.Height));
+                column.Measure(winrt::Size(std::max<float>(static_cast<float>(availableSize.Width - fixedWidth - autoSized), 0), availableSize.Height));
 
                 // Keep track of already 'allotted' space, use either the maximum child size (if we know it) or the header content
                 autoSized += std::max<double>(column.DesiredSize().Width, columnImpl->MaxChildDesiredWidth);
@@ -110,28 +115,28 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
             maxHeight = std::max<double>(maxHeight, column.DesiredSize().Height);
         }
 
-        return Size(availableSize.Width, static_cast<float>(maxHeight));
+        return winrt::Size(availableSize.Width, static_cast<float>(maxHeight));
     }
 
-    Size DataTable::ArrangeOverride(Size finalSize)
+    winrt::Size DataTable::ArrangeOverride(winrt::Size finalSize)
     {
         double fixedWidth = 0;
         double proportionalUnits = 0;
         double autoSized = 0;
 
         auto elements = Children()
-            | std::ranges::views::filter([](auto&& e) { return e.Visibility() == Visibility::Visible && e.template try_as<winrt::XamlToolkit::Labs::WinUI::DataColumn>(); })
+            | std::ranges::views::filter([](auto&& e) { return e.Visibility() == winrt::Visibility::Visible && e.template try_as<winrt::XamlToolkit::Labs::WinUI::DataColumn>(); })
             | std::ranges::views::transform([](auto&& e) { return e.template as<winrt::XamlToolkit::Labs::WinUI::DataColumn>(); });
 
         // We only need to measure elements that are visible
         for (const auto& column : elements)
         {
-            auto columnImpl = winrt::get_self<winrt::XamlToolkit::Labs::WinUI::implementation::DataColumn>(column);
-            if (GridLengthHelper::GetIsStar(columnImpl->CurrentWidth()))
+            auto columnImpl = winrt::get_self<implementation::DataColumn>(column);
+            if (winrt::GridLengthHelper::GetIsStar(columnImpl->CurrentWidth()))
             {
                 proportionalUnits += columnImpl->CurrentWidth().Value;
             }
-            else if (GridLengthHelper::GetIsAbsolute(columnImpl->CurrentWidth()))
+            else if (winrt::GridLengthHelper::GetIsAbsolute(columnImpl->CurrentWidth()))
             {
                 fixedWidth += columnImpl->CurrentWidth().Value;
             }
@@ -150,22 +155,22 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         for (const auto& column : elements)
         {
-            auto columnImpl = winrt::get_self<winrt::XamlToolkit::Labs::WinUI::implementation::DataColumn>(column);
-            if (GridLengthHelper::GetIsStar(columnImpl->CurrentWidth()))
+            auto columnImpl = winrt::get_self<implementation::DataColumn>(column);
+            if (winrt::GridLengthHelper::GetIsStar(columnImpl->CurrentWidth()))
             {
                 width = proportionalAmount * columnImpl->CurrentWidth().Value;
-                column.Arrange(Rect(static_cast<float>(x), 0, static_cast<float>(width), finalSize.Height));
+                column.Arrange(winrt::Rect(static_cast<float>(x), 0, static_cast<float>(width), finalSize.Height));
             }
-            else if (GridLengthHelper::GetIsAbsolute(columnImpl->CurrentWidth()))
+            else if (winrt::GridLengthHelper::GetIsAbsolute(columnImpl->CurrentWidth()))
             {
                 width = columnImpl->CurrentWidth().Value;
-                column.Arrange(Rect(static_cast<float>(x), 0, static_cast<float>(width), finalSize.Height));
+                column.Arrange(winrt::Rect(static_cast<float>(x), 0, static_cast<float>(width), finalSize.Height));
             }
             else
             {
                 // TODO: We use the comparison of sizes a lot, should we cache in the DataColumn itself?
                 width = std::max<double>(column.DesiredSize().Width, columnImpl->MaxChildDesiredWidth);
-                column.Arrange(Rect(static_cast<float>(x), 0, static_cast<float>(width), finalSize.Height));
+                column.Arrange(winrt::Rect(static_cast<float>(x), 0, static_cast<float>(width), finalSize.Height));
             }
 
             x += width + ColumnSpacing();

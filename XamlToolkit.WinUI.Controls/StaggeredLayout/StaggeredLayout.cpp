@@ -28,49 +28,49 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
 	void StaggeredLayout::ColumnSpacing(double value)
 	{
-		SetValue(ColumnSpacingProperty, winrt::box_value(value));
+		SetValue(ColumnSpacingProperty(), winrt::box_value(value));
 	}
 
-	double StaggeredLayout::ColumnSpacing()
+	double StaggeredLayout::ColumnSpacing() const
 	{
-		return winrt::unbox_value<double>(GetValue(ColumnSpacingProperty));
+		return winrt::unbox_value<double>(GetValue(ColumnSpacingProperty()));
 	}
 
 	void StaggeredLayout::RowSpacing(double value)
 	{
-		SetValue(RowSpacingProperty, winrt::box_value(value));
+		SetValue(RowSpacingProperty(), winrt::box_value(value));
 	}
 
-	double StaggeredLayout::RowSpacing()
+	double StaggeredLayout::RowSpacing() const
 	{
-		return winrt::unbox_value<double>(GetValue(RowSpacingProperty));
+		return winrt::unbox_value<double>(GetValue(RowSpacingProperty()));
 	}
 
 	void StaggeredLayout::DesiredColumnWidth(double value)
 	{
-		SetValue(DesiredColumnWidthProperty, winrt::box_value(value));
+		SetValue(DesiredColumnWidthProperty(), winrt::box_value(value));
 	}
 
-	double StaggeredLayout::DesiredColumnWidth()
+	double StaggeredLayout::DesiredColumnWidth() const
 	{
-		return winrt::unbox_value<double>(GetValue(DesiredColumnWidthProperty));
+		return winrt::unbox_value<double>(GetValue(DesiredColumnWidthProperty()));
 	}
 
-	StaggeredLayoutItemsStretch StaggeredLayout::ItemsStretch()
+	StaggeredLayoutItemsStretch StaggeredLayout::ItemsStretch() const
 	{
-		return winrt::unbox_value<StaggeredLayoutItemsStretch>(GetValue(ItemsStretchProperty));
+		return winrt::unbox_value<StaggeredLayoutItemsStretch>(GetValue(ItemsStretchProperty()));
 	}
 
 	void StaggeredLayout::ItemsStretch(StaggeredLayoutItemsStretch value)
 	{
-		SetValue(ItemsStretchProperty, winrt::box_value(value));
+		SetValue(ItemsStretchProperty(), winrt::box_value(value));
 	}
 
 	void StaggeredLayout::OnDependencyPropertyChanged(
-		DependencyObject const& sender,
-		DependencyPropertyChangedEventArgs const&)
+		winrt::DependencyObject const& sender,
+		winrt::DependencyPropertyChangedEventArgs const&)
 	{
-		if (auto d = sender.try_as<Microsoft::UI::Xaml::Controls::ILayoutProtected>())
+		if (auto d = sender.try_as<winrt::ILayoutProtected>())
 			d.InvalidateMeasure();
 	}
 
@@ -78,19 +78,19 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	{
 		int columnIndex = 0;
 		double height = columnHeights[0];
-		for (int j = 1; j < static_cast<int>(columnHeights.size()); j++)
+		for (int i = 1; i < static_cast<int>(columnHeights.size()); i++)
 		{
-			if (columnHeights[j] < height)
+			if (columnHeights[i] < height)
 			{
-				columnIndex = j;
-				height = columnHeights[j];
+				columnIndex = i;
+				height = columnHeights[i];
 			}
 		}
 
 		return columnIndex;
 	}
 
-	void StaggeredLayout::InitializeForContextCore(Microsoft::UI::Xaml::Controls::VirtualizingLayoutContext const& context)
+	void StaggeredLayout::InitializeForContextCore(winrt::VirtualizingLayoutContext const& context)
 	{
 		auto state = context.LayoutState();
 		winrt::com_ptr<StaggeredLayoutState> stackState = nullptr;
@@ -111,23 +111,23 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		}
 	}
 
-	void StaggeredLayout::UninitializeForContextCore(Microsoft::UI::Xaml::Controls::VirtualizingLayoutContext const& context)
+	void StaggeredLayout::UninitializeForContextCore(winrt::VirtualizingLayoutContext const& context)
 	{
 		context.LayoutState(nullptr);
 	}
 
 	Windows::Foundation::Size StaggeredLayout::MeasureOverride(
-		Microsoft::UI::Xaml::Controls::VirtualizingLayoutContext const& context,
-		Windows::Foundation::Size const& availableSize)
+		winrt::VirtualizingLayoutContext const& context,
+		winrt::Size const& availableSize)
 	{
 		if (context.ItemCount() == 0)
 		{
-			return Windows::Foundation::Size(availableSize.Width, 0);
+			return winrt::Size(availableSize.Width, 0);
 		}
 
 		if ((context.RealizationRect().Width == 0) && (context.RealizationRect().Height == 0))
 		{
-			return Windows::Foundation::Size(availableSize.Width, 0.0f);
+			return winrt::Size(availableSize.Width, 0.0f);
 		}
 
 		const auto state = GetAsStackState(context.LayoutState());
@@ -217,19 +217,19 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			itemsPerColumn[columnIndex]++;
 			state->AddItemToColumn(item, columnIndex);
 
-			if (bottom < RectHelper::GetTop(context.RealizationRect()))
+			if (bottom < winrt::RectHelper::GetTop(context.RealizationRect()))
 			{
 				// The bottom of the element is above the realization area
-				if (item->Element() != nullptr)
+				if (item->Element())
 				{
 					context.RecycleElement(item->Element());
 					item->Element(nullptr);
 				}
 			}
-			else if (item->Top() > RectHelper::GetBottom(context.RealizationRect()))
+			else if (item->Top() > winrt::RectHelper::GetBottom(context.RealizationRect()))
 			{
 				// The top of the element is below the realization area
-				if (item->Element() != nullptr)
+				if (item->Element())
 				{
 					context.RecycleElement(item->Element());
 					item->Element(nullptr);
@@ -241,7 +241,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			{
 				// We ALWAYS want to measure an item that will be in the bounds
 				item->Element(context.GetOrCreateElementAt(i));
-				item->Element().Measure(Windows::Foundation::Size(static_cast<float>(state->ColumnWidth()), static_cast<float>(availableHeight)));
+				item->Element().Measure(winrt::Size(static_cast<float>(state->ColumnWidth()), static_cast<float>(availableHeight)));
 				if (item->Height() != item->Element().DesiredSize().Height)
 				{
 					// this item changed size; we need to recalculate layout for everything after this
@@ -262,9 +262,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		return { availableWidth, desiredHeight };
 	}
 
-	Windows::Foundation::Size StaggeredLayout::ArrangeOverride(
-		Microsoft::UI::Xaml::Controls::VirtualizingLayoutContext const& context,
-		Windows::Foundation::Size const& finalSize)
+	winrt::Size StaggeredLayout::ArrangeOverride(winrt::VirtualizingLayoutContext const& context, winrt::Size const& finalSize)
 	{
 		if ((context.RealizationRect().Width == 0) && (context.RealizationRect().Height == 0))
 		{
@@ -280,22 +278,22 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			{
 				const StaggeredItem* item = layout[i];
 				double bottom = item->Top() + item->Height();
-				if (bottom < RectHelper::GetTop(context.RealizationRect()))
+				if (bottom < winrt::RectHelper::GetTop(context.RealizationRect()))
 				{
 					// element is above the realization bounds
 					continue;
 				}
 
-				if (item->Top() <= RectHelper::GetBottom(context.RealizationRect()))
+				if (item->Top() <= winrt::RectHelper::GetBottom(context.RealizationRect()))
 				{
 					double itemHorizontalOffset = (state->ColumnWidth() * columnIndex) + (ColumnSpacing() * columnIndex);
 
-					Windows::Foundation::Rect bounds = Windows::Foundation::Rect(
+					winrt::Rect bounds = winrt::Rect(
 						static_cast<float>(itemHorizontalOffset),
 						static_cast<float>(item->Top()),
 						static_cast<float>(state->ColumnWidth()),
 						static_cast<float>(item->Height()));
-					UIElement element = context.GetOrCreateElementAt(item->Index());
+					winrt::UIElement element = context.GetOrCreateElementAt(item->Index());
 					element.Arrange(bounds);
 				}
 				else
@@ -309,31 +307,31 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	}
 
 	void StaggeredLayout::OnItemsChangedCore(
-		Microsoft::UI::Xaml::Controls::VirtualizingLayoutContext const& context,
-		Windows::Foundation::IInspectable const&,
-		Microsoft::UI::Xaml::Interop::NotifyCollectionChangedEventArgs const& args)
+		winrt::VirtualizingLayoutContext const& context,
+		winrt::IInspectable const&,
+		winrt::NotifyCollectionChangedEventArgs const& args)
 	{
 		const auto state = GetAsStackState(context.LayoutState());
 		switch (args.Action())
 		{
-		case winrt::Microsoft::UI::Xaml::Interop::NotifyCollectionChangedAction::Add:
+		case winrt::NotifyCollectionChangedAction::Add:
 			state->RemoveFromIndex(args.NewStartingIndex());
 			break;
-		case winrt::Microsoft::UI::Xaml::Interop::NotifyCollectionChangedAction::Replace:
+		case winrt::NotifyCollectionChangedAction::Replace:
 			state->RemoveFromIndex(args.NewStartingIndex());
 			state->RecycleElementAt(args.NewStartingIndex());
 			break;
-		case winrt::Microsoft::UI::Xaml::Interop::NotifyCollectionChangedAction::Move:
+		case winrt::NotifyCollectionChangedAction::Move:
 		{
 			int minIndex = std::min(args.NewStartingIndex(), args.OldStartingIndex());
 			int maxIndex = std::max(args.NewStartingIndex(), args.OldStartingIndex());
 			state->RemoveRange(minIndex, maxIndex);
 		}
 		break;
-		case winrt::Microsoft::UI::Xaml::Interop::NotifyCollectionChangedAction::Remove:
+		case winrt::NotifyCollectionChangedAction::Remove:
 			state->RemoveFromIndex(args.OldStartingIndex());
 			break;
-		case winrt::Microsoft::UI::Xaml::Interop::NotifyCollectionChangedAction::Reset:
+		case winrt::NotifyCollectionChangedAction::Reset:
 			state->Clear();
 			break;
 		}

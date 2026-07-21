@@ -37,7 +37,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			return winrt::unbox_value<winrt::hstring>(GetValue(SeparatorProperty()));
 		}
 
-		void Separator(hstring const& value)
+		void Separator(winrt::hstring const& value)
 		{
 			SetValue(SeparatorProperty(), winrt::box_value(value));
 		}
@@ -83,7 +83,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		static void OnPropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 
-		void OnActualThemeChanged(FrameworkElement const& sender, IInspectable const& args);
+		void OnActualThemeChanged(winrt::FrameworkElement const& sender, winrt::IInspectable const& args);
 
 		void Update();
 

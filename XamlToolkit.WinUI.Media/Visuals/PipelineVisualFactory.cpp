@@ -11,10 +11,10 @@
 
 namespace winrt::XamlToolkit::WinUI::Media::implementation
 {
-	const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> PipelineVisualFactory::EffectsProperty =
-		winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+	const wil::single_threaded_property<winrt::DependencyProperty> PipelineVisualFactory::EffectsProperty =
+		winrt::DependencyProperty::Register(
 			L"Effects",
-			winrt::xaml_typename<winrt::Windows::Foundation::Collections::IVector<IPipelineEffect>>(),
+			winrt::xaml_typename<winrt::IVector<IPipelineEffect>>(),
 			winrt::xaml_typename<class_type>(),
-			nullptr);
+			winrt::PropertyMetadata(nullptr));
 }

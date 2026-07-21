@@ -18,11 +18,11 @@ namespace winrt::XamlToolkit::WinUI::implementation
 {
     struct RectExtensions
     {
-        static bool IntersectsWith(Rect rect1, Rect rect2);
+        static bool IntersectsWith(winrt::Rect rect1, winrt::Rect rect2);
 
-        static Size ToSize(Rect rect);
+        static winrt::Size ToSize(winrt::Rect rect);
 
-        static Rect Transform(Rect rectangle, Matrix const& matrix);
+        static winrt::Rect Transform(winrt::Rect rectangle, winrt::Matrix const& matrix);
     };
 }
 

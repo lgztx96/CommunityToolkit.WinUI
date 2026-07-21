@@ -9,7 +9,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
     class SurfaceBrushReferenceNode final : public ReferenceNodeBase<SurfaceBrushReferenceNode>
     {
     public:
-        SurfaceBrushReferenceNode(std::optional<winrt::hstring> paramName = std::nullopt, Windows::UI::Composition::CompositionSurfaceBrush const& brush = nullptr) : ReferenceNodeBase(paramName, brush) {}
+        SurfaceBrushReferenceNode(std::optional<winrt::hstring> paramName = std::nullopt, winrt::Microsoft::UI::Composition::CompositionSurfaceBrush const& brush = nullptr) : ReferenceNodeBase(paramName, brush) {}
         static SurfaceBrushReferenceNode CreateTargetReference() { SurfaceBrushReferenceNode node; node.NodeType = ExpressionNodeType::TargetReference; return node; }
         ScalarNode HorizontalAlignmentRatio() const { return ReferenceProperty<ScalarNode>(L"HorizontalAlignmentRatio"); }
         ScalarNode VerticalAlignmentRatio() const { return ReferenceProperty<ScalarNode>(L"VerticalAlignmentRatio"); }

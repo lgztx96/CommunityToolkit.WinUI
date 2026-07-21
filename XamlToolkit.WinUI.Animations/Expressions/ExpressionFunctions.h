@@ -1023,10 +1023,10 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
 		};
 		public:
 		/// <summary>
-	/// Gets the type of the node information from.
-	/// </summary>
-	/// <param name="type">The type.</param>
-	/// <returns>ExpressionNodeInfo.</returns>
+		/// Gets the type of the node information from.
+		/// </summary>
+		/// <param name="type">The type.</param>
+		/// <returns>ExpressionNodeInfo.</returns>
 		static ExpressionNodeInfo GetNodeInfoFromType(ExpressionNodeType type);
 	};
 }

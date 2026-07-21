@@ -15,10 +15,10 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
     class MdInlineText final : public IAddChild
     {
     private:
-        Run _run;
+        winrt::Run _run;
 
     public:
-        Microsoft::UI::Xaml::Documents::TextElement TextElement() const override
+        winrt::TextElement TextElement() const override
         {
             return _run;
         }

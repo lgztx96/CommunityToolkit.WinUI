@@ -10,19 +10,22 @@
 #include <winrt/Windows.Foundation.Numerics.h>
 #endif
 
-namespace winrt::XamlToolkit::WinUI::Animations::Expressions
+namespace winrt
 {
     using namespace Windows::Foundation::Numerics;
+}
 
+namespace winrt::XamlToolkit::WinUI::Animations::Expressions
+{
     class Vector4Node final : public ExpressionNodeBase<Vector4Node>
     {
     public:
         enum class Subchannel { X, Y, Z, W };
 
         Vector4Node() = default;
-        explicit Vector4Node(float4 const& value);
+        explicit Vector4Node(winrt::float4 const& value);
         explicit Vector4Node(winrt::hstring const& paramName);
-        Vector4Node(winrt::hstring const& paramName, float4 const& value);
+        Vector4Node(winrt::hstring const& paramName, winrt::float4 const& value);
 
         ScalarNode X() const;
         ScalarNode Y() const;
@@ -43,6 +46,6 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
         winrt::hstring GetValue() const override;
 
     private:
-        float4 value{};
+        winrt::float4 value{};
     };
 }

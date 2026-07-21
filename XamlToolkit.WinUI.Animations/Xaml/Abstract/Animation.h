@@ -14,6 +14,7 @@
 
 namespace winrt
 {
+	using namespace Windows::Foundation;
     using namespace Microsoft::UI::Xaml;
     using namespace Microsoft::UI::Xaml::Media::Animation;
 }
@@ -32,14 +33,14 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         /// <summary>
         /// Gets or sets the initial delay before the animation starts.
         /// </summary>
-        winrt::Windows::Foundation::IReference<winrt::Windows::Foundation::TimeSpan> Delay() const
+        winrt::IReference<winrt::TimeSpan> Delay() const
         {
-            return GetValue(DelayProperty).try_as<winrt::Windows::Foundation::IReference<winrt::Windows::Foundation::TimeSpan>>();
+            return GetValue(DelayProperty).try_as<winrt::IReference<winrt::TimeSpan>>();
         }
         /// <summary>
         /// Gets or sets the initial delay before the animation starts.
         /// </summary>
-        void Delay(winrt::Windows::Foundation::IReference<winrt::Windows::Foundation::TimeSpan> const& value)
+        void Delay(winrt::IReference<winrt::TimeSpan> const& value)
         {
             SetValue(DelayProperty, winrt::box_value(value));
         }
@@ -47,14 +48,14 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         /// <summary>
         /// Gets or sets the duration for the animation.
         /// </summary>
-        winrt::Windows::Foundation::IReference<winrt::Windows::Foundation::TimeSpan> Duration() const
+        winrt::IReference<winrt::TimeSpan> Duration() const
         {
-            return GetValue(DurationProperty).try_as<winrt::Windows::Foundation::IReference<winrt::Windows::Foundation::TimeSpan>>();
+            return GetValue(DurationProperty).try_as<winrt::IReference<winrt::TimeSpan>>();
         }
         /// <summary>
         /// Gets or sets the duration for the animation.
         /// </summary>
-        void Duration(winrt::Windows::Foundation::IReference<winrt::Windows::Foundation::TimeSpan> const& value)
+        void Duration(winrt::IReference<winrt::TimeSpan> const& value)
         {
             SetValue(DurationProperty, winrt::box_value(value));
         }
@@ -62,14 +63,14 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         /// <summary>
         /// Gets or sets the optional easing function type for the animation.
         /// </summary>
-        winrt::Windows::Foundation::IReference<EasingType> EasingType() const
+        winrt::IReference<EasingType> EasingType() const
         {
-            return GetValue(EasingTypeProperty).try_as<winrt::Windows::Foundation::IReference<enum EasingType>>();
+            return GetValue(EasingTypeProperty).try_as<winrt::IReference<enum EasingType>>();
         }
         /// <summary>
         /// Gets or sets the optional easing function type for the animation.
         /// </summary>
-        void EasingType(winrt::Windows::Foundation::IReference<enum EasingType> const& value)
+        void EasingType(winrt::IReference<enum EasingType> const& value)
         {
             SetValue(EasingTypeProperty, winrt::box_value(value));
         }
@@ -77,14 +78,14 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         /// <summary>
         /// Gets or sets the optional easing function mode for the animation.
         /// </summary>
-        winrt::Windows::Foundation::IReference<EasingMode> EasingMode() const
+        winrt::IReference<winrt::EasingMode> EasingMode() const
         {
-            return GetValue(EasingModeProperty).try_as<winrt::Windows::Foundation::IReference<enum EasingMode>>();
+            return GetValue(EasingModeProperty).try_as<winrt::IReference<winrt::EasingMode>>();
         }
         /// <summary>
         /// Gets or sets the optional easing function mode for the animation.
         /// </summary>
-        void EasingMode(winrt::Windows::Foundation::IReference<enum EasingMode> const& value)
+        void EasingMode(winrt::IReference<winrt::EasingMode> const& value)
         {
             SetValue(EasingModeProperty, winrt::box_value(value));
         }
@@ -107,35 +108,35 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         /// <summary>
         /// Gets or sets the delay behavior for the animation.
         /// </summary>
-        AnimationDelayBehavior DelayBehavior()
+        winrt::AnimationDelayBehavior DelayBehavior()
         {
-            return winrt::unbox_value<AnimationDelayBehavior>(GetValue(DelayBehaviorProperty));
+            return winrt::unbox_value<winrt::AnimationDelayBehavior>(GetValue(DelayBehaviorProperty));
         }
         /// <summary>
         /// Gets or sets the delay behavior for the animation.
         /// </summary>
-        void DelayBehavior(AnimationDelayBehavior const& value)
+        void DelayBehavior(winrt::AnimationDelayBehavior const& value)
         {
             SetValue(DelayBehaviorProperty, winrt::box_value(value));
         }
 
         /// <inheritdoc/>
-        virtual Animations::AnimationBuilder& AppendToBuilder(
-            Animations::AnimationBuilder& builder,
-            [[maybe_unused]] std::optional<winrt::Windows::Foundation::TimeSpan> delayHint = std::nullopt,
-            [[maybe_unused]] std::optional<winrt::Windows::Foundation::TimeSpan> durationHint = std::nullopt,
+        virtual winrt::XamlToolkit::WinUI::Animations::AnimationBuilder& AppendToBuilder(
+            winrt::XamlToolkit::WinUI::Animations::AnimationBuilder& builder,
+            [[maybe_unused]] std::optional<winrt::TimeSpan> delayHint = std::nullopt,
+            [[maybe_unused]] std::optional<winrt::TimeSpan> durationHint = std::nullopt,
             [[maybe_unused]] std::optional<enum EasingType> easingTypeHint = std::nullopt,
-            [[maybe_unused]] std::optional<enum EasingMode> easingModeHint = std::nullopt)
+            [[maybe_unused]] std::optional<winrt::EasingMode> easingModeHint = std::nullopt)
         {
             return builder;
         }
 
-        static const wil::single_threaded_property<Microsoft::UI::Xaml::DependencyProperty> DelayProperty;
-        static const wil::single_threaded_property<Microsoft::UI::Xaml::DependencyProperty> DurationProperty;
-        static const wil::single_threaded_property<Microsoft::UI::Xaml::DependencyProperty> EasingTypeProperty;
-        static const wil::single_threaded_property<Microsoft::UI::Xaml::DependencyProperty> EasingModeProperty;
-        static const wil::single_threaded_property<Microsoft::UI::Xaml::DependencyProperty> RepeatProperty;
-        static const wil::single_threaded_property<Microsoft::UI::Xaml::DependencyProperty> DelayBehaviorProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> DelayProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> DurationProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> EasingTypeProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> EasingModeProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> RepeatProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> DelayBehaviorProperty;
     };
 }
 

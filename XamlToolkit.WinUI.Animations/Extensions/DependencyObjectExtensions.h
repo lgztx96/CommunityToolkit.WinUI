@@ -4,20 +4,21 @@
 #include "../Enums/Side.h"
 
 #ifdef __INTELLISENSE__
+#include <winrt/Windows.UI.h>
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.Foundation.Numerics.h>
-#include <winrt/Microsoft.UI.Xaml.h>
-#include <winrt/Microsoft.UI.Xaml.Media.h>
 #include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
-#endif
-
+#else
 import winrt.Microsoft.UI.Xaml.Media.Animation;
+#endif
 
 namespace winrt
 {
+    using namespace Windows::UI;
+    using namespace Windows::Foundation;
     using namespace Windows::Foundation::Numerics;
-    using namespace Microsoft::UI::Xaml::Media;
 	using namespace Microsoft::UI::Xaml::Media::Animation;
+	using XamlColorAnimation = Microsoft::UI::Xaml::Media::Animation::ColorAnimation;
 }
 
 namespace winrt::XamlToolkit::WinUI::Animations
@@ -43,16 +44,16 @@ namespace winrt::XamlToolkit::WinUI::Animations
 		/// <param name="autoReverse">Indicates whether the animation plays in reverse after each forward iteration.</param>
 		/// <param name="enableDependecyAnimations">Indicates whether or not to apply this animation to elements that need the visual tree to be rearranged.</param>
 		/// <returns>A <see cref="DoubleAnimation"/> instance with the specified parameters.</returns>
-		static DoubleAnimation CreateDoubleAnimation(
-			winrt::Microsoft::UI::Xaml::DependencyObject const& target,
+		static winrt::DoubleAnimation CreateDoubleAnimation(
+			winrt::DependencyObject const& target,
 			winrt::hstring const& property,
 			double to,
 			std::optional<double> from,
-			std::optional<winrt::Windows::Foundation::TimeSpan> delay,
-			winrt::Windows::Foundation::TimeSpan duration,
-			EasingFunctionBase const& easing,
-			std::optional<RepeatBehavior> repeatBehavior = std::nullopt,
-			FillBehavior fillBehavior = FillBehavior::HoldEnd,
+			std::optional<winrt::TimeSpan> delay,
+			winrt::TimeSpan duration,
+			winrt::EasingFunctionBase const& easing,
+			std::optional<winrt::RepeatBehavior> repeatBehavior = std::nullopt,
+			winrt::FillBehavior fillBehavior = winrt::FillBehavior::HoldEnd,
 			bool autoReverse = false,
 			bool enableDependecyAnimations = false)
 		{
@@ -70,20 +71,20 @@ namespace winrt::XamlToolkit::WinUI::Animations
 				animation.BeginTime(delay.value());
 			}
 
-			animation.Duration(winrt::Microsoft::UI::Xaml::DurationHelper::FromTimeSpan(duration));
+			animation.Duration(winrt::DurationHelper::FromTimeSpan(duration));
 
 			if (easing)
 			{
 				animation.EasingFunction(easing);
 			}
 
-			animation.RepeatBehavior(repeatBehavior.value_or(RepeatBehavior{ 1 }));
+			animation.RepeatBehavior(repeatBehavior.value_or(winrt::RepeatBehavior{ 1 }));
 			animation.FillBehavior(fillBehavior);
 			animation.AutoReverse(autoReverse);
 			animation.EnableDependentAnimation(enableDependecyAnimations);
 
-			Storyboard::SetTarget(animation, target);
-			Storyboard::SetTargetProperty(animation, property);
+			winrt::Storyboard::SetTarget(animation, target);
+			winrt::Storyboard::SetTargetProperty(animation, property);
 
 			return animation;
 		}
@@ -103,20 +104,20 @@ namespace winrt::XamlToolkit::WinUI::Animations
 		/// <param name="autoReverse">Indicates whether the animation plays in reverse after each forward iteration.</param>
 		/// <param name="enableDependecyAnimations">Indicates whether or not to apply this animation to elements that need the visual tree to be rearranged.</param>
 		/// <returns>A <see cref="PointAnimation"/> instance with the specified parameters.</returns>
-		static PointAnimation CreatePointAnimation(
-			winrt::Microsoft::UI::Xaml::DependencyObject const& target,
+		static winrt::PointAnimation CreatePointAnimation(
+			winrt::DependencyObject const& target,
 			winrt::hstring const& property,
-			winrt::Windows::Foundation::Point to,
-			std::optional<winrt::Windows::Foundation::Point> from,
-			std::optional<Windows::Foundation::TimeSpan> delay,
-			winrt::Windows::Foundation::TimeSpan duration,
-			EasingFunctionBase const& easing,
-			std::optional<RepeatBehavior> repeatBehavior = std::nullopt,
-			FillBehavior fillBehavior = FillBehavior::HoldEnd,
+			winrt::Point to,
+			std::optional<winrt::Point> from,
+			std::optional<winrt::TimeSpan> delay,
+			winrt::TimeSpan duration,
+			winrt::EasingFunctionBase const& easing,
+			std::optional<winrt::RepeatBehavior> repeatBehavior = std::nullopt,
+			winrt::FillBehavior fillBehavior = winrt::FillBehavior::HoldEnd,
 			bool autoReverse = false,
 			bool enableDependecyAnimations = false)
 		{
-			PointAnimation animation;
+			winrt::PointAnimation animation;
 
 			animation.To(to);
 
@@ -130,20 +131,20 @@ namespace winrt::XamlToolkit::WinUI::Animations
 				animation.BeginTime(delay.value());
 			}
 
-			animation.Duration(winrt::Microsoft::UI::Xaml::DurationHelper::FromTimeSpan(duration));
+			animation.Duration(winrt::DurationHelper::FromTimeSpan(duration));
 
 			if (easing)
 			{
 				animation.EasingFunction(easing);
 			}
 
-			animation.RepeatBehavior(repeatBehavior.value_or(RepeatBehavior{ 1 }));
+			animation.RepeatBehavior(repeatBehavior.value_or(winrt::RepeatBehavior{ 1 }));
 			animation.FillBehavior(fillBehavior);
 			animation.AutoReverse(autoReverse);
 			animation.EnableDependentAnimation(enableDependecyAnimations);
 
-			Storyboard::SetTarget(animation, target);
-			Storyboard::SetTargetProperty(animation, property);
+			winrt::Storyboard::SetTarget(animation, target);
+			winrt::Storyboard::SetTargetProperty(animation, property);
 
 			return animation;
 		}
@@ -162,19 +163,19 @@ namespace winrt::XamlToolkit::WinUI::Animations
 		/// <param name="fillBehavior">The behavior to use when the animation reaches the end of its schedule.</param>
 		/// <param name="autoReverse">Indicates whether the animation plays in reverse after each forward iteration.</param>
 		/// <returns>A <see cref="XamlColorAnimation"/> instance with the specified parameters.</returns>
-		static winrt::Microsoft::UI::Xaml::Media::Animation::ColorAnimation CreateColorAnimation(
-			winrt::Microsoft::UI::Xaml::DependencyObject const& target,
+		static winrt::XamlColorAnimation CreateColorAnimation(
+			winrt::DependencyObject const& target,
 			winrt::hstring const& property,
-			winrt::Windows::UI::Color to,
-			std::optional<winrt::Windows::UI::Color> from,
-			std::optional<winrt::Windows::Foundation::TimeSpan> delay,
-			winrt::Windows::Foundation::TimeSpan duration,
-			EasingFunctionBase const& easing,
-			std::optional<RepeatBehavior> repeatBehavior = std::nullopt,
-			FillBehavior fillBehavior = FillBehavior::HoldEnd,
+			winrt::Color to,
+			std::optional<winrt::Color> from,
+			std::optional<winrt::TimeSpan> delay,
+			winrt::TimeSpan duration,
+			winrt::EasingFunctionBase const& easing,
+			std::optional<winrt::RepeatBehavior> repeatBehavior = std::nullopt,
+			winrt::FillBehavior fillBehavior = winrt::FillBehavior::HoldEnd,
 			bool autoReverse = false)
 		{
-			winrt::Microsoft::UI::Xaml::Media::Animation::ColorAnimation animation;
+			winrt::XamlColorAnimation animation;
 
 			animation.To(to);
 
@@ -188,19 +189,19 @@ namespace winrt::XamlToolkit::WinUI::Animations
 				animation.BeginTime(delay.value());
 			}
 
-			animation.Duration(winrt::Microsoft::UI::Xaml::DurationHelper::FromTimeSpan(duration));
+			animation.Duration(winrt::DurationHelper::FromTimeSpan(duration));
 
 			if (easing)
 			{
 				animation.EasingFunction(easing);
 			}
 
-			animation.RepeatBehavior(repeatBehavior.value_or(RepeatBehavior{ 1 }));
+			animation.RepeatBehavior(repeatBehavior.value_or(winrt::RepeatBehavior{ 1 }));
 			animation.FillBehavior(fillBehavior);
 			animation.AutoReverse(autoReverse);
 
-			Storyboard::SetTarget(animation, target);
-			Storyboard::SetTargetProperty(animation, property);
+			winrt::Storyboard::SetTarget(animation, target);
+			winrt::Storyboard::SetTargetProperty(animation, property);
 
 			return animation;
 		}

@@ -21,15 +21,15 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 	class MdHyperlinkButton final : public IAddChild
 	{
 	private:
-		HyperlinkButton _hyperLinkButton;
-		InlineUIContainer _inlineUIContainer;
+		winrt::HyperlinkButton _hyperLinkButton;
+		winrt::InlineUIContainer _inlineUIContainer;
 		std::unique_ptr<MdFlowDocument> _flowDoc;
 		std::wstring_view _baseUrl;
 
 	public:
-		//bool IsHtml() const { return _htmlNode != nullptr; }
+		//bool IsHtml() const { return _htmlNode; }
 
-		Microsoft::UI::Xaml::Documents::TextElement TextElement() const override
+		winrt::TextElement TextElement() const override
 		{
 			return _inlineUIContainer;
 		}
@@ -51,43 +51,43 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 		void Init(std::wstring_view url, std::wstring_view baseUrl, WinUIRenderer* renderer)
 		{
 			_hyperLinkButton.NavigateUri(Extensions::GetUri(url, baseUrl));
-			_hyperLinkButton.Padding(winrt::Microsoft::UI::Xaml::Thickness(0, 0, 0, 0));
-			_hyperLinkButton.Margin(winrt::Microsoft::UI::Xaml::Thickness(0, 0, 0, 0));
-			/* if (IsHtml() && _htmlNode != nullptr)
+			_hyperLinkButton.Padding(winrt::Thickness(0, 0, 0, 0));
+			_hyperLinkButton.Margin(winrt::Thickness(0, 0, 0, 0));
+			/* if (IsHtml() && _htmlNode)
 			 {
 				 _flowDoc = std::make_unique<MdFlowDocument>(_htmlNode);
 			 }
-			 else if (_linkInline != nullptr)
+			 else if (_linkInline)
 			 {
 				 _flowDoc = std::make_unique<MdFlowDocument>(_linkInline);
 			 }*/
 			_hyperLinkButton.Click([markdownWeak{ renderer->MarkdownTextBlock() }](auto& sender, auto&)
+			{
+				if (auto hyperlink = sender.template try_as<winrt::HyperlinkButton>())
 				{
-					if (auto hyperlink = sender.template try_as<HyperlinkButton>())
+					auto uri = hyperlink.NavigateUri();
+
+					if (auto markdown = markdownWeak.get())
 					{
-						auto uri = hyperlink.NavigateUri();
+						auto markdownStrong = winrt::get_self<
+							winrt::XamlToolkit::Labs::WinUI::implementation::MarkdownTextBlock>(markdown)->get_strong();
 
-						if (auto markdown = markdownWeak.get())
+						bool handled = markdownStrong->RaiseLinkClickedEvent(uri);
+
+						if (handled)
 						{
-							auto markdownStrong = winrt::get_self<
-								winrt::XamlToolkit::Labs::WinUI::implementation::MarkdownTextBlock>(markdown)->get_strong();
-
-							bool handled = markdownStrong->RaiseLinkClickedEvent(uri);
-
-							if (handled)
-							{
-								hyperlink.NavigateUri(nullptr);
-							}
+							hyperlink.NavigateUri(nullptr);
 						}
 					}
-				});
+				}
+			});
 			_flowDoc = std::make_unique<MdFlowDocument>();
 			_inlineUIContainer.Child(_hyperLinkButton);
 			_flowDoc->RichTextBlock().Foreground(renderer->Config().Themes().LinkForeground());
 			_hyperLinkButton.Content(_flowDoc->RichTextBlock());
 		}
 
-		void AddChild(TextElements::IAddChild* child) override
+		void AddChild(IAddChild* child) override
 		{
 			if (_flowDoc) _flowDoc->AddChild(child);
 		}

@@ -8,9 +8,9 @@
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
     const wil::single_threaded_property<DependencyProperty> Vector2KeyFrame::ValueProperty =
-        DependencyProperty::Register(
+        winrt::DependencyProperty::Register(
             L"Value",
             winrt::xaml_typename<winrt::hstring>(),
             winrt::xaml_typename<class_type>(),
-            nullptr);
+            winrt::PropertyMetadata(nullptr));
 }

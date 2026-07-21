@@ -26,19 +26,19 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
         RichTextBlock _richTextBlock;
 
     public:
-        Microsoft::UI::Xaml::Documents::TextElement TextElement() const override
+        winrt::TextElement TextElement() const override
         {
             throw winrt::hresult_not_implemented();
         }
 
-        RichTextBlock RichTextBlock()
+        winrt::RichTextBlock RichTextBlock()
         {
             return _richTextBlock;
         }
 
         bool IsHtml()
         {
-            // return _htmlNode != nullptr;
+            // return _htmlNode;
         };
 
         MdFlowDocument() = default;
@@ -48,17 +48,17 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
         //    _htmlNode = node;
         //}
 
-        void AddChild(TextElements::IAddChild* child) override
+        void AddChild(IAddChild* child) override
         {
             if (auto element = child->TextElement())
             {
-                if (auto block = element.try_as<Block>())
+                if (auto block = element.try_as<winrt::Block>())
                 {
                     _richTextBlock.Blocks().Append(block);
                 }
-                else if (auto inlineElement = element.try_as<Inline>())
+                else if (auto inlineElement = element.try_as<winrt::Inline>())
                 {
-                    Paragraph paragraph;
+                    winrt::Paragraph paragraph;
                     paragraph.Inlines().Append(inlineElement);
                     _richTextBlock.Blocks().Append(paragraph);
                 }

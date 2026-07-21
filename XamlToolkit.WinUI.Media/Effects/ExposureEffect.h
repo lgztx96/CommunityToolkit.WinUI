@@ -8,12 +8,12 @@
 #include "Abstract/PipelineEffect.h"
 #ifdef __INTELLISENSE__
 #include <algorithm>
+#include <winrt/XamlToolkit.WinUI.Media.Pipelines.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
-#endif
-
-import std;
+#else
 import winrt.XamlToolkit.WinUI.Media.Pipelines;
+#endif
 
 namespace winrt::XamlToolkit::WinUI::Media::implementation
 {

@@ -30,18 +30,18 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		base_type::OnApplyTemplate();
 
 		// Explicit casting throws early when parts are missing from the template
-		_marqueeContainer = GetTemplateChild(MarqueeContainerPartName).try_as<Panel>();
-		_segment1 = GetTemplateChild(Segment1PartName).try_as<ContentPresenter>();
-		_segment2 = GetTemplateChild(Segment2PartName).try_as<ContentPresenter>();
-		_marqueeTransform = GetTemplateChild(MarqueeTransformPartName).try_as<TranslateTransform>();
+		_marqueeContainer = GetTemplateChild(MarqueeContainerPartName).try_as<winrt::Panel>();
+		_segment1 = GetTemplateChild(Segment1PartName).try_as<winrt::ContentPresenter>();
+		_segment2 = GetTemplateChild(Segment2PartName).try_as<winrt::ContentPresenter>();
+		_marqueeTransform = GetTemplateChild(MarqueeTransformPartName).try_as<winrt::TranslateTransform>();
 
 		// Swapping tabs in TabView caused errors where the control would unload and never reattach events.
 		// Hotfix: Track the loaded event. This should be fine because the GC will handle detaching the Loaded
 		// event on disposal. However, more research is required
 		_loadedRevoker = Loaded(winrt::auto_revoke, { this, &Marquee::Marquee_Loaded });
 
-		VisualStateManager::GoToState(*this, GetVisualStateName(Direction()), false);
-		VisualStateManager::GoToState(*this, GetVisualStateName(Behavior()), false);
+		winrt::VisualStateManager::GoToState(*this, GetVisualStateName(Direction()), false);
+		winrt::VisualStateManager::GoToState(*this, GetVisualStateName(Behavior()), false);
 	}
 
 	std::wstring_view Marquee::GetVisualStateName(MarqueeDirection direction)
@@ -97,7 +97,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		if (_marqueeStoryboard) _marqueeStoryboard.Resume();
 
 		// Apply state transitions
-		VisualStateManager::GoToState(*this, MarqueeActiveState, false);
+		winrt::VisualStateManager::GoToState(*this, MarqueeActiveState, false);
 		MarqueeResumed.invoke(*this, nullptr);
 	}
 
@@ -113,7 +113,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		if (!wasPaused)
 		{
 			// Apply state transitions
-			VisualStateManager::GoToState(*this, MarqueePausedState, false);
+			winrt::VisualStateManager::GoToState(*this, MarqueePausedState, false);
 			MarqueePaused.invoke(*this, nullptr);
 		}
 	}
@@ -136,7 +136,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		if (!wasStopped)
 		{
 			// Apply state transitions
-			VisualStateManager::GoToState(*this, MarqueeStoppedState, false);
+			winrt::VisualStateManager::GoToState(*this, MarqueeStoppedState, false);
 			MarqueeStopped.invoke(*this, nullptr);
 		}
 	}
@@ -172,7 +172,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		if (!wasActive)
 		{
 			// Apply state transitions
-			VisualStateManager::GoToState(*this, MarqueeActiveState, false);
+			winrt::VisualStateManager::GoToState(*this, MarqueeActiveState, false);
 			MarqueeStarted.invoke(*this, nullptr);
 		}
 	}
@@ -193,7 +193,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		}
 
 		// Apply the animation update
-		TimeSpan seek;
+		winrt::TimeSpan seek;
 		bool hasAnimation = UpdateAnimation(seek);
 
 		// If updating on the fly, and there is an animation,
@@ -214,9 +214,9 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		}
 	}
 
-	bool Marquee::UpdateAnimation(TimeSpan& seekPoint)
+	bool Marquee::UpdateAnimation(winrt::TimeSpan& seekPoint)
 	{
-		seekPoint = TimeSpan{ 0 };
+		seekPoint = winrt::TimeSpan{ 0 };
 
 		// Check for crucial template parts
 		if (_marqueeContainer == nullptr ||
@@ -241,7 +241,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		double containerSize;
 		double segmentSize;
 		double value;
-		DependencyProperty dp{ nullptr };
+		winrt::DependencyProperty dp{ nullptr };
 		std::wstring_view targetProperty;
 
 		if (IsDirectionHorizontal())
@@ -251,7 +251,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 			containerSize = _marqueeContainer.ActualWidth();
 			segmentSize = _segment1.ActualWidth();
 			value = _marqueeTransform.X();
-			dp = TranslateTransform::XProperty();
+			dp = winrt::TranslateTransform::XProperty();
 			targetProperty = L"(TranslateTransform.X)";
 		}
 		else
@@ -261,7 +261,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 			containerSize = _marqueeContainer.ActualHeight();
 			segmentSize = _segment1.ActualHeight();
 			value = _marqueeTransform.Y();
-			dp = TranslateTransform::YProperty();
+			dp = winrt::TranslateTransform::YProperty();
 			targetProperty = L"(TranslateTransform.Y)";
 		}
 
@@ -272,7 +272,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
 			// Reset the transform to 0 and hide the second segment
 			_marqueeContainer.SetValue(dp, winrt::box_value(0));
-			_segment2.Visibility(Visibility::Collapsed);
+			_segment2.Visibility(winrt::Visibility::Collapsed);
 
 			if (_marqueeStoryboard) 
 			{
@@ -313,10 +313,10 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		}
 
 		// The second segment of text should be hidden if the marquee is not in looping mode
-		_segment2.Visibility(IsLooping() ? Visibility::Visible : Visibility::Collapsed);
+		_segment2.Visibility(IsLooping() ? winrt::Visibility::Visible : winrt::Visibility::Collapsed);
 
 		// Calculate the animation duration by dividing the distance by the speed
-		TimeSpan duration{ static_cast<int64_t>((distance / Speed()) * 10'000'000) };
+		winrt::TimeSpan duration{ static_cast<int64_t>((distance / Speed()) * 10'000'000) };
 
 		// Create new storyboard and animation
 		_marqueeStoryboard = CreateMarqueeStoryboardAnimation(start, end, duration, targetProperty);
@@ -328,14 +328,14 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		// Invalidate the segment measures when the transform changes.
 		// This forces virtualized panels to re-measure the segments
 		_marqueeTransform.RegisterPropertyChangedCallback(dp, [this]([[maybe_unused]] auto& sender, [[maybe_unused]] auto& dp)
-			{
-				_segment1.InvalidateMeasure();
-				_segment2.InvalidateMeasure();
-			});
+		{
+			_segment1.InvalidateMeasure();
+			_segment2.InvalidateMeasure();
+		});
 
 		// Calculate the seek point for seamless animation updates
 		double progress = std::abs(start - value) / distance;
-		seekPoint = std::chrono::duration_cast<winrt::Windows::Foundation::TimeSpan>(duration * progress);
+		seekPoint = std::chrono::duration_cast<winrt::TimeSpan>(duration * progress);
 
 		// Set the value of the transform to the start position if not active.
 		// This puts the content in the correct starting position without using the animation.
@@ -352,26 +352,26 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		return true;
 	}
 
-	Storyboard Marquee::CreateMarqueeStoryboardAnimation(double start, double end, TimeSpan duration, std::wstring_view targetProperty)
+	winrt::Storyboard Marquee::CreateMarqueeStoryboardAnimation(double start, double end, winrt::TimeSpan duration, std::wstring_view targetProperty)
 	{
 		// Initialize the new storyboard
-		Storyboard marqueeStoryboard;
-		marqueeStoryboard.Duration(winrt::Microsoft::UI::Xaml::DurationHelper::FromTimeSpan(duration));
+		winrt::Storyboard marqueeStoryboard;
+		marqueeStoryboard.Duration(winrt::DurationHelper::FromTimeSpan(duration));
 		marqueeStoryboard.RepeatBehavior(RepeatBehavior());
 		marqueeStoryboard.AutoReverse(IsBouncing());
 
 		// Create a new double animation, moving from [start] to [end] positions in [duration] time.
-		DoubleAnimationUsingKeyFrames animation;
-		animation.Duration(winrt::Microsoft::UI::Xaml::DurationHelper::FromTimeSpan(duration));
+		winrt::DoubleAnimationUsingKeyFrames animation;
+		animation.Duration(winrt::DurationHelper::FromTimeSpan(duration));
 		animation.RepeatBehavior(RepeatBehavior());
 		animation.AutoReverse(IsBouncing());
 
 		// Create the key frames
-		DiscreteDoubleKeyFrame frame1;
+		winrt::DiscreteDoubleKeyFrame frame1;
 		frame1.KeyTime({ std::chrono::duration<int>::zero() });
 		frame1.Value(start);
 
-		EasingDoubleKeyFrame frame2;
+		winrt::EasingDoubleKeyFrame frame2;
 		frame2.KeyTime({ duration });
 		frame2.Value(end);
 
@@ -384,8 +384,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		marqueeStoryboard.Children().Append(animation);
 
 		// Set the storyboard target and target property
-		Storyboard::SetTarget(animation, _marqueeTransform);
-		Storyboard::SetTargetProperty(animation, targetProperty);
+		winrt::Storyboard::SetTarget(animation, _marqueeTransform);
+		winrt::Storyboard::SetTargetProperty(animation, targetProperty);
 
 		return marqueeStoryboard;
 	}
@@ -399,12 +399,12 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		height = height == 0 ? _marqueeContainer.ActualHeight() : height;
 
 		// Clip the marquee within the bounds of the container
-		RectangleGeometry geometry;
-		geometry.Rect(Rect(0, 0, static_cast<float>(width), static_cast<float>(height)));
+		winrt::RectangleGeometry geometry;
+		geometry.Rect(winrt::Rect(0, 0, static_cast<float>(width), static_cast<float>(height)));
 		_marqueeContainer.Clip(geometry);
 	}
 
-	void Marquee::BehaviorPropertyChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e)
+	void Marquee::BehaviorPropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e)
 	{
 		auto control = d.try_as<class_type>();
 
@@ -417,7 +417,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
 		auto newBehavior = e.NewValue().try_as<MarqueeBehavior>();
 
-		VisualStateManager::GoToState(control, GetVisualStateName(*newBehavior), true);
+		winrt::VisualStateManager::GoToState(control, GetVisualStateName(*newBehavior), true);
 
 		// It is always impossible to perform an on the fly behavior change.
 		self->UpdateMarquee(false);
@@ -427,7 +427,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		}
 	}
 
-	void Marquee::DirectionPropertyChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e)
+	void Marquee::DirectionPropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e)
 	{
 		auto control = d.try_as<class_type>();
 		if (control == nullptr)
@@ -441,7 +441,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		bool oldAxisX = oldDirection == MarqueeDirection::Left || oldDirection == MarqueeDirection::Right;
 		bool newAxisX = newDirection == MarqueeDirection::Left || newDirection == MarqueeDirection::Right;
 
-		VisualStateManager::GoToState(control, GetVisualStateName(*newDirection), true);
+		winrt::VisualStateManager::GoToState(control, GetVisualStateName(*newDirection), true);
 
 		// If the axis changed we cannot update the animation on the fly.
 		// Otherwise, the animation can be updated and resumed seamlessly
@@ -453,7 +453,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		}
 	}
 
-	void Marquee::PropertyChanged(DependencyObject const& d, [[maybe_unused]] DependencyPropertyChangedEventArgs const& e)
+	void Marquee::PropertyChanged(winrt::DependencyObject const& d, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& e)
 	{
 		if (auto control = d.try_as<class_type>())
 		{
@@ -470,7 +470,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		}
 	}
 
-	void Marquee::Marquee_Loaded([[maybe_unused]] IInspectable const& sender, [[maybe_unused]] RoutedEventArgs const& e)
+	void Marquee::Marquee_Loaded([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
 	{
 		// While loaded, detach the loaded event and attach the unloaded event
 		_loadedRevoker.revoke();
@@ -506,7 +506,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		}
 	}
 
-	void Marquee::Marquee_Unloaded([[maybe_unused]] IInspectable const& sender, [[maybe_unused]] RoutedEventArgs const& e)
+	void Marquee::Marquee_Unloaded([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
 	{
 		// Restore the loaded event and detach the unloaded event 
 		_loadedRevoker = Loaded(winrt::auto_revoke, { this, &Marquee::Marquee_Loaded });
@@ -528,7 +528,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		}
 	}
 
-	void Marquee::Container_SizeChanged([[maybe_unused]] IInspectable const& sender, SizeChangedEventArgs const& e)
+	void Marquee::Container_SizeChanged([[maybe_unused]] winrt::IInspectable const& sender, winrt::SizeChangedEventArgs const& e)
 	{
 		if (_marqueeContainer == nullptr)
 		{
@@ -550,7 +550,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		}
 	}
 
-	void Marquee::Segment_SizeChanged([[maybe_unused]] IInspectable const& sender, [[maybe_unused]] SizeChangedEventArgs const& e)
+	void Marquee::Segment_SizeChanged([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::SizeChangedEventArgs const& e)
 	{
 		if (_segment1 == nullptr)
 		{
@@ -570,7 +570,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		UpdateMarquee(true);
 	}
 
-	void Marquee::StoryBoard_Completed([[maybe_unused]] IInspectable const& sender, [[maybe_unused]] IInspectable const& e)
+	void Marquee::StoryBoard_Completed([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::IInspectable const& e)
 	{
 		StopMarquee();
 		MarqueeCompleted.invoke(*this, nullptr);

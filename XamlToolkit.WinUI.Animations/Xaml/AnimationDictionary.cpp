@@ -8,13 +8,13 @@
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
-    void AnimationDictionary::Parent(UIElement const& value)
+    void AnimationDictionary::Parent(winrt::UIElement const& value)
     {
         parent = value ? winrt::make_weak(value) : nullptr;
 
         for (auto const& item : list)
         {
-            winrt::get_self<Animations::implementation::AnimationSet>(item)->ParentReference(parent);
+            winrt::get_self<implementation::AnimationSet>(item)->ParentReference(parent);
         }
     }
 
@@ -23,7 +23,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         return static_cast<uint32_t>(list.size());
     }
 
-    bool AnimationDictionary::IndexOf(Animations::AnimationSet const& value, uint32_t& index)
+    bool AnimationDictionary::IndexOf(winrt::XamlToolkit::WinUI::Animations::AnimationSet const& value, uint32_t& index)
     {
         auto it = std::find(list.begin(), list.end(), value);
 
@@ -38,19 +38,19 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         return false;
     }
 
-    void AnimationDictionary::SetAt(uint32_t index, Animations::AnimationSet const& value)
+    void AnimationDictionary::SetAt(uint32_t index, winrt::XamlToolkit::WinUI::Animations::AnimationSet const& value)
     {
         if (index >= list.size())
         {
             throw winrt::hresult_out_of_bounds();
         }
         ++version;
-        winrt::get_self<Animations::implementation::AnimationSet>(list[index])->ParentReference(nullptr);
+        winrt::get_self<implementation::AnimationSet>(list[index])->ParentReference(nullptr);
         list[index] = value;
-        winrt::get_self<Animations::implementation::AnimationSet>(value)->ParentReference(parent);
+        winrt::get_self<implementation::AnimationSet>(value)->ParentReference(parent);
     }
 
-    Animations::AnimationSet AnimationDictionary::GetAt(uint32_t index)
+    winrt::XamlToolkit::WinUI::Animations::AnimationSet AnimationDictionary::GetAt(uint32_t index)
     {
         if (index >= list.size())
         {
@@ -60,19 +60,19 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         return list[index];
     }
 
-    Windows::Foundation::Collections::IVectorView<Animations::AnimationSet> AnimationDictionary::GetView()
+    winrt::IVectorView<winrt::XamlToolkit::WinUI::Animations::AnimationSet> AnimationDictionary::GetView()
     {
         return *this;
     }
 
-    void AnimationDictionary::Append(Animations::AnimationSet const& value)
+    void AnimationDictionary::Append(winrt::XamlToolkit::WinUI::Animations::AnimationSet const& value)
     {
         ++version;
         list.push_back(value);
-        winrt::get_self<Animations::implementation::AnimationSet>(value)->ParentReference(parent);
+        winrt::get_self<implementation::AnimationSet>(value)->ParentReference(parent);
     }
 
-    void AnimationDictionary::InsertAt(uint32_t index, Animations::AnimationSet const& value)
+    void AnimationDictionary::InsertAt(uint32_t index, winrt::XamlToolkit::WinUI::Animations::AnimationSet const& value)
     {
         if (index > list.size())
         {
@@ -80,7 +80,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         }
         ++version;
         list.insert(list.begin() + index, value);
-        winrt::get_self<Animations::implementation::AnimationSet>(value)->ParentReference(parent);
+        winrt::get_self<implementation::AnimationSet>(value)->ParentReference(parent);
     }
 
     void AnimationDictionary::RemoveAt(uint32_t index)
@@ -90,7 +90,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
             throw winrt::hresult_out_of_bounds();
         }
         ++version;
-        winrt::get_self<Animations::implementation::AnimationSet>(list[index])->ParentReference(nullptr);
+        winrt::get_self<implementation::AnimationSet>(list[index])->ParentReference(nullptr);
         list.erase(list.begin() + index);
     }
 
@@ -99,7 +99,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         if (!list.empty())
         {
             ++version;
-            winrt::get_self<Animations::implementation::AnimationSet>(list.back())->ParentReference(nullptr);
+            winrt::get_self<implementation::AnimationSet>(list.back())->ParentReference(nullptr);
             list.pop_back();
         }
     }
@@ -110,13 +110,13 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         for (auto const& item : list)
         {
             // Keep parity with the C# implementation, which preserves the current parent reference.
-            winrt::get_self<Animations::implementation::AnimationSet>(item)->ParentReference(parent);
+            winrt::get_self<implementation::AnimationSet>(item)->ParentReference(parent);
         }
 
         list.clear();
     }
 
-    uint32_t AnimationDictionary::GetMany(uint32_t startIndex, array_view<Animations::AnimationSet> items)
+    uint32_t AnimationDictionary::GetMany(uint32_t startIndex, winrt::array_view<winrt::XamlToolkit::WinUI::Animations::AnimationSet> items)
     {
         if (startIndex >= list.size())
         {
@@ -134,24 +134,24 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         return count;
     }
 
-    void AnimationDictionary::ReplaceAll(winrt::array_view<Animations::AnimationSet const> items)
+    void AnimationDictionary::ReplaceAll(winrt::array_view<winrt::XamlToolkit::WinUI::Animations::AnimationSet const> items)
     {
         ++version;
 
         for (auto const& item : list)
         {
-            winrt::get_self<Animations::implementation::AnimationSet>(item)->ParentReference(nullptr);
+            winrt::get_self<implementation::AnimationSet>(item)->ParentReference(nullptr);
         }
 
         list.assign(items.begin(), items.end());
 
         for (auto const& item : list)
         {
-            winrt::get_self<Animations::implementation::AnimationSet>(item)->ParentReference(parent);
+            winrt::get_self<implementation::AnimationSet>(item)->ParentReference(parent);
         }
     }
        
-    Windows::Foundation::Collections::IIterator<Animations::AnimationSet> AnimationDictionary::First()
+    winrt::IIterator<winrt::XamlToolkit::WinUI::Animations::AnimationSet> AnimationDictionary::First()
     {
         return winrt::make<iterator>(this);
     }

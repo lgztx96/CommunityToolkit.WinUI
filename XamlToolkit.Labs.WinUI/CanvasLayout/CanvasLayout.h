@@ -23,10 +23,10 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 	struct CanvasLayoutState : winrt::implements<CanvasLayoutState, ICanvasLayoutState>
 	{
 	public:
-		CanvasLayoutState() : FirstRealizedIndex{ -1 }, LayoutRects{ winrt::single_threaded_vector<Rect>() } { }
+		CanvasLayoutState() : FirstRealizedIndex{ -1 }, LayoutRects{ winrt::single_threaded_vector<winrt::Rect>() } { }
 
 		wil::single_threaded_rw_property<int> FirstRealizedIndex;
-		wil::single_threaded_rw_property<IVector<Rect>> LayoutRects;
+		wil::single_threaded_rw_property<winrt::IVector<winrt::Rect>> LayoutRects;
 	};
 
 	struct CanvasLayout : CanvasLayoutT<CanvasLayout>
@@ -34,15 +34,15 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		CanvasLayout() = default;
 
 #pragma region Setup / teardown
-		void InitializeForContextCore(VirtualizingLayoutContext const& context);
+		void InitializeForContextCore(winrt::VirtualizingLayoutContext const& context);
 
-		void UninitializeForContextCore(VirtualizingLayoutContext const& context);
+		void UninitializeForContextCore(winrt::VirtualizingLayoutContext const& context);
 #pragma endregion
 
 #pragma region Layout
-		Size MeasureOverride(VirtualizingLayoutContext const& context, Size availableSize);
+		winrt::Size MeasureOverride(winrt::VirtualizingLayoutContext const& context, winrt::Size availableSize);
 
-		Size ArrangeOverride(VirtualizingLayoutContext const& context, Size finalSize);
+		winrt::Size ArrangeOverride(winrt::VirtualizingLayoutContext const& context, winrt::Size finalSize);
 #pragma endregion
 	};
 }

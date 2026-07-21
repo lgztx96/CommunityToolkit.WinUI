@@ -7,19 +7,19 @@
 
 namespace winrt::XamlToolkit::WinUI::implementation
 {
-	FontFamily TextIconExtension::SymbolThemeFontFamily()
+	winrt::FontFamily TextIconExtension::SymbolThemeFontFamily()
 	{
 		if (!symbolThemeFontFamily)
 		{
-			symbolThemeFontFamily = FontFamily(L"Segoe Fluent Icons,Segoe MDL2 Assets");
+			symbolThemeFontFamily = winrt::FontFamily(L"Segoe Fluent Icons,Segoe MDL2 Assets");
 		}
 
 		return symbolThemeFontFamily;
 	}
 
-	IInspectable TextIconExtension::ProvideValue() { return nullptr; }
+	winrt::IInspectable TextIconExtension::ProvideValue() { return nullptr; }
 
-	IInspectable TextIconExtension::ProvideValue([[maybe_unused]] IXamlServiceProvider const& provider)
+	winrt::IInspectable TextIconExtension::ProvideValue([[maybe_unused]] winrt::IXamlServiceProvider const& provider)
 	{
 		return ProvideValue();
 	}

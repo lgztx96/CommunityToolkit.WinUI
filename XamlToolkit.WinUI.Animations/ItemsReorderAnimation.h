@@ -10,6 +10,13 @@
 #include <wil/cppwinrt_authoring.h>
 #endif
 
+namespace winrt
+{
+	using namespace Windows::Foundation;
+    using namespace Microsoft::UI::Xaml;
+    using namespace Microsoft::UI::Xaml::Controls;
+}
+
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
     /// <summary>
@@ -23,29 +30,29 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         /// <summary>
         /// Gets the duration of the reorder animation.
         /// </summary>
-        static Windows::Foundation::TimeSpan GetDuration(Microsoft::UI::Xaml::Controls::ListViewBase const& listView);
+        static winrt::TimeSpan GetDuration(winrt::ListViewBase const& listView);
 
         /// <summary>
         /// Sets the duration of the reorder animation.
         /// </summary>
-        static void SetDuration(Microsoft::UI::Xaml::Controls::ListViewBase const& listView, Windows::Foundation::TimeSpan const& value);
+        static void SetDuration(winrt::ListViewBase const& listView, winrt::TimeSpan const& value);
 
         /// <summary>
         /// Identifies the DurationProperty dependency property.
         /// </summary>
-        static const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> DurationProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> DurationProperty;
 
         /// <summary>
         /// Identifies the attached "ReorderAnimation" <see cref="DependencyProperty"/>.
         /// </summary>
-        static const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> ReorderAnimationProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> ReorderAnimationProperty;
 
     private:
-        static void OnDurationChanged(Microsoft::UI::Xaml::DependencyObject const& d, Microsoft::UI::Xaml::DependencyPropertyChangedEventArgs const& e);
-        static void AssignReorderAnimation(Microsoft::UI::Xaml::Controls::ListViewBase const& listView, Windows::Foundation::TimeSpan const& duration);
-        static void OnContainerContentChanging(Microsoft::UI::Xaml::Controls::ListViewBase const& sender, Microsoft::UI::Xaml::Controls::ContainerContentChangingEventArgs const& args);
-        static void OnChoosingItemContainer(Microsoft::UI::Xaml::Controls::ListViewBase const& sender, Microsoft::UI::Xaml::Controls::ChoosingItemContainerEventArgs const& args);
-        static void PokeUIElementZIndex(Microsoft::UI::Xaml::UIElement const& element);
+        static void OnDurationChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
+        static void AssignReorderAnimation(winrt::ListViewBase const& listView, winrt::TimeSpan const& duration);
+        static void OnContainerContentChanging(winrt::ListViewBase const& sender, winrt::ContainerContentChangingEventArgs const& args);
+        static void OnChoosingItemContainer(winrt::ListViewBase const& sender, winrt::ChoosingItemContainerEventArgs const& args);
+        static void PokeUIElementZIndex(winrt::UIElement const& element);
     };
 }
 

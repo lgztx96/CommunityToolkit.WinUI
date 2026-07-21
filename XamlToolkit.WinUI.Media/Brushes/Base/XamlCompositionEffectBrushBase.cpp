@@ -9,6 +9,11 @@
 #include "XamlCompositionEffectBrushBase.g.cpp"
 #endif
 
+namespace winrt
+{
+    using namespace winrt::Microsoft::UI::Composition;
+}
+
 namespace winrt::XamlToolkit::WinUI::Media::implementation
 {
     void XamlCompositionEffectBrushBase::IsEnabled(bool value)
@@ -22,8 +27,7 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
 
         if (CompositionBrush() == nullptr)
         {
-
-            winrt::Microsoft::UI::Composition::CompositionCapabilities compositionCapabilities;
+            winrt::CompositionCapabilities compositionCapabilities;
 
             // Abort if effects aren't supported.
             if (!compositionCapabilities.AreEffectsSupported())
@@ -75,7 +79,7 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
 
         if (CompositionBrush())
         {
-            winrt::Microsoft::UI::Composition::CompositionCapabilities compositionCapabilities;
+            winrt::CompositionCapabilities compositionCapabilities;
 
             // Abort if effects aren't supported.
             if (!compositionCapabilities.AreEffectsSupported())

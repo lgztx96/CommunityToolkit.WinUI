@@ -7,12 +7,13 @@
 #include "../Pipelines/PipelineBuilder.h"
 #ifdef __INTELLISENSE__
 #include <winrt/Microsoft.UI.Composition.h>
+#include <winrt/XamlToolkit.WinUI.Media.Pipelines.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
-#endif
-
+#else
 import winrt.Microsoft.UI.Composition;
 import winrt.XamlToolkit.WinUI.Media.Pipelines;
+#endif
 
 namespace winrt::XamlToolkit::WinUI::Media::implementation
 {

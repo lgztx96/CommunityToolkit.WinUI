@@ -24,7 +24,7 @@ namespace winrt::XamlToolkit::WinUI::Controls
             else
             {
                 // Clone theme dictionaries
-                if (source.ThemeDictionaries() != nullptr)
+                if (source.ThemeDictionaries())
                 {
                     for (const auto& theme : source.ThemeDictionaries())
                     {

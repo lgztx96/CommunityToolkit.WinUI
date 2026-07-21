@@ -7,12 +7,20 @@
 #include "PipelineBrush.g.h"
 #include "Base/XamlCompositionEffectBrushBase.h"
 #ifdef __INTELLISENSE__
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Windows.Foundation.Collections.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
-#endif
-
+#else
 import winrt.Windows.Foundation.Collections;
 import winrt.Microsoft.UI.Xaml;
+#endif
+
+namespace winrt
+{
+    using namespace winrt::Microsoft::UI::Xaml;
+    using namespace winrt::Windows::Foundation::Collections;
+}
 
 namespace winrt::XamlToolkit::WinUI::Media::implementation
 {
@@ -25,10 +33,10 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
 
         wil::single_threaded_rw_property<Pipelines::PipelineBuilder> Source{ nullptr };
 
-        winrt::Windows::Foundation::Collections::IVector<IPipelineEffect> Effects() const;
-        void Effects(winrt::Windows::Foundation::Collections::IVector<IPipelineEffect> const& value);
+        winrt::IVector<IPipelineEffect> Effects() const;
+        void Effects(winrt::IVector<IPipelineEffect> const& value);
 
-        static const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> EffectsProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> EffectsProperty;
 
         Pipelines::PipelineBuilder OnPipelineRequested() override;
         void OnCompositionBrushUpdated() override;

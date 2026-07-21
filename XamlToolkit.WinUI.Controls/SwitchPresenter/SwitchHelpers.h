@@ -15,6 +15,7 @@
 namespace winrt
 {
 	using namespace Windows::Foundation;
+	using namespace Windows::UI::Xaml::Interop;
 	using namespace Microsoft::UI::Xaml::Markup;
 }
 
@@ -23,54 +24,54 @@ namespace winrt::XamlToolkit::WinUI::Controls
 	class SwitchHelpers
 	{
 	public:
-		static bool ValueEquals(IPropertyValue const& valueA, IPropertyValue const& valueB)
+		static bool ValueEquals(winrt::IPropertyValue const& valueA, winrt::IPropertyValue const& valueB)
 		{
 			auto typeA = valueA.Type();
 			auto typeB = valueB.Type();
 
-			auto toDouble = [](IPropertyValue const& v) -> double
+			auto toDouble = [](winrt::IPropertyValue const& v) -> double
 			{
 				switch (v.Type()) {
-				case PropertyType::Single: return static_cast<double>(v.GetSingle());
-				case PropertyType::Double: return v.GetDouble();
+				case winrt::PropertyType::Single: return static_cast<double>(v.GetSingle());
+				case winrt::PropertyType::Double: return v.GetDouble();
 				default: return std::numeric_limits<double>::quiet_NaN();
 				}
 			};
 
-			if ((typeA == PropertyType::Single || typeA == PropertyType::Double) &&
-				(typeB == PropertyType::Single || typeB == PropertyType::Double))
+			if ((typeA == winrt::PropertyType::Single || typeA == winrt::PropertyType::Double) &&
+				(typeB == winrt::PropertyType::Single || typeB == winrt::PropertyType::Double))
 			{
 				return std::fabs(toDouble(valueA) - toDouble(valueB)) < 1e-9;
 			}
 
-			auto isInteger = [](PropertyType t)
+			auto isInteger = [](winrt::PropertyType t)
 			{
 				switch (t)
 				{
-				case PropertyType::UInt8:
-				case PropertyType::Int16:
-				case PropertyType::UInt16:
-				case PropertyType::Int32:
-				case PropertyType::UInt32:
-				case PropertyType::Int64:
-				case PropertyType::UInt64:
+				case winrt::PropertyType::UInt8:
+				case winrt::PropertyType::Int16:
+				case winrt::PropertyType::UInt16:
+				case winrt::PropertyType::Int32:
+				case winrt::PropertyType::UInt32:
+				case winrt::PropertyType::Int64:
+				case winrt::PropertyType::UInt64:
 					return true;
 				default:
 					return false;
 				}
 			};
 
-			auto toInteger = [](IPropertyValue const& v) -> std::variant<int64_t, uint64_t>
+			auto toInteger = [](winrt::IPropertyValue const& v) -> std::variant<int64_t, uint64_t>
 			{
 				switch (v.Type()) 
 				{
-				case PropertyType::UInt8:  return static_cast<uint64_t>(v.GetUInt8());
-				case PropertyType::UInt16: return static_cast<uint64_t>(v.GetUInt16());
-				case PropertyType::UInt32: return static_cast<uint64_t>(v.GetUInt32());
-				case PropertyType::UInt64: return v.GetUInt64();
-				case PropertyType::Int16:  return static_cast<int64_t>(v.GetInt16());
-				case PropertyType::Int32:  return static_cast<int64_t>(v.GetInt32());
-				case PropertyType::Int64:  return v.GetInt64();
+				case winrt::PropertyType::UInt8:  return static_cast<uint64_t>(v.GetUInt8());
+				case winrt::PropertyType::UInt16: return static_cast<uint64_t>(v.GetUInt16());
+				case winrt::PropertyType::UInt32: return static_cast<uint64_t>(v.GetUInt32());
+				case winrt::PropertyType::UInt64: return v.GetUInt64();
+				case winrt::PropertyType::Int16:  return static_cast<int64_t>(v.GetInt16());
+				case winrt::PropertyType::Int32:  return static_cast<int64_t>(v.GetInt32());
+				case winrt::PropertyType::Int64:  return v.GetInt64();
 				default: std::unreachable();
 				}
 			};
@@ -100,7 +101,7 @@ namespace winrt::XamlToolkit::WinUI::Controls
 			if (typeA != typeB)
 				return false;
 
-			if (typeA == PropertyType::OtherType)
+			if (typeA == winrt::PropertyType::OtherType)
 			{
 				if (winrt::get_class_name(valueA) == winrt::get_class_name(valueB))
 				{
@@ -115,34 +116,34 @@ namespace winrt::XamlToolkit::WinUI::Controls
 
 			switch (typeA)
 			{
-			case PropertyType::Empty:    return true;
-			case PropertyType::Boolean:  return valueA.GetBoolean() == valueB.GetBoolean();
-			case PropertyType::Char16:   return valueA.GetChar16() == valueB.GetChar16();
-			case PropertyType::String:   return valueA.GetString() == valueB.GetString();
-			case PropertyType::Guid:     return valueA.GetGuid() == valueB.GetGuid();
-			case PropertyType::DateTime: return valueA.GetDateTime() == valueB.GetDateTime();
-			case PropertyType::TimeSpan: return valueA.GetTimeSpan() == valueB.GetTimeSpan();
-			case PropertyType::Point:    return valueA.GetPoint() == valueB.GetPoint();
-			case PropertyType::Size:     return valueA.GetSize() == valueB.GetSize();
-			case PropertyType::Rect:     return valueA.GetRect() == valueB.GetRect();
+			case winrt::PropertyType::Empty:    return true;
+			case winrt::PropertyType::Boolean:  return valueA.GetBoolean() == valueB.GetBoolean();
+			case winrt::PropertyType::Char16:   return valueA.GetChar16() == valueB.GetChar16();
+			case winrt::PropertyType::String:   return valueA.GetString() == valueB.GetString();
+			case winrt::PropertyType::Guid:     return valueA.GetGuid() == valueB.GetGuid();
+			case winrt::PropertyType::DateTime: return valueA.GetDateTime() == valueB.GetDateTime();
+			case winrt::PropertyType::TimeSpan: return valueA.GetTimeSpan() == valueB.GetTimeSpan();
+			case winrt::PropertyType::Point:    return valueA.GetPoint() == valueB.GetPoint();
+			case winrt::PropertyType::Size:     return valueA.GetSize() == valueB.GetSize();
+			case winrt::PropertyType::Rect:     return valueA.GetRect() == valueB.GetRect();
 			default:
 				return false;
 			}
 		}
 
-		static bool Equals(IInspectable const& objA, IInspectable const& objB)
+		static bool Equals(winrt::IInspectable const& objA, winrt::IInspectable const& objB)
 		{
 			if (objA == objB) return true;
 
-			auto valueA = objA.try_as<IPropertyValue>();
-			auto valueB = objB.try_as<IPropertyValue>();
+			auto valueA = objA.try_as<winrt::IPropertyValue>();
+			auto valueB = objB.try_as<winrt::IPropertyValue>();
 			if (!valueA || !valueB)
 				return false;
 
 			return ValueEquals(valueA, valueB);
 		}
 
-		static Case EvaluateCases(CaseCollection const& switchCases, IInspectable const& value, std::optional<winrt::Windows::UI::Xaml::Interop::TypeName> const& targetType = std::nullopt)
+		static Case EvaluateCases(CaseCollection const& switchCases, winrt::IInspectable const& value, std::optional<winrt::TypeName> const& targetType = std::nullopt)
 		{
 			if (switchCases == nullptr ||
 				switchCases.Size() == 0)
@@ -173,7 +174,7 @@ namespace winrt::XamlToolkit::WinUI::Controls
 				}
 			}
 
-			if (newcase == nullptr && xdefault != nullptr)
+			if (newcase == nullptr && xdefault)
 			{
 				// Inject default if we found one without matching anything
 				newcase = xdefault;
@@ -182,7 +183,7 @@ namespace winrt::XamlToolkit::WinUI::Controls
 			return newcase;
 		}
 
-		static bool CompareValues(IInspectable const& compare, IInspectable const& value, std::optional<winrt::Windows::UI::Xaml::Interop::TypeName> const& targetType)
+		static bool CompareValues(winrt::IInspectable const& compare, winrt::IInspectable const& value, std::optional<winrt::TypeName> const& targetType)
 		{
 			if (compare == nullptr || value == nullptr)
 			{
@@ -219,7 +220,7 @@ namespace winrt::XamlToolkit::WinUI::Controls
 		/// <param name="targetType">The target type</param>
 		/// <param name="value">The value to convert</param>
 		/// <returns>The converted value</returns>
-		static IInspectable ConvertValue(winrt::Windows::UI::Xaml::Interop::TypeName targetType, IInspectable const& value)
+		static winrt::IInspectable ConvertValue(winrt::TypeName targetType, winrt::IInspectable const& value)
 		{
 		    //if (targetType.IsInstanceOfType(value))
 		    //{
@@ -241,7 +242,7 @@ namespace winrt::XamlToolkit::WinUI::Controls
 		    //}
 		    //else
 		    {
-		        return XamlBindingHelper::ConvertValue(targetType, value);
+		        return winrt::XamlBindingHelper::ConvertValue(targetType, value);
 		    }
 		}
 	};

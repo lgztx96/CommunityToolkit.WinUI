@@ -26,36 +26,36 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
     class MdTaskListCheckBox final : public IAddChild
     {
     private:
-        Microsoft::UI::Xaml::Documents::TextElement _textElement{nullptr};
+        winrt::TextElement _textElement{nullptr};
 
     public:
 
-        Microsoft::UI::Xaml::Documents::TextElement TextElement() const override 
+        winrt::TextElement TextElement() const override 
         {
             return _textElement;
         }
 
         MdTaskListCheckBox(wchar_t task_mark)
         {
-            Grid grid;
-            CompositeTransform3D transform;
+            winrt::Grid grid;
+            winrt::CompositeTransform3D transform;
             transform.TranslateY(2);
             grid.Transform3D(transform);
             grid.Width(16);
             grid.Height(16);
-            grid.Margin(Thickness(2, 0, 2, 0));
-            grid.BorderThickness(Thickness(1, 1, 1, 1));
-            grid.BorderBrush(SolidColorBrush(Microsoft::UI::Colors::Gray()));
-            FontIcon icon;
+            grid.Margin(winrt::Thickness(2, 0, 2, 0));
+            grid.BorderThickness(winrt::Thickness(1, 1, 1, 1));
+            grid.BorderBrush(winrt::SolidColorBrush(winrt::Microsoft::UI::Colors::Gray()));
+            winrt::FontIcon icon;
             icon.FontSize(16);
-            icon.HorizontalAlignment(HorizontalAlignment::Center);
-            icon.VerticalAlignment(VerticalAlignment::Center);
+            icon.HorizontalAlignment(winrt::HorizontalAlignment::Center);
+            icon.VerticalAlignment(winrt::VerticalAlignment::Center);
             icon.Glyph(L"\uE73E");
             grid.Children().Append(
-				task_mark == 'x' || task_mark == 'X' ?  icon : TextBlock().as<UIElement>());
-            grid.Padding(Thickness(0));
-            grid.CornerRadius(CornerRadius(2,2,2,2));
-            InlineUIContainer inlineUIContainer;
+				task_mark == 'x' || task_mark == 'X' ?  icon : TextBlock().as<winrt::UIElement>());
+            grid.Padding(winrt::Thickness(0));
+            grid.CornerRadius(winrt::CornerRadius(2,2,2,2));
+            winrt::InlineUIContainer inlineUIContainer;
             inlineUIContainer.Child(grid);
             _textElement = inlineUIContainer;
         }

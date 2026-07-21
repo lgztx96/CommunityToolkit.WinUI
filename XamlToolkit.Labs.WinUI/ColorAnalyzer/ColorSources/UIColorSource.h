@@ -6,6 +6,7 @@
 #ifdef __INTELLISENSE__
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.Storage.Streams.h>
+#include <winrt/Microsoft.UI.Xaml.Media.h>
 #include <winrt/Microsoft.UI.Xaml.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
@@ -26,17 +27,15 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
     {
         UIColorSource() = default;
 
-        static const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> SourceProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> SourceProperty;
 
-        UIElement Source() const;
-        void Source(UIElement const& value);
+        winrt::UIElement Source() const;
+        void Source(winrt::UIElement const& value);
 
-        winrt::Windows::Foundation::IAsyncOperation<winrt::Windows::Storage::Streams::IRandomAccessStream> GetPixelDataAsync(int requestedSamples) override;
+        winrt::IAsyncOperation<winrt::IRandomAccessStream> GetPixelDataAsync(int requestedSamples) override;
 
     private:
-        static void OnSourceChanged(
-            winrt::Microsoft::UI::Xaml::DependencyObject const& d,
-            winrt::Microsoft::UI::Xaml::DependencyPropertyChangedEventArgs const& e);
+        static void OnSourceChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
     };
 }
 

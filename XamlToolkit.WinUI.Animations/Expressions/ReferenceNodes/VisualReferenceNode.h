@@ -11,7 +11,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
     class VisualReferenceNode final : public ReferenceNodeBase<VisualReferenceNode>
     {
     public:
-        VisualReferenceNode(std::optional<winrt::hstring> paramName = std::nullopt, Windows::UI::Composition::Visual const& v = nullptr) : ReferenceNodeBase(paramName, v) {}
+        VisualReferenceNode(std::optional<winrt::hstring> paramName = std::nullopt, winrt::Microsoft::UI::Composition::Visual const& v = nullptr) : ReferenceNodeBase(paramName, v) {}
         static VisualReferenceNode CreateTargetReference() { VisualReferenceNode node; node.NodeType = ExpressionNodeType::TargetReference; return node; }
         ScalarNode Opacity() const { return ReferenceProperty<ScalarNode>(L"Opacity"); }
         ScalarNode RotationAngle() const { return ReferenceProperty<ScalarNode>(L"RotationAngle"); }

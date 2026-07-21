@@ -9,19 +9,19 @@
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
-    std::vector<float3> ColorPaletteSampler::KMeansCluster(std::span<float3> points, int k, std::vector<int>& counts)
+    std::vector<winrt::float3> ColorPaletteSampler::KMeansCluster(std::span<winrt::float3> points, int k, std::vector<int>& counts)
     {
         // Track the assigned cluster of each point
         std::vector<int> clusterIds;
 		clusterIds.resize(points.size());
         // Track the centroids of each cluster and its member count
-        std::unique_ptr<float3[]> centroids = std::make_unique<float3[]>(k);
+        std::unique_ptr<winrt::float3[]> centroids = std::make_unique<winrt::float3[]>(k);
         counts.resize(k);
 
         // Split the points into arbitrary clusters
         Split(k, clusterIds);
 
-        std::span<float3> centroidView{ centroids.get(), static_cast<size_t>(k) };
+        std::span<winrt::float3> centroidView{ centroids.get(), static_cast<size_t>(k) };
         bool converged = false;
         while (!converged)
         {
@@ -47,7 +47,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
             }
         }
 
-        return std::vector<float3>{ centroidView.begin(), centroidView.end() };
+        return std::vector<winrt::float3>{ centroidView.begin(), centroidView.end() };
     }
 
     void ColorPaletteSampler::Split(int k, std::vector<int>& clusterIds)
@@ -62,12 +62,12 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
             clusterIds[i] = (i + offset) % k;
     }
 
-    void ColorPaletteSampler::CalculateCentroidsAndPrune(std::span<float3>& centroids, std::vector<int>& counts, std::span<float3> points, const std::vector<int>& clusterIds)
+    void ColorPaletteSampler::CalculateCentroidsAndPrune(std::span<winrt::float3>& centroids, std::vector<int>& counts, std::span<winrt::float3> points, const std::vector<int>& clusterIds)
     {
         // Clear centroids and counts before recalculation
         for (size_t i = 0; i < centroids.size(); i++)
         {
-            centroids[i] = float3::zero();
+            centroids[i] = winrt::float3::zero();
             counts[i] = 0;
         }
 
@@ -108,7 +108,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
             centroids[i] /= static_cast<float>(counts[i]);
     }
 
-    int ColorPaletteSampler::FindNearestClusterIndex(float3 point, std::span<float3> centroids)
+    int ColorPaletteSampler::FindNearestClusterIndex(winrt::float3 point, std::span<winrt::float3> centroids)
     {
         // Track the nearest centroid's distance and the index of that centroid
         float nearestDistance = std::numeric_limits<float>::infinity();

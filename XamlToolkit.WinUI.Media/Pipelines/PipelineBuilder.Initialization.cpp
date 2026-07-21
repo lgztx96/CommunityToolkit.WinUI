@@ -12,7 +12,8 @@
 
 namespace winrt
 {
-    using namespace XamlToolkit::WinUI::Media::Helpers;
+    using namespace winrt::Microsoft::UI::Xaml::Media;
+    using namespace winrt::XamlToolkit::WinUI::Media::Helpers;
 }
 
 namespace winrt::XamlToolkit::WinUI::Media::Pipelines
@@ -25,9 +26,9 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
 
     PipelineBuilderImpl PipelineBuilderImpl::FromBackdrop()
     {
-        auto factory = []() -> IAsyncOperation<CompositionBrush>
+        auto factory = []() -> winrt::IAsyncOperation<winrt::CompositionBrush>
         {
-            auto compositor = winrt::Microsoft::UI::Xaml::Media::CompositionTarget::GetCompositorForCurrentThread();
+            auto compositor = winrt::CompositionTarget::GetCompositorForCurrentThread();
 			auto brush = compositor.CreateBackdropBrush();
             // auto brush = BackdropBrushCache.GetValue(compositor, [](Compositor const& c) { return c.CreateBackdropBrush(); });
             co_return brush;
@@ -38,7 +39,7 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
 
     PipelineBuilderImpl PipelineBuilderImpl::FromColor(winrt::Windows::UI::Color color)
     {
-        return PipelineBuilderImpl([color]() -> IAsyncOperation<IGraphicsEffectSource>
+        return PipelineBuilderImpl([color]() -> winrt::IAsyncOperation<winrt::IGraphicsEffectSource>
         {
             CanvasColorSourceEffect effect;
             effect.Color(color);
@@ -50,7 +51,7 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
     {
         winrt::hstring id = GenerateId();
 
-        auto factory = [color, id]() -> IAsyncOperation<IGraphicsEffectSource>
+        auto factory = [color, id]() -> winrt::IAsyncOperation<winrt::IGraphicsEffectSource>
         {
             CanvasColorSourceEffect effect;
             effect.Color(color);
@@ -59,7 +60,7 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
         };
 
         winrt::hstring propertyName = id + L".Color";
-        setter = [propertyName](CompositionBrush const& brush, winrt::Windows::UI::Color const& value)
+        setter = [propertyName](winrt::CompositionBrush const& brush, winrt::Windows::UI::Color const& value)
         {
             brush.Properties().InsertColor(propertyName, value);
         };
@@ -71,7 +72,7 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
     {
         winrt::hstring id = GenerateId();
 
-        auto factory = [color, id]() -> IAsyncOperation<IGraphicsEffectSource>
+        auto factory = [color, id]() -> winrt::IAsyncOperation<winrt::IGraphicsEffectSource>
         {
             CanvasColorSourceEffect effect;
             effect.Color(color);
@@ -80,17 +81,17 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
         };
 
 		winrt::hstring propertyName = id + L".Color";
-        animation = [propertyName](CompositionBrush const& brush, winrt::Windows::UI::Color const& value, TimeSpan const& duration) -> IAsyncAction
+        animation = [propertyName](winrt::CompositionBrush const& brush, winrt::Windows::UI::Color const& value, winrt::TimeSpan const& duration) -> winrt::IAsyncAction
         {
-            co_return co_await Extensions::CompositionObjectExtensions::StartAnimationAsync(brush, propertyName, value, duration);
+            co_return co_await Media::Extensions::CompositionObjectExtensions::StartAnimationAsync(brush, propertyName, value, duration);
         };
 
         return PipelineBuilderImpl(std::move(factory), { propertyName });
     }
 
-    PipelineBuilderImpl PipelineBuilderImpl::FromHdrColor(winrt::Windows::Foundation::Numerics::float4 color)
+    PipelineBuilderImpl PipelineBuilderImpl::FromHdrColor(winrt::float4 color)
     {
-        return PipelineBuilderImpl([color]() -> IAsyncOperation<IGraphicsEffectSource>
+        return PipelineBuilderImpl([color]() -> winrt::IAsyncOperation<winrt::IGraphicsEffectSource>
         {
             CanvasColorSourceEffect effect;
             effect.ColorHdr(color);
@@ -98,11 +99,11 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
         });
     }
 
-    PipelineBuilderImpl PipelineBuilderImpl::FromHdrColor(winrt::Windows::Foundation::Numerics::float4 color, EffectSetter<winrt::Windows::Foundation::Numerics::float4>& setter)
+    PipelineBuilderImpl PipelineBuilderImpl::FromHdrColor(winrt::float4 color, EffectSetter<winrt::float4>& setter)
     {
         winrt::hstring id = GenerateId();
 
-        auto factory = [color, id]() -> IAsyncOperation<IGraphicsEffectSource>
+        auto factory = [color, id]() -> winrt::IAsyncOperation<winrt::IGraphicsEffectSource>
         {
             CanvasColorSourceEffect effect;
             effect.ColorHdr(color);
@@ -111,7 +112,7 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
         };
 
 		winrt::hstring propertyName = id + L".ColorHdr";
-        setter = [propertyName](CompositionBrush const& brush, winrt::Windows::Foundation::Numerics::float4 const& value)
+        setter = [propertyName](winrt::CompositionBrush const& brush, winrt::float4 const& value)
         {
             brush.Properties().InsertVector4(propertyName, value);
         };
@@ -119,11 +120,11 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
         return PipelineBuilderImpl(std::move(factory), { propertyName });
     }
 
-    PipelineBuilderImpl PipelineBuilderImpl::FromHdrColor(winrt::Windows::Foundation::Numerics::float4 color, EffectAnimation<winrt::Windows::Foundation::Numerics::float4>& animation)
+    PipelineBuilderImpl PipelineBuilderImpl::FromHdrColor(winrt::float4 color, EffectAnimation<winrt::float4>& animation)
     {
         winrt::hstring id = GenerateId();
 
-        auto factory = [color, id]() -> IAsyncOperation<IGraphicsEffectSource>
+        auto factory = [color, id]() -> winrt::IAsyncOperation<winrt::IGraphicsEffectSource>
         {
             CanvasColorSourceEffect effect;
             effect.ColorHdr(color);
@@ -132,9 +133,9 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
         };
 
         winrt::hstring propertyName = id + L".ColorHdr";
-        animation = [propertyName](CompositionBrush const& brush, winrt::Windows::Foundation::Numerics::float4 const& value, TimeSpan const& duration) -> IAsyncAction
+        animation = [propertyName](winrt::CompositionBrush const& brush, winrt::float4 const& value, winrt::TimeSpan const& duration) -> winrt::IAsyncAction
         {
-            co_return co_await Extensions::CompositionObjectExtensions::StartAnimationAsync(brush, propertyName, value, duration);
+            co_return co_await Media::Extensions::CompositionObjectExtensions::StartAnimationAsync(brush, propertyName, value, duration);
         };
 
         return PipelineBuilderImpl(std::move(factory), { propertyName });
@@ -142,7 +143,7 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
 
     PipelineBuilderImpl PipelineBuilderImpl::FromBrush(CompositionBrush const& brush)
     {
-        return PipelineBuilderImpl([brush]() -> IAsyncOperation<CompositionBrush>
+        return PipelineBuilderImpl([brush]() -> winrt::IAsyncOperation<winrt::CompositionBrush>
         {
             co_return brush;
         });
@@ -150,20 +151,20 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
 
     PipelineBuilderImpl PipelineBuilderImpl::FromBrush(std::function<CompositionBrush()> factory)
     {
-        return PipelineBuilderImpl([factory]() -> IAsyncOperation<CompositionBrush>
+        return PipelineBuilderImpl([factory]() -> winrt::IAsyncOperation<winrt::CompositionBrush>
         {
             co_return factory();
         });
     }
 
-    PipelineBuilderImpl PipelineBuilderImpl::FromBrush(std::function<IAsyncOperation<CompositionBrush>()> factory)
+    PipelineBuilderImpl PipelineBuilderImpl::FromBrush(std::function<winrt::IAsyncOperation<winrt::CompositionBrush>()> factory)
     {
         return PipelineBuilderImpl(factory);
     }
 
     PipelineBuilderImpl PipelineBuilderImpl::FromEffect(IGraphicsEffectSource const& effect)
     {
-        return PipelineBuilderImpl([effect]() -> IAsyncOperation<IGraphicsEffectSource>
+        return PipelineBuilderImpl([effect]() -> winrt::IAsyncOperation<winrt::IGraphicsEffectSource>
         {
             co_return effect;
         });
@@ -171,13 +172,13 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
 
     PipelineBuilderImpl PipelineBuilderImpl::FromEffect(std::function<IGraphicsEffectSource()> factory)
     {
-        return PipelineBuilderImpl([factory]() -> IAsyncOperation<IGraphicsEffectSource>
+        return PipelineBuilderImpl([factory]() -> winrt::IAsyncOperation<winrt::IGraphicsEffectSource>
         {
             co_return factory();
         });
     }
 
-    PipelineBuilderImpl PipelineBuilderImpl::FromEffect(std::function<IAsyncOperation<IGraphicsEffectSource>()> factory)
+    PipelineBuilderImpl PipelineBuilderImpl::FromEffect(std::function<winrt::IAsyncOperation<winrt::IGraphicsEffectSource>()> factory)
     {
         return PipelineBuilderImpl(factory);
     }
@@ -187,9 +188,9 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
         return FromImage(UriExtensions::ToAppxUri(relativePath), dpiMode, cacheMode);
     }
 
-    PipelineBuilderImpl PipelineBuilderImpl::FromImage(Uri const& uri, Media::DpiMode dpiMode, Media::CacheMode cacheMode)
+    PipelineBuilderImpl PipelineBuilderImpl::FromImage(winrt::Uri const& uri, Media::DpiMode dpiMode, Media::CacheMode cacheMode)
     {
-        return PipelineBuilderImpl([uri, dpiMode, cacheMode]() -> IAsyncOperation<CompositionBrush>
+        return PipelineBuilderImpl([uri, dpiMode, cacheMode]() -> winrt::IAsyncOperation<winrt::CompositionBrush>
         {
             co_return co_await SurfaceLoader::LoadImageAsync(uri, dpiMode, cacheMode);
         });
@@ -200,16 +201,16 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
         return FromTiles(UriExtensions::ToAppxUri(relativePath), dpiMode, cacheMode);
     }
 
-    PipelineBuilderImpl PipelineBuilderImpl::FromTiles(Uri const& uri, Media::DpiMode dpiMode, Media::CacheMode cacheMode)
+    PipelineBuilderImpl PipelineBuilderImpl::FromTiles(winrt::Uri const& uri, Media::DpiMode dpiMode, Media::CacheMode cacheMode)
     {
         auto imagePipeline = FromImage(uri, dpiMode, cacheMode);
         auto sharedState = imagePipeline._state;
 
-        auto factory = [sharedState]() -> IAsyncOperation<IGraphicsEffectSource>
+        auto factory = [sharedState]() -> winrt::IAsyncOperation<winrt::IGraphicsEffectSource>
         {
             CanvasBorderEffect effect;
-            effect.ExtendX(winrt::Microsoft::Graphics::Canvas::CanvasEdgeBehavior::Wrap);
-            effect.ExtendY(winrt::Microsoft::Graphics::Canvas::CanvasEdgeBehavior::Wrap);
+            effect.ExtendX(winrt::CanvasEdgeBehavior::Wrap);
+            effect.ExtendY(winrt::CanvasEdgeBehavior::Wrap);
             const auto& source = co_await sharedState->_sourceProducer();
             effect.Source(source);
             co_return effect;
@@ -218,11 +219,11 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
         return PipelineBuilderImpl(imagePipeline, std::move(factory));
     }
 
-    PipelineBuilderImpl PipelineBuilderImpl::FromUIElement(UIElement const& element)
+    PipelineBuilderImpl PipelineBuilderImpl::FromUIElement(winrt::UIElement const& element)
     {
-        return PipelineBuilderImpl([element]() -> IAsyncOperation<CompositionBrush>
+        return PipelineBuilderImpl([element]() -> winrt::IAsyncOperation<winrt::CompositionBrush>
         {
-            auto compositor = ElementCompositionPreview::GetElementVisual(element).Compositor();
+            auto compositor = winrt::ElementCompositionPreview::GetElementVisual(element).Compositor();
             co_return compositor.CreateBackdropBrush();
         });
     }

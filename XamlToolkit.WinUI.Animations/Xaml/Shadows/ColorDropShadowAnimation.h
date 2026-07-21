@@ -12,12 +12,12 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
     struct ColorDropShadowAnimationTraits
     {
         using owner_type = ColorDropShadowAnimation;
-        using class_type = Animations::ColorDropShadowAnimation;
-        using public_value_type = winrt::Windows::Foundation::IReference<winrt::Windows::UI::Color>;
+        using class_type = winrt::XamlToolkit::WinUI::Animations::ColorDropShadowAnimation;
+        using public_value_type = winrt::IReference<winrt::Windows::UI::Color>;
         using parsed_value_type = winrt::Windows::UI::Color;
         using keyframe_impl_type = implementation::ColorKeyFrame;
-        using keyframe_type = Animations::ColorKeyFrame;
-        static std::optional<parsed_value_type> Parse(winrt::Windows::Foundation::IReference<winrt::Windows::UI::Color> const& value)
+        using keyframe_type = winrt::XamlToolkit::WinUI::Animations::ColorKeyFrame;
+        static std::optional<parsed_value_type> Parse(winrt::IReference<winrt::Windows::UI::Color> const& value)
         {
             return value;
         }

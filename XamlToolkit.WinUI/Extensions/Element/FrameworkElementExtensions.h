@@ -31,7 +31,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
         struct WeakFrameworkElementHash
         {
-            size_t operator()(winrt::weak_ref<FrameworkElement> const& element) const noexcept
+            size_t operator()(winrt::weak_ref< winrt::FrameworkElement> const& element) const noexcept
             {
                 return std::hash<void*>{}(winrt::get_abi(element).get());
             }
@@ -39,38 +39,38 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
         static void RemoveHandlers() noexcept;
 
-        static thread_local inline std::unordered_map<winrt::weak_ref<FrameworkElement>, HandlerState, WeakFrameworkElementHash> _handlerStates;
+        static thread_local inline std::unordered_map<winrt::weak_ref<winrt::FrameworkElement>, HandlerState, WeakFrameworkElementHash> _handlerStates;
 
     public:
-        static void AncestorType_PropertyChanged(DependencyObject const& obj, DependencyPropertyChangedEventArgs const& args);
+        static void AncestorType_PropertyChanged(winrt::DependencyObject const& obj, winrt::DependencyPropertyChangedEventArgs const& args);
 
-        static DependencyObject FindAscendant(DependencyObject element, TypeName const& name);
+        static winrt::DependencyObject FindAscendant(winrt::DependencyObject element, winrt::TypeName const& name);
 
-        static void FrameworkElement_Loaded(IInspectable const& sender, RoutedEventArgs const& e);
+        static void FrameworkElement_Loaded(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
 
-        static void FrameworkElement_Unloaded(IInspectable const& sender, RoutedEventArgs const& e);
+        static void FrameworkElement_Unloaded(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
 
-        static IInspectable GetAncestor(DependencyObject const& obj);
+        static winrt::IInspectable GetAncestor(winrt::DependencyObject const& obj);
 
-        static void SetAncestor(DependencyObject const& obj, IInspectable const& value);
+        static void SetAncestor(winrt::DependencyObject const& obj, winrt::IInspectable const& value);
 
-        static TypeName GetAncestorType(FrameworkElement const& obj);
+        static winrt::TypeName GetAncestorType(winrt::FrameworkElement const& obj);
 
-        static void SetAncestorType(FrameworkElement const& obj, TypeName const& value);
+        static void SetAncestorType(winrt::FrameworkElement const& obj, winrt::TypeName const& value);
 
-        static inline const wil::single_threaded_property<DependencyProperty> AncestorProperty =
-            DependencyProperty::RegisterAttached(
+        static inline const wil::single_threaded_property<winrt::DependencyProperty> AncestorProperty =
+            winrt::DependencyProperty::RegisterAttached(
                 L"Ancestor", 
-                winrt::xaml_typename<IInspectable>(), 
+                winrt::xaml_typename<winrt::IInspectable>(),
                 winrt::xaml_typename<winrt::XamlToolkit::WinUI::FrameworkElementExtensions>(), 
-                PropertyMetadata(nullptr));
+                winrt::PropertyMetadata(nullptr));
 
-        static inline const wil::single_threaded_property<DependencyProperty> AncestorTypeProperty =
-            DependencyProperty::RegisterAttached(
+        static inline const wil::single_threaded_property<winrt::DependencyProperty> AncestorTypeProperty =
+            winrt::DependencyProperty::RegisterAttached(
                 L"AncestorType", 
-                winrt::xaml_typename<TypeName>(), 
+                winrt::xaml_typename<winrt::TypeName>(),
                 winrt::xaml_typename<winrt::XamlToolkit::WinUI::FrameworkElementExtensions>(), 
-                PropertyMetadata(nullptr, &FrameworkElementExtensions::AncestorType_PropertyChanged));
+                winrt::PropertyMetadata(nullptr, &FrameworkElementExtensions::AncestorType_PropertyChanged));
     };
 }
 

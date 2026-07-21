@@ -12,14 +12,18 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
         winrt::Windows::UI::Color tintColor,
         float tintOpacity,
         float blurAmount,
-        Uri const& noiseUri,
+        winrt::Uri const& noiseUri,
         Media::CacheMode cacheMode)
     {
         auto pipeline = FromBackdrop().Shade(tintColor, tintOpacity).Blur(blurAmount);
 
         if (noiseUri)
         {
-            return pipeline.Blend(FromTiles(noiseUri, Media::DpiMode::DisplayDpiWith96AsLowerBound, cacheMode), BlendEffectMode::Overlay);
+            return pipeline.Blend(FromTiles(
+                noiseUri, 
+                Media::DpiMode::DisplayDpiWith96AsLowerBound, 
+                cacheMode), 
+                BlendEffectMode::Overlay);
         }
 
         return pipeline;
@@ -32,7 +36,7 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
         EffectSetter<float>& tintOpacitySetter,
         float blurAmount,
         EffectSetter<float>& blurAmountSetter,
-        Uri const& noiseUri,
+        winrt::Uri const& noiseUri,
         Media::CacheMode cacheMode)
     {
         auto pipeline = FromBackdrop()
@@ -41,7 +45,11 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
 
         if (noiseUri)
         {
-            return pipeline.Blend(FromTiles(noiseUri, Media::DpiMode::DisplayDpiWith96AsLowerBound, cacheMode), BlendEffectMode::Overlay);
+            return pipeline.Blend(FromTiles(
+                noiseUri, 
+                Media::DpiMode::DisplayDpiWith96AsLowerBound, 
+                cacheMode), 
+                BlendEffectMode::Overlay);
         }
 
         return pipeline;
@@ -54,7 +62,7 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
         EffectAnimation<float>& tintOpacityAnimation,
         float blurAmount,
         EffectAnimation<float>& blurAmountAnimation,
-        Uri const& noiseUri,
+        winrt::Uri const& noiseUri,
         Media::CacheMode cacheMode)
     {
         auto pipeline = FromBackdrop()
@@ -63,7 +71,11 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
 
         if (noiseUri)
         {
-            return pipeline.Blend(FromTiles(noiseUri, Media::DpiMode::DisplayDpiWith96AsLowerBound, cacheMode), BlendEffectMode::Overlay);
+            return pipeline.Blend(FromTiles(
+                noiseUri, 
+                Media::DpiMode::DisplayDpiWith96AsLowerBound, 
+                cacheMode), 
+                BlendEffectMode::Overlay);
         }
 
         return pipeline;

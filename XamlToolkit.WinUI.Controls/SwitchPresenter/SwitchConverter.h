@@ -12,6 +12,7 @@
 namespace winrt
 {
 	using namespace Windows::Foundation;
+	using namespace Microsoft::UI::Xaml;
 	using namespace Windows::UI::Xaml::Interop;
 }
 
@@ -21,50 +22,50 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	{
 		SwitchConverter();
 
-		Controls::CaseCollection SwitchCases() const
+		winrt::XamlToolkit::WinUI::Controls::CaseCollection SwitchCases() const
 		{
-			return GetValue(SwitchCasesProperty)
-				.try_as<Controls::CaseCollection>();
+			return GetValue(SwitchCasesProperty())
+				.try_as<winrt::XamlToolkit::WinUI::Controls::CaseCollection>();
 		}
 
-		void SwitchCases(Controls::CaseCollection const& value)
+		void SwitchCases(winrt::XamlToolkit::WinUI::Controls::CaseCollection const& value)
 		{
-			SetValue(SwitchCasesProperty, value);
+			SetValue(SwitchCasesProperty(), value);
 		}
 
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> SwitchCasesProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> SwitchCasesProperty =
+			winrt::DependencyProperty::Register(
 				L"SwitchCases",
-				winrt::xaml_typename<Controls::CaseCollection>(),
+				winrt::xaml_typename<winrt::XamlToolkit::WinUI::Controls::CaseCollection>(),
 				winrt::xaml_typename<class_type>(),
-				winrt::Microsoft::UI::Xaml::PropertyMetadata{ nullptr });
+				winrt::PropertyMetadata{ nullptr });
 
-		//IReference<TypeName> TargetType() const
+		//winrt::IReference<winrt::TypeName> TargetType() const
 		//{
-		//	return GetValue(TargetTypeProperty).try_as<TypeName>();
+		//	return GetValue(TargetTypeProperty()).try_as<winrt::TypeName>();
 		//}
 
-		//void TargetType(IReference<TypeName> const& value)
+		//void TargetType(winrt::IReference<winrt::TypeName> const& value)
 		//{
-		//	SetValue(TargetTypeProperty, value);
+		//	SetValue(TargetTypeProperty(), value);
 		//}
 
-		//static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> TargetTypeProperty =
-		//	winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+		//static inline const wil::single_threaded_property<winrt::DependencyProperty> TargetTypeProperty =
+		//	winrt::DependencyProperty::Register(
 		//		L"TargetType",
-		//		winrt::xaml_typename<TypeName>(),
+		//		winrt::xaml_typename<winrt::TypeName>(),
 		//		winrt::xaml_typename<class_type>(),
-		//		winrt::Microsoft::UI::Xaml::PropertyMetadata{ nullptr });
+		//		winrt::PropertyMetadata{ nullptr });
 
-		IInspectable Convert(IInspectable const& value, TypeName const& targetType, IInspectable const& parameter, winrt::hstring const& language);
+		winrt::IInspectable Convert(winrt::IInspectable const& value, winrt::TypeName const& targetType, winrt::IInspectable const& parameter, winrt::hstring const& language) const;
 
-		IInspectable ConvertBack(IInspectable const& value, TypeName const& targetType, IInspectable const& parameter, winrt::hstring const& language);
+		winrt::IInspectable ConvertBack(winrt::IInspectable const& value, winrt::TypeName const& targetType, winrt::IInspectable const& parameter, winrt::hstring const& language);
 	};
 }
 
 namespace winrt::XamlToolkit::WinUI::Controls::factory_implementation
 {
 	struct SwitchConverter : SwitchConverterT<SwitchConverter, implementation::SwitchConverter>
-	{
+	{	
 	};
 }

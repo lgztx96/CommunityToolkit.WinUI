@@ -13,6 +13,7 @@
 
 namespace winrt 
 {
+	using namespace Windows::Foundation;
 	using namespace Microsoft::UI::Composition;
 	using namespace Microsoft::UI::Xaml;
 	using namespace Microsoft::UI::Xaml::Media::Animation;
@@ -35,26 +36,26 @@ namespace winrt::XamlToolkit::WinUI::Animations
         /// </summary>
         TimedKeyFrameAnimationBuilderComposition(
             winrt::hstring const& property,
-            std::optional<TimeSpan> delay,
+            std::optional<winrt::TimeSpan> delay,
             RepeatOption repeat,
-            AnimationDelayBehavior delayBehavior)
+            winrt::AnimationDelayBehavior delayBehavior)
             : TimedKeyFrameAnimationBuilder<T>(property, delay, repeat), delayBehavior(delayBehavior)
         {
         }
 
         /// <inheritdoc/>
         ITimedKeyFrameAnimationBuilder<T>& ExpressionKeyFrame(
-            TimeSpan progress,
+            winrt::TimeSpan progress,
             winrt::hstring const& expression,
             EasingType easingType = AnimationExtensions::DefaultEasingType(),
-            EasingMode easingMode = AnimationExtensions::DefaultEasingMode()) override
+            winrt::EasingMode easingMode = AnimationExtensions::DefaultEasingMode()) override
         {
             this->keyFrames.push_back(typename TimedKeyFrameAnimationBuilder<T>::KeyFrameInfo(progress, expression, easingType, easingMode));
             return *this;
         }
 
         /// <inheritdoc/>
-        CompositionAnimation GetAnimation(CompositionObject const& targetHint, CompositionObject& target) override
+        winrt::CompositionAnimation GetAnimation(winrt::CompositionObject const& targetHint, winrt::CompositionObject& target) override
         {
             target = nullptr;
 
@@ -65,7 +66,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
                 throw winrt::hresult_invalid_argument(L"No keyframes have been added");
             }
 
-            TimeSpan duration = this->keyFrames.back().GetTimedProgress(TimeSpan{});
+            winrt::TimeSpan duration = this->keyFrames.back().GetTimedProgress(winrt::TimeSpan{});
 
             return BuildCompositionKeyFrameAnimation<T, typename TimedKeyFrameAnimationBuilder<T>::KeyFrameInfo>(
                 targetHint,

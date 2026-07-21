@@ -18,11 +18,11 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         Loaded({ this, &ResizeThumb::ResizeThumb_Loaded });
     }
 
-    void ResizeThumb::ResizeThumb_Loaded([[maybe_unused]] IInspectable const& sender, [[maybe_unused]] RoutedEventArgs const& e)
+    void ResizeThumb::ResizeThumb_Loaded([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
     {
         if (TargetControl() == nullptr)
         {
-            TargetControl(winrt::XamlToolkit::WinUI::DependencyObjectEx::FindAscendant<FrameworkElement>(*this));
+            TargetControl(winrt::XamlToolkit::WinUI::DependencyObjectEx::FindAscendant<winrt::FrameworkElement>(*this));
         }
     }
 
@@ -35,11 +35,11 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         OnCursorPropertyChanged(*this, nullptr);
     }
 
-    void ResizeThumb::OnManipulationStarting([[maybe_unused]] ManipulationStartingRoutedEventArgs const& e)
+    void ResizeThumb::OnManipulationStarting([[maybe_unused]] winrt::ManipulationStartingRoutedEventArgs const& e)
     {
         // Snap the original size and position when we start dragging.
         auto target = TargetControl();
-        _originalSize = Size(
+        _originalSize = winrt::Size(
             target ? static_cast<float>(target.ActualWidth()) : 0, 
             target ? static_cast<float>(target.ActualHeight()) : 0);
 
@@ -49,13 +49,13 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         }
         else
         {
-            auto left = Canvas::GetLeft(target ? target : *this);
-            auto top = Canvas::GetTop(target ? target : *this);
-            _originalPosition = Point(static_cast<float>(left), static_cast<float>(top));
+            auto left = winrt::Canvas::GetLeft(target ? target : *this);
+            auto top = winrt::Canvas::GetTop(target ? target : *this);
+            _originalPosition = winrt::Point(static_cast<float>(left), static_cast<float>(top));
         }
     }
 
-    void ResizeThumb::OnManipulationDelta(ManipulationDeltaRoutedEventArgs const& e)
+    void ResizeThumb::OnManipulationDelta(winrt::ManipulationDeltaRoutedEventArgs const& e)
     {
         base_type::OnManipulationDelta(e);
 
@@ -70,7 +70,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
             std::trunc(translation.Y / dragIncrement) * dragIncrement;
 
         // Important: adjust for RTL language flow settings and invert horizontal axis
-        if (FlowDirection() == FlowDirection::RightToLeft)
+        if (FlowDirection() == winrt::FlowDirection::RightToLeft)
         {
             horizontalChange *= -1;
         }
@@ -148,16 +148,20 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
                 auto newY = (_originalPosition ? _originalPosition->Y : 0) + verticalChange;
 
                 if ((direction == ResizeDirection::Left || direction == ResizeDirection::TopLeft || direction == ResizeDirection::BottomLeft)
-                    && adjustWidth)
-                    Canvas::SetLeft(target, newX);
+                    && adjustWidth) 
+                {
+                    winrt::Canvas::SetLeft(target, newX);
+                }
 
                 if ((direction == ResizeDirection::Top || direction == ResizeDirection::TopLeft || direction == ResizeDirection::TopRight)
                     && adjustHeight)
-                    Canvas::SetTop(target, newY);
+                {
+                    winrt::Canvas::SetTop(target, newY);
+                }
 
                 auto args = winrt::make_self<TargetControlResizedEventArgs>(
-                    Canvas::GetLeft(target),
-                    Canvas::GetTop(target),
+                    winrt::Canvas::GetLeft(target),
+                    winrt::Canvas::GetTop(target),
                     target.Width(),
                     target.Height());
                 TargetControlResized.invoke(*this, *args);

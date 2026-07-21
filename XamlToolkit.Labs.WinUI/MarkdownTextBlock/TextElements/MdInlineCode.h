@@ -24,12 +24,12 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 {
     class MdInlineCode final : public IAddChild
     {
-        InlineUIContainer _inlineContainer;
-        TextBlock _textBlock;
+        winrt::InlineUIContainer _inlineContainer;
+        winrt::TextBlock _textBlock;
         MarkdownConfig _config;
 
     public:
-        Microsoft::UI::Xaml::Documents::TextElement TextElement() const override
+        winrt::TextElement TextElement() const override
         {
             return _inlineContainer;
         }
@@ -38,14 +38,14 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 
         void Enter() override 
         {
-            Border border;
-            border.VerticalAlignment(VerticalAlignment::Bottom);
+            winrt::Border border;
+            border.VerticalAlignment(winrt::VerticalAlignment::Bottom);
             border.Background(_config.Themes().InlineCodeBackground());
             border.BorderBrush(_config.Themes().InlineCodeBorderBrush());
             border.BorderThickness(_config.Themes().InlineCodeBorderThickness());
             border.CornerRadius(_config.Themes().InlineCodeCornerRadius());
             border.Padding(_config.Themes().InlineCodePadding());
-            CompositeTransform3D transform;
+            winrt::CompositeTransform3D transform;
             transform.TranslateY(4.0);
             border.Transform3D(transform);
 
@@ -57,9 +57,9 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
             _inlineContainer.Child(border);
 		}
 
-        void AddChild(TextElements::IAddChild* child) override
+        void AddChild(IAddChild* child) override
         {
-            if (auto inlineElement = child->TextElement().try_as<Inline>())
+            if (auto inlineElement = child->TextElement().try_as<winrt::Inline>())
             {
 				_textBlock.Inlines().Append(inlineElement);
             }

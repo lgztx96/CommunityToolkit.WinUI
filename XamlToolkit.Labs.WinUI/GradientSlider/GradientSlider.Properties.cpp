@@ -8,12 +8,12 @@
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
-    GradientStopCollection GradientSlider::GradientStops() const
+    winrt::GradientStopCollection GradientSlider::GradientStops() const
     {
-        return winrt::unbox_value<GradientStopCollection>(GetValue(GradientStopsProperty()));
+        return GetValue(GradientStopsProperty()).try_as<winrt::GradientStopCollection>();
     }
 
-    void GradientSlider::GradientStops(GradientStopCollection const& value)
+    void GradientSlider::GradientStops(winrt::GradientStopCollection const& value)
     {
         SetValue(GradientStopsProperty(), winrt::box_value(value));
     }
@@ -28,21 +28,21 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         SetValue(IsAddStopsEnabledProperty(), winrt::box_value(value));
     }
 
-    const wil::single_threaded_property<DependencyProperty> GradientSlider::GradientStopsProperty =
-        DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> GradientSlider::GradientStopsProperty =
+        winrt::DependencyProperty::Register(
             L"GradientStops",
-            winrt::xaml_typename<GradientStopCollection>(),
+            winrt::xaml_typename<winrt::GradientStopCollection>(),
             winrt::xaml_typename<class_type>(),
-            PropertyMetadata(nullptr, &GradientSlider::GradientStopsChangedCallback));
+            winrt::PropertyMetadata(nullptr, &GradientSlider::GradientStopsChangedCallback));
 
-    const wil::single_threaded_property<DependencyProperty> GradientSlider::IsAddStopsEnabledProperty =
-        DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> GradientSlider::IsAddStopsEnabledProperty =
+        winrt::DependencyProperty::Register(
             L"IsAddStopsEnabled",
             winrt::xaml_typename<bool>(),
             winrt::xaml_typename<class_type>(),
-            PropertyMetadata(winrt::box_value(true)));
+            winrt::PropertyMetadata(winrt::box_value(true)));
 
-    void GradientSlider::GradientStopsChangedCallback(DependencyObject const& d, DependencyPropertyChangedEventArgs const&)
+    void GradientSlider::GradientStopsChangedCallback(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const&)
     {
         auto control = d.try_as<class_type>();
         if (!control)

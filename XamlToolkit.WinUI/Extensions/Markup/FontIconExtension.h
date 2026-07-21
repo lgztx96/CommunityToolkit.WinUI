@@ -26,11 +26,11 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
 		wil::single_threaded_rw_property<winrt::hstring> Glyph;
 
-		wil::single_threaded_rw_property<FontFamily> FontFamily{ nullptr };
+		wil::single_threaded_rw_property<winrt::FontFamily> FontFamily{ nullptr };
 
-		winrt::Windows::Foundation::IInspectable ProvideValue() const;
+		winrt::IInspectable ProvideValue() const;
 
-		IInspectable ProvideValue(IXamlServiceProvider const& provider);
+		winrt::IInspectable ProvideValue(winrt::IXamlServiceProvider const& provider);
 	};
 }
 

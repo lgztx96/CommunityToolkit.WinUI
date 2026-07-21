@@ -11,12 +11,12 @@
 
 namespace winrt::XamlToolkit::WinUI::Media::implementation
 {
-    const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> BackdropSepiaBrush::IntensityProperty =
-        winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> BackdropSepiaBrush::IntensityProperty =
+        winrt::DependencyProperty::Register(
             L"Intensity",
             winrt::xaml_typename<double>(),
             winrt::xaml_typename<class_type>(),
-            winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(0.5), &BackdropSepiaBrush::OnIntensityChanged });
+            winrt::PropertyMetadata{ winrt::box_value(0.5), &BackdropSepiaBrush::OnIntensityChanged });
 
     double BackdropSepiaBrush::Intensity() const
     {
@@ -29,8 +29,8 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
     }
 
     void BackdropSepiaBrush::OnIntensityChanged(
-        winrt::Microsoft::UI::Xaml::DependencyObject const& d,
-        winrt::Microsoft::UI::Xaml::DependencyPropertyChangedEventArgs const& e)
+        winrt::DependencyObject const& d,
+        winrt::DependencyPropertyChangedEventArgs const& e)
     {
         auto brush = d.as<winrt::XamlToolkit::WinUI::Media::BackdropSepiaBrush>();
 		auto self = winrt::get_self<BackdropSepiaBrush>(brush);

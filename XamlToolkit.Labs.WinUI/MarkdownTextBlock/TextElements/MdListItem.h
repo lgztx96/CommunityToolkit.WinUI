@@ -25,12 +25,12 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
     class MdListItem : public IAddChild
     {
     private:
-        Paragraph _paragraph;
-        RichTextBlock _richTextBlock;
+        winrt::Paragraph _paragraph;
+        winrt::RichTextBlock _richTextBlock;
         WinUIRenderer* _renderer;
 
     public:
-        Microsoft::UI::Xaml::Documents::TextElement TextElement() const override
+        winrt::TextElement TextElement() const override
         {
             return _paragraph;
         }
@@ -40,8 +40,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
             _renderer = renderer;
         }
 
-        void SetBullet(size_t bulletCount, std::wstring_view bullet) {
-
+        void SetBullet(size_t bulletCount, std::wstring_view bullet)
+        {
             // Lists are plain Paragraph_s, one per item.
             // This is so that you can select across list items.
             auto themes = _renderer->Config().Themes();
@@ -58,11 +58,11 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
             }
             // Use spaces to create spacing between bullet and text based on ListBulletSpacing
             winrt::hstring spacing(std::wstring(static_cast<size_t>(bulletSpacing), L' '));
-            Run bulletRun;
+            winrt::Run bulletRun;
             bulletRun.Text(bullet + spacing);
             _paragraph.Inlines().Append(bulletRun);
 
-            Thickness margin = themes.ParagraphMargin();
+            winrt::Thickness margin = themes.ParagraphMargin();
             if (bulletCount > 1) 
             {
                 margin.Left += themes.ListGutterWidth();
@@ -75,38 +75,38 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
         {
             auto themes = _renderer->Config().Themes();
 			MdTaskListCheckBox checkBox(mask);
-            _paragraph.Inlines().Append(checkBox.TextElement().as<InlineUIContainer>());
-            Run spacingRun;
+            _paragraph.Inlines().Append(checkBox.TextElement().as<winrt::InlineUIContainer>());
+            winrt::Run spacingRun;
             spacingRun.Text(L" ");
             _paragraph.Inlines().Append(spacingRun);
         }
 
         void Enter() 
         {
-            InlineUIContainer inlineUIContainer;
+            winrt::InlineUIContainer inlineUIContainer;
             _richTextBlock.TextWrapping(TextWrapping::Wrap);
             inlineUIContainer.Child(_richTextBlock);
             _paragraph.Inlines().Append(inlineUIContainer);
         }
 
-        void AddChild(TextElements::IAddChild* child) override
+        void AddChild(IAddChild* child) override
         {
-            if (auto inlineChild = child->TextElement().try_as<Inline>())
+            if (auto inlineChild = child->TextElement().try_as<winrt::Inline>())
             {
                 if (_richTextBlock.Blocks().Size() == 0)
                 {
-                    Paragraph paragraph;
+                    winrt::Paragraph paragraph;
                     paragraph.Inlines().Append(inlineChild);
                     _richTextBlock.Blocks().Append(paragraph);
                 }
                 else {
 					auto index = _richTextBlock.Blocks().Size() - 1;
-					auto paragraph = _richTextBlock.Blocks().GetAt(index).as<Paragraph>();
+					auto paragraph = _richTextBlock.Blocks().GetAt(index).as<winrt::Paragraph>();
 					paragraph.Inlines().Append(inlineChild);
                 }
 
             }
-            else if (auto blockChild = child->TextElement().try_as<Block>())
+            else if (auto blockChild = child->TextElement().try_as<winrt::Block>())
             {
                 _richTextBlock.Blocks().Append(blockChild);
             }

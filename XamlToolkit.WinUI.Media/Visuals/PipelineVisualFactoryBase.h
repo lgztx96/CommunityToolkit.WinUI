@@ -9,14 +9,25 @@
 #include "../Pipelines/PipelineBuilder.h"
 #ifdef __INTELLISENSE__
 #include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Microsoft.UI.Xaml.Hosting.h>
-#endif
+#include <winrt/Microsoft.UI.Composition.h>
 
+#else
 import winrt.Windows.Foundation;
 import winrt.Microsoft.UI.Xaml;
 import winrt.Microsoft.UI.Xaml.Hosting;
 import winrt.Microsoft.UI.Composition;
 import winrt.XamlToolkit.WinUI.Media.Pipelines;
+#endif
+
+namespace winrt
+{
+    using namespace winrt::Windows::Foundation;
+    using namespace winrt::Microsoft::UI::Xaml;
+    using namespace winrt::Microsoft::UI::Composition;
+    using namespace winrt::Microsoft::UI::Xaml::Hosting;
+}
 
 namespace winrt::XamlToolkit::WinUI::Media::implementation
 {
@@ -30,9 +41,9 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
         /// <summary>
         /// Creates a <see cref="Visual"/> to attach to the target element.
         /// </summary>
-        winrt::Windows::Foundation::IAsyncOperation<winrt::Microsoft::UI::Composition::Visual> GetAttachedVisualAsync(winrt::Microsoft::UI::Xaml::UIElement const& element) override
+        winrt::IAsyncOperation<winrt::Visual> GetAttachedVisualAsync(winrt::UIElement const& element) override
         {
-            auto visual = winrt::Microsoft::UI::Xaml::Hosting::ElementCompositionPreview::GetElementVisual(element).Compositor().CreateSpriteVisual();
+            auto visual = winrt::ElementCompositionPreview::GetElementVisual(element).Compositor().CreateSpriteVisual();
             auto brush = co_await OnPipelineRequested().BuildAsync();
             visual.Brush(brush);
             co_return visual;

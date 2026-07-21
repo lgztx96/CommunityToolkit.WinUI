@@ -12,21 +12,21 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
     }
 
-    UIElement Adorner::AdornedElement() const noexcept
+    winrt::UIElement Adorner::AdornedElement() const noexcept
     {
         return _adornedElement;
     }
 
-    void Adorner::AdornedElement(UIElement const& value)
+    void Adorner::AdornedElement(winrt::UIElement const& value)
     {
         auto oldvalue = _adornedElement;
         _adornedElement = value;
         OnAdornedElementChanged(oldvalue, value);
     }
 
-    void Adorner::OnAdornedElementChanged(UIElement const& oldvalue, UIElement const& newvalue)
+    void Adorner::OnAdornedElementChanged(winrt::UIElement const& oldvalue, winrt::UIElement const& newvalue)
     {
-        if (auto oldfe = oldvalue.try_as<FrameworkElement>())
+        if (auto oldfe = oldvalue.try_as<winrt::FrameworkElement>())
         {
             _adornedElementSizeChangedRevoker.revoke();
             _adornedElementLoadedRevoker.revoke();
@@ -34,7 +34,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
             // TODO: Should we explicitly detach the WEL here?
         }
 
-        if (auto newfe = newvalue.try_as<FrameworkElement>())
+        if (auto newfe = newvalue.try_as<winrt::FrameworkElement>())
         {
             // Track changes to the AdornedElement's size
             _adornedElementSizeChangedRevoker = newfe.SizeChanged(winrt::auto_revoke, { this, &Adorner::OnSizeChanged });
@@ -61,7 +61,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         }
     }
 
-    void Adorner::OnSizeChanged([[maybe_unused]] IInspectable const& sender, [[maybe_unused]] SizeChangedEventArgs const& e)
+    void Adorner::OnSizeChanged([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::SizeChangedEventArgs const& e)
     {
         if (AdornedElement() == nullptr) return;
         auto size = AdornedElement().ActualSize();
@@ -69,29 +69,29 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         Height(size.y);
     }
 
-    void Adorner::OnLayoutUpdated([[maybe_unused]] IInspectable const& sender, [[maybe_unused]] IInspectable const& e)
+    void Adorner::OnLayoutUpdated([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::IInspectable const& e)
     {
         // Note: Also called by the parent AdornerLayer when its size changes
         if (AdornerLayer() && AdornedElement())
         {
             auto coord = winrt::XamlToolkit::WinUI::UIElementExtensions::CoordinatesTo(AdornerLayer(), _adornedElement);
 
-            Canvas::SetLeft(*this, coord.X);
-            Canvas::SetTop(*this, coord.Y);
+            winrt::Canvas::SetLeft(*this, coord.X);
+            winrt::Canvas::SetTop(*this, coord.Y);
 
             // Also update size
             OnSizeChanged(*this, nullptr);
         }
     }
 
-    void Adorner::OnAdornedElementLoaded([[maybe_unused]] IInspectable const& source, [[maybe_unused]] RoutedEventArgs const& eventArgs)
+    void Adorner::OnAdornedElementLoaded([[maybe_unused]] winrt::IInspectable const& source, [[maybe_unused]] winrt::RoutedEventArgs const& eventArgs)
     {
         if (AdornerLayer() == nullptr) return;
 
         OnAttached();
     }
 
-    void Adorner::OnAdornedElementUnloaded([[maybe_unused]] IInspectable const& source, [[maybe_unused]] RoutedEventArgs const& eventArgs)
+    void Adorner::OnAdornedElementUnloaded([[maybe_unused]] winrt::IInspectable const& source, [[maybe_unused]] winrt::RoutedEventArgs const& eventArgs)
     {
         if (AdornerLayer() == nullptr) return;
 

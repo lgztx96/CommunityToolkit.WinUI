@@ -4,12 +4,18 @@
 #include "../ExpressionNodes/ScalarNode.h"
 #include "../ExpressionNodes/Vector3Node.h"
 
+#ifdef __INTELLISENSE__
+#include <winrt/Microsoft.UI.Composition.Interactions.h>
+#else
+import winrt.Microsoft.UI.Composition.Interactions;
+#endif
+
 namespace winrt::XamlToolkit::WinUI::Animations::Expressions
 {
     class InteractionTrackerReferenceNode final : public ReferenceNodeBase<InteractionTrackerReferenceNode>
     {
     public:
-        InteractionTrackerReferenceNode(std::optional<winrt::hstring> paramName = std::nullopt, Windows::UI::Composition::Interactions::InteractionTracker const& it = nullptr) : ReferenceNodeBase(paramName, it) {}
+        InteractionTrackerReferenceNode(std::optional<winrt::hstring> paramName = std::nullopt, winrt::Microsoft::UI::Composition::Interactions::InteractionTracker const& it = nullptr) : ReferenceNodeBase(paramName, it) {}
         static InteractionTrackerReferenceNode CreateTargetReference() { InteractionTrackerReferenceNode node; node.NodeType = ExpressionNodeType::TargetReference; return node; }
         BooleanNode IsPositionRoundingSuggested() const { return ReferenceProperty<BooleanNode>(L"IsPositionRoundingSuggested"); }
         ScalarNode MinScale() const { return ReferenceProperty<ScalarNode>(L"MinScale"); }

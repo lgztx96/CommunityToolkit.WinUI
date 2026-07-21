@@ -5,62 +5,62 @@
 
 namespace winrt::XamlToolkit::WinUI::Animations::Expressions
 {
-    AmbientLightReferenceNode CompositionExtensions::GetReference(AmbientLight const& compObj) { return AmbientLightReferenceNode(std::nullopt, compObj); }
-    ColorBrushReferenceNode CompositionExtensions::GetReference(CompositionColorBrush const& compObj) { return ColorBrushReferenceNode(std::nullopt, compObj); }
-    DistantLightReferenceNode CompositionExtensions::GetReference(DistantLight const& compObj) { return DistantLightReferenceNode(std::nullopt, compObj); }
-    DropShadowReferenceNode CompositionExtensions::GetReference(DropShadow const& compObj) { return DropShadowReferenceNode(std::nullopt, compObj); }
-    InsetClipReferenceNode CompositionExtensions::GetReference(InsetClip const& compObj) { return InsetClipReferenceNode(std::nullopt, compObj); }
-    InteractionTrackerReferenceNode CompositionExtensions::GetReference(InteractionTracker const& compObj) { return InteractionTrackerReferenceNode(std::nullopt, compObj); }
-    NineGridBrushReferenceNode CompositionExtensions::GetReference(CompositionNineGridBrush const& compObj) { return NineGridBrushReferenceNode(std::nullopt, compObj); }
-    PointLightReferenceNode CompositionExtensions::GetReference(PointLight const& compObj) { return PointLightReferenceNode(std::nullopt, compObj); }
-    PropertySetReferenceNode CompositionExtensions::GetReference(CompositionPropertySet const& compObj) { return PropertySetReferenceNode(std::nullopt, compObj); }
-    SpotLightReferenceNode CompositionExtensions::GetReference(SpotLight const& compObj) { return SpotLightReferenceNode(std::nullopt, compObj); }
-    SurfaceBrushReferenceNode CompositionExtensions::GetReference(CompositionSurfaceBrush const& compObj) { return SurfaceBrushReferenceNode(std::nullopt, compObj); }
-    VisualReferenceNode CompositionExtensions::GetReference(Visual const& compObj) { return VisualReferenceNode(std::nullopt, compObj); }
+    AmbientLightReferenceNode CompositionExtensions::GetReference(winrt::AmbientLight const& compObj) { return AmbientLightReferenceNode(std::nullopt, compObj); }
+    ColorBrushReferenceNode CompositionExtensions::GetReference(winrt::CompositionColorBrush const& compObj) { return ColorBrushReferenceNode(std::nullopt, compObj); }
+    DistantLightReferenceNode CompositionExtensions::GetReference(winrt::DistantLight const& compObj) { return DistantLightReferenceNode(std::nullopt, compObj); }
+    DropShadowReferenceNode CompositionExtensions::GetReference(winrt::DropShadow const& compObj) { return DropShadowReferenceNode(std::nullopt, compObj); }
+    InsetClipReferenceNode CompositionExtensions::GetReference(winrt::InsetClip const& compObj) { return InsetClipReferenceNode(std::nullopt, compObj); }
+    InteractionTrackerReferenceNode CompositionExtensions::GetReference(winrt::InteractionTracker const& compObj) { return InteractionTrackerReferenceNode(std::nullopt, compObj); }
+    NineGridBrushReferenceNode CompositionExtensions::GetReference(winrt::CompositionNineGridBrush const& compObj) { return NineGridBrushReferenceNode(std::nullopt, compObj); }
+    PointLightReferenceNode CompositionExtensions::GetReference(winrt::PointLight const& compObj) { return PointLightReferenceNode(std::nullopt, compObj); }
+    PropertySetReferenceNode CompositionExtensions::GetReference(winrt::CompositionPropertySet const& compObj) { return PropertySetReferenceNode(std::nullopt, compObj); }
+    SpotLightReferenceNode CompositionExtensions::GetReference(winrt::SpotLight const& compObj) { return SpotLightReferenceNode(std::nullopt, compObj); }
+    SurfaceBrushReferenceNode CompositionExtensions::GetReference(winrt::CompositionSurfaceBrush const& compObj) { return SurfaceBrushReferenceNode(std::nullopt, compObj); }
+    VisualReferenceNode CompositionExtensions::GetReference(winrt::Visual const& compObj) { return VisualReferenceNode(std::nullopt, compObj); }
 
-    void CompositionExtensions::StartAnimation(CompositionObject const& compObject, winrt::hstring const& propertyName, ExpressionNode& expressionNode)
+    void CompositionExtensions::StartAnimation(winrt::CompositionObject const& compObject, winrt::hstring const& propertyName, ExpressionNode& expressionNode)
     {
         compObject.StartAnimation(propertyName, CreateExpressionAnimationFromNode(compObject.Compositor(), expressionNode));
     }
 
-    void CompositionExtensions::InsertExpressionKeyFrame(KeyFrameAnimation const& keyframeAnimation, float normalizedProgressKey, ExpressionNode& expressionNode, CompositionEasingFunction const& easing)
+    void CompositionExtensions::InsertExpressionKeyFrame(winrt::KeyFrameAnimation const& keyframeAnimation, float normalizedProgressKey, ExpressionNode& expressionNode, winrt::CompositionEasingFunction const& easing)
     {
         expressionNode.ClearReferenceInfo();
         keyframeAnimation.InsertExpressionKeyFrame(normalizedProgressKey, expressionNode.ToExpressionString(), easing);
         expressionNode.SetAllParameters(keyframeAnimation);
     }
 
-    void CompositionExtensions::SetCondition(InteractionTrackerInertiaRestingValue const& modifier, ExpressionNode& expressionNode)
+    void CompositionExtensions::SetCondition(winrt::InteractionTrackerInertiaRestingValue const& modifier, ExpressionNode& expressionNode)
     {
         modifier.Condition(CreateExpressionAnimationFromNode(modifier.Compositor(), expressionNode));
     }
 
-    void CompositionExtensions::SetRestingValue(InteractionTrackerInertiaRestingValue const& modifier, ExpressionNode& expressionNode)
+    void CompositionExtensions::SetRestingValue(winrt::InteractionTrackerInertiaRestingValue const& modifier, ExpressionNode& expressionNode)
     {
         modifier.RestingValue(CreateExpressionAnimationFromNode(modifier.Compositor(), expressionNode));
     }
 
-    void CompositionExtensions::SetCondition(InteractionTrackerInertiaMotion const& modifier, ExpressionNode& expressionNode)
+    void CompositionExtensions::SetCondition(winrt::InteractionTrackerInertiaMotion const& modifier, ExpressionNode& expressionNode)
     {
         modifier.Condition(CreateExpressionAnimationFromNode(modifier.Compositor(), expressionNode));
     }
 
-    void CompositionExtensions::SetMotion(InteractionTrackerInertiaMotion const& modifier, ExpressionNode& expressionNode)
+    void CompositionExtensions::SetMotion(winrt::InteractionTrackerInertiaMotion const& modifier, ExpressionNode& expressionNode)
     {
         modifier.Motion(CreateExpressionAnimationFromNode(modifier.Compositor(), expressionNode));
     }
 
-    void CompositionExtensions::SetCondition(CompositionConditionalValue const& modifier, ExpressionNode& expressionNode)
+    void CompositionExtensions::SetCondition(winrt::CompositionConditionalValue const& modifier, ExpressionNode& expressionNode)
     {
         modifier.Condition(CreateExpressionAnimationFromNode(modifier.Compositor(), expressionNode));
     }
 
-    void CompositionExtensions::SetValue(CompositionConditionalValue const& modifier, ExpressionNode& expressionNode)
+    void CompositionExtensions::SetValue(winrt::CompositionConditionalValue const& modifier, ExpressionNode& expressionNode)
     {
         modifier.Value(CreateExpressionAnimationFromNode(modifier.Compositor(), expressionNode));
     }
 
-    ExpressionAnimation CompositionExtensions::CreateExpressionAnimationFromNode(Compositor const& compositor, ExpressionNode& expressionNode)
+    winrt::ExpressionAnimation CompositionExtensions::CreateExpressionAnimationFromNode(winrt::Compositor const& compositor, ExpressionNode& expressionNode)
     {
         if (expressionNode.ExpressionAnimation == nullptr)
         {

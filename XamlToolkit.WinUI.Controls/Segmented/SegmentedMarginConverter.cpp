@@ -35,22 +35,22 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		[[maybe_unused]] winrt::hstring const& language) const
 	{
 		auto segmentedItem = value.as<winrt::XamlToolkit::WinUI::Controls::SegmentedItem>();
-		auto listView = winrt::ItemsControl::ItemsControlFromItemContainer(segmentedItem);
 
-		int32_t index = listView.IndexFromContainer(segmentedItem);
+		if (auto listView = winrt::ItemsControl::ItemsControlFromItemContainer(segmentedItem))
+		{
+			int32_t index = listView.IndexFromContainer(segmentedItem);
 
-		if (index == 0)
-		{
-			return winrt::box_value(LeftItemMargin());
+			if (index == 0)
+			{
+				return winrt::box_value(LeftItemMargin());
+			}
+			else if (index == static_cast<int>(listView.Items().Size()) - 1)
+			{
+				return winrt::box_value(RightItemMargin());
+			}
 		}
-		else if (index == static_cast<int>(listView.Items().Size()) - 1)
-		{
-			return winrt::box_value(RightItemMargin());
-		}
-		else
-		{
-			return winrt::box_value(MiddleItemMargin());
-		}
+
+		return winrt::box_value(MiddleItemMargin());
 	}
 
 	winrt::IInspectable SegmentedMarginConverter::ConvertBack(

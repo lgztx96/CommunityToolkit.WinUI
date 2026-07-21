@@ -12,13 +12,9 @@
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
-    using namespace winrt::Microsoft::UI::Composition;
-    using namespace winrt::Microsoft::UI::Xaml;
-    using namespace winrt::Microsoft::UI::Xaml::Hosting;
-
     namespace
     {
-        IImplicitTimeline* AsInplicitTimeline(DependencyObject const& item)
+        IImplicitTimeline* AsInplicitTimeline(winrt::DependencyObject const& item)
         {
             auto animationNode = item.try_as<winrt::XamlToolkit::WinUI::Animations::Animation>();
 
@@ -44,20 +40,20 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         vectorChangedRevoker = VectorChanged(winrt::auto_revoke, { this, &ImplicitAnimationSet::OnVectorChanged });
     }
 
-    winrt::weak_ref<UIElement> ImplicitAnimationSet::ParentReference() const
+    winrt::weak_ref<winrt::UIElement> ImplicitAnimationSet::ParentReference() const
     {
         return parent;
     }
 
-    void ImplicitAnimationSet::ParentReference(winrt::weak_ref<UIElement> const& value)
+    void ImplicitAnimationSet::ParentReference(winrt::weak_ref<winrt::UIElement> const& value)
     {
         parent = value;
     }
 
-    void ImplicitAnimationSet::OnVectorChanged(Windows::Foundation::Collections::IObservableVector<DependencyObject> const& sender, Windows::Foundation::Collections::IVectorChangedEventArgs const& event)
+    void ImplicitAnimationSet::OnVectorChanged(winrt::IObservableVector<DependencyObject> const& sender, winrt::IVectorChangedEventArgs const& event)
     {
-        if (event.CollectionChange() == Windows::Foundation::Collections::CollectionChange::ItemInserted ||
-            event.CollectionChange() == Windows::Foundation::Collections::CollectionChange::ItemChanged)
+        if (event.CollectionChange() == winrt::CollectionChange::ItemInserted ||
+            event.CollectionChange() == winrt::CollectionChange::ItemChanged)
         {
             auto timeline = AsInplicitTimeline(sender.GetAt(event.Index()));
             if (auto it = animationPropertyChangedEventTokens.find(timeline); it != animationPropertyChangedEventTokens.end())
@@ -71,14 +67,14 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         AnimationsChanged.invoke(*this, nullptr);
     }
 
-    void ImplicitAnimationSet::RaiseAnimationsChanged([[maybe_unused]] IInspectable const& sender, IInspectable const& e)
+    void ImplicitAnimationSet::RaiseAnimationsChanged([[maybe_unused]] winrt::IInspectable const& sender, winrt::IInspectable const& e)
     {
         AnimationsChanged.invoke(*this, e);
     }
 
-    CompositionAnimationGroup ImplicitAnimationSet::GetCompositionAnimationGroup(UIElement const& element)
+    winrt::CompositionAnimationGroup ImplicitAnimationSet::GetCompositionAnimationGroup(winrt::UIElement const& element)
     {
-        auto visual = ElementCompositionPreview::GetElementVisual(element);
+        auto visual = winrt::ElementCompositionPreview::GetElementVisual(element);
         auto animations = visual.Compositor().CreateAnimationGroup();
 
         for (auto const& item : *this)
@@ -92,9 +88,9 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         return animations;
     }
 
-    ImplicitAnimationCollection ImplicitAnimationSet::GetImplicitAnimationCollection(UIElement const& element)
+    winrt::ImplicitAnimationCollection ImplicitAnimationSet::GetImplicitAnimationCollection(winrt::UIElement const& element)
     {
-        auto visual = ElementCompositionPreview::GetElementVisual(element);
+        auto visual = winrt::ElementCompositionPreview::GetElementVisual(element);
         auto compositor = visual.Compositor();
         auto animations = compositor.CreateImplicitAnimationCollection();
 
@@ -114,7 +110,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
                 animations.Insert(key, compositor.CreateAnimationGroup());
             }
 
-            animations.Lookup(key).as<CompositionAnimationGroup>().Add(animation);
+            animations.Lookup(key).as<winrt::CompositionAnimationGroup>().Add(animation);
         }
 
         return animations;

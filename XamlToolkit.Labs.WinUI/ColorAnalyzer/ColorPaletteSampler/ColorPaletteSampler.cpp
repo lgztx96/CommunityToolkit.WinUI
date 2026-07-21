@@ -19,8 +19,9 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         UpdatePaletteAsync();
     }
 
-    IAsyncAction ColorPaletteSampler::UpdatePaletteAsync()
+    winrt::IAsyncAction ColorPaletteSampler::UpdatePaletteAsync()
     {
+        auto strongThis = get_strong();
         // No palettes to update.
         // Skip a lot of unnecessary computation
         if (PaletteSelectors().Size() == 0)
@@ -37,7 +38,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         if (winrtSamples.Size() == 0)
             co_return;
 
-        std::vector<float3> samples(winrtSamples.begin(), winrtSamples.end());
+        std::vector<winrt::float3> samples(winrtSamples.begin(), winrtSamples.end());
 
         // Cluster samples in RGB floating-point color space
         // With Euclidean Squared distance function, then construct palette data.
@@ -54,7 +55,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         // DBScan
         auto dbClusters = DBScan::Cluster(
-            std::span<float3>{ kClusters },
+            std::span<winrt::float3>{ kClusters },
             mergeDistance,
             0,
             weights);
@@ -69,9 +70,10 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         }
 
         // Update palettes on the UI thread
+		auto dispatcherQueue = DispatcherQueue().GetForCurrentThread();
         for (const auto& palette : PaletteSelectors())
         {
-            DispatcherQueue().GetForCurrentThread().TryEnqueue([=]()
+            dispatcherQueue.TryEnqueue([=]()
             {
                 palette.SelectColors(colorData);
             });
@@ -82,26 +84,26 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         _palette = winrt::single_threaded_vector(std::move(colorData));
 
         // Invoke palette updated event from the UI thread
-        DispatcherQueue().GetForCurrentThread().TryEnqueue([=]()
+        dispatcherQueue.TryEnqueue([=]()
         {
             PaletteUpdated.invoke(*this, nullptr);
         });
     }
 
-    IAsyncOperation<winrt::Windows::Foundation::Collections::IVector<float3>> ColorPaletteSampler::SampleSourcePixelColorsAsync(int sampleCount)
+    winrt::IAsyncOperation<winrt::IVector<winrt::float3>> ColorPaletteSampler::SampleSourcePixelColorsAsync(int sampleCount)
     {
         if (Source() == nullptr)
-            co_return winrt::single_threaded_vector<float3>();
+            co_return winrt::single_threaded_vector<winrt::float3>();
 
         auto pixelByteStream = co_await Source().GetPixelDataAsync(sampleCount);
 
         // Something went wrong
         if (pixelByteStream == nullptr || pixelByteStream.Size() == 0)
-            co_return winrt::single_threaded_vector<float3>();
+            co_return winrt::single_threaded_vector<winrt::float3>();
 
         // Read the stream into a a color array
         const int bytesPerPixel = 4;
-        std::vector<float3> samples;
+        std::vector<winrt::float3> samples;
 		samples.resize(sampleCount);
         // Iterate through the stream reading a pixel (4 bytes) at a time
         // and storing them as a Vector3. Opacity info is dropped.
@@ -129,7 +131,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
             // Take the red, green, and blue channels to make a floating-point space color.
             samples[colorIndex] =
-                float3{
+                winrt::float3{
                     static_cast<float>(bytes[2]),
                     static_cast<float>(bytes[1]),
                     static_cast<float>(bytes[0])
@@ -145,6 +147,6 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         // If we skipped any pixels, trim the span
         samples.resize(colorIndex);
 
-        co_return winrt::single_threaded_vector<float3>(std::move(samples));
+        co_return winrt::single_threaded_vector<winrt::float3>(std::move(samples));
     }
 }

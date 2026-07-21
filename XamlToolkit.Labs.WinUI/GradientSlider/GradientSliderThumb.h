@@ -3,7 +3,11 @@
 #include "GradientSliderThumb.g.h"
 
 #ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Input.h>
 #include <winrt/Microsoft.UI.Xaml.Media.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
 #include <winrt/Microsoft.UI.Xaml.Controls.Primitives.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
@@ -24,7 +28,6 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
     struct GradientSliderThumb : GradientSliderThumbT<GradientSliderThumb>
     {
-    private:
         static constexpr auto ColorPickerPartName = L"PART_ColorPicker";
         static constexpr auto BorderPartName = L"PART_Border";
 
@@ -34,69 +37,68 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         static constexpr auto PressedStateName = L"Pressed";
         static constexpr auto DisabledStateName = L"Disabled";
 
-        Border _border{ nullptr };
+        GradientSliderThumb();
+
+        void OnApplyTemplate();
+
+        winrt::GradientStop GradientStop() const
+        {
+            return GetValue(GradientStopProperty()).try_as<winrt::GradientStop>();
+        }
+
+        void GradientStop(winrt::GradientStop const& value)
+        {
+            SetValue(GradientStopProperty(), winrt::box_value(value));
+        }
+
+        static inline const wil::single_threaded_property<winrt::DependencyProperty> GradientStopProperty =
+            winrt::DependencyProperty::Register(
+                L"GradientStop", 
+                winrt::xaml_typename<winrt::GradientStop>(),
+                winrt::xaml_typename<class_type>(), 
+                winrt::PropertyMetadata(nullptr));
+
+        winrt::event_token DragStarted(winrt::DragStartedEventHandler const& handler);
+        void DragStarted(winrt::event_token const& token);
+
+        winrt::event_token DragDelta(winrt::DragDeltaEventHandler const& handler);
+        void DragDelta(winrt::event_token const& token);
+
+        winrt::event_token DragCompleted(winrt::DragCompletedEventHandler const& handler);
+        void DragCompleted(winrt::event_token const& token);
+
+    private:
+        void GradientSliderThumb_PointerEntered(winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e);
+        void GradientSliderThumb_PointerExited(winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e);
+        void GradientSliderThumb_PointerPressed(winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e);
+        void GradientSliderThumb_PointerMoved(winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e);
+        void GradientSliderThumb_PointerReleased(winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e);
+        void GradientSliderThumb_PointerCanceled(winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e);
+        void GradientSliderThumb_IsEnabledChanged(winrt::IInspectable const& sender, winrt::DependencyPropertyChangedEventArgs const& e);
+        void ColorPicker_ColorChanged(winrt::Microsoft::UI::Xaml::Controls::ColorPicker const& sender, winrt::Microsoft::UI::Xaml::Controls::ColorChangedEventArgs const& args);
+        void GradientSliderThumb_Tapped(winrt::IInspectable const& sender, winrt::TappedRoutedEventArgs const& e);
+
+        winrt::UIElement::PointerEntered_revoker _pointerEnteredRevoker;
+        winrt::UIElement::PointerExited_revoker _pointerExitedRevoker;
+        winrt::UIElement::PointerPressed_revoker _pointerPressedRevoker;
+        winrt::UIElement::PointerMoved_revoker _pointerMovedRevoker;
+        winrt::UIElement::PointerReleased_revoker _pointerReleasedRevoker;
+        winrt::UIElement::PointerCanceled_revoker _pointerCanceledRevoker;
+        winrt::Control::IsEnabledChanged_revoker _isEnabledChangedRevoker;
+        winrt::UIElement::Tapped_revoker _tappedRevoker;
+
+        winrt::event<winrt::DragStartedEventHandler> _dragStarted;
+        winrt::event<winrt::DragDeltaEventHandler> _dragDelta;
+        winrt::event<winrt::DragCompletedEventHandler> _dragCompleted;
+
+        winrt::Border _border{ nullptr };
         winrt::Microsoft::UI::Xaml::Controls::ColorPicker _colorPicker{ nullptr };
 
         bool _pointerOver{ false };
         bool _pressed{ false };
         bool _isDragging{ false };
-        Point _dragStartPosition;
-        Point _lastPosition;
-
-    public:
-        GradientSliderThumb();
-
-        void OnApplyTemplate();
-
-        winrt::Microsoft::UI::Xaml::Media::GradientStop GradientStop() const
-        {
-            return winrt::unbox_value<winrt::Microsoft::UI::Xaml::Media::GradientStop>(GetValue(GradientStopProperty()));
-        }
-
-        void GradientStop(winrt::Microsoft::UI::Xaml::Media::GradientStop const& value)
-        {
-            SetValue(GradientStopProperty(), winrt::box_value(value));
-        }
-
-        static inline const wil::single_threaded_property<DependencyProperty> GradientStopProperty =
-            DependencyProperty::Register(
-                L"GradientStop", 
-                winrt::xaml_typename<winrt::Microsoft::UI::Xaml::Media::GradientStop>(),
-                winrt::xaml_typename<class_type>(), 
-                PropertyMetadata(nullptr));
-
-        winrt::event_token DragStarted(DragStartedEventHandler const& handler);
-        void DragStarted(winrt::event_token const& token);
-
-        winrt::event_token DragDelta(DragDeltaEventHandler const& handler);
-        void DragDelta(winrt::event_token const& token);
-
-        winrt::event_token DragCompleted(DragCompletedEventHandler const& handler);
-        void DragCompleted(winrt::event_token const& token);
-
-    private:
-        void GradientSliderThumb_PointerEntered(IInspectable const& sender, PointerRoutedEventArgs const& e);
-        void GradientSliderThumb_PointerExited(IInspectable const& sender, PointerRoutedEventArgs const& e);
-        void GradientSliderThumb_PointerPressed(IInspectable const& sender, PointerRoutedEventArgs const& e);
-        void GradientSliderThumb_PointerMoved(IInspectable const& sender, PointerRoutedEventArgs const& e);
-        void GradientSliderThumb_PointerReleased(IInspectable const& sender, PointerRoutedEventArgs const& e);
-        void GradientSliderThumb_PointerCanceled(IInspectable const& sender, PointerRoutedEventArgs const& e);
-        void GradientSliderThumb_IsEnabledChanged(IInspectable const& sender, DependencyPropertyChangedEventArgs const& e);
-        void ColorPicker_ColorChanged(winrt::Microsoft::UI::Xaml::Controls::ColorPicker const& sender, winrt::Microsoft::UI::Xaml::Controls::ColorChangedEventArgs const& args);
-        void GradientSliderThumb_Tapped(IInspectable const& sender, TappedRoutedEventArgs const& e);
-
-        UIElement::PointerEntered_revoker _pointerEnteredRevoker;
-        UIElement::PointerExited_revoker _pointerExitedRevoker;
-        UIElement::PointerPressed_revoker _pointerPressedRevoker;
-        UIElement::PointerMoved_revoker _pointerMovedRevoker;
-        UIElement::PointerReleased_revoker _pointerReleasedRevoker;
-        UIElement::PointerCanceled_revoker _pointerCanceledRevoker;
-        Control::IsEnabledChanged_revoker _isEnabledChangedRevoker;
-        UIElement::Tapped_revoker _tappedRevoker;
-
-        winrt::event<DragStartedEventHandler> _dragStarted;
-        winrt::event<DragDeltaEventHandler> _dragDelta;
-        winrt::event<DragCompletedEventHandler> _dragCompleted;
+        winrt::Point _dragStartPosition;
+        winrt::Point _lastPosition;
     };
 }
 

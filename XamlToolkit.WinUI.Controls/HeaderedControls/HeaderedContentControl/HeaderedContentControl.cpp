@@ -20,15 +20,15 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         SetOrientation();
     }
 
-    void HeaderedContentControl::OnHeaderChanged([[maybe_unused]] IInspectable const& oldValue, [[maybe_unused]] IInspectable const& newValue) { }
+    void HeaderedContentControl::OnHeaderChanged([[maybe_unused]] winrt::IInspectable const& oldValue, [[maybe_unused]] winrt::IInspectable const& newValue) { }
 
-    void HeaderedContentControl::OnOrientationChanged(DependencyObject const& d, [[maybe_unused]] DependencyPropertyChangedEventArgs const& e)
+    void HeaderedContentControl::OnOrientationChanged(winrt::DependencyObject const& d, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& e)
     {
         auto control = winrt::get_self<HeaderedContentControl>(d.as<class_type>())->get_strong();
         control->SetOrientation();
     }
 
-    void HeaderedContentControl::OnHeaderChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e)
+    void HeaderedContentControl::OnHeaderChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e)
     {
         auto control = winrt::get_self<HeaderedContentControl>(d.as<class_type>())->get_strong();
         control->SetHeaderVisibility();
@@ -37,24 +37,24 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
     void HeaderedContentControl::SetHeaderVisibility()
     {
-        if (auto headerPresenter = GetTemplateChild(PartHeaderPresenter).try_as<FrameworkElement>())
+        if (auto headerPresenter = GetTemplateChild(PartHeaderPresenter).try_as<winrt::FrameworkElement>())
         {
             if (auto headerText = Header().try_as<winrt::hstring>())
             {
 				headerPresenter.Visibility(headerText->empty()
-                    ? Visibility::Collapsed
-                    : Visibility::Visible);
+                    ? winrt::Visibility::Collapsed
+                    : winrt::Visibility::Visible);
             }
             else
             {
-                headerPresenter.Visibility(Header() ? Visibility::Visible : Visibility::Collapsed);
+                headerPresenter.Visibility(Header() ? winrt::Visibility::Visible : winrt::Visibility::Collapsed);
             }
         }
     }
 
     void HeaderedContentControl::SetOrientation()
     {
-        auto orientation = Orientation() == Orientation::Vertical ? L"Vertical" : L"Horizontal";
+        auto orientation = Orientation() == winrt::Orientation::Vertical ? L"Vertical" : L"Horizontal";
 
         VisualStateManager::GoToState(*this, orientation, true);
     }

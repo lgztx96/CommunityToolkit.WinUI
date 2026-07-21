@@ -8,12 +8,8 @@
 
 namespace winrt
 {
-    using namespace Windows::Foundation;
-    using namespace Windows::Foundation::Collections;
     using namespace Windows::Foundation::Numerics;
     using namespace Windows::Devices::Enumeration;
-    using namespace Windows::Media::Capture;
-    using namespace Windows::Media::Capture::Frames;
     using namespace Windows::Media::MediaProperties;
 }
 
@@ -80,6 +76,8 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
 
     winrt::IAsyncOperation<CameraHelperResult> CameraHelper::InitializeAndStartCaptureAsync()
     {
+        auto strongThis = get_strong();
+
         CameraHelperResult result = CameraHelperResult::Success;
 
         auto guard = co_await _mutex.lock_async();
@@ -304,6 +302,8 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
 
     winrt::IAsyncAction CameraHelper::CleanUpAsync()
     {
+        auto strongThis = get_strong();
+
         auto guard = co_await _mutex.lock_async();
 
         try

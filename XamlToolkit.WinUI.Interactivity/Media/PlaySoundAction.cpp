@@ -99,7 +99,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 			}
 		}
 
-		auto mediaElement = winrt::MediaPlayerElement{};
+		winrt::MediaPlayerElement mediaElement;
 		_popup.Child(mediaElement);
 
 		mediaElement.Visibility(winrt::Visibility::Collapsed);
@@ -130,7 +130,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 		{
 			if (auto strong = weak.get()) 
 			{
-				if (strong->_popup != nullptr)
+				if (strong->_popup)
 				{
 					strong->_popup.IsOpen(false);
 					strong->_popup.Child(nullptr);
@@ -139,11 +139,11 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 			}
 		};
 
-		if (_queue != nullptr && _queue.HasThreadAccess())
+		if (_queue && _queue.HasThreadAccess())
 		{
 			closePopupImpl();
 		}
-		else if (_queue != nullptr)
+		else if (_queue)
 		{
 			_queue.TryEnqueue(winrt::DispatcherQueuePriority::Normal, closePopupImpl);
 		}

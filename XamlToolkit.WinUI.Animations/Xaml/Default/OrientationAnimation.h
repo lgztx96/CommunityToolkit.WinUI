@@ -12,19 +12,19 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
     struct OrientationAnimationTraits
     {
         using owner_type = OrientationAnimation;
-        using class_type = Animations::OrientationAnimation;
+        using class_type = winrt::XamlToolkit::WinUI::Animations::OrientationAnimation;
         using public_value_type = winrt::hstring;
         using parsed_value_type = winrt::Windows::Foundation::Numerics::quaternion;
         using keyframe_impl_type = implementation::QuaternionKeyFrame;
-        using keyframe_type = Animations::QuaternionKeyFrame;
-        static std::optional<parsed_value_type> Parse(winrt::hstring const& value)
+        using keyframe_type = winrt::XamlToolkit::WinUI::Animations::QuaternionKeyFrame;
+        static std::optional<parsed_value_type> Parse(public_value_type const& value)
         {
             if (value.empty())
             {
                 return std::nullopt;
             }
 
-            return Animations::AnimationExtensions::ToQuaternion(value);
+            return AnimationExtensions::ToQuaternion(value);
         }
     };
 

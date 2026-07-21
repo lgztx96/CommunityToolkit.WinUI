@@ -11,12 +11,12 @@
 
 namespace winrt::XamlToolkit::WinUI::Media::implementation
 {
-    const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> BackdropSaturationBrush::SaturationProperty =
-        winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> BackdropSaturationBrush::SaturationProperty =
+        winrt::DependencyProperty::Register(
             L"Saturation",
             winrt::xaml_typename<double>(),
             winrt::xaml_typename<class_type>(),
-            winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(0.5), &BackdropSaturationBrush::OnSaturationChanged });
+            winrt::PropertyMetadata{ winrt::box_value(0.5), &BackdropSaturationBrush::OnSaturationChanged });
 
     double BackdropSaturationBrush::Saturation() const
     {
@@ -29,8 +29,8 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
     }
 
     void BackdropSaturationBrush::OnSaturationChanged(
-        winrt::Microsoft::UI::Xaml::DependencyObject const& d,
-        winrt::Microsoft::UI::Xaml::DependencyPropertyChangedEventArgs const& e)
+        winrt::DependencyObject const& d,
+        winrt::DependencyPropertyChangedEventArgs const& e)
     {
         auto brush = d.as<winrt::XamlToolkit::WinUI::Media::BackdropSaturationBrush>();
 		auto self = winrt::get_self<BackdropSaturationBrush>(brush);

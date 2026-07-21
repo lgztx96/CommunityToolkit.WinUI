@@ -7,7 +7,11 @@
 #include "GrayscaleEffect.g.h"
 #include "Abstract/PipelineEffect.h"
 
+#ifdef __INTELLISENSE__
+#include <winrt/XamlToolkit.WinUI.Media.Pipelines.h>
+#else
 import winrt.XamlToolkit.WinUI.Media.Pipelines;
+#endif
 
 namespace winrt::XamlToolkit::WinUI::Media::implementation
 {

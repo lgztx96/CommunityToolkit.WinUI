@@ -8,45 +8,37 @@
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
-	const wil::single_threaded_property<winrt::DependencyProperty> TokenView::IsWrappedProperty{
+	const wil::single_threaded_property<winrt::DependencyProperty> TokenView::IsWrappedProperty =
 		winrt::DependencyProperty::Register(
 			L"IsWrapped",
 			winrt::xaml_typename<bool>(),
 			winrt::xaml_typename<winrt::XamlToolkit::Labs::WinUI::TokenView>(),
-			winrt::PropertyMetadata{
-				winrt::box_value(false),
-				[](auto& d, auto& e)
+			winrt::PropertyMetadata(winrt::box_value(false), [](auto& d, auto& e)
+			{
+				if (auto tokenView = d.template try_as<winrt::XamlToolkit::Labs::WinUI::TokenView>())
 				{
-					if (auto tokenView = d.template try_as<winrt::XamlToolkit::Labs::WinUI::TokenView>())
-					{
-						auto self = winrt::get_self<TokenView>(tokenView)->get_strong();
-						auto oldValue = winrt::unbox_value<bool>(e.OldValue());
-						auto newValue = winrt::unbox_value<bool>(e.NewValue());
-						self->OnIsWrappedPropertyChanged(oldValue, newValue);
-					}
+					auto self = winrt::get_self<TokenView>(tokenView)->get_strong();
+					auto oldValue = winrt::unbox_value<bool>(e.OldValue());
+					auto newValue = winrt::unbox_value<bool>(e.NewValue());
+					self->OnIsWrappedPropertyChanged(oldValue, newValue);
 				}
-			})
-	};
+			}));
 
-	const wil::single_threaded_property<winrt::DependencyProperty> TokenView::CanRemoveTokensProperty{
+	const wil::single_threaded_property<winrt::DependencyProperty> TokenView::CanRemoveTokensProperty =
 		winrt::DependencyProperty::Register(
 			L"CanRemoveTokens",
 			winrt::xaml_typename<bool>(),
 			winrt::xaml_typename<winrt::XamlToolkit::Labs::WinUI::TokenView>(),
-			winrt::PropertyMetadata{
-				winrt::box_value(false),
-				[](auto& d, auto& e)
+			winrt::PropertyMetadata(winrt::box_value(false), [](auto& d, auto& e)
+			{
+				if (auto tokenView = d.template try_as<winrt::XamlToolkit::Labs::WinUI::TokenView>())
 				{
-					if (auto tokenView = d.template try_as<winrt::XamlToolkit::Labs::WinUI::TokenView>())
-					{
-						auto self = winrt::get_self<TokenView>(tokenView)->get_strong();
-						auto oldValue = winrt::unbox_value<bool>(e.OldValue());
-						auto newValue = winrt::unbox_value<bool>(e.NewValue());
-						self->OnCanRemoveTokensPropertyChanged(oldValue, newValue);
-					}
+					auto self = winrt::get_self<TokenView>(tokenView)->get_strong();
+					auto oldValue = winrt::unbox_value<bool>(e.OldValue());
+					auto newValue = winrt::unbox_value<bool>(e.NewValue());
+					self->OnCanRemoveTokensPropertyChanged(oldValue, newValue);
 				}
-			})
-	};
+			}));
 
 	TokenView::TokenView()
 	{
@@ -67,14 +59,14 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		base_type::OnApplyTemplate();
 		SelectedIndex(_internalSelectedIndex);
 		_sizeChangedRevoker = SizeChanged(winrt::auto_revoke, { get_weak(), &TokenView::TokenView_SizeChanged });
-		if (_tokenViewScroller != nullptr)
+		if (_tokenViewScroller)
 		{
 			_tokenViewScrollerLoadedRevoker.revoke();
 		}
 
 		_tokenViewScroller = GetTemplateChild(TokenViewScrollViewerName).try_as<winrt::ScrollViewer>();
 
-		if (_tokenViewScroller != nullptr)
+		if (_tokenViewScroller)
 		{
 			_tokenViewScrollerLoadedRevoker = _tokenViewScroller.Loaded(winrt::auto_revoke, { get_weak(), &TokenView::ScrollViewer_Loaded });
 		}
@@ -135,7 +127,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
 	void TokenView::UpdateScrollButtonsVisibility()
 	{
-		if (_tokenViewScrollForwardButton != nullptr && _tokenViewScroller != nullptr)
+		if (_tokenViewScrollForwardButton && _tokenViewScroller)
 		{
 			if (_tokenViewScroller.ScrollableWidth() > 0)
 			{

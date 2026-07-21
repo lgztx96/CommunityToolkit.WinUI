@@ -37,20 +37,20 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         std::vector<float> _rowHeights;
 
     public:
-        MdTableUIElement(int columnCount, int rowCount, float borderThickness, Brush const& borderBrush, Brush const& headingBrush, CornerRadius const& cornerRadius, Thickness const& tableMargin);
+        MdTableUIElement(int columnCount, int rowCount, float borderThickness, winrt::Brush const& borderBrush, winrt::Brush const& headingBrush, winrt::CornerRadius const& cornerRadius, winrt::Thickness const& tableMargin);
 
         // Helper method to enumerate FrameworkElements instead of UIElements.
-        IVectorView<FrameworkElement> ContentChildren() const;
+        winrt::IVectorView<winrt::FrameworkElement> ContentChildren() const;
 
         // Helper method to get table vertical edges.
-        IVectorView<Rectangle> VerticalLines();
+        winrt::IVectorView<winrt::Rectangle> VerticalLines();
 
         // Helper method to get table horizontal edges.
-        IVectorView<Rectangle> HorizontalLines();
+        winrt::IVectorView<winrt::Rectangle> HorizontalLines();
 
-        Size MeasureOverride(Size availableSize);
+        winrt::Size MeasureOverride(winrt::Size availableSize);
 
-        Size ArrangeOverride(Size finalSize);
+        winrt::Size ArrangeOverride(winrt::Size finalSize);
     };
 }
 

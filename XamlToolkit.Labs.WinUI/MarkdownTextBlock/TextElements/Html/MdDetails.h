@@ -57,7 +57,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements::Html
             _paragraph.Inlines().Append(_inlineUIContainer);
         }
 
-        void AddChild(TextElements::IAddChild* child) override
+        void AddChild(IAddChild* child) override
         {
             _flowDocument.AddChild(child);
         }

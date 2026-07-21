@@ -60,7 +60,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         /// </summary>
         void OnDetaching();
 
-        static bool IsElementLoaded(FrameworkElement const& element);
+        static bool IsElementLoaded(winrt::FrameworkElement const& element);
 
     private:
         void SetResolvedSource(winrt::IInspectable const& newSource);
@@ -69,8 +69,8 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         void UnregisterEvent(winrt::hstring const& eventName);
         void OnEvent(winrt::IInspectable const& sender, winrt::IInspectable const& eventArgs);
 
-        static void OnSourceObjectChanged(DependencyObject const& dependencyObject, DependencyPropertyChangedEventArgs const& args);
-        static void OnEventNameChanged(DependencyObject const& dependencyObject, DependencyPropertyChangedEventArgs const& args);
+        static void OnSourceObjectChanged(winrt::DependencyObject const& dependencyObject, winrt::DependencyPropertyChangedEventArgs const& args);
+        static void OnEventNameChanged(winrt::DependencyObject const& dependencyObject, winrt::DependencyPropertyChangedEventArgs const& args);
 
         winrt::IInspectable _resolvedSource{ nullptr };
         winrt::event_token _registeredToken{};

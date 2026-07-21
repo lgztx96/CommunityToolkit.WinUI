@@ -16,29 +16,29 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
     class MdTableRow final : public IAddChild
     {
     private:
-        StackPanel _stackPanel;
-        Paragraph _paragraph;
+        winrt::StackPanel _stackPanel;
+        winrt::Paragraph _paragraph;
 
     public:
-        Microsoft::UI::Xaml::Documents::TextElement TextElement() const override
+        winrt::TextElement TextElement() const override
         {
             return _paragraph;
         }
 
         MdTableRow()
         {
-            _stackPanel.Orientation(Orientation::Horizontal);
-            InlineUIContainer inlineUIContainer;
+            _stackPanel.Orientation(winrt::Orientation::Horizontal);
+            winrt::InlineUIContainer inlineUIContainer;
             inlineUIContainer.Child(_stackPanel);
             _paragraph.Inlines().Append(inlineUIContainer);
         }
 
-        void AddChild(TextElements::IAddChild* child) override
+        void AddChild(IAddChild* child) override
         {
             if (auto cellChild = dynamic_cast<const MdTableCell*>(child))
             {
-                auto richTextBlock = RichTextBlock();
-                richTextBlock.Blocks().Append(cellChild->TextElement().as<Paragraph>());
+                winrt::RichTextBlock richTextBlock;
+                richTextBlock.Blocks().Append(cellChild->TextElement().as<winrt::Paragraph>());
                 _stackPanel.Children().Append(richTextBlock);
             }
         }

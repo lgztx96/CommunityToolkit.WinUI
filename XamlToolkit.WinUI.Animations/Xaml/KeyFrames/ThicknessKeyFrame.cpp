@@ -7,10 +7,10 @@
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
-    const wil::single_threaded_property<DependencyProperty> ThicknessKeyFrame::ValueProperty =
-        DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> ThicknessKeyFrame::ValueProperty =
+        winrt::DependencyProperty::Register(
             L"Value",
-            winrt::xaml_typename<winrt::Windows::Foundation::IReference<Thickness>>(),
+            winrt::xaml_typename<winrt::IReference<winrt::Thickness>>(),
             winrt::xaml_typename<class_type>(),
-            nullptr);
+            winrt::PropertyMetadata(nullptr));
 }

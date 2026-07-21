@@ -23,7 +23,6 @@
             <StaticResource x:Key="SegmentedBackground" ResourceKey="SystemColorButtonFaceColor" />
             <StaticResource x:Key="SegmentedBorderBrush" ResourceKey="SystemColorHighlightColorBrush" />
             <Thickness x:Key="SegmentedBorderThickness">1</Thickness>
-
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
@@ -50,8 +49,8 @@
                 <Setter.Value>
                     <ItemsPanelTemplate>
                         <local:EqualPanel
-                            HorizontalAlignment="{Binding (tk:FrameworkElementExtensions.Ancestor).HorizontalAlignment, RelativeSource={RelativeSource Self}}"
                             tk:FrameworkElementExtensions.AncestorType="local:Segmented"
+                            HorizontalAlignment="{Binding (tk:FrameworkElementExtensions.Ancestor).HorizontalAlignment, RelativeSource={RelativeSource Self}}"
                             Orientation="{Binding (tk:FrameworkElementExtensions.Ancestor).Orientation, RelativeSource={RelativeSource Self}}"
                             Spacing="{ThemeResource SegmentedItemSpacing}" />
                     </ItemsPanelTemplate>

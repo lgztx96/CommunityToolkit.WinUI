@@ -7,12 +7,14 @@
 #include "ImageSourceBaseExtension.g.h"
 #include "../Pipelines/PipelineBuilder.h"
 #ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/XamlToolkit.WinUI.Media.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
-#endif
-
+#else
 import winrt.Windows.Foundation;
 import winrt.XamlToolkit.WinUI.Media;
+#endif
 
 namespace winrt::XamlToolkit::WinUI::Media::implementation
 {

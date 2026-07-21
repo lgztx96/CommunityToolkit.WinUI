@@ -47,7 +47,8 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
 
     void FocusBehavior::OnAssociatedObjectLoaded()
     {
-        std::erase_if(_controlChangedTokens, [](auto& pair) {
+        std::erase_if(_controlChangedTokens, [](auto& pair) 
+        {
             if (auto target = pair.first.get())
             {
                 target.ControlChanged(pair.second);
@@ -70,7 +71,8 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
 
     bool FocusBehavior::Uninitialize()
     {
-        std::erase_if(_controlChangedTokens, [](auto& pair) {
+        std::erase_if(_controlChangedTokens, [](auto& pair)
+        {
             if (auto target = pair.first.get())
             {
                 target.ControlChanged(pair.second);
@@ -109,7 +111,8 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
             return;
         }
 
-        std::erase_if(_controlLoadedTokens, [](auto& pair) {
+        std::erase_if(_controlLoadedTokens, [](auto& pair)
+        {
             if (auto control = pair.first.get())
             {
                 control.Loaded(pair.second);
@@ -117,7 +120,8 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
             return true;
         });
 
-        std::erase_if(_containerContentChangingTokens, [](auto& pair) {
+        std::erase_if(_containerContentChangingTokens, [](auto& pair)
+        {
             if (auto listView = pair.first.get())
             {
                 listView.ContainerContentChanging(pair.second);
@@ -181,7 +185,8 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
             _timer.Stop();
         }
 
-        std::erase_if(_controlLoadedTokens, [](auto& pair) {
+        std::erase_if(_controlLoadedTokens, [](auto& pair)
+        {
             if (auto control = pair.first.get())
             {
                 control.Loaded(pair.second);
@@ -189,7 +194,8 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
             return true;
         });
 
-        std::erase_if(_containerContentChangingTokens, [](auto& pair) {
+        std::erase_if(_containerContentChangingTokens, [](auto& pair) 
+        {
             if (auto listView = pair.first.get())
             {
                 listView.ContainerContentChanging(pair.second);
@@ -215,7 +221,8 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
     void FocusBehavior::OnContainerContentChanging(winrt::ListViewBase const& sender, 
         [[maybe_unused]] winrt::ContainerContentChangingEventArgs const& args)
     {
-        std::erase_if(_containerContentChangingTokens, [&sender](auto& pair) {
+        std::erase_if(_containerContentChangingTokens, [&sender](auto& pair)
+        {
             if (auto listView = pair.first.get())
             {
                 if (listView == sender)

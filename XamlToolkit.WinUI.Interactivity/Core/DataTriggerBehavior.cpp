@@ -90,12 +90,12 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         winrt::IInspectable const& rightOperand)
     {
         auto convertedRightOperand = rightOperand;
-        if (leftOperand != nullptr && rightOperand != nullptr)
+        if (leftOperand && rightOperand)
         {
             convertedRightOperand = ConvertRightOperand(leftOperand, rightOperand);
         }
 
-        if (leftOperand != nullptr && convertedRightOperand != nullptr)
+        if (leftOperand && convertedRightOperand)
         {
             return EvaluateComparable(leftOperand, operatorType, convertedRightOperand);
         }
@@ -103,17 +103,22 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         switch (operatorType)
         {
         case winrt::XamlToolkit::WinUI::Interactivity::ComparisonConditionType::Equal:
-            return leftOperand == convertedRightOperand || (leftOperand != nullptr && convertedRightOperand != nullptr && DataTriggerBehavior::ValueToString(leftOperand) == DataTriggerBehavior::ValueToString(convertedRightOperand));
+            return leftOperand == convertedRightOperand || (leftOperand && convertedRightOperand && DataTriggerBehavior::ValueToString(leftOperand) == DataTriggerBehavior::ValueToString(convertedRightOperand));
 
         case winrt::XamlToolkit::WinUI::Interactivity::ComparisonConditionType::NotEqual:
-            return !(leftOperand == convertedRightOperand || (leftOperand != nullptr && convertedRightOperand != nullptr && DataTriggerBehavior::ValueToString(leftOperand) == DataTriggerBehavior::ValueToString(convertedRightOperand)));
+            return !(leftOperand == convertedRightOperand || (leftOperand && convertedRightOperand && DataTriggerBehavior::ValueToString(leftOperand) == DataTriggerBehavior::ValueToString(convertedRightOperand)));
 
         case winrt::XamlToolkit::WinUI::Interactivity::ComparisonConditionType::LessThan:
         case winrt::XamlToolkit::WinUI::Interactivity::ComparisonConditionType::LessThanOrEqual:
         case winrt::XamlToolkit::WinUI::Interactivity::ComparisonConditionType::GreaterThan:
         case winrt::XamlToolkit::WinUI::Interactivity::ComparisonConditionType::GreaterThanOrEqual:
             {
-                auto message = ResourceHelper::Format(winrt::XamlToolkit::WinUI::Interactivity::ResourceHelper::InvalidOperands(), TypeDisplayName(leftOperand), TypeDisplayName(convertedRightOperand), ComparisonConditionToString(operatorType));
+                auto message = ResourceHelper::Format(
+                    winrt::XamlToolkit::WinUI::Interactivity::ResourceHelper::InvalidOperands(), 
+                    TypeDisplayName(leftOperand), 
+                    TypeDisplayName(convertedRightOperand), 
+                    ComparisonConditionToString(operatorType));
+
                 throw winrt::hresult_invalid_argument(message);
             }
         }
@@ -208,7 +213,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
             catch (winrt::hresult_error const&)
             {
                 auto converted = winrt::XamlToolkit::WinUI::Interactivity::TypeConverterHelper::Convert(rightAsString, TypeDisplayName(InferTypeName(leftOperand)));
-                if (converted != nullptr)
+                if (converted)
                 {
                     return converted;
                 }
@@ -221,14 +226,14 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
     winrt::Windows::UI::Xaml::Interop::TypeName DataTriggerBehavior::InferTypeName(winrt::IInspectable const& value)
     {
         using winrt::Windows::UI::Xaml::Interop::TypeKind;
-        if (value.try_as<winrt::IReference<bool>>() != nullptr) return { L"Boolean", TypeKind::Primitive };
-        if (value.try_as<winrt::IReference<int32_t>>() != nullptr) return { L"Int32", TypeKind::Primitive };
-        if (value.try_as<winrt::IReference<uint32_t>>() != nullptr) return { L"UInt32", TypeKind::Primitive };
-        if (value.try_as<winrt::IReference<int64_t>>() != nullptr) return { L"Int64", TypeKind::Primitive };
-        if (value.try_as<winrt::IReference<uint64_t>>() != nullptr) return { L"UInt64", TypeKind::Primitive };
-        if (value.try_as<winrt::IReference<float>>() != nullptr) return { L"Single", TypeKind::Primitive };
-        if (value.try_as<winrt::IReference<double>>() != nullptr) return { L"Double", TypeKind::Primitive };
-        if (value.try_as<winrt::IReference<winrt::hstring>>() != nullptr) return { L"String", TypeKind::Primitive };
+        if (value.try_as<winrt::IReference<bool>>()) return { L"Boolean", TypeKind::Primitive };
+        if (value.try_as<winrt::IReference<int32_t>>()) return { L"Int32", TypeKind::Primitive };
+        if (value.try_as<winrt::IReference<uint32_t>>()) return { L"UInt32", TypeKind::Primitive };
+        if (value.try_as<winrt::IReference<int64_t>>()) return { L"Int64", TypeKind::Primitive };
+        if (value.try_as<winrt::IReference<uint64_t>>()) return { L"UInt64", TypeKind::Primitive };
+        if (value.try_as<winrt::IReference<float>>()) return { L"Single", TypeKind::Primitive };
+        if (value.try_as<winrt::IReference<double>>()) return { L"Double", TypeKind::Primitive };
+        if (value.try_as<winrt::IReference<winrt::hstring>>()) return { L"String", TypeKind::Primitive };
         return { winrt::get_class_name(value), TypeKind::Metadata };
     }
 

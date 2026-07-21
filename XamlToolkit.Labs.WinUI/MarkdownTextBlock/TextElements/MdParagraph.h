@@ -24,10 +24,10 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
     class MdParagraph final : public IAddChild
     {
     private:
-        Paragraph _paragraph;
+        winrt::Paragraph _paragraph;
         WinUIRenderer* _renderer;
     public:
-        Microsoft::UI::Xaml::Documents::TextElement TextElement() const override
+        winrt::TextElement TextElement() const override
         {
             return _paragraph;
         }
@@ -46,17 +46,17 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
             }
         }
 
-        void AddChild(TextElements::IAddChild* child) override
+        void AddChild(IAddChild* child) override
         {
-            if (auto inlineChild = child->TextElement().try_as<Inline>())
+            if (auto inlineChild = child->TextElement().try_as<winrt::Inline>())
             {
                 _paragraph.Inlines().Append(inlineChild);
             }
-            else if (auto blockChild = child->TextElement().try_as<Block>())
+            else if (auto blockChild = child->TextElement().try_as<winrt::Block>())
             {
-                InlineUIContainer inlineUIContainer;
-                RichTextBlock richTextBlock;
-                richTextBlock.TextWrapping(TextWrapping::Wrap);
+                winrt::InlineUIContainer inlineUIContainer;
+                winrt::RichTextBlock richTextBlock;
+                richTextBlock.TextWrapping(winrt::TextWrapping::Wrap);
                 richTextBlock.Blocks().Append(blockChild);
                 inlineUIContainer.Child(richTextBlock);
                 _paragraph.Inlines().Append(inlineUIContainer);

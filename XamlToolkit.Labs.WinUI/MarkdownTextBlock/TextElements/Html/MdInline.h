@@ -22,12 +22,12 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements::Html
     class MdInline : public IAddChild
     {
     private:
-        Paragraph _paragraph;
-        InlineUIContainer _inlineUIContainer;
-        RichTextBlock _richTextBlock;
+        winrt::Paragraph _paragraph;
+        winrt::InlineUIContainer _inlineUIContainer;
+        winrt::RichTextBlock _richTextBlock;
 
     public:
-        Microsoft::UI::Xaml::Documents::TextElement TextElement() const override
+        winrt::TextElement TextElement() const override
         {
             return _inlineUIContainer;
         }
@@ -35,13 +35,13 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements::Html
         MdInline()
         {
             _richTextBlock.Blocks().Append(_paragraph);
-            _richTextBlock.HorizontalAlignment(HorizontalAlignment::Stretch);
+            _richTextBlock.HorizontalAlignment(winrt::HorizontalAlignment::Stretch);
             _inlineUIContainer.Child(_richTextBlock);
         }
 
-        void AddChild(TextElements::IAddChild* child) override
+        void AddChild(IAddChild* child) override
         {
-            if (auto inlineChild = child->TextElement().try_as<Inline>())
+            if (auto inlineChild = child->TextElement().try_as<winrt::Inline>())
             {
                 _paragraph.Inlines().Append(inlineChild);
             }

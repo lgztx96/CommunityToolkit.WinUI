@@ -7,10 +7,10 @@
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
-    const wil::single_threaded_property<DependencyProperty> ScalarKeyFrame::ValueProperty =
-        DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> ScalarKeyFrame::ValueProperty =
+        winrt::DependencyProperty::Register(
             L"Value",
-            winrt::xaml_typename<winrt::Windows::Foundation::IReference<double>>(),
+            winrt::xaml_typename<winrt::IReference<double>>(),
             winrt::xaml_typename<class_type>(),
-            nullptr);
+            winrt::PropertyMetadata(nullptr));
 }

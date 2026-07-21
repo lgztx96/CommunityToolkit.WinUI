@@ -15,7 +15,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
     //{
     //    // Use reflection to store a 'Remove' method of any possible collection in ItemsSource
     //    // Cache for efficiency later.
-    //    if (ItemsSource() != nullptr)
+    //    if (ItemsSource())
     //    {
     //        _removeItemsSourceMethod = ItemsSource.GetType().GetMethod("Remove");
     //    }

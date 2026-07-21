@@ -11,22 +11,28 @@
 #include <wil/cppwinrt_authoring.h>
 #include <optional>
 #include <winrt/XamlToolkit.WinUI.Animations.h>
-#endif
-#include "../../XamlToolkit.WinUI.Animations/Builders/AnimationBuilder.h"
-#include "../../XamlToolkit.WinUI.Animations/Xaml/Interfaces/ITimeline.h"
-
+#else
 import std;
 import winrt.Windows.Foundation;
 import winrt.Windows.Foundation.Collections;
 import winrt.Microsoft.UI.Xaml;
 import winrt.Microsoft.UI.Composition;
 import winrt.XamlToolkit.WinUI.Animations;
+#endif
+#include "../../XamlToolkit.WinUI.Animations/Builders/AnimationBuilder.h"
+#include "../../XamlToolkit.WinUI.Animations/Xaml/Interfaces/ITimeline.h"
 
-namespace winrt::XamlToolkit::WinUI::Media::Animations::implementation
+namespace winrt 
 {
+    using namespace winrt::Windows::Foundation;
+    using namespace winrt::Windows::Foundation::Collections;
     using namespace winrt::Microsoft::UI::Xaml;
     using namespace winrt::Microsoft::UI::Composition;
     using namespace winrt::XamlToolkit::WinUI::Animations;
+}
+
+namespace winrt::XamlToolkit::WinUI::Media::Animations::implementation
+{
     using winrt::XamlToolkit::WinUI::Animations::implementation::ITimeline;
 
     template<typename TTraits>
@@ -55,33 +61,33 @@ namespace winrt::XamlToolkit::WinUI::Media::Animations::implementation
 
         EffectAnimationBase() = default;
 
-        static inline const wil::single_threaded_property<DependencyProperty> TargetProperty =
-            DependencyProperty::Register(
+        static inline const wil::single_threaded_property<winrt::DependencyProperty> TargetProperty =
+            winrt::DependencyProperty::Register(
                 L"Target",
                 winrt::xaml_typename<effect_type>(),
                 winrt::xaml_typename<typename traits_type::class_type>(),
-                nullptr);
+                winrt::PropertyMetadata(nullptr));
 
-        static inline const wil::single_threaded_property<DependencyProperty> ToProperty =
-            DependencyProperty::Register(
+        static inline const wil::single_threaded_property<winrt::DependencyProperty> ToProperty =
+            winrt::DependencyProperty::Register(
                 L"To",
                 winrt::xaml_typename<public_value_type>(),
                 winrt::xaml_typename<typename traits_type::class_type>(),
-                nullptr);
+                winrt::PropertyMetadata(nullptr));
 
-        static inline const wil::single_threaded_property<DependencyProperty> FromProperty =
-            DependencyProperty::Register(
+        static inline const wil::single_threaded_property<winrt::DependencyProperty> FromProperty =
+            winrt::DependencyProperty::Register(
                 L"From",
                 winrt::xaml_typename<public_value_type>(),
                 winrt::xaml_typename<typename traits_type::class_type>(),
-                nullptr);
+                winrt::PropertyMetadata(nullptr));
 
-        static inline const wil::single_threaded_property<DependencyProperty> KeyFramesProperty =
-            DependencyProperty::Register(
+        static inline const wil::single_threaded_property<winrt::DependencyProperty> KeyFramesProperty =
+            winrt::DependencyProperty::Register(
                 L"KeyFrames",
-                winrt::xaml_typename<winrt::Windows::Foundation::Collections::IVector<keyframe_type>>(),
+                winrt::xaml_typename<winrt::IVector<keyframe_type>>(),
                 winrt::xaml_typename<typename traits_type::class_type>(),
-                nullptr);
+                winrt::PropertyMetadata(nullptr));
 
         effect_type Target(this const auto& self)
         {
@@ -113,9 +119,9 @@ namespace winrt::XamlToolkit::WinUI::Media::Animations::implementation
             self.SetValue(FromProperty(), winrt::box_value(value));
         }
 
-        winrt::Windows::Foundation::Collections::IVector<keyframe_type> KeyFrames(this const auto& self)
+        winrt::IVector<keyframe_type> KeyFrames(this const auto& self)
         {
-            auto keyFrames = self.GetValue(KeyFramesProperty()).try_as<winrt::Windows::Foundation::Collections::IVector<keyframe_type>>();
+            auto keyFrames = self.GetValue(KeyFramesProperty()).try_as<winrt::IVector<keyframe_type>>();
 
             if (!keyFrames)
             {
@@ -126,7 +132,7 @@ namespace winrt::XamlToolkit::WinUI::Media::Animations::implementation
             return keyFrames;
         }
 
-        void KeyFrames(this const auto& self, winrt::Windows::Foundation::Collections::IVector<keyframe_type> const& value)
+        void KeyFrames(this const auto& self, winrt::IVector<keyframe_type> const& value)
         {
             self.SetValue(KeyFramesProperty(), winrt::box_value(value));
         }
@@ -136,10 +142,10 @@ namespace winrt::XamlToolkit::WinUI::Media::Animations::implementation
         winrt::XamlToolkit::WinUI::Animations::AnimationBuilder& AppendToBuilder(
             this auto& self,
             winrt::XamlToolkit::WinUI::Animations::AnimationBuilder& builder,
-            std::optional<winrt::Windows::Foundation::TimeSpan> delayHint = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> durationHint = std::nullopt,
+            std::optional<winrt::TimeSpan> delayHint = std::nullopt,
+            std::optional<winrt::TimeSpan> durationHint = std::nullopt,
             std::optional<enum EasingType> easingTypeHint = std::nullopt,
-            std::optional<enum EasingMode> easingModeHint = std::nullopt)
+            std::optional<winrt::EasingMode> easingModeHint = std::nullopt)
         {
             auto target = self.Target();
             if (!target)
@@ -164,15 +170,15 @@ namespace winrt::XamlToolkit::WinUI::Media::Animations::implementation
 
             self.EffectAnimationBase<TTraits>::AppendToBuilder(keyFrameBuilder, easingTypeHint, easingModeHint);
 
-            CompositionObject compositionTarget{ nullptr };
-            CompositionAnimation animation = keyFrameBuilder.GetAnimation(target.Brush(), compositionTarget);
+            winrt::CompositionObject compositionTarget{ nullptr };
+            winrt::CompositionAnimation animation = keyFrameBuilder.GetAnimation(target.Brush(), compositionTarget);
 
             return builder.ExternalAnimation(target.Brush(), animation);
         }
 
     protected:
         template<typename TValue>
-        static TValue UnboxOrDefault(winrt::Windows::Foundation::IInspectable const& value)
+        static TValue UnboxOrDefault(winrt::IInspectable const& value)
         {
             if constexpr (std::is_same_v<TValue, winrt::hstring>)
             {
@@ -195,7 +201,7 @@ namespace winrt::XamlToolkit::WinUI::Media::Animations::implementation
             return easingType ? easingType.Value() : easingTypeHint.value_or(AnimationExtensions::DefaultEasingType());
         }
 
-        enum EasingMode ResolveEasingMode(this const auto& self, std::optional<enum EasingMode> easingModeHint)
+        winrt::EasingMode ResolveEasingMode(this const auto& self, std::optional<winrt::EasingMode> easingModeHint)
         {
             auto easingMode = self.EasingMode();
             return easingMode ? easingMode.Value() : easingModeHint.value_or(AnimationExtensions::DefaultEasingMode());
@@ -208,7 +214,7 @@ namespace winrt::XamlToolkit::WinUI::Media::Animations::implementation
             auto keyFrameEasingType = keyFrame.EasingType();
             auto keyFrameEasingMode = keyFrame.EasingMode();
             enum EasingType itemEasingType = keyFrameEasingType ? keyFrameEasingType.Value() : AnimationExtensions::DefaultEasingType();
-            enum EasingMode itemEasingMode = keyFrameEasingMode ? keyFrameEasingMode.Value() : AnimationExtensions::DefaultEasingMode();
+            winrt::EasingMode itemEasingMode = keyFrameEasingMode ? keyFrameEasingMode.Value() : AnimationExtensions::DefaultEasingMode();
 
             if (auto expression = keyFrame.Expression(); !expression.empty())
             {
@@ -227,7 +233,7 @@ namespace winrt::XamlToolkit::WinUI::Media::Animations::implementation
 			this const auto& self,
             INormalizedKeyFrameAnimationBuilder<parsed_value_type>& builder,
             std::optional<enum EasingType> easingTypeHint,
-            std::optional<enum EasingMode> easingModeHint)
+            std::optional<winrt::EasingMode> easingModeHint)
         {
             for (auto const& keyFrame : self.KeyFrames())
             {

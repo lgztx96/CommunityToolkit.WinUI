@@ -36,7 +36,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		SetKeyboardAccelerators();
 	}
 
-	void RadialGauge::RadialGauge_Unloaded([[maybe_unused]] IInspectable const& sender, [[maybe_unused]] RoutedEventArgs const& e)
+	void RadialGauge::RadialGauge_Unloaded([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
 	{
 		// TODO: We should just use a WeakEventListener for ThemeChanged here, but ours currently doesn't support it.
 		// See proposal for general helper here: https://github.com/XamlToolkit/dotnet/issues/404
@@ -54,13 +54,13 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		_unloadedRevoker.revoke();
 
 		// Remember local brushes.
-		_needleBrush = ReadLocalValue(NeedleBrushProperty).try_as<SolidColorBrush>();
-		_needleBorderBrush = ReadLocalValue(NeedleBorderBrushProperty).try_as<SolidColorBrush>();
-		_trailBrush = ReadLocalValue(TrailBrushProperty).try_as<SolidColorBrush>();
-		_scaleBrush = ReadLocalValue(ScaleBrushProperty).try_as<SolidColorBrush>();
-		_scaleTickBrush = ReadLocalValue(ScaleTickBrushProperty).try_as<SolidColorBrush>();
-		_tickBrush = ReadLocalValue(TickBrushProperty).try_as<SolidColorBrush>();
-		_foreground = ReadLocalValue(Control::ForegroundProperty()).try_as<SolidColorBrush>();
+		_needleBrush = ReadLocalValue(NeedleBrushProperty).try_as<winrt::SolidColorBrush>();
+		_needleBorderBrush = ReadLocalValue(NeedleBorderBrushProperty).try_as<winrt::SolidColorBrush>();
+		_trailBrush = ReadLocalValue(TrailBrushProperty).try_as<winrt::SolidColorBrush>();
+		_scaleBrush = ReadLocalValue(ScaleBrushProperty).try_as<winrt::SolidColorBrush>();
+		_scaleTickBrush = ReadLocalValue(ScaleTickBrushProperty).try_as<winrt::SolidColorBrush>();
+		_tickBrush = ReadLocalValue(TickBrushProperty).try_as<winrt::SolidColorBrush>();
+		_foreground = ReadLocalValue(winrt::Control::ForegroundProperty()).try_as<winrt::SolidColorBrush>();
 
 		_pointerReleasedRevoker = PointerReleased(winrt::auto_revoke, { this, &RadialGauge::RadialGauge_PointerReleased });
 		_themeChangedToken = ThemeListener.ThemeChanged({ get_weak(), &RadialGauge::ThemeListener_ThemeChanged });
@@ -80,7 +80,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		OnColorsChanged();
 	}
 
-	void RadialGauge::RadialGauge_IsEnabledChanged([[maybe_unused]] IInspectable const& sender, [[maybe_unused]] DependencyPropertyChangedEventArgs const& e)
+	void RadialGauge::RadialGauge_IsEnabledChanged([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& e)
 	{
 		OnEnabledChanged();
 	}
@@ -106,9 +106,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	{
 		OnValueChanged(*this);
 		base_type::OnValueChanged(oldValue, newValue);
-		if (AutomationPeer::ListenerExists(AutomationEvents::LiveRegionChanged))
+		if (winrt::AutomationPeer::ListenerExists(winrt::AutomationEvents::LiveRegionChanged))
 		{
-			if (auto peer = FrameworkElementAutomationPeer::FromElement(*this)
+			if (auto peer = winrt::FrameworkElementAutomationPeer::FromElement(*this)
 				.try_as<winrt::XamlToolkit::WinUI::Controls::RadialGaugeAutomationPeer>())
 			{
 				peer.RaiseValueChangedEvent(oldValue, newValue);
@@ -116,7 +116,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		}
 	}
 
-	void RadialGauge::OnValueChanged(DependencyObject const& d)
+	void RadialGauge::OnValueChanged(winrt::DependencyObject const& d)
 	{
 		auto control = d.try_as<class_type>();
 		auto radialGauge = winrt::get_self<RadialGauge>(control)->get_strong();
@@ -131,27 +131,27 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			auto middleOfScale = 100 - radialGauge->ScalePadding() - (radialGauge->ScaleWidth() / 2);
 			if (middleOfScale >= 0)
 			{
-				auto valueText = radialGauge->GetTemplateChild(ValueTextPartName).try_as<TextBlock>();
+				auto valueText = radialGauge->GetTemplateChild(ValueTextPartName).try_as<winrt::TextBlock>();
 				radialGauge->ValueAngle(radialGauge->ValueToAngle(radialGauge->Value()));
 
 				// Needle
-				if (radialGauge->_needle != nullptr)
+				if (radialGauge->_needle)
 				{
 					radialGauge->_needle.RotationAngleInDegrees(static_cast<float>(radialGauge->ValueAngle()));
 				}
 
 				// Trail
-				auto trail = radialGauge->GetTemplateChild(TrailPartName).try_as<Path>();
-				if (trail != nullptr)
+				auto trail = radialGauge->GetTemplateChild(TrailPartName).try_as<winrt::Path>();
+				if (trail)
 				{
 					if (radialGauge->ValueAngle() > radialGauge->NormalizedMinAngle())
 					{
-						trail.Visibility(Visibility::Visible);
+						trail.Visibility(winrt::Visibility::Visible);
 
 						if (radialGauge->ValueAngle() - radialGauge->NormalizedMinAngle() == 360)
 						{
 							// Draw full circle.
-							EllipseGeometry eg;
+							winrt::EllipseGeometry eg;
 							eg.Center(Point(100, 100));
 							eg.RadiusX(100 - radialGauge->ScalePadding() - (radialGauge->ScaleWidth() / 2));
 							eg.RadiusY(eg.RadiusX());
@@ -160,15 +160,15 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 						else
 						{
 							// Draw arc.
-							PathGeometry pg;
-							PathFigure pf;
+							winrt::PathGeometry pg;
+							winrt::PathFigure pf;
 							pf.IsClosed(false);
 							pf.StartPoint(radialGauge->ScalePoint(radialGauge->NormalizedMinAngle(), middleOfScale));
 
-							ArcSegment seg;
-							seg.SweepDirection(SweepDirection::Clockwise);
+							winrt::ArcSegment seg;
+							seg.SweepDirection(winrt::SweepDirection::Clockwise);
 							seg.IsLargeArc(radialGauge->ValueAngle() > (180 + radialGauge->NormalizedMinAngle()));
-							seg.Size(Size(static_cast<float>(middleOfScale), static_cast<float>(middleOfScale)));
+							seg.Size(winrt::Size(static_cast<float>(middleOfScale), static_cast<float>(middleOfScale)));
 							seg.Point(radialGauge->ScalePoint(std::min<double>(radialGauge->ValueAngle(), radialGauge->NormalizedMaxAngle()), middleOfScale));  // On overflow, stop trail at MaxAngle.
 
 							pf.Segments().Append(seg);
@@ -178,29 +178,29 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 					}
 					else
 					{
-						trail.Visibility(Visibility::Collapsed);
+						trail.Visibility(winrt::Visibility::Collapsed);
 					}
 				}
 
 				// Value Text
-				if (valueText != nullptr)
+				if (valueText)
 				{
 					double value = radialGauge->Value();
 					auto args = std::make_wformat_args(value);
 					auto text = std::vformat(std::wstring_view(radialGauge->ValueStringFormat()), args);
 					valueText.Text(text);
 				}
-				ToolTipService::SetToolTip(control, winrt::box_value(radialGauge->Value()));
+				winrt::ToolTipService::SetToolTip(control, winrt::box_value(radialGauge->Value()));
 			}
 		}
 	}
 
-	void RadialGauge::OnInteractivityChanged(DependencyObject const& d, [[maybe_unused]] DependencyPropertyChangedEventArgs const& e)
+	void RadialGauge::OnInteractivityChanged(winrt::DependencyObject const& d, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& e)
 	{
 		OnInteractivityChanged(d);
 	}
 
-	void RadialGauge::OnInteractivityChanged(DependencyObject const& d)
+	void RadialGauge::OnInteractivityChanged(winrt::DependencyObject const& d)
 	{
 		auto control = d.try_as<class_type>();
 		auto radialGauge = winrt::get_self<RadialGauge>(control)->get_strong();
@@ -209,29 +209,29 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		{
 			radialGauge->_tappedToken = radialGauge->Tapped({ radialGauge->get_weak(), &RadialGauge::RadialGauge_Tapped });
 			radialGauge->_manipulationDeltaToken = radialGauge->ManipulationDelta({ radialGauge->get_weak(), &RadialGauge::RadialGauge_ManipulationDelta });
-			radialGauge->ManipulationMode(ManipulationModes::TranslateX | ManipulationModes::TranslateY);
+			radialGauge->ManipulationMode(winrt::ManipulationModes::TranslateX | winrt::ManipulationModes::TranslateY);
 		}
 		else
 		{
 			radialGauge->Tapped(radialGauge->_tappedToken);
 			radialGauge->ManipulationDelta(radialGauge->_manipulationDeltaToken);
-			radialGauge->ManipulationMode(ManipulationModes::None);
+			radialGauge->ManipulationMode(winrt::ManipulationModes::None);
 		}
 	}
 
-	void RadialGauge::OnScaleChanged(DependencyObject const& d)
+	void RadialGauge::OnScaleChanged(winrt::DependencyObject const& d)
 	{
 		auto control = d.try_as<class_type>();
 		auto radialGauge = winrt::get_self<RadialGauge>(control)->get_strong();
 
 		radialGauge->UpdateNormalizedAngles();
 
-		if (auto scale = radialGauge->GetTemplateChild(ScalePartName).try_as<Path>())
+		if (auto scale = radialGauge->GetTemplateChild(ScalePartName).try_as<winrt::Path>())
 		{
 			if (radialGauge->NormalizedMaxAngle() - radialGauge->NormalizedMinAngle() == 360)
 			{
 				// Draw full circle.
-				EllipseGeometry eg;
+				winrt::EllipseGeometry eg;
 				eg.Center(Point(100, 100));
 				eg.RadiusX(100 - radialGauge->ScalePadding() - (radialGauge->ScaleWidth() / 2));
 
@@ -241,17 +241,17 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			else
 			{
 				// Draw arc.
-				PathGeometry pg;
-				PathFigure pf;
+				winrt::PathGeometry pg;
+				winrt::PathFigure pf;
 				pf.IsClosed(false);
 
 				auto middleOfScale = 100 - radialGauge->ScalePadding() - (radialGauge->ScaleWidth() / 2);
 				pf.StartPoint(radialGauge->ScalePoint(radialGauge->NormalizedMinAngle(), middleOfScale));
-				ArcSegment seg;
+				winrt::ArcSegment seg;
 
-				seg.SweepDirection(SweepDirection::Clockwise);
+				seg.SweepDirection(winrt::SweepDirection::Clockwise);
 				seg.IsLargeArc(radialGauge->NormalizedMaxAngle() > (radialGauge->NormalizedMinAngle() + 180));
-				seg.Size(Size(static_cast<float>(middleOfScale), static_cast<float>(middleOfScale)));
+				seg.Size(winrt::Size(static_cast<float>(middleOfScale), static_cast<float>(middleOfScale)));
 				seg.Point(radialGauge->ScalePoint(radialGauge->NormalizedMaxAngle(), middleOfScale));
 
 				pf.Segments().Append(seg);
@@ -266,12 +266,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		}
 	}
 
-	void RadialGauge::OnFaceChanged(DependencyObject const& d)
+	void RadialGauge::OnFaceChanged(winrt::DependencyObject const& d)
 	{
 		auto control = d.try_as<class_type>();
 		auto radialGauge = winrt::get_self<RadialGauge>(control)->get_strong();
 
-		auto container = radialGauge->GetTemplateChild(ContainerPartName).try_as<Grid>();
+		auto container = radialGauge->GetTemplateChild(ContainerPartName).try_as<winrt::Grid>();
 
 		if (container == nullptr || DesignTimeHelpers::IsRunningInLegacyDesignerMode())
 		{
@@ -280,9 +280,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		}
 
 		// TO DO: Replace with _radialGauge->_root = container.GetVisual();
-		auto hostVisual = ElementCompositionPreview::GetElementVisual(container);
+		auto hostVisual = winrt::ElementCompositionPreview::GetElementVisual(container);
 		auto root = hostVisual.Compositor().CreateContainerVisual();
-		ElementCompositionPreview::SetElementChildVisual(container, root);
+		winrt::ElementCompositionPreview::SetElementChildVisual(container, root);
 		radialGauge->_root = root;
 		//
 
@@ -293,20 +293,20 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		{
 			// Ticks.
 			auto tick = radialGauge->_compositor.CreateShapeVisual();
-			tick.Size(float2((float)(radialGauge->Height()), (float)(radialGauge->Width())));
-			tick.BorderMode(CompositionBorderMode::Soft);
+			tick.Size(winrt::float2((float)(radialGauge->Height()), (float)(radialGauge->Width())));
+			tick.BorderMode(winrt::CompositionBorderMode::Soft);
 			tick.Opacity((float)radialGauge->TickBrush().Opacity());
 
 			auto roundedTickRectangle = radialGauge->_compositor.CreateRoundedRectangleGeometry();
-			roundedTickRectangle.Size(float2((float)radialGauge->TickWidth(), (float)radialGauge->TickLength()));
-			roundedTickRectangle.CornerRadius(float2((float)radialGauge->TickCornerRadius(), (float)radialGauge->TickCornerRadius()));
+			roundedTickRectangle.Size(winrt::float2((float)radialGauge->TickWidth(), (float)radialGauge->TickLength()));
+			roundedTickRectangle.CornerRadius(winrt::float2((float)radialGauge->TickCornerRadius(), (float)radialGauge->TickCornerRadius()));
 
 			for (double i = radialGauge->Minimum(); i <= radialGauge->Maximum(); i += radialGauge->TickSpacing())
 			{
 				auto tickSpriteShape = radialGauge->_compositor.CreateSpriteShape(roundedTickRectangle);
 				tickSpriteShape.FillBrush(radialGauge->_compositor.CreateColorBrush(radialGauge->TickBrush().Color()));
-				tickSpriteShape.Offset(float2(100 - ((float)radialGauge->TickWidth() / 2), (float)radialGauge->TickPadding()));
-				tickSpriteShape.CenterPoint(float2((float)radialGauge->TickWidth() / 2, 100 - (float)radialGauge->TickPadding()));
+				tickSpriteShape.Offset(winrt::float2(100 - ((float)radialGauge->TickWidth() / 2), (float)radialGauge->TickPadding()));
+				tickSpriteShape.CenterPoint(winrt::float2((float)radialGauge->TickWidth() / 2, 100 - (float)radialGauge->TickPadding()));
 				tickSpriteShape.RotationAngleInDegrees((float)radialGauge->ValueToAngle(i));
 				tick.Shapes().Append(tickSpriteShape);
 			}
@@ -315,20 +315,20 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 			// Scale Ticks.
 			auto scaleTick = radialGauge->_compositor.CreateShapeVisual();
-			scaleTick.Size(float2((float)(radialGauge->Height()), (float)(radialGauge->Width())));
-			scaleTick.BorderMode(CompositionBorderMode::Soft);
+			scaleTick.Size(winrt::float2((float)(radialGauge->Height()), (float)(radialGauge->Width())));
+			scaleTick.BorderMode(winrt::CompositionBorderMode::Soft);
 			scaleTick.Opacity((float)radialGauge->ScaleTickBrush().Opacity());
 
 			auto roundedScaleTickRectangle = radialGauge->_compositor.CreateRoundedRectangleGeometry();
-			roundedScaleTickRectangle.Size(float2((float)radialGauge->ScaleTickWidth(), (float)radialGauge->ScaleTickLength()));
-			roundedScaleTickRectangle.CornerRadius(float2((float)radialGauge->ScaleTickCornerRadius(), (float)radialGauge->ScaleTickCornerRadius()));
+			roundedScaleTickRectangle.Size(winrt::float2((float)radialGauge->ScaleTickWidth(), (float)radialGauge->ScaleTickLength()));
+			roundedScaleTickRectangle.CornerRadius(winrt::float2((float)radialGauge->ScaleTickCornerRadius(), (float)radialGauge->ScaleTickCornerRadius()));
 
 			for (double i = radialGauge->Minimum(); i <= radialGauge->Maximum(); i += radialGauge->TickSpacing())
 			{
 				auto scaleTickSpriteShape = radialGauge->_compositor.CreateSpriteShape(roundedScaleTickRectangle);
 				scaleTickSpriteShape.FillBrush(radialGauge->_compositor.CreateColorBrush(radialGauge->ScaleTickBrush().Color()));
-				scaleTickSpriteShape.Offset(float2(100 - ((float)radialGauge->ScaleTickWidth() / 2), (float)radialGauge->ScalePadding()));
-				scaleTickSpriteShape.CenterPoint(float2((float)radialGauge->ScaleTickWidth() / 2, 100 - (float)radialGauge->ScalePadding()));
+				scaleTickSpriteShape.Offset(winrt::float2(100 - ((float)radialGauge->ScaleTickWidth() / 2), (float)radialGauge->ScalePadding()));
+				scaleTickSpriteShape.CenterPoint(winrt::float2((float)radialGauge->ScaleTickWidth() / 2, 100 - (float)radialGauge->ScalePadding()));
 				scaleTickSpriteShape.RotationAngleInDegrees((float)radialGauge->ValueToAngle(i));
 				scaleTick.Shapes().Append(scaleTickSpriteShape);
 			}
@@ -337,16 +337,16 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		// Needle.
 		auto shapeVisual = radialGauge->_compositor.CreateShapeVisual();
-		shapeVisual.Size(float2((float)radialGauge->Height(), (float)radialGauge->Width()));
-		shapeVisual.BorderMode(CompositionBorderMode::Soft);
+		shapeVisual.Size(winrt::float2((float)radialGauge->Height(), (float)radialGauge->Width()));
+		shapeVisual.BorderMode(winrt::CompositionBorderMode::Soft);
 		shapeVisual.Opacity((float)radialGauge->NeedleBrush().Opacity());
 		auto roundedNeedleRectangle = radialGauge->_compositor.CreateRoundedRectangleGeometry();
-		roundedNeedleRectangle.Size(float2((float)radialGauge->NeedleWidth(), (float)radialGauge->NeedleLength()));
-		roundedNeedleRectangle.CornerRadius(float2((float)radialGauge->NeedleWidth() / 2, (float)radialGauge->NeedleWidth() / 2));
+		roundedNeedleRectangle.Size(winrt::float2((float)radialGauge->NeedleWidth(), (float)radialGauge->NeedleLength()));
+		roundedNeedleRectangle.CornerRadius(winrt::float2((float)radialGauge->NeedleWidth() / 2, (float)radialGauge->NeedleWidth() / 2));
 		radialGauge->_needle = radialGauge->_compositor.CreateSpriteShape(roundedNeedleRectangle);
 		radialGauge->_needle.FillBrush(radialGauge->_compositor.CreateColorBrush(radialGauge->NeedleBrush().Color()));
-		radialGauge->_needle.CenterPoint(float2((float)radialGauge->NeedleWidth() / 2, (float)radialGauge->NeedleLength()));
-		radialGauge->_needle.Offset(float2(100 - ((float)radialGauge->NeedleWidth() / 2), 100 - (float)radialGauge->NeedleLength()));
+		radialGauge->_needle.CenterPoint(winrt::float2((float)radialGauge->NeedleWidth() / 2, (float)radialGauge->NeedleLength()));
+		radialGauge->_needle.Offset(winrt::float2(100 - ((float)radialGauge->NeedleWidth() / 2), 100 - (float)radialGauge->NeedleLength()));
 		radialGauge->_needle.StrokeThickness((float)radialGauge->NeedleBorderThickness());
 		radialGauge->_needle.StrokeBrush(radialGauge->_compositor.CreateColorBrush(radialGauge->NeedleBorderBrush().Color()));
 		shapeVisual.Shapes().Append(radialGauge->_needle);
@@ -367,7 +367,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			ClearBrush(_scaleBrush, ScaleBrushProperty);
 			ClearBrush(_scaleTickBrush, ScaleTickBrushProperty);
 			ClearBrush(_tickBrush, TickBrushProperty);
-			ClearBrush(_foreground, Control::ForegroundProperty());
+			ClearBrush(_foreground, winrt::Control::ForegroundProperty());
 		}
 		else
 		{
@@ -378,7 +378,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			RestoreBrush(_scaleBrush, ScaleBrushProperty);
 			RestoreBrush(_scaleTickBrush, ScaleTickBrushProperty);
 			RestoreBrush(_tickBrush, TickBrushProperty);
-			RestoreBrush(_foreground, Control::ForegroundProperty());
+			RestoreBrush(_foreground, winrt::Control::ForegroundProperty());
 		}
 
 		OnScaleChanged(*this);
@@ -386,39 +386,39 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 	void RadialGauge::OnEnabledChanged()
 	{
-		VisualStateManager::GoToState(*this, IsEnabled() ? NormalState : DisabledState, true);
+		winrt::VisualStateManager::GoToState(*this, IsEnabled() ? NormalState : DisabledState, true);
 		// OnColorsChanged();
 	}
 
-	void RadialGauge::OnUnitChanged(DependencyObject const& d)
+	void RadialGauge::OnUnitChanged(winrt::DependencyObject const& d)
 	{
 		auto control = d.try_as<class_type>();
 		auto radialGauge = winrt::get_self<RadialGauge>(control)->get_strong();
 
-		if (auto unitTextBlock = radialGauge->GetTemplateChild(UnitTextPartName).try_as<TextBlock>())
+		if (auto unitTextBlock = radialGauge->GetTemplateChild(UnitTextPartName).try_as<winrt::TextBlock>())
 		{
 			if (radialGauge->Unit().empty())
 			{
-				unitTextBlock.Visibility(Visibility::Collapsed);
+				unitTextBlock.Visibility(winrt::Visibility::Collapsed);
 			}
 			else
 			{
-				unitTextBlock.Visibility(Visibility::Visible);
+				unitTextBlock.Visibility(winrt::Visibility::Visible);
 			}
 		}
 	}
 
-	void RadialGauge::ClearBrush(Brush const& brush, DependencyProperty const& prop)
+	void RadialGauge::ClearBrush(winrt::Brush const& brush, winrt::DependencyProperty const& prop)
 	{
-		if (brush != nullptr)
+		if (brush)
 		{
 			ClearValue(prop);
 		}
 	}
 
-	void RadialGauge::RestoreBrush(Brush const& source, DependencyProperty const& prop)
+	void RadialGauge::RestoreBrush(winrt::Brush const& source, winrt::DependencyProperty const& prop)
 	{
-		if (source != nullptr)
+		if (source)
 		{
 			SetValue(prop, source);
 		}
@@ -450,9 +450,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		_normalizedMaxAngle = result;
 	}
 
-	void RadialGauge::SetGaugeValueFromPoint(Point const& p)
+	void RadialGauge::SetGaugeValueFromPoint(winrt::Point const& p)
 	{
-		auto pt = Point(static_cast<float>(p.X - (ActualWidth() / 2)), static_cast<float>(-p.Y + (ActualHeight() / 2)));
+		winrt::Point pt(static_cast<float>(p.X - (ActualWidth() / 2)), static_cast<float>(-p.Y + (ActualHeight() / 2)));
 
 		auto angle = std::atan2(pt.X, pt.Y) / Degrees2Radians;
 		auto divider = Mod(NormalizedMaxAngle() - NormalizedMinAngle(), 360);
@@ -471,9 +471,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		Value(RoundToMultiple(value, StepSize()));
 	}
 
-	Point RadialGauge::ScalePoint(double angle, double middleOfScale)
+	winrt::Point RadialGauge::ScalePoint(double angle, double middleOfScale)
 	{
-		return Point(
+		return winrt::Point(
 			static_cast<float>(100 + (std::sin(Degrees2Radians * angle) * middleOfScale)),
 			static_cast<float>(100 - (std::cos(Degrees2Radians * angle) * middleOfScale)));
 	}
@@ -522,17 +522,17 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		return number + modulo;
 	}
 
-	void RadialGauge::OnUnitChanged(DependencyObject const& d, [[maybe_unused]] DependencyPropertyChangedEventArgs const& e)
+	void RadialGauge::OnUnitChanged(winrt::DependencyObject const& d, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& e)
 	{
 		OnUnitChanged(d);
 	}
 
-	void RadialGauge::OnScaleChanged(DependencyObject const& d, [[maybe_unused]] DependencyPropertyChangedEventArgs const& e)
+	void RadialGauge::OnScaleChanged(winrt::DependencyObject const& d, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& e)
 	{
 		OnScaleChanged(d);
 	}
 
-	void RadialGauge::OnFaceChanged(DependencyObject const& d, [[maybe_unused]] DependencyPropertyChangedEventArgs const& e)
+	void RadialGauge::OnFaceChanged(winrt::DependencyObject const& d, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& e)
 	{
 		if (!DesignTimeHelpers::IsRunningInLegacyDesignerMode())
 		{

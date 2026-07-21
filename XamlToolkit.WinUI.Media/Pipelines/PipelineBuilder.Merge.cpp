@@ -9,12 +9,15 @@
 
 namespace winrt::XamlToolkit::WinUI::Media::Pipelines
 {
-    PipelineBuilderImpl PipelineBuilderImpl::Blend(PipelineBuilderImpl const& pipeline, BlendEffectMode mode, Media::Placement placement) const
+    PipelineBuilderImpl PipelineBuilderImpl::Blend(
+        PipelineBuilderImpl const& pipeline, 
+        BlendEffectMode mode, 
+        winrt::XamlToolkit::WinUI::Media::Placement placement) const
     {
         std::shared_ptr<State> fgState;
         std::shared_ptr<State> bgState;
 
-        if (placement == Media::Placement::Foreground)
+        if (placement == winrt::XamlToolkit::WinUI::Media::Placement::Foreground)
         {
             fgState = pipeline._state;
             bgState = _state;
@@ -25,7 +28,7 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
             bgState = pipeline._state;
         }
 
-        auto factory = [fgState, bgState, mode]() -> IAsyncOperation<IGraphicsEffectSource>
+        auto factory = [fgState, bgState, mode]() -> winrt::IAsyncOperation<winrt::IGraphicsEffectSource>
         {
             CanvasBlendEffect effect;
             effect.Mode(mode);
@@ -44,7 +47,7 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
     PipelineBuilderImpl PipelineBuilderImpl::CrossFade(PipelineBuilderImpl const& pipeline, float factor) const
     {
         auto otherState = pipeline._state;
-        auto factory = [state = _state, otherState, factor]() -> IAsyncOperation<IGraphicsEffectSource>
+        auto factory = [state = _state, otherState, factor]() -> winrt::IAsyncOperation<winrt::IGraphicsEffectSource>
         {
             CanvasCrossFadeEffect effect;
             effect.CrossFade(factor);
@@ -64,7 +67,7 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
     {
         winrt::hstring id = GenerateId();
         auto otherState = pipeline._state;
-        auto factory = [state = _state, otherState, factor, id]() -> IAsyncOperation<IGraphicsEffectSource>
+        auto factory = [state = _state, otherState, factor, id]() -> winrt::IAsyncOperation<winrt::IGraphicsEffectSource>
         {
             CanvasCrossFadeEffect effect;
             effect.CrossFade(factor);
@@ -79,7 +82,7 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
         };
 
 		winrt::hstring propertyName = id + L".CrossFade";
-        setter = [propertyName](CompositionBrush const& brush, float value)
+        setter = [propertyName](winrt::CompositionBrush const& brush, float value)
         {
             brush.Properties().InsertScalar(propertyName, value);
         };
@@ -91,7 +94,7 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
     {
         winrt::hstring id = GenerateId();
         auto otherState = pipeline._state;
-        auto factory = [state = _state, otherState, factor, id]() -> IAsyncOperation<IGraphicsEffectSource>
+        auto factory = [state = _state, otherState, factor, id]() -> winrt::IAsyncOperation<winrt::IGraphicsEffectSource>
         {
             CanvasCrossFadeEffect effect;
             effect.CrossFade(factor);
@@ -106,22 +109,22 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
         };
 
         winrt::hstring propertyName = id + L".CrossFade";
-        animation = [propertyName](CompositionBrush const& brush, float value, TimeSpan const& duration) -> IAsyncAction
+        animation = [propertyName](winrt::CompositionBrush const& brush, float value, winrt::TimeSpan const& duration) -> winrt::IAsyncAction
         {
-            co_return co_await Extensions::CompositionObjectExtensions::StartAnimationAsync(brush, propertyName, value, duration);
+            co_return co_await Media::Extensions::CompositionObjectExtensions::StartAnimationAsync(brush, propertyName, value, duration);
         };
 
         return PipelineBuilderImpl(std::move(factory), *this, pipeline, { propertyName });
     }
 
     PipelineBuilderImpl PipelineBuilderImpl::Merge(
-        std::function<IGraphicsEffectSource(IGraphicsEffectSource const&, IGraphicsEffectSource const&)> factory,
+        std::function<winrt::IGraphicsEffectSource(winrt::IGraphicsEffectSource const&, winrt::IGraphicsEffectSource const&)> factory,
         PipelineBuilderImpl const& background,
         std::vector<winrt::hstring> animations,
-        std::unordered_map<winrt::hstring, std::function<IAsyncOperation<CompositionBrush>()>> initializers) const
+        std::unordered_map<winrt::hstring, std::function<winrt::IAsyncOperation<winrt::CompositionBrush>()>> initializers) const
     {
         auto bgState = background._state;
-        auto effectFactory = [state = _state, bgState, factory]() -> IAsyncOperation<IGraphicsEffectSource>
+        auto effectFactory = [state = _state, bgState, factory]() -> winrt::IAsyncOperation<winrt::IGraphicsEffectSource>
         {
             auto source1 = co_await state->_sourceProducer();
             auto source2 = co_await bgState->_sourceProducer();
@@ -132,13 +135,13 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
     }
 
     PipelineBuilderImpl PipelineBuilderImpl::Merge(
-        std::function<IAsyncOperation<IGraphicsEffectSource>(IGraphicsEffectSource const&, IGraphicsEffectSource const&)> factory,
+        std::function<winrt::IAsyncOperation<winrt::IGraphicsEffectSource>(winrt::IGraphicsEffectSource const&, winrt::IGraphicsEffectSource const&)> factory,
         PipelineBuilderImpl const& background,
         std::vector<winrt::hstring> animations,
-        std::unordered_map<winrt::hstring, std::function<IAsyncOperation<CompositionBrush>()>> initializers) const
+        std::unordered_map<winrt::hstring, std::function<winrt::IAsyncOperation<winrt::CompositionBrush>()>> initializers) const
     {
         auto bgState = background._state;
-        auto effectFactory = [state = _state, bgState, factory]() -> IAsyncOperation<IGraphicsEffectSource>
+        auto effectFactory = [state = _state, bgState, factory]() -> winrt::IAsyncOperation<winrt::IGraphicsEffectSource>
         {
             auto source1 = co_await state->_sourceProducer();
             auto source2 = co_await bgState->_sourceProducer();

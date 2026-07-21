@@ -5,6 +5,7 @@
 #ifdef __INTELLISENSE__
 #include <vector>
 #include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.ApplicationModel.h>
 #include <winrt/Windows.Foundation.Collections.h>
 #include <winrt/Microsoft.UI.Xaml.h>
 #endif

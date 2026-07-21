@@ -15,12 +15,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		winrt::Windows::Foundation::IInspectable Content() const
 		{
-			return GetValue(ContentProperty).as<winrt::Windows::Foundation::IInspectable>();
+			return GetValue(ContentProperty()).try_as<winrt::Windows::Foundation::IInspectable>();
 		}
 
 		void Content(winrt::Windows::Foundation::IInspectable const& value)
 		{
-			SetValue(ContentProperty, value);
+			SetValue(ContentProperty(), value);
 		}
 
 		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> ContentProperty =
@@ -32,12 +32,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		bool IsDefault() const
 		{
-			return winrt::unbox_value<bool>(GetValue(IsDefaultProperty));
+			return winrt::unbox_value<bool>(GetValue(IsDefaultProperty()));
 		}
 
 		void IsDefault(bool value)
 		{
-			SetValue(IsDefaultProperty, winrt::box_value(value));
+			SetValue(IsDefaultProperty(), winrt::box_value(value));
 		}
 
 		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> IsDefaultProperty =
@@ -49,12 +49,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		winrt::Windows::Foundation::IInspectable Value() const
 		{
-			return GetValue(ValueProperty).as<winrt::Windows::Foundation::IInspectable>();
+			return GetValue(ValueProperty()).try_as<winrt::Windows::Foundation::IInspectable>();
 		}
 
 		void Value(winrt::Windows::Foundation::IInspectable const& value)
 		{
-			SetValue(ValueProperty, value);
+			SetValue(ValueProperty(), value);
 		}
 
 		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> ValueProperty =

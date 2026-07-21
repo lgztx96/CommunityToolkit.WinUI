@@ -7,12 +7,12 @@
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
-    const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> UrlColorSource::SourceProperty =
-        winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> UrlColorSource::SourceProperty =
+        winrt::DependencyProperty::Register(
             L"Source",
             winrt::xaml_typename<winrt::hstring>(),
             winrt::xaml_typename<class_type>(),
-            winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(L""), &UrlColorSource::OnSourceChanged});
+            winrt::PropertyMetadata{ winrt::box_value(L""), &UrlColorSource::OnSourceChanged });
 
     winrt::hstring UrlColorSource::Source() const
     {
@@ -24,30 +24,31 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         SetValue(SourceProperty(), winrt::box_value(value));
     }
 
-    winrt::Windows::Foundation::IAsyncOperation<winrt::Windows::Storage::Streams::IRandomAccessStream> UrlColorSource::GetPixelDataAsync(int requestedSamples)
+    winrt::IAsyncOperation<winrt::IRandomAccessStream> UrlColorSource::GetPixelDataAsync(int requestedSamples)
     {
         // Ensure the source is populated
-        if (Source().empty())
+		auto source = Source();
+        if (source.empty())
             co_return nullptr;
 
-		auto uri = winrt::Windows::Foundation::Uri(Source());
+		auto uri = winrt::Uri(source);
 
-        winrt::Windows::Storage::Streams::IRandomAccessStream stream{ nullptr };
+        winrt::IRandomAccessStream stream{ nullptr };
 
         if (uri.SchemeName() == L"file") {
-            auto file = co_await winrt::Windows::Storage::StorageFile::GetFileFromPathAsync(uri.AbsoluteUri());
-            stream = co_await file.OpenAsync(winrt::Windows::Storage::FileAccessMode::Read);
+            auto file = co_await winrt::StorageFile::GetFileFromPathAsync(uri.AbsoluteUri());
+            stream = co_await file.OpenAsync(winrt::FileAccessMode::Read);
         }
         else {
-            stream = co_await winrt::Windows::Storage::Streams::RandomAccessStreamReference::CreateFromUri(uri).OpenReadAsync();
+            stream = co_await winrt::RandomAccessStreamReference::CreateFromUri(uri).OpenReadAsync();
         }
 
-        auto decoder = co_await winrt::Windows::Graphics::Imaging::BitmapDecoder::CreateAsync(stream);
+        auto decoder = co_await winrt::BitmapDecoder::CreateAsync(stream);
         auto pixelData = co_await decoder.GetPixelDataAsync();
         auto bytes = pixelData.DetachPixelData();
 
-        winrt::Windows::Storage::Streams::InMemoryRandomAccessStream randomAccessStream;
-        Windows::Storage::Streams::DataWriter writer;
+        winrt::InMemoryRandomAccessStream randomAccessStream;
+        winrt::DataWriter writer;
         writer.WriteBytes(bytes);
 
         co_await randomAccessStream.WriteAsync(writer.DetachBuffer());
@@ -55,9 +56,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         co_return randomAccessStream;
     }
 
-    void UrlColorSource::OnSourceChanged(
-        winrt::Microsoft::UI::Xaml::DependencyObject const& d, 
-        [[maybe_unused]] winrt::Microsoft::UI::Xaml::DependencyPropertyChangedEventArgs const& e)
+    void UrlColorSource::OnSourceChanged(winrt::DependencyObject const& d, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& e)
     {
         if (auto source = d.try_as<class_type>())
         {

@@ -5,6 +5,7 @@
 
 #ifdef __INTELLISENSE__
 #include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.Storage.h>
 #include <winrt/Windows.Storage.Streams.h>
 #include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Microsoft.UI.Xaml.Controls.h>
@@ -12,18 +13,21 @@
 #include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
 #include <winrt/Microsoft.UI.Xaml.Media.Imaging.h>
 #include <winrt/Microsoft.UI.Xaml.Shapes.h>
+#include <winrt/Microsoft.Graphics.Canvas.h>
+#include <winrt/Microsoft.Graphics.Canvas.Geometry.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
 #include <string_view>
 #include <vector>
-#endif
-
+#else
 import winrt.Microsoft.Graphics.Canvas;
 import winrt.Microsoft.Graphics.Canvas.Geometry;
+#endif
 
 namespace winrt
 {
 	using namespace Windows::Foundation;
+	using namespace Windows::Storage;
 	using namespace Windows::Storage::Streams;
 	using namespace Microsoft::UI::Xaml;
 	using namespace Microsoft::UI::Xaml::Controls;
@@ -68,28 +72,27 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		static constexpr std::wstring_view LowerRightThumbPartName = L"PART_LowerRightThumb";
 
-		static Rect ToRect(Size size)
+		static winrt::Rect ToRect(winrt::Size size)
 		{
-			return Rect(0, 0, size.Width, size.Height);
+			return winrt::Rect(0, 0, size.Width, size.Height);
 		}
 
-		static Rect ToRect(Point point, Point end)
+		static winrt::Rect ToRect(winrt::Point point, winrt::Point end)
 		{
-			return RectHelper::FromPoints(point, end);
+			return winrt::RectHelper::FromPoints(point, end);
 		}
 
 		ImageCropper();
 
 		void OnApplyTemplate();
 
-		Size MeasureOverride(Size availableSize);
+		winrt::Size MeasureOverride(winrt::Size availableSize);
 
-		winrt::Windows::Foundation::IAsyncAction LoadImageFromFile(
-			winrt::Windows::Storage::StorageFile const& imageFile);
+		winrt::IAsyncAction LoadImageFromFile(winrt::StorageFile const& imageFile);
 
-		winrt::Windows::Foundation::IAsyncAction SaveAsync(
-			IRandomAccessStream const& stream,
-			BitmapFileFormat bitmapFileFormat,
+		winrt::IAsyncAction SaveAsync(
+			winrt::IRandomAccessStream const& stream, 
+			winrt::BitmapFileFormat bitmapFileFormat, 
 			bool keepRectangularOutput = false);
 
 		void Reset();
@@ -100,12 +103,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		wil::single_threaded_rw_property<double> MinSelectedLength{ 40 };
 
-		wil::single_threaded_property<Rect> CroppedRegion{ _currentCroppedRect };
+		wil::single_threaded_property<winrt::Rect> CroppedRegion{ _currentCroppedRect };
 
-		static void OnSourceChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e)
+		static void OnSourceChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e)
 		{
 			auto target = winrt::get_self<ImageCropper>(d.as<class_type>())->get_strong();
-			if (auto bitmap = e.NewValue().try_as<WriteableBitmap>())
+			if (auto bitmap = e.NewValue().try_as<winrt::WriteableBitmap>())
 			{
 				if (bitmap.PixelWidth() < target->MinCropSize().Width || bitmap.PixelHeight() < target->MinCropSize().Height)
 				{
@@ -120,7 +123,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		}
 
 		static void OnAspectRatioChanged(
-			DependencyObject const& d, [[maybe_unused]] DependencyPropertyChangedEventArgs const& e)
+			winrt::DependencyObject const& d, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& e)
 		{
 			auto target = winrt::get_self<ImageCropper>(d.as<class_type>())->get_strong();
 
@@ -135,7 +138,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		}
 
 		static void OnCropShapeChanged(
-			DependencyObject const& d, [[maybe_unused]] DependencyPropertyChangedEventArgs const& e)
+			winrt::DependencyObject const& d, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& e)
 		{
 			auto target = winrt::get_self<ImageCropper>(d.as<class_type>())->get_strong();
 			target->UpdateCropShape();
@@ -153,72 +156,103 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		}
 
 		static void OnThumbPlacementChanged(
-			DependencyObject const& d, [[maybe_unused]] DependencyPropertyChangedEventArgs const& e)
+			winrt::DependencyObject const& d, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& e)
 		{
 			auto target = winrt::get_self<ImageCropper>(d.as<class_type>())->get_strong();
 			target->UpdateThumbsVisibility();
 		}
 
-		WriteableBitmap Source() { return winrt::unbox_value<WriteableBitmap>(GetValue(SourceProperty)); }
-		void Source(WriteableBitmap const& value) { SetValue(SourceProperty, value); }
+		winrt::WriteableBitmap Source() const { return GetValue(SourceProperty).try_as<winrt::WriteableBitmap>(); }
+		void Source(winrt::WriteableBitmap const& value) { SetValue(SourceProperty, value); }
 
-		IReference<double> AspectRatio() { return winrt::unbox_value<IReference<double>>(GetValue(AspectRatioProperty)); }
+		winrt::IReference<double> AspectRatio() const { return GetValue(AspectRatioProperty).try_as<winrt::IReference<double>>(); }
 		void AspectRatio(IReference<double> value) { SetValue(AspectRatioProperty, value); }
 
-		CropShape CropShape() { return winrt::unbox_value<winrt::XamlToolkit::WinUI::Controls::CropShape>(GetValue(CropShapeProperty)); }
+		CropShape CropShape() const { return winrt::unbox_value<winrt::XamlToolkit::WinUI::Controls::CropShape>(GetValue(CropShapeProperty)); }
 		void CropShape(winrt::XamlToolkit::WinUI::Controls::CropShape value) { SetValue(CropShapeProperty, winrt::box_value(value)); }
 
-		Brush Mask() { return winrt::unbox_value<Brush>(GetValue(MaskProperty)); }
+		winrt::Brush Mask() const { return GetValue(MaskProperty).try_as<winrt::Brush>(); }
 		void Mask(Brush const& value) { SetValue(MaskProperty, value); }
 
-		Brush Overlay() { return winrt::unbox_value<Brush>(GetValue(OverlayProperty)); }
+		winrt::Brush Overlay() const { return GetValue(OverlayProperty).try_as<winrt::Brush>(); }
 		void Overlay(Brush const& value) { SetValue(OverlayProperty, value); }
 
-		winrt::Microsoft::UI::Xaml::Style PrimaryThumbStyle() { return winrt::unbox_value<winrt::Microsoft::UI::Xaml::Style>(GetValue(PrimaryThumbStyleProperty)); }
-		void PrimaryThumbStyle(winrt::Microsoft::UI::Xaml::Style const& value) { SetValue(PrimaryThumbStyleProperty, value); }
+		winrt::Style PrimaryThumbStyle() const { return GetValue(PrimaryThumbStyleProperty).try_as<winrt::Style>(); }
+		void PrimaryThumbStyle(winrt::Style const& value) { SetValue(PrimaryThumbStyleProperty, value); }
 
-		winrt::Microsoft::UI::Xaml::Style SecondaryThumbStyle() { return winrt::unbox_value<winrt::Microsoft::UI::Xaml::Style>(GetValue(SecondaryThumbStyleProperty)); }
-		void SecondaryThumbStyle(winrt::Microsoft::UI::Xaml::Style const& value) { SetValue(SecondaryThumbStyleProperty, value); }
+		winrt::Style SecondaryThumbStyle() const { return GetValue(SecondaryThumbStyleProperty).try_as<winrt::Style>(); }
+		void SecondaryThumbStyle(winrt::Style const& value) { SetValue(SecondaryThumbStyleProperty, value); }
 
-		winrt::XamlToolkit::WinUI::Controls::ThumbPlacement ThumbPlacement() { return winrt::unbox_value<winrt::XamlToolkit::WinUI::Controls::ThumbPlacement>(GetValue(ThumbPlacementProperty)); }
+		winrt::XamlToolkit::WinUI::Controls::ThumbPlacement ThumbPlacement() const { return winrt::unbox_value<winrt::XamlToolkit::WinUI::Controls::ThumbPlacement>(GetValue(ThumbPlacementProperty)); }
 		void ThumbPlacement(winrt::XamlToolkit::WinUI::Controls::ThumbPlacement value) { SetValue(ThumbPlacementProperty, winrt::box_value(value)); }
 
-		static inline const wil::single_threaded_property<DependencyProperty> AspectRatioProperty =
-			DependencyProperty::Register(L"AspectRatio", winrt::xaml_typename<IReference<double>>(), winrt::xaml_typename<class_type>(), PropertyMetadata(nullptr, OnAspectRatioChanged));
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> AspectRatioProperty =
+			winrt::DependencyProperty::Register(
+				L"AspectRatio", 
+				winrt::xaml_typename<winrt::IReference<double>>(),
+				winrt::xaml_typename<class_type>(), 
+				winrt::PropertyMetadata(nullptr, &ImageCropper::OnAspectRatioChanged));
 
-		static inline const wil::single_threaded_property<DependencyProperty> SourceProperty =
-			DependencyProperty::Register(L"Source", winrt::xaml_typename<WriteableBitmap>(), winrt::xaml_typename<class_type>(), PropertyMetadata(nullptr, OnSourceChanged));
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> SourceProperty =
+			winrt::DependencyProperty::Register(
+				L"Source", 
+				winrt::xaml_typename<winrt::WriteableBitmap>(),
+				winrt::xaml_typename<class_type>(), 
+				winrt::PropertyMetadata(nullptr, &ImageCropper::OnSourceChanged));
 
-		static inline const wil::single_threaded_property<DependencyProperty> CropShapeProperty =
-			DependencyProperty::Register(L"CropShape", winrt::xaml_typename<winrt::XamlToolkit::WinUI::Controls::CropShape>(), winrt::xaml_typename<class_type>(), PropertyMetadata(winrt::box_value(CropShape::
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> CropShapeProperty =
+			winrt::DependencyProperty::Register(
+				L"CropShape", 
+				winrt::xaml_typename<winrt::XamlToolkit::WinUI::Controls::CropShape>(),
+				winrt::xaml_typename<class_type>(),
+				winrt::PropertyMetadata(winrt::box_value(CropShape::
 				Rectangular), OnCropShapeChanged));
 
-		static inline const wil::single_threaded_property<DependencyProperty> MaskProperty =
-			DependencyProperty::Register(L"Mask", winrt::xaml_typename<Brush>(), winrt::xaml_typename<class_type>(), PropertyMetadata(nullptr));
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> MaskProperty =
+			winrt::DependencyProperty::Register(
+				L"Mask", 
+				winrt::xaml_typename<winrt::Brush>(), 
+				winrt::xaml_typename<class_type>(), 
+				winrt::PropertyMetadata(nullptr));
 
-		static inline const wil::single_threaded_property<DependencyProperty> OverlayProperty =
-			DependencyProperty::Register(L"Overlay", winrt::xaml_typename<Brush>(), winrt::xaml_typename<class_type>(), PropertyMetadata(nullptr));
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> OverlayProperty =
+			winrt::DependencyProperty::Register(
+				L"Overlay", 
+				winrt::xaml_typename<winrt::Brush>(),
+				winrt::xaml_typename<class_type>(), 
+				winrt::PropertyMetadata(nullptr));
 
-		static inline const wil::single_threaded_property<DependencyProperty> PrimaryThumbStyleProperty =
-			DependencyProperty::Register(L"PrimaryThumbStyle", winrt::xaml_typename<winrt::Microsoft::UI::Xaml::Style>(), winrt::xaml_typename<class_type>(), PropertyMetadata(nullptr));
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> PrimaryThumbStyleProperty =
+			winrt::DependencyProperty::Register(
+				L"PrimaryThumbStyle", 
+				winrt::xaml_typename<winrt::Style>(), 
+				winrt::xaml_typename<class_type>(), 
+				winrt::PropertyMetadata(nullptr));
 
-		static inline const wil::single_threaded_property<DependencyProperty> SecondaryThumbStyleProperty =
-			DependencyProperty::Register(L"SecondaryThumbStyle", winrt::xaml_typename<winrt::Microsoft::UI::Xaml::Style>(), winrt::xaml_typename<class_type>(), PropertyMetadata(nullptr));
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> SecondaryThumbStyleProperty =
+			winrt::DependencyProperty::Register(
+				L"SecondaryThumbStyle", 
+				winrt::xaml_typename<winrt::Style>(), 
+				winrt::xaml_typename<class_type>(), 
+				winrt::PropertyMetadata(nullptr));
 
-		static inline const wil::single_threaded_property<DependencyProperty> ThumbPlacementProperty =
-			DependencyProperty::Register(L"ThumbPlacement", winrt::xaml_typename<winrt::XamlToolkit::WinUI::Controls::ThumbPlacement>(), winrt::xaml_typename<class_type>(), PropertyMetadata({ winrt::box_value(ThumbPlacement::All), &ImageCropper::OnThumbPlacementChanged
-				}));
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> ThumbPlacementProperty =
+			winrt::DependencyProperty::Register(
+				L"ThumbPlacement", 
+				winrt::xaml_typename<winrt::XamlToolkit::WinUI::Controls::ThumbPlacement>(), 
+				winrt::xaml_typename<class_type>(), 
+				winrt::PropertyMetadata(winrt::box_value(ThumbPlacement::All), &ImageCropper::OnThumbPlacementChanged));
 
 	private:
-		CompositeTransform _imageTransform;
-		CompositeTransform _inverseImageTransform;
-		GeometryGroup _maskAreaGeometryGroup;
+		winrt::CompositeTransform _imageTransform;
+		winrt::CompositeTransform _inverseImageTransform;
+		winrt::GeometryGroup _maskAreaGeometryGroup;
 
-		Grid _layoutGrid{ nullptr };
-		Canvas _imageCanvas{ nullptr };
-		Image _sourceImage{ nullptr };
-		Path _maskAreaPath{ nullptr };
-		Path _overlayAreaPath{ nullptr };
+		winrt::Grid _layoutGrid{ nullptr };
+		winrt::Canvas _imageCanvas{ nullptr };
+		winrt::Image _sourceImage{ nullptr };
+		winrt::Path _maskAreaPath{ nullptr };
+		winrt::Path _overlayAreaPath{ nullptr };
 		winrt::XamlToolkit::WinUI::Controls::ImageCropperThumb _topThumb{ nullptr };
 		winrt::XamlToolkit::WinUI::Controls::ImageCropperThumb _bottomThumb{ nullptr };
 		winrt::XamlToolkit::WinUI::Controls::ImageCropperThumb _leftThumb{ nullptr };
@@ -234,28 +268,28 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		float _endX;
 		float _endY;
 
-		Rect _currentCroppedRect;
-		Rect _restrictedCropRect;
-		Rect _restrictedSelectRect;
-		RectangleGeometry _outerGeometry;
-		Media::Geometry _innerGeometry{ nullptr };
-		Media::Geometry _overlayGeometry{ nullptr };
-		TimeSpan _animationDuration = 300ms;
+		winrt::Rect _currentCroppedRect;
+		winrt::Rect _restrictedCropRect;
+		winrt::Rect _restrictedSelectRect;
+		winrt::RectangleGeometry _outerGeometry;
+		winrt::Microsoft::UI::Xaml::Media::Geometry _innerGeometry{ nullptr };
+		winrt::Microsoft::UI::Xaml::Media::Geometry _overlayGeometry{ nullptr };
+		winrt::TimeSpan _animationDuration = 300ms;
 
-		Rect CanvasRect()
+		winrt::Rect CanvasRect()
 		{
 			auto width = _imageCanvas ? _imageCanvas.ActualWidth() : 0;
 			auto height = _imageCanvas ? _imageCanvas.ActualHeight() : 0;
-			return Rect(0, 0, static_cast<float>(width), static_cast<float>(height));
+			return winrt::Rect(0, 0, static_cast<float>(width), static_cast<float>(height));
 		}
 
 		bool KeepAspectRatio() { return ActualAspectRatio() > 0; }
 
 		double ActualAspectRatio();
 
-		Size MinCropSize();
+		winrt::Size MinCropSize();
 
-		Size MinSelectSize();
+		winrt::Size MinSelectSize();
 
 		void HookUpEvents();
 
@@ -265,13 +299,13 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		bool TryUpdateImageLayout(bool animate = false);
 
-		bool TryUpdateImageLayoutWithViewport(Rect viewport, Rect viewportImageRect, bool animate = false);
+		bool TryUpdateImageLayoutWithViewport(winrt::Rect viewport, winrt::Rect viewportImageRect, bool animate = false);
 
-		void UpdateCroppedRect(ThumbPosition position, Point diffPos);
+		void UpdateCroppedRect(ThumbPosition position, winrt::Point diffPos);
 
 		void UpdateSelectionThumbs(bool animate = false);
 
-		void UpdateSelectionThumbs(Point startPoint, Point endPoint, bool animate = false);
+		void UpdateSelectionThumbs(winrt::Point startPoint, winrt::Point endPoint, bool animate = false);
 
 		void UpdateCropShape();
 
@@ -281,59 +315,59 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		void UpdateThumbsVisibility();
 
-		Point SelectionAreaCenter();
+		winrt::Point SelectionAreaCenter();
 
-		static winrt::Windows::Foundation::IAsyncAction CropImageAsync(WriteableBitmap const& writeableBitmap, IRandomAccessStream const& stream, Rect croppedRect, BitmapFileFormat bitmapFileFormat);
+		static winrt::IAsyncAction CropImageAsync(winrt::WriteableBitmap const& writeableBitmap, winrt::IRandomAccessStream const& stream, Rect croppedRect, BitmapFileFormat bitmapFileFormat);
 
-		static winrt::Windows::Foundation::IAsyncAction CropImageWithShapeAsync(WriteableBitmap const& writeableBitmap, IRandomAccessStream const& stream, Rect croppedRect, BitmapFileFormat bitmapFileFormat, winrt::XamlToolkit::WinUI::Controls::CropShape cropShape);
+		static winrt::IAsyncAction CropImageWithShapeAsync(winrt::WriteableBitmap const& writeableBitmap, winrt::IRandomAccessStream const& stream, Rect croppedRect, BitmapFileFormat bitmapFileFormat, winrt::XamlToolkit::WinUI::Controls::CropShape cropShape);
 
-		static CanvasGeometry CreateClipGeometry(ICanvasResourceCreator resourceCreator, winrt::XamlToolkit::WinUI::Controls::CropShape cropShape, Size croppedSize);
+		static winrt::CanvasGeometry CreateClipGeometry(winrt::ICanvasResourceCreator resourceCreator, winrt::XamlToolkit::WinUI::Controls::CropShape cropShape, Size croppedSize);
 
-		static winrt::guid GetEncoderId(BitmapFileFormat bitmapFileFormat);
+		static winrt::guid GetEncoderId(winrt::BitmapFileFormat bitmapFileFormat);
 
-		static Point GetSafePoint(Rect targetRect, Point point);
+		static winrt::Point GetSafePoint(winrt::Rect targetRect, winrt::Point point);
 
-		static bool IsSafePoint(Rect targetRect, Point point);
+		static bool IsSafePoint(winrt::Rect targetRect, winrt::Point point);
 
-		static bool IsSafeRect(Point startPoint, Point endPoint, Size minSize);
+		static bool IsSafeRect(winrt::Point startPoint, winrt::Point endPoint, winrt::Size minSize);
 
-		static Rect GetSafeRect(Point startPoint, Point endPoint, Size minSize, ThumbPosition position);
+		static winrt::Rect GetSafeRect(winrt::Point startPoint, winrt::Point endPoint, winrt::Size minSize, ThumbPosition position);
 
-		static Rect GetUniformRect(Rect targetRect, double aspectRatio);
+		static winrt::Rect GetUniformRect(Rect targetRect, double aspectRatio);
 
-		static bool IsValidRect(Rect targetRect);
+		static bool IsValidRect(winrt::Rect targetRect);
 
-		static Point GetSafeSizeChangeWhenKeepAspectRatio(Rect targetRect, ThumbPosition thumbPosition, Rect selectedRect, Point originSizeChange, double aspectRatio);
+		static winrt::Point GetSafeSizeChangeWhenKeepAspectRatio(winrt::Rect targetRect, ThumbPosition thumbPosition, winrt::Rect selectedRect, Point originSizeChange, double aspectRatio);
 
-		static bool CanContains(Rect targetRect, Rect testRect);
+		static bool CanContains(winrt::Rect targetRect, winrt::Rect testRect);
 
-		static bool TryGetContainedRect(Rect targetRect, Rect& testRect);
+		static bool TryGetContainedRect(winrt::Rect targetRect, winrt::Rect& testRect);
 
 		static bool IsCornerThumb(ThumbPosition thumbPosition);
 
-		void ImageCropperThumb_KeyDown(winrt::Windows::Foundation::IInspectable const& sender, KeyRoutedEventArgs const& e);
+		void ImageCropperThumb_KeyDown(winrt::IInspectable const& sender, winrt::KeyRoutedEventArgs const& e);
 
-		void ImageCropperThumb_KeyUp(winrt::Windows::Foundation::IInspectable const& sender, KeyRoutedEventArgs const& e);
+		void ImageCropperThumb_KeyUp(winrt::IInspectable const& sender, winrt::KeyRoutedEventArgs const& e);
 
-		void ImageCropperThumb_ManipulationCompleted(winrt::Windows::Foundation::IInspectable const& sender, ManipulationCompletedRoutedEventArgs const& e);
+		void ImageCropperThumb_ManipulationCompleted(winrt::IInspectable const& sender, winrt::ManipulationCompletedRoutedEventArgs const& e);
 
-		void ImageCropperThumb_ManipulationDelta(winrt::Windows::Foundation::IInspectable const& sender, ManipulationDeltaRoutedEventArgs const& e);
+		void ImageCropperThumb_ManipulationDelta(winrt::IInspectable const& sender, winrt::ManipulationDeltaRoutedEventArgs const& e);
 
-		void SourceImage_ManipulationDelta(winrt::Windows::Foundation::IInspectable const& sender, ManipulationDeltaRoutedEventArgs const& e);
+		void SourceImage_ManipulationDelta(winrt::IInspectable const& sender, winrt::ManipulationDeltaRoutedEventArgs const& e);
 
-		void ImageCanvas_SizeChanged(winrt::Windows::Foundation::IInspectable const& sender, SizeChangedEventArgs const& e);
+		void ImageCanvas_SizeChanged(winrt::IInspectable const& sender, winrt::SizeChangedEventArgs const& e);
 
-		static void AnimateUIElementOffset(Point to, TimeSpan duration, UIElement const& target);
+		static void AnimateUIElementOffset(winrt::Point to, winrt::TimeSpan duration, winrt::UIElement const& target);
 
-		static void AnimateUIElementScale(double to, TimeSpan duration, UIElement const& target);
+		static void AnimateUIElementScale(double to, winrt::TimeSpan duration, winrt::UIElement const& target);
 
-		static DoubleAnimation CreateDoubleAnimation(double to, TimeSpan duration, DependencyObject const& target, std::wstring_view propertyName, bool enableDependentAnimation);
+		static winrt::DoubleAnimation CreateDoubleAnimation(double to, winrt::TimeSpan duration, winrt::DependencyObject const& target, std::wstring_view propertyName, bool enableDependentAnimation);
 
-		static PointAnimation CreatePointAnimation(Point to, TimeSpan duration, DependencyObject const& target, std::wstring_view propertyName, bool enableDependentAnimation);
+		static winrt::PointAnimation CreatePointAnimation(winrt::Point to, winrt::TimeSpan duration, winrt::DependencyObject const& target, std::wstring_view propertyName, bool enableDependentAnimation);
 
-		static ObjectAnimationUsingKeyFrames CreateRectangleAnimation(Rect to, TimeSpan duration, RectangleGeometry rectangle, bool enableDependentAnimation);
+		static winrt::ObjectAnimationUsingKeyFrames CreateRectangleAnimation(winrt::Rect to, winrt::TimeSpan duration, winrt::RectangleGeometry rectangle, bool enableDependentAnimation);
 
-		static std::vector<DiscreteObjectKeyFrame> GetRectKeyframes(Rect from, Rect to, TimeSpan duration);
+		static std::vector<winrt::DiscreteObjectKeyFrame> GetRectKeyframes(winrt::Rect from, winrt::Rect to, winrt::TimeSpan duration);
 
 		// Top
 		winrt::event_token _topThumbManipulationDeltaToken{};

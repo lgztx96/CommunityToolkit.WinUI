@@ -57,7 +57,8 @@ public:
 		uint32_t error_offset;
 		query = ts_query_new(language, reinterpret_cast<const char*>(highlight_scm.data()), static_cast<uint32_t>(highlight_scm.size()), &error_offset, &error_type);
 
-		if (query == nullptr) {
+		if (query == nullptr) 
+		{
 			throw winrt::hresult_invalid_argument(
 				std::format(L"Failed to create TSQuery. Error type: {}, at offset: {}", static_cast<int>(error_type), error_offset).data());
 		}
@@ -65,13 +66,15 @@ public:
 		cursor = ts_query_cursor_new();
 	}
 
-	~TreeSitterHighlighter() {
+	~TreeSitterHighlighter() 
+	{
 		if (query) ts_query_delete(query);
 		if (cursor) ts_query_cursor_delete(cursor);
 		if (parser) ts_parser_delete(parser);
 	}
 
-	std::vector<Utf16HighlightToken> Highlight(std::wstring_view source, bool isDarkMode) const override {
+	std::vector<Utf16HighlightToken> Highlight(std::wstring_view source, bool isDarkMode) const override 
+	{
 		std::vector<Utf16HighlightToken> result;
 		const auto& theme = isDarkMode ? HighlightDarkTheme : HighlightLightTheme;
 		TSTree* tree = ts_parser_parse_string_encoding(
@@ -130,7 +133,8 @@ public:
 		return result;
 	}
 
-	static inline const std::unordered_map<std::string_view, std::wstring_view> HighlightDarkTheme = {
+	static inline const std::unordered_map<std::string_view, std::wstring_view> HighlightDarkTheme = 
+	{
 		{"default", L"#FFFFFF" },
 		//C#, C++, XML, Bash, JSON
 		{"comment", L"#6A9955"},                 // C#, C++, XML, Bash, JSON
@@ -212,7 +216,8 @@ public:
 		{"attribute", L"#569CD6"}                 // MIDL3 attribute name
 	};
 
-	static inline const std::unordered_map<std::string_view, std::wstring_view> HighlightLightTheme = {
+	static inline const std::unordered_map<std::string_view, std::wstring_view> HighlightLightTheme = 
+	{
 		{"default", L"#383A42"},                 // default text color (dark gray)
 
 		// Comments: C#, C++, XML, Bash, JSON

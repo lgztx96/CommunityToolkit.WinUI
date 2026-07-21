@@ -9,15 +9,23 @@
 #ifdef __INTELLISENSE__
 #include <algorithm>
 #include <winrt/Windows.Foundation.Collections.h>
+#include <winrt/Microsoft.UI.Composition.h>
+#include <winrt/XamlToolkit.WinUI.Media.h>
+#include <winrt/XamlToolkit.WinUI.Media.Pipelines.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
-#endif
-
-import std;
-import winrt.Windows.Foundation;
+#else
 import winrt.Windows.Foundation.Collections;
 import winrt.Microsoft.UI.Composition;
+import winrt.XamlToolkit.WinUI.Media;
 import winrt.XamlToolkit.WinUI.Media.Pipelines;
+#endif
+
+namespace winrt
+{
+	using namespace winrt::Windows::Foundation::Collections;
+	using namespace winrt::Microsoft::UI::Composition;
+}
 
 namespace winrt::XamlToolkit::WinUI::Media::implementation
 {
@@ -37,7 +45,7 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
 		/// <summary>
 		/// Gets or sets the effects to apply to the input to merge with the current instance
 		/// </summary>
-		wil::single_threaded_rw_property<winrt::Windows::Foundation::Collections::IVector<IPipelineEffect>> Effects = winrt::single_threaded_vector<IPipelineEffect>();
+		wil::single_threaded_rw_property<winrt::IVector<IPipelineEffect>> Effects = winrt::single_threaded_vector<IPipelineEffect>();
 
 		/// <summary>
 		/// Gets or sets the The cross fade factor to blend the input effects (default to 0.5, should be in the [0, 1] range)
@@ -71,7 +79,7 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
 			return builder.CrossFade(sourcePipeline, static_cast<float>(Factor()));
 		}
 
-		void NotifyCompositionBrushInUse(winrt::Microsoft::UI::Composition::CompositionBrush const& brush) override
+		void NotifyCompositionBrushInUse(winrt::CompositionBrush const& brush) override
 		{
 			PipelineEffect::NotifyCompositionBrushInUse(brush);
 

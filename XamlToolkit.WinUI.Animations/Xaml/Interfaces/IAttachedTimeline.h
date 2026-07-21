@@ -19,10 +19,10 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         virtual AnimationBuilder& AppendToBuilder(
             AnimationBuilder& builder,
             UIElement parent,
-            std::optional<winrt::Windows::Foundation::TimeSpan> delayHint = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> durationHint = std::nullopt,
+            std::optional<winrt::TimeSpan> delayHint = std::nullopt,
+            std::optional<winrt::TimeSpan> durationHint = std::nullopt,
             std::optional<EasingType> easingTypeHint = std::nullopt,
-            std::optional<EasingMode> easingModeHint = std::nullopt) = 0;
+            std::optional<winrt::EasingMode> easingModeHint = std::nullopt) = 0;
 
         virtual ~IAttachedTimeline() = default;
     };

@@ -122,7 +122,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	{
 		auto currentContainerItem = GetCurrentContainerItem();
 
-		if (currentContainerItem != nullptr)
+		if (currentContainerItem)
 		{
 			auto currentItem = ItemFromContainer(currentContainerItem);
 

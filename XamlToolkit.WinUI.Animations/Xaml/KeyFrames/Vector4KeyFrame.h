@@ -4,24 +4,30 @@
 #include "../Abstract/KeyFrame{TValue,TKeyFrame}.h"
 #include "../Extensions/AnimationExtensions.h"
 
+namespace winrt
+{
+    using namespace Windows::Foundation::Numerics;
+    using namespace Microsoft::UI::Xaml;
+}
+
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
-    struct Vector4KeyFrame : Vector4KeyFrameT<Vector4KeyFrame, KeyFrameBase<winrt::hstring, winrt::Windows::Foundation::Numerics::float4>>
+    struct Vector4KeyFrame : Vector4KeyFrameT<Vector4KeyFrame, KeyFrameBase<winrt::hstring, winrt::float4>>
     {
     public:
         Vector4KeyFrame() = default;
 
         winrt::hstring Value() const
         {
-            return winrt::unbox_value_or<winrt::hstring>(GetValue(ValueProperty), L"");
+            return winrt::unbox_value_or<winrt::hstring>(GetValue(ValueProperty()), L"");
         }
         void Value(winrt::hstring const& value)
         {
-            SetValue(ValueProperty, winrt::box_value(value));
+            SetValue(ValueProperty(), winrt::box_value(value));
         }
 
     protected:
-        std::optional<winrt::Windows::Foundation::Numerics::float4> GetParsedValue() const override
+        std::optional<winrt::float4> GetParsedValue() const override
         {
             auto value = Value();
             if (value.empty())
@@ -29,11 +35,11 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
                 return std::nullopt;
             }
 
-            return Animations::AnimationExtensions::ToVector4(value);
+            return AnimationExtensions::ToVector4(value);
         }
 
     public:
-        static const wil::single_threaded_property<Microsoft::UI::Xaml::DependencyProperty> ValueProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> ValueProperty;
     };
 }
 

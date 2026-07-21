@@ -5,14 +5,17 @@
 #include "../../Extensions/System/FloatExtensions.h"
 
 #ifdef __INTELLISENSE__
-#include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.Foundation.Numerics.h>
 #endif
 
-namespace winrt::XamlToolkit::WinUI::Animations::Expressions
+namespace winrt
 {
     using namespace Windows::Foundation::Numerics;
+    using namespace XamlToolkit::WinUI::Animations;
+}
 
+namespace winrt::XamlToolkit::WinUI::Animations::Expressions
+{
     class QuaternionNode final : public ExpressionNodeBase<QuaternionNode>
     {
     public:
@@ -43,13 +46,13 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
         {
             return winrt::format(
                 L"Quaternion({},{},{},{})",
-                winrt::XamlToolkit::WinUI::Animations::FloatExtensions::ToCompositionString(value.x),
-                winrt::XamlToolkit::WinUI::Animations::FloatExtensions::ToCompositionString(value.y),
-                winrt::XamlToolkit::WinUI::Animations::FloatExtensions::ToCompositionString(value.z),
-                winrt::XamlToolkit::WinUI::Animations::FloatExtensions::ToCompositionString(value.w));
+                winrt::FloatExtensions::ToCompositionString(value.x),
+                winrt::FloatExtensions::ToCompositionString(value.y),
+                winrt::FloatExtensions::ToCompositionString(value.z),
+                winrt::FloatExtensions::ToCompositionString(value.w));
         }
 
     private:
-        quaternion value{};
+        winrt::quaternion value{};
     };
 }

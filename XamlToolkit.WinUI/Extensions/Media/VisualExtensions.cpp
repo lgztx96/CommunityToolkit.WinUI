@@ -8,14 +8,14 @@
 
 namespace winrt::XamlToolkit::WinUI::implementation
 {
-    Visual VisualExtensions::GetVisual(UIElement const& element)
+    Visual VisualExtensions::GetVisual(winrt::UIElement const& element)
     {
-        return ElementCompositionPreview::GetElementVisual(element);
+        return winrt::ElementCompositionPreview::GetElementVisual(element);
     }
 
-    winrt::hstring VisualExtensions::GetAnchorPoint(DependencyObject const& obj)
+    winrt::hstring VisualExtensions::GetAnchorPoint(winrt::DependencyObject const& obj)
     {
-        if (auto element = obj.try_as<UIElement>())
+        if (auto element = obj.try_as<winrt::UIElement>())
         {
             return GetAnchorPointForElement(element);
         }
@@ -23,9 +23,9 @@ namespace winrt::XamlToolkit::WinUI::implementation
         return winrt::unbox_value<winrt::hstring>(obj.GetValue(AnchorPointProperty));
     }
 
-    void VisualExtensions::SetAnchorPoint(DependencyObject const& obj, winrt::hstring const& value)
+    void VisualExtensions::SetAnchorPoint(winrt::DependencyObject const& obj, winrt::hstring const& value)
     {
-        if (auto element = obj.try_as<UIElement>())
+        if (auto element = obj.try_as<winrt::UIElement>())
         {
             SetAnchorPointForElement(value, element);
         }
@@ -33,9 +33,9 @@ namespace winrt::XamlToolkit::WinUI::implementation
         obj.SetValue(AnchorPointProperty, winrt::box_value(value));
     }
 
-    winrt::hstring VisualExtensions::GetCenterPoint(DependencyObject const& obj)
+    winrt::hstring VisualExtensions::GetCenterPoint(winrt::DependencyObject const& obj)
     {
-        if (auto element = obj.try_as<UIElement>())
+        if (auto element = obj.try_as<winrt::UIElement>())
         {
             return GetCenterPointForElement(element);
         }
@@ -43,9 +43,9 @@ namespace winrt::XamlToolkit::WinUI::implementation
         return winrt::unbox_value<winrt::hstring>(obj.GetValue(CenterPointProperty));
     }
 
-    void VisualExtensions::SetCenterPoint(DependencyObject const& obj, winrt::hstring const& value)
+    void VisualExtensions::SetCenterPoint(winrt::DependencyObject const& obj, winrt::hstring const& value)
     {
-        if (auto element = obj.try_as<UIElement>())
+        if (auto element = obj.try_as<winrt::UIElement>())
         {
             SetCenterPointForElement(value, element);
         }
@@ -53,9 +53,9 @@ namespace winrt::XamlToolkit::WinUI::implementation
         obj.SetValue(CenterPointProperty, winrt::box_value(value));
     }
 
-    winrt::hstring VisualExtensions::GetOffset(DependencyObject const& obj)
+    winrt::hstring VisualExtensions::GetOffset(winrt::DependencyObject const& obj)
     {
-        if (auto element = obj.try_as<UIElement>())
+        if (auto element = obj.try_as<winrt::UIElement>())
         {
             return GetOffsetForElement(element);
         }
@@ -63,9 +63,9 @@ namespace winrt::XamlToolkit::WinUI::implementation
         return winrt::unbox_value<winrt::hstring>(obj.GetValue(OffsetProperty));
     }
 
-    void VisualExtensions::SetOffset(DependencyObject const& obj, winrt::hstring const& value)
+    void VisualExtensions::SetOffset(winrt::DependencyObject const& obj, winrt::hstring const& value)
     {
-        if (auto element = obj.try_as<UIElement>())
+        if (auto element = obj.try_as<winrt::UIElement>())
         {
             SetOffsetForElement(value, element);
         }
@@ -73,9 +73,9 @@ namespace winrt::XamlToolkit::WinUI::implementation
         obj.SetValue(OffsetProperty, winrt::box_value(value));
     }
 
-    winrt::hstring VisualExtensions::GetTranslation(DependencyObject const& obj)
+    winrt::hstring VisualExtensions::GetTranslation(winrt::DependencyObject const& obj)
     {
-        if (auto element = obj.try_as<UIElement>())
+        if (auto element = obj.try_as<winrt::UIElement>())
         {
             return GetTranslationForElement(element);
         }
@@ -83,9 +83,9 @@ namespace winrt::XamlToolkit::WinUI::implementation
         return winrt::unbox_value<winrt::hstring>(obj.GetValue(TranslationProperty));
     }
 
-    void VisualExtensions::SetTranslation(DependencyObject const& obj, winrt::hstring const& value)
+    void VisualExtensions::SetTranslation(winrt::DependencyObject const& obj, winrt::hstring const& value)
     {
-        if (auto element = obj.try_as<UIElement>())
+        if (auto element = obj.try_as<winrt::UIElement>())
         {
             SetTranslationForElement(value, element);
         }
@@ -93,9 +93,9 @@ namespace winrt::XamlToolkit::WinUI::implementation
         obj.SetValue(TranslationProperty, winrt::box_value(value));
     }
 
-    double VisualExtensions::GetOpacity(DependencyObject const& obj)
+    double VisualExtensions::GetOpacity(winrt::DependencyObject const& obj)
     {
-        if (auto element = obj.try_as<UIElement>())
+        if (auto element = obj.try_as<winrt::UIElement>())
         {
             return GetOpacityForElement(element);
         }
@@ -103,9 +103,9 @@ namespace winrt::XamlToolkit::WinUI::implementation
         return winrt::unbox_value<double>(obj.GetValue(OpacityProperty));
     }
 
-    void VisualExtensions::SetOpacity(DependencyObject const& obj, double value)
+    void VisualExtensions::SetOpacity(winrt::DependencyObject const& obj, double value)
     {
-        if (auto element = obj.try_as<UIElement>())
+        if (auto element = obj.try_as<winrt::UIElement>())
         {
             SetOpacityForElement(value, element);
         }
@@ -113,9 +113,9 @@ namespace winrt::XamlToolkit::WinUI::implementation
         obj.SetValue(OpacityProperty, winrt::box_value(value));
     }
 
-    double VisualExtensions::GetRotationAngle(DependencyObject const& obj)
+    double VisualExtensions::GetRotationAngle(winrt::DependencyObject const& obj)
     {
-        if (auto element = obj.try_as<UIElement>())
+        if (auto element = obj.try_as<winrt::UIElement>())
         {
             return GetRotationAngleForElement(element);
         }
@@ -123,9 +123,9 @@ namespace winrt::XamlToolkit::WinUI::implementation
         return winrt::unbox_value<double>(obj.GetValue(RotationAngleProperty));
     }
 
-    void VisualExtensions::SetRotationAngle(DependencyObject const& obj, double value)
+    void VisualExtensions::SetRotationAngle(winrt::DependencyObject const& obj, double value)
     {
-        if (auto element = obj.try_as<UIElement>())
+        if (auto element = obj.try_as<winrt::UIElement>())
         {
             SetRotationAngleForElement(value, element);
         }
@@ -133,9 +133,9 @@ namespace winrt::XamlToolkit::WinUI::implementation
         obj.SetValue(RotationAngleProperty, winrt::box_value(value));
     }
 
-    double VisualExtensions::GetRotationAngleInDegrees(DependencyObject const& obj)
+    double VisualExtensions::GetRotationAngleInDegrees(winrt::DependencyObject const& obj)
     {
-        if (auto element = obj.try_as<UIElement>())
+        if (auto element = obj.try_as<winrt::UIElement>())
         {
             return GetRotationAngleInDegreesForElement(element);
         }
@@ -143,9 +143,9 @@ namespace winrt::XamlToolkit::WinUI::implementation
         return winrt::unbox_value<double>(obj.GetValue(RotationAngleInDegreesProperty));
     }
 
-    void VisualExtensions::SetRotationAngleInDegrees(DependencyObject const& obj, double value)
+    void VisualExtensions::SetRotationAngleInDegrees(winrt::DependencyObject const& obj, double value)
     {
-        if (auto element = obj.try_as<UIElement>())
+        if (auto element = obj.try_as<winrt::UIElement>())
         {
             SetRotationAngleInDegreesForElement(value, element);
         }
@@ -153,9 +153,9 @@ namespace winrt::XamlToolkit::WinUI::implementation
         obj.SetValue(RotationAngleInDegreesProperty, winrt::box_value(value));
     }
 
-    winrt::hstring VisualExtensions::GetRotationAxis(DependencyObject const& obj)
+    winrt::hstring VisualExtensions::GetRotationAxis(winrt::DependencyObject const& obj)
     {
-        if (auto element = obj.try_as<UIElement>())
+        if (auto element = obj.try_as<winrt::UIElement>())
         {
             return GetRotationAxisForElement(element);
         }
@@ -163,9 +163,9 @@ namespace winrt::XamlToolkit::WinUI::implementation
         return winrt::unbox_value<winrt::hstring>(obj.GetValue(RotationAxisProperty));
     }
 
-    void VisualExtensions::SetRotationAxis(DependencyObject const& obj, winrt::hstring const& value)
+    void VisualExtensions::SetRotationAxis(winrt::DependencyObject const& obj, winrt::hstring const& value)
     {
-        if (auto element = obj.try_as<UIElement>())
+        if (auto element = obj.try_as<winrt::UIElement>())
         {
             SetRotationAxisForElement(value, element);
         }
@@ -173,9 +173,9 @@ namespace winrt::XamlToolkit::WinUI::implementation
         obj.SetValue(RotationAxisProperty, winrt::box_value(value));
     }
 
-    winrt::hstring VisualExtensions::GetScale(DependencyObject const& obj)
+    winrt::hstring VisualExtensions::GetScale(winrt::DependencyObject const& obj)
     {
-        if (auto element = obj.try_as<UIElement>())
+        if (auto element = obj.try_as<winrt::UIElement>())
         {
             return GetScaleForElement(element);
         }
@@ -183,9 +183,9 @@ namespace winrt::XamlToolkit::WinUI::implementation
         return winrt::unbox_value<winrt::hstring>(obj.GetValue(ScaleProperty));
     }
 
-    void VisualExtensions::SetScale(DependencyObject const& obj, winrt::hstring const& value)
+    void VisualExtensions::SetScale(winrt::DependencyObject const& obj, winrt::hstring const& value)
     {
-        if (auto element = obj.try_as<UIElement>())
+        if (auto element = obj.try_as<winrt::UIElement>())
         {
             SetScaleForElement(value, element);
         }
@@ -193,9 +193,9 @@ namespace winrt::XamlToolkit::WinUI::implementation
         obj.SetValue(ScaleProperty, winrt::box_value(value));
     }
 
-    winrt::hstring VisualExtensions::GetSize(DependencyObject const& obj)
+    winrt::hstring VisualExtensions::GetSize(winrt::DependencyObject const& obj)
     {
-        if (auto element = obj.try_as<UIElement>())
+        if (auto element = obj.try_as<winrt::UIElement>())
         {
             return GetSizeForElement(element);
         }
@@ -203,9 +203,9 @@ namespace winrt::XamlToolkit::WinUI::implementation
         return winrt::unbox_value<winrt::hstring>(obj.GetValue(SizeProperty));
     }
 
-    void VisualExtensions::SetSize(DependencyObject const& obj, winrt::hstring const& value)
+    void VisualExtensions::SetSize(winrt::DependencyObject const& obj, winrt::hstring const& value)
     {
-        if (auto element = obj.try_as<UIElement>())
+        if (auto element = obj.try_as<winrt::UIElement>())
         {
             SetSizeForElement(value, element);
         }
@@ -213,17 +213,17 @@ namespace winrt::XamlToolkit::WinUI::implementation
         obj.SetValue(SizeProperty, winrt::box_value(value));
     }
 
-    winrt::hstring VisualExtensions::GetNormalizedCenterPoint(DependencyObject const& obj)
+    winrt::hstring VisualExtensions::GetNormalizedCenterPoint(winrt::DependencyObject const& obj)
     {
         return winrt::unbox_value<winrt::hstring>(obj.GetValue(NormalizedCenterPointProperty));
     }
 
-    void VisualExtensions::SetNormalizedCenterPoint(DependencyObject const& obj, winrt::hstring const& value)
+    void VisualExtensions::SetNormalizedCenterPoint(winrt::DependencyObject const& obj, winrt::hstring const& value)
     {
         obj.SetValue(NormalizedCenterPointProperty, winrt::box_value(value));
     }
 
-    void VisualExtensions::OnAnchorPointChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e)
+    void VisualExtensions::OnAnchorPointChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e)
     {
         if (auto str = e.NewValue().try_as<winrt::hstring>())
         {
@@ -231,7 +231,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
         }
     }
 
-    void VisualExtensions::OnCenterPointChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e)
+    void VisualExtensions::OnCenterPointChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e)
     {
         if (auto str = e.NewValue().try_as<winrt::hstring>())
         {
@@ -239,7 +239,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
         }
     }
 
-    void VisualExtensions::OnOffsetChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e)
+    void VisualExtensions::OnOffsetChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e)
     {
         if (auto str = e.NewValue().try_as<winrt::hstring>())
         {
@@ -247,7 +247,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
         }
     }
 
-    void VisualExtensions::OnTranslationChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e)
+    void VisualExtensions::OnTranslationChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e)
     {
         if (auto str = e.NewValue().try_as<winrt::hstring>())
         {
@@ -255,7 +255,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
         }
     }
 
-    void VisualExtensions::OnOpacityChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e)
+    void VisualExtensions::OnOpacityChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e)
     {
         if (auto dbl = e.NewValue().try_as<double>())
         {
@@ -263,7 +263,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
         }
     }
 
-    void VisualExtensions::OnRotationAngleChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e)
+    void VisualExtensions::OnRotationAngleChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e)
     {
         if (auto dbl = e.NewValue().try_as<double>())
         {
@@ -271,7 +271,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
         }
     }
 
-    void VisualExtensions::OnRotationAngleInDegreesChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e)
+    void VisualExtensions::OnRotationAngleInDegreesChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e)
     {
         if (auto dbl = e.NewValue().try_as<double>())
         {
@@ -279,7 +279,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
         }
     }
 
-    void VisualExtensions::OnRotationAxisChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e)
+    void VisualExtensions::OnRotationAxisChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e)
     {
         if (auto str = e.NewValue().try_as<winrt::hstring>())
         {
@@ -287,7 +287,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
         }
     }
 
-    void VisualExtensions::OnScaleChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e)
+    void VisualExtensions::OnScaleChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e)
     {
         if (auto str = e.NewValue().try_as<winrt::hstring>())
         {
@@ -295,7 +295,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
         }
     }
 
-    void VisualExtensions::OnSizeChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e)
+    void VisualExtensions::OnSizeChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e)
     {
         if (auto str = e.NewValue().try_as<winrt::hstring>())
         {
@@ -303,16 +303,16 @@ namespace winrt::XamlToolkit::WinUI::implementation
         }
     }
 
-    void VisualExtensions::OnNormalizedCenterPointChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e)
+    void VisualExtensions::OnNormalizedCenterPointChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e)
     {
-        auto element = d.try_as<FrameworkElement>();
+        auto element = d.try_as<winrt::FrameworkElement>();
         auto newValue = e.NewValue().try_as<winrt::hstring>();
         if (element && newValue)
         {
-            float2 center = ToVector2(*newValue);
-            Visual visual = GetVisual(element);
+            winrt::float2 center = ToVector2(*newValue);
+            winrt::Visual visual = GetVisual(element);
             const winrt::hstring expression = L"Vector2(this.Target.Size.X * X, this.Target.Size.Y * Y)";
-            ExpressionAnimation animation = visual.Compositor().CreateExpressionAnimation(expression);
+            winrt::ExpressionAnimation animation = visual.Compositor().CreateExpressionAnimation(expression);
 
             animation.SetScalarParameter(L"X", center.x);
             animation.SetScalarParameter(L"Y", center.y);
@@ -322,7 +322,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
         }
     }
 
-    winrt::hstring VisualExtensions::GetAnchorPointForElement(UIElement const& element)
+    winrt::hstring VisualExtensions::GetAnchorPointForElement(winrt::UIElement const& element)
     {
         auto visual = GetVisual(element);
         return ToString(visual.AnchorPoint());
@@ -334,7 +334,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
         visual.AnchorPoint(ToVector2(value));
     }
 
-    winrt::hstring VisualExtensions::GetCenterPointForElement(UIElement const& element)
+    winrt::hstring VisualExtensions::GetCenterPointForElement(winrt::UIElement const& element)
     {
         auto visual = GetVisual(element);
         return ToString(visual.CenterPoint());
@@ -346,7 +346,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
         visual.CenterPoint(ToVector3(value));
     }
 
-    winrt::hstring VisualExtensions::GetOffsetForElement(UIElement const& element)
+    winrt::hstring VisualExtensions::GetOffsetForElement(winrt::UIElement const& element)
     {
         auto visual = GetVisual(element);
         return ToString(visual.Offset());
@@ -358,7 +358,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
         visual.Offset(ToVector3(value));
     }
 
-    winrt::hstring VisualExtensions::GetTranslationForElement(UIElement const& element)
+    winrt::hstring VisualExtensions::GetTranslationForElement(winrt::UIElement const& element)
     {
         float3 translation;
         CompositionGetValueStatus result = GetVisual(element).Properties().TryGetVector3(L"Translation", translation);
@@ -377,7 +377,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
     void VisualExtensions::SetTranslationForElement(winrt::hstring const& value, UIElement const& element)
     {
-        ElementCompositionPreview::SetIsTranslationEnabled(element, true);
+        winrt::ElementCompositionPreview::SetIsTranslationEnabled(element, true);
 
         // The "Translation" attached property refers to the "hidden" property that is enabled
         // through "ElementCompositionPreview.SetIsTranslationEnabled". The value for this property
@@ -391,7 +391,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
         GetVisual(element).Properties().InsertVector3(L"Translation", ToVector3(value));
     }
 
-    double VisualExtensions::GetOpacityForElement(UIElement const& element)
+    double VisualExtensions::GetOpacityForElement(winrt::UIElement const& element)
     {
         auto visual = GetVisual(element);
         return visual.Opacity();
@@ -403,7 +403,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
         visual.Opacity((float)value);
     }
 
-    double VisualExtensions::GetRotationAngleForElement(UIElement const& element)
+    double VisualExtensions::GetRotationAngleForElement(winrt::UIElement const& element)
     {
         auto visual = GetVisual(element);
         return visual.RotationAngle();
@@ -415,7 +415,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
         visual.RotationAngle((float)value);
     }
 
-    double VisualExtensions::GetRotationAngleInDegreesForElement(UIElement const& element)
+    double VisualExtensions::GetRotationAngleInDegreesForElement(winrt::UIElement const& element)
     {
         auto visual = GetVisual(element);
         return visual.RotationAngleInDegrees();
@@ -427,7 +427,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
         visual.RotationAngleInDegrees((float)value);
     }
 
-    winrt::hstring VisualExtensions::GetRotationAxisForElement(UIElement const& element)
+    winrt::hstring VisualExtensions::GetRotationAxisForElement(winrt::UIElement const& element)
     {
         auto visual = GetVisual(element);
         return ToString(visual.RotationAxis());
@@ -439,7 +439,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
         visual.RotationAxis(ToVector3(value));
     }
 
-    winrt::hstring VisualExtensions::GetScaleForElement(UIElement const& element)
+    winrt::hstring VisualExtensions::GetScaleForElement(winrt::UIElement const& element)
     {
         auto visual = GetVisual(element);
         return ToString(visual.Scale());
@@ -451,7 +451,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
         visual.Scale(ToVector3(value));
     }
 
-    winrt::hstring VisualExtensions::GetSizeForElement(UIElement const& element)
+    winrt::hstring VisualExtensions::GetSizeForElement(winrt::UIElement const& element)
     {
         auto visual = GetVisual(element);
         return ToString(visual.Size());

@@ -24,14 +24,13 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         KeyFrameBase() = default;
 
     public:
-        /// <inheritdoc/>
-        Animations::INormalizedKeyFrameAnimationBuilder<TKeyFrame>& AppendToBuilder(
-            Animations::INormalizedKeyFrameAnimationBuilder<TKeyFrame>& builder) override
+        INormalizedKeyFrameAnimationBuilder<TKeyFrame>& AppendToBuilder(
+            INormalizedKeyFrameAnimationBuilder<TKeyFrame>& builder) override
         {
             auto keyFrameEasingType = this->EasingType();
             auto keyFrameEasingMode = this->EasingMode();
             enum EasingType itemEasingType = keyFrameEasingType ? keyFrameEasingType.Value() : Animations::AnimationExtensions::DefaultEasingType();
-            enum EasingMode itemEasingMode = keyFrameEasingMode ? keyFrameEasingMode.Value() : Animations::AnimationExtensions::DefaultEasingMode();
+            winrt::EasingMode itemEasingMode = keyFrameEasingMode ? keyFrameEasingMode.Value() : Animations::AnimationExtensions::DefaultEasingMode();
 
             if (auto expression = this->Expression(); !expression.empty())
             {

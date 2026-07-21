@@ -9,6 +9,7 @@
 #include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Microsoft.UI.Composition.h>
 #include <winrt/Microsoft.UI.Xaml.Hosting.h>
+#include <winrt/Microsoft.UI.Xaml.Shapes.h>
 #endif
 
 namespace winrt
@@ -17,6 +18,7 @@ namespace winrt
     using namespace Microsoft::UI::Xaml;
     using namespace Microsoft::UI::Composition;
     using namespace Microsoft::UI::Xaml::Hosting;
+    using namespace Microsoft::UI::Xaml::Shapes;
 }
 
 namespace winrt::XamlToolkit::WinUI::implementation
@@ -26,7 +28,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 	private:
 		static constexpr float MaxBlurRadius = 72;
 
-		ContainerVisual _container{ nullptr };
+		winrt::ContainerVisual _container{ nullptr };
 
 		static constexpr TypedResourceKey<CompositionRoundedRectangleGeometry> RoundedRectangleGeometryResourceKey{ L"RoundedGeometry" };
 		static constexpr TypedResourceKey<CompositionSpriteShape> ShapeResourceKey{ L"Shape" };
@@ -34,9 +36,9 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		static constexpr TypedResourceKey<CompositionSurfaceBrush> SurfaceBrushResourceKey{ L"SurfaceBrush" };
 		static constexpr TypedResourceKey<CompositionVisualSurface> VisualSurfaceResourceKey{ L"VisualSurface" };
 
-		FrameworkElement::SizeChanged_revoker _castToSizeChangedRevoker;
+		winrt::FrameworkElement::SizeChanged_revoker _castToSizeChangedRevoker;
 
-		static void OnCastToPropertyChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e);
+		static void OnCastToPropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 
 	public:
 		bool SupportsOnSizeChangedEvent() const noexcept { return true; }
@@ -47,16 +49,16 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
 		CompositionBrush GetShadowMask(winrt::XamlToolkit::WinUI::AttachedShadowElementContext const& context);
 
-	    void OnSizeChanged(winrt::XamlToolkit::WinUI::AttachedShadowElementContext const& context, Size newSize, Size previousSize);
+	    void OnSizeChanged(winrt::XamlToolkit::WinUI::AttachedShadowElementContext const& context, winrt::Size newSize, winrt::Size previousSize);
 
-		void OnPropertyChanged(winrt::XamlToolkit::WinUI::AttachedShadowElementContext const& context, DependencyProperty const& property, IInspectable const& oldValue, IInspectable const& newValue);
+		void OnPropertyChanged(winrt::XamlToolkit::WinUI::AttachedShadowElementContext const& context, winrt::DependencyProperty const& property, winrt::IInspectable const& oldValue, winrt::IInspectable const& newValue);
 
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> IsMaskedProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> IsMaskedProperty =
+			winrt::DependencyProperty::Register(
 				L"IsMasked",
 				winrt::xaml_typename<bool>(),
 				winrt::xaml_typename<class_type>(),
-				PropertyMetadata{ winrt::box_value(true), &AttachedDropShadow::OnDependencyPropertyChanged });
+				winrt::PropertyMetadata{ winrt::box_value(true), &AttachedDropShadow::OnDependencyPropertyChanged });
 
 		bool IsMasked() const
 		{
@@ -68,12 +70,12 @@ namespace winrt::XamlToolkit::WinUI::implementation
 			SetValue(IsMaskedProperty, winrt::box_value(value));
 		}
 
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> CornerRadiusProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> CornerRadiusProperty =
+			winrt::DependencyProperty::Register(
 				L"CornerRadius",
 				winrt::xaml_typename<double>(),
 				winrt::xaml_typename<class_type>(),
-				PropertyMetadata{ winrt::box_value(4.0), &AttachedDropShadow::OnDependencyPropertyChanged });
+				winrt::PropertyMetadata{ winrt::box_value(4.0), &AttachedDropShadow::OnDependencyPropertyChanged });
 
 		double CornerRadius() const
 		{
@@ -85,33 +87,33 @@ namespace winrt::XamlToolkit::WinUI::implementation
 			SetValue(CornerRadiusProperty, winrt::box_value(value));
 		}
 
-		static inline const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> CastToProperty =
-			winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> CastToProperty =
+			winrt::DependencyProperty::Register(
 				L"CastTo",
-				winrt::xaml_typename<winrt::Microsoft::UI::Xaml::FrameworkElement>(),
+				winrt::xaml_typename<winrt::FrameworkElement>(),
 				winrt::xaml_typename<class_type>(),
-				PropertyMetadata{ nullptr, &AttachedDropShadow::OnCastToPropertyChanged });
+				winrt::PropertyMetadata{ nullptr, &AttachedDropShadow::OnCastToPropertyChanged });
 
-		winrt::Microsoft::UI::Xaml::FrameworkElement CastTo() const
+		winrt::FrameworkElement CastTo() const
 		{
-			return GetValue(CastToProperty).try_as<winrt::Microsoft::UI::Xaml::FrameworkElement>();
+			return GetValue(CastToProperty).try_as<winrt::FrameworkElement>();
 		}
 
-		void CastTo(winrt::Microsoft::UI::Xaml::FrameworkElement const& value)
+		void CastTo(winrt::FrameworkElement const& value)
 		{
 			SetValue(CastToProperty, value);
 		}
 
 	private:
-		void CastToElement_SizeChanged(IInspectable const& sender, SizeChangedEventArgs const& e);
+		void CastToElement_SizeChanged(winrt::IInspectable const& sender, winrt::SizeChangedEventArgs const& e);
 
-		void Element_LayoutUpdated(IInspectable const& sender, IInspectable const& e);
+		void Element_LayoutUpdated(winrt::IInspectable const& sender, winrt::IInspectable const& e);
 
-		void Element_VisibilityChanged(DependencyObject const& sender, DependencyProperty const& dp);
+		void Element_VisibilityChanged(winrt::DependencyObject const& sender, winrt::DependencyProperty const& dp);
 
-		static void BindSizeAndScale(CompositionObject const& source, UIElement const& target);
+		static void BindSizeAndScale(winrt::CompositionObject const& source, winrt::UIElement const& target);
 
-		void CustomMaskedElement_Loaded(IInspectable const& sender, RoutedEventArgs const& e);
+		void CustomMaskedElement_Loaded(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
 	};
 }
 

@@ -9,7 +9,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
     class InsetClipReferenceNode final : public ReferenceNodeBase<InsetClipReferenceNode>
     {
     public:
-        InsetClipReferenceNode(std::optional<winrt::hstring> paramName = std::nullopt, Windows::UI::Composition::InsetClip const& ic = nullptr) : ReferenceNodeBase(paramName, ic) {}
+        InsetClipReferenceNode(std::optional<winrt::hstring> paramName = std::nullopt, winrt::Microsoft::UI::Composition::InsetClip const& ic = nullptr) : ReferenceNodeBase(paramName, ic) {}
         static InsetClipReferenceNode CreateTargetReference() { InsetClipReferenceNode node; node.NodeType = ExpressionNodeType::TargetReference; return node; }
         ScalarNode BottomInset() const { return ReferenceProperty<ScalarNode>(L"BottomInset"); }
         ScalarNode LeftInset() const { return ReferenceProperty<ScalarNode>(L"LeftInset"); }

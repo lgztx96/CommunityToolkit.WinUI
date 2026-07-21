@@ -7,11 +7,17 @@
 #include "BackdropGammaTransferBrush.g.h"
 #include "Base/XamlCompositionEffectBrushBase.h"
 #ifdef __INTELLISENSE__
+#include <winrt/Microsoft.UI.Xaml.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
+#else
+import winrt.Microsoft.UI.Xaml;
 #endif
 
-import winrt.Microsoft.UI.Xaml;
+namespace winrt
+{
+    using namespace winrt::Microsoft::UI::Xaml;
+}
 
 namespace winrt::XamlToolkit::WinUI::Media::implementation
 {
@@ -63,27 +69,27 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
         void BlueOffset(double value);
 
         // Dependency properties
-        static const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> AlphaAmplitudeProperty;
-        static const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> AlphaDisableProperty;
-        static const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> AlphaExponentProperty;
-        static const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> AlphaOffsetProperty;
-        static const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> RedAmplitudeProperty;
-        static const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> RedDisableProperty;
-        static const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> RedExponentProperty;
-        static const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> RedOffsetProperty;
-        static const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> GreenAmplitudeProperty;
-        static const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> GreenDisableProperty;
-        static const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> GreenExponentProperty;
-        static const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> GreenOffsetProperty;
-        static const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> BlueAmplitudeProperty;
-        static const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> BlueDisableProperty;
-        static const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> BlueExponentProperty;
-        static const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> BlueOffsetProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> AlphaAmplitudeProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> AlphaDisableProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> AlphaExponentProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> AlphaOffsetProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> RedAmplitudeProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> RedDisableProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> RedExponentProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> RedOffsetProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> GreenAmplitudeProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> GreenDisableProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> GreenExponentProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> GreenOffsetProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> BlueAmplitudeProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> BlueDisableProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> BlueExponentProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> BlueOffsetProperty;
 
     private:
-        static winrt::Microsoft::UI::Xaml::PropertyChangedCallback OnScalarPropertyChangedHelper(std::wstring_view propertyName);
+        static winrt::PropertyChangedCallback OnScalarPropertyChangedHelper(std::wstring_view propertyName);
 
-        static void OnBooleanPropertyChanged(winrt::Microsoft::UI::Xaml::DependencyObject const& d, winrt::Microsoft::UI::Xaml::DependencyPropertyChangedEventArgs const& e);
+        static void OnBooleanPropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 
         winrt::fire_and_forget OnConnected() override;
         void OnDisconnected() override;

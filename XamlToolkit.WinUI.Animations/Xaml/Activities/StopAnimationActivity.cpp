@@ -8,22 +8,24 @@
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
-    const wil::single_threaded_property<DependencyProperty> StopAnimationActivity::AnimationProperty =
-        DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> StopAnimationActivity::AnimationProperty =
+        winrt::DependencyProperty::Register(
             L"Animation",
             winrt::xaml_typename<winrt::XamlToolkit::WinUI::Animations::AnimationSet>(),
             winrt::xaml_typename<class_type>(),
-            nullptr);
+            winrt::PropertyMetadata(nullptr));
 
-    const wil::single_threaded_property<DependencyProperty> StopAnimationActivity::TargetObjectProperty =
-        DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> StopAnimationActivity::TargetObjectProperty =
+        winrt::DependencyProperty::Register(
             L"TargetObject",
-            winrt::xaml_typename<UIElement>(),
+            winrt::xaml_typename<winrt::UIElement>(),
             winrt::xaml_typename<class_type>(),
-            nullptr);
+            winrt::PropertyMetadata(nullptr));
 
-    winrt::Windows::Foundation::IAsyncAction StopAnimationActivity::InvokeAsync(UIElement const& element)
+    winrt::IAsyncAction StopAnimationActivity::InvokeAsync(winrt::UIElement const& element)
     {
+        auto strongThis = get_strong();
+
         auto animation = Animation();
 
         if (!animation)

@@ -6,9 +6,8 @@
 #ifdef __INTELLISENSE__
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.Foundation.Numerics.h>
-#include <winrt/Microsoft.UI.Composition.h>
-#include <winrt/Microsoft.UI.Xaml.Media.h>
 #include <winrt/XamlToolkit.WinUI.Animations.h>
+#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
 #include <chrono>
 #include <string_view>
 #include <tuple>
@@ -18,9 +17,9 @@
 
 namespace winrt
 {
+    using namespace Windows::Foundation;
     using namespace Windows::Foundation::Numerics;
-    using namespace Microsoft::UI::Composition;
-    using namespace Microsoft::UI::Xaml::Media;
+	using namespace Microsoft::UI::Xaml::Media::Animation;
 }
 
 namespace winrt::XamlToolkit::WinUI::Animations
@@ -33,12 +32,12 @@ namespace winrt::XamlToolkit::WinUI::Animations
 		/// <summary>
 		/// Gets the default delay of animations.
 		/// </summary>
-		static constexpr winrt::Windows::Foundation::TimeSpan DefaultDelay() { return {}; }
+		static constexpr winrt::TimeSpan DefaultDelay() { return {}; }
 
 		/// <summary>
 		/// Gets the default duration of animations.
 		/// </summary>
-		static constexpr winrt::Windows::Foundation::TimeSpan DefaultDuration() { return std::chrono::milliseconds(400); }
+		static constexpr winrt::TimeSpan DefaultDuration() { return std::chrono::milliseconds(400); }
 
 		/// <summary>
 		/// The default <see cref="EasingType"/> value used for animations.
@@ -47,7 +46,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
 		/// <summary>
 		/// The default <see cref="EasingMode"/> value used for animations.
 		/// </summary>
-		static constexpr EasingMode DefaultEasingMode() { return EasingMode::EaseInOut; }
+		static constexpr winrt::EasingMode DefaultEasingMode() { return winrt::EasingMode::EaseInOut; }
 		/// <summary>
 		/// The default <see cref="AnimationDelayBehavior"/> value used for animations (only applies to composition animations).
 		/// </summary>
@@ -56,8 +55,8 @@ namespace winrt::XamlToolkit::WinUI::Animations
 		/// The reusable mapping of control points for easing curves for combinations of <see cref="EasingType"/> and <see cref="EasingMode"/> values.
 		/// </summary>
 
-		using EasingKey = std::tuple<enum EasingType, enum EasingMode>;
-		using EasingValue = std::tuple<float2, float2>;
+		using EasingKey = std::tuple<enum EasingType, winrt::EasingMode>;
+		using EasingValue = std::tuple<winrt::float2, winrt::float2>;
 
 		struct EasingKeyHash
 		{
@@ -68,68 +67,69 @@ namespace winrt::XamlToolkit::WinUI::Animations
 			}
 		};
 
-		static inline const std::unordered_map<EasingKey, EasingValue, EasingKeyHash> EasingMaps = {
+		static inline const std::unordered_map<EasingKey, EasingValue, EasingKeyHash> EasingMaps =
+		{
 			// The default/inout combination is missing, as in this case we just skip creating
 			// an easing function entirely, and rely on the composition APIs using the implicit
 			// easing automatically. This is a bit more efficient, and results in the same
 			// visual behavior anyway, as that's the standard combination for animations.
 			// Default
-			{ {EasingType::Default, EasingMode::EaseOut}, {{0.1f, 0.9f}, {0.2f, 1.0f}} },
-			{ {EasingType::Default, EasingMode::EaseIn},  {{0.7f, 0.0f}, {1.0f, 0.5f}} },
+			{ {EasingType::Default, winrt::EasingMode::EaseOut}, {{0.1f, 0.9f}, {0.2f, 1.0f}} },
+			{ {EasingType::Default, winrt::EasingMode::EaseIn},  {{0.7f, 0.0f}, {1.0f, 0.5f}} },
 
 			// Cubic
-			{ {EasingType::Cubic, EasingMode::EaseOut},   {{0.215f, 0.61f}, {0.355f, 1.f}} },
-			{ {EasingType::Cubic, EasingMode::EaseIn},    {{0.55f, 0.055f}, {0.675f, 0.19f}} },
-			{ {EasingType::Cubic, EasingMode::EaseInOut}, {{0.645f, 0.045f}, {0.355f, 1.f}} },
+			{ {EasingType::Cubic, winrt::EasingMode::EaseOut},   {{0.215f, 0.61f}, {0.355f, 1.f}} },
+			{ {EasingType::Cubic, winrt::EasingMode::EaseIn},    {{0.55f, 0.055f}, {0.675f, 0.19f}} },
+			{ {EasingType::Cubic, winrt::EasingMode::EaseInOut}, {{0.645f, 0.045f}, {0.355f, 1.f}} },
 
 			// Back
-			{ {EasingType::Back, EasingMode::EaseOut},    {{0.175f, 0.885f}, {0.32f, 1.275f}} },
-			{ {EasingType::Back, EasingMode::EaseIn},     {{0.6f, -0.28f}, {0.735f, 0.045f}} },
-			{ {EasingType::Back, EasingMode::EaseInOut},  {{0.68f, -0.55f}, {0.265f, 1.55f}} },
+			{ {EasingType::Back, winrt::EasingMode::EaseOut},    {{0.175f, 0.885f}, {0.32f, 1.275f}} },
+			{ {EasingType::Back, winrt::EasingMode::EaseIn},     {{0.6f, -0.28f}, {0.735f, 0.045f}} },
+			{ {EasingType::Back, winrt::EasingMode::EaseInOut},  {{0.68f, -0.55f}, {0.265f, 1.55f}} },
 
 			// Bounce
-			{ {EasingType::Bounce, EasingMode::EaseOut},  {{0.58f, 1.93f}, {0.08f, 0.36f}} },
-			{ {EasingType::Bounce, EasingMode::EaseIn},   {{0.93f, 0.7f}, {0.4f, -0.93f}} },
-			{ {EasingType::Bounce, EasingMode::EaseInOut},{{0.65f, -0.85f}, {0.35f, 1.85f}} },
+			{ {EasingType::Bounce, winrt::EasingMode::EaseOut},  {{0.58f, 1.93f}, {0.08f, 0.36f}} },
+			{ {EasingType::Bounce, winrt::EasingMode::EaseIn},   {{0.93f, 0.7f}, {0.4f, -0.93f}} },
+			{ {EasingType::Bounce, winrt::EasingMode::EaseInOut},{{0.65f, -0.85f}, {0.35f, 1.85f}} },
 
 			// Elastic
-			{ {EasingType::Elastic, EasingMode::EaseOut}, {{0.37f, 2.68f}, {0.f, 0.22f}} },
-			{ {EasingType::Elastic, EasingMode::EaseIn},  {{1.f, 0.78f}, {0.63f, -1.68f}} },
-			{ {EasingType::Elastic, EasingMode::EaseInOut},{{0.9f, -1.2f}, {0.1f, 2.2f}} },
+			{ {EasingType::Elastic, winrt::EasingMode::EaseOut}, {{0.37f, 2.68f}, {0.f, 0.22f}} },
+			{ {EasingType::Elastic, winrt::EasingMode::EaseIn},  {{1.f, 0.78f}, {0.63f, -1.68f}} },
+			{ {EasingType::Elastic, winrt::EasingMode::EaseInOut},{{0.9f, -1.2f}, {0.1f, 2.2f}} },
 
 			// Circle
-			{ {EasingType::Circle, EasingMode::EaseOut},  {{0.075f, 0.82f}, {0.165f, 1.f}} },
-			{ {EasingType::Circle, EasingMode::EaseIn},   {{0.6f, 0.04f}, {0.98f, 0.335f}} },
-			{ {EasingType::Circle, EasingMode::EaseInOut},{{0.785f, 0.135f}, {0.15f, 0.86f}} },
+			{ {EasingType::Circle, winrt::EasingMode::EaseOut},  {{0.075f, 0.82f}, {0.165f, 1.f}} },
+			{ {EasingType::Circle, winrt::EasingMode::EaseIn},   {{0.6f, 0.04f}, {0.98f, 0.335f}} },
+			{ {EasingType::Circle, winrt::EasingMode::EaseInOut},{{0.785f, 0.135f}, {0.15f, 0.86f}} },
 
 			// Quadratic
-			{ {EasingType::Quadratic, EasingMode::EaseOut},{{0.25f, 0.46f}, {0.45f, 0.94f}} },
-			{ {EasingType::Quadratic, EasingMode::EaseIn}, {{0.55f, 0.085f}, {0.68f, 0.53f}} },
-			{ {EasingType::Quadratic, EasingMode::EaseInOut},{{0.445f, 0.03f}, {0.515f, 0.955f}} },
+			{ {EasingType::Quadratic, winrt::EasingMode::EaseOut},{{0.25f, 0.46f}, {0.45f, 0.94f}} },
+			{ {EasingType::Quadratic, winrt::EasingMode::EaseIn}, {{0.55f, 0.085f}, {0.68f, 0.53f}} },
+			{ {EasingType::Quadratic, winrt::EasingMode::EaseInOut},{{0.445f, 0.03f}, {0.515f, 0.955f}} },
 
 			// Quartic
-			{ {EasingType::Quartic, EasingMode::EaseOut}, {{0.165f, 0.84f}, {0.44f, 1.f}} },
-			{ {EasingType::Quartic, EasingMode::EaseIn},  {{0.895f, 0.03f}, {0.685f, 0.22f}} },
-			{ {EasingType::Quartic, EasingMode::EaseInOut},{{0.77f, 0.f}, {0.175f, 1.f}} },
+			{ {EasingType::Quartic, winrt::EasingMode::EaseOut}, {{0.165f, 0.84f}, {0.44f, 1.f}} },
+			{ {EasingType::Quartic, winrt::EasingMode::EaseIn},  {{0.895f, 0.03f}, {0.685f, 0.22f}} },
+			{ {EasingType::Quartic, winrt::EasingMode::EaseInOut},{{0.77f, 0.f}, {0.175f, 1.f}} },
 
 			// Quintic
-			{ {EasingType::Quintic, EasingMode::EaseOut}, {{0.23f, 1.f}, {0.32f, 1.f}} },
-			{ {EasingType::Quintic, EasingMode::EaseIn},  {{0.755f, 0.05f}, {0.855f, 0.06f}} },
-			{ {EasingType::Quintic, EasingMode::EaseInOut},{{0.86f, 0.f}, {0.07f, 1.f}} },
+			{ {EasingType::Quintic, winrt::EasingMode::EaseOut}, {{0.23f, 1.f}, {0.32f, 1.f}} },
+			{ {EasingType::Quintic, winrt::EasingMode::EaseIn},  {{0.755f, 0.05f}, {0.855f, 0.06f}} },
+			{ {EasingType::Quintic, winrt::EasingMode::EaseInOut},{{0.86f, 0.f}, {0.07f, 1.f}} },
 
 			// Sine
-			{ {EasingType::Sine, EasingMode::EaseOut},    {{0.39f, 0.575f}, {0.565f, 1.f}} },
-			{ {EasingType::Sine, EasingMode::EaseIn},     {{0.47f, 0.f}, {0.745f, 0.715f}} },
-			{ {EasingType::Sine, EasingMode::EaseInOut},  {{0.445f, 0.05f}, {0.55f, 0.95f}} },
+			{ {EasingType::Sine, winrt::EasingMode::EaseOut},    {{0.39f, 0.575f}, {0.565f, 1.f}} },
+			{ {EasingType::Sine, winrt::EasingMode::EaseIn},     {{0.47f, 0.f}, {0.745f, 0.715f}} },
+			{ {EasingType::Sine, winrt::EasingMode::EaseInOut},  {{0.445f, 0.05f}, {0.55f, 0.95f}} },
 		};
 
 		/// <summary>
 		/// Parses a string to a Vector2.
 		/// </summary>
-		static float2 ToVector2(winrt::hstring const& value)
+		static winrt::float2 ToVector2(winrt::hstring const& value)
 		{
 			if (value.empty())
-				return float2{ 0, 0 };
+				return winrt::float2{ 0, 0 };
 
 			std::wstring_view str(value);
 
@@ -149,16 +149,16 @@ namespace winrt::XamlToolkit::WinUI::Animations
 				y = x;
 			}
 
-			return float2{ x, y };
+			return winrt::float2{ x, y };
 		}
 
 		/// <summary>
 		/// Parses a string to a Vector3.
 		/// </summary>
-		static float3 ToVector3(winrt::hstring const& value)
+		static winrt::float3 ToVector3(winrt::hstring const& value)
 		{
 			if (value.empty())
-				return float3{ 0, 0, 0 };
+				return winrt::float3{ 0, 0, 0 };
 
 			std::wstring_view str{ value };
 
@@ -187,16 +187,16 @@ namespace winrt::XamlToolkit::WinUI::Animations
 				z = x;
 			}
 
-			return float3{ x, y, z };
+			return winrt::float3{ x, y, z };
 		}
 
 		/// <summary>
 		/// Parses a string to a Vector4.
 		/// </summary>
-		static float4 ToVector4(winrt::hstring const& value)
+		static winrt::float4 ToVector4(winrt::hstring const& value)
 		{
 			if (value.empty())
-				return float4{ 0, 0, 0, 0 };
+				return winrt::float4{ 0, 0, 0, 0 };
 
 			std::wstring_view str{ value };
 
@@ -236,16 +236,16 @@ namespace winrt::XamlToolkit::WinUI::Animations
 				w = x;
 			}
 
-			return float4{ x, y, z, w };
+			return winrt::float4{ x, y, z, w };
 		}
 
 		/// <summary>
 		/// Parses a string to a Quaternion.
 		/// </summary>
-		static quaternion ToQuaternion(winrt::hstring const& value)
+		static winrt::quaternion ToQuaternion(winrt::hstring const& value)
 		{
 			if (value.empty())
-				return quaternion{ 0, 0, 0, 1 };
+				return winrt::quaternion{ 0, 0, 0, 1 };
 
 			std::wstring_view str{ value };
 
@@ -282,7 +282,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
 				x = wcstof(str.data(), nullptr);
 			}
 
-			return quaternion{ x, y, z, w };
+			return winrt::quaternion{ x, y, z, w };
 		}
 
 		/// <summary>
@@ -558,7 +558,6 @@ namespace winrt::XamlToolkit::WinUI::Animations
 			/// Throws a new <see cref="ArgumentException"/> with a given message.
 			/// </summary>
 		private:
-
 			template<typename T = winrt::hstring>
 			static inline T ThrowArgumentException(winrt::hstring const& message)
 			{

@@ -6,6 +6,23 @@
 #include "AnimationSet.g.h"
 #include "../Builders/AnimationBuilder.h"
 
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <wil/wistd_type_traits.h>
+#include <wil/cppwinrt_authoring.h>
+#include <atomic>
+#include <memory>
+#include <mutex>
+#include <unordered_map>
+#endif
+
+namespace winrt
+{
+    using namespace Windows::Foundation;
+    using namespace Microsoft::UI::Xaml;
+}
+
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
     /// <summary>
@@ -16,10 +33,10 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
     private:
         std::unordered_map<uintptr_t, std::shared_ptr<std::atomic<bool>>> cancellationStateMap;
         std::mutex cancellationStateMapMutex;
-        winrt::weak_ref<UIElement> parentReference{ nullptr };
+        winrt::weak_ref<winrt::UIElement> parentReference{ nullptr };
         bool isSequential{ false };
 
-        UIElement GetParent() const
+        winrt::UIElement GetParent() const
         {
             if (auto parent = parentReference.get())
             {
@@ -34,16 +51,16 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
             throw winrt::hresult_invalid_argument(L"An animation set can only contain timeline nodes or IActivity nodes");
         }
 
-        winrt::Windows::Foundation::IAsyncAction StartAsync(UIElement element, std::shared_ptr<std::atomic<bool>> cancellationState);
+        winrt::IAsyncAction StartAsync(winrt::UIElement element, std::shared_ptr<std::atomic<bool>> cancellationState);
 
     public:
         bool IsSequential() const noexcept;
         void IsSequential(bool value);
 
-        winrt::weak_ref<UIElement> ParentReference() { return parentReference; }
-        void ParentReference(winrt::weak_ref<UIElement> const& value) { parentReference = value; }
+        winrt::weak_ref<winrt::UIElement> ParentReference() { return parentReference; }
+        void ParentReference(winrt::weak_ref<winrt::UIElement> const& value) { parentReference = value; }
 
-        UIElement Parent() const noexcept
+        winrt::UIElement Parent() const noexcept
         {
             if (auto strongParent = parentReference.get())
             {
@@ -53,18 +70,18 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
             return nullptr;
         }
 
-        wil::untyped_event<winrt::Windows::Foundation::IInspectable> Started;
+        wil::untyped_event<winrt::IInspectable> Started;
 
-		wil::untyped_event<winrt::Windows::Foundation::IInspectable> Completed;
+		wil::untyped_event<winrt::IInspectable> Completed;
 
         winrt::fire_and_forget Start();
-        winrt::fire_and_forget Start(UIElement const& element);
+        winrt::fire_and_forget Start(winrt::UIElement const& element);
 
-        winrt::Windows::Foundation::IAsyncAction StartAsync();
-        winrt::Windows::Foundation::IAsyncAction StartAsync(UIElement const& element);
+        winrt::IAsyncAction StartAsync();
+        winrt::IAsyncAction StartAsync(winrt::UIElement const& element);
 
         void Stop();
-        void Stop(UIElement const& element);
+        void Stop(winrt::UIElement const& element);
     };
 }
 

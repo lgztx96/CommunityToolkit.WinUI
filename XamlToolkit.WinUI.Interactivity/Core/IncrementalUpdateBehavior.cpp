@@ -36,7 +36,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 		winrt::com_ptr<IncrementalUpdater> incrementalUpdater = behavior->FindUpdater();
 		winrt::FrameworkElement frameworkElement = behavior->AssociatedObject();
 
-		if (incrementalUpdater != nullptr && frameworkElement != nullptr)
+		if (incrementalUpdater && frameworkElement)
 		{
 			incrementalUpdater->UncachePhaseElement(frameworkElement, winrt::unbox_value<int>(args.OldValue()));
 			incrementalUpdater->CachePhaseElement(frameworkElement, winrt::unbox_value<int>(args.NewValue()));
@@ -55,12 +55,12 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
 	void IncrementalUpdateBehavior::OnIncrementalUpdaterChanged(winrt::DependencyObject const& sender, winrt::DependencyPropertyChangedEventArgs const& args)
 	{
-		if (args.OldValue() != nullptr)
+		if (args.OldValue())
 		{
 			auto incrementalUpdater = winrt::get_self<IncrementalUpdater>(args.OldValue())->get_strong();
 			incrementalUpdater->Detach();
 		}
-		if (args.NewValue() != nullptr)
+		if (args.NewValue())
 		{
 			auto incrementalUpdater = winrt::get_self<IncrementalUpdater>(args.NewValue())->get_strong();
 			incrementalUpdater->Attach(sender);
@@ -71,7 +71,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 	{
 		winrt::com_ptr<IncrementalUpdater> incrementalUpdater = FindUpdater();
 
-		if (incrementalUpdater != nullptr)
+		if (incrementalUpdater)
 		{
 			incrementalUpdater->CachePhaseElement(AssociatedObject(), Phase());
 		}
@@ -79,7 +79,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
 	void IncrementalUpdateBehavior::OnAssociatedObjectUnloaded([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
 	{
-		if (_updater != nullptr)
+		if (_updater)
 		{
 			_updater->UncachePhaseElement(AssociatedObject(), Phase());
 		}
@@ -89,13 +89,13 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
 	winrt::com_ptr<IncrementalUpdater> IncrementalUpdateBehavior::FindUpdater()
 	{
-		if (_updater != nullptr)
+		if (_updater)
 		{
 			return _updater;
 		}
 
 		winrt::DependencyObject ancestor = AssociatedObject();
-		while (ancestor != nullptr)
+		while (ancestor)
 		{
 			winrt::DependencyObject parent = winrt::VisualTreeHelper::GetParent(ancestor);
 
@@ -264,7 +264,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 	winrt::UIElement IncrementalUpdater::FindContentTemplateRoot(winrt::FrameworkElement const& phaseElement)
 	{
 		winrt::DependencyObject ancestor = phaseElement;
-		while (ancestor != nullptr)
+		while (ancestor)
 		{
 			winrt::DependencyObject parent = winrt::VisualTreeHelper::GetParent(ancestor);
 			
@@ -291,7 +291,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 		}
 
 		winrt::UIElement contentTemplateRoot = IncrementalUpdater::FindContentTemplateRoot(phaseElement);
-		if (contentTemplateRoot != nullptr)
+		if (contentTemplateRoot)
 		{
 			// get the cache for this element
 			ElementCacheRecord* elementCacheRecord;
@@ -345,7 +345,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 		}
 
 		winrt::UIElement contentTemplateRoot = IncrementalUpdater::FindContentTemplateRoot(phaseElement);
-		if (contentTemplateRoot != nullptr)
+		if (contentTemplateRoot)
 		{
 			// get the cache for this element
 			if (auto iter = _elementCache.find(contentTemplateRoot); iter != _elementCache.end())
@@ -389,7 +389,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 	{
 		_associatedListViewBase = dependencyObject.try_as<winrt::ListViewBase>();
 
-		if (_associatedListViewBase != nullptr)
+		if (_associatedListViewBase)
 		{
 			_containerContentChangingRevoker = _associatedListViewBase.ContainerContentChanging(winrt::auto_revoke, { this, &IncrementalUpdater::OnContainerContentChanging });
 		}
@@ -397,7 +397,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
 	void IncrementalUpdater::Detach()
 	{
-		if (_associatedListViewBase != nullptr)
+		if (_associatedListViewBase)
 		{
 			_containerContentChangingRevoker.revoke();
 		}

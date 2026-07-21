@@ -1,14 +1,17 @@
 #include "pch.h"
 #include "winrt_module_imports.h"
 #ifdef __INTELLISENSE__
+#include <winrt/Microsoft.Graphics.Canvas.h>
+#include <winrt/Microsoft.Graphics.Canvas.Effects.h>
+#include <winrt/Microsoft.Graphics.Canvas.Geometry.h>
 #include <algorithm>
 #include <cmath>
-#endif
-#include "ImageCropper.h"
-
+#else
 import winrt.Microsoft.Graphics.Canvas;
 import winrt.Microsoft.Graphics.Canvas.Effects;
 import winrt.Microsoft.Graphics.Canvas.Geometry;
+#endif
+#include "ImageCropper.h"
 
 namespace winrt
 {
@@ -24,7 +27,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
 	static const constexpr double ThresholdValue = 0.001;
 
-	winrt::Windows::Foundation::IAsyncAction ImageCropper::CropImageAsync(WriteableBitmap const& writeableBitmap, IRandomAccessStream const& stream, Rect croppedRect, BitmapFileFormat bitmapFileFormat)
+	winrt::IAsyncAction ImageCropper::CropImageAsync(winrt::WriteableBitmap const& writeableBitmap, winrt::IRandomAccessStream const& stream, Rect croppedRect, BitmapFileFormat bitmapFileFormat)
 	{
 		croppedRect.X = std::max<float>(croppedRect.X, 0);
 		croppedRect.Y = std::max<float>(croppedRect.Y, 0);
@@ -47,53 +50,53 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		auto buffer = writeableBitmap.PixelBuffer();
 
-		const auto& bitmapEncoder = co_await BitmapEncoder::CreateAsync(GetEncoderId(bitmapFileFormat), stream);
-		bitmapEncoder.SetPixelData(BitmapPixelFormat::Bgra8, BitmapAlphaMode::Premultiplied, imgWidth, imgHeight, 96.0, 96.0, { buffer.data(), buffer.Length() });
-		bitmapEncoder.BitmapTransform().Bounds(BitmapBounds
-			{
-				.X = x,
-				.Y = y,
-				.Width = width,
-				.Height = height
-			});
+		const auto& bitmapEncoder = co_await winrt::BitmapEncoder::CreateAsync(GetEncoderId(bitmapFileFormat), stream);
+		bitmapEncoder.SetPixelData(winrt::BitmapPixelFormat::Bgra8, winrt::BitmapAlphaMode::Premultiplied, imgWidth, imgHeight, 96.0, 96.0, { buffer.data(), buffer.Length() });
+		bitmapEncoder.BitmapTransform().Bounds(winrt::BitmapBounds
+		{
+			.X = x,
+			.Y = y,
+			.Width = width,
+			.Height = height
+		});
 		co_await bitmapEncoder.FlushAsync();
 	}
 
-	winrt::Windows::Foundation::IAsyncAction ImageCropper::CropImageWithShapeAsync(WriteableBitmap const& writeableBitmap, IRandomAccessStream const& stream, Rect croppedRect, BitmapFileFormat bitmapFileFormat, Controls::CropShape cropShape)
+	winrt::IAsyncAction ImageCropper::CropImageWithShapeAsync(winrt::WriteableBitmap const& writeableBitmap, winrt::IRandomAccessStream const& stream, Rect croppedRect, BitmapFileFormat bitmapFileFormat, Controls::CropShape cropShape)
 	{
-		auto device = CanvasDevice::GetSharedDevice();
-		auto clipGeometry = CreateClipGeometry(device, cropShape, Size(croppedRect.Width, croppedRect.Height));
+		auto device = winrt::CanvasDevice::GetSharedDevice();
+		auto clipGeometry = CreateClipGeometry(device, cropShape, winrt::Size(croppedRect.Width, croppedRect.Height));
 		if (clipGeometry == nullptr)
 		{
 			co_return;
 		}
 
 		// WinUI3/Win2D bug: switch back to CanvasBitmap once it works.
-		CanvasVirtualBitmap sourceBitmap{ nullptr };
-		auto randomAccessStream = InMemoryRandomAccessStream();
+		winrt::CanvasVirtualBitmap sourceBitmap{ nullptr };
+		winrt::InMemoryRandomAccessStream randomAccessStream;
 		co_await CropImageAsync(writeableBitmap, randomAccessStream, croppedRect, bitmapFileFormat);
-		sourceBitmap = co_await CanvasVirtualBitmap::LoadAsync(device, randomAccessStream);
+		sourceBitmap = co_await winrt::CanvasVirtualBitmap::LoadAsync(device, randomAccessStream);
 
-		auto offScreen = CanvasRenderTarget(device, croppedRect.Width, croppedRect.Height, 96.0f);
+		auto offScreen = winrt::CanvasRenderTarget(device, croppedRect.Width, croppedRect.Height, 96.0f);
 		auto drawingSession = offScreen.CreateDrawingSession();
-		auto markCommandList = CanvasCommandList(device);
+		auto markCommandList = winrt::CanvasCommandList(device);
 
 		auto markDrawingSession = markCommandList.CreateDrawingSession();
-		markDrawingSession.FillGeometry(clipGeometry, Windows::UI::Colors::Black());
+		markDrawingSession.FillGeometry(clipGeometry, winrt::Windows::UI::Colors::Black());
 
-		AlphaMaskEffect alphaMaskEffect;
+		winrt::AlphaMaskEffect alphaMaskEffect;
 		alphaMaskEffect.Source(sourceBitmap);
 		alphaMaskEffect.AlphaMask(markCommandList);
 
 		drawingSession.DrawImage(alphaMaskEffect);
 
 		auto pixelBytes = offScreen.GetPixelBytes();
-		auto bitmapEncoder = co_await BitmapEncoder::CreateAsync(GetEncoderId(bitmapFileFormat), stream);
-		bitmapEncoder.SetPixelData(BitmapPixelFormat::Bgra8, BitmapAlphaMode::Premultiplied, offScreen.SizeInPixels().Width, offScreen.SizeInPixels().Height, 96.0, 96.0, pixelBytes);
+		auto bitmapEncoder = co_await winrt::BitmapEncoder::CreateAsync(GetEncoderId(bitmapFileFormat), stream);
+		bitmapEncoder.SetPixelData(winrt::BitmapPixelFormat::Bgra8, winrt::BitmapAlphaMode::Premultiplied, offScreen.SizeInPixels().Width, offScreen.SizeInPixels().Height, 96.0, 96.0, pixelBytes);
 		co_await bitmapEncoder.FlushAsync();
 	}
 
-	CanvasGeometry ImageCropper::CreateClipGeometry(ICanvasResourceCreator resourceCreator, Controls::CropShape cropShape, Size croppedSize)
+	winrt::CanvasGeometry ImageCropper::CreateClipGeometry(winrt::ICanvasResourceCreator resourceCreator, Controls::CropShape cropShape, winrt::Size croppedSize)
 	{
 		switch (cropShape)
 		{
@@ -102,37 +105,37 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		case CropShape::Circular:
 			auto radiusX = croppedSize.Width / 2;
 			auto radiusY = croppedSize.Height / 2;
-			auto center = Point(radiusX, radiusY);
-			return CanvasGeometry::CreateEllipse(resourceCreator, float2(center.X, center.Y), static_cast<float>(radiusX), static_cast<float>(radiusY));
+			auto center = winrt::Point(radiusX, radiusY);
+			return winrt::CanvasGeometry::CreateEllipse(resourceCreator, winrt::float2(center.X, center.Y), static_cast<float>(radiusX), static_cast<float>(radiusY));
 		}
 
 		return nullptr;
 	}
 
-	winrt::guid ImageCropper::GetEncoderId(BitmapFileFormat bitmapFileFormat)
+	winrt::guid ImageCropper::GetEncoderId(winrt::BitmapFileFormat bitmapFileFormat)
 	{
 		switch (bitmapFileFormat)
 		{
-		case BitmapFileFormat::Bmp:
+		case winrt::BitmapFileFormat::Bmp:
 			return BitmapEncoder::BmpEncoderId();
-		case BitmapFileFormat::Png:
+		case winrt::BitmapFileFormat::Png:
 			return BitmapEncoder::PngEncoderId();
-		case BitmapFileFormat::Jpeg:
+		case winrt::BitmapFileFormat::Jpeg:
 			return BitmapEncoder::JpegEncoderId();
-		case BitmapFileFormat::Tiff:
+		case winrt::BitmapFileFormat::Tiff:
 			return BitmapEncoder::TiffEncoderId();
-		case BitmapFileFormat::Gif:
+		case winrt::BitmapFileFormat::Gif:
 			return BitmapEncoder::GifEncoderId();
-		case BitmapFileFormat::JpegXR:
+		case winrt::BitmapFileFormat::JpegXR:
 			return BitmapEncoder::JpegXREncoderId();
 		}
 
-		return BitmapEncoder::PngEncoderId();
+		return winrt::BitmapEncoder::PngEncoderId();
 	}
 
-	Point ImageCropper::GetSafePoint(Rect targetRect, Point point)
+	winrt::Point ImageCropper::GetSafePoint(winrt::Rect targetRect, winrt::Point point)
 	{
-		auto safePoint = Point(point.X, point.Y);
+		winrt::Point safePoint(point.X, point.Y);
 		if (safePoint.X < targetRect.X)
 		{
 			safePoint.X = targetRect.X;
@@ -156,7 +159,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		return safePoint;
 	}
 
-	bool ImageCropper::IsSafePoint(Rect targetRect, Point point)
+	bool ImageCropper::IsSafePoint(winrt::Rect targetRect, winrt::Point point)
 	{
 		if (point.X - targetRect.X < -ThresholdValue)
 		{
@@ -181,16 +184,16 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		return true;
 	}
 
-	bool ImageCropper::IsSafeRect(Point startPoint, Point endPoint, Size minSize)
+	bool ImageCropper::IsSafeRect(winrt::Point startPoint, winrt::Point endPoint, winrt::Size minSize)
 	{
-		auto checkPoint = Point(startPoint.X + minSize.Width, startPoint.Y + minSize.Height);
+		winrt::Point checkPoint(startPoint.X + minSize.Width, startPoint.Y + minSize.Height);
 		return checkPoint.X - endPoint.X < ThresholdValue
 			&& checkPoint.Y - endPoint.Y < ThresholdValue;
 	}
 
-	Rect ImageCropper::GetSafeRect(Point startPoint, Point endPoint, Size minSize, ThumbPosition position)
+	winrt::Rect ImageCropper::GetSafeRect(winrt::Point startPoint, winrt::Point endPoint, winrt::Size minSize, ThumbPosition position)
 	{
-		auto checkPoint = Point(startPoint.X + minSize.Width, startPoint.Y + minSize.Height);
+		winrt::Point checkPoint(startPoint.X + minSize.Width, startPoint.Y + minSize.Height);
 		switch (position)
 		{
 		case ThumbPosition::Top:
@@ -274,7 +277,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		return ToRect(startPoint, endPoint);
 	}
 
-	Rect ImageCropper::GetUniformRect(Rect targetRect, double aspectRatio)
+	winrt::Rect ImageCropper::GetUniformRect(winrt::Rect targetRect, double aspectRatio)
 	{
 		auto ratio = targetRect.Width / targetRect.Height;
 		auto cx = targetRect.X + (targetRect.Width / 2);
@@ -292,19 +295,19 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		}
 		auto x = cx - (width / 2.0f);
 		auto y = cy - (height / 2.0f);
-		return Rect(
+		return winrt::Rect(
 			static_cast<float>(x),
 			static_cast<float>(y),
 			static_cast<float>(width),
 			static_cast<float>(height));
 	}
 
-	bool ImageCropper::IsValidRect(Rect targetRect)
+	bool ImageCropper::IsValidRect(winrt::Rect targetRect)
 	{
-		return !RectHelper::GetIsEmpty(targetRect) && targetRect.Width > 0 && targetRect.Height > 0;
+		return !winrt::RectHelper::GetIsEmpty(targetRect) && targetRect.Width > 0 && targetRect.Height > 0;
 	}
 
-	Point ImageCropper::GetSafeSizeChangeWhenKeepAspectRatio(Rect targetRect, ThumbPosition thumbPosition, Rect selectedRect, Point originSizeChange, double aspectRatio)
+	winrt::Point ImageCropper::GetSafeSizeChangeWhenKeepAspectRatio(winrt::Rect targetRect, ThumbPosition thumbPosition, winrt::Rect selectedRect, winrt::Point originSizeChange, double aspectRatio)
 	{
 		auto safeWidthChange = originSizeChange.X;
 		auto safeHeightChange = originSizeChange.Y;
@@ -314,35 +317,35 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		{
 		case ThumbPosition::Top:
 			maxWidthChange = targetRect.Width - selectedRect.Width;
-			maxHeightChange = RectHelper::GetTop(selectedRect) - RectHelper::GetTop(targetRect);
+			maxHeightChange = winrt::RectHelper::GetTop(selectedRect) - winrt::RectHelper::GetTop(targetRect);
 			break;
 		case ThumbPosition::Bottom:
 			maxWidthChange = targetRect.Width - selectedRect.Width;
-			maxHeightChange = RectHelper::GetBottom(targetRect) - RectHelper::GetBottom(selectedRect);
+			maxHeightChange = winrt::RectHelper::GetBottom(targetRect) - winrt::RectHelper::GetBottom(selectedRect);
 			break;
 		case ThumbPosition::Left:
-			maxWidthChange = RectHelper::GetLeft(selectedRect) - RectHelper::GetLeft(targetRect);
+			maxWidthChange = winrt::RectHelper::GetLeft(selectedRect) - winrt::RectHelper::GetLeft(targetRect);
 			maxHeightChange = targetRect.Height - selectedRect.Height;
 			break;
 		case ThumbPosition::Right:
-			maxWidthChange = RectHelper::GetRight(targetRect) - RectHelper::GetRight(selectedRect);
+			maxWidthChange = winrt::RectHelper::GetRight(targetRect) - winrt::RectHelper::GetRight(selectedRect);
 			maxHeightChange = targetRect.Height - selectedRect.Height;
 			break;
 		case ThumbPosition::UpperLeft:
-			maxWidthChange = RectHelper::GetLeft(selectedRect) - RectHelper::GetLeft(targetRect);
-			maxHeightChange = RectHelper::GetTop(selectedRect) - RectHelper::GetTop(targetRect);
+			maxWidthChange = winrt::RectHelper::GetLeft(selectedRect) - winrt::RectHelper::GetLeft(targetRect);
+			maxHeightChange = winrt::RectHelper::GetTop(selectedRect) - winrt::RectHelper::GetTop(targetRect);
 			break;
 		case ThumbPosition::UpperRight:
-			maxWidthChange = RectHelper::GetRight(targetRect) - RectHelper::GetRight(selectedRect);
-			maxHeightChange = RectHelper::GetTop(selectedRect) - RectHelper::GetTop(targetRect);
+			maxWidthChange = winrt::RectHelper::GetRight(targetRect) - winrt::RectHelper::GetRight(selectedRect);
+			maxHeightChange = winrt::RectHelper::GetTop(selectedRect) - winrt::RectHelper::GetTop(targetRect);
 			break;
 		case ThumbPosition::LowerLeft:
-			maxWidthChange = RectHelper::GetLeft(selectedRect) - RectHelper::GetLeft(targetRect);
-			maxHeightChange = RectHelper::GetBottom(targetRect) - RectHelper::GetBottom(selectedRect);
+			maxWidthChange = winrt::RectHelper::GetLeft(selectedRect) - winrt::RectHelper::GetLeft(targetRect);
+			maxHeightChange = winrt::RectHelper::GetBottom(targetRect) - winrt::RectHelper::GetBottom(selectedRect);
 			break;
 		case ThumbPosition::LowerRight:
-			maxWidthChange = RectHelper::GetRight(targetRect) - RectHelper::GetRight(selectedRect);
-			maxHeightChange = RectHelper::GetBottom(targetRect) - RectHelper::GetBottom(selectedRect);
+			maxWidthChange = winrt::RectHelper::GetRight(targetRect) - winrt::RectHelper::GetRight(selectedRect);
+			maxHeightChange = winrt::RectHelper::GetBottom(targetRect) - winrt::RectHelper::GetBottom(selectedRect);
 			break;
 		}
 
@@ -358,39 +361,39 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			safeWidthChange = static_cast<float>(safeHeightChange * aspectRatio);
 		}
 
-		return Point(safeWidthChange, safeHeightChange);
+		return winrt::Point(safeWidthChange, safeHeightChange);
 	}
 
-	bool ImageCropper::CanContains(Rect targetRect, Rect testRect)
+	bool ImageCropper::CanContains(winrt::Rect targetRect, winrt::Rect testRect)
 	{
 		return (targetRect.Width - testRect.Width > -ThresholdValue) && (targetRect.Height - testRect.Height > -ThresholdValue);
 	}
 
-	bool ImageCropper::TryGetContainedRect(Rect targetRect, Rect& testRect)
+	bool ImageCropper::TryGetContainedRect(winrt::Rect targetRect, winrt::Rect& testRect)
 	{
 		if (!CanContains(targetRect, testRect))
 		{
 			return false;
 		}
 
-		if (RectHelper::GetLeft(targetRect) > RectHelper::GetLeft(testRect))
+		if (winrt::RectHelper::GetLeft(targetRect) > winrt::RectHelper::GetLeft(testRect))
 		{
-			testRect.X += RectHelper::GetLeft(targetRect) - RectHelper::GetLeft(testRect);
+			testRect.X += RectHelper::GetLeft(targetRect) - winrt::RectHelper::GetLeft(testRect);
 		}
 
-		if (RectHelper::GetTop(targetRect) > RectHelper::GetTop(testRect))
+		if (winrt::RectHelper::GetTop(targetRect) > winrt::RectHelper::GetTop(testRect))
 		{
-			testRect.Y += RectHelper::GetTop(targetRect) - RectHelper::GetTop(testRect);
+			testRect.Y += RectHelper::GetTop(targetRect) - winrt::RectHelper::GetTop(testRect);
 		}
 
-		if (RectHelper::GetRight(targetRect) < RectHelper::GetRight(testRect))
+		if (winrt::RectHelper::GetRight(targetRect) < winrt::RectHelper::GetRight(testRect))
 		{
-			testRect.X += RectHelper::GetRight(targetRect) - RectHelper::GetRight(testRect);
+			testRect.X += RectHelper::GetRight(targetRect) - winrt::RectHelper::GetRight(testRect);
 		}
 
-		if (RectHelper::GetBottom(targetRect) < RectHelper::GetBottom(testRect))
+		if (winrt::RectHelper::GetBottom(targetRect) < winrt::RectHelper::GetBottom(testRect))
 		{
-			testRect.Y += RectHelper::GetBottom(targetRect) - RectHelper::GetBottom(testRect);
+			testRect.Y += winrt::RectHelper::GetBottom(targetRect) - winrt::RectHelper::GetBottom(testRect);
 		}
 
 		return true;

@@ -7,26 +7,27 @@
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
-    const wil::single_threaded_property<winrt::DependencyProperty> Explicit::AnimationsProperty = DependencyProperty::RegisterAttached(
-        L"Animations",
-        winrt::xaml_typename<winrt::AnimationDictionary>(),
-        winrt::xaml_typename<class_type>(),
-        winrt::PropertyMetadata(nullptr, winrt::PropertyChangedCallback{ &Explicit::OnAnimationsPropertyChanged }));
+    const wil::single_threaded_property<winrt::DependencyProperty> Explicit::AnimationsProperty = 
+        winrt::DependencyProperty::RegisterAttached(
+            L"Animations",
+            winrt::xaml_typename<winrt::XamlToolkit::WinUI::Animations::AnimationDictionary>(),
+            winrt::xaml_typename<class_type>(),
+            winrt::PropertyMetadata(nullptr, &Explicit::OnAnimationsPropertyChanged));
 
-    winrt::AnimationDictionary Explicit::GetAnimations(winrt::UIElement const& element)
+    winrt::XamlToolkit::WinUI::Animations::AnimationDictionary Explicit::GetAnimations(winrt::UIElement const& element)
     {
         auto value = element.GetValue(AnimationsProperty());
-        if (auto collection = value.try_as<winrt::AnimationDictionary>())
+        if (auto collection = value.try_as<winrt::XamlToolkit::WinUI::Animations::AnimationDictionary>())
         {
             return collection;
         }
 
-        winrt::AnimationDictionary collection;
+        winrt::XamlToolkit::WinUI::Animations::AnimationDictionary collection;
         element.SetValue(AnimationsProperty(), collection);
         return collection;
     }
 
-    void Explicit::SetAnimations(winrt::UIElement const& element, winrt::AnimationDictionary const& value)
+    void Explicit::SetAnimations(winrt::UIElement const& element, winrt::XamlToolkit::WinUI::Animations::AnimationDictionary const& value)
     {
         element.SetValue(AnimationsProperty(), value);
     }
@@ -39,13 +40,13 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
             return;
         }
 
-        if (auto oldDictionary = e.OldValue().try_as<winrt::AnimationDictionary>())
+        if (auto oldDictionary = e.OldValue().try_as<winrt::XamlToolkit::WinUI::Animations::AnimationDictionary>())
         {
             auto impl = winrt::get_self<implementation::AnimationDictionary>(oldDictionary);
             impl->Parent(nullptr);
         }
 
-        if (auto newDictionary = e.NewValue().try_as<winrt::AnimationDictionary>())
+        if (auto newDictionary = e.NewValue().try_as<winrt::XamlToolkit::WinUI::Animations::AnimationDictionary>())
         {
             auto impl = winrt::get_self<implementation::AnimationDictionary>(newDictionary);
             impl->Parent(element);

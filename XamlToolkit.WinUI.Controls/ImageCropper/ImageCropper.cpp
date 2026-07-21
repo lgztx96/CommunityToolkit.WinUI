@@ -16,7 +16,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	{
 		DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
 
-		_maskAreaGeometryGroup.FillRule(FillRule::EvenOdd);
+		_maskAreaGeometryGroup.FillRule(winrt::FillRule::EvenOdd);
 	}
 
 	/// <summary>
@@ -54,10 +54,10 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	/// <summary>
 	/// Gets the minimum cropped size.
 	/// </summary>
-	Size ImageCropper::MinCropSize()
+	winrt::Size ImageCropper::MinCropSize()
 	{
 		auto aspectRatio = KeepAspectRatio() ? ActualAspectRatio() : 1;
-		auto size = Size(static_cast<float>(MinCroppedPixelLength), static_cast<float>(MinCroppedPixelLength));
+		winrt::Size size(static_cast<float>(MinCroppedPixelLength), static_cast<float>(MinCroppedPixelLength));
 		if (aspectRatio >= 1)
 		{
 			size.Width = static_cast<float>(size.Height * aspectRatio);
@@ -73,14 +73,14 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	/// <summary>
 	/// Gets the minimum selectable size.
 	/// </summary>
-	Size ImageCropper::MinSelectSize()
+	winrt::Size ImageCropper::MinSelectSize()
 	{
 		auto realMinSelectSize = _imageTransform.TransformBounds(ToRect(MinCropSize()));
 		auto minLength = std::min<float>(realMinSelectSize.Width, realMinSelectSize.Height);
 		if (minLength < MinSelectedLength)
 		{
 			auto aspectRatio = KeepAspectRatio() ? ActualAspectRatio() : 1;
-			auto minSelectSize = Size(static_cast<float>(MinSelectedLength), static_cast<float>(MinSelectedLength));
+			winrt::Size minSelectSize(static_cast<float>(MinSelectedLength), static_cast<float>(MinSelectedLength));
 			if (aspectRatio >= 1)
 			{
 				minSelectSize.Width = static_cast<float>(minSelectSize.Height * aspectRatio);
@@ -93,17 +93,17 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			return minSelectSize;
 		}
 
-		return Size(realMinSelectSize.Width, realMinSelectSize.Height);
+		return winrt::Size(realMinSelectSize.Width, realMinSelectSize.Height);
 	}
 
 	void ImageCropper::OnApplyTemplate()
 	{
 		UnhookEvents();
-		_layoutGrid = GetTemplateChild(LayoutGridName).try_as<Grid>();
-		_imageCanvas = GetTemplateChild(ImageCanvasPartName).try_as<Canvas>();
-		_sourceImage = GetTemplateChild(SourceImagePartName).try_as<Image>();
-		_maskAreaPath = GetTemplateChild(MaskAreaPathPartName).try_as<Path>();
-		_overlayAreaPath = GetTemplateChild(OverlayAreaPathPartName).try_as<Path>();
+		_layoutGrid = GetTemplateChild(LayoutGridName).try_as<winrt::Grid>();
+		_imageCanvas = GetTemplateChild(ImageCanvasPartName).try_as<winrt::Canvas>();
+		_sourceImage = GetTemplateChild(SourceImagePartName).try_as<winrt::Image>();
+		_maskAreaPath = GetTemplateChild(MaskAreaPathPartName).try_as<winrt::Path>();
+		_overlayAreaPath = GetTemplateChild(OverlayAreaPathPartName).try_as<winrt::Path>();
 		_topThumb = GetTemplateChild(TopThumbPartName).try_as<Controls::ImageCropperThumb>();
 		_bottomThumb = GetTemplateChild(BottomThumbPartName).try_as<Controls::ImageCropperThumb>();
 		_leftThumb = GetTemplateChild(LeftThumbPartName).try_as<Controls::ImageCropperThumb>();
@@ -118,28 +118,28 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 	void ImageCropper::HookUpEvents()
 	{
-		if (_imageCanvas != nullptr)
+		if (_imageCanvas)
 		{
 			_imageCanvasSizeChangedToken = _imageCanvas.SizeChanged({ get_weak(), &ImageCropper::ImageCanvas_SizeChanged });
 		}
 
-		if (_sourceImage != nullptr)
+		if (_sourceImage)
 		{
-			_sourceImage.ManipulationMode(ManipulationModes::TranslateX | ManipulationModes::TranslateY);
+			_sourceImage.ManipulationMode(winrt::ManipulationModes::TranslateX | winrt::ManipulationModes::TranslateY);
 			_sourceImageManipulationDeltaToken = _sourceImage.ManipulationDelta({ get_weak(), &ImageCropper::SourceImage_ManipulationDelta });
 		}
 
-		if (_maskAreaPath != nullptr)
+		if (_maskAreaPath)
 		{
 			_maskAreaPath.Data(_maskAreaGeometryGroup);
 		}
 
-		if (_overlayAreaPath != nullptr)
+		if (_overlayAreaPath)
 		{
 			_overlayAreaPath.Data(_overlayGeometry);
 		}
 
-		if (_topThumb != nullptr)
+		if (_topThumb)
 		{
 			_topThumb.Position(ThumbPosition::Top);
 			_topThumbManipulationDeltaToken = _topThumb.ManipulationDelta(
@@ -152,7 +152,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 				{ get_weak(), &ImageCropper::ImageCropperThumb_KeyUp });
 		}
 
-		if (_bottomThumb != nullptr)
+		if (_bottomThumb)
 		{
 			_bottomThumb.Position(ThumbPosition::Bottom);
 			_bottomThumbManipulationDeltaToken = _bottomThumb.ManipulationDelta(
@@ -165,7 +165,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 				{ get_weak(), &ImageCropper::ImageCropperThumb_KeyUp });
 		}
 
-		if (_leftThumb != nullptr)
+		if (_leftThumb)
 		{
 			_leftThumb.Position(ThumbPosition::Left);
 			_leftThumbManipulationDeltaToken = _leftThumb.ManipulationDelta(
@@ -178,7 +178,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 				{ get_weak(), &ImageCropper::ImageCropperThumb_KeyUp });
 		}
 
-		if (_rightThumb != nullptr)
+		if (_rightThumb)
 		{
 			_rightThumb.Position(ThumbPosition::Right);
 			_rightThumbManipulationDeltaToken = _rightThumb.ManipulationDelta(
@@ -191,7 +191,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 				{ get_weak(), &ImageCropper::ImageCropperThumb_KeyUp });
 		}
 
-		if (_upperLeftThumb != nullptr)
+		if (_upperLeftThumb)
 		{
 			_upperLeftThumb.Position(ThumbPosition::UpperLeft);
 			_upperLeftThumbManipulationDeltaToken = _upperLeftThumb.ManipulationDelta(
@@ -204,7 +204,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 				{ get_weak(), &ImageCropper::ImageCropperThumb_KeyUp });
 		}
 
-		if (_upperRightThumb != nullptr)
+		if (_upperRightThumb)
 		{
 			_upperRightThumb.Position(ThumbPosition::UpperRight);
 			_upperRightThumbManipulationDeltaToken = _upperRightThumb.ManipulationDelta(
@@ -217,7 +217,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 				{ get_weak(), &ImageCropper::ImageCropperThumb_KeyUp });
 		}
 
-		if (_lowerLeftThumb != nullptr)
+		if (_lowerLeftThumb)
 		{
 			_lowerLeftThumb.Position(ThumbPosition::LowerLeft);
 			_lowerLeftThumbManipulationDeltaToken = _lowerLeftThumb.ManipulationDelta(
@@ -230,7 +230,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 				{ get_weak(), &ImageCropper::ImageCropperThumb_KeyUp });
 		}
 
-		if (_lowerRightThumb != nullptr)
+		if (_lowerRightThumb)
 		{
 			_lowerRightThumb.Position(ThumbPosition::LowerRight);
 			_lowerRightThumbManipulationDeltaToken = _lowerRightThumb.ManipulationDelta(
@@ -246,22 +246,22 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 	void ImageCropper::UnhookEvents()
 	{
-		if (_imageCanvas != nullptr)
+		if (_imageCanvas)
 		{
 			_imageCanvas.SizeChanged(_imageCanvasSizeChangedToken);
 		}
 
-		if (_sourceImage != nullptr)
+		if (_sourceImage)
 		{
 			_sourceImage.ManipulationDelta(_sourceImageManipulationDeltaToken);
 		}
 
-		if (_maskAreaPath != nullptr)
+		if (_maskAreaPath)
 		{
 			_maskAreaPath.Data(nullptr);
 		}
 
-		if (_topThumb != nullptr)
+		if (_topThumb)
 		{
 			_topThumb.ManipulationDelta(_topThumbManipulationDeltaToken);
 			_topThumb.ManipulationCompleted(_topThumbManipulationCompletedToken);
@@ -269,7 +269,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			_topThumb.KeyUp(_topThumbKeyUpToken);
 		}
 
-		if (_bottomThumb != nullptr)
+		if (_bottomThumb)
 		{
 			_bottomThumb.ManipulationDelta(_bottomThumbManipulationDeltaToken);
 			_bottomThumb.ManipulationCompleted(_bottomThumbManipulationCompletedToken);
@@ -277,7 +277,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			_bottomThumb.KeyUp(_bottomThumbKeyUpToken);
 		}
 
-		if (_leftThumb != nullptr)
+		if (_leftThumb)
 		{
 			_leftThumb.ManipulationDelta(_leftThumbManipulationDeltaToken);
 			_leftThumb.ManipulationCompleted(_leftThumbManipulationCompletedToken);
@@ -285,7 +285,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			_leftThumb.KeyUp(_leftThumbKeyUpToken);
 		}
 
-		if (_rightThumb != nullptr)
+		if (_rightThumb)
 		{
 			_rightThumb.ManipulationDelta(_rightThumbManipulationDeltaToken);
 			_rightThumb.ManipulationCompleted(_rightThumbManipulationCompletedToken);
@@ -293,7 +293,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			_rightThumb.KeyUp(_rightThumbKeyUpToken);
 		}
 
-		if (_upperLeftThumb != nullptr)
+		if (_upperLeftThumb)
 		{
 			_upperLeftThumb.ManipulationDelta(_upperLeftThumbManipulationDeltaToken);
 			_upperLeftThumb.ManipulationCompleted(_upperLeftThumbManipulationCompletedToken);
@@ -301,7 +301,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			_upperLeftThumb.KeyUp(_upperLeftThumbKeyUpToken);
 		}
 
-		if (_upperRightThumb != nullptr)
+		if (_upperRightThumb)
 		{
 			_upperRightThumb.ManipulationDelta(_upperRightThumbManipulationDeltaToken);
 			_upperRightThumb.ManipulationCompleted(_upperRightThumbManipulationCompletedToken);
@@ -309,7 +309,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			_upperRightThumb.KeyUp(_upperRightThumbKeyUpToken);
 		}
 
-		if (_lowerLeftThumb != nullptr)
+		if (_lowerLeftThumb)
 		{
 			_lowerLeftThumb.ManipulationDelta(_lowerLeftThumbManipulationDeltaToken);
 			_lowerLeftThumb.ManipulationCompleted(_lowerLeftThumbManipulationCompletedToken);
@@ -317,7 +317,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			_lowerLeftThumb.KeyUp(_lowerLeftThumbKeyUpToken);
 		}
 
-		if (_lowerRightThumb != nullptr)
+		if (_lowerRightThumb)
 		{
 			_lowerRightThumb.ManipulationDelta(_lowerRightThumbManipulationDeltaToken);
 			_lowerRightThumb.ManipulationCompleted(_lowerRightThumbManipulationCompletedToken);
@@ -326,9 +326,10 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		}
 	}
 
-	Size ImageCropper::MeasureOverride(Size availableSize)
+	winrt::Size ImageCropper::MeasureOverride(winrt::Size availableSize)
 	{
-		if (Source() == nullptr || Source().PixelWidth() == 0 || Source().PixelHeight() == 0)
+		auto source = Source();
+		if (source == nullptr || source.PixelWidth() == 0 || source.PixelHeight() == 0)
 		{
 			return base_type::MeasureOverride(availableSize);
 		}
@@ -337,16 +338,16 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		{
 			if (!std::isinf(availableSize.Width))
 			{
-				availableSize.Height = availableSize.Width / Source().PixelWidth() * Source().PixelHeight();
+				availableSize.Height = availableSize.Width / source.PixelWidth() * source.PixelHeight();
 			}
 			else if (!std::isinf(availableSize.Height))
 			{
-				availableSize.Width = availableSize.Height / Source().PixelHeight() * Source().PixelWidth();
+				availableSize.Width = availableSize.Height / source.PixelHeight() * source.PixelWidth();
 			}
 			else
 			{
-				availableSize.Width = static_cast<float>(Source().PixelWidth());
-				availableSize.Height = static_cast<float>(Source().PixelHeight());
+				availableSize.Width = static_cast<float>(source.PixelWidth());
+				availableSize.Height = static_cast<float>(source.PixelHeight());
 			}
 
 			base_type::MeasureOverride(availableSize);
@@ -356,16 +357,18 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		return base_type::MeasureOverride(availableSize);
 	}
 
-	winrt::Windows::Foundation::IAsyncAction ImageCropper::LoadImageFromFile(winrt::Windows::Storage::StorageFile const& imageFile)
+	winrt::IAsyncAction ImageCropper::LoadImageFromFile(winrt::StorageFile const& imageFile)
 	{
-		const auto writeableBitmap = WriteableBitmap(1, 1);
+		auto strongThis = get_strong();
+
+		const auto writeableBitmap = winrt::WriteableBitmap(1, 1);
 		const auto& stream = co_await imageFile.OpenReadAsync();
 		co_await writeableBitmap.SetSourceAsync(stream);
 
 		Source(writeableBitmap);
 	}
 
-	winrt::Windows::Foundation::IAsyncAction ImageCropper::SaveAsync(IRandomAccessStream const& stream, BitmapFileFormat bitmapFileFormat, bool keepRectangularOutput)
+	winrt::IAsyncAction ImageCropper::SaveAsync(winrt::IRandomAccessStream const& stream, winrt::BitmapFileFormat bitmapFileFormat, bool keepRectangularOutput)
 	{
 		if (Source() == nullptr)
 		{
@@ -386,7 +389,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		InitImageLayout(true);
 	}
 
-	bool ImageCropper::TrySetCroppedRegion(Rect rect)
+	bool ImageCropper::TrySetCroppedRegion(winrt::Rect rect)
 	{
 		// Reject regions smaller than the minimum size
 		if (rect.Width < MinCropSize().Width || rect.Height < MinCropSize().Height)
@@ -395,10 +398,10 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		}
 
 		// Reject regions that are not contained in the original picture
-		if (RectHelper::GetLeft(rect) < RectHelper::GetLeft(_restrictedCropRect)
-			|| RectHelper::GetTop(rect) < RectHelper::GetTop(_restrictedCropRect)
-			|| RectHelper::GetRight(rect) > RectHelper::GetRight(_restrictedCropRect)
-			|| RectHelper::GetBottom(rect) > RectHelper::GetBottom(_restrictedCropRect))
+		if (winrt::RectHelper::GetLeft(rect) < winrt::RectHelper::GetLeft(_restrictedCropRect)
+			|| winrt::RectHelper::GetTop(rect) < winrt::RectHelper::GetTop(_restrictedCropRect)
+			|| winrt::RectHelper::GetRight(rect) > winrt::RectHelper::GetRight(_restrictedCropRect)
+			|| winrt::RectHelper::GetBottom(rect) > winrt::RectHelper::GetBottom(_restrictedCropRect))
 		{
 			return false;
 		}

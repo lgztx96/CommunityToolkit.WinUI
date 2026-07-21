@@ -10,37 +10,37 @@
 
 namespace winrt::XamlToolkit::WinUI::implementation
 {
-	static inline bool Contains(Microsoft::UI::Composition::VisualCollection const& collection, Visual const& visual)
+	static inline bool Contains(winrt::VisualCollection const& collection, winrt::Visual const& visual)
 	{
 		return std::ranges::any_of(collection, [&](auto const& item) { return item == visual; });
 	}
 
-	void AttachedDropShadow::OnCastToPropertyChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e)
+	void AttachedDropShadow::OnCastToPropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e)
 	{
 		if (auto obj = d.try_as<class_type>())
 		{
 			auto shadow = winrt::get_self<AttachedDropShadow>(obj)->get_strong();
-			if (auto element = e.OldValue().try_as<FrameworkElement>())
+			if (auto element = e.OldValue().try_as<winrt::FrameworkElement>())
 			{
-				ElementCompositionPreview::SetElementChildVisual(element, nullptr);
+				winrt::ElementCompositionPreview::SetElementChildVisual(element, nullptr);
 				shadow->_castToSizeChangedRevoker.revoke();
 			}
 
-			if (auto elementNew = e.NewValue().try_as<FrameworkElement>())
+			if (auto elementNew = e.NewValue().try_as<winrt::FrameworkElement>())
 			{
 				auto prevContainer = shadow->_container;
 
-				auto child = ElementCompositionPreview::GetElementChildVisual(elementNew);
-				if (auto visual = child.try_as<ContainerVisual>())
+				auto child = winrt::ElementCompositionPreview::GetElementChildVisual(elementNew);
+				if (auto visual = child.try_as<winrt::ContainerVisual>())
 				{
 					shadow->_container = visual;
 				}
 				else
 				{
-					auto compositor = ElementCompositionPreview::GetElementVisual(shadow->CastTo()).Compositor();
+					auto compositor = winrt::ElementCompositionPreview::GetElementVisual(shadow->CastTo()).Compositor();
 					shadow->_container = compositor.CreateContainerVisual();
 
-					ElementCompositionPreview::SetElementChildVisual(elementNew, shadow->_container);
+					winrt::ElementCompositionPreview::SetElementChildVisual(elementNew, shadow->_container);
 				}
 
 				// Need to remove all old children from previous container if it's changed
@@ -66,8 +66,8 @@ namespace winrt::XamlToolkit::WinUI::implementation
 					}
 				}
 
-				shadow->_castToSizeChangedRevoker = elementNew.SizeChanged(winrt::auto_revoke,
-					[shadowWeak(winrt::make_weak(obj))](auto& s, auto& e)
+				shadow->_castToSizeChangedRevoker = elementNew.SizeChanged(
+					winrt::auto_revoke, [shadowWeak(winrt::make_weak(obj))](auto& s, auto& e)
 					{
 						if (auto shadow = shadowWeak.get())
 						{
@@ -82,7 +82,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		}
 	}
 
-	void AttachedDropShadow::CastToElement_SizeChanged([[maybe_unused]] IInspectable const& sender, [[maybe_unused]] SizeChangedEventArgs const& e)
+	void AttachedDropShadow::CastToElement_SizeChanged([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::SizeChangedEventArgs const& e)
 	{
 		// Don't use sender or 'e' here as related to container element not
 		// element for shadow, grab values off context. (Also may be null from internal call.)
@@ -101,7 +101,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 	{
 		auto constSelf = winrt::get_self<AttachedShadowElementContext>(context)->get_strong();
 
-		if (_container != nullptr
+		if (_container
 			//&& _container.Children().Contains(context.SpriteVisual())
 			)
 		{
@@ -114,7 +114,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
 		if (constSelf->VisibilityToken().has_value())
 		{
-			context.Element().UnregisterPropertyChangedCallback(UIElement::VisibilityProperty(), constSelf->VisibilityToken.value());
+			context.Element().UnregisterPropertyChangedCallback(winrt::UIElement::VisibilityProperty(), constSelf->VisibilityToken.value());
 			constSelf->VisibilityToken(std::nullopt);
 		}
 
@@ -134,28 +134,28 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
 		if (auto visibilityToken = constSelf->VisibilityToken())
 		{
-			context.Element().UnregisterPropertyChangedCallback(UIElement::VisibilityProperty(), visibilityToken.value());
+			context.Element().UnregisterPropertyChangedCallback(winrt::UIElement::VisibilityProperty(), visibilityToken.value());
 			constSelf->VisibilityToken(std::nullopt);
 		}
 
-		constSelf->VisibilityToken(context.Element().RegisterPropertyChangedCallback(UIElement::VisibilityProperty(), { get_weak(), &AttachedDropShadow::Element_VisibilityChanged }));
+		constSelf->VisibilityToken(context.Element().RegisterPropertyChangedCallback(winrt::UIElement::VisibilityProperty(), { get_weak(), &AttachedDropShadow::Element_VisibilityChanged }));
 	}
 
-	void AttachedDropShadow::Element_LayoutUpdated([[maybe_unused]] IInspectable const& sender, [[maybe_unused]] IInspectable const& e)
+	void AttachedDropShadow::Element_LayoutUpdated([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::IInspectable const& e)
 	{
 		// Update other shadows to account for layout changes
 		CastToElement_SizeChanged(nullptr, nullptr);
 	}
 
-	void AttachedDropShadow::Element_VisibilityChanged(DependencyObject const& sender, [[maybe_unused]] DependencyProperty const& dp)
+	void AttachedDropShadow::Element_VisibilityChanged(winrt::DependencyObject const& sender, [[maybe_unused]] winrt::DependencyProperty const& dp)
 	{
-		auto element = sender.try_as<FrameworkElement>();
+		auto element = sender.try_as<winrt::FrameworkElement>();
 		auto context = element ? GetElementContext(element).try_as<winrt::XamlToolkit::WinUI::AttachedShadowElementContext>() : nullptr;
 		if (element && context)
 		{
-			if (element.Visibility() == Visibility::Collapsed)
+			if (element.Visibility() == winrt::Visibility::Collapsed)
 			{
-				if (_container != nullptr
+				if (_container
 					//&& _container.Children().Contains(context.SpriteVisual())
 					)
 				{
@@ -175,9 +175,9 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		CastToElement_SizeChanged(nullptr, nullptr);
 	}
 
-	CompositionBrush AttachedDropShadow::GetShadowMask(winrt::XamlToolkit::WinUI::AttachedShadowElementContext const& context)
+	winrt::CompositionBrush AttachedDropShadow::GetShadowMask(winrt::XamlToolkit::WinUI::AttachedShadowElementContext const& context)
 	{
-		CompositionBrush mask{ nullptr };
+		winrt::CompositionBrush mask{ nullptr };
 
 		if (context.Element())
 		{
@@ -205,15 +205,15 @@ namespace winrt::XamlToolkit::WinUI::implementation
 						mask = maskedControl.GetAlphaMask();
 					}
 				}
-				else if (auto image = context.Element().try_as<Image>())
+				else if (auto image = context.Element().try_as<winrt::Image>())
 				{
 					mask = image.GetAlphaMask();
 				}
-				else if (auto shape = context.Element().try_as<winrt::Microsoft::UI::Xaml::Shapes::Shape>())
+				else if (auto shape = context.Element().try_as<winrt::Shape>())
 				{
 					mask = shape.GetAlphaMask();
 				}
-				else if (auto textBlock = context.Element().try_as<TextBlock>())
+				else if (auto textBlock = context.Element().try_as<winrt::TextBlock>())
 				{
 					mask = textBlock.GetAlphaMask();
 				}
@@ -226,18 +226,18 @@ namespace winrt::XamlToolkit::WinUI::implementation
 				&& context.Compositor())
 			{
 				// Create rounded rectangle geometry and add it to a shape
-				auto geometry = context.GetResource(RoundedRectangleGeometryResourceKey).try_as<CompositionRoundedRectangleGeometry>();
+				auto geometry = context.GetResource(RoundedRectangleGeometryResourceKey).try_as<winrt::CompositionRoundedRectangleGeometry>();
 				if (!geometry) geometry = context.AddResource(RoundedRectangleGeometryResourceKey,
-					context.Compositor().CreateRoundedRectangleGeometry()).as<CompositionRoundedRectangleGeometry>();
+					context.Compositor().CreateRoundedRectangleGeometry()).as<winrt::CompositionRoundedRectangleGeometry>();
 
-				geometry.CornerRadius(float2((float)CornerRadius()));
+				geometry.CornerRadius(winrt::float2((float)CornerRadius()));
 
-				auto shape = context.GetResource(ShapeResourceKey).try_as<CompositionSpriteShape>();
+				auto shape = context.GetResource(ShapeResourceKey).try_as<winrt::CompositionSpriteShape>();
 				if (!shape) shape = context.AddResource(ShapeResourceKey, context.Compositor().CreateSpriteShape(geometry)).as<CompositionSpriteShape>();
-				shape.FillBrush(context.Compositor().CreateColorBrush(Microsoft::UI::Colors::Black()));
+				shape.FillBrush(context.Compositor().CreateColorBrush(winrt::Microsoft::UI::Colors::Black()));
 
 				// Create a ShapeVisual so that our geometry can be rendered to a visual
-				auto shapeVisual = context.GetResource(ShapeVisualResourceKey).try_as<ShapeVisual>();
+				auto shapeVisual = context.GetResource(ShapeVisualResourceKey).try_as<winrt::ShapeVisual>();
 				if (!shapeVisual) shapeVisual = context.AddResource(ShapeVisualResourceKey, context.Compositor().CreateShapeVisual()).as<ShapeVisual>();
 				if (uint32_t index; !shapeVisual.Shapes().IndexOf(shape, index))
 				{
@@ -245,18 +245,18 @@ namespace winrt::XamlToolkit::WinUI::implementation
 				}
 
 				// Create a CompositionVisualSurface, which renders our ShapeVisual to a texture
-				auto visualSurface = context.GetResource(VisualSurfaceResourceKey).try_as<CompositionVisualSurface>();
+				auto visualSurface = context.GetResource(VisualSurfaceResourceKey).try_as<winrt::CompositionVisualSurface>();
 				if (!visualSurface) visualSurface = context.AddResource(VisualSurfaceResourceKey, context.Compositor().CreateVisualSurface()).as<CompositionVisualSurface>();
 				visualSurface.SourceVisual(shapeVisual);
 
 				// Create a CompositionSurfaceBrush to render our CompositionVisualSurface to a brush.
 				// Now we have a rounded rectangle brush that can be used on as the mask for our shadow.
-				auto surfaceBrush = context.GetResource(SurfaceBrushResourceKey).try_as<CompositionSurfaceBrush>();
+				auto surfaceBrush = context.GetResource(SurfaceBrushResourceKey).try_as<winrt::CompositionSurfaceBrush>();
 				if (!surfaceBrush) surfaceBrush = context.AddResource(
 					SurfaceBrushResourceKey,
-					context.Compositor().CreateSurfaceBrush(visualSurface)).as<CompositionSurfaceBrush>();
+					context.Compositor().CreateSurfaceBrush(visualSurface)).as<winrt::CompositionSurfaceBrush>();
 
-				float2 size(context.Element().RenderSize());
+				winrt::float2 size(context.Element().RenderSize());
 				shapeVisual.Size(size);
 				visualSurface.SourceSize(size);
 				geometry.Size(size);
@@ -268,7 +268,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 			if (auto spriteVisual = context.SpriteVisual())
 			{
 				auto point = UIElementExtensions::CoordinatesFrom(context.Element(), CastTo());
-				auto offset = float3(float2(point), 0.0f);
+				auto offset = winrt::float3(winrt::float2(point), 0.0f);
 				spriteVisual.Offset(offset);
 
 				BindSizeAndScale(spriteVisual, context.Element());
@@ -278,9 +278,9 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		return mask;
 	}
 
-	void AttachedDropShadow::BindSizeAndScale(CompositionObject const& source, UIElement const& target)
+	void AttachedDropShadow::BindSizeAndScale(winrt::CompositionObject const& source, winrt::UIElement const& target)
 	{
-		auto visual = ElementCompositionPreview::GetElementVisual(target);
+		auto visual = winrt::ElementCompositionPreview::GetElementVisual(target);
 		auto bindSizeAnimation = source.Compositor().CreateExpressionAnimation(L"visual.Size * visual.Scale.XY");
 
 		bindSizeAnimation.SetReferenceParameter(L"visual", visual);
@@ -289,9 +289,9 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		source.StartAnimation(L"Size", bindSizeAnimation);
 	}
 
-	void AttachedDropShadow::CustomMaskedElement_Loaded(IInspectable const& sender, [[maybe_unused]] RoutedEventArgs const& e)
+	void AttachedDropShadow::CustomMaskedElement_Loaded(winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
 	{
-		auto element = sender.try_as<FrameworkElement>();
+		auto element = sender.try_as<winrt::FrameworkElement>();
 		if (auto context = GetElementContext(element).try_as<winrt::XamlToolkit::WinUI::AttachedShadowElementContext>())
 		{
 			// context.Element().Loaded -= CustomMaskedElement_Loaded;
@@ -301,12 +301,12 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		}
 	}
 
-	void AttachedDropShadow::OnSizeChanged(winrt::XamlToolkit::WinUI::AttachedShadowElementContext const& context, Size newSize, Size previousSize)
+	void AttachedDropShadow::OnSizeChanged(winrt::XamlToolkit::WinUI::AttachedShadowElementContext const& context, winrt::Size newSize, winrt::Size previousSize)
 	{
 		if (auto spriteVisual = context.SpriteVisual())
 		{
 			auto point = UIElementExtensions::CoordinatesFrom(context.Element(), CastTo());
-			auto offset = float3(float2(point), 0.0f);
+			auto offset = winrt::float3(winrt::float2(point), 0.0f);
 			spriteVisual.Offset(offset);
 		}
 
@@ -316,7 +316,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		base_type::OnSizeChanged(context, newSize, previousSize);
 	}
 
-	void AttachedDropShadow::OnPropertyChanged(winrt::XamlToolkit::WinUI::AttachedShadowElementContext const& context, DependencyProperty const& property, IInspectable const& oldValue, IInspectable const& newValue)
+	void AttachedDropShadow::OnPropertyChanged(winrt::XamlToolkit::WinUI::AttachedShadowElementContext const& context, winrt::DependencyProperty const& property, winrt::IInspectable const& oldValue, winrt::IInspectable const& newValue)
 	{
 		if (property == IsMaskedProperty())
 		{
@@ -326,7 +326,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		{
 			if (auto geometry = context.GetResource(RoundedRectangleGeometryResourceKey).try_as<CompositionRoundedRectangleGeometry>())
 			{
-				geometry.CornerRadius(float2((float)winrt::unbox_value<double>(newValue)));
+				geometry.CornerRadius(winrt::float2(static_cast<float>(winrt::unbox_value<double>(newValue))));
 			}
 
 			UpdateShadowMask(context);

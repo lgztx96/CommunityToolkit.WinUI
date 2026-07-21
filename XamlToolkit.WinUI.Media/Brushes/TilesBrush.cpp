@@ -11,43 +11,43 @@
 
 namespace winrt::XamlToolkit::WinUI::Media::implementation
 {
-    const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> TilesBrush::TextureUriProperty =
-        winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> TilesBrush::TextureUriProperty =
+        winrt::DependencyProperty::Register(
             L"TextureUri",
-            winrt::xaml_typename<winrt::Windows::Foundation::Uri>(),
+            winrt::xaml_typename<winrt::Uri>(),
             winrt::xaml_typename<class_type>(),
-            winrt::Microsoft::UI::Xaml::PropertyMetadata{ nullptr, &TilesBrush::OnDependencyPropertyChanged });
+            winrt::PropertyMetadata{ nullptr, &TilesBrush::OnDependencyPropertyChanged });
 
-    const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> TilesBrush::DpiModeProperty =
-        winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> TilesBrush::DpiModeProperty =
+        winrt::DependencyProperty::Register(
             L"DpiMode",
-            winrt::xaml_typename<winrt::XamlToolkit::WinUI::Media::DpiMode>(),
+            winrt::xaml_typename<Media::DpiMode>(),
             winrt::xaml_typename<class_type>(),
-            winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(DpiMode::DisplayDpiWith96AsLowerBound), &TilesBrush::OnDependencyPropertyChanged });
+            winrt::PropertyMetadata{ winrt::box_value(DpiMode::DisplayDpiWith96AsLowerBound), &TilesBrush::OnDependencyPropertyChanged });
 
-    winrt::Windows::Foundation::Uri TilesBrush::TextureUri() const
+    winrt::Uri TilesBrush::TextureUri() const
     {
-        return GetValue(TextureUriProperty()).try_as<winrt::Windows::Foundation::Uri>();
+        return GetValue(TextureUriProperty()).try_as<winrt::Uri>();
     }
 
-    void TilesBrush::TextureUri(winrt::Windows::Foundation::Uri const& value)
+    void TilesBrush::TextureUri(winrt::Uri const& value)
     {
         SetValue(TextureUriProperty(), value);
     }
 
     DpiMode TilesBrush::DpiMode() const
     {
-        return winrt::unbox_value<winrt::XamlToolkit::WinUI::Media::DpiMode>(GetValue(DpiModeProperty()));
+        return winrt::unbox_value<Media::DpiMode>(GetValue(DpiModeProperty()));
     }
 
-    void TilesBrush::DpiMode(winrt::XamlToolkit::WinUI::Media::DpiMode value)
+    void TilesBrush::DpiMode(Media::DpiMode value)
     {
         SetValue(DpiModeProperty(), winrt::box_value(value));
     }
 
     void TilesBrush::OnDependencyPropertyChanged(
-        winrt::Microsoft::UI::Xaml::DependencyObject const& d,
-        [[maybe_unused]] winrt::Microsoft::UI::Xaml::DependencyPropertyChangedEventArgs const& e)
+        winrt::DependencyObject const& d,
+        [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& e)
     {
         auto brush = d.as<winrt::XamlToolkit::WinUI::Media::TilesBrush>();
 		auto self = winrt::get_self<TilesBrush>(brush);
@@ -64,6 +64,6 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
         {
             return Pipelines::PipelineBuilder::FromTiles(uri, DpiMode(), Media::CacheMode::Default);
         }
-        return Pipelines::PipelineBuilder::FromColor(winrt::Windows::UI::Color{});
+        return Pipelines::PipelineBuilder::FromColor({});
     }
 }

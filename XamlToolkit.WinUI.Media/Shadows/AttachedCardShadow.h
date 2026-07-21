@@ -11,8 +11,7 @@
 #include <winrt/Microsoft.UI.Xaml.Hosting.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
-#endif
-
+#else
 import winrt.Windows.Foundation;
 import winrt.Windows.Foundation.Numerics;
 import winrt.Microsoft.UI.Xaml;
@@ -20,16 +19,18 @@ import winrt.Microsoft.UI.Composition;
 import winrt.Microsoft.UI.Xaml.Hosting;
 import winrt.XamlToolkit.WinUI;
 import winrt.XamlToolkit.WinUI.Media;
+#endif
 
 namespace winrt
 {
-    using namespace Microsoft::UI::Composition;
-    using namespace Microsoft::UI::Xaml;
-    using namespace Microsoft::UI::Xaml::Hosting;
-    using namespace Microsoft::Graphics::Canvas::Geometry;
-    using namespace Windows::Foundation::Numerics;
-    using namespace XamlToolkit::WinUI;
-    using namespace XamlToolkit::WinUI::Media;
+    using namespace winrt::Windows::Foundation;
+    using namespace winrt::Microsoft::UI::Composition;
+    using namespace winrt::Microsoft::UI::Xaml;
+    using namespace winrt::Microsoft::UI::Xaml::Hosting;
+    using namespace winrt::Microsoft::Graphics::Canvas::Geometry;
+    using namespace winrt::Windows::Foundation::Numerics;
+    using namespace winrt::XamlToolkit::WinUI;
+    using namespace winrt::XamlToolkit::WinUI::Media;
 }
 
 namespace winrt::XamlToolkit::WinUI::Media::implementation
@@ -72,26 +73,26 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
 
         AttachedCardShadow() = default;
 
-        static inline const wil::single_threaded_property<DependencyProperty> CornerRadiusProperty =
-            DependencyProperty::Register(
+        static inline const wil::single_threaded_property<winrt::DependencyProperty> CornerRadiusProperty =
+            winrt::DependencyProperty::Register(
                 L"CornerRadius",
                 winrt::xaml_typename<double>(),
                 winrt::xaml_typename<class_type>(),
-                PropertyMetadata(winrt::box_value(4.0), AttachedShadowBase::OnDependencyPropertyChanged));
+                winrt::PropertyMetadata(winrt::box_value(4.0), &AttachedShadowBase::OnDependencyPropertyChanged));
 
 
-        static inline const wil::single_threaded_property<DependencyProperty> InnerContentClipModeProperty =
-            DependencyProperty::Register(
+        static inline const wil::single_threaded_property<winrt::DependencyProperty> InnerContentClipModeProperty =
+            winrt::DependencyProperty::Register(
                 L"InnerContentClipMode",
                 winrt::xaml_typename<enum InnerContentClipMode>(),
                 winrt::xaml_typename<class_type>(),
-                PropertyMetadata(winrt::box_value(InnerContentClipMode::CompositionGeometricClip), AttachedShadowBase::OnDependencyPropertyChanged));
+                winrt::PropertyMetadata(winrt::box_value(InnerContentClipMode::CompositionGeometricClip), &AttachedShadowBase::OnDependencyPropertyChanged));
 
         double CornerRadius() const { return winrt::unbox_value<double>(GetValue(CornerRadiusProperty)); }
         void CornerRadius(double value) const { SetValue(CornerRadiusProperty, winrt::box_value(value)); }
 
-        XamlToolkit::WinUI::Media::InnerContentClipMode InnerContentClipMode() const { return winrt::unbox_value<XamlToolkit::WinUI::Media::InnerContentClipMode>(GetValue(InnerContentClipModeProperty)); }
-        void InnerContentClipMode(XamlToolkit::WinUI::Media::InnerContentClipMode value) const { SetValue(InnerContentClipModeProperty, winrt::box_value(value)); }
+        winrt::XamlToolkit::WinUI::Media::InnerContentClipMode InnerContentClipMode() const { return winrt::unbox_value<winrt::XamlToolkit::WinUI::Media::InnerContentClipMode>(GetValue(InnerContentClipModeProperty)); }
+        void InnerContentClipMode(winrt::XamlToolkit::WinUI::Media::InnerContentClipMode value) const { SetValue(InnerContentClipModeProperty, winrt::box_value(value)); }
 
         bool SupportsOnSizeChangedEvent() const noexcept { return true; }
 
@@ -104,9 +105,9 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
         void UpdateVisualOpacityMask(AttachedShadowElementContext const& context) const;
 
         void OnPropertyChanged(AttachedShadowElementContext const& context,
-            DependencyProperty const& property,
-            winrt::Windows::Foundation::IInspectable const& oldValue,
-            winrt::Windows::Foundation::IInspectable const& newValue);
+            winrt::DependencyProperty const& property,
+            winrt::IInspectable const& oldValue,
+            winrt::IInspectable const& newValue);
 
         void SetElementChildVisual(AttachedShadowElementContext const& context);
 

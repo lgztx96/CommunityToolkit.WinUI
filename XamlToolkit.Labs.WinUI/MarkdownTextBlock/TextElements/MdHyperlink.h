@@ -18,14 +18,14 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
     class MdHyperlink final : public IAddChild
     {
     private:
-        Hyperlink _hyperlink;
+        winrt::Hyperlink _hyperlink;
         std::wstring_view _baseUrl;
 
     public:
-       // bool IsHtml() const { return _htmlNode != nullptr; }
-        wil::typed_event<Hyperlink, HyperlinkClickEventArgs> ClickEvent;
+       // bool IsHtml() const { return _htmlNode; }
+        wil::typed_event<winrt::Hyperlink, winrt::HyperlinkClickEventArgs> ClickEvent;
 
-        Microsoft::UI::Xaml::Documents::TextElement TextElement() const override
+        winrt::TextElement TextElement() const override
         {
             return _hyperlink;
         }
@@ -40,7 +40,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
             _hyperlink.Foreground(renderer->Config().Themes().LinkForeground());
             _hyperlink.Click([markdownWeak{ renderer->MarkdownTextBlock() }](auto& sender, auto&)
                 {
-                    if (auto hyperlink = sender.template try_as<Hyperlink>())
+                    if (auto hyperlink = sender.template try_as<winrt::Hyperlink>())
                     {
                         auto uri = hyperlink.NavigateUri();
 
@@ -60,10 +60,10 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
                 });
         }
 
-        void AddChild(TextElements::IAddChild* child) override
+        void AddChild(IAddChild* child) override
         {
             try {
-                if (auto inlineChild = child->TextElement().try_as<Inline>())
+                if (auto inlineChild = child->TextElement().try_as<winrt::Inline>())
                 {
                     _hyperlink.Inlines().Append(inlineChild);
                 }

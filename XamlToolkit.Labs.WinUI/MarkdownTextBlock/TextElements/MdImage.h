@@ -21,6 +21,8 @@
 
 namespace winrt
 {
+	using namespace Windows::Foundation;
+	using namespace Microsoft::UI::Xaml::Controls;
 	using namespace Microsoft::UI::Xaml::Media::Imaging;
 	using namespace Windows::Storage::Streams;
 	using namespace Windows::Web::Http;
@@ -33,9 +35,9 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 	class MdImage final : public IAddChild, public std::enable_shared_from_this<MdImage>
 	{
 	private:
-		InlineUIContainer _container;
-		Microsoft::UI::Xaml::Controls::Image _image;
-		Windows::Foundation::Uri _uri;
+		winrt::InlineUIContainer _container;
+		winrt::Image _image;
+		winrt::Uri _uri;
 		IImageProvider _imageProvider{ nullptr };
 		ISVGRenderer _svgRenderer{ nullptr };
 		MarkdownThemes _themes{ nullptr };
@@ -44,12 +46,12 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 		bool _loaded = false;
 
 	public:
-		Microsoft::UI::Xaml::Documents::TextElement TextElement() const override
+		winrt::TextElement TextElement() const override
 		{
 			return _container;
 		}
 
-		MdImage(Windows::Foundation::Uri const& uri, MarkdownConfig const& config)
+		MdImage(winrt::Uri const& uri, MarkdownConfig const& config)
 			: _uri(uri), _precedentWidth(0), _precedentHeight(0)
 		{
 			_imageProvider = config.ImageProvider();
@@ -105,7 +107,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 			_container.Child(_image);
 		}
 
-		winrt::Windows::Foundation::IAsyncAction LoadImage(Windows::Foundation::IInspectable const& sender, Microsoft::UI::Xaml::RoutedEventArgs const& e)
+		winrt::IAsyncAction LoadImage(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e)
 		{
 			if (_loaded) co_return;
 			try
@@ -115,7 +117,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 				bool hasNaturalWidth = false;
 				bool hasNaturalHeight = false;
 
-				if (_imageProvider != nullptr && _imageProvider.ShouldUseThisProvider(_uri.AbsoluteUri()))
+				if (_imageProvider && _imageProvider.ShouldUseThisProvider(_uri.AbsoluteUri()))
 				{
 					_image = co_await _imageProvider.GetImage(_uri.AbsoluteUri());
 					_container.Child(_image);
@@ -141,10 +143,10 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 				}
 				else
 				{
-					Windows::Web::Http::HttpClient client;
+					winrt::Windows::Web::Http::HttpClient client;
 
 					// Download data from URL
-					HttpResponseMessage response = co_await client.GetAsync(_uri);
+					winrt::HttpResponseMessage response = co_await client.GetAsync(_uri);
 
 					if (!response.IsSuccessStatusCode())
 					{
@@ -166,10 +168,10 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 					}
 					else
 					{
-						IBuffer data = co_await content.ReadAsBufferAsync();
+						winrt::IBuffer data = co_await content.ReadAsBufferAsync();
 						// Create a BitmapImage for other supported formats
-						BitmapImage bitmap;
-						InMemoryRandomAccessStream stream;
+						winrt::BitmapImage bitmap;
+						winrt::InMemoryRandomAccessStream stream;
 
 						// Write the data to the stream
 						co_await stream.WriteAsync(data);
@@ -234,7 +236,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 
 		void SetToolTip(winrt::hstring const& tooltip)
 		{
-			Microsoft::UI::Xaml::Controls::ToolTipService::SetToolTip(_image, winrt::box_value(tooltip));
+			winrt::ToolTipService::SetToolTip(_image, winrt::box_value(tooltip));
 		}
 	};
 }

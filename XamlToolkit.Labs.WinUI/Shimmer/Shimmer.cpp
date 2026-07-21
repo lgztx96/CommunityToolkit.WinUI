@@ -22,14 +22,14 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
     {
         base_type::OnApplyTemplate();
 
-        _shape = GetTemplateChild(PART_Shape).try_as<Border>();
+        _shape = GetTemplateChild(PART_Shape).try_as<winrt::Border>();
         if (_initialized == false && TryInitializationResource() && IsActive())
         {
             TryStartAnimation();
         }
     }
 
-    void Shimmer::OnLoaded([[maybe_unused]] IInspectable const& sender, [[maybe_unused]] RoutedEventArgs const& e)
+    void Shimmer::OnLoaded([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
     {
         if (_initialized == false && TryInitializationResource() && IsActive())
         {
@@ -39,14 +39,14 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         _actualThemeChangedRevoker = ActualThemeChanged(winrt::auto_revoke, { this, &Shimmer::OnActualThemeChanged });
     }
 
-    void Shimmer::OnUnloaded([[maybe_unused]] IInspectable const& sender, [[maybe_unused]] RoutedEventArgs const& e)
+    void Shimmer::OnUnloaded([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
     {
         _actualThemeChangedRevoker.revoke();
         StopAnimation();
 
-        if (_initialized && _shape != nullptr)
+        if (_initialized && _shape)
         {
-            ElementCompositionPreview::SetElementChildVisual(_shape, nullptr);
+            winrt::ElementCompositionPreview::SetElementChildVisual(_shape, nullptr);
 
             _rectangleGeometry = nullptr;
             _shapeVisual = nullptr;
@@ -60,7 +60,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         }
     }
 
-    void Shimmer::OnActualThemeChanged([[maybe_unused]] FrameworkElement const& sender, [[maybe_unused]] IInspectable const& args)
+    void Shimmer::OnActualThemeChanged([[maybe_unused]] winrt::FrameworkElement const& sender, [[maybe_unused]] winrt::IInspectable const& args)
     {
         if (_initialized == false)
         {
@@ -93,11 +93,11 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         _gradientStop4 = compositor.CreateColorGradientStop();
         SetGradientAndStops();
         SetGradientStopColorsByTheme();
-        _rectangleGeometry.CornerRadius(float2(static_cast<float>(CornerRadius().TopLeft)));
+        _rectangleGeometry.CornerRadius(winrt::float2(static_cast<float>(CornerRadius().TopLeft)));
         auto spriteShape = compositor.CreateSpriteShape(_rectangleGeometry);
         spriteShape.FillBrush(_shimmerMaskGradient);
         _shapeVisual.Shapes().Append(spriteShape);
-        ElementCompositionPreview::SetElementChildVisual(_shape, _shapeVisual);
+        winrt::ElementCompositionPreview::SetElementChildVisual(_shape, _shapeVisual);
 
         _initialized = true;
         return true;
@@ -105,8 +105,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
     void Shimmer::SetGradientAndStops()
     {
-        _shimmerMaskGradient.StartPoint(float2(InitialStartPointX, 0.0f));
-        _shimmerMaskGradient.EndPoint(float2(0.0f, 1.0f)); //Vector2.One
+        _shimmerMaskGradient.StartPoint(winrt::float2(InitialStartPointX, 0.0f));
+        _shimmerMaskGradient.EndPoint(winrt::float2(0.0f, 1.0f)); //Vector2.One
 
         _gradientStop1.Offset(0.273f);
         _gradientStop2.Offset(0.436f);
@@ -123,18 +123,18 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
     {
         switch (ActualTheme())
         {
-        case ElementTheme::Default:
-        case ElementTheme::Dark:
-            _gradientStop1.Color(Microsoft::UI::ColorHelper::FromArgb((uint8_t)(255 * 6.05 / 100), 255, 255, 255));
-            _gradientStop2.Color(Microsoft::UI::ColorHelper::FromArgb((uint8_t)(255 * 3.26 / 100), 255, 255, 255));
-            _gradientStop3.Color(Microsoft::UI::ColorHelper::FromArgb((uint8_t)(255 * 3.26 / 100), 255, 255, 255));
-            _gradientStop4.Color(Microsoft::UI::ColorHelper::FromArgb((uint8_t)(255 * 6.05 / 100), 255, 255, 255));
+        case winrt::ElementTheme::Default:
+        case winrt::ElementTheme::Dark:
+            _gradientStop1.Color(winrt::Microsoft::UI::ColorHelper::FromArgb((uint8_t)(255 * 6.05 / 100), 255, 255, 255));
+            _gradientStop2.Color(winrt::Microsoft::UI::ColorHelper::FromArgb((uint8_t)(255 * 3.26 / 100), 255, 255, 255));
+            _gradientStop3.Color(winrt::Microsoft::UI::ColorHelper::FromArgb((uint8_t)(255 * 3.26 / 100), 255, 255, 255));
+            _gradientStop4.Color(winrt::Microsoft::UI::ColorHelper::FromArgb((uint8_t)(255 * 6.05 / 100), 255, 255, 255));
             break;
-        case ElementTheme::Light:
-            _gradientStop1.Color(Microsoft::UI::ColorHelper::FromArgb((uint8_t)(255 * 5.37 / 100), 0, 0, 0));
-            _gradientStop2.Color(Microsoft::UI::ColorHelper::FromArgb((uint8_t)(255 * 2.89 / 100), 0, 0, 0));
-            _gradientStop3.Color(Microsoft::UI::ColorHelper::FromArgb((uint8_t)(255 * 2.89 / 100), 0, 0, 0));
-            _gradientStop4.Color(Microsoft::UI::ColorHelper::FromArgb((uint8_t)(255 * 5.37 / 100), 0, 0, 0));
+        case winrt::ElementTheme::Light:
+            _gradientStop1.Color(winrt::Microsoft::UI::ColorHelper::FromArgb((uint8_t)(255 * 5.37 / 100), 0, 0, 0));
+            _gradientStop2.Color(winrt::Microsoft::UI::ColorHelper::FromArgb((uint8_t)(255 * 2.89 / 100), 0, 0, 0));
+            _gradientStop3.Color(winrt::Microsoft::UI::ColorHelper::FromArgb((uint8_t)(255 * 2.89 / 100), 0, 0, 0));
+            _gradientStop4.Color(winrt::Microsoft::UI::ColorHelper::FromArgb((uint8_t)(255 * 5.37 / 100), 0, 0, 0));
             break;
         }
     }
@@ -155,16 +155,16 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         _gradientStartPointAnimation = rootVisual.Compositor().CreateVector2KeyFrameAnimation();
         _gradientStartPointAnimation.Duration(Duration());
-        _gradientStartPointAnimation.IterationBehavior(AnimationIterationBehavior::Forever);
-        _gradientStartPointAnimation.InsertKeyFrame(0.0f, float2(InitialStartPointX, 0.0f));
-        _gradientStartPointAnimation.InsertKeyFrame(1.0f, float2::zero());
+        _gradientStartPointAnimation.IterationBehavior(winrt::AnimationIterationBehavior::Forever);
+        _gradientStartPointAnimation.InsertKeyFrame(0.0f, winrt::float2(InitialStartPointX, 0.0f));
+        _gradientStartPointAnimation.InsertKeyFrame(1.0f, winrt::float2::zero());
         _shimmerMaskGradient.StartAnimation(L"StartPoint", _gradientStartPointAnimation);
 
         _gradientEndPointAnimation = rootVisual.Compositor().CreateVector2KeyFrameAnimation();
         _gradientEndPointAnimation.Duration(Duration());
-        _gradientEndPointAnimation.IterationBehavior(AnimationIterationBehavior::Forever);
-        _gradientEndPointAnimation.InsertKeyFrame(0.0f, float2(1.0f, 0.0f)); //Vector2.One
-        _gradientEndPointAnimation.InsertKeyFrame(1.0f, float2(-InitialStartPointX, 1.0f));
+        _gradientEndPointAnimation.IterationBehavior(winrt::AnimationIterationBehavior::Forever);
+        _gradientEndPointAnimation.InsertKeyFrame(0.0f, winrt::float2(1.0f, 0.0f)); //Vector2.One
+        _gradientEndPointAnimation.InsertKeyFrame(1.0f, winrt::float2(-InitialStartPointX, 1.0f));
         _shimmerMaskGradient.StartAnimation(L"EndPoint", _gradientEndPointAnimation);
 
         _animationStarted = true;
@@ -188,7 +188,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         _animationStarted = false;
     }
 
-    void Shimmer::PropertyChanged(DependencyObject const& s, [[maybe_unused]] DependencyPropertyChangedEventArgs e)
+    void Shimmer::PropertyChanged(winrt::DependencyObject const& s, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs e)
     {
         if (auto control = s.try_as<class_type>())
         {

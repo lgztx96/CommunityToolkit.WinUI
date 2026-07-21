@@ -25,9 +25,7 @@ namespace
         }
 
         void* key = winrt::get_abi(collection);
-        auto it = map.find(key);
-
-        if (it != map.end())
+        if (auto it = map.find(key); it != map.end())
         {
             auto impl = winrt::get_self<ImplicitSetImpl>(collection);
             impl->AnimationsChanged(it->second);
@@ -38,212 +36,212 @@ namespace
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
-    using namespace winrt::Microsoft::UI::Xaml;
-    using namespace winrt::Microsoft::UI::Xaml::Hosting;
-
-    const wil::single_threaded_property<DependencyProperty> Implicit::ShowAnimationsProperty = DependencyProperty::RegisterAttached(
+    const wil::single_threaded_property<winrt::DependencyProperty> Implicit::ShowAnimationsProperty =
+        winrt::DependencyProperty::RegisterAttached(
         L"ShowAnimations",
-        winrt::xaml_typename<Animations::ImplicitAnimationSet>(),
+        winrt::xaml_typename<winrt::XamlToolkit::WinUI::Animations::ImplicitAnimationSet>(),
         winrt::xaml_typename<class_type>(),
-        PropertyMetadata(nullptr, PropertyChangedCallback{ &Implicit::OnShowAnimationsPropertyChanged }));
+            winrt::PropertyMetadata(nullptr, &Implicit::OnShowAnimationsPropertyChanged));
 
-    const wil::single_threaded_property<DependencyProperty> Implicit::HideAnimationsProperty = DependencyProperty::RegisterAttached(
-        L"HideAnimations",
-        winrt::xaml_typename<Animations::ImplicitAnimationSet>(),
-        winrt::xaml_typename<class_type>(),
-        PropertyMetadata(nullptr, PropertyChangedCallback{ &Implicit::OnHideAnimationsPropertyChanged }));
+    const wil::single_threaded_property<winrt::DependencyProperty> Implicit::HideAnimationsProperty =
+        winrt::DependencyProperty::RegisterAttached(
+            L"HideAnimations",
+            winrt::xaml_typename<winrt::XamlToolkit::WinUI::Animations::ImplicitAnimationSet>(),
+            winrt::xaml_typename<class_type>(),
+            winrt::PropertyMetadata(nullptr, &Implicit::OnHideAnimationsPropertyChanged));
 
-    const wil::single_threaded_property<DependencyProperty> Implicit::AnimationsProperty = DependencyProperty::RegisterAttached(
-        L"Animations",
-        winrt::xaml_typename<Animations::ImplicitAnimationSet>(),
-        winrt::xaml_typename<class_type>(),
-        PropertyMetadata(nullptr, PropertyChangedCallback{ &Implicit::OnAnimationsPropertyChanged }));
+    const wil::single_threaded_property<winrt::DependencyProperty> Implicit::AnimationsProperty =
+        winrt::DependencyProperty::RegisterAttached(
+            L"Animations",
+            winrt::xaml_typename<winrt::XamlToolkit::WinUI::Animations::ImplicitAnimationSet>(),
+            winrt::xaml_typename<class_type>(),
+            winrt::PropertyMetadata(nullptr, &Implicit::OnAnimationsPropertyChanged));
 
-    Animations::ImplicitAnimationSet Implicit::GetShowAnimations(UIElement const& element)
+    winrt::XamlToolkit::WinUI::Animations::ImplicitAnimationSet Implicit::GetShowAnimations(winrt::UIElement const& element)
     {
         auto value = element.GetValue(ShowAnimationsProperty());
-        if (auto collection = value.try_as<Animations::ImplicitAnimationSet>())
+        if (auto collection = value.try_as<winrt::XamlToolkit::WinUI::Animations::ImplicitAnimationSet>())
         {
             return collection;
         }
 
-        Animations::ImplicitAnimationSet collection;
+        winrt::XamlToolkit::WinUI::Animations::ImplicitAnimationSet collection;
         element.SetValue(ShowAnimationsProperty(), collection);
         return collection;
     }
 
-    void Implicit::SetShowAnimations(UIElement const& element, Animations::ImplicitAnimationSet const& value)
+    void Implicit::SetShowAnimations(winrt::UIElement const& element, winrt::XamlToolkit::WinUI::Animations::ImplicitAnimationSet const& value)
     {
         element.SetValue(ShowAnimationsProperty(), value);
     }
 
-    Animations::ImplicitAnimationSet Implicit::GetHideAnimations(UIElement const& element)
+    winrt::XamlToolkit::WinUI::Animations::ImplicitAnimationSet Implicit::GetHideAnimations(winrt::UIElement const& element)
     {
-        auto value = element.GetValue(HideAnimationsProperty);
-        if (auto collection = value.try_as<Animations::ImplicitAnimationSet>())
+        auto value = element.GetValue(HideAnimationsProperty());
+        if (auto collection = value.try_as<winrt::XamlToolkit::WinUI::Animations::ImplicitAnimationSet>())
         {
             return collection;
         }
 
-        Animations::ImplicitAnimationSet collection;
-        element.SetValue(HideAnimationsProperty, collection);
+        winrt::XamlToolkit::WinUI::Animations::ImplicitAnimationSet collection;
+        element.SetValue(HideAnimationsProperty(), collection);
         return collection;
     }
 
-    void Implicit::SetHideAnimations(UIElement const& element, Animations::ImplicitAnimationSet const& value)
+    void Implicit::SetHideAnimations(winrt::UIElement const& element, winrt::XamlToolkit::WinUI::Animations::ImplicitAnimationSet const& value)
     {
-        element.SetValue(HideAnimationsProperty, value);
+        element.SetValue(HideAnimationsProperty(), value);
     }
 
-    Animations::ImplicitAnimationSet Implicit::GetAnimations(UIElement const& element)
+    winrt::XamlToolkit::WinUI::Animations::ImplicitAnimationSet Implicit::GetAnimations(winrt::UIElement const& element)
     {
-        auto value = element.GetValue(AnimationsProperty);
-        if (auto collection = value.try_as<Animations::ImplicitAnimationSet>())
+        auto value = element.GetValue(AnimationsProperty());
+        if (auto collection = value.try_as<winrt::XamlToolkit::WinUI::Animations::ImplicitAnimationSet>())
         {
             return collection;
         }
 
-        Animations::ImplicitAnimationSet collection;
-        element.SetValue(AnimationsProperty, collection);
+        winrt::XamlToolkit::WinUI::Animations::ImplicitAnimationSet collection;
+        element.SetValue(AnimationsProperty(), collection);
         return collection;
     }
 
-    void Implicit::SetAnimations(UIElement const& element, Animations::ImplicitAnimationSet const& value)
+    void Implicit::SetAnimations(winrt::UIElement const& element, winrt::XamlToolkit::WinUI::Animations::ImplicitAnimationSet const& value)
     {
-        element.SetValue(AnimationsProperty, value);
+        element.SetValue(AnimationsProperty(), value);
     }
 
-    void Implicit::OnShowAnimationsPropertyChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e)
+    void Implicit::OnShowAnimationsPropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e)
     {
-        auto element = d.try_as<UIElement>();
+        auto element = d.try_as<winrt::UIElement>();
         if (!element)
         {
             return;
         }
 
-        if (auto oldCollection = e.OldValue().try_as<Animations::ImplicitAnimationSet>())
+        if (auto oldCollection = e.OldValue().try_as<winrt::XamlToolkit::WinUI::Animations::ImplicitAnimationSet>())
         {
             Unsubscribe(showChangedTokens, oldCollection);
         }
 
-        if (auto collection = e.NewValue().try_as<Animations::ImplicitAnimationSet>())
+        if (auto collection = e.NewValue().try_as<winrt::XamlToolkit::WinUI::Animations::ImplicitAnimationSet>())
         {
-            auto impl = winrt::get_self<Animations::implementation::ImplicitAnimationSet>(collection);
+            auto impl = winrt::get_self<implementation::ImplicitAnimationSet>(collection);
             impl->ParentReference(element);
 
             Unsubscribe(showChangedTokens, collection);
-            auto token = impl->AnimationsChanged([=](IInspectable const& sender, IInspectable const&)
+            auto token = impl->AnimationsChanged([=](winrt::IInspectable const& sender, winrt::IInspectable const&)
             {
-                auto changed = sender.try_as<Animations::ImplicitAnimationSet>();
+                auto changed = sender.try_as<winrt::XamlToolkit::WinUI::Animations::ImplicitAnimationSet>();
                 if (!changed)
                 {
                     return;
                 }
 
-                auto changedImpl = winrt::get_self<Animations::implementation::ImplicitAnimationSet>(changed);
+                auto changedImpl = winrt::get_self<implementation::ImplicitAnimationSet>(changed);
                 if (auto parent = changedImpl->ParentReference().get())
                 {
-                    ElementCompositionPreview::SetImplicitShowAnimation(parent, changedImpl->GetCompositionAnimationGroup(parent));
+                    winrt::ElementCompositionPreview::SetImplicitShowAnimation(parent, changedImpl->GetCompositionAnimationGroup(parent));
                 }
             });
             showChangedTokens[winrt::get_abi(collection)] = token;
 
-            ElementCompositionPreview::SetIsTranslationEnabled(element, true);
-            ElementCompositionPreview::SetImplicitShowAnimation(element, impl->GetCompositionAnimationGroup(element));
+            winrt::ElementCompositionPreview::SetIsTranslationEnabled(element, true);
+            winrt::ElementCompositionPreview::SetImplicitShowAnimation(element, impl->GetCompositionAnimationGroup(element));
         }
         else
         {
-            ElementCompositionPreview::SetImplicitShowAnimation(element, nullptr);
+            winrt::ElementCompositionPreview::SetImplicitShowAnimation(element, nullptr);
         }
     }
 
-    void Implicit::OnHideAnimationsPropertyChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e)
+    void Implicit::OnHideAnimationsPropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e)
     {
-        auto element = d.try_as<UIElement>();
+        auto element = d.try_as<winrt::UIElement>();
         if (!element)
         {
             return;
         }
 
-        if (auto oldCollection = e.OldValue().try_as<Animations::ImplicitAnimationSet>())
+        if (auto oldCollection = e.OldValue().try_as<winrt::XamlToolkit::WinUI::Animations::ImplicitAnimationSet>())
         {
             Unsubscribe(hideChangedTokens, oldCollection);
         }
 
-        if (auto collection = e.NewValue().try_as<Animations::ImplicitAnimationSet>())
+        if (auto collection = e.NewValue().try_as<winrt::XamlToolkit::WinUI::Animations::ImplicitAnimationSet>())
         {
-            auto impl = winrt::get_self<Animations::implementation::ImplicitAnimationSet>(collection);
+            auto impl = winrt::get_self<implementation::ImplicitAnimationSet>(collection);
             impl->ParentReference(winrt::make_weak(element));
 
             Unsubscribe(hideChangedTokens, collection);
-            auto token = impl->AnimationsChanged([=](IInspectable const& sender, IInspectable const&)
+            auto token = impl->AnimationsChanged([=](winrt::IInspectable const& sender, winrt::IInspectable const&)
             {
-                auto changed = sender.try_as<Animations::ImplicitAnimationSet>();
+                auto changed = sender.try_as<winrt::XamlToolkit::WinUI::Animations::ImplicitAnimationSet>();
                 if (!changed)
                 {
                     return;
                 }
 
-                auto changedImpl = winrt::get_self<Animations::implementation::ImplicitAnimationSet>(changed);
+                auto changedImpl = winrt::get_self<implementation::ImplicitAnimationSet>(changed);
                 if (auto parent = changedImpl->ParentReference().get())
                 {
-                    ElementCompositionPreview::SetImplicitHideAnimation(parent, changedImpl->GetCompositionAnimationGroup(parent));
+                    winrt::ElementCompositionPreview::SetImplicitHideAnimation(parent, changedImpl->GetCompositionAnimationGroup(parent));
                 }
             });
             hideChangedTokens[winrt::get_abi(collection)] = token;
 
-            ElementCompositionPreview::SetIsTranslationEnabled(element, true);
-            ElementCompositionPreview::SetImplicitHideAnimation(element, impl->GetCompositionAnimationGroup(element));
+            winrt::ElementCompositionPreview::SetIsTranslationEnabled(element, true);
+            winrt::ElementCompositionPreview::SetImplicitHideAnimation(element, impl->GetCompositionAnimationGroup(element));
         }
         else
         {
-            ElementCompositionPreview::SetImplicitHideAnimation(element, nullptr);
+            winrt::ElementCompositionPreview::SetImplicitHideAnimation(element, nullptr);
         }
     }
 
-    void Implicit::OnAnimationsPropertyChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e)
+    void Implicit::OnAnimationsPropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e)
     {
-        auto element = d.try_as<UIElement>();
+        auto element = d.try_as<winrt::UIElement>();
         if (!element)
         {
             return;
         }
 
-        if (auto oldCollection = e.OldValue().try_as<Animations::ImplicitAnimationSet>())
+        if (auto oldCollection = e.OldValue().try_as<winrt::XamlToolkit::WinUI::Animations::ImplicitAnimationSet>())
         {
             Unsubscribe(implicitChangedTokens, oldCollection);
         }
 
-        if (auto collection = e.NewValue().try_as<Animations::ImplicitAnimationSet>())
+        if (auto collection = e.NewValue().try_as<winrt::XamlToolkit::WinUI::Animations::ImplicitAnimationSet>())
         {
-            auto impl = winrt::get_self<Animations::implementation::ImplicitAnimationSet>(collection);
+            auto impl = winrt::get_self<implementation::ImplicitAnimationSet>(collection);
             impl->ParentReference(winrt::make_weak(element));
 
             Unsubscribe(implicitChangedTokens, collection);
-            auto token = impl->AnimationsChanged([](IInspectable const& sender, IInspectable const&)
+            auto token = impl->AnimationsChanged([](winrt::IInspectable const& sender, winrt::IInspectable const&)
             {
-                auto changed = sender.try_as<Animations::ImplicitAnimationSet>();
+                auto changed = sender.try_as<winrt::XamlToolkit::WinUI::Animations::ImplicitAnimationSet>();
                 if (!changed)
                 {
                     return;
                 }
 
-                auto changedImpl = winrt::get_self<Animations::implementation::ImplicitAnimationSet>(changed);
+                auto changedImpl = winrt::get_self<implementation::ImplicitAnimationSet>(changed);
                 if (auto parent = changedImpl->ParentReference().get())
                 {
-                    auto visual = ElementCompositionPreview::GetElementVisual(parent);
+                    auto visual = winrt::ElementCompositionPreview::GetElementVisual(parent);
                     visual.ImplicitAnimations(changedImpl->GetImplicitAnimationCollection(parent));
                 }
             });
             implicitChangedTokens[winrt::get_abi(collection)] = token;
 
-            ElementCompositionPreview::SetIsTranslationEnabled(element, true);
-            auto visual = ElementCompositionPreview::GetElementVisual(element);
+            winrt::ElementCompositionPreview::SetIsTranslationEnabled(element, true);
+            auto visual = winrt::ElementCompositionPreview::GetElementVisual(element);
             visual.ImplicitAnimations(impl->GetImplicitAnimationCollection(element));
         }
         else
         {
-            auto visual = ElementCompositionPreview::GetElementVisual(element);
+            auto visual = winrt::ElementCompositionPreview::GetElementVisual(element);
             visual.ImplicitAnimations(nullptr);
         }
     }

@@ -12,7 +12,7 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
     {
         winrt::hstring name = GenerateId();
         target = name + L".BlurAmount";
-        auto factory = [state = _state, blur, mode, optimization, name]() -> IAsyncOperation<IGraphicsEffectSource>
+        auto factory = [state = _state, blur, mode, optimization, name]() -> winrt::IAsyncOperation<winrt::IGraphicsEffectSource>
         {
             CanvasGaussianBlurEffect effect;
             effect.BlurAmount(blur);
@@ -32,7 +32,7 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
         winrt::hstring name = GenerateId();
         target = name + L".CrossFade";
         auto otherState = pipeline._state;
-        auto factory = [state = _state, otherState, factor, name]() -> IAsyncOperation<IGraphicsEffectSource>
+        auto factory = [state = _state, otherState, factor, name]() -> winrt::IAsyncOperation<winrt::IGraphicsEffectSource>
         {
             CanvasCrossFadeEffect effect;
             effect.CrossFade(factor);
@@ -53,7 +53,7 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
     {
         winrt::hstring name = GenerateId();
         target = name + L".Exposure";
-        auto factory = [state = _state, amount, name]() -> IAsyncOperation<IGraphicsEffectSource>
+        auto factory = [state = _state, amount, name]() -> winrt::IAsyncOperation<winrt::IGraphicsEffectSource>
         {
             CanvasExposureEffect effect;
             effect.Exposure(amount);
@@ -70,7 +70,7 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
     {
         winrt::hstring name = GenerateId();
         target = name + L".Angle";
-        auto factory = [state = _state, angle, name]() -> IAsyncOperation<IGraphicsEffectSource>
+        auto factory = [state = _state, angle, name]() -> winrt::IAsyncOperation<winrt::IGraphicsEffectSource>
         {
             CanvasHueRotationEffect effect;
             effect.Angle(angle);
@@ -87,7 +87,7 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
     {
         winrt::hstring name = GenerateId();
         target = name + L".Opacity";
-        auto factory = [state = _state, opacity, name]() -> IAsyncOperation<IGraphicsEffectSource>
+        auto factory = [state = _state, opacity, name]() -> winrt::IAsyncOperation<winrt::IGraphicsEffectSource>
         {
             CanvasOpacityEffect effect;
             effect.Opacity(opacity);
@@ -104,7 +104,7 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
     {
         winrt::hstring name = GenerateId();
         target = name + L".Saturation";
-        auto factory = [state = _state, saturation, name]() -> IAsyncOperation<IGraphicsEffectSource>
+        auto factory = [state = _state, saturation, name]() -> winrt::IAsyncOperation<winrt::IGraphicsEffectSource>
         {
             CanvasSaturationEffect effect;
             effect.Saturation(saturation);
@@ -121,7 +121,7 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
     {
         winrt::hstring name = GenerateId();
         target = name + L".Intensity";
-        auto factory = [state = _state, intensity, name]() -> IAsyncOperation<IGraphicsEffectSource>
+        auto factory = [state = _state, intensity, name]() -> winrt::IAsyncOperation<winrt::IGraphicsEffectSource>
         {
             CanvasSepiaEffect effect;
             effect.Intensity(intensity);
@@ -138,7 +138,7 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
     {
         winrt::hstring name = GenerateId();
         target = name + L".Color";
-        auto factory = [state = _state, color, name]() -> IAsyncOperation<IGraphicsEffectSource>
+        auto factory = [state = _state, color, name]() -> winrt::IAsyncOperation<winrt::IGraphicsEffectSource>
         {
             CanvasTintEffect effect;
             effect.Color(color);

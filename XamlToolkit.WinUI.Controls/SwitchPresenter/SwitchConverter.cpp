@@ -14,15 +14,25 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		SwitchCases(winrt::make<CaseCollection>());
 	}
 
-	IInspectable SwitchConverter::Convert(IInspectable const& value, [[maybe_unused]] TypeName const& targetType, [[maybe_unused]] IInspectable const& parameter, [[maybe_unused]] winrt::hstring const& language) {
+	winrt::IInspectable SwitchConverter::Convert(
+		winrt::IInspectable const& value, 
+		[[maybe_unused]] winrt::TypeName const& targetType, 
+		[[maybe_unused]] winrt::IInspectable const& parameter, 
+		[[maybe_unused]] winrt::hstring const& language) const {
 
 		if (auto result = SwitchHelpers::EvaluateCases(SwitchCases(), value))
+		{
 			return result.Content();
+		}
 
 		return nullptr;
 	}
 
-	IInspectable SwitchConverter::ConvertBack([[maybe_unused]] IInspectable const& value, [[maybe_unused]] TypeName const& targetType, [[maybe_unused]] IInspectable const& parameter, [[maybe_unused]] winrt::hstring const& language)
+	winrt::IInspectable SwitchConverter::ConvertBack(
+		[[maybe_unused]] winrt::IInspectable const& value, 
+		[[maybe_unused]] winrt::TypeName const& targetType, 
+		[[maybe_unused]] winrt::IInspectable const& parameter, 
+		[[maybe_unused]] winrt::hstring const& language)
 	{
 		throw winrt::hresult_not_implemented();
 	}

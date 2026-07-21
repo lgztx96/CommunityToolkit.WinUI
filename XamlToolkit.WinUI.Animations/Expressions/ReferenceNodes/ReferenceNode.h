@@ -11,10 +11,13 @@
 #include <memory>
 #endif
 
+namespace winrt
+{
+    using namespace Microsoft::UI::Composition;
+}
+
 namespace winrt::XamlToolkit::WinUI::Animations::Expressions
 {
-    using namespace Windows::UI::Composition;
-
     /// <summary>
     /// Base type for nodes that point at composition object references.
     /// </summary>
@@ -23,14 +26,14 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
     public:
         ReferenceNode() = default;
 
-        ReferenceNode(std::optional<winrt::hstring> paramName, CompositionObject const& compObj = nullptr)
+        ReferenceNode(std::optional<winrt::hstring> paramName, winrt::CompositionObject const& compObj = nullptr)
             : Reference(compObj)
         {
             NodeType = ExpressionNodeType::Reference;
             ParamName = std::move(paramName);
         }
 
-        CompositionObject Reference{ nullptr };
+        winrt::CompositionObject Reference{ nullptr };
 
         BooleanNode GetBooleanProperty(winrt::hstring const& propertyName) const;
         ScalarNode GetScalarProperty(winrt::hstring const& propertyName) const;

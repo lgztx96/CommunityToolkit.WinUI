@@ -21,17 +21,17 @@ namespace winrt
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-    void RadialGauge::RadialGauge_ManipulationDelta([[maybe_unused]] IInspectable const& sender, ManipulationDeltaRoutedEventArgs const& e)
+    void RadialGauge::RadialGauge_ManipulationDelta([[maybe_unused]] winrt::IInspectable const& sender, winrt::ManipulationDeltaRoutedEventArgs const& e)
     {
         SetGaugeValueFromPoint(e.Position());
     }
 
-    void RadialGauge::RadialGauge_Tapped([[maybe_unused]] IInspectable const& sender, TappedRoutedEventArgs const& e)
+    void RadialGauge::RadialGauge_Tapped([[maybe_unused]] winrt::IInspectable const& sender, winrt::TappedRoutedEventArgs const& e)
     {
         SetGaugeValueFromPoint(e.GetPosition(*this));
     }
 
-    void RadialGauge::RadialGauge_PointerReleased([[maybe_unused]] IInspectable const& sender, PointerRoutedEventArgs const& e)
+    void RadialGauge::RadialGauge_PointerReleased([[maybe_unused]] IInspectable const& sender, winrt::PointerRoutedEventArgs const& e)
     {
         if (IsInteractive())
         {
@@ -42,7 +42,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
     void RadialGauge::SetKeyboardAccelerators()
     {
         // Small step
-        AddKeyboardAccelerator(VirtualKeyModifiers::None, VirtualKey::Left, [](auto&, auto& kaea) 
+        AddKeyboardAccelerator(winrt::VirtualKeyModifiers::None, winrt::VirtualKey::Left, [](auto&, auto& kaea)
         {
             if (auto gauge = kaea.Element().try_as<winrt::XamlToolkit::WinUI::Controls::RadialGauge>())
             {
@@ -51,7 +51,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
             }
         });
 
-        AddKeyboardAccelerator(VirtualKeyModifiers::None, VirtualKey::Up, [](auto&, auto& kaea)
+        AddKeyboardAccelerator(winrt::VirtualKeyModifiers::None, winrt::VirtualKey::Up, [](auto&, auto& kaea)
         {
             if (auto gauge = kaea.Element().try_as<winrt::XamlToolkit::WinUI::Controls::RadialGauge>())
             {
@@ -60,7 +60,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
             }
         });
 
-        AddKeyboardAccelerator(VirtualKeyModifiers::None, VirtualKey::Right, [](auto&, auto& kaea)
+        AddKeyboardAccelerator(winrt::VirtualKeyModifiers::None, winrt::VirtualKey::Right, [](auto&, auto& kaea)
         {
             if (auto gauge = kaea.Element().try_as<winrt::XamlToolkit::WinUI::Controls::RadialGauge>())
             {
@@ -69,7 +69,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
             }
         });
 
-        AddKeyboardAccelerator(VirtualKeyModifiers::None, VirtualKey::Down, [](auto&, auto& kaea)
+        AddKeyboardAccelerator(winrt::VirtualKeyModifiers::None, winrt::VirtualKey::Down, [](auto&, auto& kaea)
         {
             if (auto gauge = kaea.Element().try_as<winrt::XamlToolkit::WinUI::Controls::RadialGauge>())
             {
@@ -79,7 +79,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         });
 
         // Large step
-        AddKeyboardAccelerator(VirtualKeyModifiers::Control, VirtualKey::Left, [](auto&, auto& kaea)
+        AddKeyboardAccelerator(winrt::VirtualKeyModifiers::Control, winrt::VirtualKey::Left, [](auto&, auto& kaea)
         {
             if (auto gauge = kaea.Element().try_as<winrt::XamlToolkit::WinUI::Controls::RadialGauge>())
             {
@@ -88,7 +88,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
             }
         });
 
-        AddKeyboardAccelerator(VirtualKeyModifiers::Control, VirtualKey::Up, [](auto&, auto& kaea)
+        AddKeyboardAccelerator(winrt::VirtualKeyModifiers::Control, winrt::VirtualKey::Up, [](auto&, auto& kaea)
         {
             if (auto gauge = kaea.Element().try_as<winrt::XamlToolkit::WinUI::Controls::RadialGauge>())
             {
@@ -97,7 +97,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
             }
         });
 
-        AddKeyboardAccelerator(VirtualKeyModifiers::Control, VirtualKey::Right, [](auto&, auto& kaea)
+        AddKeyboardAccelerator(winrt::VirtualKeyModifiers::Control, winrt::VirtualKey::Right, [](auto&, auto& kaea)
         {
             if (auto gauge = kaea.Element().try_as<winrt::XamlToolkit::WinUI::Controls::RadialGauge>())
             {
@@ -106,7 +106,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
             }
         });
 
-        AddKeyboardAccelerator(VirtualKeyModifiers::Control, VirtualKey::Down, [](auto&, auto& kaea)
+        AddKeyboardAccelerator(winrt::VirtualKeyModifiers::Control, winrt::VirtualKey::Down, [](auto&, auto& kaea)
         {
             if (auto gauge = kaea.Element().try_as<winrt::XamlToolkit::WinUI::Controls::RadialGauge>())
             {
@@ -117,11 +117,11 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
     }
 
     void RadialGauge::AddKeyboardAccelerator(
-        VirtualKeyModifiers keyModifiers,
-        VirtualKey key,
-        TypedEventHandler<KeyboardAccelerator, KeyboardAcceleratorInvokedEventArgs> const& handler)
+        winrt::VirtualKeyModifiers keyModifiers,
+        winrt::VirtualKey key,
+        winrt::TypedEventHandler<winrt::KeyboardAccelerator, winrt::KeyboardAcceleratorInvokedEventArgs> const& handler)
     {
-        KeyboardAccelerator accelerator;
+        winrt::KeyboardAccelerator accelerator;
         accelerator.Modifiers(keyModifiers);
         accelerator.Key(key);
 

@@ -101,14 +101,14 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         base_type::OnApplyTemplate();
         SetAccessibleName();
 
-        if (_itemsRepeater != nullptr)
+        if (_itemsRepeater)
         {
             _elementPreparedRevoker.revoke();
         }
 
         _itemsRepeater = GetTemplateChild(PART_ItemsRepeater).try_as<winrt::ItemsRepeater>();
 
-        if (_itemsRepeater != nullptr)
+        if (_itemsRepeater)
         {
             _elementPreparedRevoker = _itemsRepeater.ElementPrepared(winrt::auto_revoke, { get_weak(), &SettingsExpander::ItemsRepeater_ElementPrepared });
 

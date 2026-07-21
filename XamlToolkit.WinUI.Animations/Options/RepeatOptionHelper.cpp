@@ -16,24 +16,24 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         return RepeatOption{ count };
     }
 
-    RepeatBehavior RepeatOptionHelper::ToRepeatBehavior(RepeatOption const& option)
+    winrt::RepeatBehavior RepeatOptionHelper::ToRepeatBehavior(RepeatOption const& option)
     {
         if (option.Value < 0)
         {
-            return RepeatBehaviorHelper::Forever();
+            return winrt::RepeatBehaviorHelper::Forever();
         }
-        return RepeatBehaviorHelper::FromCount(option.Value);
+        return winrt::RepeatBehaviorHelper::FromCount(option.Value);
     }
 
-    void RepeatOptionHelper::ToBehaviorAndCount(RepeatOption const& option, AnimationIterationBehavior& behavior, int& count)
+    void RepeatOptionHelper::ToBehaviorAndCount(RepeatOption const& option, winrt::AnimationIterationBehavior& behavior, int& count)
     {
         if (option.Value < 0)
         {
-            behavior = AnimationIterationBehavior::Forever;
+            behavior = winrt::AnimationIterationBehavior::Forever;
             count = 1;
         }
         else {
-            behavior = AnimationIterationBehavior::Count;
+            behavior = winrt::AnimationIterationBehavior::Count;
             count = option.Value;
         }
     }

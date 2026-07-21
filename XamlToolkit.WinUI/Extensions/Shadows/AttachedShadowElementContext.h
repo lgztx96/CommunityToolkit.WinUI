@@ -15,6 +15,7 @@
 namespace winrt
 {
     using namespace Windows::Foundation;
+	using namespace Windows::Foundation::Numerics;
     using namespace Microsoft::UI::Xaml;
     using namespace Microsoft::UI::Composition;
     using namespace Microsoft::UI::Xaml::Hosting;
@@ -25,29 +26,29 @@ namespace winrt::XamlToolkit::WinUI::implementation
 	struct AttachedShadowElementContext : AttachedShadowElementContextT<AttachedShadowElementContext>
 	{
 		bool _isConnected;
-		std::map<winrt::hstring, IInspectable, std::less<>> _resources;
-		FrameworkElement::SizeChanged_revoker _sizeChangedRevoker;
-		FrameworkElement::Loaded_revoker _loadedRevoker;
-		FrameworkElement::Unloaded_revoker _unloadedRevoker;
-		FrameworkElement::LayoutUpdated_revoker _layoutUpdatedRevoker;
+		std::map<winrt::hstring, winrt::IInspectable, std::less<>> _resources;
+		winrt::FrameworkElement::SizeChanged_revoker _sizeChangedRevoker;
+		winrt::FrameworkElement::Loaded_revoker _loadedRevoker;
+		winrt::FrameworkElement::Unloaded_revoker _unloadedRevoker;
+		winrt::FrameworkElement::LayoutUpdated_revoker _layoutUpdatedRevoker;
 
 		wil::single_threaded_rw_property<std::optional<uint64_t>> VisibilityToken;
 
-		wil::single_threaded_property<XamlToolkit::WinUI::AttachedShadowBase> Parent{ nullptr };
+		wil::single_threaded_property<winrt::XamlToolkit::WinUI::AttachedShadowBase> Parent{ nullptr };
 
-		winrt::weak_ref<FrameworkElement> _element;
+		winrt::weak_ref<winrt::FrameworkElement> _element;
 
-		FrameworkElement Element() const noexcept { return _element.get(); }
+		winrt::FrameworkElement Element() const noexcept { return _element.get(); }
 
 		wil::single_threaded_rw_property<bool> IsInitialized{ false };
-		wil::single_threaded_rw_property<Visual> ElementVisual{ nullptr };
-		wil::single_threaded_rw_property<Compositor> Compositor{ nullptr };
-		wil::single_threaded_rw_property<SpriteVisual> SpriteVisual{ nullptr };
-		wil::single_threaded_rw_property<DropShadow> Shadow{ nullptr };
+		wil::single_threaded_rw_property<winrt::Visual> ElementVisual{ nullptr };
+		wil::single_threaded_rw_property<winrt::Compositor> Compositor{ nullptr };
+		wil::single_threaded_rw_property<winrt::SpriteVisual> SpriteVisual{ nullptr };
+		wil::single_threaded_rw_property<winrt::DropShadow> Shadow{ nullptr };
 
 		AttachedShadowElementContext();
 
-		AttachedShadowElementContext(XamlToolkit::WinUI::AttachedShadowBase const& parent, FrameworkElement const& element);
+		AttachedShadowElementContext(winrt::XamlToolkit::WinUI::AttachedShadowBase const& parent, winrt::FrameworkElement const& element);
 
 		void DisconnectFromElement();
 
@@ -57,15 +58,15 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
 		void UnInitialize();
 
-		void OnElementUnloaded(IInspectable const& sender, RoutedEventArgs const& e);
+		void OnElementUnloaded(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
 
-		void OnElementLoaded(IInspectable const& sender, RoutedEventArgs const& e);
+		void OnElementLoaded(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
 
-		void OnElementSizeChanged(IInspectable const& sender, SizeChangedEventArgs const& e);
+		void OnElementSizeChanged(winrt::IInspectable const& sender, winrt::SizeChangedEventArgs const& e);
 
-		IInspectable AddResource(winrt::hstring const& key, IInspectable const& resource);
+		winrt::IInspectable AddResource(winrt::hstring const& key, winrt::IInspectable const& resource);
 
-		IInspectable GetResource(std::wstring_view key);
+		winrt::IInspectable GetResource(std::wstring_view key);
 
 		void ClearAndDisposeResources();
 

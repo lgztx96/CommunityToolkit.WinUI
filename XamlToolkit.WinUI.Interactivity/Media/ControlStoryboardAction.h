@@ -6,6 +6,8 @@
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
+#include <wil/wistd_type_traits.h>
+#include <wil/cppwinrt_authoring.h>
 #endif
 
 namespace winrt

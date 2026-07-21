@@ -8,7 +8,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
     class ManipulationPropertySetReferenceNode final : public ReferenceNodeBase<ManipulationPropertySetReferenceNode>
     {
     public:
-        ManipulationPropertySetReferenceNode(std::optional<winrt::hstring> paramName = std::nullopt, Windows::UI::Composition::CompositionPropertySet const& ic = nullptr) : ReferenceNodeBase(paramName, ic) {}
+        ManipulationPropertySetReferenceNode(std::optional<winrt::hstring> paramName = std::nullopt, winrt::Microsoft::UI::Composition::CompositionPropertySet const& ic = nullptr) : ReferenceNodeBase(paramName, ic) {}
         static ManipulationPropertySetReferenceNode CreateTargetReference() { ManipulationPropertySetReferenceNode node; node.NodeType = ExpressionNodeType::TargetReference; return node; }
         Vector3Node CenterPoint() const { return ReferenceProperty<Vector3Node >(L"CenterPoint"); }
         Vector3Node Pan() const { return ReferenceProperty<Vector3Node>(L"Pan"); }

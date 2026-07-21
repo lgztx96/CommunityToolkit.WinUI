@@ -6,24 +6,28 @@
 
 #include "UIElementExtensions.g.h"
 #ifdef __INTELLISENSE__
+
+#include <winrt/Windows::Foundation.h>
+#include <winrt/Windows::Foundation::Numerics.h>
+#include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Microsoft.UI.Composition.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
-#endif
-
+#else
 import winrt.Windows.Foundation;
 import winrt.Windows.Foundation.Numerics;
-import winrt.Microsoft.UI.Composition;
 import winrt.Microsoft.UI.Xaml;
+import winrt.Microsoft.UI.Composition;
 import winrt.Microsoft.UI.Xaml.Hosting;
+#endif
 
 namespace winrt
 {
-    using namespace Windows::Foundation;
-    using namespace Windows::Foundation::Numerics;
-    using namespace Microsoft::UI::Composition;
-    using namespace Microsoft::UI::Xaml;
-    using namespace Microsoft::UI::Xaml::Hosting;
+    using namespace winrt::Windows::Foundation;
+    using namespace winrt::Windows::Foundation::Numerics;
+    using namespace winrt::Microsoft::UI::Xaml;
+    using namespace winrt::Microsoft::UI::Composition;
+    using namespace winrt::Microsoft::UI::Xaml::Hosting;
 }
 
 namespace winrt::XamlToolkit::WinUI::Media::implementation
@@ -31,13 +35,13 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
     struct UIElementExtensions
     {
     public:
-        static winrt::fire_and_forget OnVisualFactoryPropertyChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e);
+        static winrt::fire_and_forget OnVisualFactoryPropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 
-        static AttachedVisualFactoryBase GetVisualFactory(UIElement const& element);
+        static AttachedVisualFactoryBase GetVisualFactory(winrt::UIElement const& element);
 
-        static void SetVisualFactory(UIElement const& element, AttachedVisualFactoryBase const& value);
+        static void SetVisualFactory(winrt::UIElement const& element, AttachedVisualFactoryBase const& value);
 
-        static const wil::single_threaded_property<DependencyProperty> VisualFactoryProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> VisualFactoryProperty;
     };
 }
 

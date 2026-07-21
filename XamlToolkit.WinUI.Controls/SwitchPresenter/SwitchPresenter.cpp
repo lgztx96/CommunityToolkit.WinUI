@@ -15,7 +15,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		Loaded({ this, &SwitchPresenter::SwitchPresenter_Loaded });
     }
 
-    void SwitchPresenter::OnValuePropertyChanged(DependencyObject const& d, [[maybe_unused]] DependencyPropertyChangedEventArgs const& e)
+    void SwitchPresenter::OnValuePropertyChanged(winrt::DependencyObject const& d, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& e)
     {
         // When our Switch's expression changes, re-evaluate.
         if (auto xswitch = d.try_as<class_type>())
@@ -25,7 +25,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         }
     }
 
-    void SwitchPresenter::OnSwitchCasesPropertyChanged(DependencyObject const& d, [[maybe_unused]] DependencyPropertyChangedEventArgs const& e)
+    void SwitchPresenter::OnSwitchCasesPropertyChanged(winrt::DependencyObject const& d, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& e)
     {
         // If our collection somehow changes, we should re-evaluate.
         if (auto xswitch = d.try_as<class_type>())
@@ -35,7 +35,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         }
     }
 
-	void SwitchPresenter::SwitchPresenter_Loaded([[maybe_unused]] IInspectable const& sender, [[maybe_unused]] RoutedEventArgs const& e)
+	void SwitchPresenter::SwitchPresenter_Loaded([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
     {
         // In case we're in a template, we may have loaded cases later.
         EvaluateCases();
@@ -50,12 +50,14 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
     void SwitchPresenter::EvaluateCases()
     {
-        if (auto currentCase = CurrentCase(); currentCase && currentCase.Value() &&
-            SwitchHelpers::Equals(currentCase.Value(), Value()))
+        if (auto currentCase = CurrentCase())
         {
-            // If the current case we're on already matches our current value,
-            // then we don't have any work to do.
-            return;
+			if (auto value = currentCase.Value(); SwitchHelpers::Equals(value, Value()))
+			{
+                // If the current case we're on already matches our current value,
+                // then we don't have any work to do.
+                return;
+			}
         }
 
         auto result = SwitchHelpers::EvaluateCases(SwitchCases(), Value());
@@ -64,8 +66,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         if (result != CurrentCase())
         {
             // If we don't have any cases or default, setting these to null is what we want to be blank again.
-            if (result.Content()) {
-                Content(result.Content());
+            if (auto content = result.Content()) 
+            {
+                Content(content);
             }
 
             CurrentCase(result);

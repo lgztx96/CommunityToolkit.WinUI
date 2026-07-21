@@ -7,7 +7,7 @@
 
 namespace winrt::XamlToolkit::WinUI::implementation
 {
-	void AttachedShadowBase::OnDependencyPropertyChanged(IInspectable const& sender, DependencyPropertyChangedEventArgs const& args)
+	void AttachedShadowBase::OnDependencyPropertyChanged(winrt::IInspectable const& sender, winrt::DependencyPropertyChangedEventArgs const& args)
 	{
 		if (auto shadow = sender.try_as<class_type>())
 		{
@@ -16,40 +16,40 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		}
 	}
 
-	void AttachedShadowBase::ConnectElement(FrameworkElement const& element)
+	void AttachedShadowBase::ConnectElement(winrt::FrameworkElement const& element)
 	{
 		std::erase_if(ShadowElementContextTable, [](auto&& value)
+		{
+			if (!value.first.get())
 			{
-				if (!value.first.get())
-				{
-					value.second.DisconnectFromElement();
-					return true;
-				}
+				value.second.DisconnectFromElement();
+				return true;
+			}
 
-				return false;
-			});
+			return false;
+		});
 
 		if (ShadowElementContextTable.contains(element))
 		{
 			return;
 		}
 
-		auto context = winrt::make<XamlToolkit::WinUI::implementation::AttachedShadowElementContext>(*this, element);
+		auto context = winrt::make<winrt::XamlToolkit::WinUI::implementation::AttachedShadowElementContext>(*this, element);
 		ShadowElementContextTable.emplace(element, context);
 	}
 
-	void AttachedShadowBase::DisconnectElement(FrameworkElement const& element)
+	void AttachedShadowBase::DisconnectElement(winrt::FrameworkElement const& element)
 	{
 		std::erase_if(ShadowElementContextTable, [](auto&& value)
+		{
+			if (!value.first.get())
 			{
-				if (!value.first.get())
-				{
-					value.second.DisconnectFromElement();
-					return true;
-				}
+				value.second.DisconnectFromElement();
+				return true;
+			}
 
-				return false;
-			});
+			return false;
+		});
 
 		if (auto iter = ShadowElementContextTable.find(element); iter != ShadowElementContextTable.end())
 		{
@@ -57,18 +57,18 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		}
 	}
 
-	XamlToolkit::WinUI::AttachedShadowElementContext AttachedShadowBase::GetElementContext(FrameworkElement const& element)
+	winrt::XamlToolkit::WinUI::AttachedShadowElementContext AttachedShadowBase::GetElementContext(winrt::FrameworkElement const& element)
 	{
 		std::erase_if(ShadowElementContextTable, [](auto&& value)
+		{
+			if (!value.first.get())
 			{
-				if (!value.first.get())
-				{
-					value.second.DisconnectFromElement();
-					return true;
-				}
+				value.second.DisconnectFromElement();
+				return true;
+			}
 
-				return false;
-			});
+			return false;
+		});
 
 		if (auto iter = ShadowElementContextTable.find(element); iter != ShadowElementContextTable.end())
 		{
@@ -81,14 +81,14 @@ namespace winrt::XamlToolkit::WinUI::implementation
 	bool AttachedShadowBase::SupportsOnSizeChangedEvent() const noexcept { return false; }
 
 	void AttachedShadowBase::OnSizeChanged(
-		[[maybe_unused]] XamlToolkit::WinUI::AttachedShadowElementContext const& context,
-		[[maybe_unused]] Windows::Foundation::Size newSize,
-		[[maybe_unused]] Windows::Foundation::Size previousSize)
+		[[maybe_unused]] winrt::XamlToolkit::WinUI::AttachedShadowElementContext const& context,
+		[[maybe_unused]] winrt::Size newSize,
+		[[maybe_unused]] winrt::Size previousSize)
 	{
 
 	}
 
-	void AttachedShadowBase::OnElementContextInitialized(XamlToolkit::WinUI::AttachedShadowElementContext const& context)
+	void AttachedShadowBase::OnElementContextInitialized(winrt::XamlToolkit::WinUI::AttachedShadowElementContext const& context)
 	{
 		overridable().OnPropertyChanged(context, OpacityProperty, winrt::box_value(Opacity()), winrt::box_value(Opacity()));
 		overridable().OnPropertyChanged(context, BlurRadiusProperty, winrt::box_value(BlurRadius()), winrt::box_value(BlurRadius()));
@@ -99,15 +99,15 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		overridable().SetElementChildVisual(context);
 	}
 
-	void AttachedShadowBase::OnElementContextUninitialized(XamlToolkit::WinUI::AttachedShadowElementContext const& context)
+	void AttachedShadowBase::OnElementContextUninitialized(winrt::XamlToolkit::WinUI::AttachedShadowElementContext const& context)
 	{
-		ElementCompositionPreview::SetElementChildVisual(context.Element(), nullptr);
+		winrt::ElementCompositionPreview::SetElementChildVisual(context.Element(), nullptr);
 		context.ClearAndDisposeResources();
 	}
 
-	Windows::Foundation::Collections::IVector<XamlToolkit::WinUI::AttachedShadowElementContext> AttachedShadowBase::EnumerateElementContexts()
+	winrt::IVector<winrt::XamlToolkit::WinUI::AttachedShadowElementContext> AttachedShadowBase::EnumerateElementContexts()
 	{
-		std::vector<XamlToolkit::WinUI::AttachedShadowElementContext> vec;
+		std::vector<winrt::XamlToolkit::WinUI::AttachedShadowElementContext> vec;
 
 		for (const auto& [elementRef, ctx] : ShadowElementContextTable)
 		{
@@ -117,15 +117,15 @@ namespace winrt::XamlToolkit::WinUI::implementation
 			}
 		}
 
-		return winrt::single_threaded_vector<XamlToolkit::WinUI::AttachedShadowElementContext>(std::move(vec));
+		return winrt::single_threaded_vector<winrt::XamlToolkit::WinUI::AttachedShadowElementContext>(std::move(vec));
 	}
 
-	void AttachedShadowBase::SetElementChildVisual(XamlToolkit::WinUI::AttachedShadowElementContext const& context)
+	void AttachedShadowBase::SetElementChildVisual(winrt::XamlToolkit::WinUI::AttachedShadowElementContext const& context)
 	{
 		ElementCompositionPreview::SetElementChildVisual(context.Element(), context.SpriteVisual());
 	}
 
-	void AttachedShadowBase::CallPropertyChangedForEachElement(DependencyProperty const& property, IInspectable const& oldValue, IInspectable const& newValue)
+	void AttachedShadowBase::CallPropertyChangedForEachElement(winrt::DependencyProperty const& property, winrt::IInspectable const& oldValue, winrt::IInspectable const& newValue)
 	{
 		for (const auto& [elementRef, ctx] : ShadowElementContextTable)
 		{
@@ -136,33 +136,33 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		}
 	}
 
-	CompositionBrush AttachedShadowBase::GetShadowMask([[maybe_unused]] XamlToolkit::WinUI::AttachedShadowElementContext const& context)
+	winrt::CompositionBrush AttachedShadowBase::GetShadowMask([[maybe_unused]] winrt::XamlToolkit::WinUI::AttachedShadowElementContext const& context)
 	{
 		return nullptr;
 	}
 
-	CompositionClip AttachedShadowBase::GetShadowClip([[maybe_unused]] XamlToolkit::WinUI::AttachedShadowElementContext const& context)
+	winrt::CompositionClip AttachedShadowBase::GetShadowClip([[maybe_unused]] winrt::XamlToolkit::WinUI::AttachedShadowElementContext const& context)
 	{
 		return nullptr;
 	}
 
-	void AttachedShadowBase::UpdateShadowMask(XamlToolkit::WinUI::AttachedShadowElementContext const& context)
+	void AttachedShadowBase::UpdateShadowMask(winrt::XamlToolkit::WinUI::AttachedShadowElementContext const& context)
 	{
-		if (context.IsInitialized() && context.Shadow())
+		if (const auto shadow = context.Shadow(); shadow && context.IsInitialized())
 		{
-			context.Shadow().Mask(overridable().GetShadowMask(context));
+			shadow.Mask(overridable().GetShadowMask(context));
 		}
 	}
 
-	void AttachedShadowBase::UpdateShadowClip(XamlToolkit::WinUI::AttachedShadowElementContext const& context)
+	void AttachedShadowBase::UpdateShadowClip(winrt::XamlToolkit::WinUI::AttachedShadowElementContext const& context)
 	{
-		if (context.IsInitialized() && context.SpriteVisual())
+		if (const auto spriteVisual = context.SpriteVisual(); spriteVisual && context.IsInitialized())
 		{
-			context.SpriteVisual().Clip(overridable().GetShadowClip(context));
+			spriteVisual.Clip(overridable().GetShadowClip(context));
 		}
 	}
 
-	void AttachedShadowBase::OnPropertyChanged(XamlToolkit::WinUI::AttachedShadowElementContext const& context, DependencyProperty const& property, [[maybe_unused]] IInspectable const& oldValue, IInspectable const& newValue)
+	void AttachedShadowBase::OnPropertyChanged(winrt::XamlToolkit::WinUI::AttachedShadowElementContext const& context, winrt::DependencyProperty const& property, [[maybe_unused]] winrt::IInspectable const& oldValue, winrt::IInspectable const& newValue)
 	{
 		if (!context.IsInitialized() || context.Shadow() == nullptr)
 		{
@@ -179,7 +179,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		}
 		else if (property == ColorProperty)
 		{
-			context.Shadow().Color(winrt::unbox_value<Windows::UI::Color>(newValue));
+			context.Shadow().Color(winrt::unbox_value<winrt::Color>(newValue));
 		}
 		else if (property == OffsetProperty)
 		{

@@ -7,15 +7,17 @@
 #ifdef __INTELLISENSE__
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Microsoft.UI.Composition.h>
-#include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
+#include <winrt/XamlToolkit.WinUI.Animations.h>
 #include <functional>
 #include <optional>
+#else
+import winrt.XamlToolkit.WinUI.Animations;
 #endif
 
 namespace winrt
 {
+	using namespace Windows::Foundation;
 	using namespace Microsoft::UI::Composition;
-	using namespace Microsoft::UI::Xaml::Media::Animation;
 }
 
 namespace winrt::XamlToolkit::WinUI::Animations
@@ -39,8 +41,8 @@ namespace winrt::XamlToolkit::WinUI::Animations
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
         virtual AnimationBuilder& NormalizedKeyFrames(
             std::function<void(INormalizedKeyFrameAnimationBuilder<T>&)> build,
-            std::optional<winrt::Windows::Foundation::TimeSpan> delay = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> duration = std::nullopt,
+            std::optional<winrt::TimeSpan> delay = std::nullopt,
+            std::optional<winrt::TimeSpan> duration = std::nullopt,
             std::optional<RepeatOption> repeat = std::nullopt,
             std::optional<AnimationDelayBehavior> delayBehavior = std::nullopt) = 0;
 
@@ -59,8 +61,8 @@ namespace winrt::XamlToolkit::WinUI::Animations
         AnimationBuilder& NormalizedKeyFrames(
             TState state,
             std::function<void(INormalizedKeyFrameAnimationBuilder<T>&, TState)> build,
-            std::optional<winrt::Windows::Foundation::TimeSpan> delay = std::nullopt,
-            std::optional<winrt::Windows::Foundation::TimeSpan> duration = std::nullopt,
+            std::optional<winrt::TimeSpan> delay = std::nullopt,
+            std::optional<winrt::TimeSpan> duration = std::nullopt,
             std::optional<RepeatOption> repeat = std::nullopt,
             std::optional<AnimationDelayBehavior> delayBehavior = std::nullopt)
         {
@@ -82,7 +84,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
         virtual AnimationBuilder& TimedKeyFrames(
             std::function<void(ITimedKeyFrameAnimationBuilder<T>&)> build,
-            std::optional<winrt::Windows::Foundation::TimeSpan> delay = std::nullopt,
+            std::optional<winrt::TimeSpan> delay = std::nullopt,
             std::optional<RepeatOption> repeat = std::nullopt,
             std::optional<AnimationDelayBehavior> delayBehavior = std::nullopt) = 0;
 
@@ -100,7 +102,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
         AnimationBuilder& TimedKeyFrames(
             TState state,
             std::function<void(ITimedKeyFrameAnimationBuilder<T>&, TState)> build,
-            std::optional<winrt::Windows::Foundation::TimeSpan> delay = std::nullopt,
+            std::optional<winrt::TimeSpan> delay = std::nullopt,
             std::optional<RepeatOption> repeat = std::nullopt,
             std::optional<AnimationDelayBehavior> delayBehavior = std::nullopt)
         {

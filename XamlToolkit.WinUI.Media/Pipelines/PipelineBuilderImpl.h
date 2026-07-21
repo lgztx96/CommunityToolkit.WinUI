@@ -17,25 +17,25 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
-#endif
-
+#else
 import winrt.XamlToolkit.WinUI.Media;
 import winrt.Windows.UI;
 import winrt.Windows.Graphics.Effects;
 import winrt.Microsoft.UI.Composition;
+#endif
 
 namespace winrt
 {
-    using namespace Windows::Foundation;
-    using namespace Windows::Graphics::Effects;
-    using namespace Microsoft::UI::Composition;
-    using namespace Microsoft::UI::Xaml;
-    using namespace Microsoft::UI::Xaml::Hosting;
+    using namespace winrt::Windows::Foundation;
+    using namespace winrt::Windows::Foundation::Numerics;
+    using namespace winrt::Windows::Graphics::Effects;
+    using namespace winrt::Microsoft::UI::Composition;
+    using namespace winrt::Microsoft::UI::Xaml;
+    using namespace winrt::Microsoft::UI::Xaml::Hosting;
 }
 
 namespace winrt::XamlToolkit::WinUI::Media::Pipelines
 {
-    // Win2D effect aliases (matching C# version to avoid conflicts with custom effects)
     namespace CanvasEffects = winrt::Microsoft::Graphics::Canvas::Effects;
 
     using CanvasGaussianBlurEffect = CanvasEffects::GaussianBlurEffect;
@@ -62,14 +62,14 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
     /// </summary>
     /// <typeparam name="T">The type of property value to set</typeparam>
     template<typename T>
-    using EffectSetter = std::function<void(CompositionBrush const& brush, T const& value)>;
+    using EffectSetter = std::function<void(winrt::CompositionBrush const& brush, T const& value)>;
 
     /// <summary>
     /// A delegate that represents a custom effect property animation that can be applied to a CompositionBrush
     /// </summary>
     /// <typeparam name="T">The type of property value to animate</typeparam>
     template<typename T>
-    using EffectAnimation = std::function<IAsyncAction(CompositionBrush const& brush, T const& value, TimeSpan const& duration)>;
+    using EffectAnimation = std::function<winrt::IAsyncAction(winrt::CompositionBrush const& brush, T const& value, winrt::TimeSpan const& duration)>;
 
     /// <summary>
     /// A class that allows to build custom effects pipelines and create CompositionBrush instances from them
@@ -84,9 +84,9 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
         /// </summary>
         struct State
         {
-            std::function<IAsyncOperation<IGraphicsEffectSource>()> _sourceProducer;
+            std::function<winrt::IAsyncOperation<winrt::IGraphicsEffectSource>()> _sourceProducer;
             std::vector<winrt::hstring> _animationProperties;
-            std::unordered_map<winrt::hstring, std::function<IAsyncOperation<CompositionBrush>()>> _lazyParameters;
+            std::unordered_map<winrt::hstring, std::function<winrt::IAsyncOperation<winrt::CompositionBrush>()>> _lazyParameters;
         };
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
         /// Leaf constructor: starts a pipeline from a CompositionBrush factory.
         /// Used by FromBackdrop(), FromBrush(), FromImage(), FromUIElement().
         /// </summary>
-        PipelineBuilderImpl(std::function<IAsyncOperation<CompositionBrush>()> factory);
+        PipelineBuilderImpl(std::function<winrt::IAsyncOperation<winrt::CompositionBrush>()> factory);
 
         /// <summary>
         /// Leaf constructor: starts a pipeline with explicit IGraphicsEffectSource factory,
@@ -117,9 +117,9 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
         /// Used by FromColor(), FromHdrColor(), FromEffect().
         /// </summary>
         PipelineBuilderImpl(
-            std::function<IAsyncOperation<IGraphicsEffectSource>()> factory,
+            std::function<winrt::IAsyncOperation<winrt::IGraphicsEffectSource>()> factory,
             std::vector<winrt::hstring> animations = {},
-            std::unordered_map<winrt::hstring, std::function<IAsyncOperation<CompositionBrush>()>> lazy = {});
+            std::unordered_map<winrt::hstring, std::function<winrt::IAsyncOperation<winrt::CompositionBrush>()>> lazy = {});
 
         /// <summary>
         /// Single-parent constructor: attaches a new effect to an existing pipeline.
@@ -128,20 +128,20 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
         /// </summary>
         PipelineBuilderImpl(
             PipelineBuilderImpl const& source,
-            std::function<IAsyncOperation<IGraphicsEffectSource>()> factory,
+            std::function<winrt::IAsyncOperation<winrt::IGraphicsEffectSource>()> factory,
             std::vector<winrt::hstring> animations = {},
-            std::unordered_map<winrt::hstring, std::function<IAsyncOperation<CompositionBrush>()>> lazy = {});
+            std::unordered_map<winrt::hstring, std::function<winrt::IAsyncOperation<winrt::CompositionBrush>()>> lazy = {});
 
         /// <summary>
         /// Dual-parent constructor: merges two pipelines (Blend, CrossFade, Merge).
         /// Both parent Impls are kept alive through shared_ptr captures in the factory closure.
         /// </summary>
         PipelineBuilderImpl(
-            std::function<IAsyncOperation<IGraphicsEffectSource>()> factory,
+            std::function<winrt::IAsyncOperation<winrt::IGraphicsEffectSource>()> factory,
             PipelineBuilderImpl const& a,
             PipelineBuilderImpl const& b,
             std::vector<winrt::hstring> animations = {},
-            std::unordered_map<winrt::hstring, std::function<IAsyncOperation<CompositionBrush>()>> lazy = {});
+            std::unordered_map<winrt::hstring, std::function<winrt::IAsyncOperation<winrt::CompositionBrush>()>> lazy = {});
 
         /// <summary>
         /// Generates a unique uppercase ASCII letters ID from a GUID
@@ -219,72 +219,84 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
         /// <summary>
         /// Starts a new PipelineBuilder pipeline from a solid CompositionBrush with the specified HDR color
         /// </summary>
-        static PipelineBuilderImpl FromHdrColor(winrt::Windows::Foundation::Numerics::float4 color);
+        static PipelineBuilderImpl FromHdrColor(winrt::float4 color);
 
         /// <summary>
         /// Starts a new PipelineBuilder pipeline from a solid CompositionBrush with the specified HDR color
         /// </summary>
-        static PipelineBuilderImpl FromHdrColor(winrt::Windows::Foundation::Numerics::float4 color, EffectSetter<winrt::Windows::Foundation::Numerics::float4>& setter);
+        static PipelineBuilderImpl FromHdrColor(winrt::float4 color, EffectSetter<winrt::float4>& setter);
 
         /// <summary>
         /// Starts a new PipelineBuilder pipeline from a solid CompositionBrush with the specified HDR color
         /// </summary>
-        static PipelineBuilderImpl FromHdrColor(winrt::Windows::Foundation::Numerics::float4 color, EffectAnimation<winrt::Windows::Foundation::Numerics::float4>& animation);
+        static PipelineBuilderImpl FromHdrColor(winrt::float4 color, EffectAnimation<winrt::float4>& animation);
 
         /// <summary>
         /// Starts a new PipelineBuilder pipeline from the input CompositionBrush instance
         /// </summary>
-        static PipelineBuilderImpl FromBrush(CompositionBrush const& brush);
+        static PipelineBuilderImpl FromBrush(winrt::CompositionBrush const& brush);
 
         /// <summary>
         /// Starts a new PipelineBuilder pipeline from the input CompositionBrush instance
         /// </summary>
-        static PipelineBuilderImpl FromBrush(std::function<CompositionBrush()> factory);
+        static PipelineBuilderImpl FromBrush(std::function<winrt::CompositionBrush()> factory);
 
         /// <summary>
         /// Starts a new PipelineBuilder pipeline from the input CompositionBrush instance
         /// </summary>
-        static PipelineBuilderImpl FromBrush(std::function<IAsyncOperation<CompositionBrush>()> factory);
+        static PipelineBuilderImpl FromBrush(std::function<winrt::IAsyncOperation<winrt::CompositionBrush>()> factory);
 
         /// <summary>
         /// Starts a new PipelineBuilder pipeline from the input IGraphicsEffectSource instance
         /// </summary>
-        static PipelineBuilderImpl FromEffect(IGraphicsEffectSource const& effect);
+        static PipelineBuilderImpl FromEffect(winrt::IGraphicsEffectSource const& effect);
 
         /// <summary>
         /// Starts a new PipelineBuilder pipeline from the input IGraphicsEffectSource instance
         /// </summary>
-        static PipelineBuilderImpl FromEffect(std::function<IGraphicsEffectSource()> factory);
+        static PipelineBuilderImpl FromEffect(std::function<winrt::IGraphicsEffectSource()> factory);
 
         /// <summary>
         /// Starts a new PipelineBuilder pipeline from the input IGraphicsEffectSource instance
         /// </summary>
-        static PipelineBuilderImpl FromEffect(std::function<IAsyncOperation<IGraphicsEffectSource>()> factory);
+        static PipelineBuilderImpl FromEffect(std::function<winrt::IAsyncOperation<winrt::IGraphicsEffectSource>()> factory);
 
         /// <summary>
         /// Starts a new PipelineBuilder pipeline from a Win2D image
         /// </summary>
-        static PipelineBuilderImpl FromImage(winrt::hstring const& relativePath, Media::DpiMode dpiMode = Media::DpiMode::DisplayDpiWith96AsLowerBound, Media::CacheMode cacheMode = Media::CacheMode::Default);
+        static PipelineBuilderImpl FromImage(
+            winrt::hstring const& relativePath, 
+            Media::DpiMode dpiMode = Media::DpiMode::DisplayDpiWith96AsLowerBound,
+            Media::CacheMode cacheMode = Media::CacheMode::Default);
 
         /// <summary>
         /// Starts a new PipelineBuilder pipeline from a Win2D image
         /// </summary>
-        static PipelineBuilderImpl FromImage(Uri const& uri, Media::DpiMode dpiMode = Media::DpiMode::DisplayDpiWith96AsLowerBound, Media::CacheMode cacheMode = Media::CacheMode::Default);
+        static PipelineBuilderImpl FromImage(
+            winrt::Uri const& uri,
+            Media::DpiMode dpiMode = Media::DpiMode::DisplayDpiWith96AsLowerBound,
+            Media::CacheMode cacheMode = Media::CacheMode::Default);
 
         /// <summary>
         /// Starts a new PipelineBuilder pipeline from a Win2D image tiled to cover the available space
         /// </summary>
-        static PipelineBuilderImpl FromTiles(winrt::hstring const& relativePath, Media::DpiMode dpiMode = Media::DpiMode::DisplayDpiWith96AsLowerBound, Media::CacheMode cacheMode = Media::CacheMode::Default);
+        static PipelineBuilderImpl FromTiles(
+            winrt::hstring const& relativePath, 
+            Media::DpiMode dpiMode = Media::DpiMode::DisplayDpiWith96AsLowerBound,
+            Media::CacheMode cacheMode = Media::CacheMode::Default);
 
         /// <summary>
         /// Starts a new PipelineBuilder pipeline from a Win2D image tiled to cover the available space
         /// </summary>
-        static PipelineBuilderImpl FromTiles(Uri const& uri, Media::DpiMode dpiMode = Media::DpiMode::DisplayDpiWith96AsLowerBound, Media::CacheMode cacheMode = Media::CacheMode::Default);
+        static PipelineBuilderImpl FromTiles(
+            winrt::Uri const& uri,
+            Media::DpiMode dpiMode = Media::DpiMode::DisplayDpiWith96AsLowerBound,
+            Media::CacheMode cacheMode = Media::CacheMode::Default);
 
         /// <summary>
         /// Starts a new PipelineBuilder pipeline from the CompositionBrush returned by Compositor.CreateBackdropBrush on the input UIElement
         /// </summary>
-        static PipelineBuilderImpl FromUIElement(UIElement const& element);
+        static PipelineBuilderImpl FromUIElement(winrt::UIElement const& element);
 
         // ===== Effects Methods (PipelineBuilder.Effects.cs) =====
 
@@ -477,24 +489,27 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
         /// Applies a custom effect to the current pipeline
         /// </summary>
         PipelineBuilderImpl Effect(
-            std::function<IGraphicsEffectSource(IGraphicsEffectSource const&)> factory,
+            std::function<winrt::IGraphicsEffectSource(winrt::IGraphicsEffectSource const&)> factory,
             std::vector<winrt::hstring> animations = {},
-            std::unordered_map<winrt::hstring, std::function<IAsyncOperation<CompositionBrush>()>> initializers = {}) const;
+            std::unordered_map<winrt::hstring, std::function<winrt::IAsyncOperation<winrt::CompositionBrush>()>> initializers = {}) const;
 
         /// <summary>
         /// Applies a custom effect to the current pipeline (async)
         /// </summary>
         PipelineBuilderImpl Effect(
-            std::function<IAsyncOperation<IGraphicsEffectSource>(IGraphicsEffectSource const&)> factory,
+            std::function<winrt::IAsyncOperation<winrt::IGraphicsEffectSource>(winrt::IGraphicsEffectSource const&)> factory,
             std::vector<winrt::hstring> animations = {},
-            std::unordered_map<winrt::hstring, std::function<IAsyncOperation<CompositionBrush>()>> initializers = {}) const;
+            std::unordered_map<winrt::hstring, std::function<winrt::IAsyncOperation<winrt::CompositionBrush>()>> initializers = {}) const;
 
         // ===== Merge Methods (PipelineBuilder.Merge.cs) =====
 
         /// <summary>
         /// Blends two pipelines using a BlendEffect instance with the specified mode
         /// </summary>
-        PipelineBuilderImpl Blend(PipelineBuilderImpl const& pipeline, BlendEffectMode mode, Media::Placement placement = Media::Placement::Foreground) const;
+        PipelineBuilderImpl Blend(
+            PipelineBuilderImpl const& pipeline, 
+            BlendEffectMode mode, 
+            winrt::XamlToolkit::WinUI::Media::Placement placement = winrt::XamlToolkit::WinUI::Media::Placement::Foreground) const;
 
         /// <summary>
         /// Cross fades two pipelines using a CrossFadeEffect instance
@@ -520,19 +535,19 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
         /// Blends two pipelines using the provided function to do so
         /// </summary>
         PipelineBuilderImpl Merge(
-            std::function<IGraphicsEffectSource(IGraphicsEffectSource const&, IGraphicsEffectSource const&)> factory,
+            std::function<winrt::IGraphicsEffectSource(winrt::IGraphicsEffectSource const&, winrt::IGraphicsEffectSource const&)> factory,
             PipelineBuilderImpl const& background,
             std::vector<winrt::hstring> animations = {},
-            std::unordered_map<winrt::hstring, std::function<IAsyncOperation<CompositionBrush>()>> initializers = {}) const;
+            std::unordered_map<winrt::hstring, std::function<winrt::IAsyncOperation<winrt::CompositionBrush>()>> initializers = {}) const;
 
         /// <summary>
         /// Blends two pipelines using the provided asynchronous function to do so
         /// </summary>
         PipelineBuilderImpl Merge(
-            std::function<IAsyncOperation<IGraphicsEffectSource>(IGraphicsEffectSource const&, IGraphicsEffectSource const&)> factory,
+            std::function<winrt::IAsyncOperation<winrt::IGraphicsEffectSource>(winrt::IGraphicsEffectSource const&, winrt::IGraphicsEffectSource const&)> factory,
             PipelineBuilderImpl const& background,
             std::vector<winrt::hstring> animations = {},
-            std::unordered_map<winrt::hstring, std::function<IAsyncOperation<CompositionBrush>()>> initializers = {}) const;
+            std::unordered_map<winrt::hstring, std::function<winrt::IAsyncOperation<winrt::CompositionBrush>()>> initializers = {}) const;
 
         // ===== Prebuilt Methods (PipelineBuilder.Prebuilt.cs) =====
 
@@ -543,7 +558,7 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
             winrt::Windows::UI::Color tintColor,
             float tintOpacity,
             float blurAmount,
-            Uri const& noiseUri,
+            winrt::Uri const& noiseUri,
             Media::CacheMode cacheMode = Media::CacheMode::Default);
 
         /// <summary>
@@ -556,7 +571,7 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
             EffectSetter<float>& tintOpacitySetter,
             float blurAmount,
             EffectSetter<float>& blurAmountSetter,
-            Uri const& noiseUri,
+            winrt::Uri const& noiseUri,
             Media::CacheMode cacheMode = Media::CacheMode::Default);
 
         /// <summary>
@@ -569,7 +584,7 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
             EffectAnimation<float>& tintOpacityAnimation,
             float blurAmount,
             EffectAnimation<float>& blurAmountAnimation,
-            Uri const& noiseUri,
+            winrt::Uri const& noiseUri,
             Media::CacheMode cacheMode = Media::CacheMode::Default);
 
         // ===== Build Methods =====
@@ -577,12 +592,12 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
         /// <summary>
         /// Builds a CompositionBrush instance from the current effects pipeline
         /// </summary>
-        IAsyncOperation<CompositionBrush> BuildAsync();
+        winrt::IAsyncOperation<winrt::CompositionBrush> BuildAsync();
 
         /// <summary>
         /// Builds the current pipeline and creates a SpriteVisual that is applied to the input UIElement
         /// </summary>
-        IAsyncOperation<SpriteVisual> AttachAsync(UIElement const& target, UIElement const& reference = nullptr);
+        winrt::IAsyncOperation<winrt::SpriteVisual> AttachAsync(winrt::UIElement const& target, winrt::UIElement const& reference = nullptr);
 
         winrt::XamlToolkit::WinUI::Media::XamlCompositionBrush AsBrush() const;
     };

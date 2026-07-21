@@ -10,7 +10,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 	void MarkdownTextBlock::OnApplyTemplate()
 	{
 		base_type::OnApplyTemplate();
-		_container = GetTemplateChild(MarkdownContainerName).as<Grid>();
+		_container = GetTemplateChild(MarkdownContainerName).as<winrt::Grid>();
 		auto children = _container.Children();
 		children.Clear();
 		children.Append(_document->RichTextBlock());
@@ -46,7 +46,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		}
 	}
 
-	bool MarkdownTextBlock::RaiseLinkClickedEvent(winrt::Windows::Foundation::Uri const& uri)
+	bool MarkdownTextBlock::RaiseLinkClickedEvent(winrt::Uri const& uri)
 	{
 		auto args = winrt::make_self<LinkClickedEventArgs>(uri);
 		OnLinkClicked.invoke(*this, *args);

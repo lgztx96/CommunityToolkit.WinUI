@@ -37,7 +37,7 @@ namespace winrt::XamlToolkit::WinUI::Behaviors
                 return;
             }
 
-            if (_associatedObject != nullptr)
+            if (_associatedObject)
             {
                 throw winrt::hresult_error(E_FAIL, L"Cannot attach behavior multiple times.");
             }

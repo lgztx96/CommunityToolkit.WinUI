@@ -11,9 +11,9 @@
 #include <wil/cppwinrt_authoring.h>
 #include <string_view>
 #include <map>
-#endif
-
+else
 import winrt.XamlToolkit.Labs.WinUI;
+#endif
 
 namespace winrt
 {
@@ -42,14 +42,14 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         static constexpr auto PointerOverStateName = L"PointerOver";
         static constexpr auto DisabledStateName = L"Disabled";
 
-        Canvas _containerCanvas{ nullptr };
-        Thumb _placeholderThumb{ nullptr };
-        Rectangle _backgroundRectangle{ nullptr };
+        winrt::Canvas _containerCanvas{ nullptr };
+        winrt::Thumb _placeholderThumb{ nullptr };
+        winrt::Rectangle _backgroundRectangle{ nullptr };
 
-        std::map<GradientStop, winrt::XamlToolkit::Labs::WinUI::GradientSliderThumb> _stopThumbs;
-        std::map<GradientStop, int64_t> _stopCallbacks;
+        std::map<winrt::GradientStop, winrt::XamlToolkit::Labs::WinUI::GradientSliderThumb> _stopThumbs;
+        std::map<winrt::GradientStop, int64_t> _stopCallbacks;
 
-        Point _dragPosition;
+        winrt::Point _dragPosition;
         winrt::XamlToolkit::Labs::WinUI::GradientSliderThumb _draggingThumb{ nullptr };
 
     public:
@@ -57,26 +57,26 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         void OnApplyTemplate();
 
-        GradientStopCollection GradientStops() const;
+        winrt::GradientStopCollection GradientStops() const;
 
-        void GradientStops(GradientStopCollection const& value);
+        void GradientStops(winrt::GradientStopCollection const& value);
 
         bool IsAddStopsEnabled() const;
 
         void IsAddStopsEnabled(bool value);
 
-        static const wil::single_threaded_property<DependencyProperty> GradientStopsProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> GradientStopsProperty;
 
-        static const wil::single_threaded_property<DependencyProperty> IsAddStopsEnabledProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> IsAddStopsEnabledProperty;
 
     private:
-        static void GradientStopsChangedCallback(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e);
+        static void GradientStopsChangedCallback(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 
-        void OnThumbDragStarted(DragStartedEventArgs const& e);
-        void OnThumbDragCompleted(DragCompletedEventArgs const& e);
+        void OnThumbDragStarted(winrt::DragStartedEventArgs const& e);
+        void OnThumbDragCompleted(winrt::DragCompletedEventArgs const& e);
         void OnValueChanged();
 
-        void ContainerCanvas_SizeChanged(IInspectable const& sender, SizeChangedEventArgs const& e);
+        void ContainerCanvas_SizeChanged(winrt::IInspectable const& sender, winrt::SizeChangedEventArgs const& e);
 
         winrt::XamlToolkit::Labs::WinUI::GradientSliderThumb AddStopThumb(GradientStop const& stop);
         void RemoveStopThumb(GradientStop const& stop);
@@ -85,44 +85,44 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         void SyncThumbs();
         void SyncBackground();
 
-        void OnGradientStopOffsetChanged(DependencyObject const& d, DependencyProperty const& e);
+        void OnGradientStopOffsetChanged(winrt::DependencyObject const& d, winrt::DependencyProperty const& e);
         void UpdateThumbPosition(winrt::XamlToolkit::Labs::WinUI::GradientSliderThumb const& thumb);
 
-        void Thumb_DragStarted(winrt::IInspectable const& sender, DragStartedEventArgs const& e);
-        void Thumb_DragDelta(winrt::IInspectable const& sender, DragDeltaEventArgs const& e);
-        void Thumb_DragCompleted(winrt::IInspectable const& sender, DragCompletedEventArgs const& e);
-        void Thumb_KeyDown(IInspectable const& sender, KeyRoutedEventArgs const& e);
-        void Thumb_Loaded(IInspectable const& sender, RoutedEventArgs const& e);
-        void Thumb_RightTapped(IInspectable const& sender, RightTappedRoutedEventArgs const& e);
+        void Thumb_DragStarted(winrt::IInspectable const& sender, winrt::DragStartedEventArgs const& e);
+        void Thumb_DragDelta(winrt::IInspectable const& sender, winrt::DragDeltaEventArgs const& e);
+        void Thumb_DragCompleted(winrt::IInspectable const& sender, winrt::DragCompletedEventArgs const& e);
+        void Thumb_KeyDown(winrt::IInspectable const& sender, winrt::KeyRoutedEventArgs const& e);
+        void Thumb_Loaded(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
+        void Thumb_RightTapped(winrt::IInspectable const& sender, winrt::RightTappedRoutedEventArgs const& e);
 
-        void ContainerCanvas_PointerEntered(IInspectable const& sender, PointerRoutedEventArgs const& e);
-        void ContainerCanvas_PointerMoved(IInspectable const& sender, PointerRoutedEventArgs const& e);
-        void ContainerCanvas_PointerExited(IInspectable const& sender, PointerRoutedEventArgs const& e);
-        void ContainerCanvas_PointerPressed(IInspectable const& sender, PointerRoutedEventArgs const& e);
-        void ContainerCanvas_PointerReleased(IInspectable const& sender, PointerRoutedEventArgs const& e);
+        void ContainerCanvas_PointerEntered(winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e);
+        void ContainerCanvas_PointerMoved(winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e);
+        void ContainerCanvas_PointerExited(winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e);
+        void ContainerCanvas_PointerPressed(winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e);
+        void ContainerCanvas_PointerReleased(winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e);
 
         bool IsPointerOverThumb(double position);
-        void HandleThumbDragging(winrt::XamlToolkit::Labs::WinUI::GradientSliderThumb const& thumb, Point position);
+        void HandleThumbDragging(winrt::XamlToolkit::Labs::WinUI::GradientSliderThumb const& thumb, winrt::Point position);
 
     public:
-        winrt::event_token ThumbDragStarted(DragStartedEventHandler const& handler);
+        winrt::event_token ThumbDragStarted(winrt::DragStartedEventHandler const& handler);
         void ThumbDragStarted(winrt::event_token const& token);
 
-        winrt::event_token ThumbDragCompleted(DragCompletedEventHandler const& handler);
+        winrt::event_token ThumbDragCompleted(winrt::DragCompletedEventHandler const& handler);
         void ThumbDragCompleted(winrt::event_token const& token);
 
-        wil::untyped_event<IInspectable> ValueChanged;
+        wil::untyped_event<winrt::IInspectable> ValueChanged;
 
     private:
-        FrameworkElement::SizeChanged_revoker _containerCanvasSizeChangedRevoker;
-        UIElement::PointerEntered_revoker _containerCanvasPointerEnteredRevoker;
-        UIElement::PointerMoved_revoker _containerCanvasPointerMovedRevoker;
-        UIElement::PointerExited_revoker _containerCanvasPointerExitedRevoker;
-        UIElement::PointerPressed_revoker _containerCanvasPointerPressedRevoker;
-        UIElement::PointerReleased_revoker _containerCanvasPointerReleasedRevoker;
+        winrt::FrameworkElement::SizeChanged_revoker _containerCanvasSizeChangedRevoker;
+        winrt::UIElement::PointerEntered_revoker _containerCanvasPointerEnteredRevoker;
+        winrt::UIElement::PointerMoved_revoker _containerCanvasPointerMovedRevoker;
+        winrt::UIElement::PointerExited_revoker _containerCanvasPointerExitedRevoker;
+        winrt::UIElement::PointerPressed_revoker _containerCanvasPointerPressedRevoker;
+        winrt::UIElement::PointerReleased_revoker _containerCanvasPointerReleasedRevoker;
 
-        winrt::event<DragStartedEventHandler> _thumbDragStarted;
-        winrt::event<DragCompletedEventHandler> _thumbDragCompleted;
+        winrt::event<winrt::DragStartedEventHandler> _thumbDragStarted;
+        winrt::event<winrt::DragCompletedEventHandler> _thumbDragCompleted;
     };
 }
 

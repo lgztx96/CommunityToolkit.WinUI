@@ -11,33 +11,33 @@
 
 namespace winrt::XamlToolkit::WinUI::Media::implementation
 {
-    const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> AcrylicBrush::BlurAmountProperty =
-        winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> AcrylicBrush::BlurAmountProperty =
+        winrt::DependencyProperty::Register(
             L"BlurAmount",
             winrt::xaml_typename<double>(),
             winrt::xaml_typename<class_type>(),
-            winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(0.0), &AcrylicBrush::OnBlurAmountPropertyChanged });
+            winrt::PropertyMetadata{ winrt::box_value(0.0), &AcrylicBrush::OnBlurAmountPropertyChanged });
 
-    const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> AcrylicBrush::TintColorProperty =
-        winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> AcrylicBrush::TintColorProperty =
+        winrt::DependencyProperty::Register(
             L"TintColor",
-            winrt::xaml_typename<winrt::Windows::UI::Color>(),
+            winrt::xaml_typename<winrt::Color>(),
             winrt::xaml_typename<class_type>(),
-            winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(winrt::Windows::UI::Color{}), &AcrylicBrush::OnTintColorPropertyChanged });
+            winrt::PropertyMetadata{ winrt::box_value(winrt::Color{}), &AcrylicBrush::OnTintColorPropertyChanged });
 
-    const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> AcrylicBrush::TintOpacityProperty =
-        winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> AcrylicBrush::TintOpacityProperty =
+        winrt::DependencyProperty::Register(
             L"TintOpacity",
             winrt::xaml_typename<double>(),
             winrt::xaml_typename<class_type>(),
-            winrt::Microsoft::UI::Xaml::PropertyMetadata{ winrt::box_value(0.5), &AcrylicBrush::OnTintOpacityPropertyChanged });
+            winrt::PropertyMetadata{ winrt::box_value(0.5), &AcrylicBrush::OnTintOpacityPropertyChanged });
 
-    const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> AcrylicBrush::TextureUriProperty =
-        winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> AcrylicBrush::TextureUriProperty =
+        winrt::DependencyProperty::Register(
             L"TextureUri",
-            winrt::xaml_typename<winrt::Windows::Foundation::Uri>(),
+            winrt::xaml_typename<winrt::Uri>(),
             winrt::xaml_typename<class_type>(),
-            winrt::Microsoft::UI::Xaml::PropertyMetadata{ nullptr, &AcrylicBrush::OnTextureUriPropertyChanged });
+            winrt::PropertyMetadata{ nullptr, &AcrylicBrush::OnTextureUriPropertyChanged });
 
     double AcrylicBrush::BlurAmount() const 
     {
@@ -49,12 +49,12 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
         SetValue(BlurAmountProperty(), winrt::box_value(std::max<double>(value, 0.0)));
     }
 
-    winrt::Windows::UI::Color AcrylicBrush::TintColor() const 
+    winrt::Color AcrylicBrush::TintColor() const 
     { 
-        return winrt::unbox_value<winrt::Windows::UI::Color>(GetValue(TintColorProperty()));
+        return winrt::unbox_value<winrt::Color>(GetValue(TintColorProperty()));
     }
 
-    void AcrylicBrush::TintColor(winrt::Windows::UI::Color value)
+    void AcrylicBrush::TintColor(winrt::Color value)
     {
         SetValue(TintColorProperty(), winrt::box_value(value));
     }
@@ -69,19 +69,19 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
         SetValue(TintOpacityProperty(), winrt::box_value(std::clamp(value, 0.0, 1.0)));
     }
 
-    winrt::Windows::Foundation::Uri AcrylicBrush::TextureUri() const
+    winrt::Uri AcrylicBrush::TextureUri() const
     { 
-        return GetValue(TextureUriProperty()).try_as<winrt::Windows::Foundation::Uri>(); 
+        return GetValue(TextureUriProperty()).try_as<winrt::Uri>(); 
     }
 
-    void AcrylicBrush::TextureUri(winrt::Windows::Foundation::Uri const& value)
+    void AcrylicBrush::TextureUri(winrt::Uri const& value)
     {
         SetValue(TextureUriProperty(), value);
     }
 
     void AcrylicBrush::OnBlurAmountPropertyChanged(
-        winrt::Microsoft::UI::Xaml::DependencyObject const& d,
-        winrt::Microsoft::UI::Xaml::DependencyPropertyChangedEventArgs const& e)
+        winrt::DependencyObject const& d,
+        winrt::DependencyPropertyChangedEventArgs const& e)
     {
         auto brush = d.as<winrt::XamlToolkit::WinUI::Media::AcrylicBrush>();
         auto self = winrt::get_self<implementation::AcrylicBrush>(brush);
@@ -95,8 +95,8 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
     }
 
     void AcrylicBrush::OnTintColorPropertyChanged(
-        winrt::Microsoft::UI::Xaml::DependencyObject const& d,
-        winrt::Microsoft::UI::Xaml::DependencyPropertyChangedEventArgs const& e)
+        winrt::DependencyObject const& d,
+        winrt::DependencyPropertyChangedEventArgs const& e)
     {
         auto brush = d.as<winrt::XamlToolkit::WinUI::Media::AcrylicBrush>();
         auto self = winrt::get_self<implementation::AcrylicBrush>(brush);
@@ -104,14 +104,14 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
         {
             if (self->_tintColorSetter) 
             {
-                self->_tintColorSetter(target, winrt::unbox_value<winrt::Windows::UI::Color>(e.NewValue()));
+                self->_tintColorSetter(target, winrt::unbox_value<winrt::Color>(e.NewValue()));
             }
         }
     }
 
     void AcrylicBrush::OnTintOpacityPropertyChanged(
-        winrt::Microsoft::UI::Xaml::DependencyObject const& d,
-        winrt::Microsoft::UI::Xaml::DependencyPropertyChangedEventArgs const& e)
+        winrt::DependencyObject const& d,
+        winrt::DependencyPropertyChangedEventArgs const& e)
     {
         auto brush = d.as<winrt::XamlToolkit::WinUI::Media::AcrylicBrush>();
 		auto self = winrt::get_self<implementation::AcrylicBrush>(brush);
@@ -125,8 +125,8 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
     }
 
     void AcrylicBrush::OnTextureUriPropertyChanged(
-        winrt::Microsoft::UI::Xaml::DependencyObject const& d,
-        [[maybe_unused]] winrt::Microsoft::UI::Xaml::DependencyPropertyChangedEventArgs const& e)
+        winrt::DependencyObject const& d,
+        [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& e)
     {
         auto brush = d.as<winrt::XamlToolkit::WinUI::Media::AcrylicBrush>();
 		auto self = winrt::get_self<implementation::AcrylicBrush>(brush);

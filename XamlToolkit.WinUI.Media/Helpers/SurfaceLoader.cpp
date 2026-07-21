@@ -7,17 +7,15 @@
 #include "SurfaceLoader.h"
 #include "../Extensions/System/UriExtensions.h"
 
-import winrt.Microsoft.Graphics.Canvas.UI.Composition;
-
 namespace winrt::XamlToolkit::WinUI::Media::Helpers
 {
 	std::shared_ptr<SurfaceLoader> SurfaceLoader::GetInstance()
 	{
-		auto compositor = winrt::Microsoft::UI::Xaml::Media::CompositionTarget::GetCompositorForCurrentThread();
+		auto compositor = winrt::CompositionTarget::GetCompositorForCurrentThread();
 		return GetInstance(compositor);
 	}
 
-	std::shared_ptr<SurfaceLoader> SurfaceLoader::GetInstance(winrt::Microsoft::UI::Composition::Compositor const& compositor)
+	std::shared_ptr<SurfaceLoader> SurfaceLoader::GetInstance(winrt::Compositor const& compositor)
 	{
 		std::lock_guard<std::mutex> lock(_instanceMutex);
 
@@ -43,33 +41,33 @@ namespace winrt::XamlToolkit::WinUI::Media::Helpers
 			_deviceReplacedRevoker.revoke();
 		}
 
-		_canvasDevice = winrt::Microsoft::Graphics::Canvas::CanvasDevice();
-		_compositionDevice = winrt::Microsoft::Graphics::Canvas::UI::Composition::CanvasComposition::CreateCompositionGraphicsDevice(_compositor, _canvasDevice);
+		_canvasDevice = winrt::CanvasDevice();
+		_compositionDevice = winrt::CanvasComposition::CreateCompositionGraphicsDevice(_compositor, _canvasDevice);
 
 		_deviceLostRevoker = _canvasDevice.DeviceLost(winrt::auto_revoke, { this, &SurfaceLoader::CanvasDevice_DeviceLost });
 		_deviceReplacedRevoker = _compositionDevice.RenderingDeviceReplaced(winrt::auto_revoke, { this, &SurfaceLoader::CompositionDevice_RenderingDeviceReplaced });
 	}
 
 	void SurfaceLoader::CanvasDevice_DeviceLost(
-		[[maybe_unused]] winrt::Microsoft::Graphics::Canvas::CanvasDevice const& sender,
-		[[maybe_unused]] winrt::Windows::Foundation::IInspectable const& args)
+		[[maybe_unused]] winrt::CanvasDevice const& sender,
+		[[maybe_unused]] winrt::IInspectable const& args)
 	{
 		InitializeDevices();
 	}
 
 	void SurfaceLoader::CompositionDevice_RenderingDeviceReplaced(
-		[[maybe_unused]] winrt::Microsoft::UI::Composition::CompositionGraphicsDevice const& sender, 
-		[[maybe_unused]] winrt::Microsoft::UI::Composition::RenderingDeviceReplacedEventArgs const& args)
+		[[maybe_unused]] winrt::CompositionGraphicsDevice const& sender, 
+		[[maybe_unused]] winrt::RenderingDeviceReplacedEventArgs const& args)
 	{
 		InitializeDevices();
 	}
 
-	winrt::Windows::Foundation::IAsyncOperation<winrt::Microsoft::UI::Composition::CompositionBrush> SurfaceLoader::LoadImageAsync(
-		winrt::Windows::Foundation::Uri uri,
+	winrt::IAsyncOperation<winrt::CompositionBrush> SurfaceLoader::LoadImageAsync(
+		winrt::Uri uri,
 		Media::DpiMode dpiMode,
 		Media::CacheMode cacheMode)
 	{
-		auto compositor = winrt::Microsoft::UI::Xaml::Media::CompositionTarget::GetCompositorForCurrentThread();
+		auto compositor = winrt::CompositionTarget::GetCompositorForCurrentThread();
 
 		// Lock and check the cache first
 		auto lock = co_await _win2dMutex.lock_async();
@@ -77,7 +75,7 @@ namespace winrt::XamlToolkit::WinUI::Media::Helpers
 
 		if (cacheMode == Media::CacheMode::Default)
 		{
-			winrt::Microsoft::UI::Composition::CompositionBrush cachedBrush{ nullptr };
+			winrt::CompositionBrush cachedBrush{ nullptr };
 			if (Cache.TryGetValue(compositor, uri, cachedBrush))
 			{
 				co_return cachedBrush;
@@ -85,11 +83,11 @@ namespace winrt::XamlToolkit::WinUI::Media::Helpers
 		}
 
 		// Load the image
-		winrt::Microsoft::UI::Composition::CompositionBrush brush{ nullptr };
+		winrt::CompositionBrush brush{ nullptr };
 		try
 		{
 			// This will throw and the canvas will re-initialize the Win2D device if needed
-			auto sharedDevice = winrt::Microsoft::Graphics::Canvas::CanvasDevice::GetSharedDevice();
+			auto sharedDevice = winrt::CanvasDevice::GetSharedDevice();
 			brush = co_await LoadSurfaceBrushAsync(sharedDevice, compositor, uri, dpiMode);
 		}
 		catch (...)
@@ -106,11 +104,11 @@ namespace winrt::XamlToolkit::WinUI::Media::Helpers
 		co_return brush;
 	}
 
-	winrt::Windows::Foundation::IAsyncOperation<winrt::Microsoft::UI::Composition::CompositionDrawingSurface> SurfaceLoader::LoadFromUri(
-		winrt::Windows::Foundation::Uri const& uri,
-		winrt::Windows::Foundation::Size sizeTarget)
+	winrt::IAsyncOperation<winrt::CompositionDrawingSurface> SurfaceLoader::LoadFromUri(
+		winrt::Uri const& uri,
+		winrt::Size sizeTarget)
 	{
-		auto bitmap = co_await winrt::Microsoft::Graphics::Canvas::CanvasBitmap::LoadAsync(_canvasDevice, uri);
+		auto bitmap = co_await winrt::CanvasBitmap::LoadAsync(_canvasDevice, uri);
 		auto sizeSource = bitmap.Size();
 
 		if (sizeTarget.Width == 0 || sizeTarget.Height == 0)
@@ -120,37 +118,37 @@ namespace winrt::XamlToolkit::WinUI::Media::Helpers
 
 		auto surface = _compositionDevice.CreateDrawingSurface(
 			sizeTarget,
-			winrt::Microsoft::Graphics::DirectX::DirectXPixelFormat::B8G8R8A8UIntNormalized,
-			winrt::Microsoft::Graphics::DirectX::DirectXAlphaMode::Premultiplied);
+			winrt::DirectXPixelFormat::B8G8R8A8UIntNormalized,
+			winrt::DirectXAlphaMode::Premultiplied);
 
 		{
-			auto ds = winrt::Microsoft::Graphics::Canvas::UI::Composition::CanvasComposition::CreateDrawingSession(surface);
+			auto ds = winrt::CanvasComposition::CreateDrawingSession(surface);
 			ds.Clear(winrt::Windows::UI::Color{ 0, 0, 0, 0 });
 			ds.DrawImage(bitmap,
-				winrt::Windows::Foundation::Rect{ 0, 0, sizeTarget.Width, sizeTarget.Height },
-				winrt::Windows::Foundation::Rect{ 0, 0, sizeSource.Width, sizeSource.Height });
+				winrt::Rect{ 0, 0, sizeTarget.Width, sizeTarget.Height },
+				winrt::Rect{ 0, 0, sizeSource.Width, sizeSource.Height });
 		}
 
 		co_return surface;
 	}
 
-	winrt::Microsoft::UI::Composition::CompositionDrawingSurface SurfaceLoader::LoadText(
+	winrt::CompositionDrawingSurface SurfaceLoader::LoadText(
 		winrt::hstring const& text,
-		winrt::Windows::Foundation::Size sizeTarget,
-		winrt::Microsoft::Graphics::Canvas::Text::CanvasTextFormat const& textFormat,
+		winrt::Size sizeTarget,
+		winrt::CanvasTextFormat const& textFormat,
 		winrt::Windows::UI::Color const& textColor,
 		winrt::Windows::UI::Color const& bgColor)
 	{
 		auto surface = _compositionDevice.CreateDrawingSurface(
 			sizeTarget,
-			winrt::Microsoft::Graphics::DirectX::DirectXPixelFormat::B8G8R8A8UIntNormalized,
-			winrt::Microsoft::Graphics::DirectX::DirectXAlphaMode::Premultiplied);
+			winrt::DirectXPixelFormat::B8G8R8A8UIntNormalized,
+			winrt::DirectXAlphaMode::Premultiplied);
 
 		{
-			auto ds = winrt::Microsoft::Graphics::Canvas::UI::Composition::CanvasComposition::CreateDrawingSession(surface);
+			auto ds = winrt::CanvasComposition::CreateDrawingSession(surface);
 			ds.Clear(bgColor);
 			ds.DrawText(text,
-				winrt::Windows::Foundation::Rect{ 0, 0, sizeTarget.Width, sizeTarget.Height },
+				winrt::Rect{ 0, 0, sizeTarget.Width, sizeTarget.Height },
 				textColor,
 				textFormat);
 		}
@@ -158,19 +156,19 @@ namespace winrt::XamlToolkit::WinUI::Media::Helpers
 		return surface;
 	}
 
-	winrt::Windows::Foundation::IAsyncOperation<winrt::Microsoft::UI::Composition::CompositionBrush> SurfaceLoader::LoadSurfaceBrushAsync(
-		winrt::Microsoft::Graphics::Canvas::CanvasDevice const& canvasDevice,
-		winrt::Microsoft::UI::Composition::Compositor const& compositor,
-		winrt::Windows::Foundation::Uri const& uri,
+	winrt::IAsyncOperation<winrt::CompositionBrush> SurfaceLoader::LoadSurfaceBrushAsync(
+		winrt::CanvasDevice const& canvasDevice,
+		winrt::Compositor const& compositor,
+		winrt::Uri const& uri,
 		Media::DpiMode dpiMode)
 	{
 		float dpi = static_cast<float>(GetSystemDpiForProcess(GetCurrentProcess())); 
 
 		// Load the bitmap with the appropriate settings
-		winrt::Microsoft::Graphics::Canvas::CanvasBitmap bitmap{ nullptr };
+		winrt::CanvasBitmap bitmap{ nullptr };
 
 		auto loadBitmap = [&](std::optional<float> targetDpi) -> 
-			winrt::Windows::Foundation::IAsyncOperation<winrt::Microsoft::Graphics::Canvas::CanvasBitmap>
+			winrt::IAsyncOperation<winrt::CanvasBitmap>
 		{
 			if (uri.SchemeName() == L"file")
 			{
@@ -178,18 +176,18 @@ namespace winrt::XamlToolkit::WinUI::Media::Helpers
 
 				if (targetDpi)
 				{
-					co_return co_await winrt::Microsoft::Graphics::Canvas::CanvasBitmap::LoadAsync(canvasDevice, filePath, *targetDpi);
+					co_return co_await winrt::CanvasBitmap::LoadAsync(canvasDevice, filePath, *targetDpi);
 				}
 
-				co_return co_await winrt::Microsoft::Graphics::Canvas::CanvasBitmap::LoadAsync(canvasDevice, filePath);
+				co_return co_await winrt::CanvasBitmap::LoadAsync(canvasDevice, filePath);
 			}
 
 			if (targetDpi)
 			{
-				co_return co_await winrt::Microsoft::Graphics::Canvas::CanvasBitmap::LoadAsync(canvasDevice, uri, *targetDpi);
+				co_return co_await winrt::CanvasBitmap::LoadAsync(canvasDevice, uri, *targetDpi);
 			}
 
-			co_return co_await winrt::Microsoft::Graphics::Canvas::CanvasBitmap::LoadAsync(canvasDevice, uri);
+			co_return co_await winrt::CanvasBitmap::LoadAsync(canvasDevice, uri);
 		};
 
 		switch (dpiMode)
@@ -216,43 +214,43 @@ namespace winrt::XamlToolkit::WinUI::Media::Helpers
 
 		// Calculate the surface size
 		auto size = bitmap.Size();
-		auto sizeInPixels = winrt::Windows::Foundation::Size{
+		auto sizeInPixels = winrt::Size{
 			static_cast<float>(bitmap.SizeInPixels().Width),
 			static_cast<float>(bitmap.SizeInPixels().Height)
 		};
 
 		// Get the device and the target surface
-		auto graphicsDevice = winrt::Microsoft::Graphics::Canvas::UI::Composition::CanvasComposition::CreateCompositionGraphicsDevice(compositor, canvasDevice);
+		auto graphicsDevice = winrt::CanvasComposition::CreateCompositionGraphicsDevice(compositor, canvasDevice);
 
 		// Create the drawing surface
 		auto drawingSurface = graphicsDevice.CreateDrawingSurface(
 			sizeInPixels,
-			winrt::Microsoft::Graphics::DirectX::DirectXPixelFormat::B8G8R8A8UIntNormalized,
-			winrt::Microsoft::Graphics::DirectX::DirectXAlphaMode::Premultiplied);
+			winrt::DirectXPixelFormat::B8G8R8A8UIntNormalized,
+			winrt::DirectXAlphaMode::Premultiplied);
 
 		{
 			// Create a drawing session for the target surface
-			auto drawingSession = winrt::Microsoft::Graphics::Canvas::UI::Composition::CanvasComposition::CreateDrawingSession(
+			auto drawingSession = winrt::CanvasComposition::CreateDrawingSession(
 				drawingSurface,
-				winrt::Windows::Foundation::Rect{ 0, 0, sizeInPixels.Width, sizeInPixels.Height },
+				winrt::Rect{ 0, 0, sizeInPixels.Width, sizeInPixels.Height },
 				dpi);
 
 			drawingSession.Clear(winrt::Windows::UI::Color{ 0, 0, 0, 0 });
 			drawingSession.DrawImage(bitmap,
-				winrt::Windows::Foundation::Rect{ 0, 0, size.Width, size.Height },
-				winrt::Windows::Foundation::Rect{ 0, 0, size.Width, size.Height });
+				winrt::Rect{ 0, 0, size.Width, size.Height },
+				winrt::Rect{ 0, 0, size.Width, size.Height });
 		}
 
 		// Setup the effect brush to use
 		auto surfaceBrush = compositor.CreateSurfaceBrush(drawingSurface);
-		surfaceBrush.Stretch(winrt::Microsoft::UI::Composition::CompositionStretch::None);
+		surfaceBrush.Stretch(winrt::CompositionStretch::None);
 
 		// Adjust the scale if the DPI scaling is greater than 100%
 		double pixels = dpi / 96.0f;
 		if (pixels > 1.0)
 		{
-			surfaceBrush.Scale(winrt::Windows::Foundation::Numerics::float2{ static_cast<float>(1.0 / pixels), static_cast<float>(1.0 / pixels) });
-			surfaceBrush.BitmapInterpolationMode(winrt::Microsoft::UI::Composition::CompositionBitmapInterpolationMode::NearestNeighbor);
+			surfaceBrush.Scale(winrt::float2{ static_cast<float>(1.0 / pixels), static_cast<float>(1.0 / pixels) });
+			surfaceBrush.BitmapInterpolationMode(winrt::CompositionBitmapInterpolationMode::NearestNeighbor);
 		}
 
 		co_return surfaceBrush;

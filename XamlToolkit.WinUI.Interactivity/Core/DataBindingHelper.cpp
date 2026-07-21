@@ -43,7 +43,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity
     void DataBindingHelper::RefreshBinding(winrt::DependencyObject const& target, winrt::DependencyProperty const& property)
     {
         auto binding = target.ReadLocalValue(property).try_as<winrt::BindingExpression>();
-        if (binding != nullptr && binding.ParentBinding() != nullptr)
+        if (binding && binding.ParentBinding())
         {
             winrt::BindingOperations::SetBinding(target, property, binding.ParentBinding());
         }

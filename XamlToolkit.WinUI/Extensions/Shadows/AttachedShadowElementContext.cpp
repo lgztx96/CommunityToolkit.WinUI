@@ -9,7 +9,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 {
 	AttachedShadowElementContext::AttachedShadowElementContext() : _isConnected(false), _element{ nullptr } {}
 
-	AttachedShadowElementContext::AttachedShadowElementContext(XamlToolkit::WinUI::AttachedShadowBase const& parent, FrameworkElement const& element)
+	AttachedShadowElementContext::AttachedShadowElementContext(winrt::XamlToolkit::WinUI::AttachedShadowBase const& parent, winrt::FrameworkElement const& element)
 		: _isConnected(false), _element{ nullptr }
 	{
 		if (!parent) throw winrt::hresult_invalid_argument(L"parent");
@@ -30,7 +30,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		if (_isConnected)
 		{
 			UnInitialize();
-			if (auto element = Element())
+			if (const auto element = Element())
 			{
 				_loadedRevoker.revoke();
 				_unloadedRevoker.revoke();
@@ -50,11 +50,11 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		if (auto element = Element(); !IsInitialized() && _isConnected && (element.IsLoaded() || forceIfNotLoaded))
 		{
 			IsInitialized(true);
-			ElementVisual(ElementCompositionPreview::GetElementVisual(element));
+			ElementVisual(winrt::ElementCompositionPreview::GetElementVisual(element));
 			Compositor(ElementVisual().Compositor());
 			Shadow(Compositor().CreateDropShadow());
 			SpriteVisual(Compositor().CreateSpriteVisual());
-			SpriteVisual().RelativeSizeAdjustment(winrt::Windows::Foundation::Numerics::float2::one());
+			SpriteVisual().RelativeSizeAdjustment(winrt::float2::one());
 			SpriteVisual().Shadow(Shadow());
 			if (Parent().as<IAttachedShadowBaseOverrides>().SupportsOnSizeChangedEvent())
 			{
@@ -71,9 +71,9 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		{
 			IsInitialized(false);
 
-			if (auto element = Element())
+			if (const auto element = Element())
 			{
-				ElementCompositionPreview::SetElementChildVisual(element, nullptr);
+				winrt::ElementCompositionPreview::SetElementChildVisual(element, nullptr);
 				_sizeChangedRevoker.revoke();
 			}
 
@@ -89,22 +89,22 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		}
 	}
 
-	void AttachedShadowElementContext::OnElementUnloaded([[maybe_unused]] IInspectable const& sender, [[maybe_unused]] RoutedEventArgs const& e)
+	void AttachedShadowElementContext::OnElementUnloaded([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
 	{
 		UnInitialize();
 	}
 
-	void AttachedShadowElementContext::OnElementLoaded([[maybe_unused]] IInspectable const& sender, [[maybe_unused]] RoutedEventArgs const& e)
+	void AttachedShadowElementContext::OnElementLoaded([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
 	{
 		Initialize();
 	}
 
-	void AttachedShadowElementContext::OnElementSizeChanged([[maybe_unused]] IInspectable const& sender, SizeChangedEventArgs const& e)
+	void AttachedShadowElementContext::OnElementSizeChanged([[maybe_unused]] winrt::IInspectable const& sender, winrt::SizeChangedEventArgs const& e)
 	{
 		Parent().as<IAttachedShadowBaseOverrides>().OnSizeChanged(*this, e.NewSize(), e.PreviousSize());
 	}
 
-	IInspectable AttachedShadowElementContext::AddResource(winrt::hstring const& key, IInspectable const& resource)
+	winrt::IInspectable AttachedShadowElementContext::AddResource(winrt::hstring const& key, winrt::IInspectable const& resource)
 	{
 		if (_resources.contains(key))
 		{
@@ -118,7 +118,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		return resource;
 	}
 
-	IInspectable AttachedShadowElementContext::GetResource(std::wstring_view key)
+	winrt::IInspectable AttachedShadowElementContext::GetResource(std::wstring_view key)
 	{
 		if (auto iter = _resources.find(key); iter != _resources.end()) {
 			return iter->second;
@@ -131,7 +131,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 	{
 		for (auto& [key, value] : _resources)
 		{
-			if (auto closeAble = value.try_as<Windows::Foundation::IClosable>())
+			if (auto closeAble = value.try_as<winrt::IClosable>())
 				closeAble.Close();
 		}
 

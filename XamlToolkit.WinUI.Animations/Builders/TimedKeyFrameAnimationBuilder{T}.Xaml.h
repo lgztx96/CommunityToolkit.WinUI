@@ -11,6 +11,7 @@
 
 namespace winrt
 {
+	using namespace Windows::Foundation;
 	using namespace Microsoft::UI::Xaml;
 	using namespace Microsoft::UI::Xaml::Media::Animation;
 }
@@ -21,34 +22,34 @@ namespace winrt::XamlToolkit::WinUI::Animations
     /// Gets a <see cref="Timeline"/> instance representing the animation to start.
     /// </summary>
     template<typename T, typename TKeyFrame>
-    Timeline BuildXamlKeyFrameAnimation(
-        DependencyObject target,
+    winrt::Timeline BuildXamlKeyFrameAnimation(
+        winrt::DependencyObject target,
         winrt::hstring const& property,
-        std::optional<TimeSpan> delay,
-        TimeSpan duration,
+        std::optional<winrt::TimeSpan> delay,
+        winrt::TimeSpan duration,
         RepeatOption repeat,
         std::span<TKeyFrame> keyFrames)
     {
-        auto finalize = [&](Timeline const& animation)
+        auto finalize = [&](winrt::Timeline const& animation)
         {
             animation.BeginTime(delay);
             animation.RepeatBehavior(RepeatOptionHelper::ToRepeatBehavior(repeat));
 
-            Storyboard::SetTarget(animation, target);
-            Storyboard::SetTargetProperty(animation, property);
+            winrt::Storyboard::SetTarget(animation, target);
+            winrt::Storyboard::SetTargetProperty(animation, property);
 
             return animation;
         };
 
         if constexpr (std::is_same_v<T, float> || std::is_same_v<T, double>)
         {
-            DoubleAnimationUsingKeyFrames doubleAnimation;
+            winrt::DoubleAnimationUsingKeyFrames doubleAnimation;
             doubleAnimation.EnableDependentAnimation(true);
 
             for (auto& keyFrame : keyFrames)
             {
-                EasingDoubleKeyFrame easingKeyFrame;
-                easingKeyFrame.KeyTime(KeyTimeHelper::FromTimeSpan(keyFrame.GetTimedProgress(duration)));
+                winrt::EasingDoubleKeyFrame easingKeyFrame;
+                easingKeyFrame.KeyTime(winrt::KeyTimeHelper::FromTimeSpan(keyFrame.GetTimedProgress(duration)));
                 easingKeyFrame.Value(keyFrame.GetValue());
                 easingKeyFrame.EasingFunction(EasingTypeExtensions::ToEasingFunction(keyFrame.GetEasingType(), keyFrame.GetEasingMode()));
 
@@ -57,9 +58,9 @@ namespace winrt::XamlToolkit::WinUI::Animations
 
             return finalize(doubleAnimation);
         }
-        else if constexpr (std::is_same_v<T, winrt::Windows::Foundation::Point>)
+        else if constexpr (std::is_same_v<T, winrt::Point>)
         {
-            PointAnimationUsingKeyFrames pointAnimation;
+            winrt::PointAnimationUsingKeyFrames pointAnimation;
             pointAnimation.EnableDependentAnimation(true);
 
             for (auto& keyFrame : keyFrames)
@@ -76,13 +77,13 @@ namespace winrt::XamlToolkit::WinUI::Animations
         }
         else if constexpr (std::is_same_v<T, winrt::Windows::UI::Color>)
         {
-            ColorAnimationUsingKeyFrames colorAnimation;
+            winrt::ColorAnimationUsingKeyFrames colorAnimation;
             colorAnimation.EnableDependentAnimation(true);
 
             for (auto& keyFrame : keyFrames)
             {
-                EasingColorKeyFrame easingKeyFrame;
-                easingKeyFrame.KeyTime(KeyTimeHelper::FromTimeSpan(keyFrame.GetTimedProgress(duration)));
+                winrt::EasingColorKeyFrame easingKeyFrame;
+                easingKeyFrame.KeyTime(winrt::KeyTimeHelper::FromTimeSpan(keyFrame.GetTimedProgress(duration)));
                 easingKeyFrame.Value(keyFrame.GetValue());
                 easingKeyFrame.EasingFunction(EasingTypeExtensions::ToEasingFunction(keyFrame.GetEasingType(), keyFrame.GetEasingMode()));
 
@@ -91,15 +92,15 @@ namespace winrt::XamlToolkit::WinUI::Animations
 
             return finalize(colorAnimation);
         }
-        else if constexpr (std::is_same_v<T, winrt::Windows::Foundation::IInspectable>)
+        else if constexpr (std::is_same_v<T, winrt::IInspectable>)
         {
-            ObjectAnimationUsingKeyFrames objectAnimation;
+            winrt::ObjectAnimationUsingKeyFrames objectAnimation;
             objectAnimation.EnableDependentAnimation(true);
 
             for (auto& keyFrame : keyFrames)
             {
-                DiscreteObjectKeyFrame easingKeyFrame;
-                easingKeyFrame.KeyTime(KeyTimeHelper::FromTimeSpan(keyFrame.GetTimedProgress(duration)));
+                winrt::DiscreteObjectKeyFrame easingKeyFrame;
+                easingKeyFrame.KeyTime(winrt::KeyTimeHelper::FromTimeSpan(keyFrame.GetTimedProgress(duration)));
                 easingKeyFrame.Value(keyFrame.GetValue());
                 objectAnimation.KeyFrames().Append(easingKeyFrame);
             }
@@ -124,7 +125,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
         /// </summary>
         TimedKeyFrameAnimationBuilderXaml(
             winrt::hstring const& property,
-            std::optional<TimeSpan> delay,
+            std::optional<winrt::TimeSpan> delay,
             RepeatOption repeat)
             : TimedKeyFrameAnimationBuilder<T>(property, delay, repeat)
         {
@@ -132,7 +133,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
 
         /// <inheritdoc/>
         ITimedKeyFrameAnimationBuilder<T>& ExpressionKeyFrame(
-            [[maybe_unused]] TimeSpan progress,
+            [[maybe_unused]] winrt::TimeSpan progress,
             [[maybe_unused]] winrt::hstring const& expression,
             [[maybe_unused]] EasingType easingType = AnimationExtensions::DefaultEasingType(),
             [[maybe_unused]] EasingMode easingMode = AnimationExtensions::DefaultEasingMode()) override
@@ -141,13 +142,13 @@ namespace winrt::XamlToolkit::WinUI::Animations
         }
 
         /// <inheritdoc/>
-        Timeline GetAnimation(DependencyObject const& targetHint) override
+        winrt::Timeline GetAnimation(winrt::DependencyObject const& targetHint) override
         {
             return BuildXamlKeyFrameAnimation<T, typename TimedKeyFrameAnimationBuilder<T>::KeyFrameInfo>(
                 targetHint,
                 this->property,
                 this->delay,
-                TimeSpan{}, // default duration
+                winrt::TimeSpan{}, // default duration
                 this->repeat,
                 this->keyFrames);
         }

@@ -11,31 +11,31 @@
 
 namespace winrt::XamlToolkit::WinUI::Media::implementation
 {
-    const wil::single_threaded_property<DependencyProperty> UIElementExtensions::VisualFactoryProperty =
-        DependencyProperty::RegisterAttached(
+    const wil::single_threaded_property<winrt::DependencyProperty> UIElementExtensions::VisualFactoryProperty =
+        winrt::DependencyProperty::RegisterAttached(
             L"VisualFactory",
-            winrt::xaml_typename<XamlToolkit::WinUI::Media::AttachedVisualFactoryBase>(),
+            winrt::xaml_typename<winrt::XamlToolkit::WinUI::Media::AttachedVisualFactoryBase>(),
             winrt::xaml_typename<winrt::XamlToolkit::WinUI::Media::UIElementExtensions>(),
-            PropertyMetadata(nullptr, &UIElementExtensions::OnVisualFactoryPropertyChanged));
+            winrt::PropertyMetadata(nullptr, &UIElementExtensions::OnVisualFactoryPropertyChanged));
 
-    AttachedVisualFactoryBase UIElementExtensions::GetVisualFactory(UIElement const& element)
+    AttachedVisualFactoryBase UIElementExtensions::GetVisualFactory(winrt::UIElement const& element)
     {
-        return element.GetValue(VisualFactoryProperty).try_as<AttachedVisualFactoryBase>();
+        return element.GetValue(VisualFactoryProperty()).try_as<AttachedVisualFactoryBase>();
     }
 
-    void UIElementExtensions::SetVisualFactory(UIElement const& element, AttachedVisualFactoryBase const& value)
+    void UIElementExtensions::SetVisualFactory(winrt::UIElement const& element, AttachedVisualFactoryBase const& value)
     {
-        element.SetValue(VisualFactoryProperty, value);
+        element.SetValue(VisualFactoryProperty(), value);
     }
 
-    winrt::fire_and_forget UIElementExtensions::OnVisualFactoryPropertyChanged(DependencyObject const& d, DependencyPropertyChangedEventArgs const& e)
+    winrt::fire_and_forget UIElementExtensions::OnVisualFactoryPropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e)
     {
-        UIElement element = d.as<UIElement>();
+        winrt::UIElement element = d.as<winrt::UIElement>();
         if (auto factory = e.NewValue().try_as<AttachedVisualFactoryBase>())
         {
-            Visual attachedVisual = co_await factory.GetAttachedVisualAsync(element);
-            attachedVisual.RelativeSizeAdjustment(float2::one());
-            ElementCompositionPreview::SetElementChildVisual(element, attachedVisual);
+            winrt::Visual attachedVisual = co_await factory.GetAttachedVisualAsync(element);
+            attachedVisual.RelativeSizeAdjustment(winrt::float2::one());
+            winrt::ElementCompositionPreview::SetElementChildVisual(element, attachedVisual);
         }
     }
 }

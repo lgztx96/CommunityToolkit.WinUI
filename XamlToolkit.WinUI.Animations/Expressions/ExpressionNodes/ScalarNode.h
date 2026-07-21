@@ -40,7 +40,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
     protected:
         winrt::hstring GetValue() const override
         {
-            return winrt::hstring{ winrt::XamlToolkit::WinUI::Animations::FloatExtensions::ToCompositionString(value) };
+            return winrt::XamlToolkit::WinUI::Animations::FloatExtensions::ToCompositionString(value);
         }
 
     private:

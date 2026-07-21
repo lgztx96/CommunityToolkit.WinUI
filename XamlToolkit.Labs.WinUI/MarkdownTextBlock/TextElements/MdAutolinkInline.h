@@ -27,7 +27,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 		Hyperlink _hyperlink;
 
 	public:
-		Microsoft::UI::Xaml::Documents::TextElement TextElement() const override 
+		winrt::TextElement TextElement() const override
 		{
 			return _hyperlink;
 		}
@@ -58,7 +58,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 				});
 		}
 
-		void AddChild(TextElements::IAddChild* child) override
+		void AddChild(IAddChild* child) override
 		{
 			try
 			{

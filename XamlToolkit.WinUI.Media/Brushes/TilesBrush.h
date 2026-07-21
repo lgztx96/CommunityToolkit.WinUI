@@ -7,12 +7,20 @@
 #include "TilesBrush.g.h"
 #include "Base/XamlCompositionEffectBrushBase.h"
 #ifdef __INTELLISENSE__
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Windows.Foundation.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
-#endif
-
+#else
 import winrt.Windows.Foundation;
 import winrt.Microsoft.UI.Xaml;
+#endif
+
+namespace winrt
+{
+    using namespace winrt::Microsoft::UI::Xaml;
+    using namespace winrt::Windows::Foundation;
+}
 
 namespace winrt::XamlToolkit::WinUI::Media::implementation
 {
@@ -23,22 +31,22 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
     {
         TilesBrush() = default;
 
-        winrt::Windows::Foundation::Uri TextureUri() const;
-        void TextureUri(winrt::Windows::Foundation::Uri const& value);
+        winrt::Uri TextureUri() const;
+        void TextureUri(winrt::Uri const& value);
 
-        static const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> TextureUriProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> TextureUriProperty;
 
         DpiMode DpiMode() const;
-        void DpiMode(winrt::XamlToolkit::WinUI::Media::DpiMode value);
+        void DpiMode(Media::DpiMode value);
 
-        static const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> DpiModeProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> DpiModeProperty;
 
         Pipelines::PipelineBuilder OnPipelineRequested() override;
 
     private:
         static void OnDependencyPropertyChanged(
-            winrt::Microsoft::UI::Xaml::DependencyObject const& d,
-            winrt::Microsoft::UI::Xaml::DependencyPropertyChangedEventArgs const& e);
+            winrt::DependencyObject const& d,
+            winrt::DependencyPropertyChangedEventArgs const& e);
     };
 }
 

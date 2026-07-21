@@ -3,7 +3,6 @@
 #include "CameraHelper.g.h"
 #include "../../XamlToolkit.WinUI/common.h"
 #ifdef __INTELLISENSE__
-#include <semaphore>
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.Foundation.Collections.h>
 #include <winrt/Windows.Media.Capture.Frames.h>

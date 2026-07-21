@@ -12,11 +12,11 @@
 
 namespace winrt::XamlToolkit::WinUI::implementation
 {
-	void ListViewExtensions::OnAlternateColorPropertyChanged(DependencyObject const& sender, [[maybe_unused]] DependencyPropertyChangedEventArgs const& args)
+	void ListViewExtensions::OnAlternateColorPropertyChanged(winrt::DependencyObject const& sender, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& args)
 	{
-		if (auto listViewBase = sender.try_as<ListViewBase>())
+		if (auto listViewBase = sender.try_as<winrt::ListViewBase>())
 		{
-			auto items = listViewBase.Items().try_as<IObservableVector<IInspectable>>();
+			auto items = listViewBase.Items().try_as<winrt::IObservableVector<winrt::IInspectable>>();
 			if (const auto& iter = _trackedListViews.find(items); iter != _trackedListViews.end())
 			{
 				_trackedListViews.erase(iter);
@@ -36,15 +36,15 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		}
 	}
 
-	void ListViewExtensions::ColorContainerContentChanging(ListViewBase const& sender, ContainerContentChangingEventArgs const& args)
+	void ListViewExtensions::ColorContainerContentChanging(winrt::ListViewBase const& sender, winrt::ContainerContentChangingEventArgs const& args)
 	{
-		auto itemContainer = args.ItemContainer().try_as<Control>();
+		auto itemContainer = args.ItemContainer().try_as<winrt::Control>();
 		SetItemContainerBackground(sender, itemContainer, args.ItemIndex());
 	}
 
-	void ListViewExtensions::OnAlternateItemTemplatePropertyChanged(DependencyObject const& sender, [[maybe_unused]] DependencyPropertyChangedEventArgs const& args)
+	void ListViewExtensions::OnAlternateItemTemplatePropertyChanged(winrt::DependencyObject const& sender, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& args)
 	{
-		if (auto listViewBase = sender.try_as<ListViewBase>())
+		if (auto listViewBase = sender.try_as<winrt::ListViewBase>())
 		{
 			auto iter = _listViewEventContexts.find(listViewBase);
 			
@@ -63,7 +63,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		}
 	}
 
-	void ListViewExtensions::ItemTemplateContainerContentChanging(ListViewBase const& sender, ContainerContentChangingEventArgs const& args)
+	void ListViewExtensions::ItemTemplateContainerContentChanging(winrt::ListViewBase const& sender, winrt::ContainerContentChangingEventArgs const& args)
 	{
 		if (args.ItemIndex() % 2 == 0)
 		{
@@ -75,9 +75,9 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		}
 	}
 
-	void ListViewExtensions::OnItemContainerStretchDirectionPropertyChanged(DependencyObject const& sender, [[maybe_unused]] DependencyPropertyChangedEventArgs const& args)
+	void ListViewExtensions::OnItemContainerStretchDirectionPropertyChanged(winrt::DependencyObject const& sender, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& args)
 	{
-		if (auto listViewBase = sender.try_as<ListViewBase>())
+		if (auto listViewBase = sender.try_as<winrt::ListViewBase>())
 		{
 			auto iter = _listViewEventContexts.find(listViewBase);
 			if (iter != _listViewEventContexts.end())
@@ -95,38 +95,38 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		}
 	}
 
-	void ListViewExtensions::ItemContainerStretchDirectionChanging(ListViewBase const& sender, ContainerContentChangingEventArgs const& args)
+	void ListViewExtensions::ItemContainerStretchDirectionChanging(winrt::ListViewBase const& sender, winrt::ContainerContentChangingEventArgs const& args)
 	{
 		auto stretchDirection = GetItemContainerStretchDirection(sender);
 
 		if (stretchDirection == ItemContainerStretchDirection::Vertical || stretchDirection == ItemContainerStretchDirection::Both)
 		{
-			args.ItemContainer().VerticalContentAlignment(VerticalAlignment::Stretch);
+			args.ItemContainer().VerticalContentAlignment(winrt::VerticalAlignment::Stretch);
 		}
 
 		if (stretchDirection == ItemContainerStretchDirection::Horizontal || stretchDirection == ItemContainerStretchDirection::Both)
 		{
-			args.ItemContainer().HorizontalContentAlignment(HorizontalAlignment::Stretch);
+			args.ItemContainer().HorizontalContentAlignment(winrt::HorizontalAlignment::Stretch);
 		}
 	}
 
-	void ListViewExtensions::OnListViewBaseUnloaded(IInspectable const& sender, [[maybe_unused]] RoutedEventArgs const& e)
+	void ListViewExtensions::OnListViewBaseUnloaded(winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
 	{
-		if (auto listViewBase = sender.try_as<ListViewBase>())
+		if (auto listViewBase = sender.try_as<winrt::ListViewBase>())
 		{
 			_listViewEventContexts.erase(listViewBase);
 		}
 	}
 
-	void ListViewExtensions::OnListViewBaseUnloaded_AltRow(IInspectable const& sender, [[maybe_unused]] RoutedEventArgs const& e)
+	void ListViewExtensions::OnListViewBaseUnloaded_AltRow(winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
 	{
-		if (auto listViewBase = sender.try_as<ListViewBase>())
+		if (auto listViewBase = sender.try_as<winrt::ListViewBase>())
 		{
 			_trackedListViews.erase(listViewBase.Items());
 		}
 	}
 
-	void ListViewExtensions::ColorItemsVectorChanged(IObservableVector<IInspectable> const& sender, IVectorChangedEventArgs const& args)
+	void ListViewExtensions::ColorItemsVectorChanged(winrt::IObservableVector<winrt::IInspectable> const& sender, winrt::IVectorChangedEventArgs const& args)
 	{
 		// If the index is at the end we can ignore
 		if (args.Index() == (sender.Size() - 1))
@@ -136,7 +136,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
 		// Only need to handle Inserted and Removed because we'll handle everything else in the
 		// ColorContainerContentChanging method
-		if ((args.CollectionChange() == CollectionChange::ItemInserted) || (args.CollectionChange() == CollectionChange::ItemRemoved))
+		if ((args.CollectionChange() == winrt::CollectionChange::ItemInserted) || (args.CollectionChange() == winrt::CollectionChange::ItemRemoved))
 		{
 			auto iter = _trackedListViews.find(sender);
 			if (iter == _trackedListViews.end())
@@ -150,13 +150,13 @@ namespace winrt::XamlToolkit::WinUI::implementation
 				for (uint32_t i = index; i < sender.Size(); i++)
 				{
 					// Get item container or element at index
-					winrt::Microsoft::UI::Xaml::Controls::Control itemContainer{ nullptr };
+					winrt::Control itemContainer{ nullptr };
 
-					if (auto container = listViewBase.ContainerFromIndex(i).try_as<Control>())
+					if (auto container = listViewBase.ContainerFromIndex(i).try_as<winrt::Control>())
 					{
 						itemContainer = container;
 					}
-					else if (auto item = listViewBase.Items().GetAt(i).try_as<Control>())
+					else if (auto item = listViewBase.Items().GetAt(i).try_as<winrt::Control>())
 					{
 						itemContainer = item;
 					}
@@ -170,54 +170,54 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		}
 	}
 
-	void ListViewExtensions::SetItemContainerBackground(ListViewBase const& sender, Control const& itemContainer, int itemIndex)
+	void ListViewExtensions::SetItemContainerBackground(winrt::ListViewBase const& sender, winrt::Control const& itemContainer, int itemIndex)
 	{
 		auto brush = itemIndex % 2 == 0 ? GetAlternateColor(sender) : nullptr;
 		itemContainer.Background(brush);
-		if (auto rootBorder = DependencyObjectEx::FindDescendant<Border>(itemContainer))
+		if (auto rootBorder = DependencyObjectEx::FindDescendant<winrt::Border>(itemContainer))
 		{
 			rootBorder.Background(brush);
 		}
 	}
 
-	void ListViewExtensions::DeselectAll(ListViewBase const& list)
+	void ListViewExtensions::DeselectAll(winrt::ListViewBase const& list)
 	{
 		switch (list.SelectionMode())
 		{
-		case ListViewSelectionMode::Single:
+		case winrt::ListViewSelectionMode::Single:
 			list.SelectedItem(nullptr);
 			break;
-		case ListViewSelectionMode::Multiple:
-		case ListViewSelectionMode::Extended:
-			list.DeselectRange(ItemIndexRange(0, list.Items().Size()));
+		case winrt::ListViewSelectionMode::Multiple:
+		case winrt::ListViewSelectionMode::Extended:
+			list.DeselectRange(winrt::ItemIndexRange(0, list.Items().Size()));
 			break;
 		}
 	}
 
-	void ListViewExtensions::SelectAllSafe(ListViewBase const& list)
+	void ListViewExtensions::SelectAllSafe(winrt::ListViewBase const& list)
 	{
 		switch (list.SelectionMode())
 		{
-		case ListViewSelectionMode::Single:
+		case winrt::ListViewSelectionMode::Single:
 			list.SelectedItem(list.Items().Size() > 0 ? list.Items().GetAt(0) : nullptr);
 			break;
-		case ListViewSelectionMode::Multiple:
-		case ListViewSelectionMode::Extended:
-			list.SelectRange(ItemIndexRange(0, list.Items().Size()));
+		case winrt::ListViewSelectionMode::Multiple:
+		case winrt::ListViewSelectionMode::Extended:
+			list.SelectRange(winrt::ItemIndexRange(0, list.Items().Size()));
 			break;
 		}
 	}
 
-	void ListViewExtensions::OnCommandPropertyChanged(DependencyObject const& sender, DependencyPropertyChangedEventArgs const& args)
+	void ListViewExtensions::OnCommandPropertyChanged(winrt::DependencyObject const& sender, winrt::DependencyPropertyChangedEventArgs const& args)
 	{
-		auto listViewBase = sender.try_as<ListViewBase>();
+		auto listViewBase = sender.try_as<winrt::ListViewBase>();
 
 		if (listViewBase == nullptr)
 		{
 			return;
 		}
 
-		if (auto oldCommand = args.OldValue().try_as<ICommand>())
+		if (auto oldCommand = args.OldValue().try_as<winrt::ICommand>())
 		{
 			if (auto iter = _commandTokens.find(listViewBase); iter != _commandTokens.end())
 			{
@@ -225,18 +225,18 @@ namespace winrt::XamlToolkit::WinUI::implementation
 			}
 		}
 
-		if (auto newCommand = args.NewValue().try_as<ICommand>())
+		if (auto newCommand = args.NewValue().try_as<winrt::ICommand>())
 		{
-			auto revoker = std::make_unique<ListViewBase::ItemClick_revoker>();
+			auto revoker = std::make_unique<winrt::ListViewBase::ItemClick_revoker>();
 			*revoker = listViewBase.ItemClick(winrt::auto_revoke, &ListViewExtensions::OnListViewBaseItemClick);
 			
 			_commandTokens.insert_or_assign(listViewBase, std::move(revoker));
 		}
 	}
 
-	void ListViewExtensions::OnListViewBaseItemClick(IInspectable const& sender, ItemClickEventArgs const& e)
+	void ListViewExtensions::OnListViewBaseItemClick(winrt::IInspectable const& sender, winrt::ItemClickEventArgs const& e)
 	{
-		if (auto listViewBase = sender.try_as<ListViewBase>())
+		if (auto listViewBase = sender.try_as<winrt::ListViewBase>())
 		{
 			auto command = GetCommand(listViewBase);
 			if (listViewBase == nullptr || command == nullptr)
@@ -251,7 +251,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		}
 	}
 
-	IAsyncAction ListViewExtensions::SmoothScrollIntoViewWithIndexAsync(ListViewBase const& listViewBase, int index, ScrollItemPlacement itemPlacement, bool disableAnimation, bool scrollIfVisible, int additionalHorizontalOffset, int additionalVerticalOffset)
+	winrt::IAsyncAction ListViewExtensions::SmoothScrollIntoViewWithIndexAsync(winrt::ListViewBase const& listViewBase, int index, ScrollItemPlacement itemPlacement, bool disableAnimation, bool scrollIfVisible, int additionalHorizontalOffset, int additionalVerticalOffset)
 	{
 		auto items = listViewBase.Items();
 		if (index > (static_cast<int>(items.Size()) - 1))
@@ -269,8 +269,8 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		bool isVirtualizing = false;
 		double previousXOffset = false, previousYOffset = false;
 
-		auto scrollViewer = DependencyObjectEx::FindDescendant<ScrollViewer>(listViewBase);
-		auto selectorItem = listViewBase.ContainerFromIndex(index).try_as<SelectorItem>();
+		auto scrollViewer = DependencyObjectEx::FindDescendant<winrt::ScrollViewer>(listViewBase);
+		auto selectorItem = listViewBase.ContainerFromIndex(index).try_as<winrt::SelectorItem>();
 
 		if (scrollViewer == nullptr)
 		{
@@ -287,8 +287,8 @@ namespace winrt::XamlToolkit::WinUI::implementation
 			previousYOffset = scrollViewer.VerticalOffset();
 
 			wil::shared_event completionEvent(wil::EventOptions::ManualReset);
-			ScrollViewer::ViewChanged_revoker viewChangedRevoker;
-			auto ViewChanged = [completionEvent](IInspectable const&, ScrollViewerViewChangedEventArgs const&)
+			winrt::ScrollViewer::ViewChanged_revoker viewChangedRevoker;
+			auto ViewChanged = [completionEvent](winrt::IInspectable const&, winrt::ScrollViewerViewChangedEventArgs const&)
 			{
 				completionEvent.SetEvent();
 			};
@@ -297,7 +297,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 			{
 				winrt::apartment_context context;
 				viewChangedRevoker = scrollViewer.ViewChanged(winrt::auto_revoke, ViewChanged);
-				listViewBase.ScrollIntoView(items.GetAt(index), ScrollIntoViewAlignment::Leading);
+				listViewBase.ScrollIntoView(items.GetAt(index), winrt::ScrollIntoViewAlignment::Leading);
 				co_await winrt::resume_on_signal(completionEvent.get());
 				co_await context;
 			}
@@ -306,11 +306,11 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
 			}
 
-			selectorItem = listViewBase.ContainerFromIndex(index).try_as<SelectorItem>();
+			selectorItem = listViewBase.ContainerFromIndex(index).try_as<winrt::SelectorItem>();
 		}
 
-		auto transform = selectorItem.TransformToVisual(scrollViewer.Content().try_as<UIElement>());
-		auto position = transform.TransformPoint(Point(0, 0));
+		auto transform = selectorItem.TransformToVisual(scrollViewer.Content().try_as<winrt::UIElement>());
+		auto position = transform.TransformPoint(winrt::Point(0, 0));
 
 		// Scrolling back to previous position
 		if (isVirtualizing)
@@ -411,7 +411,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		co_await ChangeViewAsync(scrollViewer, finalXPosition, finalYPosition, std::nullopt, disableAnimation);
 	}
 
-	IAsyncAction ListViewExtensions::SmoothScrollIntoViewWithItemAsync(ListViewBase const& listViewBase, IInspectable const& item, ScrollItemPlacement itemPlacement, bool disableAnimation, bool scrollIfVisible, int additionalHorizontalOffset, int additionalVerticalOffset)
+	winrt::IAsyncAction ListViewExtensions::SmoothScrollIntoViewWithItemAsync(winrt::ListViewBase const& listViewBase, winrt::IInspectable const& item, ScrollItemPlacement itemPlacement, bool disableAnimation, bool scrollIfVisible, int additionalHorizontalOffset, int additionalVerticalOffset)
 	{
 		uint32_t index;
 		if (listViewBase.Items().IndexOf(item, index))
@@ -420,7 +420,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		}
 	}
 
-	IAsyncAction ListViewExtensions::ChangeViewAsync(ScrollViewer const& scrollViewer, std::optional<double> horizontalOffset, std::optional<double> verticalOffset, std::optional<float> zoomFactor, bool disableAnimation)
+	winrt::IAsyncAction ListViewExtensions::ChangeViewAsync(winrt::ScrollViewer const& scrollViewer, std::optional<double> horizontalOffset, std::optional<double> verticalOffset, std::optional<float> zoomFactor, bool disableAnimation)
 	{
 		if (horizontalOffset > scrollViewer.ScrollableWidth())
 		{
@@ -447,8 +447,8 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		}
 
 		wil::shared_event completionEvent(wil::EventOptions::ManualReset);
-		ScrollViewer::ViewChanged_revoker viewChangedRevoker;
-		auto ViewChanged = [completionEvent](IInspectable const&, ScrollViewerViewChangedEventArgs const& e)
+		winrt::ScrollViewer::ViewChanged_revoker viewChangedRevoker;
+		auto ViewChanged = [completionEvent](winrt::IInspectable const&, winrt::ScrollViewerViewChangedEventArgs const& e)
 		{
 			if (!e.IsIntermediate())
 			{

@@ -7,9 +7,9 @@
 
 namespace winrt::XamlToolkit::WinUI::implementation
 {
-	IInspectable SymbolIconSourceExtension::ProvideValue() const
+	winrt::IInspectable SymbolIconSourceExtension::ProvideValue() const
 	{
-		FontIconSource fontIcon;
+		winrt::FontIconSource fontIcon;
 		fontIcon.Glyph(winrt::hstring{ static_cast<wchar_t>(Symbol()) });
 		fontIcon.FontFamily(TextIconExtension::SymbolThemeFontFamily());
 		fontIcon.FontWeight(FontWeight());
@@ -30,7 +30,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		return fontIcon;
 	}
 
-	IInspectable SymbolIconSourceExtension::ProvideValue([[maybe_unused]] IXamlServiceProvider const& provider)
+	winrt::IInspectable SymbolIconSourceExtension::ProvideValue([[maybe_unused]] winrt::IXamlServiceProvider const& provider)
 	{
 		return ProvideValue();
 	}

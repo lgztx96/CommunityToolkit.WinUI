@@ -16,7 +16,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		Owner().as<owner_type>().Value(value);
 	}
 
-	IVector<AutomationPeer> RadialGaugeAutomationPeer::GetChildrenCore()
+	winrt::IVector<winrt::AutomationPeer> RadialGaugeAutomationPeer::GetChildrenCore()
 	{
 		return nullptr;
 	}
@@ -38,9 +38,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		return winrt::hstring(result);
 	}
 
-	IInspectable RadialGaugeAutomationPeer::GetPatternCore(PatternInterface patternInterface)
+	winrt::IInspectable RadialGaugeAutomationPeer::GetPatternCore(winrt::PatternInterface patternInterface)
 	{
-		if (patternInterface == PatternInterface::RangeValue)
+		if (patternInterface == winrt::PatternInterface::RangeValue)
 		{
 			// Expose RangeValue properties.
 			return *this;
@@ -49,13 +49,13 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		return base_type::GetPatternCore(patternInterface);
 	}
 
-	AutomationControlType RadialGaugeAutomationPeer::GetAutomationControlTypeCore()
+	winrt::AutomationControlType RadialGaugeAutomationPeer::GetAutomationControlTypeCore()
 	{
-		return AutomationControlType::Custom;
+		return winrt::AutomationControlType::Custom;
 	}
 
 	void RadialGaugeAutomationPeer::RaiseValueChangedEvent(double oldValue, double newValue)
 	{
-		RaisePropertyChangedEvent(RangeValuePatternIdentifiers::ValueProperty(), PropertyValue::CreateDouble(oldValue), PropertyValue::CreateDouble(newValue));
+		RaisePropertyChangedEvent(winrt::RangeValuePatternIdentifiers::ValueProperty(), winrt::PropertyValue::CreateDouble(oldValue), PropertyValue::CreateDouble(newValue));
 	}
 }

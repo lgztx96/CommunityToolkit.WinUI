@@ -11,7 +11,7 @@
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
-    void GradientSlider::Thumb_DragStarted(winrt::IInspectable const& sender, DragStartedEventArgs const& e)
+    void GradientSlider::Thumb_DragStarted(winrt::IInspectable const& sender, winrt::DragStartedEventArgs const& e)
     {
         if (auto thumb = sender.try_as<winrt::XamlToolkit::Labs::WinUI::GradientSliderThumb>())
         {
@@ -24,7 +24,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         }
     }
 
-    void GradientSlider::Thumb_DragDelta(winrt::IInspectable const& sender, DragDeltaEventArgs const& e)
+    void GradientSlider::Thumb_DragDelta(winrt::IInspectable const& sender, winrt::DragDeltaEventArgs const& e)
     {
         if (!_containerCanvas)
             return;
@@ -38,7 +38,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         }
     }
 
-    void GradientSlider::Thumb_DragCompleted(winrt::IInspectable const&, DragCompletedEventArgs const& e)
+    void GradientSlider::Thumb_DragCompleted(winrt::IInspectable const&, winrt::DragCompletedEventArgs const& e)
     {
         _draggingThumb = nullptr;
 
@@ -46,7 +46,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         OnValueChanged();
     }
 
-    void GradientSlider::Thumb_KeyDown(IInspectable const& sender, KeyRoutedEventArgs const& e)
+    void GradientSlider::Thumb_KeyDown(winrt::IInspectable const& sender, winrt::KeyRoutedEventArgs const& e)
     {
         auto thumb = sender.try_as<winrt::XamlToolkit::Labs::WinUI::GradientSliderThumb>();
         if (!thumb)
@@ -54,16 +54,16 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         double change = 0.0;
 
-        if (e.Key() == VirtualKey::Left)
+        if (e.Key() == winrt::VirtualKey::Left)
         {
-            if (FlowDirection() == FlowDirection::RightToLeft)
+            if (FlowDirection() == winrt::FlowDirection::RightToLeft)
                 change = 0.05;
             else
                 change = -0.01;
         }
-        else if (e.Key() == VirtualKey::Right)
+        else if (e.Key() == winrt::VirtualKey::Right)
         {
-            if (FlowDirection() == FlowDirection::RightToLeft)
+            if (FlowDirection() == winrt::FlowDirection::RightToLeft)
                 change = -0.05;
             else
                 change = 0.01;
@@ -78,24 +78,25 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         }
     }
 
-    void GradientSlider::Thumb_RightTapped(IInspectable const& sender, RightTappedRoutedEventArgs const&)
+    void GradientSlider::Thumb_RightTapped(winrt::IInspectable const& sender, winrt::RightTappedRoutedEventArgs const&)
     {
         auto thumb = sender.try_as<winrt::XamlToolkit::Labs::WinUI::GradientSliderThumb>();
         if (!thumb)
             return;
 
         // Prevent removing the last stop
-        if (GradientStops().Size() <= 1)
+        auto gradientStops = GradientStops();
+        if (gradientStops.Size() <= 1)
             return;
 
         auto stop = thumb.GradientStop();
 
         uint32_t index = 0;
-        for (auto const& s : GradientStops())
+        for (auto const& s : gradientStops)
         {
             if (winrt::get_abi(s) == winrt::get_abi(stop))
             {
-                GradientStops().RemoveAt(index);
+                gradientStops.RemoveAt(index);
                 break;
             }
             index++;
@@ -104,20 +105,20 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         RemoveStopThumb(stop);
     }
 
-    void GradientSlider::ContainerCanvas_PointerEntered(IInspectable const&, PointerRoutedEventArgs const&)
+    void GradientSlider::ContainerCanvas_PointerEntered(winrt::IInspectable const&, winrt::PointerRoutedEventArgs const&)
     {
         if (!_placeholderThumb)
             return;
 
         if (IsAddStopsEnabled())
         {
-            _placeholderThumb.Visibility(Visibility::Visible);
+            _placeholderThumb.Visibility(winrt::Visibility::Visible);
         }
 
-        VisualStateManager::GoToState(*this, PointerOverStateName, false);
+        winrt::VisualStateManager::GoToState(*this, PointerOverStateName, false);
     }
 
-    void GradientSlider::ContainerCanvas_PointerMoved(IInspectable const&, PointerRoutedEventArgs const& e)
+    void GradientSlider::ContainerCanvas_PointerMoved(winrt::IInspectable const&, winrt::PointerRoutedEventArgs const& e)
     {
         if (!_containerCanvas || !_placeholderThumb)
             return;
@@ -132,7 +133,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
             auto thumbPosition = posX - _placeholderThumb.ActualWidth() / 2;
             thumbPosition = std::clamp(thumbPosition, 0.0, _containerCanvas.ActualWidth() - _placeholderThumb.ActualWidth());
-            Canvas::SetLeft(_placeholderThumb, thumbPosition);
+            winrt::Canvas::SetLeft(_placeholderThumb, thumbPosition);
         }
         else
         {
@@ -144,18 +145,18 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         }
     }
 
-    void GradientSlider::ContainerCanvas_PointerExited(IInspectable const&, PointerRoutedEventArgs const&)
+    void GradientSlider::ContainerCanvas_PointerExited(winrt::IInspectable const&, winrt::PointerRoutedEventArgs const&)
     {
         if (!_placeholderThumb)
             return;
 
-        _placeholderThumb.Visibility(Visibility::Collapsed);
+        _placeholderThumb.Visibility(winrt::Visibility::Collapsed);
         _placeholderThumb.IsEnabled(false);
 
-        VisualStateManager::GoToState(*this, NormalStateName, false);
+        winrt::VisualStateManager::GoToState(*this, NormalStateName, false);
     }
 
-    void GradientSlider::ContainerCanvas_PointerPressed(IInspectable const&, PointerRoutedEventArgs const& e)
+    void GradientSlider::ContainerCanvas_PointerPressed(winrt::IInspectable const&, winrt::PointerRoutedEventArgs const& e)
     {
         if (!_containerCanvas || !_placeholderThumb)
             return;
@@ -171,15 +172,15 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         _placeholderThumb.IsEnabled(false);
 
-        GradientStop stop;
+        winrt::GradientStop stop;
         stop.Offset(positionX / _containerCanvas.ActualWidth());
-        stop.Color(Colors::Black());
+        stop.Color(winrt::Colors::Black());
 
         GradientStops().Append(stop);
         _draggingThumb = AddStopThumb(stop);
     }
 
-    void GradientSlider::ContainerCanvas_PointerReleased(IInspectable const&, PointerRoutedEventArgs const& e)
+    void GradientSlider::ContainerCanvas_PointerReleased(winrt::IInspectable const&, winrt::PointerRoutedEventArgs const& e)
     {
         if (!_containerCanvas)
             return;
@@ -201,7 +202,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
             if (!thumb)
                 continue;
 
-            auto thumbPos = Canvas::GetLeft(thumb);
+            auto thumbPos = winrt::Canvas::GetLeft(thumb);
             if (position > thumbPos - thumb.ActualWidth() && position < thumbPos + (thumb.ActualWidth() * 2))
                 return true;
         }
@@ -209,7 +210,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         return false;
     }
 
-    void GradientSlider::HandleThumbDragging(winrt::XamlToolkit::Labs::WinUI::GradientSliderThumb const& thumb, Point position)
+    void GradientSlider::HandleThumbDragging(winrt::XamlToolkit::Labs::WinUI::GradientSliderThumb const& thumb, winrt::Point position)
     {
         if (!_containerCanvas)
             return;

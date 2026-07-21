@@ -8,19 +8,26 @@
 #include <string_view>
 #endif
 
+namespace winrt
+{
+    using namespace Windows::Storage::Streams;
+    using namespace Microsoft::UI::Xaml::Controls;
+    using namespace Microsoft::UI::Xaml::Media::Imaging;
+}
+
 namespace winrt::XamlToolkit::Labs::WinUI
 {
     struct DefaultSVGRenderer : winrt::implements<DefaultSVGRenderer, winrt::XamlToolkit::Labs::WinUI::ISVGRenderer>
     {
-        Windows::Foundation::IAsyncOperation<Microsoft::UI::Xaml::Controls::Image> SvgToImage(std::wstring_view svgString)
+        winrt::IAsyncOperation<winrt::Image> SvgToImage(std::wstring_view svgString)
         {
-            Microsoft::UI::Xaml::Media::Imaging::SvgImageSource svgImageSource;
-            Microsoft::UI::Xaml::Controls::Image image;
+            winrt::SvgImageSource svgImageSource;
+            winrt::Image image;
             // Create a MemoryStream object and write the SVG string to it
-            Windows::Storage::Streams::InMemoryRandomAccessStream memoryStream;
+            winrt::InMemoryRandomAccessStream memoryStream;
 
             auto outputStream = memoryStream.GetOutputStreamAt(0);
-            auto streamWriter = Windows::Storage::Streams::DataWriter(outputStream);
+            auto streamWriter = winrt::DataWriter(outputStream);
 
             streamWriter.WriteString(svgString);
             co_await streamWriter.FlushAsync();
@@ -42,6 +49,7 @@ namespace winrt::XamlToolkit::Labs::WinUI
             {
                 image.Height(size.Height);
             }
+
             co_return image;
         }
     };

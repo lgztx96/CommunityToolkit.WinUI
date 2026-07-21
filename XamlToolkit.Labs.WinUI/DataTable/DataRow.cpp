@@ -19,7 +19,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		Unloaded({ this, &DataRow::DataRow_Unloaded });
     }
 
-    void DataRow::DataRow_Unloaded([[maybe_unused]] winrt::Windows::Foundation::IInspectable const& sender, [[maybe_unused]] RoutedEventArgs const& e)
+    void DataRow::DataRow_Unloaded([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
     {
         // Remove our references on unloaded
         if (_parentTable)
@@ -31,7 +31,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         _parentPanel = nullptr;
     }
 
-    Panel DataRow::InitializeParentHeaderConnection()
+    winrt::Panel DataRow::InitializeParentHeaderConnection()
     {
         // TODO: Think about this expression instead...
         //       Drawback: Can't have Grid between table and header
@@ -39,31 +39,36 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         ////var parent = this.FindAscendant<FrameworkElement>(static (element) => element is ItemsPresenter or Grid);
 
         // TODO: Investigate what a scenario with an ItemsRepeater would look like (with a StackLayout, but using DataRow as the item's panel inside)
-        Panel panel = nullptr;
+        winrt::Panel panel { nullptr };
 
         // 1a. Get parent ItemsPresenter to find header
-        if (auto itemsPresenter = winrt::XamlToolkit::WinUI::DependencyObjectEx::FindAscendant<ItemsPresenter>(*this))
+        if (auto itemsPresenter = winrt::XamlToolkit::WinUI::DependencyObjectEx::FindAscendant<winrt::ItemsPresenter>(*this))
         {
             // 2. Quickly check if the header is just what we're looking for.
 			auto header = itemsPresenter.Header();
-            if (header.try_as<Grid>() || header.try_as<DataTable>())
+            if (header.try_as<winrt::Grid>() || header.try_as<winrt::XamlToolkit::Labs::WinUI::DataTable>())
             {
-                panel = itemsPresenter.Header().try_as<Panel>();
+                panel = itemsPresenter.Header().try_as<winrt::Panel>();
             }
             else
             {
                 // 3. Otherwise, try and find the inner thing we want.
-                panel = winrt::XamlToolkit::WinUI::DependencyObjectEx::FindDescendant<Panel>(itemsPresenter,
-                    [](auto&& element) { return element.template try_as<Grid>() || element.template try_as<winrt::XamlToolkit::Labs::WinUI::DataTable>(); });
+                panel = winrt::XamlToolkit::WinUI::DependencyObjectEx::FindDescendant<winrt::Panel>(itemsPresenter,
+                    [](auto&& element) { return element.template try_as<winrt::Grid>() || element.template try_as<winrt::XamlToolkit::Labs::WinUI::DataTable>(); });
             }
 
             // Check if we're in a TreeView
-            _isTreeView = winrt::XamlToolkit::WinUI::DependencyObjectEx::FindAscendant<TreeView>(itemsPresenter).try_as<TreeView>() != nullptr;
+            _isTreeView = static_cast<bool>(winrt::XamlToolkit::WinUI::DependencyObjectEx::FindAscendant<winrt::TreeView>(itemsPresenter).try_as<winrt::TreeView>());
         }
 
         // 1b. If we can't find the ItemsPresenter, then we reach up outside to find the next thing we could use as a parent
-        if (panel == nullptr) panel = winrt::XamlToolkit::WinUI::DependencyObjectEx::FindAscendant<Panel>(*this, [](auto&& element) { return element.template try_as<Grid>() || element.template try_as<DataTable>(); });
-
+        if (panel == nullptr)
+        {
+            panel = winrt::XamlToolkit::WinUI::DependencyObjectEx::FindAscendant<winrt::Panel>(*this, [](auto&& element) 
+            { 
+                return element.template try_as<winrt::Grid>() || element.template try_as<winrt::XamlToolkit::Labs::WinUI::DataTable>();
+            });
+        }
         // Cache actual datatable reference
         if (auto table = panel.try_as<winrt::XamlToolkit::Labs::WinUI::DataTable>())
         {
@@ -74,7 +79,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         return panel;
     }
 
-    Size DataRow::MeasureOverride(Size availableSize)
+    winrt::Size DataRow::MeasureOverride(winrt::Size availableSize)
     {
         // We should probably only have to do this once ever?
         if (_parentPanel == nullptr) _parentPanel = InitializeParentHeaderConnection();
@@ -88,11 +93,12 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
             // If we don't have a grid, just measure first child to get row height and take available space
             if (_parentPanel == nullptr)
             {
-                children.GetAt(0).Measure(availableSize);
-                return Size(availableSize.Width, children.GetAt(0).DesiredSize().Height);
+                auto first = children.GetAt(0);
+                first.Measure(availableSize);
+                return winrt::Size(availableSize.Width, first.DesiredSize().Height);
             }
             // Handle DataTable Parent
-            else if (_parentTable != nullptr
+            else if (_parentTable
                 && _parentTable.Children().Size() == childCount)
             {
                 // TODO: Need to check visibility
@@ -104,9 +110,9 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
 					if (dataColumn == nullptr) continue;
 
-					auto colImpl = winrt::get_self<winrt::XamlToolkit::Labs::WinUI::implementation::DataColumn>(dataColumn);
+					auto colImpl = winrt::get_self<implementation::DataColumn>(dataColumn);
 
-                    if (colImpl->CurrentWidth().GridUnitType == GridUnitType::Auto)
+                    if (colImpl->CurrentWidth().GridUnitType == winrt::GridUnitType::Auto)
                     {
                         childElement.Measure(availableSize);
 
@@ -117,8 +123,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
                         if (i == 0 && _isTreeView)
                         {
                             // Get our containing grid from TreeViewItem, start with our indented padding
-                            auto parentContainer = winrt::XamlToolkit::WinUI::DependencyObjectEx::FindAscendant(*this, L"MultiSelectGrid").try_as<Grid>();
-                            if (parentContainer != nullptr)
+                            auto parentContainer = winrt::XamlToolkit::WinUI::DependencyObjectEx::FindAscendant(*this, L"MultiSelectGrid").try_as<winrt::Grid>();
+                            if (parentContainer)
                             {
                                 _treePadding = parentContainer.Padding().Left;
                                 // We assume our 'DataRow' is in the last child slot of the Grid, need to know how large the other columns are.
@@ -143,9 +149,9 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
                         }
 
                     }
-                    else if (colImpl->CurrentWidth().GridUnitType == GridUnitType::Pixel)
+                    else if (colImpl->CurrentWidth().GridUnitType == winrt::GridUnitType::Pixel)
                     {
-                        childElement.Measure(Size(static_cast<float>(colImpl->DesiredWidth().Value), availableSize.Height));
+                        childElement.Measure(winrt::Size(static_cast<float>(colImpl->DesiredWidth().Value), availableSize.Height));
                     }
                     else
                     {
@@ -156,7 +162,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
                 }
             }
             // Fallback for Grid Hybrid scenario...
-            else if (auto grid = _parentPanel.try_as<Grid>();
+            else if (auto grid = _parentPanel.try_as<winrt::Grid>();
                 grid && _parentPanel.Children().Size() == childCount
                 && grid.ColumnDefinitions().Size() == Children().Size())
             {
@@ -166,9 +172,9 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
                 {
                     auto childElement = children.GetAt(i);
 					auto colDef = grid.ColumnDefinitions().GetAt(i);
-                    if (colDef.Width().GridUnitType == GridUnitType::Pixel)
+                    if (colDef.Width().GridUnitType == winrt::GridUnitType::Pixel)
                     {
-                        childElement.Measure(Size(static_cast<float>(colDef.Width().Value), availableSize.Height));
+                        childElement.Measure(winrt::Size(static_cast<float>(colDef.Width().Value), availableSize.Height));
                     }
                     else
                     {
@@ -182,10 +188,10 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         }
 
         // Otherwise, return our parent's size as the desired size.
-        return Size(_parentPanel ? _parentPanel.DesiredSize().Width : availableSize.Width, static_cast<float>(maxHeight));
+        return winrt::Size(_parentPanel ? _parentPanel.DesiredSize().Width : availableSize.Width, static_cast<float>(maxHeight));
     }
 
-    Size DataRow::ArrangeOverride(Size finalSize)
+    winrt::Size DataRow::ArrangeOverride(winrt::Size finalSize)
     {
         uint32_t column = 0;
         double x = 0;
@@ -204,15 +210,15 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         double width = 0;
 
-        if (_parentPanel != nullptr)
+        if (_parentPanel)
         {
             int i = 0;
             auto elements = Children()
-                | std::ranges::views::filter([](auto&& e) { return e.Visibility() == Visibility::Visible; });
+                | std::ranges::views::filter([](auto&& e) { return e.Visibility() == winrt::Visibility::Visible; });
 
-            for (const UIElement& child : elements)
+            for (const auto& child : elements)
             {
-                if (auto grid = _parentPanel.try_as<Grid>(); grid &&
+                if (auto grid = _parentPanel.try_as<winrt::Grid>(); grid &&
                     column < grid.ColumnDefinitions().Size())
                 {
                     width = grid.ColumnDefinitions().GetAt(column++).ActualWidth();
@@ -230,19 +236,19 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
                 // Note: For Auto, since we measured our children and bubbled that up to the DataTable layout, then the DataColumn size we grab above should account for the largest of our children.
                 if (i == 0)
                 {
-                    child.Arrange(Rect(static_cast<float>(x), 0, static_cast<float>(width), finalSize.Height));
+                    child.Arrange(winrt::Rect(static_cast<float>(x), 0, static_cast<float>(width), finalSize.Height));
                 }
                 else
                 {
                     // If we're in a tree, remove the indentation from the layout of columns beyond the first.
-                    child.Arrange(Rect(static_cast<float>(x - _treePadding), 0, static_cast<float>(width), finalSize.Height));
+                    child.Arrange(winrt::Rect(static_cast<float>(x - _treePadding), 0, static_cast<float>(width), finalSize.Height));
                 }
 
                 x += width + spacing;
                 i++;
             }
 
-            return Size(static_cast<float>(x - spacing), finalSize.Height);
+            return winrt::Size(static_cast<float>(x - spacing), finalSize.Height);
         }
 
         return finalSize;

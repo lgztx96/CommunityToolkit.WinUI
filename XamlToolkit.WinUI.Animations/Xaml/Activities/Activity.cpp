@@ -7,24 +7,24 @@
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
-    const wil::single_threaded_property<winrt::Microsoft::UI::Xaml::DependencyProperty> Activity::DelayProperty = 
-        winrt::Microsoft::UI::Xaml::DependencyProperty::Register(
+    const wil::single_threaded_property<winrt::DependencyProperty> Activity::DelayProperty = 
+        winrt::DependencyProperty::Register(
                 L"Delay",
-                winrt::xaml_typename<winrt::Windows::Foundation::IReference<winrt::Windows::Foundation::TimeSpan>>(),
+                winrt::xaml_typename<winrt::IReference<winrt::TimeSpan>>(),
                 winrt::xaml_typename<class_type>(),
-                winrt::Microsoft::UI::Xaml::PropertyMetadata{ nullptr });
+                winrt::PropertyMetadata{ nullptr });
 
-    winrt::Windows::Foundation::IReference<winrt::Windows::Foundation::TimeSpan> Activity::Delay()
+    winrt::IReference<winrt::TimeSpan> Activity::Delay() const
     {
-        return GetValue(DelayProperty()).try_as<winrt::Windows::Foundation::IReference<winrt::Windows::Foundation::TimeSpan>>();
+        return GetValue(DelayProperty()).try_as<winrt::IReference<winrt::TimeSpan>>();
     }
 
-    void Activity::Delay(winrt::Windows::Foundation::IReference<winrt::Windows::Foundation::TimeSpan> const& value)
+    void Activity::Delay(winrt::IReference<winrt::TimeSpan> const& value)
     {
         SetValue(DelayProperty(), value);
     }
 
-    winrt::Windows::Foundation::IAsyncAction Activity::InvokeAsync(Microsoft::UI::Xaml::UIElement const& element)
+    winrt::IAsyncAction Activity::InvokeAsync(winrt::UIElement const& element)
     {
         if (auto delay = Delay())
         {

@@ -70,11 +70,11 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         static winrt::UIElement FindContentTemplateRoot(winrt::FrameworkElement const& phaseElement);
 
     public:
-        void CachePhaseElement(FrameworkElement const& phaseElement, int phase);
+        void CachePhaseElement(winrt::FrameworkElement const& phaseElement, int phase);
 
-        void UncachePhaseElement(FrameworkElement const& phaseElement, int phase);
+        void UncachePhaseElement(winrt::FrameworkElement const& phaseElement, int phase);
 
-        void Attach(DependencyObject const& dependencyObject);
+        void Attach(winrt::DependencyObject const& dependencyObject);
 
         void Detach();
 
