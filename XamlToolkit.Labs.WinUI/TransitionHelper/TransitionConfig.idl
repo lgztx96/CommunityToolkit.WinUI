@@ -1,0 +1,20 @@
+﻿import "TransitionHelper/ScaleMode.idl";
+import "TransitionHelper/IScalingCalculator.idl";
+import "../XamlToolkit.WinUI.Animations/Enums/EasingType.idl";
+
+namespace XamlToolkit.Labs.WinUI
+{
+	runtimeclass TransitionConfig
+	{
+		TransitionConfig();
+
+		String Id;
+		ScaleMode ScaleMode;
+		IScalingCalculator CustomScalingCalculator;
+		Boolean EnableClipAnimation;
+		Windows.Foundation.Point NormalizedCenterPoint;
+		Windows.Foundation.IReference<XamlToolkit.WinUI.Animations.EasingType> EasingType;
+		Windows.Foundation.IReference<Microsoft.UI.Xaml.Media.Animation.EasingMode> EasingMode;
+		Windows.Foundation.IReference<Windows.Foundation.Point> OpacityTransitionProgressKey;
+	}
+}

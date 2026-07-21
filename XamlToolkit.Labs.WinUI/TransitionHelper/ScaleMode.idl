@@ -1,0 +1,11 @@
+﻿namespace XamlToolkit.Labs.WinUI
+{
+    enum ScaleMode
+    {
+        None,
+        Scale,
+        ScaleX,
+        ScaleY,
+        Custom
+    };
+}

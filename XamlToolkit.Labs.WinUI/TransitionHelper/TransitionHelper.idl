@@ -1,0 +1,53 @@
+﻿import "TransitionHelper/TransitionConfig.idl";
+import "TransitionHelper/VisualStateToggleMethod.idl";
+
+namespace XamlToolkit.Labs.WinUI
+{
+	[contentproperty("Configs")]
+	runtimeclass TransitionHelper : Microsoft.UI.Xaml.DependencyObject
+	{
+		TransitionHelper();
+
+		static Microsoft.UI.Xaml.DependencyProperty IdProperty{ get; };
+		static String GetId(Microsoft.UI.Xaml.DependencyObject obj);
+		static void SetId(Microsoft.UI.Xaml.DependencyObject obj, String value);
+		static Microsoft.UI.Xaml.DependencyProperty IsIndependentProperty{ get; };
+		static Boolean GetIsIndependent(Microsoft.UI.Xaml.DependencyObject obj);
+		static void SetIsIndependent(Microsoft.UI.Xaml.DependencyObject obj, Boolean value);
+		static Microsoft.UI.Xaml.DependencyProperty IndependentTranslationProperty{ get; };
+		static Windows.Foundation.IReference<Windows.Foundation.Point> GetIndependentTranslation(Microsoft.UI.Xaml.DependencyObject obj);
+		static void SetIndependentTranslation(Microsoft.UI.Xaml.DependencyObject obj, Windows.Foundation.IReference<Windows.Foundation.Point> value);
+		static Microsoft.UI.Xaml.DependencyProperty CoordinatedTargetProperty{ get; };
+		static String GetCoordinatedTarget(Microsoft.UI.Xaml.DependencyObject obj);
+		static void SetCoordinatedTarget(Microsoft.UI.Xaml.DependencyObject obj, String value);
+
+		Microsoft.UI.Xaml.FrameworkElement Source;
+		Microsoft.UI.Xaml.FrameworkElement Target;
+		Windows.Foundation.Collections.IVector<TransitionConfig> Configs{ get; set; };
+		Boolean IsTargetState{ get; };
+		Boolean IsAnimating{ get; };
+		Boolean IsHitTestVisibleWhenAnimating;
+		VisualStateToggleMethod SourceToggleMethod;
+		VisualStateToggleMethod TargetToggleMethod;
+		Windows.Foundation.TimeSpan Duration;
+		Windows.Foundation.TimeSpan ReverseDuration;
+		Boolean InverseEasingFunctionWhenReversing;
+		Windows.Foundation.TimeSpan IndependentElementShowDuration;
+		Windows.Foundation.TimeSpan IndependentElementShowDelay;
+		Windows.Foundation.TimeSpan IndependentElementShowInterval;
+		Windows.Foundation.TimeSpan IndependentElementHideDuration;
+		XamlToolkit.WinUI.Animations.EasingType DefaultEasingType;
+		Microsoft.UI.Xaml.Media.Animation.EasingMode DefaultEasingMode;
+		Windows.Foundation.Point DefaultIndependentTranslation;
+		Windows.Foundation.Point DefaultOpacityTransitionProgressKey;
+		XamlToolkit.WinUI.Animations.EasingType IndependentElementEasingType;
+		Microsoft.UI.Xaml.Media.Animation.EasingMode IndependentElementEasingMode;
+
+		Windows.Foundation.IAsyncAction StartAsync();
+		Windows.Foundation.IAsyncAction StartAsync(Boolean forceUpdateAnimatedElements);
+		Windows.Foundation.IAsyncAction ReverseAsync();
+		Windows.Foundation.IAsyncAction ReverseAsync(Boolean forceUpdateAnimatedElements);
+		void Stop();
+		void Reset(Boolean toInitialState);
+	}
+}

@@ -105,6 +105,9 @@
     <Filter Include="GradientSlider">
       <UniqueIdentifier>{fc44c88e-0a41-479a-baef-c846857523d5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TransitionHelper">
+      <UniqueIdentifier>{2e2e0d6c-c7a8-4782-bc11-cf1c0044bd97}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -274,6 +277,18 @@
     <ClCompile Include="GradientSlider\GradientSlider.Input.cpp">
       <Filter>GradientSlider</Filter>
     </ClCompile>
+    <ClCompile Include="TransitionHelper\ReverseTransitionAction.cpp">
+      <Filter>TransitionHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="TransitionHelper\StartTransitionAction.cpp">
+      <Filter>TransitionHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="TransitionHelper\TransitionConfig.cpp">
+      <Filter>TransitionHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="TransitionHelper\TransitionHelper.cpp">
+      <Filter>TransitionHelper</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -394,6 +409,18 @@
     </ClInclude>
     <ClInclude Include="wil_cppwinrt_module.h" />
     <ClInclude Include="winrt_module_imports.h" />
+    <ClInclude Include="TransitionHelper\ReverseTransitionAction.h">
+      <Filter>TransitionHelper</Filter>
+    </ClInclude>
+    <ClInclude Include="TransitionHelper\StartTransitionAction.h">
+      <Filter>TransitionHelper</Filter>
+    </ClInclude>
+    <ClInclude Include="TransitionHelper\TransitionConfig.h">
+      <Filter>TransitionHelper</Filter>
+    </ClInclude>
+    <ClInclude Include="TransitionHelper\TransitionHelper.h">
+      <Filter>TransitionHelper</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Midl Include="MarkdownTextBlock\MarkdownTextBlock.idl">
@@ -464,6 +491,27 @@
     </Midl>
     <Midl Include="WrapPanel2\WrapPanel2.idl">
       <Filter>WrapPanel2</Filter>
+    </Midl>
+    <Midl Include="TransitionHelper\ReverseTransitionAction.idl">
+      <Filter>TransitionHelper</Filter>
+    </Midl>
+    <Midl Include="TransitionHelper\ScaleMode.idl">
+      <Filter>TransitionHelper</Filter>
+    </Midl>
+    <Midl Include="TransitionHelper\StartTransitionAction.idl">
+      <Filter>TransitionHelper</Filter>
+    </Midl>
+    <Midl Include="TransitionHelper\TransitionConfig.idl">
+      <Filter>TransitionHelper</Filter>
+    </Midl>
+    <Midl Include="TransitionHelper\TransitionHelper.idl">
+      <Filter>TransitionHelper</Filter>
+    </Midl>
+    <Midl Include="TransitionHelper\VisualStateToggleMethod.idl">
+      <Filter>TransitionHelper</Filter>
+    </Midl>
+    <Midl Include="TransitionHelper\IScalingCalculator.idl">
+      <Filter>TransitionHelper</Filter>
     </Midl>
   </ItemGroup>
   <ItemGroup>

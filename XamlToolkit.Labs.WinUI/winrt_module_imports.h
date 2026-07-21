@@ -12,6 +12,7 @@
 
 #include <winrt/Microsoft.UI.h>
 #include <winrt/Microsoft.UI.Dispatching.h>
+#include <winrt/Microsoft.UI.Composition.h>
 #include <winrt/Microsoft.UI.Text.h>
 #include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Microsoft.UI.Xaml.Media.h>
@@ -25,6 +26,8 @@
 #include <winrt/XamlToolkit.WinUI.Converters.h>
 #include <winrt/XamlToolkit.WinUI.Helpers.h>
 #include <winrt/XamlToolkit.WinUI.Controls.h>
+#include <winrt/XamlToolkit.WinUI.Animations.h>
+#include <winrt/XamlToolkit.WinUI.Interactivity.h>
 
 #include <wil/cppwinrt.h>
 #include <wil/cppwinrt_helpers.h>
@@ -41,6 +44,7 @@ import winrt.Windows.Graphics.Imaging;
 
 import winrt.Microsoft.UI;
 import winrt.Microsoft.UI.Dispatching;
+import winrt.Microsoft.UI.Composition;
 import winrt.Microsoft.UI.Text;
 import winrt.Microsoft.UI.Xaml;
 import winrt.Microsoft.UI.Xaml.Media;
@@ -54,6 +58,8 @@ import winrt.XamlToolkit.WinUI;
 import winrt.XamlToolkit.WinUI.Converters;
 import winrt.XamlToolkit.WinUI.Helpers;
 import winrt.XamlToolkit.WinUI.Controls;
+import winrt.XamlToolkit.WinUI.Animations;
+import winrt.XamlToolkit.WinUI.Interactivity;
 
 #include <wil_cppwinrt_module.h>
 #endif

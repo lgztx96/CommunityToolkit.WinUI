@@ -1,0 +1,8 @@
+﻿namespace XamlToolkit.Labs.WinUI
+{
+	enum VisualStateToggleMethod
+	{
+		ByVisibility,
+		ByIsVisible
+	};
+}
