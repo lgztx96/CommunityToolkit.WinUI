@@ -2,8 +2,10 @@
 
 #include "StoreNavigationViewItemAttach.g.h"
 
+#ifdef __INTELLISENSE__
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
+#endif
 
 namespace winrt
 {
@@ -13,15 +15,13 @@ namespace winrt
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
-    struct StoreNavigationViewItemAttach : StoreNavigationViewItemAttachT<StoreNavigationViewItemAttach>
+    struct NavigationViewItemAttach
     {
-        StoreNavigationViewItemAttach() = default;
-
         static inline wil::single_threaded_property<DependencyProperty> SelectedIconProperty =
             winrt::DependencyProperty::RegisterAttached(
                 L"SelectedIcon",
                 winrt::xaml_typename<IInspectable>(),
-                winrt::xaml_typename<class_type>(),
+                winrt::xaml_typename<winrt::XamlToolkit::Labs::WinUI::NavigationViewItemAttach>(),
                 winrt::PropertyMetadata(nullptr));
 
         static inline wil::single_threaded_property<DependencyProperty> ShowNotificationDotProperty =

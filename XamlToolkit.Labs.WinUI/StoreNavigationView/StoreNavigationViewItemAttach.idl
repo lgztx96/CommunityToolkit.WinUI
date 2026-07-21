@@ -1,8 +1,7 @@
 namespace XamlToolkit.Labs.WinUI
 {
-    [default_interface] runtimeclass StoreNavigationViewItemAttach : Microsoft.UI.Xaml.DependencyObject
+    static runtimeclass NavigationViewItemAttach
     {
-        StoreNavigationViewItemAttach();
 
 		static Microsoft.UI.Xaml.DependencyProperty SelectedIconProperty { get; };
 		static Object GetSelectedIcon(Microsoft.UI.Xaml.DependencyObject obj);
