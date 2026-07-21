@@ -553,9 +553,9 @@
                                                      VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                     local:StoreNavigationViewItemAttach.SelectedIcon="{TemplateBinding local:StoreNavigationViewItemAttach.SelectedIcon}"
-                                                     local:StoreNavigationViewItemAttach.StaticIconVisibility="{TemplateBinding local:StoreNavigationViewItemAttach.StaticIconVisibility}"
-                                                     local:StoreNavigationViewItemAttach.UnselectedIcon="{TemplateBinding local:StoreNavigationViewItemAttach.UnselectedIcon}"
+                                                     local:NavigationViewItemAttach.SelectedIcon="{TemplateBinding local:NavigationViewItemAttach.SelectedIcon}"
+                                                     local:NavigationViewItemAttach.StaticIconVisibility="{TemplateBinding local:NavigationViewItemAttach.StaticIconVisibility}"
+                                                     local:NavigationViewItemAttach.UnselectedIcon="{TemplateBinding local:NavigationViewItemAttach.UnselectedIcon}"
                                                      Background="{TemplateBinding Background}"
                                                      BorderBrush="{TemplateBinding BorderBrush}"
                                                      BorderThickness="{TemplateBinding BorderThickness}"
@@ -580,7 +580,7 @@
                                  Fill="{ThemeResource InfoBadgeBackground}"
                                  Stroke="{TemplateBinding Background}"
                                  StrokeThickness="1"
-                                 Visibility="{Binding (local:StoreNavigationViewItemAttach.ShowNotificationDot), RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                                 Visibility="{Binding (local:NavigationViewItemAttach.ShowNotificationDot), RelativeSource={RelativeSource Mode=TemplatedParent}}" />
 
                         <ItemsRepeater x:Name="NavigationViewItemMenuItemsHost"
                                        Grid.Row="1"
@@ -745,9 +745,9 @@
                                          Height="20"
                                          Margin="{ThemeResource NavigationViewItemOnLeftIconBoxMargin}"
                                          animations:Implicit.Animations="{StaticResource RailNavigationIconImplicitOffsetAnimation}"
-                                         Visibility="{TemplateBinding local:StoreNavigationViewItemAttach.StaticIconVisibility}">
+                                         Visibility="{TemplateBinding local:NavigationViewItemAttach.StaticIconVisibility}">
                                     <ContentPresenter x:Name="UnselectedIcon"
-                                                      Content="{TemplateBinding local:StoreNavigationViewItemAttach.UnselectedIcon}"
+                                                      Content="{TemplateBinding local:NavigationViewItemAttach.UnselectedIcon}"
                                                       Foreground="{ThemeResource RailNavigationIconForegroundBrush}" />
                                 </Viewbox>
                                 <Viewbox x:Name="SelectedIconBox"
@@ -756,10 +756,10 @@
                                          Margin="{ThemeResource NavigationViewItemOnLeftIconBoxMargin}"
                                          animations:Implicit.Animations="{StaticResource RailNavigationIconImplicitOffsetAnimation}"
                                          Opacity="0"
-                                         Visibility="{TemplateBinding local:StoreNavigationViewItemAttach.StaticIconVisibility}">
+                                         Visibility="{TemplateBinding local:NavigationViewItemAttach.StaticIconVisibility}">
 
                                     <ContentPresenter x:Name="SelectedIcon"
-                                                      Content="{TemplateBinding local:StoreNavigationViewItemAttach.SelectedIcon}"
+                                                      Content="{TemplateBinding local:NavigationViewItemAttach.SelectedIcon}"
                                                       Foreground="{ThemeResource NavigationViewSelectionIndicatorForeground}" />
                                 </Viewbox>
                                 <Viewbox Grid.Row="2"

@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "StoreNavigationViewItemAttach.g.h"
+#include "NavigationViewItemAttach.g.h"
 
 #ifdef __INTELLISENSE__
 #include <wil/wistd_type_traits.h>

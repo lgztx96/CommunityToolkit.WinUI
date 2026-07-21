@@ -302,8 +302,8 @@
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="pch.h" />
-    <ClInclude Include="StoreNavigationView\StoreNavigationViewItemAttach.h">
-      <DependentUpon>StoreNavigationView\StoreNavigationViewItemAttach.idl</DependentUpon>
+    <ClInclude Include="StoreNavigationView\NavigationViewItemAttach.h">
+      <DependentUpon>StoreNavigationView\NavigationViewItemAttach.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="wil_cppwinrt_module.h" />
@@ -529,8 +529,8 @@
     <ClCompile Include="Shimmer\Shimmer.cpp">
       <SubType>Code</SubType>
     </ClCompile>
-    <ClCompile Include="StoreNavigationView\StoreNavigationViewItemAttach.cpp">
-      <DependentUpon>StoreNavigationView\StoreNavigationViewItemAttach.idl</DependentUpon>
+    <ClCompile Include="StoreNavigationView\NavigationViewItemAttach.cpp">
+      <DependentUpon>StoreNavigationView\NavigationViewItemAttach.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="TokenView\TokenItem.cpp">
@@ -676,7 +676,7 @@
       <DependentUpon>Shimmer\Shimmer.cpp</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
-    <Midl Include="StoreNavigationView\StoreNavigationViewItemAttach.idl">
+    <Midl Include="StoreNavigationView\NavigationViewItemAttach.idl">
       <SubType>Designer</SubType>
     </Midl>
     <Midl Include="TokenView\TokenItem.idl">

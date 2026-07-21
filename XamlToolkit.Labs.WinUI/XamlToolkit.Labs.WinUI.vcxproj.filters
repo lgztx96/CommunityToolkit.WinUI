@@ -468,7 +468,7 @@
     <Midl Include="WrapPanel2\WrapPanel2.idl">
       <Filter>WrapPanel2</Filter>
     </Midl>
-    <Midl Include="StoreNavigationView\StoreNavigationViewItemAttach.idl">
+    <Midl Include="StoreNavigationView\NavigationViewItemAttach.idl">
       <Filter>StoreNavigationView</Filter>
     </Midl>
   </ItemGroup>
