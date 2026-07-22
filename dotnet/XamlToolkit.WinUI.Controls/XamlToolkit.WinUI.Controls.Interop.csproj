@@ -4,7 +4,7 @@
 		<TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
 		<NoWarn>$(NoWarn);CS0108</NoWarn>
 		<UseWinUI>true</UseWinUI>
-		<AssetTargetFallback>native</AssetTargetFallback>
+		<AssetTargetFallback>$(AssetTargetFallback);native</AssetTargetFallback>
 		<Win2DWarnNoPlatform>false</Win2DWarnNoPlatform>
 		<ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
 	</PropertyGroup>
