@@ -2,7 +2,8 @@
 	<PropertyGroup>
 		<TargetFramework>net8.0-windows10.0.26100.0</TargetFramework>
 		<TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
-		<NoWarn>$(NoWarn);CS0108</NoWarn>
+		<NoWarn>$(NoWarn);CS0108;NU1701</NoWarn>
+		<Win2DWarnNoPlatform>false</Win2DWarnNoPlatform>
 		<UseWinUI>true</UseWinUI>
 		<AssetTargetFallback>$(AssetTargetFallback);native</AssetTargetFallback>
 		<ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
