@@ -4,6 +4,7 @@
 		<TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
 		<NoWarn>$(NoWarn);CS0108</NoWarn>
 		<UseWinUI>true</UseWinUI>
+		<AssetTargetFallback>$(AssetTargetFallback);native</AssetTargetFallback>
 		<ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
 	</PropertyGroup>
 
@@ -12,8 +13,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.2.0" />
-		<PackageReference Include="Microsoft.WindowsAppSDK.WinUI" Version="1.8.260528001" />
+		<PackageReference Include="Microsoft.Windows.CsWinRT" />
+		<PackageReference Include="Microsoft.WindowsAppSDK.WinUI" />
 	</ItemGroup>
 
 	<ItemGroup>
