@@ -20,6 +20,7 @@
 			<dependency id="XamlToolkit.WinUI.Converters.Native" version="0.7.0-alpha" />
 			<dependency id="XamlToolkit.WinUI.Controls.Native" version="0.7.0-alpha" />
 			<dependency id="XamlToolkit.WinUI.Helpers.Native" version="0.7.0-alpha" />
+			<dependency id="XamlToolkit.WinUI.Animations.Native" version="0.7.0-alpha" />
 		</dependencies>
 	</metadata>
 

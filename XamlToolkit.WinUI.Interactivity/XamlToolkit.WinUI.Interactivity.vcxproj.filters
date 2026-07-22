@@ -222,7 +222,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="XamlToolkit.WinUI.Interactivity.def" />
-    <None Include="packages.config" />
     <None Include="MultilingualResources\Microsoft.Xaml.Interactivity.de-DE.xlf">
       <Filter>MultilingualResources</Filter>
     </None>
@@ -294,9 +293,5 @@
     <PRIResource Include="Resources\pt-BR\Strings.resw">
       <Filter>Resources\pt-BR</Filter>
     </PRIResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
-    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natstepfilter" />
   </ItemGroup>
 </Project>
