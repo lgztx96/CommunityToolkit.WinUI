@@ -98,6 +98,9 @@
     <Filter Include="StaggeredPanel">
       <UniqueIdentifier>{8e8f1622-f403-47a5-ad30-c8d2fdd2ac1c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SettingsControls\SettingsGroup">
+      <UniqueIdentifier>{b596aea5-8dd0-4359-aaad-cd6eab8a5855}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -263,6 +266,12 @@
     <ClCompile Include="XamlMetaDataProvider.module.cpp" />
     <ClCompile Include="ColorPicker\ColorPickerRenderingHelpers.cpp">
       <Filter>ColorPicker</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingsControls\SettingsGroup\SettingsGroup.Properties.cpp">
+      <Filter>SettingsControls\SettingsGroup</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingsControls\SettingsGroup\SettingsGroup.Callbacks.cpp">
+      <Filter>SettingsControls\SettingsGroup</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -463,6 +472,12 @@
     <Midl Include="StaggeredPanel\StaggeredPanel.idl">
       <Filter>StaggeredPanel</Filter>
     </Midl>
+    <Midl Include="SettingsControls\Helpers\TextBlockTemplateSelector.idl">
+      <Filter>SettingsControls\Helpers</Filter>
+    </Midl>
+    <Midl Include="SettingsControls\SettingsGroup\SettingsGroup.idl">
+      <Filter>SettingsControls\SettingsGroup</Filter>
+    </Midl>
   </ItemGroup>
   <ItemGroup>
     <None Include="XamlToolkit.WinUI.Controls.def" />
@@ -546,6 +561,9 @@
     </Page>
     <Page Include="CameraPreview\CameraPreview.xaml">
       <Filter>CameraPreview</Filter>
+    </Page>
+    <Page Include="SettingsControls\SettingsGroup\SettingsGroup.xaml">
+      <Filter>SettingsControls\SettingsGroup</Filter>
     </Page>
   </ItemGroup>
   <ItemGroup>

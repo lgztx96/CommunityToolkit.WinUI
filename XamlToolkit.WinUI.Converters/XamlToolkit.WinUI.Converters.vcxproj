@@ -169,6 +169,10 @@
       <DependentUpon>FileSizeToFriendlyStringConverter.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="ItemsCountToCornerRadiusConverter.h">
+      <DependentUpon>ItemsCountToCornerRadiusConverter.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="ResourceNameToResourceStringConverter.h">
       <DependentUpon>ResourceNameToResourceStringConverter.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -239,6 +243,10 @@
       <DependentUpon>FileSizeToFriendlyStringConverter.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="ItemsCountToCornerRadiusConverter.cpp">
+      <DependentUpon>ItemsCountToCornerRadiusConverter.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="ResourceNameToResourceStringConverter.cpp">
       <DependentUpon>ResourceNameToResourceStringConverter.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -306,6 +314,9 @@
       <SubType>Designer</SubType>
     </Midl>
     <Midl Include="FileSizeToFriendlyStringConverter.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="ItemsCountToCornerRadiusConverter.idl">
       <SubType>Designer</SubType>
     </Midl>
     <Midl Include="ResourceNameToResourceStringConverter.idl">
