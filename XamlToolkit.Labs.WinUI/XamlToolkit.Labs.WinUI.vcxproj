@@ -302,8 +302,8 @@
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="pch.h" />
-    <ClInclude Include="StoreNavigationView\NavigationViewItemAttach.h">
-      <DependentUpon>StoreNavigationView\NavigationViewItemAttach.idl</DependentUpon>
+    <ClInclude Include="Styles\NavigationViewItemAttach.h">
+      <DependentUpon>Styles\NavigationViewItemAttach.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="wil_cppwinrt_module.h" />
@@ -529,8 +529,8 @@
     <ClCompile Include="Shimmer\Shimmer.cpp">
       <SubType>Code</SubType>
     </ClCompile>
-    <ClCompile Include="StoreNavigationView\NavigationViewItemAttach.cpp">
-      <DependentUpon>StoreNavigationView\NavigationViewItemAttach.idl</DependentUpon>
+    <ClCompile Include="Styles\NavigationViewItemAttach.cpp">
+      <DependentUpon>Styles\NavigationViewItemAttach.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="TokenView\TokenItem.cpp">
@@ -676,7 +676,7 @@
       <DependentUpon>Shimmer\Shimmer.cpp</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
-    <Midl Include="StoreNavigationView\NavigationViewItemAttach.idl">
+    <Midl Include="Styles\NavigationViewItemAttach.idl">
       <SubType>Designer</SubType>
     </Midl>
     <Midl Include="TokenView\TokenItem.idl">
@@ -707,7 +707,7 @@
     <Page Include="OpacityMaskView\OpacityMaskView.xaml" />
     <Page Include="Ribbon\RibbonStyle.xaml" />
     <Page Include="Shimmer\Shimmer.xaml" />
-    <Page Include="StoreNavigationView\StoreNavigationViewStyle.xaml" />
+    <Page Include="Styles\StoreNavigationViewStyle.xaml" />
     <Page Include="Themes\Generic.xaml" />
     <Page Include="TokenView\TokenItem.xaml" />
     <Page Include="TokenView\TokenView.xaml" />

@@ -2,7 +2,6 @@ namespace XamlToolkit.Labs.WinUI
 {
     static runtimeclass NavigationViewItemAttach
     {
-
 		static Microsoft.UI.Xaml.DependencyProperty SelectedIconProperty { get; };
 		static Object GetSelectedIcon(Microsoft.UI.Xaml.DependencyObject obj);
 		static void SetSelectedIcon(Microsoft.UI.Xaml.DependencyObject obj, Object value);
