@@ -28,21 +28,21 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
             winrt::DependencyProperty::RegisterAttached(
                 L"ShowNotificationDot",
                 winrt::xaml_typename<bool>(),
-                winrt::xaml_typename<class_type>(),
+                winrt::xaml_typename<winrt::XamlToolkit::Labs::WinUI::NavigationViewItemAttach>(),
                 winrt::PropertyMetadata(winrt::box_value(false)));
 
         static inline wil::single_threaded_property<DependencyProperty> UnselectedIconProperty =
             winrt::DependencyProperty::RegisterAttached(
                 L"UnselectedIcon",
                 winrt::xaml_typename<IInspectable>(),
-                winrt::xaml_typename<class_type>(),
+                winrt::xaml_typename<winrt::XamlToolkit::Labs::WinUI::NavigationViewItemAttach>(),
                 winrt::PropertyMetadata(nullptr));
 
         static inline wil::single_threaded_property<DependencyProperty> StaticIconVisibilityProperty =
             winrt::DependencyProperty::RegisterAttached(
                 L"StaticIconVisibility",
                 winrt::xaml_typename<Visibility>(),
-                winrt::xaml_typename<class_type>(),
+                winrt::xaml_typename<winrt::XamlToolkit::Labs::WinUI::NavigationViewItemAttach>(),
                 winrt::PropertyMetadata(box_value(Visibility::Collapsed)));
 
         [[nodiscard]] static winrt::IInspectable GetSelectedIcon(winrt::DependencyObject const& obj);
@@ -61,6 +61,6 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
 namespace winrt::XamlToolkit::Labs::WinUI::factory_implementation
 {
-    struct StoreNavigationViewItemAttach : StoreNavigationViewItemAttachT<StoreNavigationViewItemAttach, implementation::StoreNavigationViewItemAttach>
+    struct NavigationViewItemAttach : NavigationViewItemAttachT<NavigationViewItemAttach, implementation::NavigationViewItemAttach>
     {};
 }

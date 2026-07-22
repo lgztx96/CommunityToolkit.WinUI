@@ -25,6 +25,7 @@
 #include <winrt/XamlToolkit.WinUI.Converters.h>
 #include <winrt/XamlToolkit.WinUI.Helpers.h>
 #include <winrt/XamlToolkit.WinUI.Controls.h>
+#include <winrt/XamlToolkit.WinUI.Animations.h>
 
 #include <wil/cppwinrt.h>
 #include <wil/cppwinrt_helpers.h>
@@ -54,6 +55,7 @@ import winrt.XamlToolkit.WinUI;
 import winrt.XamlToolkit.WinUI.Converters;
 import winrt.XamlToolkit.WinUI.Helpers;
 import winrt.XamlToolkit.WinUI.Controls;
+import winrt.XamlToolkit.WinUI.Animations;
 
 #include <wil_cppwinrt_module.h>
 #endif
