@@ -105,6 +105,9 @@
     <Filter Include="GradientSlider">
       <UniqueIdentifier>{fc44c88e-0a41-479a-baef-c846857523d5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Styles">
+      <UniqueIdentifier>{d99c4fba-6690-4b36-99d2-49c516671813}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -465,6 +468,9 @@
     <Midl Include="WrapPanel2\WrapPanel2.idl">
       <Filter>WrapPanel2</Filter>
     </Midl>
+    <Midl Include="Styles\NavigationViewItemAttach.idl">
+      <Filter>Styles</Filter>
+    </Midl>
   </ItemGroup>
   <ItemGroup>
     <None Include="XamlToolkit.Labs.WinUI.def" />
@@ -543,9 +549,8 @@
     <Page Include="GradientSlider\GradientSliderThumbStyle.xaml">
       <Filter>GradientSlider</Filter>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
-    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natstepfilter" />
+    <Page Include="Styles\StoreNavigationViewStyle.xaml">
+      <Filter>Styles</Filter>
+    </Page>
   </ItemGroup>
 </Project>

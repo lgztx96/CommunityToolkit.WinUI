@@ -302,6 +302,10 @@
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Styles\NavigationViewItemAttach.h">
+      <DependentUpon>Styles\NavigationViewItemAttach.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="wil_cppwinrt_module.h" />
     <ClInclude Include="winrt_module_imports.h" />
     <ClInclude Include="Ribbon\DoubleVector.h">
@@ -525,6 +529,10 @@
     <ClCompile Include="Shimmer\Shimmer.cpp">
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="Styles\NavigationViewItemAttach.cpp">
+      <DependentUpon>Styles\NavigationViewItemAttach.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="TokenView\TokenItem.cpp">
       <SubType>Code</SubType>
     </ClCompile>
@@ -668,6 +676,9 @@
       <DependentUpon>Shimmer\Shimmer.cpp</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
+    <Midl Include="Styles\NavigationViewItemAttach.idl">
+      <SubType>Designer</SubType>
+    </Midl>
     <Midl Include="TokenView\TokenItem.idl">
       <DependentUpon>TokenView\TokenItem.cpp</DependentUpon>
       <SubType>Code</SubType>
@@ -696,11 +707,15 @@
     <Page Include="OpacityMaskView\OpacityMaskView.xaml" />
     <Page Include="Ribbon\RibbonStyle.xaml" />
     <Page Include="Shimmer\Shimmer.xaml" />
+    <Page Include="Styles\StoreNavigationViewStyle.xaml" />
     <Page Include="Themes\Generic.xaml" />
     <Page Include="TokenView\TokenItem.xaml" />
     <Page Include="TokenView\TokenView.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\XamlToolkit.WinUI.Animations\XamlToolkit.WinUI.Animations.vcxproj">
+      <Project>{37cd7b40-3e54-41ce-af73-43c6746ef315}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\XamlToolkit.WinUI.Controls\XamlToolkit.WinUI.Controls.vcxproj">
       <Project>{ef5f53e1-2ddb-4936-a78f-517fc8be74ff}</Project>
     </ProjectReference>
