@@ -22,7 +22,6 @@
     <CppWinRTFastAbi>true</CppWinRTFastAbi>
     <CppWinRTProjectLanguage>C++/WinRT</CppWinRTProjectLanguage>
     <CppWinRTModernIDL>true</CppWinRTModernIDL>
-    <EnableNativePackageReferenceSupport>true</EnableNativePackageReferenceSupport>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <ItemGroup Label="ProjectConfigurations">

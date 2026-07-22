@@ -2,6 +2,7 @@
   <PropertyGroup>
     <!-- Enable central package management, https://learn.microsoft.com/en-us/nuget/consume-packages/Central-Package-Management -->
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <EnableNativePackageReferenceSupport>true</EnableNativePackageReferenceSupport>
   </PropertyGroup>
   <!--  C++/C# shared Project References  -->
   <ItemGroup>

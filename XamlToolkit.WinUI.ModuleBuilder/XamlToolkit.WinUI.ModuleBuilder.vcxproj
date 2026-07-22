@@ -52,7 +52,6 @@
       Windows.ApplicationModel.ConversationalAgent;
       Windows.ApplicationModel.Preview;
    </CppWinRTModuleExclude>
-   <EnableNativePackageReferenceSupport>true</EnableNativePackageReferenceSupport>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <ItemGroup Label="ProjectConfigurations">

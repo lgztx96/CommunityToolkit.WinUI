@@ -21,7 +21,6 @@
     <CppWinRTModuleInclude>XamlToolkit.WinUI.Interactivity</CppWinRTModuleInclude>
     <CppWinRTFastAbi>true</CppWinRTFastAbi>
     <CppWinRTModernIDL>true</CppWinRTModernIDL>
-    <EnableNativePackageReferenceSupport>true</EnableNativePackageReferenceSupport>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <ItemGroup Label="ProjectConfigurations">
