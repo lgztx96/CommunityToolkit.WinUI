@@ -69,6 +69,7 @@
     <Midl Include="StringVisibilityConverter.idl" />
     <Midl Include="TypeToObjectConverter.idl" />
     <Midl Include="VisibilityToBoolConverter.idl" />
+    <Midl Include="ItemsCountToCornerRadiusConverter.idl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="XamlToolkit.WinUI.Converters.def" />
