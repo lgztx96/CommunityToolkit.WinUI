@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "winrt_module_imports.h"
 #include "ContentSizer.h"
 #if __has_include("ContentSizer.g.cpp")
@@ -29,7 +29,10 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 	void ContentSizer::OnLoaded([[maybe_unused]] winrt::RoutedEventArgs const& e)
 	{
-		if (TargetControl() == nullptr)
+		// An explicitly supplied null target means that the owner only wants the
+		// sizer's input surface and will handle the resize itself. Only infer an
+		// ancestor when TargetControl was never set.
+		if (ReadLocalValue(TargetControlProperty) == winrt::DependencyProperty::UnsetValue())
 		{
 			TargetControl(DependencyObjectEx::FindAscendant<winrt::FrameworkElement>(*this));
 		}
@@ -62,6 +65,14 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			return true;
 		}
 
+		// An explicit null target is a notification-only mode. SizerBase must
+		// continue the manipulation route so an owner such as DataColumn can
+		// consume ManipulationDelta without this control changing Width itself.
+		if (ReadLocalValue(TargetControlProperty) != winrt::DependencyProperty::UnsetValue())
+		{
+			return true;
+		}
+
 		return false;
 	}
 
@@ -78,6 +89,11 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 			targetControl.Height(_currentSize + verticalChange);
 
+			return true;
+		}
+
+		if (ReadLocalValue(TargetControlProperty) != winrt::DependencyProperty::UnsetValue())
+		{
 			return true;
 		}
 
