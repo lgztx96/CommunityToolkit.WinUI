@@ -348,6 +348,22 @@
       <DependentUpon>WrapPanel2\WrapPanel2.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="TransitionHelper\TransitionConfig.h">
+      <DependentUpon>TransitionHelper\TransitionConfig.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="TransitionHelper\TransitionHelper.h">
+      <DependentUpon>TransitionHelper\TransitionHelper.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="TransitionHelper\StartTransitionAction.h">
+      <DependentUpon>TransitionHelper\StartTransitionAction.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="TransitionHelper\ReverseTransitionAction.h">
+      <DependentUpon>TransitionHelper\ReverseTransitionAction.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Adorners\Adorner.cpp">
@@ -550,6 +566,42 @@
       <DependentUpon>WrapPanel2\WrapPanel2.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="TransitionHelper\TransitionHelper.cpp">
+      <DependentUpon>TransitionHelper\TransitionHelper.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="TransitionHelper\TransitionHelper.AttachedProperty.cpp">
+      <DependentUpon>TransitionHelper\TransitionHelper.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="TransitionHelper\TransitionHelper.Animation.cpp">
+      <DependentUpon>TransitionHelper\TransitionHelper.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="TransitionHelper\TransitionHelper.Helpers.cpp">
+      <DependentUpon>TransitionHelper\TransitionHelper.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="TransitionHelper\TransitionHelper.Logic.cpp">
+      <DependentUpon>TransitionHelper\TransitionHelper.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="TransitionHelper\TransitionHelper.Properties.cpp">
+      <DependentUpon>TransitionHelper\TransitionHelper.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="TransitionHelper\TransitionConfig.cpp">
+      <DependentUpon>TransitionHelper\TransitionConfig.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="TransitionHelper\StartTransitionAction.cpp">
+      <DependentUpon>TransitionHelper\StartTransitionAction.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="TransitionHelper\ReverseTransitionAction.cpp">
+      <DependentUpon>TransitionHelper\ReverseTransitionAction.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Adorners\Helpers\FrameworkElementExtensions.WaitUntilLoaded.h" />
@@ -693,6 +745,18 @@
     <Midl Include="WrapPanel2\WrapPanel2.idl">
       <SubType>Designer</SubType>
     </Midl>
+    <Midl Include="TransitionHelper\TransitionConfig.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="TransitionHelper\TransitionHelper.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="TransitionHelper\StartTransitionAction.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="TransitionHelper\ReverseTransitionAction.idl">
+      <SubType>Designer</SubType>
+    </Midl>
   </ItemGroup>
   <ItemGroup>
     <Page Include="Adorners\Adorner.xaml" />
@@ -724,6 +788,9 @@
     </ProjectReference>
     <ProjectReference Include="..\XamlToolkit.WinUI.Helpers\XamlToolkit.WinUI.Helpers.vcxproj">
       <Project>{f8087280-d16f-4d9d-9e17-58aac733d56d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\XamlToolkit.WinUI.Interactivity\XamlToolkit.WinUI.Interactivity.vcxproj">
+      <Project>{70bc2fd9-1f86-48e5-b3d2-abd12a9e40dc}</Project>
     </ProjectReference>
     <ProjectReference Include="..\XamlToolkit.WinUI\XamlToolkit.WinUI.vcxproj">
       <Project>{17c20e50-8d62-4fc3-8feb-b64b03a893be}</Project>

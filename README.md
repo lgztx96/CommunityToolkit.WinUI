@@ -135,6 +135,10 @@ Rive support is available via [`XamlToolkit.WinUI.Rive`](https://github.com/lgzt
 
 ![TilesBrush](docs/images/TilesBrush.png)
 
+### TransitionHelper
+
+![TransitionHelper](docs/images/TransitionHelper.gif)
+
 ---
 
 ## XamlToolkit.WinUI.Animations

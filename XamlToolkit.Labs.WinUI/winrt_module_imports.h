@@ -11,6 +11,7 @@
 #include <winrt/Windows.Graphics.Imaging.h>
 
 #include <winrt/Microsoft.UI.h>
+#include <winrt/Microsoft.UI.Composition.h>
 #include <winrt/Microsoft.UI.Dispatching.h>
 #include <winrt/Microsoft.UI.Text.h>
 #include <winrt/Microsoft.UI.Xaml.h>
@@ -41,6 +42,7 @@ import winrt.Windows.UI.Xaml.Interop;
 import winrt.Windows.Graphics.Imaging;
 
 import winrt.Microsoft.UI;
+import winrt.Microsoft.UI.Composition;
 import winrt.Microsoft.UI.Dispatching;
 import winrt.Microsoft.UI.Text;
 import winrt.Microsoft.UI.Xaml;

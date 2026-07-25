@@ -21,6 +21,8 @@
 		<ProjectReference Include="..\..\XamlToolkit.Labs.WinUI\XamlToolkit.Labs.WinUI.vcxproj" />
 		<ProjectReference Include="..\XamlToolkit.WinUI.Controls\XamlToolkit.WinUI.Controls.Interop.csproj" />
 		<ProjectReference Include="..\XamlToolkit.WinUI.Helpers\XamlToolkit.WinUI.Helpers.Interop.csproj" />
+		<ProjectReference Include="..\XamlToolkit.WinUI.Animations\XamlToolkit.WinUI.Animations.Interop.csproj" />
+		<ProjectReference Include="..\XamlToolkit.WinUI.Interactivity\XamlToolkit.WinUI.Interactivity.Interop.csproj" />
 		<ProjectReference Include="..\XamlToolkit.WinUI\XamlToolkit.WinUI.Interop.csproj" />
 	</ItemGroup>
 </Project>

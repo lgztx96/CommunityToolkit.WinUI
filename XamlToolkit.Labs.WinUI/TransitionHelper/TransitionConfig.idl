@@ -1,0 +1,30 @@
+﻿namespace XamlToolkit.Labs.WinUI
+{
+    enum ScaleMode
+	{
+		None,
+		Scale,
+		ScaleX,
+		ScaleY,
+		Custom
+	};
+
+	interface IScalingCalculator
+	{
+		Windows.Foundation.Numerics.Vector2 GetScaling(Microsoft.UI.Xaml.UIElement source, Microsoft.UI.Xaml.UIElement target);
+	}
+
+	runtimeclass TransitionConfig
+	{
+		TransitionConfig();
+
+		String Id;
+		ScaleMode ScaleMode;
+		IScalingCalculator CustomScalingCalculator;
+		Boolean EnableClipAnimation;
+		Windows.Foundation.Point NormalizedCenterPoint;
+		Windows.Foundation.IReference<XamlToolkit.WinUI.Animations.EasingType> EasingType;
+		Windows.Foundation.IReference<Microsoft.UI.Xaml.Media.Animation.EasingMode> EasingMode;
+		Windows.Foundation.IReference<Windows.Foundation.Point> OpacityTransitionProgressKey;
+	}
+}
