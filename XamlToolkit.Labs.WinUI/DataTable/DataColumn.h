@@ -32,6 +32,11 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         static const wil::single_threaded_property<winrt::DependencyProperty> DesiredWidthProperty;
 
+        winrt::Microsoft::UI::Xaml::Style ColumnSizerStyle() const;
+        void ColumnSizerStyle(winrt::Microsoft::UI::Xaml::Style const& value);
+
+        static const wil::single_threaded_property<DependencyProperty> ColumnSizerStyleProperty;
+
         wil::single_threaded_rw_property<double> MaxChildDesiredWidth;
 
         winrt::GridLength CurrentWidth() const;

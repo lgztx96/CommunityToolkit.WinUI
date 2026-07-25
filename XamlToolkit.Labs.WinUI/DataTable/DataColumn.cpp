@@ -26,6 +26,22 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
             winrt::xaml_typename<class_type>(),
             winrt::PropertyMetadata(winrt::box_value(winrt::GridLengthHelper::Auto()), &DataColumn::DesiredWidth_PropertyChanged ));
 
+    winrt::Microsoft::UI::Xaml::Style DataColumn::ColumnSizerStyle() const
+    {
+        return GetValue(ColumnSizerStyleProperty).try_as<winrt::Microsoft::UI::Xaml::Style>();
+    }
+
+    void DataColumn::ColumnSizerStyle(winrt::Microsoft::UI::Xaml::Style const& value)
+    {
+        SetValue(ColumnSizerStyleProperty, value);
+    }
+
+    const wil::single_threaded_property<DependencyProperty> DataColumn::ColumnSizerStyleProperty =
+        DependencyProperty::Register(L"ColumnSizerStyle",
+                                     winrt::xaml_typename<winrt::Microsoft::UI::Xaml::Style>(),
+                                     winrt::xaml_typename<class_type>(),
+                                     PropertyMetadata(nullptr));
+
     bool DataColumn::CanResize() const
     {
         return winrt::unbox_value<bool>(GetValue(CanResizeProperty()));
