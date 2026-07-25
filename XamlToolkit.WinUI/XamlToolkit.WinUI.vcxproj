@@ -147,6 +147,10 @@
       <DependentUpon>Extensions\ListViewBase\ListViewExtensions.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="Extensions\Markup\BitmapIconExtension.h">
+      <DependentUpon>Extensions\Markup\BitmapIconExtension.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="Extensions\Markup\FontIconExtension.h">
       <DependentUpon>Extensions\Markup\FontIconExtension.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -255,6 +259,10 @@
     </ClCompile>
     <ClCompile Include="Extensions\ListViewBase\ListViewExtensions.cpp">
       <DependentUpon>Extensions\ListViewBase\ListViewExtensions.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Extensions\Markup\BitmapIconExtension.cpp">
+      <DependentUpon>Extensions\Markup\BitmapIconExtension.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="Extensions\Markup\FontIconExtension.cpp">
@@ -369,6 +377,9 @@
       <SubType>Designer</SubType>
     </Midl>
     <Midl Include="Extensions\ListViewBase\ListViewExtensions.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Extensions\Markup\BitmapIconExtension.idl">
       <SubType>Designer</SubType>
     </Midl>
     <Midl Include="Extensions\Markup\FontIconExtension.idl">

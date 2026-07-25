@@ -1,0 +1,11 @@
+namespace XamlToolkit.WinUI
+{
+    runtimeclass BitmapIconExtension : Microsoft.UI.Xaml.Markup.MarkupExtension
+    {
+        BitmapIconExtension();
+
+        Windows.Foundation.Uri Source;
+
+        Boolean ShowAsMonochrome;
+    }
+}

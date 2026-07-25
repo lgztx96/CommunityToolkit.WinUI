@@ -247,6 +247,9 @@
     <Midl Include="Triggers\UserHandPreferenceStateTrigger.idl">
       <Filter>Triggers</Filter>
     </Midl>
+    <Midl Include="Extensions\Markup\BitmapIconExtension.idl">
+      <Filter>Extensions\Markup</Filter>
+    </Midl>
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
