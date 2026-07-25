@@ -739,42 +739,18 @@
                                 <VisualStateGroup x:Name="CommonStates">
                                     <VisualState x:Name="Normal" />
                                     <VisualState x:Name="PointerOver">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Root"
-                                                                           Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource PivotItemBackgroundPointerOver}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentPresenter"
-                                                                           Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource PivotItemForegroundPointerOver}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_IconPresenter"
-                                                                           Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource PivotItemForegroundPointerOver}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
+                                        <VisualState.Setters>
+                                            <Setter Target="PART_Root.Background" Value="{ThemeResource PivotItemBackgroundPointerOver}" />
+                                            <Setter Target="PART_ContentPresenter.Foreground" Value="{ThemeResource PivotItemForegroundPointerOver}" />
+                                            <Setter Target="PART_IconPresenter.Foreground" Value="{ThemeResource PivotItemForegroundPointerOver}" />
+                                        </VisualState.Setters>
                                     </VisualState>
                                     <VisualState x:Name="Pressed">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Root"
-                                                                           Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource PivotItemBackgroundPressed}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentPresenter"
-                                                                           Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource PivotItemForegroundPressed}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_IconPresenter"
-                                                                           Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource PivotItemForegroundPressed}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
+                                        <VisualState.Setters>
+                                            <Setter Target="PART_Root.Background" Value="{ThemeResource PivotItemBackgroundPressed}" />
+                                            <Setter Target="PART_ContentPresenter.Foreground" Value="{ThemeResource PivotItemForegroundPressed}" />
+                                            <Setter Target="PART_IconPresenter.Foreground" Value="{ThemeResource PivotItemForegroundPressed}" />
+                                        </VisualState.Setters>
                                     </VisualState>
                                     <VisualState x:Name="Selected">
                                         <Storyboard>
@@ -969,99 +945,39 @@
                                 <VisualStateGroup x:Name="CommonStates">
                                     <VisualState x:Name="Normal" />
                                     <VisualState x:Name="PointerOver">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Root"
-                                                                           Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource ButtonItemBackgroundPointerOver}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentPresenter"
-                                                                           Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource ButtonItemForegroundPointerOver}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_IconPresenter"
-                                                                           Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource ButtonItemForegroundPointerOver}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
+                                        <VisualState.Setters>
+                                            <Setter Target="PART_Root.Background" Value="{ThemeResource ButtonItemBackgroundPointerOver}" />
+                                            <Setter Target="PART_ContentPresenter.Foreground" Value="{ThemeResource ButtonItemForegroundPointerOver}" />
+                                            <Setter Target="PART_IconPresenter.Foreground" Value="{ThemeResource ButtonItemForegroundPointerOver}" />
+                                        </VisualState.Setters>
                                     </VisualState>
                                     <VisualState x:Name="Pressed">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Root"
-                                                                           Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource ButtonItemBackgroundPressed}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentPresenter"
-                                                                           Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource ButtonItemForegroundPressed}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_IconPresenter"
-                                                                           Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource ButtonItemForegroundPressed}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
+                                        <VisualState.Setters>
+                                            <Setter Target="PART_Root.Background" Value="{ThemeResource ButtonItemBackgroundPressed}" />
+                                            <Setter Target="PART_ContentPresenter.Foreground" Value="{ThemeResource ButtonItemForegroundPressed}" />
+                                            <Setter Target="PART_IconPresenter.Foreground" Value="{ThemeResource ButtonItemForegroundPressed}" />
+                                        </VisualState.Setters>
                                     </VisualState>
                                     <VisualState x:Name="Selected">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Root"
-                                                                           Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource ButtonItemBackgroundSelected}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentPresenter"
-                                                                           Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource ButtonItemForegroundSelected}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_IconPresenter"
-                                                                           Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource ButtonItemForegroundSelected}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
+                                        <VisualState.Setters>
+                                            <Setter Target="PART_Root.Background" Value="{ThemeResource ButtonItemBackgroundSelected}" />
+                                            <Setter Target="PART_ContentPresenter.Foreground" Value="{ThemeResource ButtonItemForegroundSelected}" />
+                                            <Setter Target="PART_IconPresenter.Foreground" Value="{ThemeResource ButtonItemForegroundSelected}" />
+                                        </VisualState.Setters>
                                     </VisualState>
                                     <VisualState x:Name="PointerOverSelected">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Root"
-                                                                           Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource ButtonItemBackgroundSelectedPointerOver}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentPresenter"
-                                                                           Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource ButtonItemForegroundSelectedPointerOver}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_IconPresenter"
-                                                                           Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource ButtonItemForegroundSelectedPointerOver}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
+                                        <VisualState.Setters>
+                                            <Setter Target="PART_Root.Background" Value="{ThemeResource ButtonItemBackgroundSelectedPointerOver}" />
+                                            <Setter Target="PART_ContentPresenter.Foreground" Value="{ThemeResource ButtonItemForegroundSelectedPointerOver}" />
+                                            <Setter Target="PART_IconPresenter.Foreground" Value="{ThemeResource ButtonItemForegroundSelectedPointerOver}" />
+                                        </VisualState.Setters>
                                     </VisualState>
                                     <VisualState x:Name="PressedSelected">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Root"
-                                                                           Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource ButtonItemBackgroundSelectedPressed}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentPresenter"
-                                                                           Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource ButtonItemForegroundSelectedPressed}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_IconPresenter"
-                                                                           Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource ButtonItemForegroundSelectedPressed}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
+                                        <VisualState.Setters>
+                                            <Setter Target="PART_Root.Background" Value="{ThemeResource ButtonItemBackgroundSelectedPressed}" />
+                                            <Setter Target="PART_ContentPresenter.Foreground" Value="{ThemeResource ButtonItemForegroundSelectedPressed}" />
+                                            <Setter Target="PART_IconPresenter.Foreground" Value="{ThemeResource ButtonItemForegroundSelectedPressed}" />
+                                        </VisualState.Setters>
                                     </VisualState>
                                 </VisualStateGroup>
                                 <VisualStateGroup x:Name="DisabledStates">

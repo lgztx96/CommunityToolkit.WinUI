@@ -82,34 +82,17 @@
             <VisualStateManager.VisualStateGroups>
                 <VisualStateGroup x:Name="CommonStates">
                     <VisualState x:Name="Disabled">
-                        <Storyboard>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundVisual"
-                                                           Storyboard.TargetProperty="Background">
-                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                        Value="{ThemeResource TextControlBackgroundDisabled}" />
-                            </ObjectAnimationUsingKeyFrames>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundVisual"
-                                                           Storyboard.TargetProperty="BorderBrush">
-                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                        Value="{ThemeResource TextControlBorderBrushDisabled}" />
-                            </ObjectAnimationUsingKeyFrames>
-
-                        </Storyboard>
+                        <VisualState.Setters>
+                            <Setter Target="BackgroundVisual.Background" Value="{ThemeResource TextControlBackgroundDisabled}" />
+                            <Setter Target="BackgroundVisual.BorderBrush" Value="{ThemeResource TextControlBorderBrushDisabled}" />
+                        </VisualState.Setters>
                     </VisualState>
                     <VisualState x:Name="Normal" />
                     <VisualState x:Name="PointerOver">
-                        <Storyboard>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundVisual"
-                                                           Storyboard.TargetProperty="BorderBrush">
-                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                        Value="{ThemeResource TextControlBorderBrushPointerOver}" />
-                            </ObjectAnimationUsingKeyFrames>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundVisual"
-                                                           Storyboard.TargetProperty="Background">
-                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                        Value="{ThemeResource TextControlBackgroundPointerOver}" />
-                            </ObjectAnimationUsingKeyFrames>
-                        </Storyboard>
+                        <VisualState.Setters>
+                            <Setter Target="BackgroundVisual.BorderBrush" Value="{ThemeResource TextControlBorderBrushPointerOver}" />
+                            <Setter Target="BackgroundVisual.Background" Value="{ThemeResource TextControlBackgroundPointerOver}" />
+                        </VisualState.Setters>
                     </VisualState>
                 </VisualStateGroup>
 
