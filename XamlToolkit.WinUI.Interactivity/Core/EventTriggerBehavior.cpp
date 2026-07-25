@@ -24,7 +24,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
     winrt::hstring EventTriggerBehavior::EventName() const
     {
-        return winrt::unbox_value_or<winrt::hstring>(GetValue(EventNameProperty()), L"");
+        return winrt::unbox_value<winrt::hstring>(GetValue(EventNameProperty()));
     }
 
     void EventTriggerBehavior::EventName(winrt::hstring const& value)
@@ -44,11 +44,14 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
     void EventTriggerBehavior::OnAttached()
     {
+        base_type::OnAttached();
+        _currentEventName = EventName();
         SetResolvedSource(ComputeResolvedSource());
     }
 
     void EventTriggerBehavior::OnDetaching()
     {
+        base_type::OnDetaching();
         SetResolvedSource(nullptr);
     }
 
@@ -61,14 +64,14 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
         if (_resolvedSource)
         {
-            UnregisterEvent(EventName());
+            UnregisterEvent(_currentEventName);
         }
 
         _resolvedSource = newSource;
 
         if (_resolvedSource)
         {
-            RegisterEvent(EventName());
+            RegisterEvent(_currentEventName);
         }
     }
 
@@ -154,6 +157,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         auto oldEventName = winrt::unbox_value_or<winrt::hstring>(args.OldValue(), L"");
         auto newEventName = winrt::unbox_value_or<winrt::hstring>(args.NewValue(), L"");
 
+        behavior->_currentEventName = newEventName;
         behavior->UnregisterEvent(oldEventName);
         behavior->RegisterEvent(newEventName);
     }
