@@ -19,13 +19,13 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         [[maybe_unused]] winrt::IInspectable const& sender,
         [[maybe_unused]] winrt::IInspectable const& parameter) const
     {
-        const auto transiton = Transition();
-        if (!transiton)
+        const auto transition = Transition();
+        if (!transition)
         {
             throw winrt::hresult_invalid_argument(L"Transition is required.");
         }
 
-        transiton.ReverseAsync();
+        transition.ReverseAsync();
 
         return nullptr;
     }
