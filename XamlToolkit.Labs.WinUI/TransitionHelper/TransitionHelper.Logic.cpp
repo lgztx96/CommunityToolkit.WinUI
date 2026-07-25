@@ -69,6 +69,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
 	winrt::IAsyncAction TransitionHelper::AnimateControlsAsync(bool reversed, bool forceUpdateAnimatedElements)
 	{
+		auto strongThis = get_strong();
+
 		IsNotNullAndIsInVisualTree(_source, L"Source");
 		IsNotNullAndIsInVisualTree(_target, L"Target");
 
