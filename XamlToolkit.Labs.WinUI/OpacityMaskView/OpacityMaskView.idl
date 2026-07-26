@@ -1,7 +1,5 @@
 ﻿namespace XamlToolkit.Labs.WinUI
 {
-	[bindable]
-    [default_interface]
     runtimeclass OpacityMaskView : Microsoft.UI.Xaml.Controls.ContentControl
     {
         OpacityMaskView();

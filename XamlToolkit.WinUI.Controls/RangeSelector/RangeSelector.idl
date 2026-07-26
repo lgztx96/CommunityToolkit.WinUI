@@ -2,7 +2,6 @@ import "RangeSelector/RangeChangedEventArgs.idl";
 
 namespace XamlToolkit.WinUI.Controls
 {
-    [default_interface]
     runtimeclass RangeSelector : Microsoft.UI.Xaml.Controls.Control
     {
         RangeSelector();

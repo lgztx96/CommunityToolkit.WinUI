@@ -2,7 +2,6 @@
 
 namespace XamlToolkit.WinUI.Controls
 {
-	[default_interface]
 	[contentproperty("SwitchCases")]
 	runtimeclass SwitchConverter : Microsoft.UI.Xaml.DependencyObject, Microsoft.UI.Xaml.Data.IValueConverter
 	{

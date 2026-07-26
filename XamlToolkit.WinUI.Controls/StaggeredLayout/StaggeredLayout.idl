@@ -6,7 +6,6 @@
         Fill
     };
 
-    [default_interface]
     runtimeclass StaggeredLayout : Microsoft.UI.Xaml.Controls.VirtualizingLayout
     {
         StaggeredLayout();

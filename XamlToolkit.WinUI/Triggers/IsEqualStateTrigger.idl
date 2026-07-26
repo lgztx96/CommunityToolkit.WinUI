@@ -1,6 +1,5 @@
 namespace XamlToolkit.WinUI
 {
-    [bindable]
     runtimeclass IsEqualStateTrigger : Microsoft.UI.Xaml.StateTriggerBase
     {
         IsEqualStateTrigger();

@@ -12,7 +12,6 @@
         LowerRight
     };
 
-    [default_interface]
     runtimeclass ImageCropperThumb : Microsoft.UI.Xaml.Controls.Control
     {
         ImageCropperThumb();

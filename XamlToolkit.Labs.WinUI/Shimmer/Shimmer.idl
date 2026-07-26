@@ -1,6 +1,5 @@
 namespace XamlToolkit.Labs.WinUI
 {
-    [default_interface]
     runtimeclass Shimmer : Microsoft.UI.Xaml.Controls.Control
     {
         Shimmer();

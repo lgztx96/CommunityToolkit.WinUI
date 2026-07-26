@@ -1,6 +1,5 @@
 namespace XamlToolkit.WinUI.Controls
 {
-    [default_interface]
     runtimeclass RadialGauge : Microsoft.UI.Xaml.Controls.Primitives.RangeBase
     {
         RadialGauge();

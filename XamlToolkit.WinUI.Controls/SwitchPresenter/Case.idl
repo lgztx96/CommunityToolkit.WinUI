@@ -1,6 +1,5 @@
 ﻿namespace XamlToolkit.WinUI.Controls
 {
-    [default_interface]
     [contentproperty("Content")]
     runtimeclass Case : Microsoft.UI.Xaml.DependencyObject
     {

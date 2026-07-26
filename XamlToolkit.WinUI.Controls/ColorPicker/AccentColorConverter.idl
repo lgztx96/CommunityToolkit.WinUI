@@ -1,6 +1,5 @@
 ﻿namespace XamlToolkit.WinUI.Controls
 {
-    [bindable]
     [default_interface]
     runtimeclass AccentColorConverter : Microsoft.UI.Xaml.Data.IValueConverter
     {

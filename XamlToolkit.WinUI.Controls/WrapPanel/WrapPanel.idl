@@ -6,7 +6,6 @@ namespace XamlToolkit.WinUI.Controls
         Last = 1,
     };
 
-    [default_interface]
     runtimeclass WrapPanel : Microsoft.UI.Xaml.Controls.Panel
     {
         WrapPanel();

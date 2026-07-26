@@ -2,7 +2,6 @@ import "TokenVIew/TokenItemRemovingEventArgs.idl";
 
 namespace XamlToolkit.Labs.WinUI
 {
-    [default_interface]
     unsealed runtimeclass TokenItem : Microsoft.UI.Xaml.Controls.ListViewItem
     {
         TokenItem();

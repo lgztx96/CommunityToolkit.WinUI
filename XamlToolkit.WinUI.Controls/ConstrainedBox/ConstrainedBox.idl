@@ -2,7 +2,6 @@ import "ConstrainedBox/AspectRatio.idl";
 
 namespace XamlToolkit.WinUI.Controls
 {
-    [default_interface]
 	runtimeclass ConstrainedBox : Microsoft.UI.Xaml.Controls.ContentPresenter
     {
         ConstrainedBox();

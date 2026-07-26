@@ -27,7 +27,6 @@ namespace XamlToolkit.Labs.WinUI
         Double NewHeight{ get; };
     }
 
-    [default_interface]
     runtimeclass ResizeThumb : Microsoft.UI.Xaml.Controls.Control
     {
         ResizeThumb();

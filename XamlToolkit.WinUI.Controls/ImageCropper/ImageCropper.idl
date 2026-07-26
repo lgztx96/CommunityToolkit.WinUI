@@ -22,7 +22,6 @@
         JpegXR
     };
 
-    [default_interface]
     runtimeclass ImageCropper : Microsoft.UI.Xaml.Controls.Control
     {
         ImageCropper();

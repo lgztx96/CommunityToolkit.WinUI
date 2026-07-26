@@ -1,6 +1,5 @@
 namespace XamlToolkit.WinUI.Controls
 {
-    [default_interface]
     unsealed runtimeclass HeaderedContentControl : Microsoft.UI.Xaml.Controls.ContentControl
     {
         HeaderedContentControl();

@@ -8,7 +8,6 @@ namespace XamlToolkit.WinUI.Media
         CompositionGeometricClip
     };
 
-    [default_interface]
     runtimeclass AttachedCardShadow : XamlToolkit.WinUI.AttachedShadowBase
     {
         AttachedCardShadow();

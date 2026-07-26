@@ -2,11 +2,11 @@ namespace XamlToolkit.Labs.WinUI
 {
     [default_interface]
     [createfromstring("XamlToolkit.Labs.WinUI.DoubleVector.CreateFromString")]
-    runtimeclass DoubleVector : Windows.Foundation.Collections.IVector<Double>
+    runtimeclass DoubleVector : IVector<Double>
     {
         DoubleVector();
 
-        DoubleVector(Windows.Foundation.Collections.IIterable<Double> values);
+        DoubleVector(IIterable<Double> values);
 
         static DoubleVector CreateFromString(String value);
     }

@@ -1,7 +1,5 @@
 ﻿namespace XamlToolkit.WinUI.Controls
 {
-    [bindable]
-    [default_interface]
     [contentproperty("Content")]
     runtimeclass SegmentedItem : Microsoft.UI.Xaml.Controls.ListViewItem
     {

@@ -1,11 +1,10 @@
 namespace XamlToolkit.WinUI.Controls
 {
-    [default_interface]
-    runtimeclass InterspersedObservableVector : Windows.Foundation.Collections.IObservableVector<Object>
+    runtimeclass InterspersedObservableVector : IObservableVector<Object>
     {
         InterspersedObservableVector(Object source);
 
-        Windows.Foundation.Collections.IVector<Object> ItemsSource();
+        IVector<Object> ItemsSource();
 
         void Insert(UInt32 index, Object value);
     }

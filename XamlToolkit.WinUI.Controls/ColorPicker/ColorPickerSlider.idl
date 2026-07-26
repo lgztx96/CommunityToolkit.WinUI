@@ -2,7 +2,6 @@
 
 namespace XamlToolkit.WinUI.Controls.Primitives
 {
-    [default_interface]
     runtimeclass ColorPickerSlider : Microsoft.UI.Xaml.Controls.Slider
     {
         ColorPickerSlider();

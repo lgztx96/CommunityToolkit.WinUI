@@ -13,7 +13,6 @@ namespace XamlToolkit.Labs.WinUI
         Windows.Foundation.IAsyncOperation<Microsoft.UI.Xaml.Controls.Image> SvgToImage(String svgString);
     }
 
-    [default_interface]
     runtimeclass MarkdownConfig 
     {
         MarkdownConfig();
