@@ -11,7 +11,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         winrt::DependencyProperty::RegisterAttached(
             L"Animations",
             winrt::xaml_typename<winrt::XamlToolkit::WinUI::Animations::AnimationDictionary>(),
-            winrt::xaml_typename<class_type>(),
+            winrt::xaml_typename<winrt::XamlToolkit::WinUI::Animations::Explicit>(),
             winrt::PropertyMetadata(nullptr, &Explicit::OnAnimationsPropertyChanged));
 
     winrt::XamlToolkit::WinUI::Animations::AnimationDictionary Explicit::GetAnimations(winrt::UIElement const& element)

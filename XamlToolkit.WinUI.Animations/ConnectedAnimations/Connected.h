@@ -34,9 +34,8 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
     /// <summary>
     /// A helper class that allows Connected Animations to be enabled through XAML.
     /// </summary>
-    struct Connected : ConnectedT<Connected>
+    struct Connected
     {
-    public:
         static winrt::hstring GetKey(winrt::DependencyObject const& obj);
         static void SetKey(winrt::DependencyObject const& obj, winrt::hstring const& value);
 

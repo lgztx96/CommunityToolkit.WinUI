@@ -45,28 +45,28 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         winrt::DependencyProperty::RegisterAttached(
             L"Key",
             winrt::xaml_typename<winrt::hstring>(),
-            winrt::xaml_typename<class_type>(),
+            winrt::xaml_typename<winrt::XamlToolkit::WinUI::Animations::Connected>(),
             winrt::PropertyMetadata(nullptr, &Connected::OnKeyChanged));
 
     const wil::single_threaded_property<winrt::DependencyProperty> Connected::AnchorElementProperty =
         winrt::DependencyProperty::RegisterAttached(
             L"AnchorElement",
             winrt::xaml_typename<UIElement>(),
-            winrt::xaml_typename<class_type>(),
+            winrt::xaml_typename<winrt::XamlToolkit::WinUI::Animations::Connected>(),
             winrt::PropertyMetadata(nullptr, &Connected::OnAnchorElementChanged));
 
     const wil::single_threaded_property<winrt::DependencyProperty> Connected::ListItemKeyProperty =
         winrt::DependencyProperty::RegisterAttached(
             L"ListItemKey",
             winrt::xaml_typename<winrt::hstring>(),
-            winrt::xaml_typename<class_type>(),
+            winrt::xaml_typename<winrt::XamlToolkit::WinUI::Animations::Connected>(),
             winrt::PropertyMetadata(nullptr, &Connected::OnListItemKeyChanged));
 
     const wil::single_threaded_property<winrt::DependencyProperty> Connected::ListItemElementNameProperty =
         winrt::DependencyProperty::RegisterAttached(
             L"ListItemElementName",
             winrt::xaml_typename<winrt::hstring>(),
-            winrt::xaml_typename<class_type>(),
+            winrt::xaml_typename<winrt::XamlToolkit::WinUI::Animations::Connected>(),
             winrt::PropertyMetadata(nullptr, &Connected::OnListItemElementNameChanged));
 
     winrt::hstring Connected::GetKey(winrt::DependencyObject const& obj)

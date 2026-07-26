@@ -21,14 +21,14 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         winrt::DependencyProperty::RegisterAttached(
             L"Duration",
             winrt::xaml_typename<winrt::TimeSpan>(),
-            winrt::xaml_typename<class_type>(),
+            winrt::xaml_typename<winrt::XamlToolkit::WinUI::Animations::ItemsReorderAnimation>(),
             nullptr);
 
     const wil::single_threaded_property<winrt::DependencyProperty> ItemsReorderAnimation::ReorderAnimationProperty = 
         winrt::DependencyProperty::RegisterAttached(
             L"ReorderAnimation",
             winrt::xaml_typename<winrt::ImplicitAnimationCollection>(),
-            winrt::xaml_typename<class_type>(),
+            winrt::xaml_typename<winrt::XamlToolkit::WinUI::Animations::ItemsReorderAnimation>(),
             nullptr);
 
     winrt::TimeSpan ItemsReorderAnimation::GetDuration(winrt::ListViewBase const& listView)

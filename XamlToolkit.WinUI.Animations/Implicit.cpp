@@ -40,21 +40,21 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         winrt::DependencyProperty::RegisterAttached(
         L"ShowAnimations",
         winrt::xaml_typename<winrt::XamlToolkit::WinUI::Animations::ImplicitAnimationSet>(),
-        winrt::xaml_typename<class_type>(),
+        winrt::xaml_typename<winrt::XamlToolkit::WinUI::Animations::Implicit>(),
             winrt::PropertyMetadata(nullptr, &Implicit::OnShowAnimationsPropertyChanged));
 
     const wil::single_threaded_property<winrt::DependencyProperty> Implicit::HideAnimationsProperty =
         winrt::DependencyProperty::RegisterAttached(
             L"HideAnimations",
             winrt::xaml_typename<winrt::XamlToolkit::WinUI::Animations::ImplicitAnimationSet>(),
-            winrt::xaml_typename<class_type>(),
+            winrt::xaml_typename<winrt::XamlToolkit::WinUI::Animations::Implicit>(),
             winrt::PropertyMetadata(nullptr, &Implicit::OnHideAnimationsPropertyChanged));
 
     const wil::single_threaded_property<winrt::DependencyProperty> Implicit::AnimationsProperty =
         winrt::DependencyProperty::RegisterAttached(
             L"Animations",
             winrt::xaml_typename<winrt::XamlToolkit::WinUI::Animations::ImplicitAnimationSet>(),
-            winrt::xaml_typename<class_type>(),
+            winrt::xaml_typename<winrt::XamlToolkit::WinUI::Animations::Implicit>(),
             winrt::PropertyMetadata(nullptr, &Implicit::OnAnimationsPropertyChanged));
 
     winrt::XamlToolkit::WinUI::Animations::ImplicitAnimationSet Implicit::GetShowAnimations(winrt::UIElement const& element)

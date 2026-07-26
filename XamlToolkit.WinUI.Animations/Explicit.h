@@ -19,11 +19,8 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
     /// <summary>
     /// Attached properties to support explicitly triggered animations for UIElement instances.
     /// </summary>
-    struct Explicit : ExplicitT<Explicit>
+    struct Explicit
     {
-    public:
-        Explicit() = default;
-
         /// <summary>
         /// Gets the value of the AnimationsProperty property.
         /// </summary>
