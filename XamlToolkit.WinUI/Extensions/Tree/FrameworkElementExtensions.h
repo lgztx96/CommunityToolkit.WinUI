@@ -597,6 +597,7 @@ namespace winrt::XamlToolkit::WinUI
 				}
 
 				current = current.Parent().try_as<winrt::FrameworkElement>();
+
 			} while (current);
 
 			// Finally try application resources
