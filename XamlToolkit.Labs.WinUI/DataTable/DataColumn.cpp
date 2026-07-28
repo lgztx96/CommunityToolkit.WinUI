@@ -166,7 +166,14 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         }
 
         auto width = _resizeStartWidth + horizontalChange;
-        width = std::max<double>(width, MinWidth());
+
+        // PART_ColumnSizer is hosted inside this column. If an interactive
+        // resize is allowed to reduce the entire column below the sizer's own
+        // width, the parent clips the sizer and the user cannot drag it back.
+        // Keep this clamp local to pointer resizing so setting DesiredWidth to
+        // zero programmatically retains its existing meaning.
+        const auto interactiveMinWidth = std::max<double>(MinWidth(), _columnSizer.ActualWidth());
+        width = std::max<double>(width, interactiveMinWidth);
         if (std::isfinite(MaxWidth()))
         {
             width = std::min<double>(width, MaxWidth());
@@ -185,8 +192,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         if (auto parent = _parent.get())
         {
-            // Drag deltas only require arrange. Re-measure once at the end so
-            // header and row content finalize against the persisted pixel width.
+            // Ensure the final persisted width receives a complete layout pass
+            // even when the last manipulation delta was coalesced.
             winrt::get_self<winrt::XamlToolkit::Labs::WinUI::implementation::DataTable>(parent)->ColumnWidthChanged();
         }
     }
@@ -211,14 +218,10 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         }
 
         auto parentImpl = winrt::get_self<winrt::XamlToolkit::Labs::WinUI::implementation::DataTable>(parent);
-        if (_isInternalResizeUpdate)
-        {
-            parentImpl->ColumnResized();
-        }
-        else
-        {
-            parentImpl->ColumnWidthChanged();
-        }
+        // A changed pixel width is a new measure constraint. TextBlock decides
+        // whether TextTrimming is necessary during Measure, so arranging rows
+        // alone would retain an ellipsis computed for the previous width.
+        parentImpl->ColumnWidthChanged();
     }
 
     void DataColumn::DesiredWidth_PropertyChanged(winrt::DependencyObject const& d, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& e)
