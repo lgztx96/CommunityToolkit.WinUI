@@ -295,7 +295,7 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
             {
                 auto args = winrt::make_self<FrameEventArgs>();
                 args->VideoFrame(vmf.GetVideoFrame());
-                FrameArrived.invoke(*this, *args);
+                FrameArrived.invoke(sender, *args);
             }
         }
     }
