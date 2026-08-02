@@ -93,7 +93,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
     void DataColumn::ColumnResizedByUserSizer()
     {
         // Update our internal representation to be our size now as a fixed value.
-        _currentWidth = winrt::GridLength(ActualWidth());
+        _currentWidth = winrt::GridLengthHelper::FromPixels(ActualWidth());
 
         // Notify the rest of the table to update
         if (auto parent = _parent.get())

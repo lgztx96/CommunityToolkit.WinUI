@@ -55,6 +55,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         double fixedWidth = 0;
         double proportionalUnits = 0;
         double autoSized = 0;
+        double desiredWidth = 0;
 
         double maxHeight = 0;
 
@@ -66,14 +67,16 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         // We only need to measure elements that are visible
         for (const auto& column : elements)
         {
-			auto columnImpl = winrt::get_self<implementation::DataColumn>(column);
-            if (winrt::GridLengthHelper::GetIsStar(columnImpl->CurrentWidth()))
+            auto columnImpl = winrt::get_self<implementation::DataColumn>(column);
+            auto currentWidth = columnImpl->CurrentWidth();
+
+            if (winrt::GridLengthHelper::GetIsStar(currentWidth))
             {
-                proportionalUnits += columnImpl->DesiredWidth().Value;
+                proportionalUnits += currentWidth.Value;
             }
-            else if (winrt::GridLengthHelper::GetIsAbsolute(columnImpl->CurrentWidth()))
+            else if (winrt::GridLengthHelper::GetIsAbsolute(currentWidth))
             {
-                fixedWidth += columnImpl->DesiredWidth().Value;
+                fixedWidth += currentWidth.Value;
             }
         }
 
@@ -81,18 +84,26 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         fixedWidth += (elements.size() - 1) * ColumnSpacing();
 
         // TODO: Handle infinite width?
-        auto proportionalAmount = (availableSize.Width - fixedWidth) / proportionalUnits;
+        auto proportionalAmount = proportionalUnits > 0 ? (availableSize.Width - fixedWidth) / proportionalUnits : 0;
 
         for (const auto& column : elements)
         {
             auto columnImpl = winrt::get_self<implementation::DataColumn>(column);
-            if (winrt::GridLengthHelper::GetIsStar(columnImpl->CurrentWidth()))
+            auto currentWidth = columnImpl->CurrentWidth();
+
+            if (winrt::GridLengthHelper::GetIsStar(currentWidth))
             {
-                column.Measure(winrt::Size(static_cast<float>(proportionalAmount * columnImpl->CurrentWidth().Value), availableSize.Height));
+                auto width = proportionalAmount * currentWidth.Value;
+
+                column.Measure(winrt::Size(static_cast<float>(width), availableSize.Height));
+
+                desiredWidth += width;
             }
-            else if (winrt::GridLengthHelper::GetIsAbsolute(columnImpl->CurrentWidth()))
+            else if (winrt::GridLengthHelper::GetIsAbsolute(currentWidth))
             {
-                column.Measure(winrt::Size(static_cast<float>(columnImpl->CurrentWidth().Value), availableSize.Height));
+                column.Measure(winrt::Size(static_cast<float>(currentWidth.Value), availableSize.Height));
+
+                desiredWidth += currentWidth.Value;
             }
             else
             {
@@ -109,13 +120,26 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
                 column.Measure(winrt::Size(std::max<float>(static_cast<float>(availableSize.Width - fixedWidth - autoSized), 0), availableSize.Height));
 
                 // Keep track of already 'allotted' space, use either the maximum child size (if we know it) or the header content
-                autoSized += std::max<double>(column.DesiredSize().Width, columnImpl->MaxChildDesiredWidth);
+                auto width = std::max<double>(column.DesiredSize().Width, columnImpl->MaxChildDesiredWidth);
+
+                autoSized += width;
+                desiredWidth += width;
             }
 
             maxHeight = std::max<double>(maxHeight, column.DesiredSize().Height);
         }
 
-        return winrt::Size(availableSize.Width, static_cast<float>(maxHeight));
+        if (proportionalUnits > 0)
+        {
+            // Star columns consume the available width.
+            desiredWidth = availableSize.Width;
+        }
+        else
+        {
+            desiredWidth += (elements.size() - 1) * ColumnSpacing();
+        }
+
+        return winrt::Size(static_cast<float>(desiredWidth), static_cast<float>(maxHeight));
     }
 
     winrt::Size DataTable::ArrangeOverride(winrt::Size finalSize)
@@ -132,13 +156,14 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         for (const auto& column : elements)
         {
             auto columnImpl = winrt::get_self<implementation::DataColumn>(column);
-            if (winrt::GridLengthHelper::GetIsStar(columnImpl->CurrentWidth()))
+			auto currentWidth = columnImpl->CurrentWidth();
+            if (winrt::GridLengthHelper::GetIsStar(currentWidth))
             {
-                proportionalUnits += columnImpl->CurrentWidth().Value;
+                proportionalUnits += currentWidth.Value;
             }
-            else if (winrt::GridLengthHelper::GetIsAbsolute(columnImpl->CurrentWidth()))
+            else if (winrt::GridLengthHelper::GetIsAbsolute(currentWidth))
             {
-                fixedWidth += columnImpl->CurrentWidth().Value;
+                fixedWidth += currentWidth.Value;
             }
             else
             {
@@ -156,14 +181,15 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         for (const auto& column : elements)
         {
             auto columnImpl = winrt::get_self<implementation::DataColumn>(column);
-            if (winrt::GridLengthHelper::GetIsStar(columnImpl->CurrentWidth()))
+			auto currentWidth = columnImpl->CurrentWidth();
+            if (winrt::GridLengthHelper::GetIsStar(currentWidth))
             {
-                width = proportionalAmount * columnImpl->CurrentWidth().Value;
+                width = proportionalAmount * currentWidth.Value;
                 column.Arrange(winrt::Rect(static_cast<float>(x), 0, static_cast<float>(width), finalSize.Height));
             }
-            else if (winrt::GridLengthHelper::GetIsAbsolute(columnImpl->CurrentWidth()))
+            else if (winrt::GridLengthHelper::GetIsAbsolute(currentWidth))
             {
-                width = columnImpl->CurrentWidth().Value;
+                width = currentWidth.Value;
                 column.Arrange(winrt::Rect(static_cast<float>(x), 0, static_cast<float>(width), finalSize.Height));
             }
             else

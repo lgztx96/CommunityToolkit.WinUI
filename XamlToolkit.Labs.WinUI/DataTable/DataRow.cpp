@@ -85,18 +85,18 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         if (_parentPanel == nullptr) _parentPanel = InitializeParentHeaderConnection();
 
         double maxHeight = 0;
-		auto children = Children();
+        auto children = Children();
         uint32_t childCount = children.Size();
 
         if (childCount > 0)
         {
             // If we don't have a grid, just measure first child to get row height and take available space
-            if (_parentPanel == nullptr)
-            {
+        if (_parentPanel == nullptr)
+        {
                 auto first = children.GetAt(0);
                 first.Measure(availableSize);
                 return winrt::Size(availableSize.Width, first.DesiredSize().Height);
-            }
+        }
             // Handle DataTable Parent
             else if (_parentTable
                 && _parentTable.Children().Size() == childCount)
@@ -140,7 +140,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
                         }
 
                         // TODO: Do we want this to ever shrink back?
-                        auto& prev = colImpl->MaxChildDesiredWidth;
+                        double prev = colImpl->MaxChildDesiredWidth;
                         colImpl->MaxChildDesiredWidth = std::max<double>(colImpl->MaxChildDesiredWidth, childElement.DesiredSize().Width + padding);
                         if (colImpl->MaxChildDesiredWidth != prev)
                         {
@@ -188,7 +188,14 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         }
 
         // Otherwise, return our parent's size as the desired size.
-        return winrt::Size(_parentPanel ? _parentPanel.DesiredSize().Width : availableSize.Width, static_cast<float>(maxHeight));
+        float desiredWidth = availableSize.Width;
+
+        if (_parentPanel)
+        {
+            desiredWidth = std::max(_parentPanel.DesiredSize().Width, desiredWidth);
+        }
+
+        return winrt::Size(desiredWidth, static_cast<float>(maxHeight));
     }
 
     winrt::Size DataRow::ArrangeOverride(winrt::Size finalSize)
