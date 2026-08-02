@@ -139,6 +139,21 @@ Rive support is available via [`XamlToolkit.WinUI.Rive`](https://github.com/lgzt
 
 ![TransitionHelper](docs/images/TransitionHelper.gif)
 
+### Windows Terminal Control
+
+![Terminal](docs/images/Terminal.png)
+
+Terminal Control support is available via [`XamlToolkit.WinUI.Terminal`](https://github.com/lgztx96/XamlToolkit.WinUI.Terminal)
+
+### Windows Store NavigationView Style
+
+![StoreNavigationViewStyle](docs/images/StoreNavigationViewStyle.png)
+
+Add the following resource dictionary to your application's resources:
+```xml
+  <ResourceDictionary Source="ms-appx:///XamlToolkit.Labs.WinUI/Styles/StoreNavigationViewStyle.xaml" />
+```
+
 ---
 
 ## XamlToolkit.WinUI.Animations
@@ -204,4 +219,3 @@ xmlns:media="using:XamlToolkit.WinUI.Media"
 ```
 
 ![Sample](docs/images/Sample.png)
-
