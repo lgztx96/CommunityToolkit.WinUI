@@ -22,6 +22,7 @@ You can install the C++ WinUI Community Toolkit packages via NuGet (it also supp
 | XamlToolkit.WinUI.Interactivity.Native | [![NuGet](https://img.shields.io/nuget/v/XamlToolkit.WinUI.Interactivity.Native.svg)](https://www.nuget.org/packages/XamlToolkit.WinUI.Interactivity.Native/) |
 | XamlToolkit.Labs.WinUI.Native | [![NuGet](https://img.shields.io/nuget/v/XamlToolkit.Labs.WinUI.Native.svg)](https://www.nuget.org/packages/XamlToolkit.Labs.WinUI.Native/) |
 | XamlToolkit.WinUI.Rive.Native | [![NuGet](https://img.shields.io/nuget/v/XamlToolkit.WinUI.Rive.Native.svg)](https://www.nuget.org/packages/XamlToolkit.WinUI.Rive.Native/) |
+| XamlToolkit.WinUI.Terminal | [![NuGet](https://img.shields.io/nuget/v/XamlToolkit.WinUI.Terminal.svg)](https://www.nuget.org/packages/XamlToolkit.WinUI.Terminal/) |
 
 **Note:** When using the C# version, make sure to set the `<TargetFramework>` to:
 
