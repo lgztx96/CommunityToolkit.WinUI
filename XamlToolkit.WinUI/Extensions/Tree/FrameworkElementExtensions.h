@@ -421,7 +421,7 @@ namespace winrt::XamlToolkit::WinUI
 			return FindParent<T>(element);
 		}
 
-		static winrt::FrameworkElement FindParentOrSelf(winrt::FrameworkElement const& element, winrt::TypeName type)
+		static winrt::FrameworkElement FindParentOrSelf(winrt::FrameworkElement const& element, winrt::TypeName const& type)
 		{
 			if (winrt::get_class_name(element) == type.Name)
 			{
