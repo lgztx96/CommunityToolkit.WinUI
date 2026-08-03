@@ -31,7 +31,7 @@ namespace winrt::XamlToolkit::WinUI
 	{
 	public:
 		template <typename T, IPredicate<T> TPredicate>
-		static T FindDescendant(winrt::DependencyObject const& element, TPredicate& predicate)
+		static T FindDescendant(winrt::DependencyObject const& element, TPredicate&& predicate)
 			requires winrt::derived_from<T, winrt::DependencyObject>
 		{
 			int childrenCount = winrt::VisualTreeHelper::GetChildrenCount(element);
@@ -45,7 +45,7 @@ namespace winrt::XamlToolkit::WinUI
 					return result;
 				}
 
-				if (T descendant = FindDescendant<T, TPredicate>(child, predicate))
+				if (T descendant = FindDescendant<T>(child, predicate))
 				{
 					return descendant;
 				}
@@ -54,28 +54,11 @@ namespace winrt::XamlToolkit::WinUI
 			return nullptr;
 		}
 
-		template <typename T, typename TState>
-		static T FindDescendant(winrt::DependencyObject const& element, TState&& state, const std::function<bool(T, TState&&)>& predicate)
-			requires winrt::derived_from<T, winrt::DependencyObject>
-		{
-			PredicateByFunc<T, TState> predicateByFunc(state, predicate);
-
-			return FindDescendant<T>(element, predicateByFunc);
-		}
-
-		template <typename T>
-		static T FindDescendant(winrt::DependencyObject const& element, const std::function<bool(T)>& predicate)
-			requires winrt::derived_from<T, winrt::DependencyObject>
-		{
-			PredicateByFunc<T, void> predicateByFunc(predicate);
-			return FindDescendant<T>(element, predicateByFunc);
-		}
-
-		static winrt::DependencyObject FindDescendant(winrt::DependencyObject const& element, winrt::TypeName type)
+		static winrt::DependencyObject FindDescendant(winrt::DependencyObject const& element, winrt::TypeName const& type)
 		{
 			PredicateByType predicateByType(type);
 
-			return FindDescendant<winrt::DependencyObject, PredicateByType>(element, predicateByType);
+			return FindDescendant<winrt::DependencyObject>(element, predicateByType);
 		}
 
 		template <typename T>
@@ -91,7 +74,7 @@ namespace winrt::XamlToolkit::WinUI
 		{
 			PredicateByName predicateByName(name);
 
-			return FindDescendant<winrt::FrameworkElement, PredicateByName>(element, predicateByName);
+			return FindDescendant<winrt::FrameworkElement>(element, predicateByName);
 		}
 
 		static winrt::FrameworkElement FindDescendantOrSelf(winrt::DependencyObject const& element, std::wstring_view name)
@@ -116,7 +99,7 @@ namespace winrt::XamlToolkit::WinUI
 			return FindDescendant<T>(element);
 		}
 
-		static winrt::DependencyObject FindDescendantOrSelf(winrt::DependencyObject const& element, winrt::TypeName type)
+		static winrt::DependencyObject FindDescendantOrSelf(winrt::DependencyObject const& element, winrt::TypeName const& type)
 		{
 			if (winrt::get_class_name(element) == type.Name)
 			{
@@ -126,8 +109,8 @@ namespace winrt::XamlToolkit::WinUI
 			return FindDescendant(element, type);
 		}
 
-		template <typename T>
-		static T FindDescendantOrSelf(winrt::DependencyObject const& element, const std::function<bool(T)>& predicate)
+		template <typename T, IPredicate<T> TPredicate>
+		static T FindDescendantOrSelf(winrt::DependencyObject const& element, TPredicate&& predicate)
 			requires winrt::derived_from<T, winrt::DependencyObject>
 		{
 			if (auto result = element.try_as<T>(); result && predicate(result))
@@ -135,37 +118,28 @@ namespace winrt::XamlToolkit::WinUI
 				return result;
 			}
 
-			return FindDescendant(element, predicate);
+			return FindDescendant<T>(element, predicate);
 		}
 
-		template <typename T, typename TState>
-		static T FindDescendantOrSelf(winrt::DependencyObject const& element, TState&& state, const std::function<bool(T, TState&&)>& predicate)
-			requires winrt::derived_from<T, winrt::DependencyObject>
-		{
-			if (auto result = element.try_as<T>(); result && predicate(result, state))
-			{
-				return result;
-			}
-
-			return FindDescendant(element, state, predicate);
-		}
-
-		static void FindDescendants(winrt::DependencyObject const& element, std::vector<winrt::DependencyObject>& result)
+		static std::generator<winrt::DependencyObject> FindDescendants(winrt::DependencyObject const& element)
 		{
 			int childrenCount = winrt::VisualTreeHelper::GetChildrenCount(element);
 
-			for (auto i = 0; i < childrenCount; i++)
+			for (int i = 0; i < childrenCount; i++)
 			{
-				winrt::DependencyObject child = winrt::VisualTreeHelper::GetChild(element, i);
+				auto child = winrt::VisualTreeHelper::GetChild(element, i);
 
-				result.emplace_back(child);
+				co_yield child;
 
-				FindDescendants(child, result);
+				for (auto const& descendant : FindDescendants(child))
+				{
+					co_yield descendant;
+				}
 			}
 		}
 
 		template<typename T, IPredicate<T> TPredicate>
-		static T FindAscendant(winrt::DependencyObject element, TPredicate& predicate)
+		static T FindAscendant(winrt::DependencyObject element, TPredicate&& predicate)
 			requires winrt::derived_from<T, winrt::DependencyObject>
 		{
 			while (true)
@@ -186,29 +160,11 @@ namespace winrt::XamlToolkit::WinUI
 			}
 		}
 
-		template<typename T, typename TState>
-		static T FindAscendant(winrt::DependencyObject const& element, TState&& state, const std::function<bool(T, TState&&)>& predicate)
-			requires winrt::derived_from<T, winrt::DependencyObject>
-		{
-			PredicateByFunc<T, TState> predicateByFunc(state, predicate);
-
-			return FindAscendant<T>(element, predicateByFunc);
-		}
-
-		template<typename T>
-		static T FindAscendant(winrt::DependencyObject const& element, const std::function<bool(T)>& predicate)
-			requires winrt::derived_from<T, winrt::DependencyObject>
-		{
-			PredicateByFunc<T, void> predicateByFunc(predicate);
-
-			return FindAscendant<T>(element, predicateByFunc);
-		}
-
-		static winrt::DependencyObject FindAscendant(winrt::DependencyObject const& element, winrt::TypeName type)
+		static winrt::DependencyObject FindAscendant(winrt::DependencyObject const& element, winrt::TypeName const& type)
 		{
 			PredicateByType predicateByType(type);
 
-			return FindAscendant<winrt::DependencyObject, PredicateByType>(element, predicateByType);
+			return FindAscendant<winrt::DependencyObject>(element, predicateByType);
 		}
 
 		template <typename T>
@@ -217,14 +173,14 @@ namespace winrt::XamlToolkit::WinUI
 		{
 			PredicateByAny<T> predicateByAny;
 
-			return FindAscendant<T, PredicateByAny<T>>(element, predicateByAny);
+			return FindAscendant<T>(element, predicateByAny);
 		}
 
 		static winrt::FrameworkElement FindAscendant(winrt::DependencyObject const& element, std::wstring_view name)
 		{
 			PredicateByName predicateByName(name);
 
-			return FindAscendant<winrt::FrameworkElement, PredicateByName>(element, predicateByName);
+			return FindAscendant<winrt::FrameworkElement>(element, predicateByName);
 		}
 
 		static winrt::FrameworkElement FindAscendantOrSelf(winrt::DependencyObject const& element, std::wstring_view name)
@@ -241,7 +197,7 @@ namespace winrt::XamlToolkit::WinUI
 		static T FindAscendantOrSelf(winrt::DependencyObject const& element)
 			requires winrt::derived_from<T, winrt::DependencyObject>
 		{
-			if (auto result = element.try_as<T>(); result)
+			if (auto result = element.try_as<T>())
 			{
 				return result;
 			}
@@ -249,7 +205,7 @@ namespace winrt::XamlToolkit::WinUI
 			return FindAscendant<T>(element);
 		}
 
-		static winrt::DependencyObject FindAscendantOrSelf(winrt::DependencyObject const& element, winrt::TypeName type)
+		static winrt::DependencyObject FindAscendantOrSelf(winrt::DependencyObject const& element, winrt::TypeName const& type)
 		{
 			if (winrt::get_class_name(element) == type.Name)
 			{
@@ -259,8 +215,8 @@ namespace winrt::XamlToolkit::WinUI
 			return FindAscendant(element, type);
 		}
 
-		template<typename T>
-		static T FindAscendantOrSelf(winrt::DependencyObject const& element, const std::function<bool(T)>& predicate)
+		template<typename T, IPredicate<T> TPredicate>
+		static T FindAscendantOrSelf(winrt::DependencyObject const& element, TPredicate&& predicate)
 			requires winrt::derived_from<T, winrt::DependencyObject>
 		{
 			if (auto result = element.try_as<T>(); result && predicate(result))
@@ -268,19 +224,7 @@ namespace winrt::XamlToolkit::WinUI
 				return result;
 			}
 
-			return FindAscendant(element, predicate);
-		}
-
-		template<typename T, typename TState>
-		static T FindAscendantOrSelf(winrt::DependencyObject const& element, TState state, const std::function<bool(T, TState)>& predicate)
-			requires winrt::derived_from<T, winrt::DependencyObject>
-		{
-			if (auto result = element.try_as<T>(); result && predicate(result, state))
-			{
-				return result;
-			}
-
-			return FindAscendant(element, state, predicate);
+			return FindAscendant<T>(element, predicate);
 		}
 
 		static std::generator<winrt::DependencyObject> FindAscendants(winrt::DependencyObject element)

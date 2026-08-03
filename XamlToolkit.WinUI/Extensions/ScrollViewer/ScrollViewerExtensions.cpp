@@ -57,7 +57,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
     bool ScrollViewerExtensions::ChangeHorizontalScrollBarMarginProperty(winrt::FrameworkElement const& sender)
     {
         auto scrollViewer = sender.try_as<winrt::ScrollViewer>();
-        
+
         if (!scrollViewer)
         {
             scrollViewer = DependencyObjectEx::FindDescendant<winrt::ScrollViewer>(sender);
@@ -69,23 +69,28 @@ namespace winrt::XamlToolkit::WinUI::implementation
         }
 
         // Last scrollbar with "HorizontalScrollBar" as name is our target to set its margin and avoid it overlapping the header
-        std::vector<winrt::DependencyObject> descendants;
-        DependencyObjectEx::FindDescendants(scrollViewer, descendants);
+        winrt::ScrollBar scrollBar = nullptr;
 
-        for (auto it = descendants.rbegin(); it != descendants.rend(); ++it)
+        for (const auto& descendant : DependencyObjectEx::FindDescendants(scrollViewer))
         {
-            if (auto scrollBar = it->try_as<winrt::ScrollBar>())
+            if (auto bar = descendant.try_as<winrt::ScrollBar>())
             {
-                if (scrollBar.Name() == L"HorizontalScrollBar")
+                if (bar.Name() == L"HorizontalScrollBar")
                 {
-                    auto newMargin = GetHorizontalScrollBarMargin(sender);
-                    scrollBar.Margin(newMargin);
-                    return true;
+                    scrollBar = bar;
                 }
             }
         }
 
-        return false;
+        if (!scrollBar)
+        {
+            return false;
+        }
+
+        auto newMargin = GetHorizontalScrollBarMargin(sender);
+        scrollBar.Margin(newMargin);
+
+        return true;
     }
 
     void ScrollViewerExtensions::OnVerticalScrollBarMarginPropertyChanged(winrt::DependencyObject const& sender, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& args)
@@ -129,22 +134,27 @@ namespace winrt::XamlToolkit::WinUI::implementation
         }
 
         // Last scrollbar with "VerticalScrollBar" as name is our target to set its margin and avoid it overlapping the header
-        std::vector<winrt::DependencyObject> descendants;
-        DependencyObjectEx::FindDescendants(scrollViewer, descendants);
+        winrt::ScrollBar scrollBar = nullptr;
 
-        for (auto it = descendants.rbegin(); it != descendants.rend(); ++it)
+        for (const auto& descendant : DependencyObjectEx::FindDescendants(scrollViewer))
         {
-            if (auto scrollBar = it->try_as<winrt::ScrollBar>())
+            if (auto bar = descendant.try_as<winrt::ScrollBar>())
             {
-                if (scrollBar.Name() == L"VerticalScrollBar")
+                if (bar.Name() == L"VerticalScrollBar")
                 {
-                    auto newMargin = GetVerticalScrollBarMargin(sender);
-                    scrollBar.Margin(newMargin);
-                    return true;
+                    scrollBar = bar;
                 }
             }
         }
 
-        return false;
+        if (!scrollBar)
+        {
+            return false;
+        }
+
+        auto newMargin = GetVerticalScrollBarMargin(sender);
+        scrollBar.Margin(newMargin);
+
+        return true;
     }
 }
