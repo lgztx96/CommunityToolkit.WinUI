@@ -17,7 +17,13 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         L"Storyboard",
         winrt::xaml_typename<winrt::Storyboard>(),
         winrt::xaml_typename<class_type>(),
-        winrt::PropertyMetadata(nullptr, &ControlStoryboardAction::OnStoryboardChanged));
+        winrt::PropertyMetadata(nullptr));
+
+	const wil::single_threaded_property<winrt::DependencyProperty> ControlStoryboardAction::IsPausedProperty = winrt::DependencyProperty::RegisterAttached(
+        L"IsPaused",
+        winrt::xaml_typename<bool>(),
+        winrt::xaml_typename<winrt::Storyboard>(),
+        winrt::PropertyMetadata(winrt::box_value(false)));
 
     winrt::XamlToolkit::WinUI::Interactivity::ControlStoryboardOption ControlStoryboardAction::ControlStoryboardOption() const
     {
@@ -39,6 +45,16 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
     {
         SetValue(StoryboardProperty(), value);
     }
+
+	void ControlStoryboardAction::SetIsPaused(winrt::Storyboard const& obj, bool value)
+	{
+        obj.SetValue(IsPausedProperty(), winrt::box_value(value));
+	}
+
+	bool ControlStoryboardAction::GetIsPaused(winrt::Storyboard const& obj)
+	{
+        return winrt::unbox_value<bool>(obj.GetValue(IsPausedProperty()));
+	}
 
     winrt::IInspectable ControlStoryboardAction::Execute([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::IInspectable const& parameter)
     {
@@ -63,17 +79,17 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
                 auto currentState = storyboard.GetCurrentState();
                 if (currentState == winrt::ClockState::Stopped)
                 {
-                    _isPaused = false;
+                    SetIsPaused(Storyboard(), false);
                     storyboard.Begin();
                 }
-                else if (_isPaused)
+                else if (GetIsPaused(Storyboard()))
                 {
-                    _isPaused = false;
+                    SetIsPaused(Storyboard(), false);
                     storyboard.Resume();
                 }
                 else
                 {
-                    _isPaused = true;
+                    SetIsPaused(Storyboard(), true);
                     storyboard.Pause();
                 }
             }
@@ -96,13 +112,5 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         }
 
         return winrt::box_value(true);
-    }
-
-    void ControlStoryboardAction::OnStoryboardChanged(winrt::DependencyObject const& sender, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& args)
-    {
-        if (auto action = sender.try_as<winrt::XamlToolkit::WinUI::Interactivity::ControlStoryboardAction>())
-        {
-            winrt::get_self<ControlStoryboardAction>(action)->_isPaused = false;
-        }
     }
 }
