@@ -543,39 +543,12 @@ namespace winrt::XamlToolkit::WinUI::Animations
             FrameworkLayer layer = FrameworkLayer::Composition);
 
         /// <summary>
-        /// Adds a custom animation based on normalized keyframes to the current schedule.
-        /// </summary>
-        template<typename T, typename TState>
-        AnimationBuilder& NormalizedKeyFrames(
-            winrt::hstring const& property,
-            TState state,
-            std::function<void(INormalizedKeyFrameAnimationBuilder<T>&, TState)> build,
-            std::optional<winrt::TimeSpan> delay = std::nullopt,
-            std::optional<winrt::TimeSpan> duration = std::nullopt,
-            std::optional<RepeatOption> repeatOption = std::nullopt,
-            std::optional<winrt::AnimationDelayBehavior> delayBehavior = std::nullopt,
-            FrameworkLayer layer = FrameworkLayer::Composition);
-
-        /// <summary>
         /// Adds a custom animation based on timed keyframes to the current schedule.
         /// </summary>
         template<typename T>
         AnimationBuilder& TimedKeyFrames(
             winrt::hstring const& property,
             std::function<void(ITimedKeyFrameAnimationBuilder<T>&)> build,
-            std::optional<winrt::TimeSpan> delay = std::nullopt,
-            std::optional<RepeatOption> repeat = std::nullopt,
-            std::optional<winrt::AnimationDelayBehavior> delayBehavior = std::nullopt,
-            FrameworkLayer layer = FrameworkLayer::Composition);
-
-        /// <summary>
-        /// Adds a custom animation based on timed keyframes to the current schedule.
-        /// </summary>
-        template<typename T, typename TState>
-        AnimationBuilder& TimedKeyFrames(
-            winrt::hstring const& property,
-            TState state,
-            std::function<void(ITimedKeyFrameAnimationBuilder<T>&, TState)> build,
             std::optional<winrt::TimeSpan> delay = std::nullopt,
             std::optional<RepeatOption> repeat = std::nullopt,
             std::optional<winrt::AnimationDelayBehavior> delayBehavior = std::nullopt,
