@@ -62,7 +62,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
 		{
 			size_t operator()(EasingKey const& key) const noexcept
 			{
-				auto const& [type, mode] = key;
+				const auto& [type, mode] = key;
 				return (static_cast<size_t>(type) << 8) ^ static_cast<size_t>(mode);
 			}
 		};

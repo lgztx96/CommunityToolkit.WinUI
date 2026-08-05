@@ -125,7 +125,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         case winrt::CollectionChange::Reset:
         {
             children.Clear();
-            for (auto const& item : sender)
+            for (const auto& item : sender)
             {
                 children.Append(item);
             }

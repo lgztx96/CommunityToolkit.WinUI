@@ -131,7 +131,7 @@ namespace winrt::XamlToolkit::WinUI
 
 				co_yield child;
 
-				for (auto const& descendant : FindDescendants(child))
+				for (const auto& descendant : FindDescendants(child))
 				{
 					co_yield descendant;
 				}

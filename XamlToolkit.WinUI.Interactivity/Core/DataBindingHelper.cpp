@@ -10,7 +10,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity
 {
     void DataBindingHelper::RefreshDataBindingsOnActions(winrt::XamlToolkit::WinUI::Interactivity::ActionCollection const& actions)
     {
-        for (auto const& dependencyObject : actions)
+        for (const auto& dependencyObject : actions)
         {
             if (auto invokeCommandAction = dependencyObject.try_as<winrt::XamlToolkit::WinUI::Interactivity::InvokeCommandAction>())
             {

@@ -56,7 +56,7 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
         auto names = profile.GetNetworkNames();
         if (names && names.Size() > 0)
         {
-            for (auto const& name : names)
+            for (const auto& name : names)
             {
                 _networkNames.push_back(name);
             }

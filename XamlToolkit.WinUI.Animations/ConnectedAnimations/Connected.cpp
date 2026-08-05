@@ -160,7 +160,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
 
         if (anchors)
         {
-            for (auto const& anchor : anchors)
+            for (const auto& anchor : anchors)
             {
                 AttachAnchorElementForConnectedAnimation(page, element, anchor);
             }
@@ -178,7 +178,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         props.erase(key);
     }
 
-    void Connected::AttachAnchorElementForConnectedAnimation(Page const& page, UIElement const& element, UIElement const& anchor)
+    void Connected::AttachAnchorElementForConnectedAnimation(winrt::Page const& page, winrt::UIElement const& element, winrt::UIElement const& anchor)
     {
         if (!page || !element || !anchor)
         {

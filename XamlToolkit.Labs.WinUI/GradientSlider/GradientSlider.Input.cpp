@@ -92,7 +92,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         auto stop = thumb.GradientStop();
 
         uint32_t index = 0;
-        for (auto const& s : gradientStops)
+        for (const auto& s : gradientStops)
         {
             if (winrt::get_abi(s) == winrt::get_abi(stop))
             {
@@ -196,7 +196,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         if (!_containerCanvas)
             return false;
 
-        for (auto const& child : _containerCanvas.Children())
+        for (const auto& child : _containerCanvas.Children())
         {
             auto thumb = child.try_as<winrt::XamlToolkit::Labs::WinUI::GradientSliderThumb>();
             if (!thumb)

@@ -40,7 +40,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
                 if (context.PointClusterIds[i] != Unclassified)
                     continue;
 
-                float3 centroid{};
+                winrt::float3 centroid{};
                 float weight = 0.0f;
                 // Attempt to create cluster
                 if (context.CreateCluster(static_cast<int>(i), centroid, weight))

@@ -4,10 +4,10 @@ namespace XamlToolkit.WinUI.Converters
     {
         BoolToObjectConverter();
    
-        IInspectable TrueValue;
+        Object TrueValue;
         static Microsoft.UI.Xaml.DependencyProperty TrueValueProperty{ get; };
 
-        IInspectable FalseValue;
+        Object FalseValue;
         static Microsoft.UI.Xaml.DependencyProperty FalseValueProperty{ get; };
     }
 }

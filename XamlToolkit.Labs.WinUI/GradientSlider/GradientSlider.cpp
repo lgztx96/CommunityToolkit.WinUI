@@ -139,7 +139,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
     void GradientSlider::RefreshThumbs()
     {
         ClearThumbs();
-        for (auto const& stop : GradientStops())
+        for (const auto& stop : GradientStops())
         {
             AddStopThumb(stop);
         }
@@ -150,12 +150,12 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
     void GradientSlider::ClearThumbs()
     {
         std::vector<winrt::GradientStop> stopsToRemove;
-        for (auto const& [key, thumb] : _stopThumbs)
+        for (const auto& [key, thumb] : _stopThumbs)
         {
             stopsToRemove.push_back(key);
         }
 
-        for (auto const& stop : stopsToRemove)
+        for (const auto& stop : stopsToRemove)
         {
             RemoveStopThumb(stop);
         }
@@ -163,7 +163,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
     void GradientSlider::SyncThumbs()
     {
-        for (auto const& [_, thumb] : _stopThumbs)
+        for (const auto& [_, thumb] : _stopThumbs)
         {
             UpdateThumbPosition(thumb);
         }

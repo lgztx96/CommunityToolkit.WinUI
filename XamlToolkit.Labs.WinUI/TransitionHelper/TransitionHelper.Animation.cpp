@@ -39,7 +39,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 			return nullptr;
 		}
 
-		auto const& [a, b] = it->second;
+		const auto& [a, b] = it->second;
 
 		if (inverse)
 		{

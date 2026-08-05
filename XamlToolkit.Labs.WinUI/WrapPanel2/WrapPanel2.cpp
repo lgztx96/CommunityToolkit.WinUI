@@ -132,7 +132,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         uvSize.U(IsMainAxisStretch(uvAvailableSize.U()) ? uvAvailableSize.U() : _longestRowSize);
         double vTotal = 0.0;
 
-        for (auto const& rs : _rowSpecs)
+        for (const auto& rs : _rowSpecs)
         {
             vTotal += rs.MaxOffAxisSize;
         }
@@ -327,7 +327,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
             if (cursor >= childQueue.size())
                 return;
 
-            auto const& child = childQueue[cursor++];
+            const auto& child = childQueue[cursor++];
 
             // Sanity check
             if (!child)

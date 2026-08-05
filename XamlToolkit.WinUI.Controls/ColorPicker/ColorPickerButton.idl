@@ -5,6 +5,7 @@ namespace XamlToolkit.WinUI.Controls
     runtimeclass ColorPickerButton : Microsoft.UI.Xaml.Controls.DropDownButton
     {
         ColorPickerButton();
+
         XamlToolkit.WinUI.Controls.ColorPicker ColorPicker;
 
         Windows.UI.Color SelectedColor;

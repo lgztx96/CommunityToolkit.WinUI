@@ -328,7 +328,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
         return ToString(visual.AnchorPoint());
     }
 
-    void VisualExtensions::SetAnchorPointForElement(winrt::hstring const& value, UIElement const& element)
+    void VisualExtensions::SetAnchorPointForElement(winrt::hstring const& value, winrt::UIElement const& element)
     {
         auto visual = GetVisual(element);
         visual.AnchorPoint(ToVector2(value));
@@ -340,7 +340,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
         return ToString(visual.CenterPoint());
     }
 
-    void VisualExtensions::SetCenterPointForElement(winrt::hstring const& value, UIElement const& element)
+    void VisualExtensions::SetCenterPointForElement(winrt::hstring const& value, winrt::UIElement const& element)
     {
         auto visual = GetVisual(element);
         visual.CenterPoint(ToVector3(value));
@@ -352,7 +352,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
         return ToString(visual.Offset());
     }
 
-    void VisualExtensions::SetOffsetForElement(winrt::hstring const& value, UIElement const& element)
+    void VisualExtensions::SetOffsetForElement(winrt::hstring const& value, winrt::UIElement const& element)
     {
         auto visual = GetVisual(element);
         visual.Offset(ToVector3(value));
@@ -360,10 +360,10 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
     winrt::hstring VisualExtensions::GetTranslationForElement(winrt::UIElement const& element)
     {
-        float3 translation;
-        CompositionGetValueStatus result = GetVisual(element).Properties().TryGetVector3(L"Translation", translation);
+        winrt::float3 translation;
+        winrt::CompositionGetValueStatus result = GetVisual(element).Properties().TryGetVector3(L"Translation", translation);
 
-        if (result == CompositionGetValueStatus::Succeeded) 
+        if (result == winrt::CompositionGetValueStatus::Succeeded)
         {
             // The ("G", CultureInfo.InvariantCulture) combination produces a string with the default numeric
            // formatting style, and using ',' as component separator, so that the resulting text can safely
@@ -375,7 +375,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
         return L"<0, 0, 0>";
     }
 
-    void VisualExtensions::SetTranslationForElement(winrt::hstring const& value, UIElement const& element)
+    void VisualExtensions::SetTranslationForElement(winrt::hstring const& value, winrt::UIElement const& element)
     {
         winrt::ElementCompositionPreview::SetIsTranslationEnabled(element, true);
 
@@ -397,7 +397,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
         return visual.Opacity();
     }
 
-    void VisualExtensions::SetOpacityForElement(double value, UIElement const& element)
+    void VisualExtensions::SetOpacityForElement(double value, winrt::UIElement const& element)
     {
         auto visual = GetVisual(element);
         visual.Opacity((float)value);
@@ -409,7 +409,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
         return visual.RotationAngle();
     }
 
-    void VisualExtensions::SetRotationAngleForElement(double value, UIElement const& element)
+    void VisualExtensions::SetRotationAngleForElement(double value, winrt::UIElement const& element)
     {
         auto visual = GetVisual(element);
         visual.RotationAngle((float)value);
@@ -421,7 +421,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
         return visual.RotationAngleInDegrees();
     }
 
-    void VisualExtensions::SetRotationAngleInDegreesForElement(double value, UIElement const& element)
+    void VisualExtensions::SetRotationAngleInDegreesForElement(double value, winrt::UIElement const& element)
     {
         auto visual = GetVisual(element);
         visual.RotationAngleInDegrees((float)value);
@@ -433,7 +433,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
         return ToString(visual.RotationAxis());
     }
 
-    void VisualExtensions::SetRotationAxisForElement(winrt::hstring const& value, UIElement const& element)
+    void VisualExtensions::SetRotationAxisForElement(winrt::hstring const& value, winrt::UIElement const& element)
     {
         auto visual = GetVisual(element);
         visual.RotationAxis(ToVector3(value));
@@ -445,7 +445,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
         return ToString(visual.Scale());
     }
 
-    void VisualExtensions::SetScaleForElement(winrt::hstring const& value, UIElement const& element)
+    void VisualExtensions::SetScaleForElement(winrt::hstring const& value, winrt::UIElement const& element)
     {
         auto visual = GetVisual(element);
         visual.Scale(ToVector3(value));
@@ -457,7 +457,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
         return ToString(visual.Size());
     }
 
-    void VisualExtensions::SetSizeForElement(winrt::hstring const& value, UIElement const& element)
+    void VisualExtensions::SetSizeForElement(winrt::hstring const& value, winrt::UIElement const& element)
     {
         auto visual = GetVisual(element);
         visual.Size(ToVector2(value));

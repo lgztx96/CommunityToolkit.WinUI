@@ -54,7 +54,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
 	void BehaviorCollection::Detach()
 	{
-		for (auto const& item : _oldCollection)
+		for (const auto& item : _oldCollection)
 		{
 			if (item.AssociatedObject())
 			{
@@ -74,7 +74,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
 		if (collectionChange == winrt::CollectionChange::Reset)
 		{
-			for (auto const& behavior : _oldCollection)
+			for (const auto& behavior : _oldCollection)
 			{
 				if (behavior.AssociatedObject())
 				{
@@ -112,7 +112,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
 		case winrt::CollectionChange::ItemChanged:
 		{
-			auto const& oldItem = _oldCollection[eventIndex];
+			const auto& oldItem = _oldCollection[eventIndex];
 			if (oldItem.AssociatedObject())
 			{
 				oldItem.Detach();
@@ -124,7 +124,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
 		case winrt::CollectionChange::ItemRemoved:
 		{
-			auto const& oldItem = _oldCollection[eventIndex];
+			const auto& oldItem = _oldCollection[eventIndex];
 			if (oldItem.AssociatedObject())
 			{
 				oldItem.Detach();

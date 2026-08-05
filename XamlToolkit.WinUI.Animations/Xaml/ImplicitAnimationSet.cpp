@@ -77,7 +77,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         auto visual = winrt::ElementCompositionPreview::GetElementVisual(element);
         auto animations = visual.Compositor().CreateAnimationGroup();
 
-        for (auto const& item : *this)
+        for (const auto& item : *this)
         {
             auto timeline = AsInplicitTimeline(item);
             winrt::hstring key;
@@ -94,7 +94,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         auto compositor = visual.Compositor();
         auto animations = compositor.CreateImplicitAnimationCollection();
 
-        for (auto const& item : *this)
+        for (const auto& item : *this)
         {
             auto timeline = AsInplicitTimeline(item);
             winrt::hstring key;

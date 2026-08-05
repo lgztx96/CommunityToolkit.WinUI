@@ -8,43 +8,43 @@
 
 namespace winrt::XamlToolkit::WinUI::Converters::implementation
 {
+	const wil::single_threaded_property<winrt::DependencyProperty> BoolToObjectConverter::TrueValueProperty =
+		winrt::DependencyProperty::Register(
+			L"TrueValue",
+			winrt::xaml_typename<winrt::IInspectable>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata{ nullptr });
+
+	const wil::single_threaded_property<winrt::DependencyProperty> BoolToObjectConverter::FalseValueProperty =
+		winrt::DependencyProperty::Register(
+			L"FalseValue",
+			winrt::xaml_typename<winrt::IInspectable>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata{ nullptr });
+
 	winrt::IInspectable BoolToObjectConverter::TrueValue() const
 	{
-		return GetValue(TrueValueProperty);
+		return GetValue(TrueValueProperty());
 	}
 
 	void BoolToObjectConverter::TrueValue(winrt::IInspectable const& value)
 	{
-		SetValue(TrueValueProperty, value);
+		SetValue(TrueValueProperty(), value);
 	}
 
 	winrt::IInspectable BoolToObjectConverter::FalseValue() const
 	{
-		return GetValue(FalseValueProperty);
+		return GetValue(FalseValueProperty());
 	}
 
 	void BoolToObjectConverter::FalseValue(winrt::IInspectable const& value)
 	{
-		SetValue(FalseValueProperty, value);
+		SetValue(FalseValueProperty(), value);
 	}
-
-	const wil::single_threaded_property<winrt::DependencyProperty> BoolToObjectConverter::TrueValueProperty = winrt::DependencyProperty::Register(
-		L"TrueValue",
-		winrt::xaml_typename<winrt::IInspectable>(),
-		winrt::xaml_typename<class_type>(),
-		winrt::PropertyMetadata{ nullptr }
-	);
-
-	const wil::single_threaded_property<winrt::DependencyProperty> BoolToObjectConverter::FalseValueProperty = winrt::DependencyProperty::Register(
-		L"FalseValue",
-		winrt::xaml_typename<winrt::IInspectable>(),
-		winrt::xaml_typename<class_type>(),
-		winrt::PropertyMetadata{ nullptr }
-	);
 
 	winrt::IInspectable BoolToObjectConverter::Convert(winrt::IInspectable const& value, [[maybe_unused]] winrt::TypeName targetType, [[maybe_unused]] winrt::IInspectable const& parameter, [[maybe_unused]] winrt::hstring const& language) const
 	{
-		auto boolValue = unbox_value_or(value, false);
+		bool boolValue = winrt::unbox_value_or(value, false);
 
 		// Negate if needed
 		if (ConverterTools::TryParseBool(parameter))

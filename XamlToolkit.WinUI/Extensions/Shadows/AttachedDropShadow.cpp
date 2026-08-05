@@ -12,7 +12,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 {
 	static inline bool Contains(winrt::VisualCollection const& collection, winrt::Visual const& visual)
 	{
-		return std::ranges::any_of(collection, [&](auto const& item) { return item == visual; });
+		return std::ranges::any_of(collection, [&](const auto& item) { return item == visual; });
 	}
 
 	void AttachedDropShadow::OnCastToPropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e)

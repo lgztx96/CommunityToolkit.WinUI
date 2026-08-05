@@ -235,7 +235,7 @@ namespace winrt::XamlToolkit::WinUI::Media::Animations::implementation
             std::optional<enum EasingType> easingTypeHint,
             std::optional<winrt::EasingMode> easingModeHint)
         {
-            for (auto const& keyFrame : self.KeyFrames())
+            for (const auto& keyFrame : self.KeyFrames())
             {
                 self.EffectAnimationBase<TTraits>::AppendToBuilder(keyFrame, builder);
             }

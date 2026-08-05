@@ -33,7 +33,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         winrt::Size desiredSize{};
 
-        for (auto const& child : orderedChildren)
+        for (const auto& child : orderedChildren)
         {
             auto collapsibleGroup = child.try_as<winrt::XamlToolkit::Labs::WinUI::RibbonCollapsibleGroup>();
             auto requestedWidths = collapsibleGroup ? collapsibleGroup.RequestedWidths() : nullptr;
@@ -48,7 +48,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
                 double remainingWidth = availableSize.Width - desiredSize.Width;
 
                 double requestedWidth = std::numeric_limits<double>::infinity();
-                for (auto const& w : requestedWidths)
+                for (const auto& w : requestedWidths)
                 {
                     if (w <= remainingWidth)
                     {
@@ -68,7 +68,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         {
             // We need to collapse some groups.
             // If there is no priority order we assume that the last items are the one which should collapse first.
-            for (auto const& item : orderedChildren | std::views::reverse)
+            for (const auto& item : orderedChildren | std::views::reverse)
             {
                 auto group = item.try_as<winrt::XamlToolkit::Labs::WinUI::RibbonCollapsibleGroup>();
 
@@ -102,7 +102,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         else if (desiredSize.Width < availableSize.Width)
         {
             // We have more space than needed, we check if we can expand some groups
-            for (auto const& item : orderedChildren)
+            for (const auto& item : orderedChildren)
             {
                 auto group = item.try_as<winrt::XamlToolkit::Labs::WinUI::RibbonCollapsibleGroup>();
 
@@ -125,7 +125,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
                     double remainingWidth = availableSize.Width + previousSize.Width - desiredSize.Width;
 
                     double requestedWidth = std::numeric_limits<double>::infinity();
-                    for (auto const& w : requestedWidths)
+                    for (const auto& w : requestedWidths)
                     {
                         if (w <= remainingWidth)
                         {
@@ -159,7 +159,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
     {
         winrt::Rect position{ 0, 0, 0, finalSize.Height };
 
-        for (auto const& child : Children())
+        for (const auto& child : Children())
         {
             position.Width = child.DesiredSize().Width;
             child.Arrange(position);

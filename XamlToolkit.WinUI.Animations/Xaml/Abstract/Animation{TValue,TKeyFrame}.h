@@ -223,7 +223,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
             std::optional<enum EasingType> easingTypeHint,
             std::optional<winrt::EasingMode> easingModeHint)
         {
-            for (auto const& keyFrame : Owner().KeyFrames())
+            for (const auto& keyFrame : Owner().KeyFrames())
             {
                 auto keyFrameImpl = winrt::get_self<keyframe_impl_type>(keyFrame);
                 keyFrameImpl->AppendToBuilder(builder);

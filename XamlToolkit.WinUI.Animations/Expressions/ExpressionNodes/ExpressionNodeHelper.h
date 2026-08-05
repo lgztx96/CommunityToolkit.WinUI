@@ -23,7 +23,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
             newNode.AddChild(node);
             newNode.Subchannels.clear();
 
-            for (auto const& channel : subchannels)
+            for (const auto& channel : subchannels)
             {
                 newNode.Subchannels.emplace_back(channel);
             }

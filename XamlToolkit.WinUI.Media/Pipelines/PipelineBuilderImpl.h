@@ -154,7 +154,7 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
         template <typename T>
         static std::vector<T> Merge(std::vector<T> const& a, std::vector<T> const& b)
         {
-            for (auto const& item : a)
+            for (const auto& item : a)
             {
                 if (std::find(b.begin(), b.end(), item) != b.end())
                 {
@@ -180,7 +180,7 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
         {
             std::unordered_map<K, V> result{ a };
 
-            for (auto const& [key, value] : b)
+            for (const auto& [key, value] : b)
             {
                 auto [_, inserted] = result.emplace(key, value);
 

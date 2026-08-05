@@ -28,7 +28,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		{
 			_primaryItemsControl.HorizontalAlignment(CommandAlignment());
 
-			_commandAlignmentChangedToken = RegisterPropertyChangedCallback(CommandAlignmentProperty(), [](auto const& sender, auto const& dp)
+			_commandAlignmentChangedToken = RegisterPropertyChangedCallback(CommandAlignmentProperty(), [](const auto& sender, const auto& dp)
 			{
 				if (auto item = sender.template try_as<class_type>())
 				{
@@ -48,7 +48,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		if (_moreButton)
 		{
 			_moreButton.HorizontalAlignment(OverflowButtonAlignment());
-			_overflowAlignmentChangedToken = RegisterPropertyChangedCallback(OverflowButtonAlignmentProperty(), [](auto const& sender, auto const& dp)
+			_overflowAlignmentChangedToken = RegisterPropertyChangedCallback(OverflowButtonAlignmentProperty(), [](const auto& sender, const auto& dp)
 			{
 				if (auto item = sender.template try_as<class_type>())
 				{

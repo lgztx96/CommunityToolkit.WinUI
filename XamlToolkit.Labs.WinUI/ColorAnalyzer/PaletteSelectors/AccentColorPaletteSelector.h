@@ -22,12 +22,12 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         {
             // Select accent colors
             std::vector<winrt::Windows::UI::Color> colors;
-            for (auto const& item : palette)
+            for (const auto& item : palette)
             {
                 colors.push_back(item.Color);
             }
 
-            std::sort(colors.begin(), colors.end(), [](auto const& a, auto const& b)
+            std::sort(colors.begin(), colors.end(), [](const auto& a, const auto& b)
             {
                 return ColorExtensions::FindColorfulness(a) > ColorExtensions::FindColorfulness(b);
             });

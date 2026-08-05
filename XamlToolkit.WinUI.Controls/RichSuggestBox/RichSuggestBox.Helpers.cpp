@@ -81,7 +81,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		std::wstring ret;
 
-		for (auto const& ch : value)
+		for (const auto& ch : value)
 		{
 			if (iswpunct(ch))
 			{

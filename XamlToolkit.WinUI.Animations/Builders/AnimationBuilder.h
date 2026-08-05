@@ -600,7 +600,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
             {
                 winrt::Storyboard storyboard;
                 auto children = storyboard.Children();
-                for (auto const& factory : xamlAnimationFactories)
+                for (const auto& factory : xamlAnimationFactories)
                 {
                     children.Append(factory->GetAnimation(element));
                 }
@@ -704,7 +704,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
 
                     winrt::Storyboard storyboard;
                     auto children = storyboard.Children();
-                    for (auto const& factory : xamlAnimationFactories)
+                    for (const auto& factory : xamlAnimationFactories)
                     {
                         children.Append(factory->GetAnimation(element));
                     }
@@ -727,7 +727,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
                 // considerations regarding the closure to capture the provided callback apply here as well.
                 winrt::Storyboard storyboard;
                 auto children = storyboard.Children();
-                for (auto const& factory : xamlAnimationFactories)
+                for (const auto& factory : xamlAnimationFactories)
                 {
                     children.Append(factory->GetAnimation(element));
                 }
@@ -795,7 +795,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
                 wil::shared_event completionEvent(wil::EventOptions::ManualReset);
 
                 auto children = storyboard.Children();
-                for (auto const& factory : xamlAnimationFactories)
+                for (const auto& factory : xamlAnimationFactories)
                 {
                     children.Append(factory->GetAnimation(element));
                 }

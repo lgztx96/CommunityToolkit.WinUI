@@ -60,35 +60,35 @@ namespace winrt::XamlToolkit::WinUI::Converters::implementation
 		auto typeB = valueB.Type();
 
 		auto toDouble = [](winrt::IPropertyValue const& v) -> double
+		{
+			switch (v.Type())
 			{
-				switch (v.Type())
-				{
 				case PropertyType::Single: return static_cast<double>(v.GetSingle());
 				case PropertyType::Double: return v.GetDouble();
 				default: return std::numeric_limits<double>::quiet_NaN();
-				}
-			};
+			}
+		};
 
-		auto almost_equal = [](double x, double y)
-			{
-				if (std::isnan(x) || std::isnan(y)) return false;
-				if (std::isinf(x) || std::isinf(y)) return x == y;
+		auto almostEqual = [](double x, double y)
+		{
+			if (std::isnan(x) || std::isnan(y)) return false;
+			if (std::isinf(x) || std::isinf(y)) return x == y;
 
-				double diff = std::fabs(x - y);
-				double norm = std::max<double>({ 1.0, std::fabs(x), std::fabs(y) });
-				return diff < 1e-9 * norm;
-			};
+			double diff = std::fabs(x - y);
+			double norm = std::max<double>({ 1.0, std::fabs(x), std::fabs(y) });
+			return diff < 1e-9 * norm;
+		};
 
 		if ((typeA == PropertyType::Single || typeA == PropertyType::Double) &&
 			(typeB == PropertyType::Single || typeB == PropertyType::Double))
 		{
-			return almost_equal(toDouble(valueA), toDouble(valueB));
+			return almostEqual(toDouble(valueA), toDouble(valueB));
 		}
 
 		auto isInteger = [](PropertyType t)
+		{
+			switch (t)
 			{
-				switch (t)
-				{
 				case PropertyType::UInt8:
 				case PropertyType::Int16:
 				case PropertyType::UInt16:
@@ -99,13 +99,13 @@ namespace winrt::XamlToolkit::WinUI::Converters::implementation
 					return true;
 				default:
 					return false;
-				}
-			};
+			}
+		};
 
 		auto toInteger = [](winrt::IPropertyValue const& v) -> std::variant<int64_t, uint64_t>
+		{
+			switch (v.Type())
 			{
-				switch (v.Type())
-				{
 				case PropertyType::UInt8:  return static_cast<uint64_t>(v.GetUInt8());
 				case PropertyType::UInt16: return static_cast<uint64_t>(v.GetUInt16());
 				case PropertyType::UInt32: return static_cast<uint64_t>(v.GetUInt32());
@@ -114,8 +114,8 @@ namespace winrt::XamlToolkit::WinUI::Converters::implementation
 				case PropertyType::Int32:  return static_cast<int64_t>(v.GetInt32());
 				case PropertyType::Int64:  return v.GetInt64();
 				default: std::unreachable();
-				}
-			};
+			}
+		};
 
 		if (isInteger(typeA) && isInteger(typeB))
 		{
@@ -123,21 +123,21 @@ namespace winrt::XamlToolkit::WinUI::Converters::implementation
 			auto i2 = toInteger(valueB);
 
 			return std::visit([](auto x, auto y)
-				{
-					using A = decltype(x);
-					using B = decltype(y);
+			{
+				using A = decltype(x);
+				using B = decltype(y);
 
-					if constexpr (std::signed_integral<A> && std::signed_integral<B>)
-						return x == y;
-					else if constexpr (std::unsigned_integral<A> && std::unsigned_integral<B>)
-						return x == y;
-					else if constexpr (std::signed_integral<A> && std::unsigned_integral<B>)
-						return x >= 0 && static_cast<uint64_t>(x) == y;
-					else if constexpr (std::unsigned_integral<A> && std::signed_integral<B>)
-						return y >= 0 && x == static_cast<uint64_t>(y);
-					else
-						return false;
-				}, i1, i2);
+				if constexpr (std::signed_integral<A> && std::signed_integral<B>)
+					return x == y;
+				else if constexpr (std::unsigned_integral<A> && std::unsigned_integral<B>)
+					return x == y;
+				else if constexpr (std::signed_integral<A> && std::unsigned_integral<B>)
+					return x >= 0 && static_cast<uint64_t>(x) == y;
+				else if constexpr (std::unsigned_integral<A> && std::signed_integral<B>)
+					return y >= 0 && x == static_cast<uint64_t>(y);
+				else
+					return false;
+			}, i1, i2);
 		}
 
 		if (typeA != typeB)

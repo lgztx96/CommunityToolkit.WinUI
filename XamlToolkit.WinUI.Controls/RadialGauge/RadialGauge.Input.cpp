@@ -31,7 +31,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         SetGaugeValueFromPoint(e.GetPosition(*this));
     }
 
-    void RadialGauge::RadialGauge_PointerReleased([[maybe_unused]] IInspectable const& sender, winrt::PointerRoutedEventArgs const& e)
+    void RadialGauge::RadialGauge_PointerReleased([[maybe_unused]] winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e)
     {
         if (IsInteractive())
         {

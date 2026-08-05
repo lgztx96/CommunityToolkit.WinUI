@@ -70,13 +70,13 @@ namespace winrt::XamlToolkit::WinUI::Animations
 
         auto& connectedProps = implementation::Connected::GetPageConnectedAnimationProperties(page);
 
-        for (auto const& [key, props] : connectedProps)
+        for (const auto& [key, props] : connectedProps)
         {
             winrt::ConnectedAnimation animation{ nullptr };
 
             if (props.IsListAnimation() && parameter)
             {
-                for (auto const& listAnimProperty : props.ListAnimProperties)
+                for (const auto& listAnimProperty : props.ListAnimProperties)
                 {
                     if (!listAnimProperty.ListViewBase || listAnimProperty.ElementName.empty())
                     {
@@ -170,7 +170,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
             auto& connectedProps = implementation::Connected::GetPageConnectedAnimationProperties(page);
             auto& coordinated = implementation::Connected::GetPageCoordinatedAnimationElements(page);
 
-            for (auto const& [_, props] : connectedProps)
+            for (const auto& [_, props] : connectedProps)
             {
                 auto connectedAnimation = cas.GetAnimation(props.Key);
                 bool animationHandled = false;
@@ -179,7 +179,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
                 {
                     if (props.IsListAnimation() && parameter)
                     {
-                        for (auto const& listAnimProperty : props.ListAnimProperties)
+                        for (const auto& listAnimProperty : props.ListAnimProperties)
                         {
                             if (!listAnimProperty.ListViewBase || listAnimProperty.ElementName.empty())
                             {
@@ -210,7 +210,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
                         if (it != coordinated.end() && !it->second.empty())
                         {
                             auto list = winrt::single_threaded_vector<winrt::UIElement>();
-                            for (auto const& value : it->second)
+                            for (const auto& value : it->second)
                             {
                                 list.Append(value);
                             }
@@ -232,7 +232,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
                 }
             }
 
-            for (auto const& [key, _] : previousPageConnectedAnimationProps)
+            for (const auto& [key, _] : previousPageConnectedAnimationProps)
             {
                 if (auto animation = cas.GetAnimation(key))
                 {

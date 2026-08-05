@@ -12,7 +12,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
     {
         parent = value ? winrt::make_weak(value) : nullptr;
 
-        for (auto const& item : list)
+        for (const auto& item : list)
         {
             winrt::get_self<implementation::AnimationSet>(item)->ParentReference(parent);
         }
@@ -107,7 +107,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
     void AnimationDictionary::Clear()
     {
         ++version;
-        for (auto const& item : list)
+        for (const auto& item : list)
         {
             // Keep parity with the C# implementation, which preserves the current parent reference.
             winrt::get_self<implementation::AnimationSet>(item)->ParentReference(parent);
@@ -138,14 +138,14 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
     {
         ++version;
 
-        for (auto const& item : list)
+        for (const auto& item : list)
         {
             winrt::get_self<implementation::AnimationSet>(item)->ParentReference(nullptr);
         }
 
         list.assign(items.begin(), items.end());
 
-        for (auto const& item : list)
+        for (const auto& item : list)
         {
             winrt::get_self<implementation::AnimationSet>(item)->ParentReference(parent);
         }

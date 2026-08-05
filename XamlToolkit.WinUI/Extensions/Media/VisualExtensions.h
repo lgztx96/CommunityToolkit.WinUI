@@ -190,43 +190,43 @@ namespace winrt::XamlToolkit::WinUI::implementation
 	private:
 		static winrt::hstring GetAnchorPointForElement(winrt::UIElement const& element);
 
-		static void SetAnchorPointForElement(winrt::hstring const& value, UIElement const& element);
+		static void SetAnchorPointForElement(winrt::hstring const& value, winrt::UIElement const& element);
 
 		static winrt::hstring GetCenterPointForElement(winrt::UIElement const& element);
 
-		static void SetCenterPointForElement(winrt::hstring const& value, UIElement const& element);
+		static void SetCenterPointForElement(winrt::hstring const& value, winrt::UIElement const& element);
 
 		static winrt::hstring GetOffsetForElement(winrt::UIElement const& element);
 
-		static void SetOffsetForElement(winrt::hstring const& value, UIElement const& element);
+		static void SetOffsetForElement(winrt::hstring const& value, winrt::UIElement const& element);
 
 		static winrt::hstring GetTranslationForElement(winrt::UIElement const& element);
 
-		static void SetTranslationForElement(winrt::hstring const& value, UIElement const& element);
+		static void SetTranslationForElement(winrt::hstring const& value, winrt::UIElement const& element);
 
 		static double GetOpacityForElement(winrt::UIElement const& element);
 
-		static void SetOpacityForElement(double value, UIElement const& element);
+		static void SetOpacityForElement(double value, winrt::UIElement const& element);
 
 		static double GetRotationAngleForElement(winrt::UIElement const& element);
 
-		static void SetRotationAngleForElement(double value, UIElement const& element);
+		static void SetRotationAngleForElement(double value, winrt::UIElement const& element);
 
 		static double GetRotationAngleInDegreesForElement(winrt::UIElement const& element);
 
-		static void SetRotationAngleInDegreesForElement(double value, UIElement const& element);
+		static void SetRotationAngleInDegreesForElement(double value, winrt::UIElement const& element);
 
 		static winrt::hstring GetRotationAxisForElement(winrt::UIElement const& element);
 
-		static void SetRotationAxisForElement(winrt::hstring const& value, UIElement const& element);
+		static void SetRotationAxisForElement(winrt::hstring const& value, winrt::UIElement const& element);
 
 		static winrt::hstring GetScaleForElement(winrt::UIElement const& element);
 
-		static void SetScaleForElement(winrt::hstring const& value, UIElement const& element);
+		static void SetScaleForElement(winrt::hstring const& value, winrt::UIElement const& element);
 
 		static winrt::hstring GetSizeForElement(winrt::UIElement const& element);
 
-		static void SetSizeForElement(winrt::hstring const& value, UIElement const& element);
+		static void SetSizeForElement(winrt::hstring const& value, winrt::UIElement const& element);
 	};
 }
 

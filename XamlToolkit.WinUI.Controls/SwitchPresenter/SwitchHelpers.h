@@ -233,7 +233,7 @@ namespace winrt::XamlToolkit::WinUI::Controls
 		    //        return result!;
 		    //    }
 
-		    //    static auto ThrowExceptionForKeyNotFound = []() -> IInspectable
+		    //    static auto ThrowExceptionForKeyNotFound = []() -> winrt::IInspectable
 		    //        {
 		    //            throw winrt::hresult_invalid_argument(L"The requested enum value was not present in the provided type.");
 		    //        };
