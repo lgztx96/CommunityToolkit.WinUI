@@ -30,7 +30,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity
         auto type = GetType(normalizedTypeName);
         auto xaml = winrt::format(ContentControlFormatString, scope, type, value);
 
-        auto contentControl = winrt::Markup::XamlReader::Load(xaml).try_as<winrt::Controls::ContentControl>();
+        auto contentControl = winrt::Markup::XamlReader::Load(xaml).try_as<winrt::ContentControl>();
         if (contentControl)
         {
             return contentControl.Content();

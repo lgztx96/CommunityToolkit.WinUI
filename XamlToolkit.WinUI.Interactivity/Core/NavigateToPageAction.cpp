@@ -84,7 +84,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         // root we were given for another INavigate.
         while (senderObject && navigateElement == nullptr)
         {
-            navigateElement = senderObject.try_as<winrt::Controls::INavigate>();
+            navigateElement = senderObject.try_as<winrt::INavigate>();
             if (navigateElement == nullptr)
             {
                 senderObject = _visualTreeHelper ? _visualTreeHelper->GetParent(senderObject) : nullptr;

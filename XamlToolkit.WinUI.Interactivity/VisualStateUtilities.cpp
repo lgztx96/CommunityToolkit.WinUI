@@ -7,7 +7,7 @@
 
 namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 {
-    bool VisualStateUtilities::GoToState(winrt::Controls::Control const& control, winrt::hstring const& stateName, bool useTransitions)
+    bool VisualStateUtilities::GoToState(winrt::Control const& control, winrt::hstring const& stateName, bool useTransitions)
     {
         if (control == nullptr)
         {
@@ -48,7 +48,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         return visualStateGroups;
     }
 
-    winrt::Controls::Control VisualStateUtilities::FindNearestStatefulControl(winrt::FrameworkElement const& element)
+    winrt::Control VisualStateUtilities::FindNearestStatefulControl(winrt::FrameworkElement const& element)
     {
         if (element == nullptr)
         {
@@ -66,13 +66,13 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
         if (VisualStateUtilities::HasVisualStateGroupsDefined(currentElement))
         {
-            auto templatedParent = winrt::VisualTreeHelper::GetParent(currentElement).try_as<winrt::Controls::Control>();
+            auto templatedParent = winrt::VisualTreeHelper::GetParent(currentElement).try_as<winrt::Control>();
             if (templatedParent)
             {
                 return templatedParent;
             }
 
-            return currentElement.try_as<winrt::Controls::Control>();
+            return currentElement.try_as<winrt::Control>();
         }
 
         return nullptr;
@@ -90,7 +90,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
             return false;
         }
 
-        if (element.try_as<winrt::Controls::UserControl>())
+        if (element.try_as<winrt::UserControl>())
         {
             return false;
         }

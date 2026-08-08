@@ -19,15 +19,15 @@
 
 namespace winrt
 {
-	using namespace Windows::ApplicationModel;
-	using namespace Windows::Foundation;
-	using namespace Windows::Foundation::Collections;
-	using namespace Microsoft::UI::Xaml;
-	using namespace winrt::Input;
-	using namespace winrt::Controls;
-	using namespace winrt::Media;
-	using namespace winrt::Data;
-	using namespace winrt::Primitives;
+	using namespace ::winrt::Windows::ApplicationModel;
+	using namespace ::winrt::Windows::Foundation;
+	using namespace ::winrt::Windows::Foundation::Collections;
+	using namespace ::winrt::Microsoft::UI::Xaml;
+	using namespace ::winrt::Microsoft::UI::Xaml::Input;
+	using namespace ::winrt::Microsoft::UI::Xaml::Controls;
+	using namespace ::winrt::Microsoft::UI::Xaml::Media;
+	using namespace ::winrt::Microsoft::UI::Xaml::Data;
+	using namespace ::winrt::Microsoft::UI::Xaml::Controls::Primitives;
 }
 
 namespace winrt::XamlToolkit::WinUI::implementation

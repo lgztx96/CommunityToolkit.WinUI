@@ -105,7 +105,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
 
         static void GetParentFrameAndExecuteAction(
             winrt::FrameworkElement const& element,
-            std::function<void(winrt::Controls::Frame const&)> const& action);
+            std::function<void(winrt::Frame const&)> const& action);
 
         static void AddListViewBaseItemAnimationDetails(
             winrt::Page const& page,

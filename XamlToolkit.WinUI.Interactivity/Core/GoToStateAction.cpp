@@ -70,7 +70,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
         if (ReadLocalValue(GoToStateAction::TargetObjectProperty()) != winrt::DependencyProperty::UnsetValue())
         {
-            auto control = TargetObject().try_as<winrt::Controls::Control>();
+            auto control = TargetObject().try_as<winrt::Control>();
             if (control == nullptr)
             {
                 return winrt::box_value(false);
