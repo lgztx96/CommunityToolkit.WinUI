@@ -4,7 +4,7 @@ namespace XamlToolkit.WinUI.Interactivity
     {
         static Boolean GoToState(Microsoft.UI.Xaml.Controls.Control control, String stateName, Boolean useTransitions);
 
-        static Windows.Foundation.Collections.IVector<Microsoft.UI.Xaml.VisualStateGroup> GetVisualStateGroups(Microsoft.UI.Xaml.FrameworkElement element);
+        static IVector<Microsoft.UI.Xaml.VisualStateGroup> GetVisualStateGroups(Microsoft.UI.Xaml.FrameworkElement element);
 
         static Microsoft.UI.Xaml.Controls.Control FindNearestStatefulControl(Microsoft.UI.Xaml.FrameworkElement element);
     }

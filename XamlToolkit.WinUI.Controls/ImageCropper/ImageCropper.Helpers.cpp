@@ -25,7 +25,7 @@ namespace winrt
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-	static const constexpr double ThresholdValue = 0.001;
+	static constexpr double ThresholdValue = 0.001;
 
 	winrt::IAsyncAction ImageCropper::CropImageAsync(winrt::WriteableBitmap const& writeableBitmap, winrt::IRandomAccessStream const& stream, Rect croppedRect, BitmapFileFormat bitmapFileFormat)
 	{
@@ -77,9 +77,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		co_await CropImageAsync(writeableBitmap, randomAccessStream, croppedRect, bitmapFileFormat);
 		sourceBitmap = co_await winrt::CanvasVirtualBitmap::LoadAsync(device, randomAccessStream);
 
-		auto offScreen = winrt::CanvasRenderTarget(device, croppedRect.Width, croppedRect.Height, 96.0f);
+		winrt::CanvasRenderTarget offScreen(device, croppedRect.Width, croppedRect.Height, 96.0f);
 		auto drawingSession = offScreen.CreateDrawingSession();
-		auto markCommandList = winrt::CanvasCommandList(device);
+		winrt::CanvasCommandList markCommandList(device);
 
 		auto markDrawingSession = markCommandList.CreateDrawingSession();
 		markDrawingSession.FillGeometry(clipGeometry, winrt::Windows::UI::Colors::Black());
@@ -103,10 +103,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		case CropShape::Rectangular:
 			break;
 		case CropShape::Circular:
-			auto radiusX = croppedSize.Width / 2;
-			auto radiusY = croppedSize.Height / 2;
-			auto center = winrt::Point(radiusX, radiusY);
-			return winrt::CanvasGeometry::CreateEllipse(resourceCreator, winrt::float2(center.X, center.Y), static_cast<float>(radiusX), static_cast<float>(radiusY));
+			float radiusX = croppedSize.Width / 2;
+			float radiusY = croppedSize.Height / 2;
+			return winrt::CanvasGeometry::CreateEllipse(resourceCreator, winrt::float2(radiusX, radiusY), radiusX, radiusY);
 		}
 
 		return nullptr;

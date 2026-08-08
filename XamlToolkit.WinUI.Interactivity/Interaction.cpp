@@ -62,7 +62,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         }
 
         std::vector<winrt::IInspectable> results;
-        for (winrt::DependencyObject const& dependencyObject : actions)
+        for (const auto& dependencyObject : actions)
         {
             auto action = dependencyObject.as<winrt::XamlToolkit::WinUI::Interactivity::IAction>();
             results.emplace_back(action.Execute(sender, parameter));

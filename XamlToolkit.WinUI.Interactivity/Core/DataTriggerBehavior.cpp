@@ -112,12 +112,12 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         case winrt::XamlToolkit::WinUI::Interactivity::ComparisonConditionType::LessThanOrEqual:
         case winrt::XamlToolkit::WinUI::Interactivity::ComparisonConditionType::GreaterThan:
         case winrt::XamlToolkit::WinUI::Interactivity::ComparisonConditionType::GreaterThanOrEqual:
-            {
-                auto message = ResourceHelper::Format(
-                    winrt::XamlToolkit::WinUI::Interactivity::ResourceHelper::InvalidOperands(), 
-                    TypeDisplayName(leftOperand), 
-                    TypeDisplayName(convertedRightOperand), 
-                    ComparisonConditionToString(operatorType));
+        {
+            auto message = ResourceHelper::Format(
+                winrt::XamlToolkit::WinUI::Interactivity::ResourceHelper::InvalidOperands(), 
+                TypeDisplayName(leftOperand), 
+                TypeDisplayName(convertedRightOperand), 
+                ComparisonConditionToString(operatorType));
 
                 throw winrt::hresult_invalid_argument(message);
             }

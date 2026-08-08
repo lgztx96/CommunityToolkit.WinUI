@@ -9,9 +9,9 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 {
     const wil::single_threaded_property<winrt::DependencyProperty> ControlStoryboardAction::ControlStoryboardOptionProperty = winrt::DependencyProperty::Register(
         L"ControlStoryboardOption",
-        winrt::xaml_typename<winrt::XamlToolkit::WinUI::Interactivity::ControlStoryboardOption>(),
+        winrt::xaml_typename<enum ControlStoryboardOption>(),
         winrt::xaml_typename<class_type>(),
-        winrt::PropertyMetadata(winrt::box_value(winrt::XamlToolkit::WinUI::Interactivity::ControlStoryboardOption::Play)));
+        winrt::PropertyMetadata(winrt::box_value(ControlStoryboardOption::Play)));
 
     const wil::single_threaded_property<winrt::DependencyProperty> ControlStoryboardAction::StoryboardProperty = winrt::DependencyProperty::Register(
         L"Storyboard",
@@ -25,13 +25,13 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         winrt::xaml_typename<winrt::Storyboard>(),
         winrt::PropertyMetadata(winrt::box_value(false)));
 
-    winrt::XamlToolkit::WinUI::Interactivity::ControlStoryboardOption ControlStoryboardAction::ControlStoryboardOption() const
+    ControlStoryboardOption ControlStoryboardAction::ControlStoryboardOption() const
     {
         auto value = GetValue(ControlStoryboardOptionProperty());
-        return winrt::unbox_value_or<winrt::XamlToolkit::WinUI::Interactivity::ControlStoryboardOption>(value, winrt::XamlToolkit::WinUI::Interactivity::ControlStoryboardOption::Play);
+        return winrt::unbox_value_or<enum ControlStoryboardOption>(value, ControlStoryboardOption::Play);
     }
 
-    void ControlStoryboardAction::ControlStoryboardOption(winrt::XamlToolkit::WinUI::Interactivity::ControlStoryboardOption const& value)
+    void ControlStoryboardAction::ControlStoryboardOption(enum ControlStoryboardOption const& value)
     {
         SetValue(ControlStoryboardOptionProperty(), winrt::box_value(value));
     }
@@ -56,7 +56,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         return winrt::unbox_value<bool>(obj.GetValue(IsPausedProperty()));
 	}
 
-    winrt::IInspectable ControlStoryboardAction::Execute([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::IInspectable const& parameter)
+    winrt::IInspectable ControlStoryboardAction::Execute([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::IInspectable const& parameter) const
     {
         auto storyboard = Storyboard();
         if (storyboard == nullptr)
@@ -66,44 +66,44 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
         switch (ControlStoryboardOption())
         {
-        case winrt::XamlToolkit::WinUI::Interactivity::ControlStoryboardOption::Play:
+        case ControlStoryboardOption::Play:
             storyboard.Begin();
             break;
 
-        case winrt::XamlToolkit::WinUI::Interactivity::ControlStoryboardOption::Stop:
+        case ControlStoryboardOption::Stop:
             storyboard.Stop();
             break;
 
-        case winrt::XamlToolkit::WinUI::Interactivity::ControlStoryboardOption::TogglePlayPause:
+        case ControlStoryboardOption::TogglePlayPause:
+        {
+            auto currentState = storyboard.GetCurrentState();
+            if (currentState == winrt::ClockState::Stopped)
             {
-                auto currentState = storyboard.GetCurrentState();
-                if (currentState == winrt::ClockState::Stopped)
-                {
-                    SetIsPaused(Storyboard(), false);
-                    storyboard.Begin();
-                }
-                else if (GetIsPaused(Storyboard()))
-                {
-                    SetIsPaused(Storyboard(), false);
-                    storyboard.Resume();
-                }
-                else
-                {
-                    SetIsPaused(Storyboard(), true);
-                    storyboard.Pause();
-                }
+                SetIsPaused(Storyboard(), false);
+                storyboard.Begin();
             }
-            break;
+            else if (GetIsPaused(Storyboard()))
+            {
+                SetIsPaused(Storyboard(), false);
+                storyboard.Resume();
+            }
+            else
+            {
+                SetIsPaused(Storyboard(), true);
+                storyboard.Pause();
+            }
+        }
+        break;
 
-        case winrt::XamlToolkit::WinUI::Interactivity::ControlStoryboardOption::Pause:
+        case ControlStoryboardOption::Pause:
             storyboard.Pause();
             break;
 
-        case winrt::XamlToolkit::WinUI::Interactivity::ControlStoryboardOption::Resume:
+        case ControlStoryboardOption::Resume:
             storyboard.Resume();
             break;
 
-        case winrt::XamlToolkit::WinUI::Interactivity::ControlStoryboardOption::SkipToFill:
+        case ControlStoryboardOption::SkipToFill:
             storyboard.SkipToFill();
             break;
 

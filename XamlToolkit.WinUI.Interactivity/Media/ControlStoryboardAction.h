@@ -41,8 +41,8 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         /// <summary>
         /// Gets or sets the action to execute on the <see cref="Storyboard"/>. This is a dependency property.
         /// </summary>
-        winrt::XamlToolkit::WinUI::Interactivity::ControlStoryboardOption ControlStoryboardOption() const;
-        void ControlStoryboardOption(winrt::XamlToolkit::WinUI::Interactivity::ControlStoryboardOption const& value);
+        ControlStoryboardOption ControlStoryboardOption() const;
+        void ControlStoryboardOption(enum ControlStoryboardOption const& value);
 
         /// <summary>
         /// Gets or sets the targeted <see cref="Storyboard"/>. This is a dependency property.
@@ -69,7 +69,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         /// <param name="sender">The <see cref="object"/> that is passed to the action by the behavior. Generally this is <seealso cref="IBehavior.AssociatedObject"/> or a target object.</param>
         /// <param name="parameter">The value of this parameter is determined by the caller.</param>
         /// <returns>True if the specified operation is invoked successfully; else false.</returns>
-        winrt::IInspectable Execute(winrt::IInspectable const& sender, winrt::IInspectable const& parameter);
+        winrt::IInspectable Execute(winrt::IInspectable const& sender, winrt::IInspectable const& parameter) const;
     };
 }
 

@@ -14,88 +14,88 @@ namespace winrt::XamlToolkit::WinUI::Converters::implementation
 {
     winrt::IInspectable DoubleToObjectConverter::TrueValue() const
     {
-        return GetValue(TrueValueProperty);
+        return GetValue(TrueValueProperty());
     }
 
     void DoubleToObjectConverter::TrueValue(winrt::IInspectable const& value)
     {
-        SetValue(TrueValueProperty, value);
+        SetValue(TrueValueProperty(), value);
     }
 
     winrt::IInspectable DoubleToObjectConverter::FalseValue() const
     {
-        return GetValue(FalseValueProperty);
+        return GetValue(FalseValueProperty());
     }
 
     void DoubleToObjectConverter::FalseValue(winrt::IInspectable const& value)
     {
-        SetValue(FalseValueProperty, value);
+        SetValue(FalseValueProperty(), value);
     }
 
     winrt::IInspectable DoubleToObjectConverter::NullValue() const
     {
-        return GetValue(NullValueProperty);
+        return GetValue(NullValueProperty());
     }
 
     void DoubleToObjectConverter::NullValue(winrt::IInspectable const& value)
     {
-        SetValue(NullValueProperty, value);
+        SetValue(NullValueProperty(), value);
     }
 
     double DoubleToObjectConverter::GreaterThan() const
     {
-        return winrt::unbox_value<double>(GetValue(GreaterThanProperty));
+        return winrt::unbox_value<double>(GetValue(GreaterThanProperty()));
     }
 
     void DoubleToObjectConverter::GreaterThan(double value)
     {
-        SetValue(GreaterThanProperty, winrt::box_value(value));
+        SetValue(GreaterThanProperty(), winrt::box_value(value));
     }
 
     double DoubleToObjectConverter::LessThan() const
     {
-        return winrt::unbox_value<double>(GetValue(LessThanProperty));
+        return winrt::unbox_value<double>(GetValue(LessThanProperty()));
     }
 
     void DoubleToObjectConverter::LessThan(double value)
     {
-        SetValue(LessThanProperty, winrt::box_value(value));
+        SetValue(LessThanProperty(), winrt::box_value(value));
     }
 
-    const wil::single_threaded_property<winrt::DependencyProperty> DoubleToObjectConverter::TrueValueProperty = winrt::DependencyProperty::Register(
-        L"TrueValue",
-        winrt::xaml_typename<winrt::IInspectable>(),
-        winrt::xaml_typename<class_type>(),
-        winrt::PropertyMetadata{ nullptr }
-    );
+    const wil::single_threaded_property<winrt::DependencyProperty> DoubleToObjectConverter::TrueValueProperty = 
+        winrt::DependencyProperty::Register(
+            L"TrueValue",
+            winrt::xaml_typename<winrt::IInspectable>(),
+            winrt::xaml_typename<class_type>(),
+            winrt::PropertyMetadata{ nullptr });
 
-    const wil::single_threaded_property<winrt::DependencyProperty> DoubleToObjectConverter::FalseValueProperty = winrt::DependencyProperty::Register(
-        L"FalseValue",
-        winrt::xaml_typename<winrt::IInspectable>(),
-        winrt::xaml_typename<class_type>(),
-        winrt::PropertyMetadata{ nullptr }
-    );
+    const wil::single_threaded_property<winrt::DependencyProperty> DoubleToObjectConverter::FalseValueProperty = 
+        winrt::DependencyProperty::Register(
+            L"FalseValue",
+            winrt::xaml_typename<winrt::IInspectable>(),
+            winrt::xaml_typename<class_type>(),
+            winrt::PropertyMetadata{ nullptr });
 
-    const wil::single_threaded_property<winrt::DependencyProperty> DoubleToObjectConverter::NullValueProperty = winrt::DependencyProperty::Register(
-        L"NullValue",
-        winrt::xaml_typename<winrt::IInspectable>(),
-        winrt::xaml_typename<class_type>(),
-        winrt::PropertyMetadata{ nullptr }
-    );
+    const wil::single_threaded_property<winrt::DependencyProperty> DoubleToObjectConverter::NullValueProperty = 
+        winrt::DependencyProperty::Register(
+            L"NullValue",
+            winrt::xaml_typename<winrt::IInspectable>(),
+            winrt::xaml_typename<class_type>(),
+            winrt::PropertyMetadata{ nullptr });
 
-    const wil::single_threaded_property<winrt::DependencyProperty> DoubleToObjectConverter::GreaterThanProperty = winrt::DependencyProperty::Register(
-        L"GreaterThan",
-        winrt::xaml_typename<double>(),
-        winrt::xaml_typename<class_type>(),
-        winrt::PropertyMetadata{ winrt::box_value(std::numeric_limits<double>::quiet_NaN()) }
-    );
+    const wil::single_threaded_property<winrt::DependencyProperty> DoubleToObjectConverter::GreaterThanProperty = 
+        winrt::DependencyProperty::Register(
+            L"GreaterThan",
+            winrt::xaml_typename<double>(),
+            winrt::xaml_typename<class_type>(),
+            winrt::PropertyMetadata{ winrt::box_value(std::numeric_limits<double>::quiet_NaN()) });
 
-    const wil::single_threaded_property<winrt::DependencyProperty> DoubleToObjectConverter::LessThanProperty = winrt::DependencyProperty::Register(
-        L"LessThan",
-        winrt::xaml_typename<double>(),
-        winrt::xaml_typename<class_type>(),
-        winrt::PropertyMetadata{ winrt::box_value(std::numeric_limits<double>::quiet_NaN()) }
-    );
+    const wil::single_threaded_property<winrt::DependencyProperty> DoubleToObjectConverter::LessThanProperty = 
+        winrt::DependencyProperty::Register(
+            L"LessThan",
+            winrt::xaml_typename<double>(),
+            winrt::xaml_typename<class_type>(),
+            winrt::PropertyMetadata{ winrt::box_value(std::numeric_limits<double>::quiet_NaN()) });
 
     winrt::IInspectable DoubleToObjectConverter::Convert(winrt::IInspectable const& value, [[maybe_unused]] winrt::TypeName targetType, winrt::IInspectable const& parameter, [[maybe_unused]] winrt::hstring const& language) const
     {
