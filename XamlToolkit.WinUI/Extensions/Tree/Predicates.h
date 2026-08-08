@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef __INTELLISENSE__
+#if defined(__INTELLISENSE__) || !defined(WINRT_IMPORT_MODULE)
 #include <concepts>
 #include <functional>
 #include <string_view>
@@ -8,6 +8,7 @@
 #include <winrt/Windows.UI.Xaml.Interop.h>
 #include <winrt/Microsoft.UI.Xaml.h>
 #else
+import std;
 import winrt.Windows.Foundation;
 import winrt.Windows.UI.Xaml.Interop;
 import winrt.Microsoft.UI.Xaml;

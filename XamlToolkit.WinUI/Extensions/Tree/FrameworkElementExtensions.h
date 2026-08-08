@@ -2,7 +2,7 @@
 
 #include "Predicates.h"
 
-#ifdef __INTELLISENSE__
+#if defined(__INTELLISENSE__) || !defined(WINRT_IMPORT_MODULE)
 #include <vector>
 #include <generator>
 #include <winrt/Windows.Foundation.h>
@@ -12,6 +12,7 @@
 #include <winrt/Microsoft.UI.Xaml.Markup.h>
 #include <winrt/Microsoft.UI.Xaml.Media.h>
 #else
+import std;
 import winrt.Windows.Foundation;
 import winrt.Windows.UI.Xaml.Interop;
 import winrt.Microsoft.UI.Xaml;
