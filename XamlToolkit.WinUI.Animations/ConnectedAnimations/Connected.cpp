@@ -51,7 +51,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
     const wil::single_threaded_property<winrt::DependencyProperty> Connected::AnchorElementProperty =
         winrt::DependencyProperty::RegisterAttached(
             L"AnchorElement",
-            winrt::xaml_typename<UIElement>(),
+            winrt::xaml_typename<winrt::UIElement>(),
             winrt::xaml_typename<winrt::XamlToolkit::WinUI::Animations::Connected>(),
             winrt::PropertyMetadata(nullptr, &Connected::OnAnchorElementChanged));
 

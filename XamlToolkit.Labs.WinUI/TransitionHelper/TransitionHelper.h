@@ -360,7 +360,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 #pragma endregion
 
 	private:
-		const AnimatedElements<UIElement>& SourceAnimatedElements()
+		const AnimatedElements<winrt::UIElement>& SourceAnimatedElements()
 		{
 			if (!_sourceAnimatedElements)
 			{
@@ -370,7 +370,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 			return *_sourceAnimatedElements;
 		}
 
-		const AnimatedElements<UIElement>& TargetAnimatedElements()
+		const AnimatedElements<winrt::UIElement>& TargetAnimatedElements()
 		{
 			if (!_targetAnimatedElements)
 			{

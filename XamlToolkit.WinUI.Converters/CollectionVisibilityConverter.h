@@ -4,16 +4,12 @@
 #include "EmptyCollectionToObjectConverter.h"
 
 #ifdef __INTELLISENSE__
-#include <winrt/Windows.Foundation.h>
 #include <winrt/Microsoft.UI.Xaml.h>
-#include <winrt/Windows.UI.Xaml.Interop.h>
 #endif
 
 namespace winrt
 {
-    using namespace Windows::Foundation;
     using namespace Microsoft::UI::Xaml;
-    using namespace Windows::UI::Xaml::Interop;
 }
 
 namespace winrt::XamlToolkit::WinUI::Converters::implementation
@@ -25,8 +21,8 @@ namespace winrt::XamlToolkit::WinUI::Converters::implementation
     {
         CollectionVisibilityConverter()
         {
-            NotEmptyValue(winrt::box_value(Visibility::Visible));
-            EmptyValue(winrt::box_value(Visibility::Collapsed));
+            NotEmptyValue(winrt::box_value(winrt::Visibility::Visible));
+            EmptyValue(winrt::box_value(winrt::Visibility::Collapsed));
         }
     };
 }

@@ -20,7 +20,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         static inline wil::single_threaded_property<DependencyProperty> SelectedIconProperty =
             winrt::DependencyProperty::RegisterAttached(
                 L"SelectedIcon",
-                winrt::xaml_typename<IInspectable>(),
+                winrt::xaml_typename<winrt::IInspectable>(),
                 winrt::xaml_typename<winrt::XamlToolkit::Labs::WinUI::NavigationViewItemAttach>(),
                 winrt::PropertyMetadata(nullptr));
 
@@ -34,7 +34,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         static inline wil::single_threaded_property<DependencyProperty> UnselectedIconProperty =
             winrt::DependencyProperty::RegisterAttached(
                 L"UnselectedIcon",
-                winrt::xaml_typename<IInspectable>(),
+                winrt::xaml_typename<winrt::IInspectable>(),
                 winrt::xaml_typename<winrt::XamlToolkit::Labs::WinUI::NavigationViewItemAttach>(),
                 winrt::PropertyMetadata(nullptr));
 
@@ -43,7 +43,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
                 L"StaticIconVisibility",
                 winrt::xaml_typename<Visibility>(),
                 winrt::xaml_typename<winrt::XamlToolkit::Labs::WinUI::NavigationViewItemAttach>(),
-                winrt::PropertyMetadata(box_value(Visibility::Collapsed)));
+                winrt::PropertyMetadata(box_value(winrt::Visibility::Collapsed)));
 
         [[nodiscard]] static winrt::IInspectable GetSelectedIcon(winrt::DependencyObject const& obj);
         static void SetSelectedIcon(winrt::DependencyObject const& obj, winrt::IInspectable const& value);

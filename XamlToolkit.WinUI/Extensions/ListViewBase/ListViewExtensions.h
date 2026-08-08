@@ -130,7 +130,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
 		static void OnListViewBaseUnloaded_AltRow(winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e);
 
-		static void ColorItemsVectorChanged(winrt::IObservableVector<IInspectable> const& sender, winrt::IVectorChangedEventArgs const& args);
+		static void ColorItemsVectorChanged(winrt::IObservableVector<winrt::IInspectable> const& sender, winrt::IVectorChangedEventArgs const& args);
 
 		static void SetItemContainerBackground(winrt::ListViewBase const& sender, winrt::Control const& itemContainer, int itemIndex);
 #pragma endregion
