@@ -3,7 +3,7 @@ namespace XamlToolkit.WinUI.Animations
     /// <summary>
     /// A struct representing a repeat option for animations.
     /// </summary>
-    [createfromstring("XamlToolkit.WinUI.Animations.RepeatOptionHelper.Parse")]
+    [createfromstring("XamlToolkit.WinUI.Animations.RepeatOptionHelper.CreateFromString")]
     struct RepeatOption
     {
         /// <summary>
@@ -51,6 +51,6 @@ namespace XamlToolkit.WinUI.Animations
         /// </summary>
         /// <param name="text">The input text to parse.</param>
         /// <returns>The parsed <see cref="RepeatOption"/> value.</returns>
-        static RepeatOption Parse(String text);
+        static RepeatOption CreateFromString(String text);
     };
 }

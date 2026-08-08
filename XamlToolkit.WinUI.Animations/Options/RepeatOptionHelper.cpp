@@ -38,7 +38,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         }
     }
 
-    RepeatOption RepeatOptionHelper::Parse(winrt::hstring const& text)
+    RepeatOption RepeatOptionHelper::CreateFromString(winrt::hstring const& text)
     {
         std::wstring_view sv{ text };
 

@@ -52,7 +52,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         /// </summary>
         /// <param name="text">The input text to parse.</param>
         /// <returns>The parsed <see cref="RepeatOption"/> value.</returns>
-        static RepeatOption Parse(winrt::hstring const& text);
+        static RepeatOption CreateFromString(winrt::hstring const& text);
     };
 }
 
