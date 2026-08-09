@@ -75,14 +75,7 @@ UNREGISTER_EVENT(event_name, type))
 
         if (auto iterator = Global::RegisterHandlers.find(eventName); iterator != Global::RegisterHandlers.end())
         {
-            try
-            {
-                return iterator->second(sender, action);
-            }
-            catch (winrt::hresult_no_interface const&)
-            {
-                ThrowCannotFindEvent(eventName, sender);
-            }
+            return iterator->second(sender, action);
         }
 
         ThrowCannotFindEvent(eventName, sender);
@@ -100,15 +93,8 @@ UNREGISTER_EVENT(event_name, type))
 
         if (auto iterator = Global::UnregisterHandlers.find(eventName); iterator != Global::UnregisterHandlers.end())
         {
-            try
-            {
-                iterator->second(sender, token);
-                return;
-            }
-            catch (winrt::hresult_no_interface const&)
-            {
-                ThrowCannotFindEvent(eventName, sender);
-            }
+            iterator->second(sender, token);
+            return;
         }
 
         ThrowCannotFindEvent(eventName, sender);
