@@ -36,23 +36,33 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
     void FrameworkElementExtensions::AncestorType_PropertyChanged(winrt::DependencyObject const& obj, winrt::DependencyPropertyChangedEventArgs const& args)
     {
-        if (auto fe = obj.try_as<winrt::FrameworkElement>())
+        if (const auto fe = obj.try_as<winrt::FrameworkElement>())
         {
+            winrt::com_ptr<AncestorTracker> ancestorTracker = GetAncestorTracker(fe);
+
+            if (ancestorTracker)
+            {
+                if (ancestorTracker->loadedToken)
+                {
+                    fe.Loaded(ancestorTracker->loadedToken);
+                    ancestorTracker->loadedToken = { 0 };
+                }
+
+                if (ancestorTracker->unloadedToken)
+                {
+                    fe.Unloaded(ancestorTracker->unloadedToken);
+                    ancestorTracker->unloadedToken = { 0 };
+                }
+
+                SetAncestor(fe, nullptr);
+            }
+
             if (args.NewValue())
             {
-                auto ancestorTracker = GetAncestorTracker(fe);
-
                 if (!ancestorTracker)
                 {
                     ancestorTracker = winrt::make_self<AncestorTracker>();
                     fe.SetValue(AncestorTrackerProperty(), *ancestorTracker);
-                }
-                else
-                {
-                    if (ancestorTracker->loadedToken) 
-                    { 
-                        fe.Loaded(ancestorTracker->loadedToken); 
-                    }
                 }
 
                 ancestorTracker->loadedToken = fe.Loaded(&FrameworkElementExtensions::FrameworkElement_Loaded);
@@ -67,11 +77,11 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
     void FrameworkElementExtensions::FrameworkElement_Loaded(winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
     {
-        if (auto fe = sender.try_as<winrt::FrameworkElement>())
+        if (const auto fe = sender.try_as<winrt::FrameworkElement>())
         {
             SetAncestor(fe, DependencyObjectEx::FindAscendant(fe, GetAncestorType(fe)));
 
-            if (auto ancestorTracker = GetAncestorTracker(fe))
+            if (const auto ancestorTracker = GetAncestorTracker(fe))
             {
                 if (ancestorTracker->unloadedToken)
                 {
@@ -85,9 +95,9 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
     void FrameworkElementExtensions::FrameworkElement_Unloaded(winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
     {
-        if (auto fe = sender.try_as<winrt::FrameworkElement>())
+        if (const auto fe = sender.try_as<winrt::FrameworkElement>())
         {
-            if (auto ancestorTracker = GetAncestorTracker(fe))
+            if (const auto ancestorTracker = GetAncestorTracker(fe))
             {
                 if (ancestorTracker->unloadedToken)
                 {
