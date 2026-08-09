@@ -38,7 +38,7 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
         /// Invokes the activity asynchronously.
         /// </summary>
         /// <param name="element">The element.</param>
-        winrt::Windows::Foundation::IAsyncAction InvokeAsync(winrt::UIElement const& element);
+        winrt::Windows::Foundation::IAsyncAction InvokeAsync(winrt::UIElement element);
     };
 }
 

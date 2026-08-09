@@ -597,7 +597,7 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
         /// <summary>
         /// Builds the current pipeline and creates a SpriteVisual that is applied to the input UIElement
         /// </summary>
-        winrt::IAsyncOperation<winrt::SpriteVisual> AttachAsync(winrt::UIElement const& target, winrt::UIElement const& reference = nullptr);
+        winrt::IAsyncOperation<winrt::SpriteVisual> AttachAsync(winrt::UIElement target, winrt::UIElement reference = nullptr);
 
         winrt::XamlToolkit::WinUI::Media::XamlCompositionBrush AsBrush() const;
     };

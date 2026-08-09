@@ -740,7 +740,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
         /// <summary>
         /// Starts the animations present in the current AnimationBuilder instance.
         /// </summary>
-        winrt::IAsyncAction StartAsync(winrt::UIElement const& element)
+        winrt::IAsyncAction StartAsync(winrt::UIElement element)
         {
             winrt::IAsyncAction compositionTask{ nullptr };
             winrt::IAsyncAction xamlTask{ nullptr };

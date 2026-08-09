@@ -27,7 +27,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
 
         static const wil::single_threaded_property<winrt::DependencyProperty> DelayProperty;
 
-        virtual winrt::IAsyncAction InvokeAsync(winrt::UIElement const& element);
+        virtual winrt::IAsyncAction InvokeAsync(winrt::UIElement element);
     };
 }
 

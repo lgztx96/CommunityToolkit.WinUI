@@ -26,7 +26,7 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
         return actionCollection;
     }
 
-    winrt::IAsyncAction InvokeActionsActivity::InvokeAsync(winrt::UIElement const& element)
+    winrt::IAsyncAction InvokeActionsActivity::InvokeAsync(winrt::UIElement element)
     {
         auto strongThis = get_strong();
 		co_await base_type::InvokeAsync(element);
