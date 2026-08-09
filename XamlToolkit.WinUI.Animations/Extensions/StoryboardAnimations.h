@@ -3,7 +3,10 @@
 #ifdef __INTELLISENSE__
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
+#include <winrt/Microsoft.UI.Dispatching.h>
 #include <memory>
+#include <wil/wistd_type_traits.h>
+#include <wil/cppwinrt_helpers.h>
 #include <wil/resource.h>
 #endif
 
@@ -21,7 +24,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
         /// <param name="storyboard">The target storyboard to start.</param>
         /// <returns>An <see cref="IAsyncAction"/> that completes when <paramref name="storyboard"/> completes.</returns>
         static winrt::Windows::Foundation::IAsyncAction BeginAsync(
-            winrt::Microsoft::UI::Xaml::Media::Animation::Storyboard const& storyboard)
+            winrt::Microsoft::UI::Xaml::Media::Animation::Storyboard storyboard)
         {
             wil::shared_event completionEvent(wil::EventOptions::ManualReset);
             winrt::event_token token = storyboard.Completed([=](auto&&...)
@@ -29,10 +32,9 @@ namespace winrt::XamlToolkit::WinUI::Animations
                 completionEvent.SetEvent();
             });
 
-            winrt::apartment_context context;
             storyboard.Begin();
             co_await winrt::resume_on_signal(completionEvent.get());
-            co_await context;
+            co_await wil::resume_foreground(storyboard.DispatcherQueue());
             storyboard.Completed(token);
         }
     };

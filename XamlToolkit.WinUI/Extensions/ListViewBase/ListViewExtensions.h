@@ -178,10 +178,10 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
 #pragma region SmoothScrollIntoView
 	public:
-		static winrt::IAsyncAction SmoothScrollIntoViewWithIndexAsync(winrt::ListViewBase const& listViewBase, int index, ScrollItemPlacement itemPlacement = ScrollItemPlacement::Default, bool disableAnimation = false, bool scrollIfVisible = true, int additionalHorizontalOffset = 0, int additionalVerticalOffset = 0);
+		static winrt::IAsyncAction SmoothScrollIntoViewWithIndexAsync(winrt::ListViewBase listViewBase, int index, ScrollItemPlacement itemPlacement = ScrollItemPlacement::Default, bool disableAnimation = false, bool scrollIfVisible = true, int additionalHorizontalOffset = 0, int additionalVerticalOffset = 0);
 
 
-		static winrt::IAsyncAction SmoothScrollIntoViewWithItemAsync(winrt::ListViewBase const& listViewBase, winrt::IInspectable const& item, ScrollItemPlacement itemPlacement = ScrollItemPlacement::Default, bool disableAnimation = false, bool scrollIfVisible = true, int additionalHorizontalOffset = 0, int additionalVerticalOffset = 0);
+		static winrt::IAsyncAction SmoothScrollIntoViewWithItemAsync(winrt::ListViewBase listViewBase, winrt::IInspectable const& item, ScrollItemPlacement itemPlacement = ScrollItemPlacement::Default, bool disableAnimation = false, bool scrollIfVisible = true, int additionalHorizontalOffset = 0, int additionalVerticalOffset = 0);
 
 	private:
 		static winrt::IAsyncAction ChangeViewAsync(winrt::ScrollViewer const& scrollViewer, std::optional<double> horizontalOffset, std::optional<double> verticalOffset, std::optional<float> zoomFactor, bool disableAnimation);

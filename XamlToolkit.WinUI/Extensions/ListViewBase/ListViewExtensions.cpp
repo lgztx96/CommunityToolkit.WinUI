@@ -251,7 +251,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		}
 	}
 
-	winrt::IAsyncAction ListViewExtensions::SmoothScrollIntoViewWithIndexAsync(winrt::ListViewBase const& listViewBase, int index, ScrollItemPlacement itemPlacement, bool disableAnimation, bool scrollIfVisible, int additionalHorizontalOffset, int additionalVerticalOffset)
+	winrt::IAsyncAction ListViewExtensions::SmoothScrollIntoViewWithIndexAsync(winrt::ListViewBase listViewBase, int index, ScrollItemPlacement itemPlacement, bool disableAnimation, bool scrollIfVisible, int additionalHorizontalOffset, int additionalVerticalOffset)
 	{
 		auto items = listViewBase.Items();
 		if (index > (static_cast<int>(items.Size()) - 1))
@@ -287,24 +287,17 @@ namespace winrt::XamlToolkit::WinUI::implementation
 			previousYOffset = scrollViewer.VerticalOffset();
 
 			wil::shared_event completionEvent(wil::EventOptions::ManualReset);
-			winrt::ScrollViewer::ViewChanged_revoker viewChangedRevoker;
-			auto ViewChanged = [completionEvent](winrt::IInspectable const&, winrt::ScrollViewerViewChangedEventArgs const&)
+			winrt::ScrollViewer::ViewChanged_revoker viewChangedRevoker
 			{
-				completionEvent.SetEvent();
+				scrollViewer.ViewChanged(winrt::auto_revoke, [completionEvent](auto&...)
+				{
+					completionEvent.SetEvent();
+				}) 
 			};
 
-			try
-			{
-				winrt::apartment_context context;
-				viewChangedRevoker = scrollViewer.ViewChanged(winrt::auto_revoke, ViewChanged);
-				listViewBase.ScrollIntoView(items.GetAt(index), winrt::ScrollIntoViewAlignment::Leading);
-				co_await winrt::resume_on_signal(completionEvent.get());
-				co_await context;
-			}
-			catch (...)
-			{
-
-			}
+			listViewBase.ScrollIntoView(items.GetAt(index), winrt::ScrollIntoViewAlignment::Leading);
+			co_await winrt::resume_on_signal(completionEvent.get());
+			co_await wil::resume_foreground(scrollViewer.DispatcherQueue());
 
 			selectorItem = listViewBase.ContainerFromIndex(index).try_as<winrt::SelectorItem>();
 		}
@@ -411,7 +404,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		co_await ChangeViewAsync(scrollViewer, finalXPosition, finalYPosition, std::nullopt, disableAnimation);
 	}
 
-	winrt::IAsyncAction ListViewExtensions::SmoothScrollIntoViewWithItemAsync(winrt::ListViewBase const& listViewBase, winrt::IInspectable const& item, ScrollItemPlacement itemPlacement, bool disableAnimation, bool scrollIfVisible, int additionalHorizontalOffset, int additionalVerticalOffset)
+	winrt::IAsyncAction ListViewExtensions::SmoothScrollIntoViewWithItemAsync(winrt::ListViewBase listViewBase, winrt::IInspectable const& item, ScrollItemPlacement itemPlacement, bool disableAnimation, bool scrollIfVisible, int additionalHorizontalOffset, int additionalVerticalOffset)
 	{
 		uint32_t index;
 		if (listViewBase.Items().IndexOf(item, index))
@@ -448,7 +441,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
 		wil::shared_event completionEvent(wil::EventOptions::ManualReset);
 		winrt::ScrollViewer::ViewChanged_revoker viewChangedRevoker;
-		auto ViewChanged = [completionEvent](winrt::IInspectable const&, winrt::ScrollViewerViewChangedEventArgs const& e)
+		auto viewChanged = [completionEvent](winrt::IInspectable const&, winrt::ScrollViewerViewChangedEventArgs const& e)
 		{
 			if (!e.IsIntermediate())
 			{
@@ -456,10 +449,13 @@ namespace winrt::XamlToolkit::WinUI::implementation
 			}
 		};
 
-		winrt::apartment_context context;
-		viewChangedRevoker = scrollViewer.ViewChanged(winrt::auto_revoke, ViewChanged);
-		scrollViewer.ChangeView(horizontalOffset, verticalOffset, zoomFactor, disableAnimation);
+		viewChangedRevoker = scrollViewer.ViewChanged(winrt::auto_revoke, viewChanged);
+		if (!scrollViewer.ChangeView(horizontalOffset, verticalOffset, zoomFactor, disableAnimation))
+		{
+			co_return;
+		}
+
 		co_await winrt::resume_on_signal(completionEvent.get());
-		co_await context;
+		co_await wil::resume_foreground(scrollViewer.DispatcherQueue());
 	}
 }
