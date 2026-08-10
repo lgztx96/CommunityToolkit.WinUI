@@ -10,6 +10,7 @@ namespace XamlToolkit.WinUI.Media
     /// <summary>
     /// A simple class that can be used to quickly create XAML brushes from arbitrary <see cref="PipelineBuilder"/> pipelines
     /// </summary>
+    [webhosthidden]
     runtimeclass XamlCompositionBrush : XamlCompositionEffectBrushBase
     {
         /// <summary>

@@ -9,6 +9,7 @@ namespace XamlToolkit.WinUI.Media
     /// <summary>
     /// A brush which alters the colors of whatever is behind it in the application by applying a per-channel gamma transfer function.
     /// </summary>
+    [webhosthidden]
     runtimeclass BackdropGammaTransferBrush : XamlCompositionEffectBrushBase
     {
         /// <summary>

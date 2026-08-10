@@ -5,6 +5,7 @@ namespace XamlToolkit.WinUI.Helpers
     /// <summary>
     /// This class exposes functionality of NetworkInformation through a singleton.
     /// </summary>
+    [webhosthidden]
     runtimeclass NetworkHelper
     {
         NetworkHelper();

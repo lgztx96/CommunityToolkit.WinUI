@@ -4,6 +4,7 @@ namespace XamlToolkit.WinUI.Behaviors
     /// <summary>
     /// A custom Trigger that fires whenever a linked AnimationSet completes.
     /// </summary>
+	[webhosthidden]
     [default_interface]
 	runtimeclass AnimationCompletedTriggerBehavior : XamlToolkit.WinUI.Interactivity.Trigger
     {

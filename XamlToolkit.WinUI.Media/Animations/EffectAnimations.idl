@@ -16,6 +16,7 @@ namespace XamlToolkit.WinUI.Media.Animations
     /// <summary>
     /// An effect animation that targets <see cref="BlurEffect.Amount"/>.
     /// </summary>
+    [webhosthidden]
     [contentproperty("KeyFrames")]
     runtimeclass BlurEffectAnimation : XamlToolkit.WinUI.Animations.Animation
     {
@@ -61,6 +62,7 @@ namespace XamlToolkit.WinUI.Media.Animations
     /// <summary>
     /// An effect animation that targets <see cref="TintEffect.Color"/>.
     /// </summary>
+    [webhosthidden]
     [contentproperty("KeyFrames")]
     runtimeclass ColorEffectAnimation : XamlToolkit.WinUI.Animations.Animation
     {
@@ -106,6 +108,7 @@ namespace XamlToolkit.WinUI.Media.Animations
     /// <summary>
     /// An effect animation that targets <see cref="CrossFadeEffect.Factor"/>.
     /// </summary>
+    [webhosthidden]
     [contentproperty("KeyFrames")]
     runtimeclass CrossFadeEffectAnimation : XamlToolkit.WinUI.Animations.Animation
     {
@@ -151,6 +154,7 @@ namespace XamlToolkit.WinUI.Media.Animations
     /// <summary>
     /// An effect animation that targets <see cref="ExposureEffect.Amount"/>.
     /// </summary>
+    [webhosthidden]
     [contentproperty("KeyFrames")]
     runtimeclass ExposureEffectAnimation : XamlToolkit.WinUI.Animations.Animation
     {
@@ -196,6 +200,7 @@ namespace XamlToolkit.WinUI.Media.Animations
     /// <summary>
     /// An effect animation that targets <see cref="HueRotationEffect.Angle"/>.
     /// </summary>
+    [webhosthidden]
     [contentproperty("KeyFrames")]
     runtimeclass HueRotationEffectAnimation : XamlToolkit.WinUI.Animations.Animation
     {
@@ -241,6 +246,7 @@ namespace XamlToolkit.WinUI.Media.Animations
     /// <summary>
     /// An effect animation that targets <see cref="OpacityEffect.Value"/>.
     /// </summary>
+    [webhosthidden]
     [contentproperty("KeyFrames")]
     runtimeclass OpacityEffectAnimation : XamlToolkit.WinUI.Animations.Animation
     {
@@ -286,6 +292,7 @@ namespace XamlToolkit.WinUI.Media.Animations
     /// <summary>
     /// An effect animation that targets <see cref="SaturationEffect.Value"/>.
     /// </summary>
+    [webhosthidden]
     [contentproperty("KeyFrames")]
     runtimeclass SaturationEffectAnimation : XamlToolkit.WinUI.Animations.Animation
     {
@@ -331,6 +338,7 @@ namespace XamlToolkit.WinUI.Media.Animations
     /// <summary>
     /// An effect animation that targets <see cref="SepiaEffect.Intensity"/>.
     /// </summary>
+    [webhosthidden]
     [contentproperty("KeyFrames")]
     runtimeclass SepiaEffectAnimation : XamlToolkit.WinUI.Animations.Animation
     {

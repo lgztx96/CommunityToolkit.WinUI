@@ -15,6 +15,7 @@ namespace XamlToolkit.WinUI.Controls
 		Rgba
 	};
 
+	[webhosthidden]
 	interface IColorPalette
 	{
 		Int32 ColorCount { get; };

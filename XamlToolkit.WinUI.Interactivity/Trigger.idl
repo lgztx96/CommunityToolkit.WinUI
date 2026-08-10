@@ -3,6 +3,7 @@ import "ITrigger.idl";
 
 namespace XamlToolkit.WinUI.Interactivity
 {
+    [webhosthidden]
     [contentproperty("Actions")]
     unsealed runtimeclass Trigger : Behavior, ITrigger
     {

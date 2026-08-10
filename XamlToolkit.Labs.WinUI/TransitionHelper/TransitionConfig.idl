@@ -9,11 +9,13 @@
 		Custom
 	};
 
+	[webhosthidden]
 	interface IScalingCalculator
 	{
 		Windows.Foundation.Numerics.Vector2 GetScaling(Microsoft.UI.Xaml.UIElement source, Microsoft.UI.Xaml.UIElement target);
 	}
 
+	[webhosthidden]
 	runtimeclass TransitionConfig
 	{
 		TransitionConfig();

@@ -9,6 +9,7 @@ namespace XamlToolkit.WinUI.Media
     /// <summary>
     /// A <see cref="XamlCompositionBrush"/> that displays a tiled image
     /// </summary>
+    [webhosthidden]
     runtimeclass TilesBrush : XamlCompositionEffectBrushBase
     {
         /// <summary>

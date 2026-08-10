@@ -2,6 +2,7 @@ import "Adorners/Adorner.idl";
 
 namespace XamlToolkit.Labs.WinUI
 {
+    [webhosthidden]
     runtimeclass ResizeElementAdorner : Adorner
     {
         ResizeElementAdorner();

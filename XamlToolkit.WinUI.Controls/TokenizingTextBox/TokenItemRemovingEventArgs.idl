@@ -2,6 +2,7 @@ import "TokenizingTextBox/TokenizingTextBoxItem.idl";
 
 namespace XamlToolkit.WinUI.Controls
 {
+    [webhosthidden]
     runtimeclass TokenItemRemovingEventArgs
     {
         TokenItemRemovingEventArgs();

@@ -2,6 +2,7 @@ import "Behavior.idl";
 
 namespace XamlToolkit.WinUI.Interactivity
 {
+    [webhosthidden]
     runtimeclass IncrementalUpdateBehavior : XamlToolkit.WinUI.Interactivity.Behavior
     {
         IncrementalUpdateBehavior();

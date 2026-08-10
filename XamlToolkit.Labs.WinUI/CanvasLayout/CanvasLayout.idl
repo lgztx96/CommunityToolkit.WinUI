@@ -1,5 +1,6 @@
 namespace XamlToolkit.Labs.WinUI
 {
+    [webhosthidden]
     interface ICanvasLayoutState
     {
         Int32 FirstRealizedIndex;
@@ -7,6 +8,7 @@ namespace XamlToolkit.Labs.WinUI
         Windows.Foundation.Collections.IVector<Windows.Foundation.Rect> LayoutRects;
     }
 
+    [webhosthidden]
     interface ICanvasLayoutItem
     {
         Int32 Left;

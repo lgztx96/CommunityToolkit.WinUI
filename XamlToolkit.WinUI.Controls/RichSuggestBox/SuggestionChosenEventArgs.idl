@@ -1,19 +1,26 @@
 namespace XamlToolkit.WinUI.Controls
 {
+    [webhosthidden]
     runtimeclass SuggestionChosenEventArgs 
     {
         SuggestionChosenEventArgs();
 
+        [noexcept]
         String QueryText{ get; };
 
+        [noexcept]
         String Prefix{ get; };
 
-        String  DisplayText{ get; set; };
+        [noexcept]
+        String DisplayText{ get; set; };
 
+        [noexcept]
         Object SelectedItem{ get; };
 
+        [noexcept]
         Guid Id{ get; };
 
+        [noexcept]
         Microsoft.UI.Text.ITextCharacterFormat Format;
 
         Windows.Foundation.Deferral GetDeferral();

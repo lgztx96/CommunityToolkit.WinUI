@@ -9,6 +9,7 @@ namespace XamlToolkit.WinUI.Media
     /// <summary>
     /// An image effect, which displays an image loaded as a Win2D surface
     /// </summary>
+    [webhosthidden]
     [default_interface]
     runtimeclass ImageSourceExtension : ImageSourceBaseExtension
     {

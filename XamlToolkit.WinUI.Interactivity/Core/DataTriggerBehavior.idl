@@ -3,6 +3,7 @@ import "Core\ComparisonConditionType.idl";
 
 namespace XamlToolkit.WinUI.Interactivity
 {
+    [webhosthidden]
     runtimeclass DataTriggerBehavior : Trigger
     {
         DataTriggerBehavior();

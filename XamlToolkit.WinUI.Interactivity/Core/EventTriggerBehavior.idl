@@ -2,6 +2,7 @@ import "Trigger.idl";
 
 namespace XamlToolkit.WinUI.Interactivity
 {
+	[webhosthidden]
 	runtimeclass EventTriggerBehavior : Trigger
     {
         EventTriggerBehavior();

@@ -1,5 +1,6 @@
 namespace XamlToolkit.Labs.WinUI
 {
+    [webhosthidden]
     struct PaletteColor
     {
         Windows.UI.Color Color;

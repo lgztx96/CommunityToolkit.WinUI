@@ -3,6 +3,7 @@ namespace XamlToolkit.WinUI.Animations
     /// <summary>
     /// A struct representing a repeat option for animations.
     /// </summary>
+    [webhosthidden]
     [createfromstring("XamlToolkit.WinUI.Animations.RepeatOptionHelper.CreateFromString")]
     struct RepeatOption
     {

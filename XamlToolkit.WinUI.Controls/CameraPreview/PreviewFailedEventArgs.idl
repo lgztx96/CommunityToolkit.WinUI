@@ -1,11 +1,13 @@
 namespace XamlToolkit.WinUI.Controls
 {
+    [webhosthidden]
     runtimeclass PreviewFailedEventArgs 
     {
         PreviewFailedEventArgs();
 
         PreviewFailedEventArgs(String error);
 
+		[noexcept]
         String Error{ get; };
     }
 }

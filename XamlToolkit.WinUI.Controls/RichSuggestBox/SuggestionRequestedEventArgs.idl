@@ -1,13 +1,17 @@
 namespace XamlToolkit.WinUI.Controls
 {
+    [webhosthidden]
     runtimeclass SuggestionRequestedEventArgs 
     {
         SuggestionRequestedEventArgs();
 
+        [noexcept]
         String Prefix;
 
+        [noexcept]
         String QueryText;
 
+		[noexcept]
         Boolean Cancel;
 
         Windows.Foundation.Deferral GetDeferral();

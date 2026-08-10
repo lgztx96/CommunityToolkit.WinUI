@@ -9,6 +9,7 @@ namespace XamlToolkit.WinUI.Media
     /// <summary>
     /// A <see cref="XamlCompositionBrush"/> that implements an acrylic effect with customizable parameters
     /// </summary>
+    [webhosthidden]
     runtimeclass AcrylicBrush : XamlCompositionEffectBrushBase
     {
         /// <summary>

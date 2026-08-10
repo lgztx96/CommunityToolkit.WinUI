@@ -1,5 +1,6 @@
 namespace XamlToolkit.WinUI.Interactivity
 {
+    [webhosthidden]
     delegate void EventAction(Object eventArgs);
 
     [webhosthidden]

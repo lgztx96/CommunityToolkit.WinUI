@@ -23,6 +23,7 @@ namespace XamlToolkit.WinUI
         static void SetCursor(Microsoft.UI.Xaml.FrameworkElement obj, Microsoft.UI.Input.InputSystemCursorShape value);
     }
 
+    [webhosthidden]
     interface IAlphaMaskProvider
     {
         Boolean WaitUntilLoaded { get; };
@@ -68,7 +69,7 @@ namespace XamlToolkit.WinUI
 
         void DisconnectFromElement();
     }
-
+    [webhosthidden]
     interface IAttachedShadow
     {
         Double BlurRadius;
@@ -138,7 +139,7 @@ namespace XamlToolkit.WinUI
         [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ShadowProperty{ get; };
     }
-
+    [webhosthidden]
     struct HslColor
     {
         Double H;
@@ -149,7 +150,7 @@ namespace XamlToolkit.WinUI
 
         Double A;
     };
-
+    [webhosthidden]
     struct HsvColor
     {
         Double H;

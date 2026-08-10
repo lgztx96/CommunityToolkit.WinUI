@@ -2,6 +2,7 @@ import "TokenVIew/TokenItem.idl";
 
 namespace XamlToolkit.Labs.WinUI
 {
+    [webhosthidden]
     runtimeclass TokenItemRemovingEventArgs 
     {
         TokenItemRemovingEventArgs();

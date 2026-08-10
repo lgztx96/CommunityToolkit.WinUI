@@ -3,6 +3,7 @@ import "Ribbon/RibbonGroup.idl";
 
 namespace XamlToolkit.Labs.WinUI
 {
+    [webhosthidden]
     runtimeclass RibbonCollapsibleGroup : RibbonGroup
     {
         RibbonCollapsibleGroup();

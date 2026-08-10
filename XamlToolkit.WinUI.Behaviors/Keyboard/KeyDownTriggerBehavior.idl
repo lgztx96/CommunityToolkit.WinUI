@@ -6,6 +6,7 @@ namespace XamlToolkit.WinUI.Behaviors
     /// FrameworkElement and executes its actions when the specified key and
     /// optional modifier keys are pressed. Supports capturing handled events.
     /// </summary>
+    [webhosthidden]
     runtimeclass KeyDownTriggerBehavior : XamlToolkit.WinUI.Interactivity.Trigger
     {
         KeyDownTriggerBehavior();

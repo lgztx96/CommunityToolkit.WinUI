@@ -2,14 +2,17 @@ import "RichSuggestBox/RichSuggestToken.idl";
 
 namespace XamlToolkit.WinUI.Controls
 {
+    [webhosthidden]
     runtimeclass RichSuggestTokenSelectedEventArgs 
     {
         RichSuggestTokenSelectedEventArgs();
 
         RichSuggestTokenSelectedEventArgs(RichSuggestToken token, Microsoft.UI.Text.ITextRange range);
 
+        [noexcept]
         RichSuggestToken Token;
 
+        [noexcept]
         Microsoft.UI.Text.ITextRange Range;
     }
 }

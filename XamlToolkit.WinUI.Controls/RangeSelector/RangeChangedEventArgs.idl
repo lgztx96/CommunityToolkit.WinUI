@@ -6,6 +6,7 @@ namespace XamlToolkit.WinUI.Controls
         MaximumValue
     };
 
+    [webhosthidden]
     runtimeclass RangeChangedEventArgs
     {
         RangeChangedEventArgs();

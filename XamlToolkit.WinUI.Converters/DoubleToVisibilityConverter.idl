@@ -8,6 +8,7 @@ namespace XamlToolkit.WinUI.Converters
     /// <summary>
     /// This class converts a double value into a Visibility enumeration.
     /// </summary>
+    [webhosthidden]
     [default_interface]
     runtimeclass DoubleToVisibilityConverter : XamlToolkit.WinUI.Converters.DoubleToObjectConverter
     {

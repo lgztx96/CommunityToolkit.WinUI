@@ -36,6 +36,7 @@
         static Microsoft.UI.Xaml.DependencyProperty IsThumbVisibleProperty{ get; };
     }
 
+    [webhosthidden]
     runtimeclass PropertySizer : SizerBase
     {
         PropertySizer();
@@ -61,6 +62,7 @@
         static Microsoft.UI.Xaml.DependencyProperty MaximumProperty{ get; };
     }
 
+    [webhosthidden]
     runtimeclass ContentSizer : SizerBase
     {
         ContentSizer();
@@ -96,6 +98,7 @@
         PreviousAndNext
     };
 
+    [webhosthidden]
     runtimeclass GridSplitter : SizerBase
     {
         GridSplitter();

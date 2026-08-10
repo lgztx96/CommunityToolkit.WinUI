@@ -11,6 +11,7 @@ namespace XamlToolkit.WinUI.Media
     /// <summary>
     /// A <see cref="Brush"/> that renders a customizable Composition/Win2D effects pipeline
     /// </summary>
+    [webhosthidden]
     [contentproperty("Effects")]
     runtimeclass PipelineBrush : XamlCompositionEffectBrushBase
     {

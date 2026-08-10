@@ -8,6 +8,7 @@ namespace XamlToolkit.WinUI.Converters
     /// <summary>
     /// This class converts a string value into a Visibility value (if the value is null or empty returns a collapsed value).
     /// </summary>
+    [webhosthidden]
     [default_interface]
     runtimeclass StringVisibilityConverter : XamlToolkit.WinUI.Converters.EmptyStringToObjectConverter
     {

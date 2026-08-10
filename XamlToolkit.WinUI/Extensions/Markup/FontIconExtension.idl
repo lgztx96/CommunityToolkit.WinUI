@@ -2,6 +2,7 @@
 
 namespace XamlToolkit.WinUI
 {
+	[webhosthidden]
 	runtimeclass FontIconExtension : TextIconExtension
     {
         FontIconExtension();

@@ -2,17 +2,20 @@
 
 namespace XamlToolkit.Labs.WinUI
 {
+    [webhosthidden]
     interface IImageProvider
     {
         Windows.Foundation.IAsyncOperation<Microsoft.UI.Xaml.Controls.Image> GetImage(String url);
         Boolean ShouldUseThisProvider(String url);
     }
 
+    [webhosthidden]
     interface ISVGRenderer
     {
         Windows.Foundation.IAsyncOperation<Microsoft.UI.Xaml.Controls.Image> SvgToImage(String svgString);
     }
 
+    [webhosthidden]
     runtimeclass MarkdownConfig 
     {
         MarkdownConfig();

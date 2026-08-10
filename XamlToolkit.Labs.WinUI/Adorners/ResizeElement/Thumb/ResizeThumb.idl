@@ -19,6 +19,7 @@ namespace XamlToolkit.Labs.WinUI
         MarginTopLeft,
     };
 
+    [webhosthidden]
     interface ITargetControlResizedEventArgs
     {
         Double NewLeft{ get; };

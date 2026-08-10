@@ -2,6 +2,7 @@ import "component.idl";
 
 namespace XamlToolkit.WinUI
 {   
+    [webhosthidden]
     runtimeclass AttachedDropShadow : AttachedShadowBase
     {
         AttachedDropShadow();

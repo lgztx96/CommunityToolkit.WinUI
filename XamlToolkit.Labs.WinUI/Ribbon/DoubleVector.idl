@@ -1,5 +1,6 @@
 namespace XamlToolkit.Labs.WinUI
 {
+    [webhosthidden]
     [default_interface]
     [createfromstring("XamlToolkit.Labs.WinUI.DoubleVector.CreateFromString")]
     runtimeclass DoubleVector : IVector<Double>

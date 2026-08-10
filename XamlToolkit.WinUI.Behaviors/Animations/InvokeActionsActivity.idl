@@ -1,5 +1,6 @@
 namespace XamlToolkit.WinUI.Behaviors
 {
+    [webhosthidden]
     [contentproperty("Actions")]
     runtimeclass InvokeActionsActivity : XamlToolkit.WinUI.Animations.Activity
     {
