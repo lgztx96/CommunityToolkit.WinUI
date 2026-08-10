@@ -286,7 +286,6 @@
     <ClInclude Include="SettingsControls\Helpers\ControlHelper.h" />
     <ClInclude Include="SettingsControls\Helpers\CornerRadiusConverter.h" />
     <ClInclude Include="SettingsControls\Helpers\ResourceDictionaryExtensions.h" />
-    <ClInclude Include="SettingsControls\Helpers\StyleExtensionResourceDictionary.h" />
     <ClInclude Include="SettingsControls\Helpers\StyleExtensions.h" />
     <ClInclude Include="SettingsControls\SettingsCard\SettingsCard.h" />
     <ClInclude Include="SettingsControls\SettingsCard\SettingsCardAutomationPeer.h" />
@@ -519,7 +518,6 @@
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="SettingsControls\Helpers\CornerRadiusConverter.cpp" />
-    <ClCompile Include="SettingsControls\Helpers\StyleExtensionResourceDictionary.cpp" />
     <ClCompile Include="SettingsControls\Helpers\StyleExtensions.cpp" />
     <ClCompile Include="SettingsControls\SettingsCard\SettingsCard.cpp" />
     <ClCompile Include="SettingsControls\SettingsCard\SettingsCardAutomationPeer.cpp" />
@@ -732,7 +730,6 @@
       <SubType>Code</SubType>
     </Midl>
     <Midl Include="SettingsControls\Helpers\CornerRadiusConverter.idl" />
-    <Midl Include="SettingsControls\Helpers\StyleExtensionResourceDictionary.idl" />
     <Midl Include="SettingsControls\Helpers\StyleExtensions.idl" />
     <Midl Include="SettingsControls\SettingsCard\SettingsCard.idl" />
     <Midl Include="SettingsControls\SettingsCard\SettingsCardAutomationPeer.idl" />

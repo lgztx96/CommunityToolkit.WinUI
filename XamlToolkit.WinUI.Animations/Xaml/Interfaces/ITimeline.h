@@ -3,6 +3,9 @@
 // See the LICENSE file in the project root for more information.
 #pragma once
 #include "../../Builders/AnimationBuilder.h"
+#ifdef __INTELLISENSE__
+#include <rpcndr.h>
+#endif
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
@@ -10,7 +13,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
     /// A C++ interface representing a XAML model for a custom animation.
     /// This is a C++-only interface because it uses AnimationBuilder.
     /// </summary>
-    struct __declspec(uuid("2B9F4D8C-76A1-43E7-91D5-E8C24F6AB173")) ITimeline : ::IUnknown
+    MIDL_INTERFACE("2B9F4D8C-76A1-43E7-91D5-E8C24F6AB173") ITimeline : ::IUnknown
     {
     public:
         /// <summary>
@@ -29,7 +32,5 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
             std::optional<winrt::TimeSpan> durationHint = std::nullopt,
             std::optional<EasingType> easingTypeHint = std::nullopt,
             std::optional<winrt::EasingMode> easingModeHint = std::nullopt) = 0;
-
-        virtual ~ITimeline() = default;
     };
 }

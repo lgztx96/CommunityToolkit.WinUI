@@ -4,13 +4,16 @@
 
 #pragma once
 #include "../../Builders/AnimationBuilder.h"
+#ifdef __INTELLISENSE__
+#include <rpcndr.h>
+#endif
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
     /// <summary>
     /// An interface representing a XAML model for a custom animation that requires a specific parent UIElement context.
     /// </summary>
-    struct __declspec(uuid("F84C9A72-31E5-4D6B-B2F1-9C7E4A58D3F6")) IAttachedTimeline : ::IUnknown
+    MIDL_INTERFACE("F84C9A72-31E5-4D6B-B2F1-9C7E4A58D3F6") IAttachedTimeline : ::IUnknown
     {
     public:
         /// <summary>
@@ -23,7 +26,5 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
             std::optional<winrt::TimeSpan> durationHint = std::nullopt,
             std::optional<EasingType> easingTypeHint = std::nullopt,
             std::optional<winrt::EasingMode> easingModeHint = std::nullopt) = 0;
-
-        virtual ~IAttachedTimeline() = default;
     };
 }
