@@ -109,6 +109,6 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
 
     winrt::Windows::Foundation::Collections::IVectorView<winrt::hstring> ConnectionInformation::NetworkNames()
     {
-        return winrt::single_threaded_vector(std::vector<winrt::hstring>(_networkNames)).GetView();
+        return *this;
     }
 }

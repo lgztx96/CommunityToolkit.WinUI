@@ -17,7 +17,7 @@ namespace winrt
 
 namespace winrt::XamlToolkit::WinUI::Helpers::implementation
 {
-    struct ConnectionInformation : ConnectionInformationT<ConnectionInformation>
+    struct ConnectionInformation : ConnectionInformationT<ConnectionInformation, winrt::Windows::Foundation::Collections::IVectorView<winrt::hstring>>, winrt::vector_view_base<ConnectionInformation, winrt::hstring>
     {
         ConnectionInformation() = default;
 
@@ -31,6 +31,16 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
         winrt::Windows::Networking::Connectivity::ConnectionCost ConnectionCost() const noexcept;
         winrt::Windows::Foundation::IReference<uint8_t> SignalStrength() const noexcept;
         winrt::Windows::Foundation::Collections::IVectorView<winrt::hstring> NetworkNames();
+
+        auto& get_container() const noexcept
+        {
+            return _networkNames;
+        }
+
+        auto& get_container() noexcept
+        {
+            return _networkNames;
+        }
 
     private:
         std::vector<winrt::hstring> _networkNames;
