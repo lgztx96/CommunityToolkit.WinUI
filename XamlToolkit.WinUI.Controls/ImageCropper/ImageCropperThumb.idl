@@ -12,6 +12,7 @@
         LowerRight
     };
 
+    [webhosthidden]
     runtimeclass ImageCropperThumb : Microsoft.UI.Xaml.Controls.Control
     {
         ImageCropperThumb();

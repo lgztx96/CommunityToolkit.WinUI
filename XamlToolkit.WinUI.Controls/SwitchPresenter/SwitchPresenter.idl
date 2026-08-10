@@ -3,12 +3,13 @@ import "SwitchPresenter/CaseCollection.idl";
 
 namespace XamlToolkit.WinUI.Controls
 {
+    [webhosthidden]
     [contentproperty("SwitchCases")]
     runtimeclass SwitchPresenter : Microsoft.UI.Xaml.Controls.ContentPresenter
     {
         SwitchPresenter();
 
-        Case CurrentCase;
+        Case CurrentCase{ get; };
 
         [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty CurrentCaseProperty{ get; };

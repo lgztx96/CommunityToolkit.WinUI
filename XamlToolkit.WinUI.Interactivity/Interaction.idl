@@ -3,6 +3,7 @@ import "BehaviorCollection.idl";
 
 namespace XamlToolkit.WinUI.Interactivity
 {
+    [webhosthidden]
     static runtimeclass Interaction
     {
         [noexcept]

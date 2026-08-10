@@ -19,6 +19,7 @@ namespace XamlToolkit.WinUI
         PhoneNumber
     };
 
+    [webhosthidden]
     static runtimeclass TextBoxExtensions
     {
         // Mask attached properties

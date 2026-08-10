@@ -3,6 +3,7 @@ namespace XamlToolkit.WinUI.Animations
     /// <summary>
     /// A helper class that allows Connected Animations to be enabled through XAML.
     /// </summary>
+    [webhosthidden]
     static runtimeclass Connected
     {
         static String GetKey(Microsoft.UI.Xaml.DependencyObject obj);

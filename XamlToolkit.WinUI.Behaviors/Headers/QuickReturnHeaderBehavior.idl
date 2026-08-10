@@ -3,6 +3,7 @@ namespace XamlToolkit.WinUI.Behaviors
     /// <summary>
     /// Performs an animation on a ListView or GridView Header to make it quick return using composition.
     /// </summary>
+    [webhosthidden]
     runtimeclass QuickReturnHeaderBehavior : Microsoft.UI.Xaml.DependencyObject, XamlToolkit.WinUI.Interactivity.IBehavior
     {
         QuickReturnHeaderBehavior();

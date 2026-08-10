@@ -1,5 +1,6 @@
 ﻿namespace XamlToolkit.WinUI.Controls
 {
+    [webhosthidden]
     unsealed runtimeclass SizerBase : Microsoft.UI.Xaml.Controls.Control
     {
         SizerBase();
@@ -115,6 +116,7 @@
         static Microsoft.UI.Xaml.DependencyProperty ParentLevelProperty{ get; };
     }
 
+    [webhosthidden]
     [default_interface]
     unsealed runtimeclass SizerAutomationPeer : Microsoft.UI.Xaml.Automation.Peers.FrameworkElementAutomationPeer
     {

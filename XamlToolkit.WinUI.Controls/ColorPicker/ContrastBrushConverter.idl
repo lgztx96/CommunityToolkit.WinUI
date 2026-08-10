@@ -1,5 +1,6 @@
 ﻿namespace XamlToolkit.WinUI.Controls
 {
+    [webhosthidden]
     [default_interface]
     runtimeclass ContrastBrushConverter : Microsoft.UI.Xaml.Data.IValueConverter
     {

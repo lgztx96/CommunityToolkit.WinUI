@@ -2,6 +2,7 @@ import "Xaml/Abstract/KeyFrame.idl";
 
 namespace XamlToolkit.WinUI.Animations
 {
+    [webhosthidden]
     runtimeclass ThicknessKeyFrame 
     {
         ThicknessKeyFrame();

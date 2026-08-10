@@ -13,6 +13,7 @@ namespace XamlToolkit.WinUI.Media
     /// A blend effect that merges the current builder with an input one
     /// </summary>
     /// <remarks>This effect maps to the Win2D BlendEffect effect</remarks>
+    [webhosthidden]
     [contentproperty("Effects")]
     runtimeclass BlendEffect : PipelineEffect
     {

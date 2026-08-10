@@ -6,6 +6,7 @@ namespace XamlToolkit.WinUI
         Disconnected
     };
 
+    [webhosthidden]
     runtimeclass NetworkConnectionStateTrigger : Microsoft.UI.Xaml.StateTriggerBase
     {
         NetworkConnectionStateTrigger();

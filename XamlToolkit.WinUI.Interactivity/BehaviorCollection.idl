@@ -1,5 +1,6 @@
 namespace XamlToolkit.WinUI.Interactivity
 {
+    [webhosthidden]
     runtimeclass BehaviorCollection : Microsoft.UI.Xaml.DependencyObjectCollection
     {
         BehaviorCollection();

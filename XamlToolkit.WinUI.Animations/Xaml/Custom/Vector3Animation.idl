@@ -7,6 +7,7 @@ namespace XamlToolkit.WinUI.Animations
     /// <summary>
     /// A custom Vector3 animation.
     /// </summary>
+    [webhosthidden]
     [contentproperty("KeyFrames")]
     runtimeclass Vector3Animation : Animation
     {

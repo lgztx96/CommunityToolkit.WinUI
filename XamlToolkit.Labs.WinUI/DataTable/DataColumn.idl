@@ -1,5 +1,6 @@
 namespace XamlToolkit.Labs.WinUI
 {
+    [webhosthidden]
     runtimeclass DataColumn : Microsoft.UI.Xaml.Controls.ContentControl
     {
         DataColumn();

@@ -5,6 +5,7 @@ namespace XamlToolkit.WinUI.Animations
     /// <summary>
     /// A KeyFrame type for Quaternion animations.
     /// </summary>
+    [webhosthidden]
     runtimeclass QuaternionKeyFrame : KeyFrame
     {
         QuaternionKeyFrame();

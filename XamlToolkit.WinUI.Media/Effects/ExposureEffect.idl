@@ -10,6 +10,7 @@ namespace XamlToolkit.WinUI.Media
     /// An exposure effect
     /// </summary>
     /// <remarks>This effect maps to the Win2D ExposureEffect effect</remarks>
+    [webhosthidden]
     runtimeclass ExposureEffect : PipelineEffect
     {
         /// <summary>

@@ -2,6 +2,7 @@ import "TokenizingTextBox/TokenizingTextBox.idl";
 
 namespace XamlToolkit.WinUI.Controls
 {
+    [webhosthidden]
     runtimeclass TokenizingTextBoxItem : Microsoft.UI.Xaml.Controls.ListViewItem
     {
         TokenizingTextBoxItem();

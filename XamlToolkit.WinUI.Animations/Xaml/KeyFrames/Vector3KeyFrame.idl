@@ -5,6 +5,7 @@ namespace XamlToolkit.WinUI.Animations
     /// <summary>
     /// A vector3 keyframe.
     /// </summary>
+    [webhosthidden]
     runtimeclass Vector3KeyFrame : KeyFrame
     {
         Vector3KeyFrame();

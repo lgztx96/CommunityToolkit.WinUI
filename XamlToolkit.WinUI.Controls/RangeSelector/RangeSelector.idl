@@ -2,6 +2,7 @@ import "RangeSelector/RangeChangedEventArgs.idl";
 
 namespace XamlToolkit.WinUI.Controls
 {
+    [webhosthidden]
     runtimeclass RangeSelector : Microsoft.UI.Xaml.Controls.Control
     {
         RangeSelector();

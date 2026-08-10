@@ -7,6 +7,7 @@ namespace XamlToolkit.WinUI.Animations
     /// A base model representing an animation that can be used in XAML.
     /// Note: ITimeline is implemented as a C++ interface, not a WinRT interface.
     /// </summary>
+    [webhosthidden]
     unsealed runtimeclass Animation : Microsoft.UI.Xaml.DependencyObject
     {
         /// <summary>

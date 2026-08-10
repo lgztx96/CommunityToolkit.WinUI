@@ -1,5 +1,6 @@
 ﻿namespace XamlToolkit.WinUI.Controls.Primitives
 {
+    [webhosthidden]
     runtimeclass ColorPreviewer : Microsoft.UI.Xaml.Controls.Control
     {
         ColorPreviewer();

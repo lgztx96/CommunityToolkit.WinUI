@@ -3,6 +3,7 @@ import "MarkdownTextBlock/MarkdownConfig.idl";
 
 namespace XamlToolkit.Labs.WinUI
 {
+    [webhosthidden]
     runtimeclass MarkdownTextBlock : Microsoft.UI.Xaml.Controls.Control
     {
         MarkdownTextBlock();

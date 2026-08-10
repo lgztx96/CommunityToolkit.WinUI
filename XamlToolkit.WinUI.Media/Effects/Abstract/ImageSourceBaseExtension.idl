@@ -10,6 +10,7 @@ namespace XamlToolkit.WinUI.Media
     /// <summary>
     /// An image based effect that loads an image at the specified location
     /// </summary>
+    [webhosthidden]
     unsealed runtimeclass ImageSourceBaseExtension : Microsoft.UI.Xaml.Markup.MarkupExtension
     {
         /// <summary>

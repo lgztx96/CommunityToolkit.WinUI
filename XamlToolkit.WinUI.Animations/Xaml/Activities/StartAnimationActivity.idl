@@ -6,6 +6,7 @@ namespace XamlToolkit.WinUI.Animations
     /// <summary>
     /// An activity that starts a specified animation.
     /// </summary>
+    [webhosthidden]
     runtimeclass StartAnimationActivity : Activity
     {
         StartAnimationActivity();

@@ -1,5 +1,6 @@
 namespace XamlToolkit.Labs.WinUI
 {
+    [webhosthidden]
     [default_interface]
     runtimeclass AdornerLayer : Microsoft.UI.Xaml.Controls.Canvas
     {

@@ -3,6 +3,7 @@ namespace XamlToolkit.WinUI.Behaviors
     /// <summary>
     /// Performs an animation on a ListView or GridView Header to make it 'sticky' and remain in view using composition.
     /// </summary>
+    [webhosthidden]
     runtimeclass StickyHeaderBehavior : Microsoft.UI.Xaml.DependencyObject, XamlToolkit.WinUI.Interactivity.IBehavior
     {
         StickyHeaderBehavior();

@@ -3,6 +3,7 @@ namespace XamlToolkit.WinUI.Animations
     /// <summary>
     /// A collection of implicit animations that can be assigned to a UIElement and configured to be run automatically.
     /// </summary>
+    [webhosthidden]
 	[default_interface]
     runtimeclass ImplicitAnimationSet : Microsoft.UI.Xaml.DependencyObjectCollection
     {

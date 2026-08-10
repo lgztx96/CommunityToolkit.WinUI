@@ -1,5 +1,6 @@
 namespace XamlToolkit.WinUI
 {
+    [webhosthidden]
     runtimeclass BitmapIconExtension : Microsoft.UI.Xaml.Markup.MarkupExtension
     {
         BitmapIconExtension();

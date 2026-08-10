@@ -1,5 +1,6 @@
 namespace XamlToolkit.WinUI.Controls
 {
+	[webhosthidden]
 	runtimeclass TabbedCommandBarItem : Microsoft.UI.Xaml.Controls.CommandBar
 	{
 		TabbedCommandBarItem();

@@ -3,6 +3,7 @@ namespace XamlToolkit.WinUI
     /// <summary>
     /// The OnDevice markup extension allows you to customize UI appearance on a per-DeviceFamily basis.
     /// </summary>
+    [webhosthidden]
     runtimeclass OnDeviceExtension : Microsoft.UI.Xaml.Markup.MarkupExtension
     {
         OnDeviceExtension();

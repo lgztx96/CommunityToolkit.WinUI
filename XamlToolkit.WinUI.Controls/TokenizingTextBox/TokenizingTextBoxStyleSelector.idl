@@ -1,5 +1,6 @@
 namespace XamlToolkit.WinUI.Controls
 {
+    [webhosthidden]
     runtimeclass TokenizingTextBoxStyleSelector : Microsoft.UI.Xaml.Controls.StyleSelector
     {
         TokenizingTextBoxStyleSelector();

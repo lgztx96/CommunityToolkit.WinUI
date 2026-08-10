@@ -6,6 +6,7 @@ namespace XamlToolkit.WinUI.Animations
     /// <summary>
     /// An IActivity which stops the provided AnimationSet when invoked.
     /// </summary>
+    [webhosthidden]
     runtimeclass StopAnimationActivity : Activity
     {
         StopAnimationActivity();

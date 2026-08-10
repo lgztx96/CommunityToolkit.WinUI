@@ -3,6 +3,7 @@ namespace XamlToolkit.WinUI.Behaviors
     /// <summary>
     /// The content of a notification to display in StackedNotificationsBehavior.
     /// </summary>
+    [webhosthidden]
     runtimeclass Notification : Microsoft.UI.Xaml.DependencyObject
     {
         Notification();

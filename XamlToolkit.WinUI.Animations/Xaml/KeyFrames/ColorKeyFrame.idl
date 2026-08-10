@@ -5,6 +5,7 @@ namespace XamlToolkit.WinUI.Animations
     /// <summary>
     /// A KeyFrame type for color animations.
     /// </summary>
+    [webhosthidden]
     runtimeclass ColorKeyFrame : KeyFrame
     {
         ColorKeyFrame();

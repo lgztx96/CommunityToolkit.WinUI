@@ -7,6 +7,7 @@ namespace XamlToolkit.WinUI.Media
     /// <summary>
     /// Helper Brush class to interop with Win2D Canvas calls.
     /// </summary>
+    [webhosthidden]
     unsealed runtimeclass CanvasBrushBase : Microsoft.UI.Xaml.Media.XamlCompositionBrushBase
     {
         /// <summary>

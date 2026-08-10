@@ -6,6 +6,7 @@
         Fill
     };
 
+    [webhosthidden]
     runtimeclass StaggeredLayout : Microsoft.UI.Xaml.Controls.VirtualizingLayout
     {
         StaggeredLayout();

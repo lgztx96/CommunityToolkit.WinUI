@@ -2,6 +2,7 @@ import "SettingsControls/SettingsExpander/SettingsExpander.idl";
 
 namespace XamlToolkit.WinUI.Controls
 {
+    [webhosthidden]
     runtimeclass SettingsExpanderAutomationPeer : Microsoft.UI.Xaml.Automation.Peers.FrameworkElementAutomationPeer
     {
         SettingsExpanderAutomationPeer(XamlToolkit.WinUI.Controls.SettingsExpander owner);

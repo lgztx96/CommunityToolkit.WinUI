@@ -1,5 +1,6 @@
 namespace XamlToolkit.WinUI.Controls
 {
+    [webhosthidden]
     [contentproperty("Content")]
     runtimeclass SettingsExpander : Microsoft.UI.Xaml.Controls.Control
     {

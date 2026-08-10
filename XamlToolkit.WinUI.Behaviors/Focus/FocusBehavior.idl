@@ -7,6 +7,7 @@ namespace XamlToolkit.WinUI.Behaviors
     /// The focus will be set following the Targets order. The first control being ready
     /// and accepting the focus will receive it.
     /// </summary>
+    [webhosthidden]
     [contentproperty("Targets")]
     runtimeclass FocusBehavior : Microsoft.UI.Xaml.DependencyObject, XamlToolkit.WinUI.Interactivity.IBehavior
     {

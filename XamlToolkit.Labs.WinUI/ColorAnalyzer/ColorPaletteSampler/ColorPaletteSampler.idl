@@ -3,6 +3,7 @@ import "ColorAnalyzer/PaletteSelectors/ColorPaletteSelector.idl";
 
 namespace XamlToolkit.Labs.WinUI
 {
+    [webhosthidden]
     [contentproperty("PaletteSelectors")]
     runtimeclass ColorPaletteSampler : Microsoft.UI.Xaml.DependencyObject
     {

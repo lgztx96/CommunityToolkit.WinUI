@@ -1,5 +1,6 @@
 ﻿namespace XamlToolkit.WinUI.Controls
 {
+    [webhosthidden]
     [contentproperty("Content")]
     runtimeclass Case : Microsoft.UI.Xaml.DependencyObject
     {

@@ -7,6 +7,7 @@ namespace XamlToolkit.WinUI.Media
     /// <summary>
     /// A type responsible for creating <see cref="Visual"/> instances to attach to target elements.
     /// </summary>
+    [webhosthidden]
     unsealed runtimeclass AttachedVisualFactoryBase : Microsoft.UI.Xaml.DependencyObject
     {
         /// <summary>

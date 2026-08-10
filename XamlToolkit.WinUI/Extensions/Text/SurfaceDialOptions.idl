@@ -1,5 +1,6 @@
 namespace XamlToolkit.WinUI
 {
+    [webhosthidden]
     runtimeclass SurfaceDialOptions : Microsoft.UI.Xaml.DependencyObject
     {
         SurfaceDialOptions();

@@ -7,6 +7,7 @@ namespace XamlToolkit.WinUI.Converters
     /// <summary>
     /// This class provides a binding converter to display formatted strings.
     /// </summary>
+    [webhosthidden]
     [default_interface]
     runtimeclass StringFormatConverter : Microsoft.UI.Xaml.Data.IValueConverter
     {

@@ -11,6 +11,7 @@ namespace XamlToolkit.WinUI.Animations
     /// <summary>
     /// A collection of animations that can be grouped together.
     /// </summary>
+    [webhosthidden]
     unsealed runtimeclass AnimationSet : Microsoft.UI.Xaml.DependencyObjectCollection
     {
         AnimationSet();

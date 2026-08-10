@@ -15,6 +15,7 @@ namespace XamlToolkit.WinUI.Animations
     /// <summary>
     /// Helper functions for RepeatOption.
     /// </summary>
+    [webhosthidden]
     static runtimeclass RepeatOptionHelper
     {
         /// <summary>

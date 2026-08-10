@@ -1,5 +1,6 @@
 ﻿namespace XamlToolkit.WinUI.Controls
 {
+	[webhosthidden]
 	runtimeclass UniformGrid : Microsoft.UI.Xaml.Controls.Grid
     {
         UniformGrid();

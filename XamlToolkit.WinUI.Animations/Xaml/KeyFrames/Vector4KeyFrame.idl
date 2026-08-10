@@ -5,6 +5,7 @@ namespace XamlToolkit.WinUI.Animations
     /// <summary>
     /// A KeyFrame type for Vector4 animations.
     /// </summary>
+    [webhosthidden]
     runtimeclass Vector4KeyFrame : KeyFrame
     {
         Vector4KeyFrame();

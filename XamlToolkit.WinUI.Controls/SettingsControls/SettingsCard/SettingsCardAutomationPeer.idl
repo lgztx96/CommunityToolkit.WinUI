@@ -2,6 +2,7 @@
 
 namespace XamlToolkit.WinUI.Controls
 {
+    [webhosthidden]
     [default_interface]
     unsealed runtimeclass SettingsCardAutomationPeer : Microsoft.UI.Xaml.Automation.Peers.ButtonBaseAutomationPeer
     {

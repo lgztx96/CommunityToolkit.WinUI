@@ -5,6 +5,7 @@ namespace XamlToolkit.WinUI.Animations
     /// <summary>
     /// A base model representing a keyframe that can be used in XAML.
     /// </summary>
+    [webhosthidden]
     unsealed runtimeclass KeyFrame : Microsoft.UI.Xaml.DependencyObject
     {
         /// <summary>

@@ -11,6 +11,7 @@ namespace XamlToolkit.WinUI.Converters
     /// Otherwise the logic looks for the value to be GreaterThan or LessThan the specified value.
     /// The ConverterParameter can be used to invert the logic.
     /// </summary>
+    [webhosthidden]
     unsealed runtimeclass DoubleToObjectConverter : Microsoft.UI.Xaml.DependencyObject, Microsoft.UI.Xaml.Data.IValueConverter
     {
         DoubleToObjectConverter();

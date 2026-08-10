@@ -1,5 +1,6 @@
 namespace XamlToolkit.Labs.WinUI
 {
+    [webhosthidden]
     runtimeclass GradientSlider : Microsoft.UI.Xaml.Controls.Control
     {
         GradientSlider();

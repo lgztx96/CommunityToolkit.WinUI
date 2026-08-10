@@ -1,5 +1,6 @@
 namespace XamlToolkit.WinUI
 {
+    [webhosthidden]
     runtimeclass ControlSizeTrigger : Microsoft.UI.Xaml.StateTriggerBase
     {
         ControlSizeTrigger();

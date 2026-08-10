@@ -5,6 +5,7 @@ namespace XamlToolkit.WinUI.Animations
     /// <summary>
     /// A clip animation working on the composition layer.
     /// </summary>
+    [webhosthidden]
     runtimeclass ClipAnimation : Animation
     {
         /// <summary>

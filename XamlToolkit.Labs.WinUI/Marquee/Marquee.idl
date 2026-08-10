@@ -15,6 +15,7 @@
         Down,
     };
 
+    [webhosthidden]
     runtimeclass Marquee : Microsoft.UI.Xaml.Controls.ContentControl
     {
         Marquee();

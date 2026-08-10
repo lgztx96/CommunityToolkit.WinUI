@@ -7,6 +7,7 @@ namespace XamlToolkit.WinUI.Animations
     /// together and to assign shared properties to be applied to all the contained items automatically.
     /// Note: ITimeline is implemented as a C++ interface, not a WinRT interface.
     /// </summary>
+    [webhosthidden]
     runtimeclass AnimationScope : Microsoft.UI.Xaml.DependencyObjectCollection
     {
         /// <summary>

@@ -11,6 +11,7 @@ namespace XamlToolkit.WinUI.Media.Pipelines
     /// <summary>
     /// A class that allows to build custom effects pipelines and create CompositionBrush instances from them
     /// </summary>
+    [webhosthidden]
     runtimeclass PipelineBuilder
     {
         /// <summary>

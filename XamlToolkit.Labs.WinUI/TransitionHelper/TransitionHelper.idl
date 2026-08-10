@@ -8,6 +8,7 @@ namespace XamlToolkit.Labs.WinUI
 		ByIsVisible
 	};
 
+	[webhosthidden]
 	[contentproperty("Configs")]
 	runtimeclass TransitionHelper : Microsoft.UI.Xaml.DependencyObject
 	{

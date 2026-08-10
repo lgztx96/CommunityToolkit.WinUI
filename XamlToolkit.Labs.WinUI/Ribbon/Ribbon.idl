@@ -1,5 +1,6 @@
 namespace XamlToolkit.Labs.WinUI
 {
+	[webhosthidden]
 	[contentproperty("Items")]
 	runtimeclass Ribbon : Microsoft.UI.Xaml.Controls.Control
 	{

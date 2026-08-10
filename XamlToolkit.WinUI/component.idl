@@ -1,6 +1,7 @@
 
 namespace XamlToolkit.WinUI
 {
+    [webhosthidden]
     static runtimeclass UIElementExtensions
     {
         [noexcept]
@@ -29,6 +30,7 @@ namespace XamlToolkit.WinUI
         Microsoft.UI.Composition.CompositionBrush GetAlphaMask();
     }
 
+    [webhosthidden]
     runtimeclass AttachedShadowElementContext
     {
         AttachedShadowElementContext();
@@ -82,6 +84,7 @@ namespace XamlToolkit.WinUI
         Windows.Foundation.Collections.IIterable<AttachedShadowElementContext> EnumerateElementContexts();
     }
 
+    [webhosthidden]
     unsealed runtimeclass AttachedShadowBase : Microsoft.UI.Xaml.DependencyObject, IAttachedShadow
     {
         AttachedShadowBase();
@@ -125,6 +128,7 @@ namespace XamlToolkit.WinUI
         overridable void OnSizeChanged(AttachedShadowElementContext context, Windows.Foundation.Size newSize, Windows.Foundation.Size previousSize);
     }
 
+    [webhosthidden]
     static runtimeclass Effects
     {
         static AttachedShadowBase GetShadow(Microsoft.UI.Xaml.FrameworkElement obj);

@@ -1,5 +1,6 @@
 namespace XamlToolkit.WinUI.Controls
 {
+	[webhosthidden]
 	runtimeclass RichSuggestToken : Microsoft.UI.Xaml.Data.INotifyPropertyChanged, Windows.Foundation.IStringable
     {
         RichSuggestToken();

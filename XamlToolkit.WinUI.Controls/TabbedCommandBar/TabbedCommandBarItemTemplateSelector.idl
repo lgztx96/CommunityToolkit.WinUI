@@ -1,5 +1,6 @@
 namespace XamlToolkit.WinUI.Controls
 {
+    [webhosthidden]
     runtimeclass TabbedCommandBarItemTemplateSelector : Microsoft.UI.Xaml.Controls.DataTemplateSelector
     {
         TabbedCommandBarItemTemplateSelector();

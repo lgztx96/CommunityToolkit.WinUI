@@ -1,5 +1,6 @@
 ﻿namespace XamlToolkit.WinUI.Controls
 {
+    [webhosthidden]
     [contentproperty("Child")]
     runtimeclass LayoutTransformControl : Microsoft.UI.Xaml.Controls.Control
     {

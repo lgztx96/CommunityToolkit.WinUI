@@ -5,6 +5,7 @@ namespace XamlToolkit.WinUI.Animations
     /// <summary>
     /// A scalar keyframe.
     /// </summary>
+    [webhosthidden]
     runtimeclass ScalarKeyFrame : KeyFrame
     {
         ScalarKeyFrame();

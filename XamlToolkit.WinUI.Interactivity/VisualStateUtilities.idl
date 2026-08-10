@@ -1,5 +1,6 @@
 namespace XamlToolkit.WinUI.Interactivity
 {
+    [webhosthidden]
     static runtimeclass VisualStateUtilities
     {
         static Boolean GoToState(Microsoft.UI.Xaml.Controls.Control control, String stateName, Boolean useTransitions);

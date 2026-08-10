@@ -17,6 +17,7 @@ namespace XamlToolkit.WinUI
         Bottom
     };
 
+    [webhosthidden]
     static runtimeclass ListViewExtensions
     {
         [noexcept]

@@ -3,6 +3,7 @@ namespace XamlToolkit.WinUI
     /// <summary>
     /// Custom <see cref="MarkupExtension"/> which can provide nullable bool values.
     /// </summary>
+    [webhosthidden]
     runtimeclass NullableBoolExtension : Microsoft.UI.Xaml.Markup.MarkupExtension
     {
         NullableBoolExtension();

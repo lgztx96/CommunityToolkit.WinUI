@@ -1,5 +1,6 @@
 namespace XamlToolkit.WinUI
 {
+    [webhosthidden]
     runtimeclass UserHandPreferenceStateTrigger : Microsoft.UI.Xaml.StateTriggerBase
     {
         UserHandPreferenceStateTrigger();

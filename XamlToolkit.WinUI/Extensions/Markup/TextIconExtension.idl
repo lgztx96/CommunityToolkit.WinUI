@@ -1,5 +1,6 @@
 ﻿namespace XamlToolkit.WinUI
 {
+    [webhosthidden]
     unsealed runtimeclass TextIconExtension : Microsoft.UI.Xaml.Markup.MarkupExtension
     {
         TextIconExtension();

@@ -3,6 +3,7 @@ namespace XamlToolkit.WinUI.Behaviors
     /// <summary>
     /// A class for listening to an element enter or exit the ScrollViewer viewport
     /// </summary>
+    [webhosthidden]
     runtimeclass ViewportBehavior : Microsoft.UI.Xaml.DependencyObject, XamlToolkit.WinUI.Interactivity.IBehavior
     {
         ViewportBehavior();

@@ -1,5 +1,6 @@
 ﻿namespace XamlToolkit.WinUI.Helpers
 {
+    [webhosthidden]
     static runtimeclass ColorHelper 
     {
         static Windows.UI.Color ToColor(String colorString);

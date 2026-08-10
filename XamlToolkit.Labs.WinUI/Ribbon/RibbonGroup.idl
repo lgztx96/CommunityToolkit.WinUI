@@ -1,5 +1,6 @@
 namespace XamlToolkit.Labs.WinUI
 {
+    [webhosthidden]
     [contentproperty("Content")]
     unsealed runtimeclass RibbonGroup : Microsoft.UI.Xaml.Controls.Control
     {

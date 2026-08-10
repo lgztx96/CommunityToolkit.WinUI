@@ -7,6 +7,7 @@ namespace XamlToolkit.Labs.WinUI
         Single Weight;
     };
 
+    [webhosthidden]
     [default_interface]
     unsealed runtimeclass ColorPaletteSelector : Microsoft.UI.Xaml.DependencyObject
     {

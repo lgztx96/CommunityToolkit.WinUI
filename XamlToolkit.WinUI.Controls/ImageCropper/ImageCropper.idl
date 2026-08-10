@@ -22,6 +22,7 @@
         JpegXR
     };
 
+    [webhosthidden]
     runtimeclass ImageCropper : Microsoft.UI.Xaml.Controls.Control
     {
         ImageCropper();

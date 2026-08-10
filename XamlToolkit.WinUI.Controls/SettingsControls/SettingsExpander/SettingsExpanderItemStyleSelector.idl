@@ -1,5 +1,6 @@
 namespace XamlToolkit.WinUI.Controls
 {
+    [webhosthidden]
     runtimeclass SettingsExpanderItemStyleSelector : Microsoft.UI.Xaml.Controls.StyleSelector
     {
         SettingsExpanderItemStyleSelector();

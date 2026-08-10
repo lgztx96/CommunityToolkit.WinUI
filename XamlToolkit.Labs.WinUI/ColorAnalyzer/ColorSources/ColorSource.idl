@@ -1,5 +1,6 @@
 namespace XamlToolkit.Labs.WinUI
 {
+    [webhosthidden]
     unsealed runtimeclass ColorSource : Microsoft.UI.Xaml.DependencyObject
     {
         ColorSource();

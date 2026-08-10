@@ -1,5 +1,6 @@
 namespace XamlToolkit.WinUI.Controls
 {
+	[webhosthidden]
 	runtimeclass StaggeredPanel : Microsoft.UI.Xaml.Controls.Panel
     {
         StaggeredPanel();

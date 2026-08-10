@@ -1,5 +1,6 @@
 ﻿namespace XamlToolkit.WinUI.Converters
 {
+    [webhosthidden]
     [default_interface]
     runtimeclass ColorToDisplayNameConverter : Microsoft.UI.Xaml.Data.IValueConverter
     {

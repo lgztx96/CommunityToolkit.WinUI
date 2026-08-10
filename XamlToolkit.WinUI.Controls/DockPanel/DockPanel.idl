@@ -8,6 +8,7 @@ namespace XamlToolkit.WinUI.Controls
 		Bottom
 	};
 
+	[webhosthidden]
 	runtimeclass DockPanel : Microsoft.UI.Xaml.Controls.Panel
 	{
 		DockPanel();

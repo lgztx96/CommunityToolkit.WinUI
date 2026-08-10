@@ -2,6 +2,7 @@ import "TokenizingTextBox/TokenizingTextBox.idl";
 
 namespace XamlToolkit.WinUI.Controls
 {
+    [webhosthidden]
     [default_interface]
     runtimeclass TokenizingTextBoxAutomationPeer : Microsoft.UI.Xaml.Automation.Peers.ListViewBaseAutomationPeer, Microsoft.UI.Xaml.Automation.Provider.IValueProvider
     {

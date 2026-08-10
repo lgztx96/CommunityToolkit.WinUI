@@ -1,5 +1,6 @@
 namespace XamlToolkit.Labs.WinUI
 {
+	[webhosthidden]
     static runtimeclass NavigationViewItemAttach
     {
 		[noexcept]

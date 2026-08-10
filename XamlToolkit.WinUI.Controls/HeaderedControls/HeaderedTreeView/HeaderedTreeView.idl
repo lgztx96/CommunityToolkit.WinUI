@@ -1,5 +1,6 @@
 namespace XamlToolkit.WinUI.Controls
 {
+    [webhosthidden]
     unsealed runtimeclass HeaderedTreeView : Microsoft.UI.Xaml.Controls.TreeView
     {
         HeaderedTreeView();

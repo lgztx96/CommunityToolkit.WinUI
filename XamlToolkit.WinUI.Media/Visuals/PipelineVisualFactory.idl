@@ -11,6 +11,7 @@ namespace XamlToolkit.WinUI.Media
     /// <summary>
     /// A builder type for <see cref="SpriteVisual"/> instance to apply to UI elements.
     /// </summary>
+    [webhosthidden]
     [contentproperty("Effects")]
     runtimeclass PipelineVisualFactory : PipelineVisualFactoryBase
     {

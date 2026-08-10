@@ -7,6 +7,7 @@ namespace XamlToolkit.WinUI.Animations
     /// <summary>
     /// A custom Color animation.
     /// </summary>
+    [webhosthidden]
     [contentproperty("KeyFrames")]
     runtimeclass ColorAnimation : Animation
     {

@@ -1,5 +1,6 @@
 namespace XamlToolkit.WinUI
 {
+    [webhosthidden]
     static runtimeclass ScrollViewerExtensions
     {
         [noexcept]

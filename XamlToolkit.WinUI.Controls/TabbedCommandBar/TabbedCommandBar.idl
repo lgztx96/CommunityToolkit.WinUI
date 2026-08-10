@@ -1,5 +1,6 @@
 namespace XamlToolkit.WinUI.Controls
 {
+    [webhosthidden]
     [default_interface]
     runtimeclass TabbedCommandBar : Microsoft.UI.Xaml.Controls.NavigationView
     {

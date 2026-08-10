@@ -5,6 +5,7 @@ namespace XamlToolkit.WinUI.Animations
     /// <summary>
     /// Attached properties to support implicitly triggered animations for UIElement instances.
     /// </summary>
+    [webhosthidden]
     static runtimeclass Implicit
     {
         /// <summary>
