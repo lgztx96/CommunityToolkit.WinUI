@@ -6,6 +6,7 @@ namespace XamlToolkit.Labs.WinUI
 
         Double ColumnSpacing;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ColumnSpacingProperty{ get; };
     }
 }

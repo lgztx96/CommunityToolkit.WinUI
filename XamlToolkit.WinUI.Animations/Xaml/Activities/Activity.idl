@@ -14,6 +14,7 @@ namespace XamlToolkit.WinUI.Animations
         /// </summary>
         Windows.Foundation.IReference<Windows.Foundation.TimeSpan> Delay;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty DelayProperty{ get; };
     }
 }

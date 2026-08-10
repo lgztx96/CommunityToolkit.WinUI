@@ -28,6 +28,7 @@ namespace XamlToolkit.WinUI.Controls
 	{
 		ColorPicker();
 
+		[noexcept]
 		Windows.UI.Color CheckerBackgroundColor;
 
 		Windows.Foundation.Collections.IObservableVector<Windows.UI.Color> CustomPaletteColors{ get; };
@@ -40,14 +41,19 @@ namespace XamlToolkit.WinUI.Controls
 
 		Boolean ShowAccentColors;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty CustomPaletteColorsProperty{ get; };
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty CustomPaletteColumnCountProperty{ get; };
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty CustomPaletteProperty{ get; };
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty IsColorPaletteVisibleProperty{ get; };
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty ShowAccentColorsProperty{ get; };
 	}
 }

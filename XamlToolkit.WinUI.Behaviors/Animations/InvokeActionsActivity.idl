@@ -5,6 +5,7 @@ namespace XamlToolkit.WinUI.Behaviors
     {
         InvokeActionsActivity();
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ActionsProperty{ get; };
 
         XamlToolkit.WinUI.Interactivity.ActionCollection Actions{ get; };

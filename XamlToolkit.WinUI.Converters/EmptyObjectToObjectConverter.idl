@@ -25,11 +25,15 @@ namespace XamlToolkit.WinUI.Converters
         /// <summary>
         /// Identifies the NotEmptyValue property.
         /// </summary>
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty NotEmptyValueProperty{ get; };
 
         /// <summary>
         /// Identifies the EmptyValue property.
         /// </summary>
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty EmptyValueProperty{ get; };
 
         /// <summary>

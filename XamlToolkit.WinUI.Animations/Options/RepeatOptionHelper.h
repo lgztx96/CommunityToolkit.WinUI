@@ -44,7 +44,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         /// <summary>
         /// Gets the AnimationIterationBehavior and count values matching the current RepeatOption value.
         /// </summary>
-        static void ToBehaviorAndCount(RepeatOption const& option, winrt::AnimationIterationBehavior& behavior, int& count);
+        static void ToBehaviorAndCount(RepeatOption const& option, winrt::AnimationIterationBehavior& behavior, int& count) noexcept;
 
         /// <summary>
         /// Parses a <see cref="RepeatOption"/> value from a <see cref="string"/>.

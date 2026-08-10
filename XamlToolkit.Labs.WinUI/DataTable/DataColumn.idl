@@ -6,10 +6,12 @@ namespace XamlToolkit.Labs.WinUI
 
         Boolean CanResize;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty CanResizeProperty{ get; };
 
         Microsoft.UI.Xaml.GridLength DesiredWidth;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty DesiredWidthProperty{ get; };
     }
 }

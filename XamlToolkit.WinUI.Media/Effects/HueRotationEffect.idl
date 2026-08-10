@@ -20,6 +20,7 @@ namespace XamlToolkit.WinUI.Media
         /// <summary>
         /// Gets or sets the angle to rotate the hue, in radians
         /// </summary>
+        [noexcept]
         Double Angle;
     };
 }

@@ -43,7 +43,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         void OnApplyTemplate();
 
-        winrt::IVector<winrt::UIElement> Items() const { return _items; }
+        winrt::IVector<winrt::UIElement> Items() const noexcept { return _items; }
 
         static const wil::single_threaded_property<winrt::DependencyProperty> ScrollStepProperty;
 

@@ -6,8 +6,13 @@ namespace XamlToolkit.WinUI.Interactivity
     {
         ChangeCustomPropertyAction();
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty PropertyNameProperty{ get; };
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty TargetObjectProperty{ get; };
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ValueProperty{ get; };
 
         Microsoft.UI.Xaml.PropertyPath PropertyName;

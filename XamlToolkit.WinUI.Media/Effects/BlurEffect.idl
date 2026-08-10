@@ -20,6 +20,7 @@ namespace XamlToolkit.WinUI.Media
         /// <summary>
         /// Gets or sets the blur amount for the effect (must be a positive value)
         /// </summary>
+        [noexcept]
         Double Amount;
     };
 }

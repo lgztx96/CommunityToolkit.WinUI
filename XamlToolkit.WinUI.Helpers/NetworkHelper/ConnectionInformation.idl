@@ -53,30 +53,35 @@ namespace XamlToolkit.WinUI.Helpers
         /// Gets a value indicating whether internet is available across all connections.
         /// </summary>
         /// <returns>True if internet can be reached.</returns>
+        [noexcept]
         Boolean IsInternetAvailable{ get; };
 
         /// <summary>
         /// Gets connection type for the current Internet Connection Profile.
         /// </summary>
         /// <returns>value of <see cref="ConnectionType"/></returns>
+        [noexcept]
         ConnectionType ConnectionType{ get; };
 
         /// <summary>
         /// Gets connectivity level for the current Internet Connection Profile.
         /// </summary>
         /// <returns>value of <see cref="NetworkConnectivityLevel"/></returns>
+        [noexcept]
         Windows.Networking.Connectivity.NetworkConnectivityLevel ConnectivityLevel{ get; };
 
         /// <summary>
         /// Gets connection cost for the current Internet Connection Profile.
         /// </summary>
         /// <returns>value of <see cref="NetworkConnectivityLevel"/></returns>
+        [noexcept]
         Windows.Networking.Connectivity.ConnectionCost ConnectionCost{ get; };
 
         /// <summary>
         /// Gets signal strength for the current Internet Connection Profile.
         /// </summary>
         /// <returns>value of <see cref="NetworkConnectivityLevel"/></returns>
+        [noexcept]
         Windows.Foundation.IReference<UInt8> SignalStrength{ get; };
 
         /// <summary>

@@ -11,6 +11,8 @@ namespace XamlToolkit.WinUI
         NetworkConnectionStateTrigger();
 
         ConnectionState ConnectionState;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ConnectionStateProperty{ get; };
     }
 }

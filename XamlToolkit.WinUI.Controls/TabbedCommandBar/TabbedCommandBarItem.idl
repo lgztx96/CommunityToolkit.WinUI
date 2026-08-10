@@ -4,15 +4,19 @@ namespace XamlToolkit.WinUI.Controls
 	{
 		TabbedCommandBarItem();
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty HeaderProperty{ get; };
 		Object Header;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty IsContextualProperty{ get; };
 		Boolean IsContextual;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty OverflowButtonAlignmentProperty{ get; };
 		Microsoft.UI.Xaml.HorizontalAlignment OverflowButtonAlignment;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty CommandAlignmentProperty{ get; };
 		Microsoft.UI.Xaml.HorizontalAlignment CommandAlignment;
 	}

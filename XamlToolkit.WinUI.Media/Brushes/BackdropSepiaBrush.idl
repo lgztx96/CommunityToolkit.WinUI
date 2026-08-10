@@ -21,6 +21,7 @@ namespace XamlToolkit.WinUI.Media
         /// </summary>
         Double Intensity;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty IntensityProperty{ get; };
     };
 }

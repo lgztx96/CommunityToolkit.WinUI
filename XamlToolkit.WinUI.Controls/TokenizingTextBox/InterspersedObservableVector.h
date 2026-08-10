@@ -58,7 +58,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
         bool Contains(winrt::IInspectable const& value) const;
 
-        winrt::IVector<winrt::IInspectable> ItemsSource() const;
+        winrt::IVector<winrt::IInspectable> ItemsSource() const noexcept;
 
     private:
         void ReadjustKeys();

@@ -18,7 +18,11 @@
         Double X;
         Double Y;
         ThumbPosition Position;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty XProperty{ get; };
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty YProperty{ get; };
     }
 }

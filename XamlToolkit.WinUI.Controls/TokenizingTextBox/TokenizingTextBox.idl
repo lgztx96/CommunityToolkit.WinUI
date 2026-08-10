@@ -7,55 +7,82 @@ namespace XamlToolkit.WinUI.Controls
     {
         TokenizingTextBox();
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty AutoSuggestBoxStyleProperty{ get; };
+
         Microsoft.UI.Xaml.Style AutoSuggestBoxStyle;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty AutoSuggestBoxTextBoxStyleProperty{ get; };
+
         Microsoft.UI.Xaml.Style AutoSuggestBoxTextBoxStyle;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty TextMemberPathProperty{ get; };
+
         String TextMemberPath;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty TokenItemTemplateProperty{ get; };
+
         Microsoft.UI.Xaml.DataTemplate TokenItemTemplate;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty TokenItemTemplateSelectorProperty{ get; };
+
         Microsoft.UI.Xaml.Controls.DataTemplateSelector TokenItemTemplateSelector;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty TokenDelimiterProperty{ get; };
+
         String TokenDelimiter;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty TokenSpacingProperty{ get; };
+
         Double TokenSpacing;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty PlaceholderTextProperty{ get; };
+
         String PlaceholderText;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty QueryIconProperty{ get; };
+
         Microsoft.UI.Xaml.Controls.IconSource QueryIcon;
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty TextProperty{ get; };
 
         String Text;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty SuggestedItemsSourceProperty{ get; };
 
         Object SuggestedItemsSource;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty SuggestedItemTemplateProperty{ get; };
 
         Microsoft.UI.Xaml.DataTemplate SuggestedItemTemplate;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty SuggestedItemTemplateSelectorProperty{ get; };
 
         Microsoft.UI.Xaml.Controls.DataTemplateSelector SuggestedItemTemplateSelector;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty SuggestedItemContainerStyleProperty{ get; };
 
         Microsoft.UI.Xaml.Style SuggestedItemContainerStyle;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty TabNavigateBackOnArrowProperty{ get; };
 
         Boolean TabNavigateBackOnArrow;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty MaximumTokensProperty{ get; };
 
         Int32 MaximumTokens;
@@ -73,7 +100,5 @@ namespace XamlToolkit.WinUI.Controls
         event Windows.Foundation.TypedEventHandler<TokenizingTextBox, TokenItemRemovingEventArgs> TokenItemRemoving;
 
         event Windows.Foundation.TypedEventHandler<TokenizingTextBox, Object> TokenItemRemoved;
-
-        static Microsoft.UI.Xaml.DependencyProperty TextProperty{ get; };
     }
 }

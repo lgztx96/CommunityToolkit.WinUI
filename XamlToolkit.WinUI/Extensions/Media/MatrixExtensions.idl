@@ -2,32 +2,46 @@
 {
     static runtimeclass MatrixExtensions
     {
+        [noexcept]
         static Boolean HasInverse(Microsoft.UI.Xaml.Media.Matrix matrix);
 
+        [noexcept]
         static Microsoft.UI.Xaml.Media.Matrix Multiply(Microsoft.UI.Xaml.Media.Matrix matrix1, Microsoft.UI.Xaml.Media.Matrix matrix2);
 
+        [noexcept]
         static Microsoft.UI.Xaml.Media.Matrix Round(Microsoft.UI.Xaml.Media.Matrix matrix, Int32 decimalsAfterRound);
 
+        [noexcept]
         static Microsoft.UI.Xaml.Media.Matrix Rotate(Microsoft.UI.Xaml.Media.Matrix matrix, Double angle);
 
+        [noexcept]
         static Microsoft.UI.Xaml.Media.Matrix RotateAt(Microsoft.UI.Xaml.Media.Matrix matrix, Double angle, Double centerX, Double centerY);
 
+        [noexcept]
         static Microsoft.UI.Xaml.Media.Matrix Scale(Microsoft.UI.Xaml.Media.Matrix matrix, Double scaleX, Double scaleY);
 
+        [noexcept]
         static Microsoft.UI.Xaml.Media.Matrix ScaleAt(Microsoft.UI.Xaml.Media.Matrix matrix, Double scaleX, Double scaleY, Double centerX, Double centerY);
 
+        [noexcept]
         static Microsoft.UI.Xaml.Media.Matrix Skew(Microsoft.UI.Xaml.Media.Matrix matrix, Double skewX, Double skewY);
 
+        [noexcept]
         static Microsoft.UI.Xaml.Media.Matrix Translate(Microsoft.UI.Xaml.Media.Matrix matrix, Double offsetX, Double offsetY);
 
+        [noexcept]
         static Microsoft.UI.Xaml.Media.Matrix CreateRotationRadians(Double angle);
 
+        [noexcept]
         static Microsoft.UI.Xaml.Media.Matrix CreateRotationRadians(Double angle, Double centerX, Double centerY);
 
+        [noexcept]
         static Microsoft.UI.Xaml.Media.Matrix CreateScaling(Double scaleX, Double scaleY);
 
+        [noexcept]
         static Microsoft.UI.Xaml.Media.Matrix CreateScaling(Double scaleX, Double scaleY, Double centerX, Double centerY);
 
+        [noexcept]
         static Microsoft.UI.Xaml.Media.Matrix CreateSkewRadians(Double skewX, Double skewY);
     }
 }

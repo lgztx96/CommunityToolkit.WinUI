@@ -6,7 +6,10 @@ namespace XamlToolkit.WinUI.Interactivity
     {
         NavigateToPageAction();
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty TargetPageProperty{ get; };
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ParameterProperty{ get; };
 
         String TargetPage;

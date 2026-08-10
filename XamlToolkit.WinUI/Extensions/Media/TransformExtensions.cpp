@@ -8,17 +8,17 @@
 
 namespace winrt::XamlToolkit::WinUI::implementation
 {
-	Matrix TransformExtensions::GetMatrix(RotateTransform const& transform)
+	Matrix TransformExtensions::GetMatrix(RotateTransform const& transform) noexcept
 	{
 		return MatrixExtensions::RotateAt(winrt::Microsoft::UI::Xaml::Media::MatrixHelper::Identity(), transform.Angle(), transform.CenterX(), transform.CenterY());
 	}
 
-	Matrix TransformExtensions::GetMatrix(ScaleTransform const& transform)
+	Matrix TransformExtensions::GetMatrix(ScaleTransform const& transform) noexcept
 	{
 		return MatrixExtensions::ScaleAt(winrt::Microsoft::UI::Xaml::Media::MatrixHelper::Identity(), transform.ScaleX(), transform.ScaleY(), transform.CenterX(), transform.CenterY());
 	}
 
-	Matrix TransformExtensions::GetMatrix(SkewTransform const& transform)
+	Matrix TransformExtensions::GetMatrix(SkewTransform const& transform) noexcept
 	{
 		Matrix matrix = winrt::Microsoft::UI::Xaml::Media::MatrixHelper::Identity();
 
@@ -44,7 +44,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		return matrix;
 	}
 
-	Matrix TransformExtensions::GetMatrix(TranslateTransform const& transform)
+	Matrix TransformExtensions::GetMatrix(TranslateTransform const& transform) noexcept
 	{
 		return MatrixExtensions::Translate(MatrixHelper::Identity(), transform.X(), transform.Y());
 	}

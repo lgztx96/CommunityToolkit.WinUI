@@ -5,6 +5,7 @@ namespace XamlToolkit.Labs.WinUI
     {
         AdornerLayer();
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty XamlProperty{ get; };
 
         static Microsoft.UI.Xaml.UIElement GetXaml(Microsoft.UI.Xaml.FrameworkElement obj);

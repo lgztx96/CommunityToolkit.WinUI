@@ -224,7 +224,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		return _itemsSource.IndexOf(value, index);
 	}
 
-	winrt::IVector<winrt::IInspectable> InterspersedObservableVector::ItemsSource() const
+	winrt::IVector<winrt::IInspectable> InterspersedObservableVector::ItemsSource() const noexcept
 	{
 		return _itemsSource;
 	}

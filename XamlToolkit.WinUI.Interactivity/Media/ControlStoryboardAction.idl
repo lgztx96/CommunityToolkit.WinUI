@@ -7,7 +7,10 @@ namespace XamlToolkit.WinUI.Interactivity
     {
         ControlStoryboardAction();
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ControlStoryboardOptionProperty{ get; };
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty StoryboardProperty{ get; };
 
         XamlToolkit.WinUI.Interactivity.ControlStoryboardOption ControlStoryboardOption;

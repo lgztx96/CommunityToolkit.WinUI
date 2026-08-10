@@ -5,6 +5,7 @@ namespace XamlToolkit.WinUI.Interactivity
 {
     static runtimeclass Interaction
     {
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty BehaviorsProperty{ get; };
 
         static BehaviorCollection GetBehaviors(Microsoft.UI.Xaml.DependencyObject obj);

@@ -29,6 +29,7 @@ namespace XamlToolkit.WinUI.Media.Animations
         /// </summary>
         XamlToolkit.WinUI.Media.BlurEffect Target;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty TargetProperty{ get; };
 
         /// <summary>
@@ -36,6 +37,7 @@ namespace XamlToolkit.WinUI.Media.Animations
         /// </summary>
         Windows.Foundation.IReference<Double> To;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ToProperty{ get; };
 
         /// <summary>
@@ -43,6 +45,7 @@ namespace XamlToolkit.WinUI.Media.Animations
         /// </summary>
         Windows.Foundation.IReference<Double> From;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty FromProperty{ get; };
 
         /// <summary>
@@ -51,6 +54,7 @@ namespace XamlToolkit.WinUI.Media.Animations
         /// </summary>
         Windows.Foundation.Collections.IVector<XamlToolkit.WinUI.Animations.ScalarKeyFrame> KeyFrames;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty KeyFramesProperty{ get; };
     }
 
@@ -70,6 +74,7 @@ namespace XamlToolkit.WinUI.Media.Animations
         /// </summary>
         XamlToolkit.WinUI.Media.TintEffect Target;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty TargetProperty{ get; };
 
         /// <summary>
@@ -77,6 +82,7 @@ namespace XamlToolkit.WinUI.Media.Animations
         /// </summary>
         Windows.Foundation.IReference<Windows.UI.Color> To;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ToProperty{ get; };
 
         /// <summary>
@@ -84,6 +90,7 @@ namespace XamlToolkit.WinUI.Media.Animations
         /// </summary>
         Windows.Foundation.IReference<Windows.UI.Color> From;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty FromProperty{ get; };
 
         /// <summary>
@@ -92,6 +99,7 @@ namespace XamlToolkit.WinUI.Media.Animations
         /// </summary>
         Windows.Foundation.Collections.IVector<XamlToolkit.WinUI.Animations.ColorKeyFrame> KeyFrames;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty KeyFramesProperty{ get; };
     }
 
@@ -111,6 +119,7 @@ namespace XamlToolkit.WinUI.Media.Animations
         /// </summary>
         XamlToolkit.WinUI.Media.CrossFadeEffect Target;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty TargetProperty{ get; };
 
         /// <summary>
@@ -118,6 +127,7 @@ namespace XamlToolkit.WinUI.Media.Animations
         /// </summary>
         Windows.Foundation.IReference<Double> To;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ToProperty{ get; };
 
         /// <summary>
@@ -125,6 +135,7 @@ namespace XamlToolkit.WinUI.Media.Animations
         /// </summary>
         Windows.Foundation.IReference<Double> From;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty FromProperty{ get; };
 
         /// <summary>
@@ -133,6 +144,7 @@ namespace XamlToolkit.WinUI.Media.Animations
         /// </summary>
         Windows.Foundation.Collections.IVector<XamlToolkit.WinUI.Animations.ScalarKeyFrame> KeyFrames;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty KeyFramesProperty{ get; };
     }
 
@@ -152,6 +164,7 @@ namespace XamlToolkit.WinUI.Media.Animations
         /// </summary>
         XamlToolkit.WinUI.Media.ExposureEffect Target;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty TargetProperty{ get; };
 
         /// <summary>
@@ -159,6 +172,7 @@ namespace XamlToolkit.WinUI.Media.Animations
         /// </summary>
         Windows.Foundation.IReference<Double> To;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ToProperty{ get; };
 
         /// <summary>
@@ -166,6 +180,7 @@ namespace XamlToolkit.WinUI.Media.Animations
         /// </summary>
         Windows.Foundation.IReference<Double> From;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty FromProperty{ get; };
 
         /// <summary>
@@ -174,6 +189,7 @@ namespace XamlToolkit.WinUI.Media.Animations
         /// </summary>
         Windows.Foundation.Collections.IVector<XamlToolkit.WinUI.Animations.ScalarKeyFrame> KeyFrames;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty KeyFramesProperty{ get; };
     }
 
@@ -193,6 +209,7 @@ namespace XamlToolkit.WinUI.Media.Animations
         /// </summary>
         XamlToolkit.WinUI.Media.HueRotationEffect Target;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty TargetProperty{ get; };
 
         /// <summary>
@@ -200,6 +217,7 @@ namespace XamlToolkit.WinUI.Media.Animations
         /// </summary>
         Windows.Foundation.IReference<Double> To;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ToProperty{ get; };
 
         /// <summary>
@@ -207,6 +225,7 @@ namespace XamlToolkit.WinUI.Media.Animations
         /// </summary>
         Windows.Foundation.IReference<Double> From;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty FromProperty{ get; };
 
         /// <summary>
@@ -215,6 +234,7 @@ namespace XamlToolkit.WinUI.Media.Animations
         /// </summary>
         Windows.Foundation.Collections.IVector<XamlToolkit.WinUI.Animations.ScalarKeyFrame> KeyFrames;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty KeyFramesProperty{ get; };
     }
 
@@ -234,6 +254,7 @@ namespace XamlToolkit.WinUI.Media.Animations
         /// </summary>
         XamlToolkit.WinUI.Media.OpacityEffect Target;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty TargetProperty{ get; };
 
         /// <summary>
@@ -241,6 +262,7 @@ namespace XamlToolkit.WinUI.Media.Animations
         /// </summary>
         Windows.Foundation.IReference<Double> To;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ToProperty{ get; };
 
         /// <summary>
@@ -248,6 +270,7 @@ namespace XamlToolkit.WinUI.Media.Animations
         /// </summary>
         Windows.Foundation.IReference<Double> From;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty FromProperty{ get; };
 
         /// <summary>
@@ -256,6 +279,7 @@ namespace XamlToolkit.WinUI.Media.Animations
         /// </summary>
         Windows.Foundation.Collections.IVector<XamlToolkit.WinUI.Animations.ScalarKeyFrame> KeyFrames;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty KeyFramesProperty{ get; };
     }
 
@@ -275,6 +299,7 @@ namespace XamlToolkit.WinUI.Media.Animations
         /// </summary>
         XamlToolkit.WinUI.Media.SaturationEffect Target;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty TargetProperty{ get; };
 
         /// <summary>
@@ -282,6 +307,7 @@ namespace XamlToolkit.WinUI.Media.Animations
         /// </summary>
         Windows.Foundation.IReference<Double> To;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ToProperty{ get; };
 
         /// <summary>
@@ -289,6 +315,7 @@ namespace XamlToolkit.WinUI.Media.Animations
         /// </summary>
         Windows.Foundation.IReference<Double> From;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty FromProperty{ get; };
 
         /// <summary>
@@ -297,6 +324,7 @@ namespace XamlToolkit.WinUI.Media.Animations
         /// </summary>
         Windows.Foundation.Collections.IVector<XamlToolkit.WinUI.Animations.ScalarKeyFrame> KeyFrames;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty KeyFramesProperty{ get; };
     }
 
@@ -316,6 +344,7 @@ namespace XamlToolkit.WinUI.Media.Animations
         /// </summary>
         XamlToolkit.WinUI.Media.SepiaEffect Target;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty TargetProperty{ get; };
 
         /// <summary>
@@ -323,6 +352,7 @@ namespace XamlToolkit.WinUI.Media.Animations
         /// </summary>
         Windows.Foundation.IReference<Double> To;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ToProperty{ get; };
 
         /// <summary>
@@ -330,6 +360,7 @@ namespace XamlToolkit.WinUI.Media.Animations
         /// </summary>
         Windows.Foundation.IReference<Double> From;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty FromProperty{ get; };
 
         /// <summary>
@@ -338,6 +369,7 @@ namespace XamlToolkit.WinUI.Media.Animations
         /// </summary>
         Windows.Foundation.Collections.IVector<XamlToolkit.WinUI.Animations.ScalarKeyFrame> KeyFrames;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty KeyFramesProperty{ get; };
     }
 }

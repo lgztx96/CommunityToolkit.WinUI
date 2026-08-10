@@ -8,8 +8,10 @@ namespace XamlToolkit.Labs.WinUI
 
         TokenItemRemovingEventArgs(Object item, TokenItem tokenItem);
 
+        [noexcept]
         Object Item{ get; };
 
+        [noexcept]
         TokenItem TokenItem{ get; };
     }
 }

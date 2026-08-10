@@ -6,7 +6,9 @@ namespace XamlToolkit.Labs.WinUI
     {
         ReverseTransitionAction();
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty TransitionProperty{ get; };
+
         TransitionHelper Transition;
     }
 }

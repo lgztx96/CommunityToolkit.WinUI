@@ -13,6 +13,7 @@ namespace XamlToolkit.WinUI.Behaviors
         /// </summary>
         XamlToolkit.WinUI.Animations.AnimationSet Animation;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty AnimationProperty { get; };
 
         /// <summary>
@@ -20,6 +21,7 @@ namespace XamlToolkit.WinUI.Behaviors
         /// </summary>
         Microsoft.UI.Xaml.UIElement TargetObject;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty TargetObjectProperty { get; };
     }
 }

@@ -32,18 +32,28 @@ namespace XamlToolkit.Labs.WinUI
         ResizeThumb();
 
         ResizeDirection Direction;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty DirectionProperty{ get; };
 
         ResizePositionMode PositionMode;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty PositionModeProperty{ get; };
 
         Microsoft.UI.Input.InputSystemCursorShape Cursor;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty CursorProperty{ get; };
 
         Microsoft.UI.Xaml.FrameworkElement TargetControl;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty TargetControlProperty{ get; };
 
         Double DragIncrement;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty DragIncrementProperty{ get; };
 
         event Windows.Foundation.TypedEventHandler<ResizeThumb, ITargetControlResizedEventArgs> TargetControlResized;

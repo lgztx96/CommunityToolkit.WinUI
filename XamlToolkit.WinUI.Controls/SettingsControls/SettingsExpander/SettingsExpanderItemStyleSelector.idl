@@ -4,8 +4,10 @@ namespace XamlToolkit.WinUI.Controls
     {
         SettingsExpanderItemStyleSelector();
 
+        [noexcept]
         Microsoft.UI.Xaml.Style DefaultStyle{ get; set; };
 
+        [noexcept]
         Microsoft.UI.Xaml.Style ClickableStyle{ get; set; };
     }
 }

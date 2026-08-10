@@ -12,6 +12,7 @@ namespace XamlToolkit.WinUI.Behaviors
         /// </summary>
         String Title;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty TitleProperty { get; };
 
         /// <summary>
@@ -19,6 +20,7 @@ namespace XamlToolkit.WinUI.Behaviors
         /// </summary>
         String Message;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty MessageProperty { get; };
 
         /// <summary>
@@ -27,6 +29,7 @@ namespace XamlToolkit.WinUI.Behaviors
         /// </summary>
         Windows.Foundation.IReference<Windows.Foundation.TimeSpan> Duration;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty DurationProperty { get; };
 
         /// <summary>
@@ -34,6 +37,7 @@ namespace XamlToolkit.WinUI.Behaviors
         /// </summary>
         Windows.Foundation.IReference<Microsoft.UI.Xaml.Controls.InfoBarSeverity> Severity;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty SeverityProperty { get; };
 
         /// <summary>
@@ -41,6 +45,7 @@ namespace XamlToolkit.WinUI.Behaviors
         /// </summary>
         Boolean IsIconVisible;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty IsIconVisibleProperty { get; };
 
         /// <summary>
@@ -48,6 +53,7 @@ namespace XamlToolkit.WinUI.Behaviors
         /// </summary>
         Microsoft.UI.Xaml.Controls.IconSource IconSource;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty IconSourceProperty { get; };
 
         /// <summary>
@@ -55,6 +61,7 @@ namespace XamlToolkit.WinUI.Behaviors
         /// </summary>
         Object Content;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ContentProperty { get; };
 
         /// <summary>
@@ -62,6 +69,7 @@ namespace XamlToolkit.WinUI.Behaviors
         /// </summary>
         Microsoft.UI.Xaml.DataTemplate ContentTemplate;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ContentTemplateProperty { get; };
 
         /// <summary>
@@ -69,6 +77,7 @@ namespace XamlToolkit.WinUI.Behaviors
         /// </summary>
         Microsoft.UI.Xaml.Controls.Primitives.ButtonBase ActionButton;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ActionButtonProperty { get; };
     }
 }

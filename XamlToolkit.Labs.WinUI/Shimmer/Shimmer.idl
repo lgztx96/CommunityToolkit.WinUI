@@ -4,8 +4,10 @@ namespace XamlToolkit.Labs.WinUI
     {
         Shimmer();
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty DurationProperty{ get; };
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty IsActiveProperty{ get; };
 
         Windows.Foundation.TimeSpan Duration;

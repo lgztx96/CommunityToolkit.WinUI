@@ -3,7 +3,10 @@
     runtimeclass OpacityMaskView : Microsoft.UI.Xaml.Controls.ContentControl
     {
         OpacityMaskView();
+
         Microsoft.UI.Xaml.UIElement OpacityMask;
-        Microsoft.UI.Xaml.DependencyProperty OpacityMaskProperty{ get; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty OpacityMaskProperty{ get; };
     }
 }

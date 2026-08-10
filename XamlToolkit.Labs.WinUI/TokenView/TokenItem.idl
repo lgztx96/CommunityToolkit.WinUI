@@ -8,10 +8,12 @@ namespace XamlToolkit.Labs.WinUI
 
         Boolean IsRemoveable;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty IsRemoveableProperty{ get; };
 
         Microsoft.UI.Xaml.Controls.IconElement Icon;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty IconProperty{ get; };
 
         event Windows.Foundation.EventHandler<TokenItemRemovingEventArgs> Removing;

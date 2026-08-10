@@ -6,10 +6,13 @@
 
         static String ToHex(Windows.UI.Color color);
 
+        [noexcept]
         static Int32 ToInt(Windows.UI.Color color);
 
+        [noexcept]
         static XamlToolkit.WinUI.HslColor ToHsl(Windows.UI.Color color);
 
+        [noexcept]
         static XamlToolkit.WinUI.HsvColor ToHsv(Windows.UI.Color color);
 
         static Windows.UI.Color FromHsl(Double hue, Double saturation, Double lightness, Double alpha);

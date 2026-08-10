@@ -37,10 +37,13 @@
 
         Boolean TrySetCroppedRegion(Windows.Foundation.Rect rect);
 
+        [noexcept]
         Double MinCroppedPixelLength;
 
+        [noexcept]
         Double MinSelectedLength;
 
+        [noexcept]
         Windows.Foundation.Rect CroppedRegion{ get; };
 
         Microsoft.UI.Xaml.Media.Imaging.WriteableBitmap Source;
@@ -59,20 +62,28 @@
 
         ThumbPlacement ThumbPlacement;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty AspectRatioProperty{ get; };
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty SourceProperty{ get; };
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty CropShapeProperty{ get; };
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty MaskProperty{ get; };
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty OverlayProperty{ get; };
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty PrimaryThumbStyleProperty{ get; };
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty SecondaryThumbStyleProperty{ get; };
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ThumbPlacementProperty{ get; };
     }
 }

@@ -1,131 +1,227 @@
 namespace XamlToolkit.Labs.WinUI
 {
    runtimeclass MarkdownThemes : Microsoft.UI.Xaml.DependencyObject
-    {
+   {
         static MarkdownThemes Default { get; };
 
+        [noexcept]
         Microsoft.UI.Xaml.Thickness Padding{ get; set; };
 
+        [noexcept]
         Microsoft.UI.Xaml.Thickness InternalMargin{ get; set; };
 
+        [noexcept]
         Microsoft.UI.Xaml.CornerRadius CornerRadius{ get; set; };
 
+        [noexcept]
         Double H1FontSize{ get; set; };
 
+        [noexcept]
         Double H2FontSize{ get; set; };
 
+        [noexcept]
         Double H3FontSize{ get; set; };
 
+        [noexcept]
         Double H4FontSize{ get; set; };
 
+        [noexcept]
         Double H5FontSize{ get; set; };
 
+        [noexcept]
         Double H6FontSize{ get; set; };
 
+        [noexcept]
         Microsoft.UI.Xaml.Media.Brush H1Foreground{ get; set; };
 
+        [noexcept]
         Microsoft.UI.Xaml.Media.Brush H2Foreground{ get; set; };
 
+        [noexcept]
         Microsoft.UI.Xaml.Media.Brush H3Foreground{ get; set; };
 
+        [noexcept]
         Microsoft.UI.Xaml.Media.Brush H4Foreground{ get; set; };
 
+        [noexcept]
         Microsoft.UI.Xaml.Media.Brush H5Foreground{ get; set; };
 
+        [noexcept]
         Microsoft.UI.Xaml.Media.Brush H6Foreground{ get; set; };
 
+        [noexcept]
         Windows.UI.Text.FontWeight H1FontWeight{ get; set; };
 
+        [noexcept]
         Windows.UI.Text.FontWeight H2FontWeight{ get; set; };
 
+        [noexcept]
         Windows.UI.Text.FontWeight H3FontWeight{ get; set; };
 
+        [noexcept]
         Windows.UI.Text.FontWeight H4FontWeight{ get; set; };
 
+        [noexcept]
         Windows.UI.Text.FontWeight H5FontWeight{ get; set; };
 
+        [noexcept]
         Windows.UI.Text.FontWeight H6FontWeight{ get; set; };
 
+        [noexcept]
         Microsoft.UI.Xaml.Thickness H1Margin{ get; set; };
 
+        [noexcept]
         Microsoft.UI.Xaml.Thickness H2Margin{ get; set; };
 
+        [noexcept]
         Microsoft.UI.Xaml.Thickness H3Margin{ get; set; };
 
+        [noexcept]
         Microsoft.UI.Xaml.Thickness H4Margin{ get; set; };
 
+        [noexcept]
         Microsoft.UI.Xaml.Thickness H5Margin{ get; set; };
 
+        [noexcept]
         Microsoft.UI.Xaml.Thickness H6Margin{ get; set; };
 
+        [noexcept]
         Microsoft.UI.Xaml.Media.Brush BorderBrush{ get; set; };
+        [noexcept]
         Microsoft.UI.Xaml.Media.Brush TableHeadingBackground{ get; set; };
 
+        [noexcept]
         Microsoft.UI.Xaml.Media.Brush InlineCodeBackground{ get; set; };
 
+        [noexcept]
         Microsoft.UI.Xaml.Media.Brush InlineCodeForeground{ get; set; };
 
+        [noexcept]
         Microsoft.UI.Xaml.Media.Brush InlineCodeBorderBrush{ get; set; };
 
+        [noexcept]
         Microsoft.UI.Xaml.Thickness InlineCodeBorderThickness{ get; set; };
 
+        [noexcept]
         Microsoft.UI.Xaml.CornerRadius InlineCodeCornerRadius{ get; set; };
 
+        [noexcept]
         Microsoft.UI.Xaml.Thickness InlineCodePadding{ get; set; };
 
+        [noexcept]
         Double InlineCodeFontSize{ get; set; };
 
+        [noexcept]
         Windows.UI.Text.FontWeight InlineCodeFontWeight{ get; set; };
 
+        [noexcept]
         Windows.UI.Text.FontWeight BoldFontWeight{ get; set; };
 
         // Code block styling
+        [noexcept]
         Microsoft.UI.Xaml.Media.Brush CodeBlockBackground{ get; set; };
+
+        [noexcept]
         Microsoft.UI.Xaml.Media.Brush CodeBlockBorderBrush{ get; set; };
+
+        [noexcept]
         Microsoft.UI.Xaml.Thickness CodeBlockBorderThickness{ get; set; };
+
+        [noexcept]
         Microsoft.UI.Xaml.Thickness CodeBlockPadding{ get; set; };
+
+        [noexcept]
         Microsoft.UI.Xaml.Thickness CodeBlockMargin{ get; set; };
+
+        [noexcept]
         Microsoft.UI.Xaml.Media.FontFamily CodeBlockFontFamily{ get; set; };
+
+        [noexcept]
         Microsoft.UI.Xaml.Media.Brush CodeBlockForeground{ get; set; };
+
+        [noexcept]
         Microsoft.UI.Xaml.CornerRadius CodeBlockCornerRadius{ get; set; };
 
         // Horizontal rule
+        [noexcept]
         Microsoft.UI.Xaml.Media.Brush HorizontalRuleBrush{ get; set; };
+
+        [noexcept]
         Double HorizontalRuleThickness{ get; set; };
+
+        [noexcept]
         Microsoft.UI.Xaml.Thickness HorizontalRuleMargin{ get; set; };
 
         // Link styling
+        [noexcept]
         Microsoft.UI.Xaml.Media.Brush LinkForeground{ get; set; };
 
         // Paragraph / list
+        [noexcept]
         Microsoft.UI.Xaml.Thickness ParagraphMargin{ get; set; };
+
+        [noexcept]
         Double ParagraphLineHeight{ get; set; };
+
+        [noexcept]
         Double ListBulletSpacing{ get; set; };
+
+        [noexcept]
         Double ListGutterWidth{ get; set; };
+
+        [noexcept]
         Microsoft.UI.Xaml.Thickness ListMargin{ get; set; };
 
         // Quote styling
+        [noexcept]
         Microsoft.UI.Xaml.Media.Brush QuoteBackground{ get; set; };
+
+        [noexcept]
         Microsoft.UI.Xaml.Media.Brush QuoteBorderBrush{ get; set; };
+
+        [noexcept]
         Microsoft.UI.Xaml.Thickness QuoteBorderThickness{ get; set; };
+
+        [noexcept]
         Microsoft.UI.Xaml.Media.Brush QuoteForeground{ get; set; };
+
+        [noexcept]
         Microsoft.UI.Xaml.Thickness QuoteMargin{ get; set; };
+
+        [noexcept]
         Microsoft.UI.Xaml.Thickness QuotePadding{ get; set; };
+
+        [noexcept]
         Microsoft.UI.Xaml.CornerRadius QuoteCornerRadius{ get; set; };
 
         // Image styling
+        [noexcept]
         Double ImageMaxWidth{ get; set; };
+
+        [noexcept]
         Double ImageMaxHeight{ get; set; };
+
+        [noexcept]
         Microsoft.UI.Xaml.Media.Stretch ImageStretch{ get; set; };
 
         // Table styling
+        [noexcept]
         Microsoft.UI.Xaml.Media.Brush TableBorderBrush{ get; set; };
+
+        [noexcept]
         Single TableBorderThickness{ get; set; };
+
+        [noexcept]
         Microsoft.UI.Xaml.Thickness TableCellPadding{ get; set; };
+
+        [noexcept]
         Microsoft.UI.Xaml.Thickness TableMargin{ get; set; };
 
         // YAML styling
+        [noexcept]
         Microsoft.UI.Xaml.Media.Brush YamlBorderBrush{ get; set; };
+
+        [noexcept]
         Microsoft.UI.Xaml.Thickness YamlBorderThickness{ get; set; };
     }
 }

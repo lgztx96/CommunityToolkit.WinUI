@@ -20,6 +20,7 @@ namespace XamlToolkit.WinUI.Media
         /// <summary>
         /// Gets or sets the amount of exposure to apply to the background (defaults to 0, should be in the [-2, 2] range).
         /// </summary>
+        [noexcept]
         Double Amount;
     };
 }

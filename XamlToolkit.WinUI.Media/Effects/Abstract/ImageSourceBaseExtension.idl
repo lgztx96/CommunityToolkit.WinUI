@@ -20,16 +20,19 @@ namespace XamlToolkit.WinUI.Media
         /// <summary>
         /// Gets or sets the Uri for the image to load
         /// </summary>
+        [noexcept]
         Windows.Foundation.Uri Uri;
 
         /// <summary>
         /// Gets or sets the DPI mode used to render the image (the default is DisplayDpiWith96AsLowerBound)
         /// </summary>
+        [noexcept]
         DpiMode DpiMode;
 
         /// <summary>
         /// Gets or sets the cache mode to use when loading the image (the default is Default)
         /// </summary>
+        [noexcept]
         CacheMode CacheMode;
     };
 }

@@ -37,7 +37,7 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
     }
 
     // Gets instance of ConnectionInformation.
-    winrt::XamlToolkit::WinUI::Helpers::ConnectionInformation NetworkHelper::ConnectionInformation()
+	winrt::XamlToolkit::WinUI::Helpers::ConnectionInformation NetworkHelper::ConnectionInformation() const noexcept
     {
         return _connectionInformation;
     }

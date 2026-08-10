@@ -7,8 +7,13 @@ namespace XamlToolkit.WinUI.Helpers
         ThemeListener();
         ThemeListener(Microsoft.UI.Dispatching.DispatcherQueue dispatcherQueue);
 
+        [noexcept]
         Microsoft.UI.Xaml.ApplicationTheme CurrentTheme{ get; };
+
+        [noexcept]
         String CurrentThemeName{ get; };
+
+        [noexcept]
         Boolean IsHighContrast{ get; };
 
         event ThemeChangedHandler ThemeChanged;

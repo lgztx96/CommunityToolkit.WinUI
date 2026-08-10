@@ -21,6 +21,7 @@ namespace XamlToolkit.WinUI.Media
         /// </summary>
         Double Saturation;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty SaturationProperty{ get; };
     };
 }

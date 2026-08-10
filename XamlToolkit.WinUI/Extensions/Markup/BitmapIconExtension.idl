@@ -4,8 +4,10 @@ namespace XamlToolkit.WinUI
     {
         BitmapIconExtension();
 
+        [noexcept]
         Windows.Foundation.Uri Source;
 
+        [noexcept]
         Boolean ShowAsMonochrome;
     }
 }

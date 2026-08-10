@@ -4,13 +4,28 @@ namespace XamlToolkit.WinUI
     {
         SurfaceDialOptions();
 
+        [noexcept]
         Windows.UI.Input.RadialControllerMenuKnownIcon Icon;
+
+        [noexcept]
         Double StepValue;
+
+        [noexcept]
         Boolean EnableHapticFeedback;
+
+        [noexcept]
         Double RotationResolutionInDegrees;
+
+        [noexcept]
         Double MinValue;
+
+        [noexcept]
         Double MaxValue;
+
+        [noexcept]
         Boolean EnableTapToNextControl;
+
+        [noexcept]
         Boolean EnableMinMaxValue;
 
         static SurfaceDialOptions Default{ get; };

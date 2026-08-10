@@ -6,6 +6,7 @@ namespace XamlToolkit.WinUI.Controls
 
         Microsoft.UI.Xaml.Controls.Orientation Orientation;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty OrientationProperty{ get; };
     }
 }

@@ -6,6 +6,8 @@
         SegmentedItem();
 
         Microsoft.UI.Xaml.Controls.IconElement Icon;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty IconProperty{ get; };
     }
 }

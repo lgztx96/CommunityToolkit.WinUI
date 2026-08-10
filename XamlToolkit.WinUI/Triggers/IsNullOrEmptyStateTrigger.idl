@@ -5,6 +5,8 @@ namespace XamlToolkit.WinUI
         IsNullOrEmptyStateTrigger();
 
         Object Value;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ValueProperty{ get; };
     }
 }

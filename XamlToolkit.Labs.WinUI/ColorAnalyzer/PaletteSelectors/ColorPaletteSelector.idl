@@ -13,9 +13,13 @@ namespace XamlToolkit.Labs.WinUI
         ColorPaletteSelector();
 
         Windows.Foundation.Collections.IVector<Windows.UI.Color> SelectedColors{ get; };
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty SelectedColorsProperty{ get; };
 
 		Int32 MinColorCount;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty MinColorCountProperty{ get; };
 
         void SelectColors(Windows.Foundation.Collections.IIterable<PaletteColor> palette);

@@ -11,12 +11,12 @@
 
 namespace winrt::XamlToolkit::WinUI::implementation
 {
-    bool MatrixExtensions::HasInverse(Matrix const& matrix)
+    bool MatrixExtensions::HasInverse(Matrix const& matrix) noexcept
     {
         return ((matrix.M11 * matrix.M22) - (matrix.M12 * matrix.M21)) != 0;
     }
 
-    Matrix MatrixExtensions::Multiply(Matrix const& matrix1, Matrix const& matrix2)
+    Matrix MatrixExtensions::Multiply(Matrix const& matrix1, Matrix const& matrix2) noexcept
     {
         return Matrix(
             (matrix1.M11 * matrix2.M11) + (matrix1.M12 * matrix2.M21),
@@ -27,7 +27,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
             (matrix1.OffsetX * matrix2.M12) + (matrix1.OffsetY * matrix2.M22) + matrix2.OffsetY);
     }
 
-    Matrix MatrixExtensions::Round(Matrix const& matrix, int decimalsAfterRound)
+    Matrix MatrixExtensions::Round(Matrix const& matrix, int decimalsAfterRound) noexcept
     {
         return Matrix(
             Round(matrix.M11, decimalsAfterRound),
@@ -38,42 +38,42 @@ namespace winrt::XamlToolkit::WinUI::implementation
             matrix.OffsetY);
     }
 
-    Matrix MatrixExtensions::Rotate(Matrix const& matrix, double angle)
+    Matrix MatrixExtensions::Rotate(Matrix const& matrix, double angle) noexcept
     {
         return Multiply(matrix, CreateRotationRadians(std::fmod(angle, 360) * (std::numbers::pi / 180.0)));
     }
 
-    Matrix MatrixExtensions::RotateAt(Matrix const& matrix, double angle, double centerX, double centerY)
+    Matrix MatrixExtensions::RotateAt(Matrix const& matrix, double angle, double centerX, double centerY) noexcept
     {
         return Multiply(matrix, CreateRotationRadians(std::fmod(angle, 360) * (std::numbers::pi / 180.0), centerX, centerY));
     }
 
-    Matrix MatrixExtensions::Scale(Matrix const& matrix, double scaleX, double scaleY)
+    Matrix MatrixExtensions::Scale(Matrix const& matrix, double scaleX, double scaleY) noexcept
     {
         return Multiply(matrix, CreateScaling(scaleX, scaleY));
     }
 
-    Matrix MatrixExtensions::ScaleAt(Matrix const& matrix, double scaleX, double scaleY, double centerX, double centerY)
+    Matrix MatrixExtensions::ScaleAt(Matrix const& matrix, double scaleX, double scaleY, double centerX, double centerY) noexcept
     {
         return Multiply(matrix, CreateScaling(scaleX, scaleY, centerX, centerY));
     }
 
-    Matrix MatrixExtensions::Skew(Matrix const& matrix, double skewX, double skewY)
+    Matrix MatrixExtensions::Skew(Matrix const& matrix, double skewX, double skewY) noexcept
     {
         return Multiply(matrix, CreateSkewRadians(std::fmod(skewX, 360) * (std::numbers::pi / 180.0), std::fmod(skewY, 360) * (std::numbers::pi / 180.0)));
     }
 
-    Matrix MatrixExtensions::Translate(Matrix const& matrix, double offsetX, double offsetY)
+    Matrix MatrixExtensions::Translate(Matrix const& matrix, double offsetX, double offsetY) noexcept
     {
         return Matrix(matrix.M11, matrix.M12, matrix.M21, matrix.M22, matrix.OffsetX + offsetX, matrix.OffsetY + offsetY);
     }
 
-    Matrix MatrixExtensions::CreateRotationRadians(double angle)
+    Matrix MatrixExtensions::CreateRotationRadians(double angle) noexcept
     {
         return CreateRotationRadians(angle, 0, 0);
     }
 
-    Matrix MatrixExtensions::CreateRotationRadians(double angle, double centerX, double centerY)
+    Matrix MatrixExtensions::CreateRotationRadians(double angle, double centerX, double centerY) noexcept
     {
         auto sin = std::sin(angle);
         auto cos = std::cos(angle);
@@ -83,22 +83,22 @@ namespace winrt::XamlToolkit::WinUI::implementation
         return Matrix(cos, sin, -sin, cos, dx, dy);
     }
 
-    Matrix MatrixExtensions::CreateScaling(double scaleX, double scaleY)
+    Matrix MatrixExtensions::CreateScaling(double scaleX, double scaleY) noexcept
     {
         return Matrix(scaleX, 0, 0, scaleY, 0, 0);
     }
 
-    Matrix MatrixExtensions::CreateScaling(double scaleX, double scaleY, double centerX, double centerY)
+    Matrix MatrixExtensions::CreateScaling(double scaleX, double scaleY, double centerX, double centerY) noexcept
     {
         return Matrix(scaleX, 0, 0, scaleY, centerX - (scaleX * centerX), centerY - (scaleY * centerY));
     }
 
-    Matrix MatrixExtensions::CreateSkewRadians(double skewX, double skewY)
+    Matrix MatrixExtensions::CreateSkewRadians(double skewX, double skewY) noexcept
     {
         return Matrix(1.0, std::tan(skewY), std::tan(skewX), 1.0, 0.0, 0.0);
     }
 
-    double MatrixExtensions::Round(double value, int decimals)
+    double MatrixExtensions::Round(double value, int decimals) noexcept
     {
         double factor = std::pow(10.0, decimals);
         return std::round(value * factor) / factor;

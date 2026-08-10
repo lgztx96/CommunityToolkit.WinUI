@@ -48,26 +48,37 @@ namespace XamlToolkit.WinUI
 
 		static void SetNormalizedCenterPoint(Microsoft.UI.Xaml.DependencyObject obj, String value);
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty AnchorPointProperty{ get; };
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty CenterPointProperty{ get; };
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty OffsetProperty{ get; };
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty TranslationProperty{ get; };
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty OpacityProperty{ get; };
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty RotationAngleProperty{ get; };
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty RotationAngleInDegreesProperty{ get; };
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty RotationAxisProperty{ get; };
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty ScaleProperty{ get; };
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty SizeProperty{ get; };
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty NormalizedCenterPointProperty{ get; };
     }
 }

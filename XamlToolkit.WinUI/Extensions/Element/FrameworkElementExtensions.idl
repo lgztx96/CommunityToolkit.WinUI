@@ -2,12 +2,14 @@ namespace XamlToolkit.WinUI
 {
     static runtimeclass FrameworkElementExtensions
     {
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty AncestorProperty{ get; };
 
         static Object GetAncestor(Microsoft.UI.Xaml.DependencyObject obj);
 
         static void SetAncestor(Microsoft.UI.Xaml.DependencyObject obj, Object value);
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty AncestorTypeProperty{ get; };
 
         static Windows.UI.Xaml.Interop.TypeName GetAncestorType(Microsoft.UI.Xaml.FrameworkElement obj);

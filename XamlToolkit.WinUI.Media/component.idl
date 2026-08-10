@@ -12,8 +12,10 @@ namespace XamlToolkit.WinUI.Media
     {
         AttachedCardShadow();
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty CornerRadiusProperty{ get; };
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty InnerContentClipModeProperty{ get; };
 
         Double CornerRadius;

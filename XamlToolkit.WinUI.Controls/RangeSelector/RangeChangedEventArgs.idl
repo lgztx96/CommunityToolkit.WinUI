@@ -10,11 +10,14 @@ namespace XamlToolkit.WinUI.Controls
     {
         RangeChangedEventArgs();
 
-        Double OldValue();
+        [noexcept]
+        Double OldValue{ get; };
 
-        Double NewValue();
+        [noexcept]
+        Double NewValue{ get; };
 
-        RangeSelectorProperty ChangedRangeProperty();
+        [noexcept]
+        RangeSelectorProperty ChangedRangeProperty{ get; };
 
         RangeChangedEventArgs(Double oldValue, Double newValue, RangeSelectorProperty changedRangeProperty);
     }

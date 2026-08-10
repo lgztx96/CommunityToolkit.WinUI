@@ -6,8 +6,10 @@ namespace XamlToolkit.WinUI
     {
         FontIconExtension();
 
+        [noexcept]
         String Glyph;
 
+        [noexcept]
         Microsoft.UI.Xaml.Media.FontFamily FontFamily;
     }
 }

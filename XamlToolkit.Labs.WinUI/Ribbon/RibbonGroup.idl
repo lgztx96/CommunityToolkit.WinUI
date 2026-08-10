@@ -5,10 +5,12 @@ namespace XamlToolkit.Labs.WinUI
     {
         RibbonGroup();
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ContentProperty{ get; };
 
         Microsoft.UI.Xaml.UIElement Content;
 
+	    [noexcept]
 	    static Microsoft.UI.Xaml.DependencyProperty LabelProperty{ get; };
 
         String Label;

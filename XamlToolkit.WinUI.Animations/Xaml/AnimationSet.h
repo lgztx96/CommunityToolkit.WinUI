@@ -55,7 +55,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
 
     public:
         bool IsSequential() const noexcept;
-        void IsSequential(bool value);
+        void IsSequential(bool value) noexcept;
 
         winrt::weak_ref<winrt::UIElement> ParentReference() { return parentReference; }
         void ParentReference(winrt::weak_ref<winrt::UIElement> const& value) { parentReference = value; }

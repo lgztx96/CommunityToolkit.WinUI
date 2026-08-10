@@ -34,16 +34,22 @@ namespace XamlToolkit.Labs.WinUI
 
         WrapPanelItemsStretch ItemsStretch;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty OrientationProperty{ get; };
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ItemSpacingProperty{ get; };
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty LineSpacingProperty{ get; };
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ItemsJustificationProperty{ get; };
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ItemsStretchProperty{ get; };
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty LayoutLengthProperty{ get; };
 
         static Microsoft.UI.Xaml.GridLength GetLayoutLength(Microsoft.UI.Xaml.FrameworkElement obj);

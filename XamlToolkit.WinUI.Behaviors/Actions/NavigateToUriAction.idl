@@ -13,6 +13,7 @@ namespace XamlToolkit.WinUI.Behaviors
         /// </summary>
         Windows.Foundation.Uri NavigateUri;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty NavigateUriProperty { get; };
     }
 }

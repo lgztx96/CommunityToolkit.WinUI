@@ -9,6 +9,7 @@ namespace XamlToolkit.Labs.WinUI
 
         Microsoft.UI.Xaml.UIElement Child{ get; set; };
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ChildProperty{ get; };
 
         AdornerLayer AdornerLayer{ get; };

@@ -30,7 +30,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		return (left1 <= right2) && (right1 >= left2) && (top1 <= bottom2) && (bottom1 >= top2);
 	}
 
-	winrt::Size RectExtensions::ToSize(winrt::Rect rect)
+	winrt::Size RectExtensions::ToSize(winrt::Rect rect) noexcept
 	{
 		return winrt::Size(rect.Width, rect.Height);
 	}

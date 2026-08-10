@@ -8,6 +8,7 @@ namespace XamlToolkit.Labs.WinUI
 
         Microsoft.UI.Xaml.UIElement Source;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty SourceProperty{ get; };
     }
 }

@@ -5,12 +5,16 @@
         [default_overload]
         static Microsoft.UI.Xaml.Media.Matrix GetMatrix(Microsoft.UI.Xaml.Media.Transform transform);
 
+        [noexcept]
         static Microsoft.UI.Xaml.Media.Matrix GetMatrix(Microsoft.UI.Xaml.Media.RotateTransform transform);
 
+        [noexcept]
         static Microsoft.UI.Xaml.Media.Matrix GetMatrix(Microsoft.UI.Xaml.Media.ScaleTransform transform);
 
+        [noexcept]
         static Microsoft.UI.Xaml.Media.Matrix GetMatrix(Microsoft.UI.Xaml.Media.SkewTransform transform);
 
+        [noexcept]
         static Microsoft.UI.Xaml.Media.Matrix GetMatrix(Microsoft.UI.Xaml.Media.TranslateTransform transform);
     }
 }

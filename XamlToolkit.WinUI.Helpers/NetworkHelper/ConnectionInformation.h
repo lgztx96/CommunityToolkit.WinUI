@@ -25,7 +25,7 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
         void Reset();
 
         bool IsInternetOnMeteredConnection();
-        bool IsInternetAvailable();
+        bool IsInternetAvailable() const noexcept;
         winrt::XamlToolkit::WinUI::Helpers::ConnectionType ConnectionType() const noexcept;
         winrt::Windows::Networking::Connectivity::NetworkConnectivityLevel ConnectivityLevel() const noexcept;
         winrt::Windows::Networking::Connectivity::ConnectionCost ConnectionCost() const noexcept;

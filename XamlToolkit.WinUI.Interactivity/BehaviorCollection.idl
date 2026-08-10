@@ -4,6 +4,7 @@ namespace XamlToolkit.WinUI.Interactivity
     {
         BehaviorCollection();
 
+        [noexcept]
         Microsoft.UI.Xaml.DependencyObject AssociatedObject{ get; };
 
         void Attach(Microsoft.UI.Xaml.DependencyObject associatedObject);

@@ -41,22 +41,27 @@
 
         Boolean AutoPlay;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty AutoPlayProperty{ get; };
 
         Double Speed;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty SpeedProperty{ get; };
 
         Microsoft.UI.Xaml.Media.Animation.RepeatBehavior RepeatBehavior;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty RepeatBehaviorProperty{ get; };
 
         MarqueeBehavior Behavior;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty BehaviorProperty{ get; };
 
         MarqueeDirection Direction;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty DirectionProperty{ get; };
     }
 }

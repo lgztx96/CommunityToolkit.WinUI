@@ -22,6 +22,7 @@ namespace XamlToolkit.WinUI.Media
         /// </summary>
         Microsoft.UI.Xaml.Media.ImageSource Source;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty SourceProperty{ get; };
 
         /// <summary>
@@ -29,6 +30,7 @@ namespace XamlToolkit.WinUI.Media
         /// </summary>
         Microsoft.UI.Xaml.Media.Stretch Stretch;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty StretchProperty{ get; };
 
         /// <summary>
@@ -36,6 +38,7 @@ namespace XamlToolkit.WinUI.Media
         /// </summary>
         ImageBlendMode Mode;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ModeProperty{ get; };
     };
 }

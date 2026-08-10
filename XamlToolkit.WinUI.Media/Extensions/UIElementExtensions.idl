@@ -8,6 +8,8 @@ namespace XamlToolkit.WinUI.Media
 {
     static runtimeclass UIElementExtensions
     {
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty VisualFactoryProperty{ get; };
 
         static AttachedVisualFactoryBase GetVisualFactory(Microsoft.UI.Xaml.UIElement element);

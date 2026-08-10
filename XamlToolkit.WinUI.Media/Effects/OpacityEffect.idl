@@ -20,6 +20,7 @@ namespace XamlToolkit.WinUI.Media
         /// <summary>
         /// Gets or sets the opacity value to apply to the background (defaults to 1, should be in the [0, 1] range).
         /// </summary>
+        [noexcept]
         Double Value;
     };
 }

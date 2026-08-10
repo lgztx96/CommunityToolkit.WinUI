@@ -53,7 +53,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         return isSequential;
     }
 
-    void AnimationSet::IsSequential(bool value)
+    void AnimationSet::IsSequential(bool value) noexcept
     {
         isSequential = value;
     }

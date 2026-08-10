@@ -19,12 +19,16 @@ namespace XamlToolkit.WinUI
 
     static runtimeclass ListViewExtensions
     {
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty AlternateColorProperty{ get; };
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty AlternateItemTemplateProperty{ get; };
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty CommandProperty{ get; };
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty ItemContainerStretchDirectionProperty{ get; };
 
         static Microsoft.UI.Xaml.Media.Brush GetAlternateColor(Microsoft.UI.Xaml.Controls.ListViewBase obj);

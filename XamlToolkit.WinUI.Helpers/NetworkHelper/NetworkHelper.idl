@@ -17,6 +17,7 @@ namespace XamlToolkit.WinUI.Helpers
         /// <summary>
         /// Gets instance of <see cref="ConnectionInformation"/>.
         /// </summary>
+        [noexcept]
         ConnectionInformation ConnectionInformation{ get; };
 
         /// <summary>

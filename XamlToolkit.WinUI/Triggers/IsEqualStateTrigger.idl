@@ -5,9 +5,13 @@ namespace XamlToolkit.WinUI
         IsEqualStateTrigger();
 
         Object Value;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ValueProperty{ get; };
 
         Object To;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ToProperty{ get; };
     }
 }

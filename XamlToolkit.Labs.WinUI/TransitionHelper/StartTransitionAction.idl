@@ -6,13 +6,19 @@ namespace XamlToolkit.Labs.WinUI
     {
         StartTransitionAction();
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty TransitionProperty{ get; };
+
         TransitionHelper Transition;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty SourceProperty{ get; };
+
         Microsoft.UI.Xaml.FrameworkElement Source;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty TargetProperty{ get; };
+
         Microsoft.UI.Xaml.FrameworkElement Target;
     }
 }

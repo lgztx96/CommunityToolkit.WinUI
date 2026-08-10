@@ -6,12 +6,18 @@
         Case();
 
         Object Content;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ContentProperty{ get; };
 
         Boolean IsDefault;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty IsDefaultProperty{ get; };
 
         Object Value;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ValueProperty{ get; };
     }
 }

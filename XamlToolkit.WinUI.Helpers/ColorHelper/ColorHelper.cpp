@@ -293,7 +293,7 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
         return winrt::format(L"#{:02X}{:02X}{:02X}{:02X}", color.A, color.R, color.G, color.B);
     }
 
-    int ColorHelper::ToInt(winrt::Color const& color)
+    int ColorHelper::ToInt(winrt::Color const& color) noexcept
     {
         std::uint32_t alpha = color.A + 1;
 
@@ -304,7 +304,7 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
         return (std::uint32_t(color.A) << 24) | (std::uint32_t(r) << 16) | (std::uint32_t(g) << 8) | std::uint32_t(b);
     }
 
-    HslColor ColorHelper::ToHsl(winrt::Color const& color)
+    HslColor ColorHelper::ToHsl(winrt::Color const& color) noexcept
     {
         constexpr double toDouble = 1.0 / 255.0;
         const double r = toDouble * color.R;
@@ -349,7 +349,7 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
         };
     }
 
-    HsvColor ColorHelper::ToHsv(winrt::Color const& color)
+	HsvColor ColorHelper::ToHsv(winrt::Color const& color) noexcept
     {
         constexpr double toDouble = 1.0 / 255;
         double r = toDouble * color.R;

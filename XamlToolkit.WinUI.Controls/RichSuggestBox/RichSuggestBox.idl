@@ -17,54 +17,88 @@ namespace XamlToolkit.WinUI.Controls
 		RichSuggestBox();
 
 		String PlaceholderText;
+
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty PlaceholderTextProperty { get; };
 
 		Microsoft.UI.Xaml.Style RichEditBoxStyle;
+
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty RichEditBoxStyleProperty{ get; };
 
 		Object Header;
+
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty HeaderProperty{ get; };
 
 		Microsoft.UI.Xaml.DataTemplate HeaderTemplate;
+
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty HeaderTemplateProperty{ get; };
 
 		Object Description;
+
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty DescriptionProperty{ get; };
 
 		SuggestionPopupPlacementMode PopupPlacement;
+
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty PopupPlacementProperty{ get; };
 
 		Microsoft.UI.Xaml.CornerRadius PopupCornerRadius;
+
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty PopupCornerRadiusProperty{ get; };
 
 		Object PopupHeader;
+
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty PopupHeaderProperty{ get; };
 
 		Microsoft.UI.Xaml.DataTemplate PopupHeaderTemplate;
+
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty PopupHeaderTemplateProperty{ get; };
 
 		Object PopupFooter;
+
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty PopupFooterProperty{ get; };
 
 		Microsoft.UI.Xaml.DataTemplate PopupFooterTemplate;
+
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty PopupFooterTemplateProperty{ get; };
 
 		Microsoft.UI.Xaml.Media.SolidColorBrush TokenBackground;
+
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty TokenBackgroundProperty{ get; };
 
 		Microsoft.UI.Xaml.Media.SolidColorBrush TokenForeground;
+
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty TokenForegroundProperty{ get; };
 
 		String Prefixes;
+
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty PrefixesProperty{ get; };
 
 		Microsoft.UI.Xaml.Controls.RichEditClipboardFormat ClipboardPasteFormat;
+
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty ClipboardPasteFormatProperty{ get; };
 
 		Microsoft.UI.Xaml.Controls.RichEditClipboardFormat ClipboardCopyFormat;
+
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty ClipboardCopyFormatProperty{ get; };
 
 		Microsoft.UI.Xaml.Controls.DisabledFormattingAccelerators DisabledFormattingAccelerators;
+
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty DisabledFormattingAcceleratorsProperty{ get; };
 
 		Microsoft.UI.Text.RichEditTextDocument TextDocument{ get; };

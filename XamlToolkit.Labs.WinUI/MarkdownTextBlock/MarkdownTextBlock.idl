@@ -8,11 +8,18 @@ namespace XamlToolkit.Labs.WinUI
         MarkdownTextBlock();
 
         XamlToolkit.Labs.WinUI.MarkdownConfig Config{ get; set; };
+
         String Text{ get; set; };
+
         Boolean IsTextSelectionEnabled{ get; set; };
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ConfigProperty{ get; };
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty TextProperty{ get; };
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty IsTextSelectionEnabledProperty{ get; };
 
         event Windows.Foundation.EventHandler<LinkClickedEventArgs> OnLinkClicked;

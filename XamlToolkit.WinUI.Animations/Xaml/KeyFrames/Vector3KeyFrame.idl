@@ -11,6 +11,7 @@ namespace XamlToolkit.WinUI.Animations
 
         String Value;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty ValueProperty{ get; };
     }
 }

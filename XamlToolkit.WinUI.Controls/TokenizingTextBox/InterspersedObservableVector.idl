@@ -4,6 +4,7 @@ namespace XamlToolkit.WinUI.Controls
     {
         InterspersedObservableVector(Object source);
 
+        [noexcept]
         IVector<Object> ItemsSource();
 
         void Insert(UInt32 index, Object value);

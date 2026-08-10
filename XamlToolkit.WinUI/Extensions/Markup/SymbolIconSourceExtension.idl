@@ -6,6 +6,7 @@ namespace XamlToolkit.WinUI
     {
         SymbolIconSourceExtension();
 
+        [noexcept]
         Microsoft.UI.Xaml.Controls.Symbol Symbol;
     }
 }

@@ -6,6 +6,7 @@ namespace XamlToolkit.WinUI
 
         Windows.UI.ViewManagement.HandPreference HandPreference;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty HandPreferenceProperty{ get; };
     }
 }

@@ -6,10 +6,12 @@ namespace XamlToolkit.WinUI.Controls
     {
         TokenizingTextBoxItem();
 
+	    [noexcept]
 	    static Microsoft.UI.Xaml.DependencyProperty ClearButtonStyleProperty{ get; };
 
 	    Microsoft.UI.Xaml.Style ClearButtonStyle;
 
+	    [noexcept]
 	    static Microsoft.UI.Xaml.DependencyProperty OwnerProperty{ get; };
 
         TokenizingTextBox Owner;

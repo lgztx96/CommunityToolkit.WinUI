@@ -17,6 +17,7 @@ namespace XamlToolkit.WinUI.Behaviors
         /// </summary>
         FocusTargetList Targets;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty TargetsProperty { get; };
 
         /// <summary>
@@ -24,6 +25,7 @@ namespace XamlToolkit.WinUI.Behaviors
         /// </summary>
         Windows.Foundation.TimeSpan FocusEngagementTimeout;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty FocusEngagementTimeoutProperty { get; };
     }
 }

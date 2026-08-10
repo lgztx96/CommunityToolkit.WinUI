@@ -8,12 +8,15 @@ namespace XamlToolkit.WinUI.Controls
 
         TokenItemRemovingEventArgs(Object item, TokenizingTextBoxItem token);
 
-        Object Item{ get; };
-
-        TokenizingTextBoxItem Token{ get; };
-
         Windows.Foundation.Deferral GetDeferral();
 
+        [noexcept]
+        Object Item{ get; };
+
+        [noexcept]
+        TokenizingTextBoxItem Token{ get; };
+
+        [noexcept]
         Boolean Cancel;
     }
 }

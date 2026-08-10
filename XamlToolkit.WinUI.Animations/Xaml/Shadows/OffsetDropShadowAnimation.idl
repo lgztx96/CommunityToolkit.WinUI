@@ -13,18 +13,22 @@ namespace XamlToolkit.WinUI.Animations
 
         XamlToolkit.WinUI.IAttachedShadow Target;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty TargetProperty{ get; };
 
         String To;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty ToProperty{ get; };
 
         String From;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty FromProperty{ get; };
 
         Windows.Foundation.Collections.IVector<Vector3KeyFrame> KeyFrames;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty KeyFramesProperty{ get; };
     }
 }

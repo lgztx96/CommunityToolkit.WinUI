@@ -32,9 +32,16 @@ namespace XamlToolkit.WinUI.Behaviors
         /// </summary>
         Boolean HandledEventsToo;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty KeyProperty { get; };
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ModifiersProperty { get; };
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ModifiersEnabledProperty { get; };
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty HandledEventsTooProperty { get; };
     }
 }

@@ -6,6 +6,7 @@ namespace XamlToolkit.WinUI.Interactivity
     {
         IncrementalUpdateBehavior();
 
+	    [noexcept]
 	    static Microsoft.UI.Xaml.DependencyProperty PhaseProperty{ get; };
 
         Int32 Phase;

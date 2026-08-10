@@ -4,8 +4,10 @@ namespace XamlToolkit.WinUI.Controls
     {
         TabbedCommandBarItemTemplateSelector();
 
+        [noexcept]
         Microsoft.UI.Xaml.DataTemplate Normal;
 
+        [noexcept]
         Microsoft.UI.Xaml.DataTemplate Contextual;
     }
 }

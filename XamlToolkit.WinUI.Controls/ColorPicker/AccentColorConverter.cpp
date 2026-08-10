@@ -20,7 +20,7 @@ namespace winrt
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-    winrt::HsvColor AccentColorConverter::GetAccent(winrt::HsvColor hsvColor, int accentStep)
+    winrt::HsvColor AccentColorConverter::GetAccent(winrt::HsvColor hsvColor, int accentStep) noexcept
     {
         if (accentStep != 0)
         {

@@ -15,9 +15,16 @@
         Double ColumnSpacing;
         Double RowSpacing;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty DesiredColumnWidthProperty{ get; };
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ColumnSpacingProperty{ get; };
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty RowSpacingProperty{ get; };
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ItemsStretchProperty{ get; };
     }
 }

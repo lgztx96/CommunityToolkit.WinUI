@@ -17,9 +17,16 @@ namespace XamlToolkit.WinUI.Animations
         static String GetListItemElementName(Microsoft.UI.Xaml.DependencyObject obj);
         static void SetListItemElementName(Microsoft.UI.Xaml.DependencyObject obj, String value);
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty KeyProperty{ get; };
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty AnchorElementProperty{ get; };
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ListItemKeyProperty{ get; };
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ListItemElementNameProperty{ get; };
 
         // C# extension APIs exposed as static helper methods for C++/WinRT.

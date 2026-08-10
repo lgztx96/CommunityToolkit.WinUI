@@ -8,6 +8,7 @@ namespace XamlToolkit.Labs.WinUI
 
         Windows.Storage.Streams.IRandomAccessStream Source;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty SourceProperty{ get; };
     }
 }

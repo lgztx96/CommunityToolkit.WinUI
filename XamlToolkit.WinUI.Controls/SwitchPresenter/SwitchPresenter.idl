@@ -9,16 +9,23 @@ namespace XamlToolkit.WinUI.Controls
         SwitchPresenter();
 
         Case CurrentCase;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty CurrentCaseProperty{ get; };
 
         CaseCollection SwitchCases;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty SwitchCasesProperty{ get; };
 
         /*Windows.Foundation.IReference<Windows.UI.Xaml.Interop.TypeName> TargetType;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty TargetTypeProperty{ get; };*/
 
         Object Value;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ValueProperty{ get; };
     }
 }

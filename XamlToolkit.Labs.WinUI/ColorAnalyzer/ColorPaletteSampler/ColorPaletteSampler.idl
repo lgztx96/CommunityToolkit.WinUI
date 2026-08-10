@@ -16,6 +16,10 @@ namespace XamlToolkit.Labs.WinUI
 
         ColorSource Source;
 
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty SourceProperty{ get; };
+
+        [noexcept]
         Windows.Foundation.Collections.IVector<ColorPaletteSelector> PaletteSelectors;
 
         Windows.Foundation.Collections.IVectorView<PaletteColor> Palette{ get; };

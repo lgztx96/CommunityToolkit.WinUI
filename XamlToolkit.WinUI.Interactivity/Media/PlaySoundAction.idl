@@ -6,7 +6,10 @@ namespace XamlToolkit.WinUI.Interactivity
     {
         PlaySoundAction();
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty SourceProperty{ get; };
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty VolumeProperty{ get; };
 
         String Source;

@@ -7,8 +7,13 @@ namespace XamlToolkit.WinUI.Interactivity
     {
         DataTriggerBehavior();
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty BindingProperty{ get; };
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ComparisonConditionProperty{ get; };
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ValueProperty{ get; };
 
         Object Binding;

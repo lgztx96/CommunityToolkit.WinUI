@@ -12,6 +12,7 @@ namespace XamlToolkit.WinUI.Behaviors
         /// </summary>
         Boolean IsInViewport;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty IsInViewportProperty { get; };
 
         /// <summary>
@@ -19,6 +20,7 @@ namespace XamlToolkit.WinUI.Behaviors
         /// </summary>
         Boolean IsFullyInViewport;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty IsFullyInViewportProperty { get; };
 
         /// <summary>
@@ -26,6 +28,7 @@ namespace XamlToolkit.WinUI.Behaviors
         /// </summary>
         Boolean IsAlwaysOn;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty IsAlwaysOnProperty { get; };
 
         /// <summary>

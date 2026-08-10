@@ -20,11 +20,13 @@ namespace XamlToolkit.WinUI.Media
         /// <summary>
         /// Gets or sets the value of the temperature for the current effect (defaults to 0, should be in the [-1, 1] range)
         /// </summary>
+        [noexcept]
         Double Temperature;
 
         /// <summary>
         /// Gets or sets the value of the tint for the current effect (defaults to 0, should be in the [-1, 1] range)
         /// </summary>
+        [noexcept]
         Double Tint;
     };
 }

@@ -18,13 +18,28 @@
 	{
 		TransitionConfig();
 
+		[noexcept]
 		String Id;
+
+		[noexcept]
 		ScaleMode ScaleMode;
+
+		[noexcept]
 		IScalingCalculator CustomScalingCalculator;
+
+		[noexcept]
 		Boolean EnableClipAnimation;
+
+		[noexcept]
 		Windows.Foundation.Point NormalizedCenterPoint;
+
+		[noexcept]
 		Windows.Foundation.IReference<XamlToolkit.WinUI.Animations.EasingType> EasingType;
+
+		[noexcept]
 		Windows.Foundation.IReference<Microsoft.UI.Xaml.Media.Animation.EasingMode> EasingMode;
+
+		[noexcept]
 		Windows.Foundation.IReference<Windows.Foundation.Point> OpacityTransitionProgressKey;
 	}
 }

@@ -5,9 +5,13 @@ namespace XamlToolkit.WinUI.Converters
         BoolToObjectConverter();
    
         Object TrueValue;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty TrueValueProperty{ get; };
 
         Object FalseValue;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty FalseValueProperty{ get; };
     }
 }

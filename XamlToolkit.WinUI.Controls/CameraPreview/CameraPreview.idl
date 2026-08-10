@@ -8,6 +8,7 @@ namespace XamlToolkit.WinUI.Controls
 
         Boolean IsFrameSourceGroupButtonVisible;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty IsFrameSourceGroupButtonVisibleProperty{ get; };
 
         XamlToolkit.WinUI.Helpers.CameraHelper CameraHelper{ get; };

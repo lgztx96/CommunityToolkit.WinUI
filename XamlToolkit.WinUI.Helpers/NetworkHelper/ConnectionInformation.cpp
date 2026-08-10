@@ -97,7 +97,7 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
         return _connectionCost && _connectionCost.NetworkCostType() != winrt::Windows::Networking::Connectivity::NetworkCostType::Unrestricted;
     }
 
-    bool ConnectionInformation::IsInternetAvailable() { return _isInternetAvailable; }
+    bool ConnectionInformation::IsInternetAvailable() const noexcept { return _isInternetAvailable; }
 
     winrt::XamlToolkit::WinUI::Helpers::ConnectionType ConnectionInformation::ConnectionType() const noexcept { return _connectionType; }
 

@@ -6,17 +6,26 @@ namespace XamlToolkit.Labs.WinUI
 		Ribbon();
 
 		Double ScrollStep;
+
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty ScrollStepProperty{ get; };
 
 		Microsoft.UI.Xaml.Controls.Primitives.FlyoutBase OptionsFlyout;
+
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty OptionsFlyoutProperty{ get; };
 
 		String OptionsAccessibleName;
+
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty OptionsAccessibleNameProperty{ get; };
 
 		String OptionsAccessKey;
+
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty OptionsAccessKeyProperty{ get; };
 
+		[noexcept]
 		Windows.Foundation.Collections.IVector<Microsoft.UI.Xaml.UIElement> Items{ get; };
 	}
 }

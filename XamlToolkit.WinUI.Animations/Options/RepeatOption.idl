@@ -20,11 +20,13 @@ namespace XamlToolkit.WinUI.Animations
         /// <summary>
         /// Gets a RepeatOption value representing a single iteration.
         /// </summary>
+        [noexcept]
         static RepeatOption Once();
 
         /// <summary>
         /// Gets a RepeatOption value indicating an animation that repeats forever.
         /// </summary>
+        [noexcept]
         static RepeatOption Forever();
 
         /// <summary>
@@ -43,6 +45,7 @@ namespace XamlToolkit.WinUI.Animations
         /// <summary>
         /// Gets the AnimationIterationBehavior and count values matching the current RepeatOption value.
         /// </summary>
+        [noexcept]
         static void ToBehaviorAndCount(RepeatOption option, out Microsoft.UI.Composition.AnimationIterationBehavior behavior, out Int32 count);
 
         /// <summary>

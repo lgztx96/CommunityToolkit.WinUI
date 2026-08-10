@@ -10,31 +10,37 @@ namespace XamlToolkit.WinUI
         /// <summary>
         /// Gets or sets the default value for this property
         /// </summary>
+        [noexcept]
         Object Default;
 
         /// <summary>
         /// Gets or sets a value for this property on Desktop
         /// </summary>
+        [noexcept]
         Object Desktop;
 
         /// <summary>
         /// Gets or sets a value for this property on Holographic
         /// </summary>
+        [noexcept]
         Object Holographic;
 
         /// <summary>
         /// Gets or sets a value for this property on IoT
         /// </summary>
+        [noexcept]
         Object IoT;
 
         /// <summary>
         /// Gets or sets a value for this property on Team
         /// </summary>
+        [noexcept]
         Object Team;
 
         /// <summary>
         /// Gets or sets a value for this property on Xbox
         /// </summary>
+        [noexcept]
         Object Xbox;
     }
 }

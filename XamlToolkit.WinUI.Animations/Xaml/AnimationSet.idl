@@ -48,6 +48,7 @@ namespace XamlToolkit.WinUI.Animations
         /// <summary>
         /// Gets or sets whether animations are sequential.
         /// </summary>
+        [noexcept]
         Boolean IsSequential;
 
         /// <summary>

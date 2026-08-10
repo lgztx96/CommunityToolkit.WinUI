@@ -8,6 +8,7 @@ namespace XamlToolkit.WinUI.Interactivity
     {
         Trigger();
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ActionsProperty{ get; };
     }
 }

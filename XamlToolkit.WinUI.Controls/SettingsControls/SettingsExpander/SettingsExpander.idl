@@ -6,39 +6,62 @@ namespace XamlToolkit.WinUI.Controls
         SettingsExpander();
 
         Object Content;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ContentProperty{ get; };
 
         Object Header;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty HeaderProperty{ get; };
 
         Object Description;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty DescriptionProperty{ get; };
 
         Microsoft.UI.Xaml.Controls.IconElement HeaderIcon;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty HeaderIconProperty{ get; };
 
         Microsoft.UI.Xaml.UIElement ItemsHeader;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ItemsHeaderProperty{ get; };
 
         Microsoft.UI.Xaml.UIElement ItemsFooter;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ItemsFooterProperty{ get; };
 
         Boolean IsExpanded;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty IsExpandedProperty{ get; };
 
-        event Windows.Foundation.EventHandler<Object> Expanded;
-        event Windows.Foundation.EventHandler<Object> Collapsed;
-
         Windows.Foundation.Collections.IVector<Object> Items;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ItemsProperty{ get; };
 
         Object ItemsSource;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ItemsSourceProperty{ get; };
 
         Object ItemTemplate;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ItemTemplateProperty{ get; };
 
         Microsoft.UI.Xaml.Controls.StyleSelector ItemContainerStyleSelector;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ItemContainerStyleSelectorProperty{ get; };
+
+        event Windows.Foundation.EventHandler<Object> Expanded;
+
+        event Windows.Foundation.EventHandler<Object> Collapsed;
     }
 }

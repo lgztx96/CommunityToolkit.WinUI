@@ -17,13 +17,13 @@ namespace winrt::XamlToolkit::WinUI::implementation
 {
     struct TransformExtensions
     {
-        static Matrix GetMatrix(RotateTransform const& transform);
+        static Matrix GetMatrix(RotateTransform const& transform) noexcept;
 
-        static Matrix GetMatrix(ScaleTransform const& transform);
+        static Matrix GetMatrix(ScaleTransform const& transform) noexcept;
 
-        static Matrix GetMatrix(SkewTransform const& transform);
+        static Matrix GetMatrix(SkewTransform const& transform) noexcept;
 
-        static Matrix GetMatrix(TranslateTransform const& transform);
+        static Matrix GetMatrix(TranslateTransform const& transform) noexcept;
 
         static Matrix GetMatrix(Transform const& transform);
     };

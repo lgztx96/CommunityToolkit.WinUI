@@ -12,27 +12,43 @@
         SettingsCard();
 
         Object Header;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty HeaderProperty{ get; };
 
         Object Description;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty DescriptionProperty{ get; };
 
         Microsoft.UI.Xaml.Controls.IconElement HeaderIcon;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty HeaderIconProperty{ get; };
 
         Microsoft.UI.Xaml.Controls.IconElement ActionIcon;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ActionIconProperty{ get; };
 
         String ActionIconToolTip;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ActionIconToolTipProperty{ get; };
 
         Boolean IsClickEnabled;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty IsClickEnabledProperty{ get; };
 
         Boolean IsActionIconVisible;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty IsActionIconVisibleProperty{ get; };
 
         ContentAlignment ContentAlignment;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ContentAlignmentProperty{ get; };
     }
 }

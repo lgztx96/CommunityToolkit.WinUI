@@ -4,15 +4,19 @@ namespace XamlToolkit.WinUI.Controls
     {
         HeaderedTreeView();
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty HeaderProperty{ get; };
         Object Header;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty HeaderTemplateProperty{ get; };
         Microsoft.UI.Xaml.DataTemplate HeaderTemplate;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty FooterProperty{ get; };
         Object Footer;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty FooterTemplateProperty{ get; };
         Microsoft.UI.Xaml.DataTemplate FooterTemplate;
 

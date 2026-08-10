@@ -5,21 +5,33 @@ namespace XamlToolkit.WinUI
         ControlSizeTrigger();
 
         Boolean CanTrigger;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty CanTriggerProperty{ get; };
 
         Double MaxWidth;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty MaxWidthProperty{ get; };
 
         Double MinWidth;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty MinWidthProperty{ get; };
 
         Double MaxHeight;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty MaxHeightProperty{ get; };
 
         Double MinHeight;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty MinHeightProperty{ get; };
 
         Microsoft.UI.Xaml.FrameworkElement TargetElement;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty TargetElementProperty{ get; };
 
         Boolean IsActive{ get; };

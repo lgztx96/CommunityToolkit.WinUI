@@ -19,6 +19,7 @@ namespace XamlToolkit.WinUI.Media
         /// <summary>
         /// Gets or sets the color to display
         /// </summary>
+        [noexcept]
         Windows.UI.Color Color;
     };
 }

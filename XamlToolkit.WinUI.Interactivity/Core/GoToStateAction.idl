@@ -6,8 +6,13 @@ namespace XamlToolkit.WinUI.Interactivity
     {
         GoToStateAction();
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty UseTransitionsProperty{ get; };
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty StateNameProperty{ get; };
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty TargetObjectProperty{ get; };
 
         Boolean UseTransitions;

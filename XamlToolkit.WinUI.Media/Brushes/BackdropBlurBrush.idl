@@ -21,6 +21,7 @@ namespace XamlToolkit.WinUI.Media
         /// </summary>
         Double Amount;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty AmountProperty{ get; };
     };
 }

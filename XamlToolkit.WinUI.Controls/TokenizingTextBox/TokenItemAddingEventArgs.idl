@@ -6,12 +6,15 @@ namespace XamlToolkit.WinUI.Controls
 
         TokenItemAddingEventArgs(String token);
 
-        String TokenText;
-
-        Object Item;
-
         Windows.Foundation.Deferral GetDeferral();
 
+        [noexcept]
+        String TokenText;
+
+        [noexcept]
+        Object Item;
+
+        [noexcept]
         Boolean Cancel;
     }
 }

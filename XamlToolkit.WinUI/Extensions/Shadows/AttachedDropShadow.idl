@@ -6,14 +6,17 @@ namespace XamlToolkit.WinUI
     {
         AttachedDropShadow();
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty IsMaskedProperty{ get; };
 
 		Boolean IsMasked;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty CornerRadiusProperty{ get; };
 
 		Double CornerRadius;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty CastToProperty{ get; };
 
 		Microsoft.UI.Xaml.FrameworkElement CastTo;

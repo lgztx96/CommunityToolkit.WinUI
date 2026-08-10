@@ -29,6 +29,7 @@ namespace XamlToolkit.WinUI.Media
         /// </summary>
         Windows.Foundation.Collections.IVector<IPipelineEffect> Effects;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty EffectsProperty{ get; };
     };
 }

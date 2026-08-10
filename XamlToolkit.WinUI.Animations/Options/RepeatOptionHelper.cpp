@@ -25,7 +25,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         return winrt::RepeatBehaviorHelper::FromCount(option.Value);
     }
 
-    void RepeatOptionHelper::ToBehaviorAndCount(RepeatOption const& option, winrt::AnimationIterationBehavior& behavior, int& count)
+    void RepeatOptionHelper::ToBehaviorAndCount(RepeatOption const& option, winrt::AnimationIterationBehavior& behavior, int& count) noexcept
     {
         if (option.Value < 0)
         {

@@ -4,8 +4,10 @@ namespace XamlToolkit.WinUI.Controls
     {
         TokenizingTextBoxStyleSelector();
 
+        [noexcept]
         Microsoft.UI.Xaml.Style TokenStyle;
 
+        [noexcept]
         Microsoft.UI.Xaml.Style TextStyle;
     }
 }

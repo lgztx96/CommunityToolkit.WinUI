@@ -5,9 +5,13 @@ namespace XamlToolkit.Labs.WinUI
         GradientSlider();
 
         Microsoft.UI.Xaml.Media.GradientStopCollection GradientStops;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty GradientStopsProperty{ get; };
 
         Boolean IsAddStopsEnabled;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty IsAddStopsEnabledProperty{ get; };
 
         event Microsoft.UI.Xaml.Controls.Primitives.DragStartedEventHandler ThumbDragStarted;

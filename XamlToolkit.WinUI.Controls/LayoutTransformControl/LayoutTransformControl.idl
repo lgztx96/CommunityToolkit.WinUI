@@ -6,8 +6,12 @@
         LayoutTransformControl();
 
         Microsoft.UI.Xaml.FrameworkElement Child;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ChildProperty{ get; };
         Microsoft.UI.Xaml.Media.Transform Transform;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty TransformProperty{ get; };
     }
 }
