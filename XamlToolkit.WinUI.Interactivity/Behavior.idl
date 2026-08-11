@@ -3,7 +3,7 @@ import "IBehavior.idl";
 namespace XamlToolkit.WinUI.Interactivity
 {
 	[webhosthidden]
-	unsealed runtimeclass Behavior : Microsoft.UI.Xaml.DependencyObject, [default] IBehavior
+	unsealed runtimeclass Behavior : Microsoft.UI.Xaml.DependencyObject, IBehavior
     {
         Behavior();
 

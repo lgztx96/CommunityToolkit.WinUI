@@ -1,7 +1,7 @@
 namespace XamlToolkit.WinUI.Converters
 {
     [webhosthidden]
-    unsealed runtimeclass BoolToObjectConverter : Microsoft.UI.Xaml.DependencyObject, [default] Microsoft.UI.Xaml.Data.IValueConverter
+    unsealed runtimeclass BoolToObjectConverter : Microsoft.UI.Xaml.DependencyObject, Microsoft.UI.Xaml.Data.IValueConverter
     {
         BoolToObjectConverter();
    
