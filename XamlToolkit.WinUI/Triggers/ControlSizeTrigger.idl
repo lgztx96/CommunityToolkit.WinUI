@@ -35,6 +35,7 @@ namespace XamlToolkit.WinUI
         [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty TargetElementProperty{ get; };
 
+		[noexcept]
         Boolean IsActive{ get; };
     }
 }

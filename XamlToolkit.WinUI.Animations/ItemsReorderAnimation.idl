@@ -19,7 +19,6 @@ namespace XamlToolkit.WinUI.Animations
         /// <summary>
         /// Identifies the DurationProperty dependency property.
         /// </summary>
-
         [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty DurationProperty{ get; };
     }

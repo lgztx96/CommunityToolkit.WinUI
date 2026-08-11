@@ -23,6 +23,7 @@ namespace XamlToolkit.WinUI.Media
         /// <summary>
         /// Gets or sets the source for the current pipeline (defaults to a <see cref="BackdropSourceExtension"/> with <see cref="AcrylicBackgroundSource.Backdrop"/> source).
         /// </summary>
+	    [noexcept]
         XamlToolkit.WinUI.Media.Pipelines.PipelineBuilder Source;
 
         /// <summary>

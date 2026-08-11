@@ -26,6 +26,7 @@ namespace XamlToolkit.WinUI.Media
         /// <summary>
         /// Gets the <see cref="PipelineBuilder"/> pipeline for the current instance
         /// </summary>
+		[noexcept]
         XamlToolkit.WinUI.Media.Pipelines.PipelineBuilder Pipeline{ get; };
 
 		XamlCompositionBrush Clone();

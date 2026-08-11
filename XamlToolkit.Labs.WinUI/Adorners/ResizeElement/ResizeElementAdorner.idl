@@ -7,6 +7,7 @@ namespace XamlToolkit.Labs.WinUI
     {
         ResizeElementAdorner();
 
+	    [noexcept]
         Microsoft.UI.Xaml.FrameworkElement AdornedElement{ get; };
     }
 }

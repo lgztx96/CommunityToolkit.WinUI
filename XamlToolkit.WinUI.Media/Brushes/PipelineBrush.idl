@@ -23,6 +23,7 @@ namespace XamlToolkit.WinUI.Media
         /// <summary>
         /// Gets or sets the source for the current pipeline.
         /// </summary>
+	    [noexcept]
         XamlToolkit.WinUI.Media.Pipelines.PipelineBuilder Source;
 
         /// <summary>
