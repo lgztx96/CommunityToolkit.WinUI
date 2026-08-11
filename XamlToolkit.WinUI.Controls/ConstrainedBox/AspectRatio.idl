@@ -15,7 +15,7 @@ namespace XamlToolkit.WinUI.Controls
         Double Height{ get; };
 
         [noexcept]
-        Double Value();
+        Double Value{ get; };
 
         static AspectRatio ConvertToAspectRatio(String rawString);
     }

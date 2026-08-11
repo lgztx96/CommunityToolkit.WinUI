@@ -34,10 +34,6 @@ namespace XamlToolkit.WinUI
     [webhosthidden]
     runtimeclass AttachedShadowElementContext
     {
-        AttachedShadowElementContext();
-
-        AttachedShadowElementContext(AttachedShadowBase parent, Microsoft.UI.Xaml.FrameworkElement element);
-
         [noexcept]
         AttachedShadowBase Parent{ get; };
 
@@ -69,6 +65,7 @@ namespace XamlToolkit.WinUI
 
         void DisconnectFromElement();
     }
+
     [webhosthidden]
     interface IAttachedShadow
     {
@@ -139,6 +136,7 @@ namespace XamlToolkit.WinUI
         [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ShadowProperty{ get; };
     }
+
     [webhosthidden]
     struct HslColor
     {
@@ -150,6 +148,7 @@ namespace XamlToolkit.WinUI
 
         Double A;
     };
+
     [webhosthidden]
     struct HsvColor
     {

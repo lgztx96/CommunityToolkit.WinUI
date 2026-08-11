@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "winrt_module_imports.h"
 #include "TextBoxExtensions.h"
-
+#include "SurfaceDialOptions.h"
 #ifdef __INTELLISENSE__
 #include <algorithm>
 #endif

@@ -10,9 +10,6 @@ namespace XamlToolkit.Labs.WinUI
         [noexcept]
         overridable Microsoft.UI.Xaml.UIElement AdornedElement{ get; };
 
-        [noexcept]
-        AdornerLayer AdornerLayer{ get; set; };
-
         overridable void OnAttached();
 
         overridable void OnDetaching();

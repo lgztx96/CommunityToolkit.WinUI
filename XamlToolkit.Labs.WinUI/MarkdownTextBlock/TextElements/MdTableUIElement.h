@@ -28,15 +28,6 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
     {
         MdTableUIElement() : _columnCount(0), _rowCount(0), _borderThickness(0.0f) {}
 
-    private:
-
-        int _columnCount;
-        int _rowCount;
-        float _borderThickness;
-        std::vector<float> _columnWidths;
-        std::vector<float> _rowHeights;
-
-    public:
         MdTableUIElement(int columnCount, int rowCount, float borderThickness, winrt::Brush const& borderBrush, winrt::Brush const& headingBrush, winrt::CornerRadius const& cornerRadius, winrt::Thickness const& tableMargin);
 
         // Helper method to enumerate FrameworkElements instead of UIElements.
@@ -51,12 +42,12 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         winrt::Size MeasureOverride(winrt::Size availableSize);
 
         winrt::Size ArrangeOverride(winrt::Size finalSize);
-    };
-}
 
-namespace winrt::XamlToolkit::Labs::WinUI::factory_implementation
-{
-    struct MdTableUIElement : MdTableUIElementT<MdTableUIElement, implementation::MdTableUIElement>
-    {
+	private:
+        int _columnCount;
+        int _rowCount;
+        float _borderThickness;
+        std::vector<float> _columnWidths;
+        std::vector<float> _rowHeights;
     };
 }

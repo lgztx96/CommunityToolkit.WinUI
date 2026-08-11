@@ -12,6 +12,6 @@ namespace XamlToolkit.WinUI.Controls
 	[default_interface]
 	runtimeclass PretokenStringContainer : Microsoft.UI.Xaml.DependencyObject, Windows.Foundation.IStringable, ITokenStringContainer
 	{
-		PretokenStringContainer(Boolean isLast);
+
 	}
 }
