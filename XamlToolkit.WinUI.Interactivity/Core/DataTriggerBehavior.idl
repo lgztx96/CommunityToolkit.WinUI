@@ -1,5 +1,5 @@
 import "Trigger.idl";
-import "Core\ComparisonConditionType.idl";
+import "Core/ComparisonConditionType.idl";
 
 namespace XamlToolkit.WinUI.Interactivity
 {
