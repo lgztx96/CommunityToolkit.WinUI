@@ -1,0 +1,18 @@
+namespace XamlToolkit.WinUI
+{
+    [webhosthidden]
+    runtimeclass IsNotEqualStateTrigger : Microsoft.UI.Xaml.StateTriggerBase
+    {
+        IsNotEqualStateTrigger();
+
+        Object Value;
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty ValueProperty{ get; };
+
+        Object To;
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty ToProperty{ get; };
+    }
+}

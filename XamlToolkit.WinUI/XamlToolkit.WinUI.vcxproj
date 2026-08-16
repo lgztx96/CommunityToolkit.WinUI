@@ -220,6 +220,10 @@
     <ClInclude Include="Extensions\Tree\DependencyObjectExtensions.h" />
     <ClInclude Include="Extensions\Tree\FrameworkElementExtensions.h" />
     <ClInclude Include="Extensions\Tree\Predicates.h" />
+    <ClInclude Include="Triggers\IsNotEqualStateTrigger.h">
+      <DependentUpon>Triggers\IsNotEqualStateTrigger.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="Triggers\UserHandPreferenceStateTrigger.h">
       <DependentUpon>Triggers\UserHandPreferenceStateTrigger.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -347,6 +351,10 @@
       <DependentUpon>Triggers\IsEqualStateTrigger.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="Triggers\IsNotEqualStateTrigger.cpp">
+      <DependentUpon>Triggers\IsNotEqualStateTrigger.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="Triggers\IsNullOrEmptyStateTrigger.cpp">
       <DependentUpon>Triggers\IsNullOrEmptyStateTrigger.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -430,6 +438,9 @@
     </Midl>
     <Midl Include="Triggers\ControlSizeTrigger.idl" />
     <Midl Include="Triggers\IsEqualStateTrigger.idl" />
+    <Midl Include="Triggers\IsNotEqualStateTrigger.idl">
+      <SubType>Designer</SubType>
+    </Midl>
     <Midl Include="Triggers\IsNullOrEmptyStateTrigger.idl" />
     <Midl Include="Triggers\RegexStateTrigger.idl">
       <SubType>Designer</SubType>
