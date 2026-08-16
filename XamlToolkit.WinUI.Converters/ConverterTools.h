@@ -6,6 +6,7 @@
 #include <winrt/Windows.UI.Xaml.Interop.h>
 #include <winrt/Microsoft.UI.Xaml.Markup.h>
 #endif
+#include "../XamlToolkit.WinUI/Extensions/Foundation/EqualsHelper.h"
 
 namespace winrt
 {
@@ -16,15 +17,39 @@ namespace winrt
 
 namespace winrt::XamlToolkit::WinUI::Converters::implementation
 {
-	class ConverterTools
+	struct ConverterTools
 	{
-	public:
-		static bool TryParseBool(winrt::IInspectable const& parameter);
+        static bool TryParseBool(winrt::IInspectable const& parameter)
+        {
+			return ConverterTools::TryConvertValue<bool>(parameter).value_or(false);
+        }
 
-		static winrt::IInspectable Convert(winrt::IInspectable const& value, winrt::TypeName const& targetType);
+        static winrt::IInspectable TryConvertValue(winrt::IInspectable const& value, winrt::TypeName const& targetType)
+        {
+            try
+            {
+                return winrt::XamlBindingHelper::ConvertValue(targetType, value);
+            }
+            catch (...)
+            {
+                return nullptr;
+            }
+        }
 
-		static std::optional<winrt::hstring> TryConvertToString(winrt::IInspectable const& value);
+        template<typename T>
+        static std::optional<T> TryConvertValue(winrt::IInspectable const& value)
+        {
+            if (const auto converted = TryConvertValue(value, winrt::xaml_typename<T>()))
+            {
+                return converted.template as<T>();
+            }
 
-		static bool ValueEquals(winrt::IPropertyValue const& valueA, winrt::IPropertyValue const& valueB);
+            return std::nullopt;
+        }
+
+        static bool AreValuesEqual(winrt::IInspectable const& left, winrt::IInspectable const& right)
+        {
+            return EqualsHelper::ConvertibleEquals(left, right);
+        }
 	};
 }

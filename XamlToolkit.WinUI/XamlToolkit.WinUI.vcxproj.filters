@@ -171,6 +171,9 @@
     <ClInclude Include="Extensions\async_mutex.h">
       <Filter>Extensions</Filter>
     </ClInclude>
+    <ClInclude Include="Extensions\Foundation\EqualsHelper.h">
+      <Filter>Extensions\Foundation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="XamlToolkit.WinUI.def" />

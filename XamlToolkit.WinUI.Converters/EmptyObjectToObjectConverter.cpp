@@ -56,7 +56,7 @@ namespace winrt::XamlToolkit::WinUI::Converters::implementation
             isEmpty = !isEmpty;
         }
 
-        return ConverterTools::Convert(isEmpty ? EmptyValue() : NotEmptyValue(), targetType);
+        return ConverterTools::TryConvertValue(isEmpty ? EmptyValue() : NotEmptyValue(), targetType);
     }
 
     winrt::IInspectable EmptyObjectToObjectConverter::ConvertBack([[maybe_unused]] winrt::IInspectable const& value, [[maybe_unused]] winrt::TypeName targetType, [[maybe_unused]] winrt::IInspectable const& parameter, [[maybe_unused]] winrt::hstring const& language) const

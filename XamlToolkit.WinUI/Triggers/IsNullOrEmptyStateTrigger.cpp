@@ -47,7 +47,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
 	void IsNullOrEmptyStateTrigger::UpdateTrigger()
 	{
-		auto val = Value();
+		const auto val = Value();
 
 		SetActive(IsNullOrEmpty(val));
 

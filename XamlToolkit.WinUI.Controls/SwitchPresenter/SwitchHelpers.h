@@ -3,14 +3,10 @@
 #ifdef __INTELLISENSE__
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Microsoft.UI.Xaml.Markup.h>
-#include <cmath>
-#include <concepts>
-#include <limits>
-#include <optional>
+#include <winrt/XamlToolkit.WinUI.Controls.h>
 #include <ranges>
-#include <utility>
-#include <variant>
 #endif
+#include "../../XamlToolkit.WinUI/Extensions/Foundation/EqualsHelper.h"
 
 namespace winrt
 {
@@ -21,139 +17,19 @@ namespace winrt
 
 namespace winrt::XamlToolkit::WinUI::Controls
 {
-	class SwitchHelpers
+	struct SwitchHelpers
 	{
-	public:
-		static bool ValueEquals(winrt::IPropertyValue const& valueA, winrt::IPropertyValue const& valueB)
-		{
-			auto typeA = valueA.Type();
-			auto typeB = valueB.Type();
-
-			auto toDouble = [](winrt::IPropertyValue const& v) -> double
-			{
-				switch (v.Type()) {
-				case winrt::PropertyType::Single: return static_cast<double>(v.GetSingle());
-				case winrt::PropertyType::Double: return v.GetDouble();
-				default: return std::numeric_limits<double>::quiet_NaN();
-				}
-			};
-
-			if ((typeA == winrt::PropertyType::Single || typeA == winrt::PropertyType::Double) &&
-				(typeB == winrt::PropertyType::Single || typeB == winrt::PropertyType::Double))
-			{
-				return std::fabs(toDouble(valueA) - toDouble(valueB)) < 1e-9;
-			}
-
-			auto isInteger = [](winrt::PropertyType t)
-			{
-				switch (t)
-				{
-				case winrt::PropertyType::UInt8:
-				case winrt::PropertyType::Int16:
-				case winrt::PropertyType::UInt16:
-				case winrt::PropertyType::Int32:
-				case winrt::PropertyType::UInt32:
-				case winrt::PropertyType::Int64:
-				case winrt::PropertyType::UInt64:
-					return true;
-				default:
-					return false;
-				}
-			};
-
-			auto toInteger = [](winrt::IPropertyValue const& v) -> std::variant<int64_t, uint64_t>
-			{
-				switch (v.Type()) 
-				{
-				case winrt::PropertyType::UInt8:  return static_cast<uint64_t>(v.GetUInt8());
-				case winrt::PropertyType::UInt16: return static_cast<uint64_t>(v.GetUInt16());
-				case winrt::PropertyType::UInt32: return static_cast<uint64_t>(v.GetUInt32());
-				case winrt::PropertyType::UInt64: return v.GetUInt64();
-				case winrt::PropertyType::Int16:  return static_cast<int64_t>(v.GetInt16());
-				case winrt::PropertyType::Int32:  return static_cast<int64_t>(v.GetInt32());
-				case winrt::PropertyType::Int64:  return v.GetInt64();
-				default: std::unreachable();
-				}
-			};
-
-			if (isInteger(typeA) && isInteger(typeB))
-			{
-				auto i1 = toInteger(valueA);
-				auto i2 = toInteger(valueB);
-
-				return std::visit([](auto a, auto b) -> bool 
-				{
-					using A = decltype(a);
-					using B = decltype(b);
-					if constexpr (std::signed_integral<A> && std::signed_integral<B>)
-						return a == b;
-					else if constexpr (std::unsigned_integral<A> && std::unsigned_integral<B>)
-						return a == b;
-					else if constexpr (std::signed_integral<A> && std::unsigned_integral<B>)
-						return a >= 0 && static_cast<uint64_t>(a) == b;
-					else if constexpr (std::unsigned_integral<A> && std::signed_integral<B>)
-						return b >= 0 && a == static_cast<uint64_t>(b);
-					else
-						return false;
-				}, i1, i2);
-			}
-
-			if (typeA != typeB)
-				return false;
-
-			if (typeA == winrt::PropertyType::OtherType)
-			{
-				if (winrt::get_class_name(valueA) == winrt::get_class_name(valueB))
-				{
-					auto maybeEnumA = valueA.try_as<uint64_t>();
-					auto maybeEnumB = valueB.try_as<uint64_t>();
-					if (maybeEnumA && maybeEnumB)
-					{
-						return *maybeEnumA == *maybeEnumB;
-					}
-				}
-			}
-
-			switch (typeA)
-			{
-			case winrt::PropertyType::Empty:    return true;
-			case winrt::PropertyType::Boolean:  return valueA.GetBoolean() == valueB.GetBoolean();
-			case winrt::PropertyType::Char16:   return valueA.GetChar16() == valueB.GetChar16();
-			case winrt::PropertyType::String:   return valueA.GetString() == valueB.GetString();
-			case winrt::PropertyType::Guid:     return valueA.GetGuid() == valueB.GetGuid();
-			case winrt::PropertyType::DateTime: return valueA.GetDateTime() == valueB.GetDateTime();
-			case winrt::PropertyType::TimeSpan: return valueA.GetTimeSpan() == valueB.GetTimeSpan();
-			case winrt::PropertyType::Point:    return valueA.GetPoint() == valueB.GetPoint();
-			case winrt::PropertyType::Size:     return valueA.GetSize() == valueB.GetSize();
-			case winrt::PropertyType::Rect:     return valueA.GetRect() == valueB.GetRect();
-			default:
-				return false;
-			}
-		}
-
-		static bool Equals(winrt::IInspectable const& objA, winrt::IInspectable const& objB)
-		{
-			if (objA == objB) return true;
-
-			auto valueA = objA.try_as<winrt::IPropertyValue>();
-			auto valueB = objB.try_as<winrt::IPropertyValue>();
-			if (!valueA || !valueB)
-				return false;
-
-			return ValueEquals(valueA, valueB);
-		}
-
 		static Case EvaluateCases(CaseCollection const& switchCases, winrt::IInspectable const& value, std::optional<winrt::TypeName> const& targetType = std::nullopt)
 		{
-			if (switchCases == nullptr ||
+			if (switchCases == nullptr || 
 				switchCases.Size() == 0)
 			{
 				// If we have no cases, then we can't match anything.
 				return nullptr;
 			}
 
-			Case xdefault = nullptr;
-			Case newcase = nullptr;
+			Case xdefault { nullptr };
+			Case newcase { nullptr };
 
 			auto collection = switchCases
 				| std::views::transform([](auto&& item) { return item.template as<Case>(); });
@@ -183,67 +59,10 @@ namespace winrt::XamlToolkit::WinUI::Controls
 			return newcase;
 		}
 
-		static bool CompareValues(winrt::IInspectable const& compare, winrt::IInspectable const& value, std::optional<winrt::TypeName> const& targetType)
+		static bool CompareValues(winrt::IInspectable const& compare, winrt::IInspectable const& value,
+			[[maybe_unused]] std::optional<winrt::TypeName> const& targetType = std::nullopt)
 		{
-			if (compare == nullptr || value == nullptr)
-			{
-				return compare == value;
-			}
-
-			if (!targetType ||
-				(targetType->Name == winrt::get_class_name(compare) && targetType->Name == winrt::get_class_name(value)))
-			{
-				// Default direct object comparison or we're all the proper type
-				return SwitchHelpers::Equals(compare, value);
-			}
-			else if (winrt::get_class_name(compare) == targetType->Name)
-			{
-				// If we have a TargetType and the first value is the right type
-				// Then our 2nd value isn't, so convert to string and coerce.
-				auto valueBase2 = SwitchHelpers::ConvertValue(*targetType, value);
-
-				return SwitchHelpers::Equals(compare, valueBase2);
-			}
-
-			// Neither of our two values matches the type so
-			// we'll convert both to a String and try and coerce it to the proper type.
-			auto compareBase = SwitchHelpers::ConvertValue(*targetType, compare);
-
-			auto valueBase = SwitchHelpers::ConvertValue(*targetType, value);
-
-			return SwitchHelpers::Equals(compareBase, valueBase);
-		}
-
-		/// <summary>
-		/// Helper method to convert a value from a source type to a target type.
-		/// </summary>
-		/// <param name="targetType">The target type</param>
-		/// <param name="value">The value to convert</param>
-		/// <returns>The converted value</returns>
-		static winrt::IInspectable ConvertValue(winrt::TypeName targetType, winrt::IInspectable const& value)
-		{
-		    //if (targetType.IsInstanceOfType(value))
-		    //{
-		    //    return value;
-		    //}
-		    //else if (targetType.IsEnum && value is string str)
-		    //{
-		    //    if (Enum.TryParse(targetType, str, out object ? result))
-		    //    {
-		    //        return result!;
-		    //    }
-
-		    //    static auto ThrowExceptionForKeyNotFound = []() -> winrt::IInspectable
-		    //        {
-		    //            throw winrt::hresult_invalid_argument(L"The requested enum value was not present in the provided type.");
-		    //        };
-
-		    //    return ThrowExceptionForKeyNotFound();
-		    //}
-		    //else
-		    {
-		        return winrt::XamlBindingHelper::ConvertValue(targetType, value);
-		    }
+			return EqualsHelper::ConvertibleEquals(compare, value);
 		}
 	};
 }

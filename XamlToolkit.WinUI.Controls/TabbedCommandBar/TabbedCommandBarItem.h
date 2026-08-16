@@ -38,7 +38,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		winrt::IInspectable Header() const
 		{
-			return GetValue(HeaderProperty()).try_as<winrt::IInspectable>();
+			return GetValue(HeaderProperty());
 		}
 
 		void Header(winrt::IInspectable const& value) 

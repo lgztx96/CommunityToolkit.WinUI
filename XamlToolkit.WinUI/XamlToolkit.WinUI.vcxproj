@@ -143,6 +143,7 @@
       <DependentUpon>Extensions\Foundation\RectExtensions.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="Extensions\Foundation\EqualsHelper.h" />
     <ClInclude Include="Extensions\ListViewBase\ListViewExtensions.h">
       <DependentUpon>Extensions\ListViewBase\ListViewExtensions.idl</DependentUpon>
       <SubType>Code</SubType>

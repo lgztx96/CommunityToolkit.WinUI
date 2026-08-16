@@ -73,7 +73,7 @@ namespace winrt::XamlToolkit::WinUI::Converters::implementation
             typeMatches = !typeMatches;
         }
 
-        return ConverterTools::Convert(typeMatches ? TrueValue() : FalseValue(), targetType);
+        return ConverterTools::TryConvertValue(typeMatches ? TrueValue() : FalseValue(), targetType);
     }
 
     winrt::IInspectable TypeToObjectConverter::ConvertBack([[maybe_unused]] winrt::IInspectable const& value, [[maybe_unused]] winrt::TypeName targetType, [[maybe_unused]] winrt::IInspectable const& parameter, [[maybe_unused]] winrt::hstring const& language) const

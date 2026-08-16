@@ -7,6 +7,8 @@
 #include <winrt/Windows.Foundation.Collections.h>
 #include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Microsoft.UI.Xaml.Interop.h>
+#include <wil/wistd_type_traits.h>
+#include <wil/cppwinrt_authoring.h>
 #endif
 
 namespace winrt

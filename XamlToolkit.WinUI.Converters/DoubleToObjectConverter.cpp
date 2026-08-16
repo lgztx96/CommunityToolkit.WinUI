@@ -105,24 +105,13 @@ namespace winrt::XamlToolkit::WinUI::Converters::implementation
         }
 
         double vd = 0.0; // DEFAULT?
-        auto doubleValue = value.try_as<double>();
-        if (doubleValue)
+        if (const auto doubleValue = value.try_as<double>())
         {
             vd = doubleValue.value();
         }
-        else
+        else if (const auto converted = ConverterTools::TryConvertValue<double>(value))
         {
-            try
-            {
-                if (auto strValue = ConverterTools::TryConvertToString(value))
-                {
-                    vd = std::stod(strValue->data());
-                }
-            }
-            catch (...)
-            {
-                vd = 0.0;
-            }
+            vd = *converted;
         }
 
         auto greaterThan = GreaterThan();
@@ -151,7 +140,7 @@ namespace winrt::XamlToolkit::WinUI::Converters::implementation
             boolValue = !boolValue;
         }
 
-        return ConverterTools::Convert(boolValue ? TrueValue() : FalseValue(), targetType);
+        return ConverterTools::TryConvertValue(boolValue ? TrueValue() : FalseValue(), targetType);
     }
 
     winrt::IInspectable DoubleToObjectConverter::ConvertBack([[maybe_unused]] winrt::IInspectable const& value, [[maybe_unused]] winrt::TypeName targetType, [[maybe_unused]] winrt::IInspectable const& parameter, [[maybe_unused]] winrt::hstring const& language) const

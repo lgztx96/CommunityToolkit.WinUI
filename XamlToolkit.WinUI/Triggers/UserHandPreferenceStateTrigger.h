@@ -5,6 +5,8 @@
 #ifdef __INTELLISENSE__
 #include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Windows.UI.ViewManagement.h>
+#include <wil/wistd_type_traits.h>
+#include <wil/cppwinrt_authoring.h>
 #endif
 
 namespace winrt

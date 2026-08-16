@@ -52,18 +52,12 @@ namespace winrt::XamlToolkit::WinUI::Converters::implementation
 			boolValue = !boolValue;
 		}
 
-		return ConverterTools::Convert(boolValue ? TrueValue() : FalseValue(), targetType);
+		return ConverterTools::TryConvertValue(boolValue ? TrueValue() : FalseValue(), targetType);
 	}
 
 	winrt::IInspectable BoolToObjectConverter::ConvertBack([[maybe_unused]] winrt::IInspectable const& value, [[maybe_unused]] winrt::TypeName targetType, [[maybe_unused]] winrt::IInspectable const& parameter, [[maybe_unused]] winrt::hstring const& language) const
 	{
-		winrt::TypeName valueType{ winrt::get_class_name(value) };
-		auto converted = ConverterTools::Convert(TrueValue(), valueType);
-
-		auto pv1 = value.try_as<winrt::IPropertyValue>();
-		auto pv2 = converted.try_as<winrt::IPropertyValue>();
-
-		bool result = (pv1 && pv2) ? ConverterTools::ValueEquals(pv1, pv2) : (value == converted);
+		bool result = ConverterTools::AreValuesEqual(value, TrueValue());
 
 		if (ConverterTools::TryParseBool(parameter))
 		{
