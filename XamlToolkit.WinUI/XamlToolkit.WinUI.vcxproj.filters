@@ -253,12 +253,14 @@
     <Midl Include="Extensions\Markup\BitmapIconExtension.idl">
       <Filter>Extensions\Markup</Filter>
     </Midl>
-    <Midl Include="Triggers\IsNotEqualStateTrigger.idl" />
     <Midl Include="Extensions\Foundation\PointExtensions.idl">
       <Filter>Extensions\Foundation</Filter>
     </Midl>
     <Midl Include="Extensions\Foundation\SizeExtensions.idl">
       <Filter>Extensions\Foundation</Filter>
+    </Midl>
+    <Midl Include="Triggers\IsNotEqualStateTrigger.idl">
+      <Filter>Triggers</Filter>
     </Midl>
   </ItemGroup>
   <ItemGroup>
