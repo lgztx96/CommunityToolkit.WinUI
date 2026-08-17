@@ -504,6 +504,21 @@ namespace winrt::XamlToolkit::WinUI
 			return compare(lt, left);
 		}
 
+		template<typename T, typename Getter>
+		static bool ArrayEquals(
+			winrt::IPropertyValue const& left,
+			winrt::IPropertyValue const& right,
+			Getter getter)
+		{
+			winrt::com_array<T> leftArray;
+			winrt::com_array<T> rightArray;
+
+			(left.*getter)(leftArray);
+			(right.*getter)(rightArray);
+
+			return leftArray == rightArray;
+		}
+
 		static bool ValueTypeEquals(
 			winrt::IPropertyValue const& left,
 			winrt::IPropertyValue const& right,
@@ -564,6 +579,78 @@ namespace winrt::XamlToolkit::WinUI
 
 			case winrt::PropertyType::Char16:
 				return left.GetChar16() == right.GetChar16();
+
+			case winrt::PropertyType::UInt8Array:
+				return ArrayEquals<std::uint8_t>(
+					left, right, &winrt::IPropertyValue::GetUInt8Array);
+
+			case winrt::PropertyType::Int16Array:
+				return ArrayEquals<std::int16_t>(
+					left, right, &winrt::IPropertyValue::GetInt16Array);
+
+			case winrt::PropertyType::UInt16Array:
+				return ArrayEquals<std::uint16_t>(
+					left, right, &winrt::IPropertyValue::GetUInt16Array);
+
+			case winrt::PropertyType::Int32Array:
+				return ArrayEquals<std::int32_t>(
+					left, right, &winrt::IPropertyValue::GetInt32Array);
+
+			case winrt::PropertyType::UInt32Array:
+				return ArrayEquals<std::uint32_t>(
+					left, right, &winrt::IPropertyValue::GetUInt32Array);
+
+			case winrt::PropertyType::Int64Array:
+				return ArrayEquals<std::int64_t>(
+					left, right, &winrt::IPropertyValue::GetInt64Array);
+
+			case winrt::PropertyType::UInt64Array:
+				return ArrayEquals<std::uint64_t>(
+					left, right, &winrt::IPropertyValue::GetUInt64Array);
+
+			case winrt::PropertyType::SingleArray:
+				return ArrayEquals<float>(
+					left, right, &winrt::IPropertyValue::GetSingleArray);
+
+			case winrt::PropertyType::DoubleArray:
+				return ArrayEquals<double>(
+					left, right, &winrt::IPropertyValue::GetDoubleArray);
+
+			case winrt::PropertyType::BooleanArray:
+				return ArrayEquals<bool>(
+					left, right, &winrt::IPropertyValue::GetBooleanArray);
+
+			case winrt::PropertyType::StringArray:
+				return ArrayEquals<winrt::hstring>(
+					left, right, &winrt::IPropertyValue::GetStringArray);
+
+			case winrt::PropertyType::GuidArray:
+				return ArrayEquals<winrt::guid>(
+					left, right, &winrt::IPropertyValue::GetGuidArray);
+
+			case winrt::PropertyType::DateTimeArray:
+				return ArrayEquals<winrt::clock::time_point>(
+					left, right, &winrt::IPropertyValue::GetDateTimeArray);
+
+			case winrt::PropertyType::TimeSpanArray:
+				return ArrayEquals<winrt::clock::duration>(
+					left, right, &winrt::IPropertyValue::GetTimeSpanArray);
+
+			case winrt::PropertyType::PointArray:
+				return ArrayEquals<winrt::Point>(
+					left, right, &winrt::IPropertyValue::GetPointArray);
+
+			case winrt::PropertyType::SizeArray:
+				return ArrayEquals<winrt::Size>(
+					left, right, &winrt::IPropertyValue::GetSizeArray);
+
+			case winrt::PropertyType::RectArray:
+				return ArrayEquals<winrt::Rect>(
+					left, right, &winrt::IPropertyValue::GetRectArray);
+
+			case winrt::PropertyType::Char16Array:
+				return ArrayEquals<char16_t>(
+					left, right, &winrt::IPropertyValue::GetChar16Array);
 
 			case winrt::PropertyType::OtherType:
 			{
