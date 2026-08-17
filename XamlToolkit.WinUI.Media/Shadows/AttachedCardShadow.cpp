@@ -137,9 +137,9 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
         if (!visualSurface) visualSurface = context.AddResource(OpacityMaskShapeVisualSurfaceResourceKey, context.Compositor().CreateVisualSurface()).as<CompositionVisualSurface>();
         visualSurface.SourceVisual(shapeVisual);
 
-        geometry.Size(winrt::float2(static_cast<float>(context.Element().ActualWidth()), static_cast<float>(context.Element().ActualHeight())) + float2(MaxBlurRadius));
+        geometry.Size(winrt::float2(static_cast<float>(context.Element().ActualWidth()), static_cast<float>(context.Element().ActualHeight())) + winrt::float2(MaxBlurRadius));
 
-        visualSurface.SourceSize(winrt::float2{ static_cast<float>(context.Element().ActualWidth()), static_cast<float>(context.Element().ActualHeight()) } + float2(MaxBlurRadius * 2));
+        visualSurface.SourceSize(winrt::float2{ static_cast<float>(context.Element().ActualWidth()), static_cast<float>(context.Element().ActualHeight()) } + winrt::float2(MaxBlurRadius * 2));
         shapeVisual.Size(visualSurface.SourceSize());
 
         // Create a CompositionSurfaceBrush using the CompositionVisualSurface as the source, this essentially converts the ShapeVisual into a brush.

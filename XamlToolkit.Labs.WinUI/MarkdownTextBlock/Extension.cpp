@@ -319,7 +319,7 @@ namespace winrt::XamlToolkit::Labs::WinUI
 			{
 				int width = _wtoi(dimensions[0].data());
 				int height = _wtoi(dimensions[1].data());
-				return Size(static_cast<float>(width), static_cast<float>(height));
+				return winrt::Size(static_cast<float>(width), static_cast<float>(height));
 			}
 		}
 

@@ -269,7 +269,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::Primitives::implementation
 		}
 		else
 		{
-			cachedSize = Size(static_cast<float>(width), static_cast<float>(height));
+			cachedSize = winrt::Size(static_cast<float>(width), static_cast<float>(height));
 		}
 
 		const auto& bitmap = co_await ColorPickerRenderingHelpers::CreateChannelBitmapAsync(

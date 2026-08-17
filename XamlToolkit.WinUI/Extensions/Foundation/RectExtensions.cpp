@@ -42,10 +42,10 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		auto right = winrt::RectHelper::GetRight(rectangle);
 		auto bottom = winrt::RectHelper::GetBottom(rectangle);
 
-		winrt::Point leftTop = winrt::MatrixHelper::Transform(matrix, Point(left, top));
-		winrt::Point rightTop = winrt::MatrixHelper::Transform(matrix, Point(right, top));
-		winrt::Point leftBottom = winrt::MatrixHelper::Transform(matrix, Point(left, bottom));
-		winrt::Point rightBottom = winrt::MatrixHelper::Transform(matrix, Point(right, bottom));
+		winrt::Point leftTop = winrt::MatrixHelper::Transform(matrix, winrt::Point(left, top));
+		winrt::Point rightTop = winrt::MatrixHelper::Transform(matrix, winrt::Point(right, top));
+		winrt::Point leftBottom = winrt::MatrixHelper::Transform(matrix, winrt::Point(left, bottom));
+		winrt::Point rightBottom = winrt::MatrixHelper::Transform(matrix, winrt::Point(right, bottom));
 
 		left = std::min<float>(std::min<float>(leftTop.X, rightTop.X), std::min<float>(leftBottom.X, rightBottom.X));
 		top = std::min<float>(std::min<float>(leftTop.Y, rightTop.Y), std::min<float>(leftBottom.Y, rightBottom.Y));

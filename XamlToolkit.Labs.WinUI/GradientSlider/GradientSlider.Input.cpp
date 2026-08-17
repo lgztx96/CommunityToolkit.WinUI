@@ -18,7 +18,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
             _draggingThumb = thumb;
             auto xStart = Canvas::GetLeft(thumb);
             auto yStart = e.VerticalOffset();
-            _dragPosition = Point(static_cast<float>(xStart), static_cast<float>(yStart));
+            _dragPosition = winrt::Point(static_cast<float>(xStart), static_cast<float>(yStart));
 
             OnThumbDragStarted(e);
         }
