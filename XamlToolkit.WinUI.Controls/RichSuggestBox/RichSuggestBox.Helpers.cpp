@@ -88,7 +88,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		auto windowBounds = winrt::Rect(0, 0, windowSize.Width, windowSize.Height);
 
 		// Calculate if there's an intersection
-		winrt::RectHelper::Intersect(elementBounds, windowBounds);
+		elementBounds = winrt::RectHelper::Intersect(elementBounds, windowBounds);
 
 		// See if we are still fully visible within the Window
 		return elementBounds.Height >= element.ActualHeight();
