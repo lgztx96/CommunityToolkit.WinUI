@@ -139,11 +139,19 @@
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="Extensions\Element\UIElementExtensions.h" />
+    <ClInclude Include="Extensions\Foundation\PointExtensions.h">
+      <DependentUpon>Extensions\Foundation\PointExtensions.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="Extensions\Foundation\RectExtensions.h">
       <DependentUpon>Extensions\Foundation\RectExtensions.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="Extensions\Foundation\EqualsHelper.h" />
+    <ClInclude Include="Extensions\Foundation\SizeExtensions.h">
+      <DependentUpon>Extensions\Foundation\SizeExtensions.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="Extensions\ListViewBase\ListViewExtensions.h">
       <DependentUpon>Extensions\ListViewBase\ListViewExtensions.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -258,8 +266,16 @@
     </ClCompile>
     <ClCompile Include="Extensions\Element\UIElementExtensions.cpp" />
     <ClCompile Include="Extensions\Element\UIElementExtensions.Mouse.cpp" />
+    <ClCompile Include="Extensions\Foundation\PointExtensions.cpp">
+      <DependentUpon>Extensions\Foundation\PointExtensions.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="Extensions\Foundation\RectExtensions.cpp">
       <DependentUpon>Extensions\Foundation\RectExtensions.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Extensions\Foundation\SizeExtensions.cpp">
+      <DependentUpon>Extensions\Foundation\SizeExtensions.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="Extensions\ListViewBase\ListViewExtensions.cpp">
@@ -382,7 +398,13 @@
       <DependentUpon>Extensions\Element\FrameworkElementExtensions.cpp</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
+    <Midl Include="Extensions\Foundation\PointExtensions.idl">
+      <SubType>Designer</SubType>
+    </Midl>
     <Midl Include="Extensions\Foundation\RectExtensions.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Extensions\Foundation\SizeExtensions.idl">
       <SubType>Designer</SubType>
     </Midl>
     <Midl Include="Extensions\ListViewBase\ListViewExtensions.idl">

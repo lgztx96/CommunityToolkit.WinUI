@@ -1,0 +1,15 @@
+namespace XamlToolkit.WinUI
+{
+    [webhosthidden]
+    static runtimeclass SizeExtensions 
+    {
+        [noexcept]
+        static Windows.Foundation.Rect ToRect(Windows.Foundation.Size size);
+
+        [noexcept]
+        static Windows.Foundation.Rect ToRect(Windows.Foundation.Size size, Double x, Double y);
+
+        [noexcept]
+        static Windows.Foundation.Rect ToRect(Windows.Foundation.Size size, Windows.Foundation.Point point);
+    }
+}
