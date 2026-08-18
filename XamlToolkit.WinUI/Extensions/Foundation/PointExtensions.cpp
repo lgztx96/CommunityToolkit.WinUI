@@ -9,7 +9,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 {
     winrt::Rect PointExtensions::ToRect(winrt::Point point, double width, double height) noexcept
     {
-        return winrt::Rect(point.X, point.Y, width, height);
+        return winrt::Rect(point.X, point.Y, static_cast<float>(width), static_cast<float>(height));
     }
 
     winrt::Rect PointExtensions::ToRect(winrt::Point point, winrt::Point end) noexcept

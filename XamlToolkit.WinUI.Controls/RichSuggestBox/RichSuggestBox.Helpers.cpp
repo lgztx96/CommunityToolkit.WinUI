@@ -43,15 +43,15 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		HWND hWnd = GetWindowFromWindowId(appWindowId);
 
-		double scaleFactor = GetDpiForWindow(hWnd) / 96.0;
+		float scaleFactor = GetDpiForWindow(hWnd) / 96.0f;
 
 		// Get bounds of element from root of tree
 		auto point = UIElementExtensions::CoordinatesFrom(element, nullptr);
-		auto elementBounds = winrt::Rect(point.X, point.Y, element.ActualWidth(), element.ActualHeight());
+		auto elementBounds = winrt::Rect(point.X, point.Y, static_cast<float>(element.ActualWidth()), static_cast<float>(element.ActualHeight()));
 
 		// Apply offset
-		elementBounds.X += offsetX;
-		elementBounds.Y += offsetY;
+		elementBounds.X += static_cast<float>(offsetX);
+		elementBounds.Y += static_cast<float>(offsetY);
 
 		// Get Window position
 		auto appWindow = winrt::AppWindow::GetFromWindowId(appWindowId);
@@ -77,11 +77,11 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	{
 		// Get bounds of element from root of tree
 		auto point = UIElementExtensions::CoordinatesFrom(element, nullptr);
-		auto elementBounds = winrt::Rect(point.X, point.Y, element.ActualWidth(), element.ActualHeight());
+		auto elementBounds = winrt::Rect(point.X, point.Y, static_cast<float>(element.ActualWidth()), static_cast<float>(element.ActualHeight()));
 
 		// Apply offset
-		elementBounds.X += offsetX;
-		elementBounds.Y += offsetY;
+		elementBounds.X += static_cast<float>(offsetX);
+		elementBounds.Y += static_cast<float>(offsetY);
 
 		// Get size of window itself
 		auto windowSize = element.XamlRoot().Size();

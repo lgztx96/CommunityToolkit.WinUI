@@ -10,6 +10,7 @@
 
         [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ChildProperty{ get; };
+
         Microsoft.UI.Xaml.Media.Transform Transform;
 
         [noexcept]
