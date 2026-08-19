@@ -46,24 +46,24 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		double VerticalSpacing() const
 		{
-			return winrt::unbox_value<double>(GetValue(VerticalSpacingProperty));
+			return winrt::unbox_value<double>(GetValue(VerticalSpacingProperty()));
 		}
 
 		void VerticalSpacing(double value)
 		{
-			SetValue(VerticalSpacingProperty, winrt::box_value(value));
+			SetValue(VerticalSpacingProperty(), winrt::box_value(value));
 		}
 
 		static const wil::single_threaded_property<winrt::DependencyProperty> VerticalSpacingProperty;
 
 		winrt::Orientation Orientation() const
 		{
-			return winrt::unbox_value<winrt::Orientation>(GetValue(OrientationProperty));
+			return winrt::unbox_value<winrt::Orientation>(GetValue(OrientationProperty()));
 		}
 
 		void Orientation(winrt::Orientation value)
 		{
-			SetValue(OrientationProperty, winrt::box_value(value));
+			SetValue(OrientationProperty(), winrt::box_value(value));
 		}
 
 		static const wil::single_threaded_property<winrt::DependencyProperty> OrientationProperty;

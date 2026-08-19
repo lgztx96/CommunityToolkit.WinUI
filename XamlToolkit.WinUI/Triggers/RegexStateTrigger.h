@@ -21,18 +21,18 @@ namespace winrt::XamlToolkit::WinUI::implementation
     {
         RegexStateTrigger();
 
-        winrt::hstring Value() const { return winrt::unbox_value<winrt::hstring>(GetValue(ValueProperty)); }
-        void Value(winrt::hstring const& value) const { SetValue(ValueProperty, winrt::box_value(value)); }
+        winrt::hstring Value() const { return winrt::unbox_value<winrt::hstring>(GetValue(ValueProperty())); }
+        void Value(winrt::hstring const& value) const { SetValue(ValueProperty(), winrt::box_value(value)); }
 
         static const wil::single_threaded_property<winrt::DependencyProperty> ValueProperty;
 
-        winrt::hstring Expression() const { return winrt::unbox_value<winrt::hstring>(GetValue(ExpressionProperty)); }
-        void Expression(winrt::hstring const& value) const { SetValue(ExpressionProperty, winrt::box_value(value)); }
+        winrt::hstring Expression() const { return winrt::unbox_value<winrt::hstring>(GetValue(ExpressionProperty())); }
+        void Expression(winrt::hstring const& value) const { SetValue(ExpressionProperty(), winrt::box_value(value)); }
 
         static const wil::single_threaded_property<winrt::DependencyProperty> ExpressionProperty;
 
-        winrt::XamlToolkit::WinUI::RegexOptions Options() const { return winrt::unbox_value<winrt::XamlToolkit::WinUI::RegexOptions>(GetValue(OptionsProperty)); }
-        void Options(winrt::XamlToolkit::WinUI::RegexOptions const& value) const { SetValue(OptionsProperty, winrt::box_value(value)); }
+        winrt::XamlToolkit::WinUI::RegexOptions Options() const { return winrt::unbox_value<winrt::XamlToolkit::WinUI::RegexOptions>(GetValue(OptionsProperty())); }
+        void Options(winrt::XamlToolkit::WinUI::RegexOptions const& value) const { SetValue(OptionsProperty(), winrt::box_value(value)); }
 
         static const wil::single_threaded_property<winrt::DependencyProperty> OptionsProperty;
 

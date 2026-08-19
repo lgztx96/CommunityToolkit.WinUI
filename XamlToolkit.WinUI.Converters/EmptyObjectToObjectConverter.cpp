@@ -14,22 +14,22 @@ namespace winrt::XamlToolkit::WinUI::Converters::implementation
 {
     winrt::IInspectable EmptyObjectToObjectConverter::NotEmptyValue() const
     {
-        return GetValue(NotEmptyValueProperty);
+        return GetValue(NotEmptyValueProperty());
     }
 
     void EmptyObjectToObjectConverter::NotEmptyValue(winrt::IInspectable const& value)
     {
-        SetValue(NotEmptyValueProperty, value);
+        SetValue(NotEmptyValueProperty(), value);
     }
 
     winrt::IInspectable EmptyObjectToObjectConverter::EmptyValue() const
     {
-        return GetValue(EmptyValueProperty);
+        return GetValue(EmptyValueProperty());
     }
 
     void EmptyObjectToObjectConverter::EmptyValue(winrt::IInspectable const& value)
     {
-        SetValue(EmptyValueProperty, value);
+        SetValue(EmptyValueProperty(), value);
     }
 
     const wil::single_threaded_property<winrt::DependencyProperty> EmptyObjectToObjectConverter::NotEmptyValueProperty = winrt::DependencyProperty::Register(

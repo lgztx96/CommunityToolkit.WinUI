@@ -287,26 +287,26 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 				winrt::xaml_typename<class_type>(),
 				winrt::PropertyMetadata{ winrt::box_value(DisabledFormattingAccelerators::None) });
 
-		winrt::hstring PlaceholderText() const { return winrt::unbox_value<winrt::hstring>(GetValue(PlaceholderTextProperty)); }
-		void PlaceholderText(winrt::hstring const& value) { SetValue(PlaceholderTextProperty, winrt::box_value(value)); }
+		winrt::hstring PlaceholderText() const { return winrt::unbox_value<winrt::hstring>(GetValue(PlaceholderTextProperty())); }
+		void PlaceholderText(winrt::hstring const& value) { SetValue(PlaceholderTextProperty(), winrt::box_value(value)); }
 
-		winrt::Style RichEditBoxStyle() const { return winrt::unbox_value<struct Style>(GetValue(RichEditBoxStyleProperty)); }
-		void RichEditBoxStyle(winrt::Style const& value) { SetValue(RichEditBoxStyleProperty, value); }
+		winrt::Style RichEditBoxStyle() const { return winrt::unbox_value<struct Style>(GetValue(RichEditBoxStyleProperty())); }
+		void RichEditBoxStyle(winrt::Style const& value) { SetValue(RichEditBoxStyleProperty(), value); }
 
-		winrt::IInspectable Header() const { return GetValue(HeaderProperty); }
-		void Header(winrt::IInspectable const& value) { SetValue(HeaderProperty, value); }
+		winrt::IInspectable Header() const { return GetValue(HeaderProperty()); }
+		void Header(winrt::IInspectable const& value) { SetValue(HeaderProperty(), value); }
 
-		winrt::DataTemplate HeaderTemplate() const { return winrt::unbox_value<winrt::DataTemplate>(GetValue(HeaderTemplateProperty)); }
-		void HeaderTemplate(winrt::DataTemplate const& value) { SetValue(HeaderTemplateProperty, value); }
+		winrt::DataTemplate HeaderTemplate() const { return winrt::unbox_value<winrt::DataTemplate>(GetValue(HeaderTemplateProperty())); }
+		void HeaderTemplate(winrt::DataTemplate const& value) { SetValue(HeaderTemplateProperty(), value); }
 
-		winrt::IInspectable Description() const { return GetValue(DescriptionProperty); }
-		void Description(winrt::IInspectable const& value) { SetValue(DescriptionProperty, value); }
+		winrt::IInspectable Description() const { return GetValue(DescriptionProperty()); }
+		void Description(winrt::IInspectable const& value) { SetValue(DescriptionProperty(), value); }
 
-		SuggestionPopupPlacementMode PopupPlacement() const { return winrt::unbox_value<SuggestionPopupPlacementMode>(GetValue(PopupPlacementProperty)); }
-		void PopupPlacement(SuggestionPopupPlacementMode const& value) { SetValue(PopupPlacementProperty, winrt::box_value(value)); }
+		SuggestionPopupPlacementMode PopupPlacement() const { return winrt::unbox_value<SuggestionPopupPlacementMode>(GetValue(PopupPlacementProperty())); }
+		void PopupPlacement(SuggestionPopupPlacementMode const& value) { SetValue(PopupPlacementProperty(), winrt::box_value(value)); }
 
-		winrt::Microsoft::UI::Xaml::CornerRadius PopupCornerRadius() const { return winrt::unbox_value<struct CornerRadius>(GetValue(PopupCornerRadiusProperty)); }
-		void PopupCornerRadius(winrt::Microsoft::UI::Xaml::CornerRadius const& value) { SetValue(PopupCornerRadiusProperty, winrt::box_value(value)); }
+		winrt::Microsoft::UI::Xaml::CornerRadius PopupCornerRadius() const { return winrt::unbox_value<struct CornerRadius>(GetValue(PopupCornerRadiusProperty())); }
+		void PopupCornerRadius(winrt::Microsoft::UI::Xaml::CornerRadius const& value) { SetValue(PopupCornerRadiusProperty(), winrt::box_value(value)); }
 
 		winrt::IInspectable PopupHeader() const
 		{

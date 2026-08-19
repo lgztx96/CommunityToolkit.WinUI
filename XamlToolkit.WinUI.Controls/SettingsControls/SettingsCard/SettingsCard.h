@@ -134,44 +134,44 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		static const wil::single_threaded_property<winrt::DependencyProperty> IsActionIconVisibleProperty;
 
-		winrt::IInspectable Header() const { return GetValue(HeaderProperty); }
+		winrt::IInspectable Header() const { return GetValue(HeaderProperty()); }
 
-		void Header(winrt::IInspectable const& value) const { SetValue(HeaderProperty, value); }
+		void Header(winrt::IInspectable const& value) const { SetValue(HeaderProperty(), value); }
 
-		winrt::IInspectable Description() const { return GetValue(DescriptionProperty); }
+		winrt::IInspectable Description() const { return GetValue(DescriptionProperty()); }
 
-		void Description(winrt::IInspectable const& value) const { SetValue(DescriptionProperty, value); }
+		void Description(winrt::IInspectable const& value) const { SetValue(DescriptionProperty(), value); }
 
-		winrt::IconElement HeaderIcon() const { return winrt::unbox_value<winrt::IconElement>(GetValue(HeaderIconProperty)); }
+		winrt::IconElement HeaderIcon() const { return winrt::unbox_value<winrt::IconElement>(GetValue(HeaderIconProperty())); }
 
-		void HeaderIcon(winrt::IconElement const& value) const { SetValue(HeaderIconProperty, value); }
+		void HeaderIcon(winrt::IconElement const& value) const { SetValue(HeaderIconProperty(), value); }
 
-		winrt::IconElement ActionIcon() const { return winrt::unbox_value<winrt::IconElement>(GetValue(ActionIconProperty)); }
+		winrt::IconElement ActionIcon() const { return winrt::unbox_value<winrt::IconElement>(GetValue(ActionIconProperty())); }
 
-		void ActionIcon(winrt::IconElement const& value) const { SetValue(ActionIconProperty, value); }
+		void ActionIcon(winrt::IconElement const& value) const { SetValue(ActionIconProperty(), value); }
 
-		winrt::hstring ActionIconToolTip() const { return winrt::unbox_value<winrt::hstring>(GetValue(ActionIconToolTipProperty)); }
+		winrt::hstring ActionIconToolTip() const { return winrt::unbox_value<winrt::hstring>(GetValue(ActionIconToolTipProperty())); }
 
-		void ActionIconToolTip(winrt::hstring const& value) const { SetValue(ActionIconToolTipProperty, winrt::box_value(value)); }
+		void ActionIconToolTip(winrt::hstring const& value) const { SetValue(ActionIconToolTipProperty(), winrt::box_value(value)); }
 
-		bool IsClickEnabled() const { return winrt::unbox_value<bool>(GetValue(IsClickEnabledProperty)); }
+		bool IsClickEnabled() const { return winrt::unbox_value<bool>(GetValue(IsClickEnabledProperty())); }
 
-		void IsClickEnabled(bool value) const { SetValue(IsClickEnabledProperty, winrt::box_value(value)); }
+		void IsClickEnabled(bool value) const { SetValue(IsClickEnabledProperty(), winrt::box_value(value)); }
 
 		winrt::XamlToolkit::WinUI::Controls::ContentAlignment ContentAlignment() const
 		{
 			return winrt::unbox_value<winrt::XamlToolkit::WinUI::Controls::ContentAlignment>(
-				GetValue(ContentAlignmentProperty));
+				GetValue(ContentAlignmentProperty()));
 		}
 
 		void ContentAlignment(winrt::XamlToolkit::WinUI::Controls::ContentAlignment value) const
 		{
-			SetValue(ContentAlignmentProperty, winrt::box_value(value));
+			SetValue(ContentAlignmentProperty(), winrt::box_value(value));
 		}
 
-		bool IsActionIconVisible() const { return winrt::unbox_value<bool>(GetValue(IsActionIconVisibleProperty)); }
+		bool IsActionIconVisible() const { return winrt::unbox_value<bool>(GetValue(IsActionIconVisibleProperty())); }
 
-		void IsActionIconVisible(bool value) const { SetValue(IsActionIconVisibleProperty, winrt::box_value(value)); }
+		void IsActionIconVisible(bool value) const { SetValue(IsActionIconVisibleProperty(), winrt::box_value(value)); }
 
 	private:
 		winrt::event_token _pointerEnteredToken{};

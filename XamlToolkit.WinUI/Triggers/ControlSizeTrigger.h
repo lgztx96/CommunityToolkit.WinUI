@@ -24,33 +24,33 @@ namespace winrt::XamlToolkit::WinUI::implementation
     {
         ControlSizeTrigger() = default;
 
-        bool CanTrigger() const { return winrt::unbox_value<bool>(GetValue(CanTriggerProperty)); }
-        void CanTrigger(bool value) const { SetValue(CanTriggerProperty, winrt::box_value(value)); }
+        bool CanTrigger() const { return winrt::unbox_value<bool>(GetValue(CanTriggerProperty())); }
+        void CanTrigger(bool value) const { SetValue(CanTriggerProperty(), winrt::box_value(value)); }
 
         static const wil::single_threaded_property<winrt::DependencyProperty> CanTriggerProperty;
 
-        double MaxWidth() const { return winrt::unbox_value<double>(GetValue(MaxWidthProperty)); }
-        void MaxWidth(double value) const { SetValue(MaxWidthProperty, winrt::box_value(value)); }
+        double MaxWidth() const { return winrt::unbox_value<double>(GetValue(MaxWidthProperty())); }
+        void MaxWidth(double value) const { SetValue(MaxWidthProperty(), winrt::box_value(value)); }
 
         static const wil::single_threaded_property<winrt::DependencyProperty> MaxWidthProperty;
 
-        double MinWidth() const { return winrt::unbox_value<double>(GetValue(MinWidthProperty)); }
-        void MinWidth(double value) const { SetValue(MinWidthProperty, winrt::box_value(value)); }
+        double MinWidth() const { return winrt::unbox_value<double>(GetValue(MinWidthProperty())); }
+        void MinWidth(double value) const { SetValue(MinWidthProperty(), winrt::box_value(value)); }
 
         static const wil::single_threaded_property<winrt::DependencyProperty> MinWidthProperty;
 
-        double MaxHeight() const { return winrt::unbox_value<double>(GetValue(MaxHeightProperty)); }
-        void MaxHeight(double value) const { SetValue(MaxHeightProperty, winrt::box_value(value)); }
+        double MaxHeight() const { return winrt::unbox_value<double>(GetValue(MaxHeightProperty())); }
+        void MaxHeight(double value) const { SetValue(MaxHeightProperty(), winrt::box_value(value)); }
 
         static const wil::single_threaded_property<winrt::DependencyProperty> MaxHeightProperty;
 
-        double MinHeight() const { return winrt::unbox_value<double>(GetValue(MinHeightProperty)); }
-        void MinHeight(double value) const { SetValue(MinHeightProperty, winrt::box_value(value)); }
+        double MinHeight() const { return winrt::unbox_value<double>(GetValue(MinHeightProperty())); }
+        void MinHeight(double value) const { SetValue(MinHeightProperty(), winrt::box_value(value)); }
 
         static const wil::single_threaded_property<winrt::DependencyProperty> MinHeightProperty;
 
-        winrt::FrameworkElement TargetElement() const { return winrt::unbox_value<winrt::FrameworkElement>(GetValue(TargetElementProperty)); }
-        void TargetElement(winrt::FrameworkElement const& value) const { SetValue(TargetElementProperty, winrt::box_value(value)); }
+        winrt::FrameworkElement TargetElement() const { return winrt::unbox_value<winrt::FrameworkElement>(GetValue(TargetElementProperty())); }
+        void TargetElement(winrt::FrameworkElement const& value) const { SetValue(TargetElementProperty(), winrt::box_value(value)); }
 
         static const wil::single_threaded_property<winrt::DependencyProperty> TargetElementProperty;
 

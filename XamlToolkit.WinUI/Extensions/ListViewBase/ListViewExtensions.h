@@ -101,22 +101,22 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
 		static winrt::Brush GetAlternateColor(winrt::ListViewBase const& obj)
 		{
-			return obj.GetValue(AlternateColorProperty).try_as<winrt::Brush>();
+			return obj.GetValue(AlternateColorProperty()).try_as<winrt::Brush>();
 		}
 
 		static void SetAlternateColor(winrt::ListViewBase const& obj, winrt::Brush const& value)
 		{
-			obj.SetValue(AlternateColorProperty, value);
+			obj.SetValue(AlternateColorProperty(), value);
 		}
 
 		static winrt::DataTemplate GetAlternateItemTemplate(winrt::ListViewBase const& obj)
 		{
-			return obj.GetValue(AlternateItemTemplateProperty).try_as<winrt::DataTemplate>();
+			return obj.GetValue(AlternateItemTemplateProperty()).try_as<winrt::DataTemplate>();
 		}
 
 		static void SetAlternateItemTemplate(winrt::ListViewBase const& obj, winrt::DataTemplate const& value)
 		{
-			obj.SetValue(AlternateItemTemplateProperty, value);
+			obj.SetValue(AlternateItemTemplateProperty(), value);
 		}
 
 	private:
@@ -149,12 +149,12 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
 		static winrt::ICommand GetCommand(winrt::ListViewBase obj)
 		{
-			return obj.GetValue(CommandProperty).try_as<winrt::ICommand>();
+			return obj.GetValue(CommandProperty()).try_as<winrt::ICommand>();
 		}
 
 		static void SetCommand(winrt::ListViewBase const& obj, winrt::ICommand const& value)
 		{
-			obj.SetValue(CommandProperty, value);
+			obj.SetValue(CommandProperty(), value);
 		}
 
 	private:

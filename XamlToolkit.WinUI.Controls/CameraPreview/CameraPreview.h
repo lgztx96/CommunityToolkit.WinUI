@@ -60,12 +60,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		bool IsFrameSourceGroupButtonVisible() const
 		{
-			return winrt::unbox_value<bool>(GetValue(IsFrameSourceGroupButtonVisibleProperty));
+			return winrt::unbox_value<bool>(GetValue(IsFrameSourceGroupButtonVisibleProperty()));
 		}
 
 		void IsFrameSourceGroupButtonVisible(bool value)
 		{
-			SetValue(IsFrameSourceGroupButtonVisibleProperty, winrt::box_value(value));
+			SetValue(IsFrameSourceGroupButtonVisibleProperty(), winrt::box_value(value));
 		}
 
 		wil::single_threaded_rw_property<winrt::CameraHelper> CameraHelper{ nullptr };

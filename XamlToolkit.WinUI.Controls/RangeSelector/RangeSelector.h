@@ -92,72 +92,72 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
         double Minimum() const
         {
-            return winrt::unbox_value<double>(GetValue(MinimumProperty));
+            return winrt::unbox_value<double>(GetValue(MinimumProperty()));
         }
 
         void Minimum(double const& value) const
         {
-            SetValue(MinimumProperty, winrt::box_value(value));
+            SetValue(MinimumProperty(), winrt::box_value(value));
         }
 
         static const wil::single_threaded_property<winrt::DependencyProperty> MaximumProperty;
 
         double Maximum() const
         {
-            return winrt::unbox_value<double>(GetValue(MaximumProperty));
+            return winrt::unbox_value<double>(GetValue(MaximumProperty()));
         }
 
         void Maximum(double const& value) const
         {
-            SetValue(MaximumProperty, winrt::box_value(value));
+            SetValue(MaximumProperty(), winrt::box_value(value));
         }
 
         static const wil::single_threaded_property<winrt::DependencyProperty> RangeStartProperty;
 
         double RangeStart() const
         {
-            return winrt::unbox_value<double>(GetValue(RangeStartProperty));
+            return winrt::unbox_value<double>(GetValue(RangeStartProperty()));
         }
 
         void RangeStart(double const& value) const
         {
-            SetValue(RangeStartProperty, winrt::box_value(value));
+            SetValue(RangeStartProperty(), winrt::box_value(value));
         }
 
         static const wil::single_threaded_property<winrt::DependencyProperty> RangeEndProperty;
 
         double RangeEnd() const
         {
-            return winrt::unbox_value<double>(GetValue(RangeEndProperty));
+            return winrt::unbox_value<double>(GetValue(RangeEndProperty()));
         }
 
         void RangeEnd(double const& value) const
         {
-            SetValue(RangeEndProperty, winrt::box_value(value));
+            SetValue(RangeEndProperty(), winrt::box_value(value));
         }
 
         static const wil::single_threaded_property<winrt::DependencyProperty> StepFrequencyProperty;
 
         double StepFrequency() const
         {
-            return winrt::unbox_value<double>(GetValue(StepFrequencyProperty));
+            return winrt::unbox_value<double>(GetValue(StepFrequencyProperty()));
         }
 
         void StepFrequency(double const& value) const
         {
-            SetValue(StepFrequencyProperty, winrt::box_value(value));
+            SetValue(StepFrequencyProperty(), winrt::box_value(value));
         }
 
         static const wil::single_threaded_property<winrt::DependencyProperty> OrientationProperty;
 
         winrt::Orientation Orientation() const
         {
-            return winrt::unbox_value<winrt::Orientation>(GetValue(OrientationProperty));
+            return winrt::unbox_value<winrt::Orientation>(GetValue(OrientationProperty()));
         }
 
         void Orientation(winrt::Orientation const& value) const
         {
-            SetValue(OrientationProperty, winrt::box_value(value));
+            SetValue(OrientationProperty(), winrt::box_value(value));
         }
 
     private:

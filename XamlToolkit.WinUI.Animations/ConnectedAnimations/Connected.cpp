@@ -71,42 +71,42 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
 
     winrt::hstring Connected::GetKey(winrt::DependencyObject const& obj)
     {
-        return winrt::unbox_value_or<winrt::hstring>(obj.GetValue(KeyProperty), L"");
+        return winrt::unbox_value_or<winrt::hstring>(obj.GetValue(KeyProperty()), L"");
     }
 
     void Connected::SetKey(winrt::DependencyObject const& obj, winrt::hstring const& value)
     {
-        obj.SetValue(KeyProperty, winrt::box_value(value));
+        obj.SetValue(KeyProperty(), winrt::box_value(value));
     }
 
     winrt::UIElement Connected::GetAnchorElement(winrt::DependencyObject const& obj)
     {
-        return obj.GetValue(AnchorElementProperty).try_as<winrt::UIElement>();
+        return obj.GetValue(AnchorElementProperty()).try_as<winrt::UIElement>();
     }
 
     void Connected::SetAnchorElement(winrt::DependencyObject const& obj, winrt::UIElement const& value)
     {
-        obj.SetValue(AnchorElementProperty, value);
+        obj.SetValue(AnchorElementProperty(), value);
     }
 
     winrt::hstring Connected::GetListItemKey(winrt::DependencyObject const& obj)
     {
-        return winrt::unbox_value_or<winrt::hstring>(obj.GetValue(ListItemKeyProperty), L"");
+        return winrt::unbox_value_or<winrt::hstring>(obj.GetValue(ListItemKeyProperty()), L"");
     }
 
     void Connected::SetListItemKey(winrt::DependencyObject const& obj, winrt::hstring const& value)
     {
-        obj.SetValue(ListItemKeyProperty, winrt::box_value(value));
+        obj.SetValue(ListItemKeyProperty(), winrt::box_value(value));
     }
 
     winrt::hstring Connected::GetListItemElementName(winrt::DependencyObject const& obj)
     {
-        return winrt::unbox_value_or<winrt::hstring>(obj.GetValue(ListItemElementNameProperty), L"");
+        return winrt::unbox_value_or<winrt::hstring>(obj.GetValue(ListItemElementNameProperty()), L"");
     }
 
     void Connected::SetListItemElementName(winrt::DependencyObject const& obj, winrt::hstring const& value)
     {
-        obj.SetValue(ListItemElementNameProperty, winrt::box_value(value));
+        obj.SetValue(ListItemElementNameProperty(), winrt::box_value(value));
     }
 
     std::shared_ptr<ConnectedAnimationHelper> Connected::GetConnectedAnimationHelper(winrt::Frame const& frame)

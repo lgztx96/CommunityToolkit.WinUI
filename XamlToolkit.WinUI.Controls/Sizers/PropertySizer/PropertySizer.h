@@ -9,23 +9,23 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	{
 		PropertySizer();
 
-		bool IsDragInverted() const { return winrt::unbox_value<bool>(GetValue(IsDragInvertedProperty)); }
-		void IsDragInverted(bool value) { SetValue(IsDragInvertedProperty, winrt::box_value(value)); }
+		bool IsDragInverted() const { return winrt::unbox_value<bool>(GetValue(IsDragInvertedProperty())); }
+		void IsDragInverted(bool value) { SetValue(IsDragInvertedProperty(), winrt::box_value(value)); }
 
 		static const wil::single_threaded_property<winrt::DependencyProperty> IsDragInvertedProperty;
 
-		double Binding() const { return winrt::unbox_value<double>(GetValue(BindingProperty)); }
-		void Binding(double value) { SetValue(BindingProperty, winrt::box_value(value)); }
+		double Binding() const { return winrt::unbox_value<double>(GetValue(BindingProperty())); }
+		void Binding(double value) { SetValue(BindingProperty(), winrt::box_value(value)); }
 
 		static const wil::single_threaded_property<winrt::DependencyProperty> BindingProperty;
 
-		double Minimum() const { return winrt::unbox_value<double>(GetValue(MinimumProperty)); }
-		void Minimum(double value) { SetValue(MinimumProperty, winrt::box_value(value)); }
+		double Minimum() const { return winrt::unbox_value<double>(GetValue(MinimumProperty())); }
+		void Minimum(double value) { SetValue(MinimumProperty(), winrt::box_value(value)); }
 
 		static const wil::single_threaded_property<winrt::DependencyProperty> MinimumProperty;
 
-		double Maximum() const { return winrt::unbox_value<double>(GetValue(MaximumProperty)); }
-		void Maximum(double value) { SetValue(MaximumProperty, winrt::box_value(value)); }
+		double Maximum() const { return winrt::unbox_value<double>(GetValue(MaximumProperty())); }
+		void Maximum(double value) { SetValue(MaximumProperty(), winrt::box_value(value)); }
 
 		static const wil::single_threaded_property<winrt::DependencyProperty> MaximumProperty;
 

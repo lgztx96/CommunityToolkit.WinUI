@@ -23,22 +23,22 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
     winrt::IVector<winrt::Color> ColorPaletteSelector::SelectedColors()
     {
-        return GetValue(SelectedColorsProperty).try_as<winrt::IVector<winrt::Color>>();
+        return GetValue(SelectedColorsProperty()).try_as<winrt::IVector<winrt::Color>>();
     }
 
     void ColorPaletteSelector::SelectedColors(winrt::IVector<winrt::Color> const& value)
     {
-        SetValue(SelectedColorsProperty, value);
+        SetValue(SelectedColorsProperty(), value);
     }
 
     int32_t ColorPaletteSelector::MinColorCount()
     {
-        return winrt::unbox_value<int32_t>(GetValue(MinColorCountProperty));
+        return winrt::unbox_value<int32_t>(GetValue(MinColorCountProperty()));
     }
 
     void ColorPaletteSelector::MinColorCount(int32_t value)
     {
-        SetValue(MinColorCountProperty, winrt::box_value(value));
+        SetValue(MinColorCountProperty(), winrt::box_value(value));
     }
 
     void ColorPaletteSelector::SelectColors(winrt::IIterable<PaletteColor> const& palette)

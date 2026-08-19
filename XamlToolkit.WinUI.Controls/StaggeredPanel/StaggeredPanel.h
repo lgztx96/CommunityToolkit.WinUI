@@ -46,7 +46,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		winrt::Thickness Padding() const
 		{
-			return winrt::unbox_value<winrt::Thickness>(GetValue(PaddingProperty));
+			return winrt::unbox_value<winrt::Thickness>(GetValue(PaddingProperty()));
 		}
 
 		void Padding(winrt::Thickness value)

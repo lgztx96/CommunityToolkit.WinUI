@@ -9,13 +9,13 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	{
 		ContentSizer();
 
-		bool IsDragInverted() const { return winrt::unbox_value<bool>(GetValue(IsDragInvertedProperty)); }
-		void IsDragInverted(bool value) { SetValue(IsDragInvertedProperty, winrt::box_value(value)); }
+		bool IsDragInverted() const { return winrt::unbox_value<bool>(GetValue(IsDragInvertedProperty())); }
+		void IsDragInverted(bool value) { SetValue(IsDragInvertedProperty(), winrt::box_value(value)); }
 
 		static const wil::single_threaded_property<winrt::DependencyProperty> IsDragInvertedProperty;
 
-		winrt::FrameworkElement TargetControl() const { return winrt::unbox_value<winrt::FrameworkElement>(GetValue(TargetControlProperty)); }
-		void TargetControl(winrt::FrameworkElement const& value) { SetValue(TargetControlProperty, value); }
+		winrt::FrameworkElement TargetControl() const { return winrt::unbox_value<winrt::FrameworkElement>(GetValue(TargetControlProperty())); }
+		void TargetControl(winrt::FrameworkElement const& value) { SetValue(TargetControlProperty(), value); }
 
 		static const wil::single_threaded_property<winrt::DependencyProperty> TargetControlProperty;
 

@@ -31,60 +31,60 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		static winrt::Dock GetDock(winrt::FrameworkElement const& obj)
 		{
-			return winrt::unbox_value<winrt::Dock>(obj.GetValue(DockProperty));
+			return winrt::unbox_value<winrt::Dock>(obj.GetValue(DockProperty()));
 		}
 
 		static void SetDock(winrt::FrameworkElement const& obj, winrt::Dock const& value)
 		{
-			obj.SetValue(DockProperty, winrt::box_value(value));
+			obj.SetValue(DockProperty(), winrt::box_value(value));
 		}
 
 		static const wil::single_threaded_property<winrt::DependencyProperty> LastChildFillProperty;
 
 		bool LastChildFill() const
 		{
-			return winrt::unbox_value<bool>(GetValue(LastChildFillProperty));
+			return winrt::unbox_value<bool>(GetValue(LastChildFillProperty()));
 		}
 
 		void LastChildFill(bool value)
 		{
-			SetValue(LastChildFillProperty, winrt::box_value(value));
+			SetValue(LastChildFillProperty(), winrt::box_value(value));
 		}
 
 		static const wil::single_threaded_property<winrt::DependencyProperty> PaddingProperty;
 
 		winrt::Thickness Padding() const
 		{
-			return winrt::unbox_value<winrt::Thickness>(GetValue(PaddingProperty));
+			return winrt::unbox_value<winrt::Thickness>(GetValue(PaddingProperty()));
 		}
 
 		void Padding(winrt::Thickness const& value)
 		{
-			SetValue(PaddingProperty, winrt::box_value(value));
+			SetValue(PaddingProperty(), winrt::box_value(value));
 		}
 
 		static const wil::single_threaded_property<winrt::DependencyProperty> HorizontalSpacingProperty;
 
 		double HorizontalSpacing() const
 		{
-			return winrt::unbox_value<double>(GetValue(HorizontalSpacingProperty));
+			return winrt::unbox_value<double>(GetValue(HorizontalSpacingProperty()));
 		}
 
 		void HorizontalSpacing(double value)
 		{
-			SetValue(HorizontalSpacingProperty, winrt::box_value(value));
+			SetValue(HorizontalSpacingProperty(), winrt::box_value(value));
 		}
 
 		static const wil::single_threaded_property<winrt::DependencyProperty> VerticalSpacingProperty;
 
 		double VerticalSpacing() const
 		{
-			return winrt::unbox_value<double>(GetValue(VerticalSpacingProperty));
+			return winrt::unbox_value<double>(GetValue(VerticalSpacingProperty()));
 		}
 
 		void VerticalSpacing(double value)
 		{
-			SetValue(VerticalSpacingProperty, winrt::box_value(value));
+			SetValue(VerticalSpacingProperty(), winrt::box_value(value));
 		}
 
 	private:

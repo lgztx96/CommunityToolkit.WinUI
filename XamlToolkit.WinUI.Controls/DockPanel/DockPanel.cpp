@@ -83,7 +83,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			auto child = children.GetAt(index);
 			if (child.Visibility() == winrt::Visibility::Collapsed)
 				continue;
-			auto dock = winrt::unbox_value<winrt::Dock>(child.GetValue(DockProperty));
+			auto dock = winrt::unbox_value<winrt::Dock>(child.GetValue(DockProperty()));
 			double width, height;
 			switch (dock)
 			{
@@ -154,7 +154,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 			child.Measure(childConstraint);
 			auto childDesiredSize = child.DesiredSize();
-			auto dock = winrt::unbox_value<winrt::Dock>(child.GetValue(DockProperty));
+			auto dock = winrt::unbox_value<winrt::Dock>(child.GetValue(DockProperty()));
 			switch (dock)
 			{
 			case winrt::Dock::Left:

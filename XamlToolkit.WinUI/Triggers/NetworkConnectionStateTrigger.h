@@ -25,8 +25,8 @@ namespace winrt::XamlToolkit::WinUI::implementation
         NetworkConnectionStateTrigger();
         ~NetworkConnectionStateTrigger();
 
-        winrt::XamlToolkit::WinUI::ConnectionState ConnectionState() const { return winrt::unbox_value<winrt::XamlToolkit::WinUI::ConnectionState>(GetValue(ConnectionStateProperty)); }
-        void ConnectionState(winrt::XamlToolkit::WinUI::ConnectionState const& value) const { SetValue(ConnectionStateProperty, winrt::box_value(value)); }
+        winrt::XamlToolkit::WinUI::ConnectionState ConnectionState() const { return winrt::unbox_value<winrt::XamlToolkit::WinUI::ConnectionState>(GetValue(ConnectionStateProperty())); }
+        void ConnectionState(winrt::XamlToolkit::WinUI::ConnectionState const& value) const { SetValue(ConnectionStateProperty(), winrt::box_value(value)); }
 
         static const wil::single_threaded_property<winrt::DependencyProperty> ConnectionStateProperty;
 

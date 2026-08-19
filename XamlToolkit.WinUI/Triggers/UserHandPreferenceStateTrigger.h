@@ -21,8 +21,8 @@ namespace winrt::XamlToolkit::WinUI::implementation
     {
         UserHandPreferenceStateTrigger();
 
-        winrt::HandPreference HandPreference() const { return winrt::unbox_value<winrt::HandPreference>(GetValue(HandPreferenceProperty)); }
-        void HandPreference(winrt::HandPreference const& value) const { SetValue(HandPreferenceProperty, winrt::box_value(value)); }
+        winrt::HandPreference HandPreference() const { return winrt::unbox_value<winrt::HandPreference>(GetValue(HandPreferenceProperty())); }
+        void HandPreference(winrt::HandPreference const& value) const { SetValue(HandPreferenceProperty(), winrt::box_value(value)); }
 
         static const wil::single_threaded_property<winrt::DependencyProperty> HandPreferenceProperty;
 

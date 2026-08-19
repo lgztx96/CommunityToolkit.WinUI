@@ -199,7 +199,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		if (newValue != prefixes)
 		{
-			view->SetValue(PrefixesProperty, winrt::box_value(prefixes));
+			view->SetValue(PrefixesProperty(), winrt::box_value(prefixes));
 		}
 	}
 

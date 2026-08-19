@@ -5,10 +5,11 @@
 #include "ScrollViewerExtensions.g.cpp"
 #endif
 
-#include "../../common.h"
+#include "../Tree/DependencyObjectExtensions.h"
 
 namespace winrt
 {
+    using namespace Microsoft::UI::Xaml::Controls;
     using namespace Microsoft::UI::Xaml::Controls::Primitives;
 }
 
@@ -19,14 +20,14 @@ namespace winrt::XamlToolkit::WinUI::implementation
             L"HorizontalScrollBarMargin",
             winrt::xaml_typename<winrt::Thickness>(),
             winrt::xaml_typename<winrt::XamlToolkit::WinUI::ScrollViewerExtensions>(),
-            PropertyMetadata(nullptr, &ScrollViewerExtensions::OnHorizontalScrollBarMarginPropertyChanged));
+            winrt::PropertyMetadata(nullptr, &ScrollViewerExtensions::OnHorizontalScrollBarMarginPropertyChanged));
 
     const wil::single_threaded_property<winrt::DependencyProperty> ScrollViewerExtensions::VerticalScrollBarMarginProperty =
         winrt::DependencyProperty::RegisterAttached(
             L"VerticalScrollBarMargin",
             winrt::xaml_typename<winrt::Thickness>(),
             winrt::xaml_typename<winrt::XamlToolkit::WinUI::ScrollViewerExtensions>(),
-            PropertyMetadata(nullptr, &ScrollViewerExtensions::OnVerticalScrollBarMarginPropertyChanged));
+            winrt::PropertyMetadata(nullptr, &ScrollViewerExtensions::OnVerticalScrollBarMarginPropertyChanged));
 
     void ScrollViewerExtensions::OnHorizontalScrollBarMarginPropertyChanged(winrt::DependencyObject const& sender, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& args)
     {

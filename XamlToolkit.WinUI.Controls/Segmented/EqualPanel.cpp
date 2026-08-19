@@ -25,12 +25,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 	winrt::Orientation EqualPanel::Orientation() const
 	{
-		return winrt::unbox_value<winrt::Orientation>(GetValue(OrientationProperty));
+		return winrt::unbox_value<winrt::Orientation>(GetValue(OrientationProperty()));
 	}
 
 	void EqualPanel::Orientation(winrt::Orientation const& value) const
 	{
-		SetValue(OrientationProperty, winrt::box_value(value));
+		SetValue(OrientationProperty(), winrt::box_value(value));
 	}
 
 	const wil::single_threaded_property<winrt::DependencyProperty> EqualPanel::SpacingProperty =
@@ -40,9 +40,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			winrt::xaml_typename<class_type>(),
 			winrt::PropertyMetadata(winrt::box_value(0.0), &EqualPanel::OnEqualPanelPropertyChanged));
 
-	double EqualPanel::Spacing() const { return winrt::unbox_value<double>(GetValue(SpacingProperty)); }
+	double EqualPanel::Spacing() const { return winrt::unbox_value<double>(GetValue(SpacingProperty())); }
 
-	void EqualPanel::Spacing(double value) { return SetValue(SpacingProperty, winrt::box_value(value)); }
+	void EqualPanel::Spacing(double value) { return SetValue(SpacingProperty(), winrt::box_value(value)); }
 
 	EqualPanel::EqualPanel()
 	{

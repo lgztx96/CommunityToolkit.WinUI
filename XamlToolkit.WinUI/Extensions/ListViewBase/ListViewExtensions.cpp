@@ -8,7 +8,7 @@
 #include <memory>
 #include <wil/resource.h>
 #endif
-#include "../common.h"
+#include "../Tree/DependencyObjectExtensions.h"
 
 namespace winrt::XamlToolkit::WinUI::implementation
 {
