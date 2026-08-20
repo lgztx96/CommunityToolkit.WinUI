@@ -272,7 +272,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
         }
     }
 
-    winrt::fire_and_forget TextBoxExtensions::Textbox_Paste(winrt::IInspectable const& sender, winrt::TextControlPasteEventArgs const& e)
+    winrt::fire_and_forget TextBoxExtensions::Textbox_Paste(winrt::IInspectable sender, winrt::TextControlPasteEventArgs const& e)
     {
         e.Handled(true);
 

@@ -498,7 +498,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 #pragma region Suggestion
 		winrt::IAsyncAction RequestSuggestionsAsync(winrt::ITextRange& range);
 
-		winrt::IAsyncAction CommitSuggestionAsync(winrt::IInspectable const& selectedItem);
+		winrt::IAsyncAction CommitSuggestionAsync(winrt::IInspectable selectedItem);
 
 		void UpdateSuggestionsListSelectedItem(int choice);
 

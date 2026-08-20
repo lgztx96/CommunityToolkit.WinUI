@@ -61,6 +61,6 @@ namespace winrt::XamlToolkit::WinUI::Controls
 
 		static winrt::ImageBrush BitmapToBrush(winrt::IVector<std::uint8_t> const& bitmap, int width, int height);
 
-		static winrt::IAsyncAction UpdateBorderBackgroundWithCheckerAsync(winrt::Border const& border, winrt::Color color);
+		static winrt::IAsyncAction UpdateBorderBackgroundWithCheckerAsync(winrt::Border border, winrt::Color color);
 	};
 }

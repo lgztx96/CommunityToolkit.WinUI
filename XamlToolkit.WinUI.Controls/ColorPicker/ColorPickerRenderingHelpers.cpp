@@ -336,7 +336,7 @@ namespace winrt::XamlToolkit::WinUI::Controls
 		return brush;
 	}
 
-	winrt::IAsyncAction ColorPickerRenderingHelpers::UpdateBorderBackgroundWithCheckerAsync(winrt::Border const& border, winrt::Color color)
+	winrt::IAsyncAction ColorPickerRenderingHelpers::UpdateBorderBackgroundWithCheckerAsync(winrt::Border border, winrt::Color color)
 	{
 		if (border)
 		{

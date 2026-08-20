@@ -59,7 +59,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
         static void Textbox_GotFocus_Mask(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
 
-        static winrt::fire_and_forget Textbox_Paste(winrt::IInspectable const& sender, winrt::TextControlPasteEventArgs const& e);
+        static winrt::fire_and_forget Textbox_Paste(winrt::IInspectable sender, winrt::TextControlPasteEventArgs const& e);
 
         static void Textbox_SelectionChanged(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
 

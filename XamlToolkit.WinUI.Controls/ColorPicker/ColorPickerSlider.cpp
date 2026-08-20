@@ -255,6 +255,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::Primitives::implementation
 		 * This work-around will also cause issues if display scaling changes in the special
 		 * case where cached sizes are required.
 		 */
+		auto strongThis = get_strong();
+
 		auto width = static_cast<int32_t>(ActualWidth());
 		auto height = static_cast<int32_t>(ActualHeight());
 
