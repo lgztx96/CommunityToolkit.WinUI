@@ -13,6 +13,27 @@
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
+	DataTable::DataTable()
+	{
+		Loaded({ this, &DataTable::DataTable_Loaded });
+	}
+
+	void DataTable::DataTable_Loaded([[maybe_unused]] winrt::Windows::Foundation::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
+	{
+		// A tab/content presenter can unload and reload the same table without
+		// changing either its final size or its column dependency properties.
+		// Force a fresh measure so text measured while the table was hidden
+		// cannot keep a stale TextTrimming result.
+		InvalidateMeasure();
+		InvalidateArrange();
+
+		for (auto& row : Rows())
+		{
+			row.InvalidateMeasure();
+			row.InvalidateArrange();
+		}
+	}
+
 	bool DataTable::IsAnyColumnAuto()
 	{
 		auto children = Children();

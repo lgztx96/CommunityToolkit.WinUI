@@ -21,7 +21,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
 	struct DataTable : DataTableT<DataTable>
 	{
-		DataTable() = default;
+		DataTable();
 
 		// TODO: We should cache this result and update if column properties change
 		bool IsAnyColumnAuto();
@@ -48,6 +48,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         winrt::Size ArrangeOverride(winrt::Size finalSize);
 
 	private:
+		void DataTable_Loaded(winrt::Windows::Foundation::IInspectable const& sender, winrt::RoutedEventArgs const& e);
 		void UpdateColumnWidths(double availableWidth);
 
 		std::set<winrt::XamlToolkit::Labs::WinUI::DataRow> _rows;
