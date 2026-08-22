@@ -75,15 +75,15 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         wil::single_threaded_rw_property<winrt::Thickness> H5Margin = winrt::Thickness(0, 8, 0, 0);
         wil::single_threaded_rw_property<winrt::Thickness> H6Margin = winrt::Thickness(0, 8, 0, 0);
 
-        wil::single_threaded_rw_property<winrt::Brush> BorderBrush = Application::Current().Resources().Lookup(winrt::box_value(L"CardStrokeColorDefaultBrush")).as<Brush>();
+        wil::single_threaded_rw_property<winrt::Brush> BorderBrush = Application::Current().Resources().Lookup(winrt::box_value(L"CardStrokeColorDefaultBrush")).as<winrt::Brush>();
 
-        wil::single_threaded_rw_property<winrt::Brush> TableHeadingBackground = Application::Current().Resources().Lookup(winrt::box_value(L"CardBackgroundFillColorDefaultBrush")).as<Brush>();
+        wil::single_threaded_rw_property<winrt::Brush> TableHeadingBackground = Application::Current().Resources().Lookup(winrt::box_value(L"CardBackgroundFillColorDefaultBrush")).as<winrt::Brush>();
 
-        wil::single_threaded_rw_property<winrt::Brush> InlineCodeBackground = Application::Current().Resources().Lookup(winrt::box_value(L"CardBackgroundFillColorSecondaryBrush")).as<Brush>();
+        wil::single_threaded_rw_property<winrt::Brush> InlineCodeBackground = Application::Current().Resources().Lookup(winrt::box_value(L"CardBackgroundFillColorSecondaryBrush")).as<winrt::Brush>();
 
-        wil::single_threaded_rw_property<winrt::Brush> InlineCodeForeground = Application::Current().Resources().Lookup(winrt::box_value(L"TextFillColorPrimaryBrush")).as<Brush>();
+        wil::single_threaded_rw_property<winrt::Brush> InlineCodeForeground = Application::Current().Resources().Lookup(winrt::box_value(L"TextFillColorPrimaryBrush")).as<winrt::Brush>();
 
-        wil::single_threaded_rw_property<winrt::Brush> InlineCodeBorderBrush = Application::Current().Resources().Lookup(winrt::box_value(L"CardStrokeColorDefaultBrush")).as<Brush>();
+        wil::single_threaded_rw_property<winrt::Brush> InlineCodeBorderBrush = Application::Current().Resources().Lookup(winrt::box_value(L"CardStrokeColorDefaultBrush")).as<winrt::Brush>();
 
         wil::single_threaded_rw_property<winrt::Thickness> InlineCodeBorderThickness = winrt::Thickness(1, 1, 1, 1);
 

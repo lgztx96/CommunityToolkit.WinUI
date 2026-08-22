@@ -16,7 +16,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 			winrt::xaml_typename<class_type>(),
 			winrt::PropertyMetadata(nullptr, &IsNullOrEmptyStateTrigger::OnValuePropertyChanged));
 
-	void IsNullOrEmptyStateTrigger::OnValuePropertyChanged(winrt::DependencyObject const& d, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& e)
+	void IsNullOrEmptyStateTrigger::OnValuePropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e)
 	{
 		auto impl = winrt::get_self<IsNullOrEmptyStateTrigger>(d.as<class_type>())->get_strong();
 
