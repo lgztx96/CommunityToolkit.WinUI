@@ -3,10 +3,7 @@
 #include "ListViewExtensions.g.h"
 
 #ifdef __INTELLISENSE__
-#include <map>
-#include <memory>
 #include <optional>
-#include <unordered_map>
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.Foundation.Collections.h>
 #include <winrt/Microsoft.UI.Xaml.h>
@@ -32,6 +29,20 @@ namespace winrt
 
 namespace winrt::XamlToolkit::WinUI::implementation
 {
+	struct EventContext : winrt::implements<EventContext, winrt::IInspectable>
+	{
+		winrt::ListViewBase::ContainerContentChanging_revoker _colorContentChangingRevoker;
+		winrt::ListViewBase::ContainerContentChanging_revoker _itemTemplateContentChangingRevoker;
+		winrt::ListViewBase::ContainerContentChanging_revoker _stretchDirectionContentChangingRevoker;
+		winrt::IObservableVector<winrt::IInspectable>::VectorChanged_revoker _itemsVectorChangedRevoker;
+		winrt::FrameworkElement::Unloaded_revoker _unloadedRevoker;
+	};
+
+	struct CommandContext : winrt::implements<CommandContext, winrt::IInspectable>
+	{
+		winrt::ListViewBase::ItemClick_revoker _itemClickRevoker;
+	};
+
 	struct ListViewExtensions
 	{
 		static void OnItemContainerStretchDirectionPropertyChanged(
@@ -64,21 +75,14 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
 #pragma region AlternateRows
 	private:
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> EventContextProperty
+			= winrt::DependencyProperty::RegisterAttached(
+				L"EventContext",
+				winrt::xaml_typename<winrt::IInspectable>(),
+				winrt::xaml_typename<winrt::XamlToolkit::WinUI::ListViewExtensions>(),
+				winrt::PropertyMetadata(nullptr));
 
-		struct EventContext
-		{
-			EventContext() = default;
-			winrt::ListViewBase _listViewBase{ nullptr };
-			winrt::ListViewBase::ContainerContentChanging_revoker _colorContentChangingRevoker;
-			winrt::ListViewBase::ContainerContentChanging_revoker _itemTemplateContentChangingRevoker;
-			winrt::ListViewBase::ContainerContentChanging_revoker _stretchDirectionContentChangingRevoker;
-			winrt::IObservableVector<winrt::IInspectable>::VectorChanged_revoker _itemsVectorChangedRevoker;
-			winrt::FrameworkElement::Unloaded_revoker _unloadedRevoker;
-		};
-
-		static inline std::map<winrt::IObservableVector<winrt::IInspectable>, std::unique_ptr<EventContext>> _trackedListViews;
-
-		static inline std::map<winrt::ListViewBase, std::unique_ptr<EventContext>> _listViewEventContexts;
+		static winrt::com_ptr<EventContext> GetEventContext(winrt::ListViewBase const& listViewBase);
 
 	public:
 		static void OnAlternateColorPropertyChanged(winrt::DependencyObject const& sender, winrt::DependencyPropertyChangedEventArgs const& args);
@@ -88,14 +92,14 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		static inline const wil::single_threaded_property<winrt::DependencyProperty> AlternateColorProperty
 			= winrt::DependencyProperty::RegisterAttached(
 				L"AlternateColor",
-				winrt::xaml_typename<Brush>(),
+				winrt::xaml_typename<winrt::Brush>(),
 				winrt::xaml_typename<winrt::XamlToolkit::WinUI::ListViewExtensions>(),
 				winrt::PropertyMetadata(nullptr, &ListViewExtensions::OnAlternateColorPropertyChanged));
 
 		static inline const wil::single_threaded_property<winrt::DependencyProperty> AlternateItemTemplateProperty
 			= winrt::DependencyProperty::RegisterAttached(
 				L"AlternateItemTemplate",
-				winrt::xaml_typename<DataTemplate>(),
+				winrt::xaml_typename<winrt::DataTemplate>(),
 				winrt::xaml_typename<winrt::XamlToolkit::WinUI::ListViewExtensions>(),
 				winrt::PropertyMetadata(nullptr, &ListViewExtensions::OnAlternateItemTemplatePropertyChanged));
 
@@ -128,13 +132,10 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
 		static void OnListViewBaseUnloaded(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
 
-		static void OnListViewBaseUnloaded_AltRow(winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e);
-
-		static void ColorItemsVectorChanged(winrt::IObservableVector<winrt::IInspectable> const& sender, winrt::IVectorChangedEventArgs const& args);
+		static void ColorItemsVectorChanged(winrt::ListViewBase const& listViewBase, winrt::IObservableVector<winrt::IInspectable> const& sender, winrt::IVectorChangedEventArgs const& args);
 
 		static void SetItemContainerBackground(winrt::ListViewBase const& sender, winrt::Control const& itemContainer, int itemIndex);
 #pragma endregion
-
 
 #pragma region Command
 	public:
@@ -143,7 +144,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		static inline const wil::single_threaded_property<winrt::DependencyProperty> CommandProperty
 			= winrt::DependencyProperty::RegisterAttached(
 				L"Command",
-				winrt::xaml_typename<ICommand>(),
+				winrt::xaml_typename<winrt::ICommand>(),
 				winrt::xaml_typename<winrt::XamlToolkit::WinUI::ListViewExtensions>(),
 				winrt::PropertyMetadata(nullptr, &ListViewExtensions::OnCommandPropertyChanged));
 
@@ -158,20 +159,14 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		}
 
 	private:
-		struct WeakListViewHash
-		{
-			size_t operator()(winrt::weak_ref<winrt::ListViewBase> const& wref) const noexcept
-			{
-				if (auto ref = wref.get())
-				{
-					return std::hash<void*>{}(winrt::get_abi(ref));
-				}
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> CommandContextProperty
+			= winrt::DependencyProperty::RegisterAttached(
+				L"CommandContext",
+				winrt::xaml_typename<winrt::IInspectable>(),
+				winrt::xaml_typename<winrt::XamlToolkit::WinUI::ListViewExtensions>(),
+				winrt::PropertyMetadata(nullptr));
 
-				return 0;
-			}
-		};
-
-		static inline std::unordered_map<winrt::weak_ref<ListViewBase>, std::unique_ptr<winrt::ListViewBase::ItemClick_revoker>, WeakListViewHash> _commandTokens;
+		static winrt::com_ptr<CommandContext> GetCommandContext(winrt::ListViewBase const& listViewBase);
 
 		static void OnListViewBaseItemClick(winrt::IInspectable const& sender, winrt::ItemClickEventArgs const& e);
 #pragma endregion
@@ -179,7 +174,6 @@ namespace winrt::XamlToolkit::WinUI::implementation
 #pragma region SmoothScrollIntoView
 	public:
 		static winrt::IAsyncAction SmoothScrollIntoViewWithIndexAsync(winrt::ListViewBase listViewBase, int index, ScrollItemPlacement itemPlacement = ScrollItemPlacement::Default, bool disableAnimation = false, bool scrollIfVisible = true, int additionalHorizontalOffset = 0, int additionalVerticalOffset = 0);
-
 
 		static winrt::IAsyncAction SmoothScrollIntoViewWithItemAsync(winrt::ListViewBase listViewBase, winrt::IInspectable const& item, ScrollItemPlacement itemPlacement = ScrollItemPlacement::Default, bool disableAnimation = false, bool scrollIfVisible = true, int additionalHorizontalOffset = 0, int additionalVerticalOffset = 0);
 
