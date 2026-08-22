@@ -23,17 +23,6 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		return winrt::get_self<EventContext>(value)->get_strong();
 	}
 
-	winrt::com_ptr<CommandContext> ListViewExtensions::GetCommandContext(winrt::ListViewBase const& listViewBase)
-	{
-		const auto value = listViewBase.GetValue(CommandContextProperty());
-		if (!value)
-		{
-			return nullptr;
-		}
-
-		return winrt::get_self<CommandContext>(value)->get_strong();
-	}
-
 	void ListViewExtensions::OnAlternateColorPropertyChanged(winrt::DependencyObject const& sender, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& args)
 	{
 		if (const auto listViewBase = sender.try_as<winrt::ListViewBase>())
@@ -156,7 +145,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
 	void ListViewExtensions::OnListViewBaseUnloaded(winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
 	{
-		if (auto listViewBase = sender.try_as<winrt::ListViewBase>())
+		if (const auto listViewBase = sender.try_as<winrt::ListViewBase>())
 		{
 			listViewBase.ClearValue(EventContextProperty());
 		}
@@ -199,7 +188,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
 	void ListViewExtensions::SetItemContainerBackground(winrt::ListViewBase const& sender, winrt::Control const& itemContainer, int itemIndex)
 	{
-		const auto brush = itemIndex % 2 == 0 ? GetAlternateColor(sender) : nullptr;
+		const auto brush = itemIndex % 2 == 0 ? GetAlternateColor(sender) : winrt::Brush{ nullptr };
 		itemContainer.Background(brush);
 		if (const auto rootBorder = DependencyObjectEx::FindDescendant<winrt::Border>(itemContainer))
 		{
@@ -244,24 +233,16 @@ namespace winrt::XamlToolkit::WinUI::implementation
 			return;
 		}
 
-		if (const auto oldCommand = args.OldValue().try_as<winrt::ICommand>())
+		if (const auto eventToken = GetCommandEventToken(listViewBase))
 		{
-			if (const auto ctx = GetCommandContext(listViewBase))
-			{
-				ctx->_itemClickRevoker.revoke();
-			}
+			listViewBase.ItemClick(*eventToken);
+			listViewBase.ClearValue(CommandEventTokenProperty());
 		}
 
 		if (const auto newCommand = args.NewValue().try_as<winrt::ICommand>())
 		{
-			auto ctx = GetCommandContext(listViewBase);
-			if (!ctx)
-			{
-				ctx = winrt::make_self<CommandContext>();
-				listViewBase.SetValue(CommandContextProperty(), *ctx);
-			}
-
-			ctx->_itemClickRevoker = listViewBase.ItemClick(winrt::auto_revoke, &ListViewExtensions::OnListViewBaseItemClick);
+			const auto token = listViewBase.ItemClick(&ListViewExtensions::OnListViewBaseItemClick);
+			SetCommandEventToken(listViewBase, token);
 		}
 	}
 

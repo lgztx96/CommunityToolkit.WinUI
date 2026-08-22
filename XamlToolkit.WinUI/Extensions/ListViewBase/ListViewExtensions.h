@@ -38,11 +38,6 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		winrt::FrameworkElement::Unloaded_revoker _unloadedRevoker;
 	};
 
-	struct CommandContext : winrt::implements<CommandContext, winrt::IInspectable>
-	{
-		winrt::ListViewBase::ItemClick_revoker _itemClickRevoker;
-	};
-
 	struct ListViewExtensions
 	{
 		static void OnItemContainerStretchDirectionPropertyChanged(
@@ -159,14 +154,22 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		}
 
 	private:
-		static inline const wil::single_threaded_property<winrt::DependencyProperty> CommandContextProperty
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> CommandEventTokenProperty
 			= winrt::DependencyProperty::RegisterAttached(
-				L"CommandContext",
-				winrt::xaml_typename<winrt::IInspectable>(),
+				L"CommandEventToken",
+				winrt::xaml_typename<winrt::event_token>(),
 				winrt::xaml_typename<winrt::XamlToolkit::WinUI::ListViewExtensions>(),
 				winrt::PropertyMetadata(nullptr));
 
-		static winrt::com_ptr<CommandContext> GetCommandContext(winrt::ListViewBase const& listViewBase);
+		static std::optional<winrt::event_token> GetCommandEventToken(winrt::ListViewBase obj)
+		{
+			return obj.GetValue(CommandEventTokenProperty()).try_as<winrt::event_token>();
+		}
+
+		static void SetCommandEventToken(winrt::ListViewBase const& obj, winrt::event_token value)
+		{
+			obj.SetValue(CommandEventTokenProperty(), winrt::box_value(value));
+		}
 
 		static void OnListViewBaseItemClick(winrt::IInspectable const& sender, winrt::ItemClickEventArgs const& e);
 #pragma endregion
