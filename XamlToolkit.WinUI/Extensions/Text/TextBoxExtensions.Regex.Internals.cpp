@@ -8,50 +8,19 @@
 
 namespace winrt::XamlToolkit::WinUI::implementation
 {
-    // Per-textbox regex state storage
-    struct RegexState
+    winrt::com_ptr<RegexState> TextBoxExtensions::GetRegexState(winrt::TextBox const& textbox)
     {
-        winrt::event_token LoadedToken;
-        winrt::event_token LostFocusToken;
-        winrt::event_token TextChangedToken;
-    };
-
-    struct WeakRegexTextBoxHash
-    {
-        size_t operator()(winrt::weak_ref<winrt::TextBox> const& wref) const noexcept
+        const auto value = textbox.GetValue(RegexStateProperty());
+        if (!value)
         {
-            if (auto ref = wref.get())
-            {
-                return std::hash<void*>{}(winrt::get_abi(ref));
-            }
-
-            return 0;
+            return nullptr;
         }
-    };
 
-    static std::unordered_map<winrt::weak_ref<winrt::TextBox>, std::unique_ptr<RegexState>, WeakRegexTextBoxHash> _regexStates;
-
-    static RegexState* GetOrCreateRegexState(winrt::TextBox const& textbox)
-    {
-        if (auto it = _regexStates.find(textbox); it != _regexStates.end())
-        {
-            // Verify the weak_ref is still alive; clean up stale entry if not
-            if (auto ref = it->first.get())
-            {
-                return it->second.get();
-            }
-            _regexStates.erase(it);
-        }
-        auto state = std::make_unique<RegexState>();
-        auto ptr = state.get();
-        _regexStates.emplace(textbox, std::move(state));
-        return ptr;
+        return winrt::get_self<RegexState>(value)->get_strong();
     }
 
-    // Validation helper patterns matching CommunityToolkit.Common behavior
     bool TextBoxExtensions::IsEmail(std::wstring_view text)
     {
-        // Standard email regex pattern
         static const std::wregex emailRegex(
             L"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?"
             L"(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$");
@@ -92,41 +61,49 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
         ValidateTextBox(textBox, false);
 
-        auto state = GetOrCreateRegexState(textBox);
+        auto state = GetRegexState(textBox);
+        if (!state)
+        {
+            state = winrt::make_self<RegexState>();
+            textBox.SetValue(RegexStateProperty(), *state);
+        }
 
-        // Remove old handlers
-        textBox.Loaded(state->LoadedToken);
-        textBox.LostFocus(state->LostFocusToken);
-        textBox.TextChanged(state->TextChangedToken);
+        if (state->LoadedToken)
+        {
+            textBox.Loaded(state->LoadedToken);
+        }
 
-        // Add new handlers
-        state->LoadedToken = textBox.Loaded(&TextBoxExtensions::TextBox_Loaded_Regex);
-        state->LostFocusToken = textBox.LostFocus(&TextBoxExtensions::TextBox_LostFocus_Regex);
-        state->TextChangedToken = textBox.TextChanged(&TextBoxExtensions::TextBox_TextChanged_Regex);
+        if (state->LostFocusToken)
+        {
+            textBox.LostFocus(state->LostFocusToken);
+        }
+
+        if (state->TextChangedToken)
+        {
+            textBox.TextChanged(state->TextChangedToken);
+        }
+
+        state->LoadedToken = textBox.Loaded(&TextBoxExtensions::TextBox_Loaded);
+        state->LostFocusToken = textBox.LostFocus(&TextBoxExtensions::TextBox_LostFocus);
+        state->TextChangedToken = textBox.TextChanged(&TextBoxExtensions::TextBox_TextChanged);
     }
 
-    void TextBoxExtensions::TextBox_TextChanged_Regex(winrt::IInspectable const& sender, [[maybe_unused]] winrt::TextChangedEventArgs const& e)
+    void TextBoxExtensions::TextBox_TextChanged(winrt::IInspectable const& sender, [[maybe_unused]] winrt::TextChangedEventArgs const& e)
     {
-        auto textBox = sender.try_as<winrt::TextBox>();
-        if (!textBox) return;
-
+        const auto textBox = sender.as<winrt::TextBox>();
         auto validationMode = GetValidationMode(textBox);
         ValidateTextBox(textBox, validationMode == winrt::XamlToolkit::WinUI::ValidationMode::Dynamic);
     }
 
-    void TextBoxExtensions::TextBox_Loaded_Regex(winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
+    void TextBoxExtensions::TextBox_Loaded(winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
     {
-        auto textBox = sender.try_as<winrt::TextBox>();
-        if (!textBox) return;
-
+        const auto textBox = sender.as<winrt::TextBox>();
         ValidateTextBox(textBox);
     }
 
-    void TextBoxExtensions::TextBox_LostFocus_Regex(winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
+    void TextBoxExtensions::TextBox_LostFocus(winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
     {
-        auto textBox = sender.try_as<winrt::TextBox>();
-        if (!textBox) return;
-
+        const auto textBox = sender.as<winrt::TextBox>();
         ValidateTextBox(textBox);
     }
 
@@ -134,19 +111,18 @@ namespace winrt::XamlToolkit::WinUI::implementation
     {
         auto validationType = GetValidationType(textBox);
         bool regexMatch;
-        auto text = textBox.Text();
+        const auto text = textBox.Text();
         switch (validationType)
         {
         default:
         case winrt::XamlToolkit::WinUI::ValidationType::Custom:
         {
-            auto regexStr = GetRegex(textBox);
-            std::wstring regex(regexStr);
+            const auto regex = GetRegex(textBox);
             if (regex.empty() || std::all_of(regex.begin(), regex.end(), [](wchar_t c) { return std::iswspace(c); }))
             {
                 return;
             }
-            std::wregex pattern(regex);
+            std::wregex pattern(regex.data(), regex.size());
             regexMatch = std::regex_search(text.begin(), text.end(), pattern);
             break;
         }
@@ -171,7 +147,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
         {
             if (!text.empty())
             {
-                auto validationMode = GetValidationMode(textBox);
+                const auto validationMode = GetValidationMode(textBox);
                 if (validationMode == winrt::XamlToolkit::WinUI::ValidationMode::Forced)
                 {
                     textBox.Text(L"");

@@ -8,15 +8,6 @@
 
 namespace winrt::XamlToolkit::WinUI::implementation
 {
-    // Static member definitions
-    winrt::RadialController TextBoxExtensions::_controller = nullptr;
-    winrt::RadialControllerMenuItem TextBoxExtensions::_stepTextMenuItem = nullptr;
-    winrt::weak_ref<winrt::TextBox> TextBoxExtensions::_textBox = nullptr;
-    winrt::event_token TextBoxExtensions::_gotFocusToken = {};
-    winrt::event_token TextBoxExtensions::_lostFocusToken = {};
-    winrt::event_token TextBoxExtensions::_rotationToken = {};
-    winrt::event_token TextBoxExtensions::_buttonToken = {};
-
     void TextBoxExtensions::OnSurfaceDialOptionsPropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e)
     {
         if (!IsSurfaceDialOptionsSupported())
@@ -24,7 +15,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
             return;
         }
 
-        auto textBox = d.try_as<winrt::TextBox>();
+        const auto textBox = d.try_as<winrt::TextBox>();
         if (!textBox)
         {
             return;
@@ -51,7 +42,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
     {
         _textBox = sender.try_as<winrt::TextBox>();
 
-        auto textBox = _textBox.get();
+        const auto textBox = _textBox.get();
         if (!textBox || !_controller)
         {
             return;
@@ -92,7 +83,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
     void TextBoxExtensions::TextBox_LostFocus_SurfaceDial([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
     {
-        auto textBox = _textBox.get();
+        const auto textBox = _textBox.get();
         if (!textBox || !_controller)
         {
             return;
@@ -107,7 +98,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
         if (_stepTextMenuItem)
         {
             uint32_t index;
-            if (auto items = _controller.Menu().Items(); items.IndexOf(_stepTextMenuItem, index))
+            if (const auto items = _controller.Menu().Items(); items.IndexOf(_stepTextMenuItem, index))
             {
                 items.RemoveAt(index);
             }
@@ -125,7 +116,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
     void TextBoxExtensions::Controller_RotationChanged([[maybe_unused]] winrt::RadialController const& sender, winrt::RadialControllerRotationChangedEventArgs const& args)
     {
-        auto textBox = _textBox.get();
+        const auto textBox = _textBox.get();
         if (!textBox)
         {
             return;

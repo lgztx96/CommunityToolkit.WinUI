@@ -3,28 +3,51 @@
 #include "TextBoxExtensions.g.h"
 
 #ifdef __INTELLISENSE__
-#include <string>
-#include <unordered_map>
-#include <vector>
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Microsoft.UI.Xaml.Controls.h>
 #include <winrt/Microsoft.UI.Xaml.Input.h>
 #include <winrt/Windows.ApplicationModel.DataTransfer.h>
 #include <winrt/Windows.UI.Input.h>
+#include <string>
+#include <unordered_map>
+#include <vector>
 #endif
 
 namespace winrt
 {
-    using namespace Windows::Foundation;
-    using namespace Microsoft::UI::Xaml;
-    using namespace Microsoft::UI::Xaml::Controls;
-    using namespace Microsoft::UI::Xaml::Input;
-    using namespace Windows::UI::Input;
+    using namespace ::winrt::Windows::Foundation;
+    using namespace ::winrt::Microsoft::UI::Xaml;
+    using namespace ::winrt::Microsoft::UI::Xaml::Controls;
+    using namespace ::winrt::Microsoft::UI::Xaml::Input;
+    using namespace ::winrt::Windows::UI::Input;
 }
 
 namespace winrt::XamlToolkit::WinUI::implementation
 {
+    struct MaskState : winrt::implements<MaskState, winrt::IInspectable>
+    {
+        std::vector<int> EscapedChars;
+        std::wstring EscapedMask;
+        std::unordered_map<wchar_t, std::wstring> RepresentationDictionary;
+        std::wstring OldText;
+        std::wstring DefaultDisplayText;
+        int OldSelectionStart = 0;
+        int OldSelectionLength = 0;
+        winrt::event_token SelectionChangedToken{ 0 };
+        winrt::event_token TextChangingToken{ 0 };
+        winrt::event_token PasteToken{ 0 };
+        winrt::event_token LoadedToken{ 0 };
+        winrt::event_token GotFocusToken{ 0 };
+    };
+
+    struct RegexState : winrt::implements<RegexState, winrt::IInspectable>
+    {
+        winrt::event_token LoadedToken{ 0 };
+        winrt::event_token LostFocusToken{ 0 };
+        winrt::event_token TextChangedToken{ 0 };
+    };
+
     struct TextBoxExtensions
     {
 #pragma region Mask
@@ -54,6 +77,10 @@ namespace winrt::XamlToolkit::WinUI::implementation
         static constexpr std::pair<wchar_t, std::wstring_view> AlphaNumericRepresentation = { L'*', L"[A-Za-z0-9]" };
 
         static void InitTextBoxMask(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
+
+        static const wil::single_threaded_property<winrt::DependencyProperty> MaskStateProperty;
+
+        static winrt::com_ptr<MaskState> GetMaskState(winrt::TextBox const& textbox);
 
         static void Textbox_Loaded(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
 
@@ -111,11 +138,15 @@ namespace winrt::XamlToolkit::WinUI::implementation
     private:
         static void TextBoxRegexPropertyOnChange(winrt::DependencyObject const& sender, winrt::DependencyPropertyChangedEventArgs const& e);
 
-        static void TextBox_TextChanged_Regex(winrt::IInspectable const& sender, winrt::TextChangedEventArgs const& e);
+        static const wil::single_threaded_property<winrt::DependencyProperty> RegexStateProperty;
 
-        static void TextBox_Loaded_Regex(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
+        static winrt::com_ptr<RegexState> GetRegexState(winrt::TextBox const& textbox);
 
-        static void TextBox_LostFocus_Regex(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
+        static void TextBox_TextChanged(winrt::IInspectable const& sender, winrt::TextChangedEventArgs const& e);
+
+        static void TextBox_Loaded(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
+
+        static void TextBox_LostFocus(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
 
         static void ValidateTextBox(winrt::TextBox const& textBox, bool force = true);
 
@@ -145,13 +176,13 @@ namespace winrt::XamlToolkit::WinUI::implementation
         static void Controller(winrt::RadialController const& value);
 
     private:
-        static winrt::RadialController _controller;
-        static winrt::RadialControllerMenuItem _stepTextMenuItem;
-        static winrt::weak_ref<winrt::TextBox> _textBox;
-        static winrt::event_token _gotFocusToken;
-        static winrt::event_token _lostFocusToken;
-        static winrt::event_token _rotationToken;
-        static winrt::event_token _buttonToken;
+        static inline winrt::RadialController _controller{ nullptr };
+        static inline winrt::RadialControllerMenuItem _stepTextMenuItem{ nullptr };
+        static inline winrt::weak_ref<winrt::TextBox> _textBox{ nullptr };
+        static inline winrt::event_token _gotFocusToken{ 0 };
+        static inline winrt::event_token _lostFocusToken{ 0 };
+        static inline winrt::event_token _rotationToken{ 0 };
+        static inline winrt::event_token _buttonToken{ 0 };
 
         static void OnSurfaceDialOptionsPropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 
