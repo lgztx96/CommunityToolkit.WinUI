@@ -9,36 +9,37 @@ namespace XamlToolkit.WinUI.Animations
         static String GetKey(Microsoft.UI.Xaml.DependencyObject obj);
         static void SetKey(Microsoft.UI.Xaml.DependencyObject obj, String value);
 
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty KeyProperty{ get; };
+
         static Microsoft.UI.Xaml.UIElement GetAnchorElement(Microsoft.UI.Xaml.DependencyObject obj);
         static void SetAnchorElement(Microsoft.UI.Xaml.DependencyObject obj, Microsoft.UI.Xaml.UIElement value);
 
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty AnchorElementProperty{ get; };
+
         static String GetListItemKey(Microsoft.UI.Xaml.DependencyObject obj);
         static void SetListItemKey(Microsoft.UI.Xaml.DependencyObject obj, String value);
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty ListItemKeyProperty{ get; };
 
         static String GetListItemElementName(Microsoft.UI.Xaml.DependencyObject obj);
         static void SetListItemElementName(Microsoft.UI.Xaml.DependencyObject obj, String value);
 
         [noexcept]
-        static Microsoft.UI.Xaml.DependencyProperty KeyProperty{ get; };
-
-        [noexcept]
-        static Microsoft.UI.Xaml.DependencyProperty AnchorElementProperty{ get; };
-
-        [noexcept]
-        static Microsoft.UI.Xaml.DependencyProperty ListItemKeyProperty{ get; };
-
-        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ListItemElementNameProperty{ get; };
 
-        // C# extension APIs exposed as static helper methods for C++/WinRT.
         static void RegisterElementForConnectedAnimation(Microsoft.UI.Xaml.Controls.Page page, String key, Microsoft.UI.Xaml.UIElement element, Windows.Foundation.Collections.IIterable<Microsoft.UI.Xaml.UIElement> anchors);
         static void UnregisterElementForConnectedAnimation(Microsoft.UI.Xaml.Controls.Page page, String key);
+
         static void AttachAnchorElementForConnectedAnimation(Microsoft.UI.Xaml.Controls.Page page, Microsoft.UI.Xaml.UIElement element, Microsoft.UI.Xaml.UIElement anchor);
         static void RemoveAnchoredElementForConnectedAnimation(Microsoft.UI.Xaml.Controls.Page page, Microsoft.UI.Xaml.UIElement element, Microsoft.UI.Xaml.UIElement anchor);
 
         static void RegisterListItemForConnectedAnimation(Microsoft.UI.Xaml.Controls.Page page, Microsoft.UI.Xaml.Controls.ListViewBase listViewBase, String key, String elementName);
         static void UnregisterListItemForConnectedAnimation(Microsoft.UI.Xaml.Controls.Page page, Microsoft.UI.Xaml.Controls.ListViewBase listViewBase, String key);
 
-        static void SetListDataItemForNextConnectedAnimation(Microsoft.UI.Xaml.Controls.Frame frame, Object item);
+        [method_name("SetListDataItemForNextConnectedAnimation")]
+        static void PrepareListDataItemForNextConnectedAnimation(Microsoft.UI.Xaml.Controls.Frame frame, Object item);
     }
 }

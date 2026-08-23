@@ -2,32 +2,15 @@
 #include "winrt_module_imports.h"
 #ifdef __INTELLISENSE__
 #include <memory>
+#include <winrt/Microsoft.UI.Dispatching.h>
+#else
+import winrt.Microsoft.UI.Dispatching;
 #endif
 #include "ConnectedAnimationHelper.h"
 #include "Connected.h"
 
 namespace winrt::XamlToolkit::WinUI::Animations
 {
-  
-    namespace
-    {
-        bool IsNullOrEmptyStringParameter(winrt::IInspectable const& value)
-        {
-            if (!value)
-            {
-                return true;
-            }
-
-            auto text = winrt::unbox_value_or<winrt::hstring>(value, L"");
-            return text.empty();
-        }
-
-        uintptr_t GetObjectKey(winrt::IInspectable const& value)
-        {
-            return reinterpret_cast<uintptr_t>(winrt::get_abi(value));
-        }
-    }
-
     ConnectedAnimationHelper::ConnectedAnimationHelper(winrt::Frame const& frame)
     {
         if (!frame)
@@ -35,42 +18,45 @@ namespace winrt::XamlToolkit::WinUI::Animations
             throw winrt::hresult_invalid_argument(L"frame cannot be null");
         }
 
-        this->frame = frame;
-        navigatingToken = this->frame.Navigating({ this, &ConnectedAnimationHelper::Frame_Navigating });
-        navigatedToken = this->frame.Navigated({ this, &ConnectedAnimationHelper::Frame_Navigated });
+        _navigatingRevoker = frame.Navigating(winrt::auto_revoke, { get_weak(), &ConnectedAnimationHelper::Frame_Navigating});
+        _navigatedRevoker = frame.Navigated(winrt::auto_revoke, { get_weak(), &ConnectedAnimationHelper::Frame_Navigated });
     }
 
     void ConnectedAnimationHelper::SetParameterForNextFrameNavigation(winrt::IInspectable const& parameter)
     {
-        nextParameter = parameter;
+        _nextParameter = parameter;
     }
 
     void ConnectedAnimationHelper::Frame_Navigating(
-        [[maybe_unused]] winrt::IInspectable const& sender,
+        winrt::IInspectable const& sender,
         winrt::NavigatingCancelEventArgs const& e)
     {
-        winrt::IInspectable parameter;
+        const auto frame = sender.as<winrt::Frame>();
+        winrt::IInspectable parameter{ nullptr };
 
-        if (nextParameter)
+        if (_nextParameter)
         {
-            parameter = nextParameter;
+            parameter = _nextParameter;
         }
-        else if (!IsNullOrEmptyStringParameter(e.Parameter()))
+        else if (auto value = e.Parameter())
         {
-            parameter = e.Parameter();
+            if (const auto text = value.try_as<winrt::hstring>(); text && !text->empty())
+            {
+                parameter = value;
+            }
         }
 
-        auto cas = winrt::ConnectedAnimationService::GetForCurrentView();
-        auto page = frame.Content().try_as<winrt::Page>();
+        const auto cas = winrt::ConnectedAnimationService::GetForCurrentView();
+        const auto page = frame.Content().try_as<winrt::Page>();
 
         if (!page)
         {
             return;
         }
 
-        auto& connectedProps = implementation::Connected::GetPageConnectedAnimationProperties(page);
+        const auto connectedAnimationsProps = implementation::Connected::GetPageConnectedAnimationProperties(page);
 
-        for (const auto& [key, props] : connectedProps)
+        for (const auto& [key, props] : *connectedAnimationsProps)
         {
             winrt::ConnectedAnimation animation{ nullptr };
 
@@ -114,28 +100,29 @@ namespace winrt::XamlToolkit::WinUI::Animations
                     UseDirectConnectedAnimationConfiguration(animation);
                 }
 
-                previousPageConnectedAnimationProps[props.Key] = props;
+                _previousPageConnectedAnimationProps[props.Key] = props;
             }
         }
     }
 
     void ConnectedAnimationHelper::Frame_Navigated(
-        [[maybe_unused]] winrt::IInspectable const& sender,
+        winrt::IInspectable const& sender,
         winrt::NavigationEventArgs const& e)
     {
-        auto navigatedPage = frame.Content().try_as<winrt::Page>();
+        const auto frame = sender.as<winrt::Frame>();
+        const auto navigatedPage = frame.Content().try_as<winrt::Page>();
 
         if (!navigatedPage)
         {
             return;
         }
 
-        auto weakFrame = winrt::make_weak(frame);
-        auto token = std::make_shared<winrt::event_token>();
+        const auto weakFrame = winrt::make_weak(frame);
+        const auto token = std::make_shared<winrt::event_token>();
 
         *token = navigatedPage.Loaded([this, weakFrame, token, e](winrt::IInspectable const& source, winrt::RoutedEventArgs const&)
         {
-            auto page = source.try_as<winrt::Page>();
+            const auto page = source.try_as<winrt::Page>();
 
             if (!page)
             {
@@ -146,9 +133,9 @@ namespace winrt::XamlToolkit::WinUI::Animations
 
             winrt::IInspectable parameter{ nullptr };
 
-            if (nextParameter)
+            if (_nextParameter)
             {
-                parameter = nextParameter;
+                parameter = _nextParameter;
             }
             else if (e.NavigationMode() == winrt::NavigationMode::Back)
             {
@@ -166,13 +153,14 @@ namespace winrt::XamlToolkit::WinUI::Animations
                 parameter = e.Parameter();
             }
 
-            auto cas = winrt::ConnectedAnimationService::GetForCurrentView();
-            auto& connectedProps = implementation::Connected::GetPageConnectedAnimationProperties(page);
-            auto& coordinated = implementation::Connected::GetPageCoordinatedAnimationElements(page);
+            const auto cas = winrt::ConnectedAnimationService::GetForCurrentView();
 
-            for (const auto& [_, props] : connectedProps)
+            const auto connectedAnimationsProps = implementation::Connected::GetPageConnectedAnimationProperties(page);
+            const auto coordinatedAnimationElements = implementation::Connected::GetPageCoordinatedAnimationElements(page);
+
+            for (const auto& [_, props] : *connectedAnimationsProps)
             {
-                auto connectedAnimation = cas.GetAnimation(props.Key);
+                const auto connectedAnimation = cas.GetAnimation(props.Key);
                 bool animationHandled = false;
 
                 if (connectedAnimation)
@@ -181,40 +169,41 @@ namespace winrt::XamlToolkit::WinUI::Animations
                     {
                         for (const auto& listAnimProperty : props.ListAnimProperties)
                         {
-                            if (!listAnimProperty.ListViewBase || listAnimProperty.ElementName.empty())
-                            {
-                                continue;
-                            }
-
-                            try
+                            auto itemsSource = listAnimProperty.ListViewBase.ItemsSource().try_as<winrt::IVector<winrt::IInspectable>>();
+                            uint32_t index;
+                            if (itemsSource && itemsSource.IndexOf(parameter, index))
                             {
                                 listAnimProperty.ListViewBase.ScrollIntoView(parameter);
-                                [[maybe_unused]] auto operation =
-                                    listAnimProperty.ListViewBase.TryStartConnectedAnimationAsync(
-                                        connectedAnimation,
-                                        parameter,
-                                        listAnimProperty.ElementName);
+
+                                // give time to the UI thread to scroll the list
+                                const auto dispatcherQueue = winrt::Microsoft::UI::Dispatching::DispatcherQueue::GetForCurrentThread();
+                                dispatcherQueue.TryEnqueue([=]() -> winrt::fire_and_forget
+                                {
+                                    try
+                                    {
+                                        co_await listAnimProperty.ListViewBase.TryStartConnectedAnimationAsync(
+                                                connectedAnimation,
+                                                parameter,
+                                                listAnimProperty.ElementName);
+                                    }
+                                    catch (...)
+                                    {
+                                        connectedAnimation.Cancel();
+                                    }
+                                });
 
                                 animationHandled = true;
                             }
-                            catch (...)
-                            {
-                                connectedAnimation.Cancel();
-                            }
                         }
                     }
-                    else if (!props.IsListAnimation() && props.Element)
+                    else if (!props.IsListAnimation())
                     {
-                        auto it = coordinated.find(GetObjectKey(props.Element));
+                        const auto it = coordinatedAnimationElements->find(props.Element);
 
-                        if (it != coordinated.end() && !it->second.empty())
+                        if (it != coordinatedAnimationElements->end() && !it->second.empty())
                         {
                             auto list = winrt::single_threaded_vector<winrt::UIElement>();
-                            for (const auto& value : it->second)
-                            {
-                                list.Append(value);
-                            }
-
+                            list.ReplaceAll(it->second);
                             connectedAnimation.TryStart(props.Element, list);
                         }
                         else
@@ -228,20 +217,21 @@ namespace winrt::XamlToolkit::WinUI::Animations
 
                 if (animationHandled)
                 {
-                    previousPageConnectedAnimationProps.erase(props.Key);
+                    _previousPageConnectedAnimationProps.erase(props.Key);
                 }
             }
 
-            for (const auto& [key, _] : previousPageConnectedAnimationProps)
+            // if there are animations that were prepared on previous page but no elements on this page have the same key - cancel
+            for (const auto& [key, _] : _previousPageConnectedAnimationProps)
             {
-                if (auto animation = cas.GetAnimation(key))
+                if (const auto animation = cas.GetAnimation(key))
                 {
                     animation.Cancel();
                 }
             }
 
-            previousPageConnectedAnimationProps.clear();
-            nextParameter = nullptr;
+            _previousPageConnectedAnimationProps.clear();
+            _nextParameter = nullptr;
         });
     }
 
