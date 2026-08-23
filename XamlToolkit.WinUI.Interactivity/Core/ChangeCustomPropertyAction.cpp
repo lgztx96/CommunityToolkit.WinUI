@@ -2,7 +2,6 @@
 #include "winrt_module_imports.h"
 #include "ChangeCustomPropertyAction.h"
 #include "ResourceHelper.h"
-#include "TypeConverterHelper.h"
 #if __has_include("ChangeCustomPropertyAction.g.cpp")
 #include "ChangeCustomPropertyAction.g.cpp"
 #endif
@@ -88,7 +87,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
             property = customPropertyProvider.GetCustomProperty(propertyPath);
         }
 
-        auto targetTypeName = customPropertyProvider ? TypeNameToString(customPropertyProvider.Type()) : winrt::hstring{ L"Object" };
+        auto targetTypeName = customPropertyProvider ? customPropertyProvider.Type().Name : winrt::hstring{ L"Object" };
         ValidateProperty(targetTypeName, property, propertyPath);
 
         try
@@ -99,7 +98,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         {
             auto value = Value();
             auto incomingTypeName = value ? winrt::get_class_name(value) : winrt::hstring{ L"null" };
-            auto propertyTypeName = TypeNameToString(property.Type());
+            auto propertyTypeName = property.Type().Name;
             auto message = ResourceHelper::Format(winrt::XamlToolkit::WinUI::Interactivity::ResourceHelper::ChangePropertyActionCannotSetValueExceptionMessage(), incomingTypeName, propertyPath, propertyTypeName);
             throw winrt::hresult_invalid_argument(message);
         }
@@ -124,75 +123,34 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         auto currentValue = Value();
         auto propertyType = property.Type();
 
-        if (currentValue == nullptr)
+        if (!currentValue)
         {
             return GetDefaultValue(propertyType);
         }
 
-        auto asString = InspectableToString(currentValue);
-        if (!asString.empty())
-        {
-            try
-            {
-                return winrt::XamlBindingHelper::ConvertValue(propertyType, winrt::box_value(asString));
-            }
-            catch (winrt::hresult_error const&)
-            {
-                auto converted = winrt::XamlToolkit::WinUI::Interactivity::TypeConverterHelper::Convert(asString, TypeNameToString(propertyType));
-                if (converted)
-                {
-                    return converted;
-                }
-            }
-        }
-
-        return currentValue;
+        return winrt::XamlBindingHelper::ConvertValue(propertyType, currentValue);
     }
 
-    winrt::IInspectable ChangeCustomPropertyAction::GetDefaultValue(winrt::Windows::UI::Xaml::Interop::TypeName const& typeName)
+    winrt::IInspectable ChangeCustomPropertyAction::GetDefaultValue(winrt::TypeName const& typeName)
     {
-        auto const name = TypeNameToString(typeName);
-        if (name == L"Boolean" || name == L"System.Boolean") return winrt::box_value(false);
-        if (name == L"Int32" || name == L"System.Int32") return winrt::box_value(int32_t{});
-        if (name == L"UInt32" || name == L"System.UInt32") return winrt::box_value(uint32_t{});
-        if (name == L"Int64" || name == L"System.Int64") return winrt::box_value(int64_t{});
-        if (name == L"UInt64" || name == L"System.UInt64") return winrt::box_value(uint64_t{});
-        if (name == L"Single" || name == L"System.Single") return winrt::box_value(float{});
-        if (name == L"Double" || name == L"System.Double") return winrt::box_value(double{});
-        if (name == L"Byte" || name == L"System.Byte") return winrt::box_value(uint8_t{});
-        if (name == L"Char16" || name == L"Char" || name == L"System.Char") return winrt::box_value(char16_t{});
-        if (name == L"String" || name == L"System.String") return winrt::box_value(winrt::hstring{});
-        if (name == L"TimeSpan" || name == L"Windows.Foundation.TimeSpan") return winrt::box_value(winrt::Windows::Foundation::TimeSpan{});
-        if (name == L"DateTime" || name == L"Windows.Foundation.DateTime") return winrt::box_value(winrt::Windows::Foundation::DateTime{});
-        if (name == L"Point" || name == L"Windows.Foundation.Point") return winrt::box_value(winrt::Windows::Foundation::Point{});
-        if (name == L"Rect" || name == L"Windows.Foundation.Rect") return winrt::box_value(winrt::Windows::Foundation::Rect{});
-        if (name == L"Size" || name == L"Windows.Foundation.Size") return winrt::box_value(winrt::Windows::Foundation::Size{});
+        const auto& name = typeName.Name;
+
+        if (name == winrt::name_of<bool>()) return winrt::box_value(false);
+        if (name == winrt::name_of<int32_t>()) return winrt::box_value(int32_t{});
+        if (name == winrt::name_of<uint32_t>()) return winrt::box_value(uint32_t{});
+        if (name == winrt::name_of<int64_t>()) return winrt::box_value(int64_t{});
+        if (name == winrt::name_of<uint64_t>()) return winrt::box_value(uint64_t{});
+        if (name == winrt::name_of<float>()) return winrt::box_value(float{});
+        if (name == winrt::name_of<double>()) return winrt::box_value(double{});
+        if (name == winrt::name_of<uint8_t>()) return winrt::box_value(uint8_t{});
+        if (name == winrt::name_of<char16_t>()) return winrt::box_value(char16_t{});
+        if (name == winrt::name_of<winrt::hstring>()) return winrt::box_value(winrt::hstring{});
+        if (name == winrt::name_of<winrt::TimeSpan>()) return winrt::box_value(winrt::TimeSpan{});
+        if (name == winrt::name_of<winrt::DateTime>()) return winrt::box_value(winrt::DateTime{});
+        if (name == winrt::name_of<winrt::Point>()) return winrt::box_value(winrt::Point{});
+        if (name == winrt::name_of<winrt::Rect>()) return winrt::box_value(winrt::Rect{});
+        if (name == winrt::name_of<winrt::Size>()) return winrt::box_value(winrt::Size{});
 
         return nullptr;
-    }
-
-    winrt::hstring ChangeCustomPropertyAction::InspectableToString(winrt::IInspectable const& value)
-    {
-        if (value == nullptr)
-        {
-            return {};
-        }
-
-        if (auto stringValue = value.try_as<winrt::IReference<winrt::hstring>>())
-        {
-            return stringValue.Value();
-        }
-
-        if (auto stringable = value.try_as<winrt::IStringable>())
-        {
-            return stringable.ToString();
-        }
-
-        return {};
-    }
-
-    winrt::hstring ChangeCustomPropertyAction::TypeNameToString(winrt::Windows::UI::Xaml::Interop::TypeName const& typeName)
-    {
-        return typeName.Name;
     }
 }

@@ -103,9 +103,6 @@
     <ClCompile Include="Core\ResourceHelper.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="Core\TypeConverterHelper.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="Utility\WinUIVisualTreeHelper.cpp">
       <Filter>Utility</Filter>
     </ClCompile>
@@ -154,9 +151,6 @@
       <Filter>Media</Filter>
     </ClInclude>
     <ClInclude Include="Core\ResourceHelper.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\TypeConverterHelper.h">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="Utility\IVisualTreeHelper.h">

@@ -182,9 +182,6 @@
     <ClInclude Include="Core\ResourceHelper.h">
       <SubType>Code</SubType>
     </ClInclude>
-    <ClInclude Include="Core\TypeConverterHelper.h">
-      <SubType>Code</SubType>
-    </ClInclude>
     <ClInclude Include="Utility\IVisualTreeHelper.h">
       <SubType>Code</SubType>
     </ClInclude>
@@ -267,9 +264,6 @@
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="Core\ResourceHelper.cpp">
-      <SubType>Code</SubType>
-    </ClCompile>
-    <ClCompile Include="Core\TypeConverterHelper.cpp">
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="Utility\WinUIVisualTreeHelper.cpp">

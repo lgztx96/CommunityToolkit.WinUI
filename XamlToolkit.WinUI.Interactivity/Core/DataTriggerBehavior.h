@@ -19,6 +19,7 @@ namespace winrt
     using namespace Microsoft::UI::Xaml::Data;
     using namespace Microsoft::UI::Xaml::Markup;
     using namespace Windows::Foundation;
+    using namespace Windows::UI::Xaml::Interop;
 }
 
 namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
@@ -74,9 +75,9 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
         static int CompareComparable(winrt::IInspectable const& leftOperand, winrt::IInspectable const& rightOperand);
         static winrt::IInspectable ConvertRightOperand(winrt::IInspectable const& leftOperand, winrt::IInspectable const& rightOperand);
-        static winrt::Windows::UI::Xaml::Interop::TypeName InferTypeName(winrt::IInspectable const& value);
+        static winrt::TypeName InferTypeName(winrt::IInspectable const& value);
         static winrt::hstring TypeDisplayName(winrt::IInspectable const& value);
-        static winrt::hstring TypeDisplayName(winrt::Windows::UI::Xaml::Interop::TypeName const& typeName);
+        static winrt::hstring TypeDisplayName(winrt::TypeName const& typeName);
         static winrt::hstring ValueToString(winrt::IInspectable const& value);
         static void OnValueChanged(winrt::DependencyObject const& dependencyObject, winrt::DependencyPropertyChangedEventArgs const& args);
     };

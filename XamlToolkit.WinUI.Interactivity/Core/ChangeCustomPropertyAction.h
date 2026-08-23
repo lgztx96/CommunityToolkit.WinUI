@@ -7,6 +7,7 @@
 #include <winrt/Windows.UI.Xaml.Interop.h>
 #include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Microsoft.UI.Xaml.Data.h>
+#include <winrt/Microsoft.UI.Xaml.Markup.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
 #endif
@@ -15,7 +16,9 @@ namespace winrt
 {
     using namespace Microsoft::UI::Xaml;
     using namespace Microsoft::UI::Xaml::Data;
+    using namespace Microsoft::UI::Xaml::Markup;
     using namespace Windows::Foundation;
+    using namespace Windows::UI::Xaml::Interop;
 }
 
 namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
@@ -71,9 +74,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         void UpdatePropertyValue(winrt::IInspectable const& targetObject, winrt::hstring const& propertyPath);
         void ValidateProperty(winrt::hstring const& targetTypeName, winrt::ICustomProperty const& property, winrt::hstring const& propertyPath);
         winrt::IInspectable GetConvertedValue(winrt::ICustomProperty const& property) const;
-        static winrt::IInspectable GetDefaultValue(winrt::Windows::UI::Xaml::Interop::TypeName const& typeName);
-        static winrt::hstring InspectableToString(winrt::IInspectable const& value);
-        static winrt::hstring TypeNameToString(winrt::Windows::UI::Xaml::Interop::TypeName const& typeName);
+        static winrt::IInspectable GetDefaultValue(winrt::TypeName const& typeName);
     };
 }
 
