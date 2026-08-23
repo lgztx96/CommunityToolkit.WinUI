@@ -28,7 +28,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
     /// <summary>
     /// A collection of animations that can be grouped together.
     /// </summary>
-    struct AnimationSet : AnimationSetT<AnimationSet, winrt::XamlToolkit::WinUI::Animations::IAnimationSetOwner>
+    struct AnimationSet : AnimationSetT<AnimationSet, winrt::cloaked<winrt::XamlToolkit::WinUI::Animations::IAnimationSetOwner>>
     {
     private:
         std::unordered_map<uintptr_t, std::shared_ptr<std::atomic<bool>>> cancellationStateMap;
