@@ -42,7 +42,7 @@ namespace winrt::XamlToolkit::WinUI::Converters::implementation
 		SetValue(FalseValueProperty(), value);
 	}
 
-	winrt::IInspectable BoolToObjectConverter::Convert(winrt::IInspectable const& value, [[maybe_unused]] winrt::TypeName targetType, [[maybe_unused]] winrt::IInspectable const& parameter, [[maybe_unused]] winrt::hstring const& language) const
+	winrt::IInspectable BoolToObjectConverter::Convert(winrt::IInspectable const& value, winrt::TypeName targetType, winrt::IInspectable const& parameter, [[maybe_unused]] winrt::hstring const& language) const
 	{
 		bool boolValue = winrt::unbox_value_or(value, false);
 
@@ -55,7 +55,7 @@ namespace winrt::XamlToolkit::WinUI::Converters::implementation
 		return ConverterTools::TryConvertValue(boolValue ? TrueValue() : FalseValue(), targetType);
 	}
 
-	winrt::IInspectable BoolToObjectConverter::ConvertBack([[maybe_unused]] winrt::IInspectable const& value, [[maybe_unused]] winrt::TypeName targetType, [[maybe_unused]] winrt::IInspectable const& parameter, [[maybe_unused]] winrt::hstring const& language) const
+	winrt::IInspectable BoolToObjectConverter::ConvertBack(winrt::IInspectable const& value, [[maybe_unused]] winrt::TypeName targetType, winrt::IInspectable const& parameter, [[maybe_unused]] winrt::hstring const& language) const
 	{
 		bool result = ConverterTools::AreValuesEqual(value, TrueValue());
 

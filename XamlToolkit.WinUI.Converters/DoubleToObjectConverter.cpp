@@ -97,7 +97,7 @@ namespace winrt::XamlToolkit::WinUI::Converters::implementation
             winrt::xaml_typename<class_type>(),
             winrt::PropertyMetadata{ winrt::box_value(std::numeric_limits<double>::quiet_NaN()) });
 
-    winrt::IInspectable DoubleToObjectConverter::Convert(winrt::IInspectable const& value, [[maybe_unused]] winrt::TypeName targetType, winrt::IInspectable const& parameter, [[maybe_unused]] winrt::hstring const& language) const
+    winrt::IInspectable DoubleToObjectConverter::Convert(winrt::IInspectable const& value, winrt::TypeName targetType, winrt::IInspectable const& parameter, [[maybe_unused]] winrt::hstring const& language) const
     {
         if (!value)
         {

@@ -28,7 +28,7 @@ namespace winrt::XamlToolkit::WinUI::Converters::implementation
         /// </summary>
         /// <param name="value">Value to be checked.</param>
         /// <returns>True if value is null or empty string, false otherwise.</returns>
-        bool CheckValueIsEmpty(winrt::IInspectable const& value) const override;
+        bool CheckValueIsEmpty(winrt::IInspectable const& value) const noexcept override;
     };
 }
 

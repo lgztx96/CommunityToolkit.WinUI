@@ -16,7 +16,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		wil::single_threaded_property<double> Height;
 
-		double Value() const { return Width / Height; }
+		double Value() const noexcept { return Width / Height; }
 
 		AspectRatio(double width, double height) : Width(width), Height(height) {}
 

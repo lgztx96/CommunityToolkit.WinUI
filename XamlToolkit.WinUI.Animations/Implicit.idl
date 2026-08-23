@@ -41,21 +41,18 @@ namespace XamlToolkit.WinUI.Animations
         /// <summary>
         /// Identifies the ShowAnimationsProperty dependency property.
         /// </summary>
-
         [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ShowAnimationsProperty{ get; };
 
         /// <summary>
         /// Identifies the HideAnimationsProperty dependency property.
         /// </summary>
-
         [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty HideAnimationsProperty{ get; };
 
         /// <summary>
         /// Identifies the AnimationsProperty dependency property.
         /// </summary>
-
         [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty AnimationsProperty{ get; };
     }

@@ -46,7 +46,7 @@ namespace winrt::XamlToolkit::WinUI::Converters::implementation
         winrt::PropertyMetadata{ nullptr }
     );
 
-    winrt::IInspectable EmptyObjectToObjectConverter::Convert(winrt::IInspectable const& value, [[maybe_unused]] winrt::TypeName targetType, winrt::IInspectable const& parameter, [[maybe_unused]] winrt::hstring const& language) const
+    winrt::IInspectable EmptyObjectToObjectConverter::Convert(winrt::IInspectable const& value, winrt::TypeName targetType, winrt::IInspectable const& parameter, [[maybe_unused]] winrt::hstring const& language) const
     {
         auto isEmpty = CheckValueIsEmpty(value);
 
@@ -64,7 +64,7 @@ namespace winrt::XamlToolkit::WinUI::Converters::implementation
         throw hresult_not_implemented();
     }
 
-    bool EmptyObjectToObjectConverter::CheckValueIsEmpty(winrt::IInspectable const& value) const
+    bool EmptyObjectToObjectConverter::CheckValueIsEmpty(winrt::IInspectable const& value) const noexcept
     {
         return !value;
     }
