@@ -37,7 +37,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
 
     ImplicitAnimationSet::ImplicitAnimationSet()
     {
-        VectorChanged(winrt::auto_revoke, { this, &ImplicitAnimationSet::OnVectorChanged });
+        VectorChanged({ this, &ImplicitAnimationSet::OnVectorChanged });
     }
 
     winrt::weak_ref<winrt::UIElement> ImplicitAnimationSet::ParentReference() const noexcept

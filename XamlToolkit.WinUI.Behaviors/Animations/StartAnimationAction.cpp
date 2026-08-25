@@ -37,7 +37,7 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
         }
         else if (auto animationSetOwner = animation.try_as<winrt::XamlToolkit::WinUI::Animations::IAnimationSetOwner>()) //// TODO: Tidy... apply same pattern to Activities?
         {
-            if (auto parent = animationSetOwner.Parent())
+            if (auto parent = animationSetOwner.ParentReference())
             {
                 animation.Start(parent);
             }

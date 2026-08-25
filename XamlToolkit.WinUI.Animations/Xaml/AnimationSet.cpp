@@ -1,10 +1,5 @@
 #include "pch.h"
 #include "winrt_module_imports.h"
-#ifdef __INTELLISENSE__
-#include <atomic>
-#include <memory>
-#include <mutex>
-#endif
 #include "AnimationSet.h"
 #if __has_include("AnimationSet.g.cpp")
 #include "AnimationSet.g.cpp"
@@ -14,9 +9,29 @@
 #include "Interfaces/ITimeline.h"
 #include "Interfaces/IAttachedTimeline.h"
 
-namespace
+namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
-    bool TryAppendTimelineNode(
+    bool AnimationSet::IsSequential() const noexcept
+    {
+        return isSequential;
+    }
+
+    void AnimationSet::IsSequential(bool value) noexcept
+    {
+        isSequential = value;
+    }
+
+    winrt::UIElement AnimationSet::GetParent() const
+    {
+        if (auto parent = parentReference.get())
+        {
+            return parent;
+        }
+
+        throw winrt::hresult_access_denied(L"The current AnimationSet object isn't bound to a parent UIElement instance.");
+    }
+
+    bool AnimationSet::TryAppendTimelineNode(
         winrt::IInspectable const& node,
         winrt::XamlToolkit::WinUI::Animations::AnimationBuilder& builder,
         winrt::UIElement const& element)
@@ -44,19 +59,6 @@ namespace
 
         return false;
     }
-}
-
-namespace winrt::XamlToolkit::WinUI::Animations::implementation
-{
-    bool AnimationSet::IsSequential() const noexcept
-    {
-        return isSequential;
-    }
-
-    void AnimationSet::IsSequential(bool value) noexcept
-    {
-        isSequential = value;
-    }
 
     winrt::fire_and_forget AnimationSet::Start()
     {
@@ -77,19 +79,35 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
     {
         Stop(element);
 
-        auto cancellationState = std::make_shared<std::atomic<bool>>(false);
+        auto state = std::make_shared<ExecutionContext>();
 
         {
-            std::scoped_lock lock(cancellationStateMapMutex);
-            cancellationStateMap[reinterpret_cast<uintptr_t>(winrt::get_abi(element))] = cancellationState;
+            std::unique_lock lock(executionContextMutex);
+            executionContexts.insert_or_assign(winrt::get_abi(element), state);
         }
 
-        return StartAsync(element, cancellationState);
+        auto operation = StartAsync(element, state);
+
+        state->operation = operation;
+
+        return operation;
     }
 
-    winrt::IAsyncAction AnimationSet::StartAsync(winrt::UIElement element, std::shared_ptr<std::atomic<bool>> cancellationState)
+    winrt::IAsyncAction AnimationSet::StartAsync(winrt::UIElement element, std::shared_ptr<ExecutionContext> state)
     {
         auto strongThis = get_strong();
+
+        auto cleanup = wil::scope_exit([=] 
+        {
+            std::unique_lock lock(strongThis->executionContextMutex);
+
+            auto it = strongThis->executionContexts.find(winrt::get_abi(element));
+
+            if (it != strongThis->executionContexts.end() && it->second == state)
+            {
+                strongThis->executionContexts.erase(it);
+            }
+        });
 
 		Started.invoke(*this, nullptr);
 
@@ -99,11 +117,6 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
 
             for (uint32_t i = 0; i < count; ++i)
             {
-                if (cancellationState->load(std::memory_order_acquire))
-                {
-                    break;
-                }
-
                 auto node = strongThis->GetAt(i);
                 AnimationBuilder builder = AnimationBuilder::Create();
 
@@ -124,12 +137,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
                 }
                 else
                 {
-                    ThrowArgumentException();
-                }
-
-                if (cancellationState->load(std::memory_order_acquire))
-                {
-                    break;
+                    throw winrt::hresult_invalid_argument(L"An animation set can only contain timeline nodes or IActivity nodes");
                 }
             }
         }
@@ -153,7 +161,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
                 }
                 else
                 {
-                    ThrowArgumentException();
+                    throw winrt::hresult_invalid_argument(L"An animation set can only contain timeline nodes or IActivity nodes");
                 }
             }
 
@@ -161,15 +169,6 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         }
 
 		Completed.invoke(*this, nullptr);
-
-        {
-            std::scoped_lock lock(strongThis->cancellationStateMapMutex);
-            auto it = strongThis->cancellationStateMap.find(reinterpret_cast<uintptr_t>(winrt::get_abi(element)));
-            if (it != strongThis->cancellationStateMap.end() && it->second == cancellationState)
-            {
-                strongThis->cancellationStateMap.erase(it);
-            }
-        }
     }
 
     void AnimationSet::Stop()
@@ -179,20 +178,22 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
 
     void AnimationSet::Stop(winrt::UIElement const& element)
     {
-        std::shared_ptr<std::atomic<bool>> cancellationState;
+        winrt::IAsyncAction operation{ nullptr };
 
         {
-            std::scoped_lock lock(cancellationStateMapMutex);
-            auto it = cancellationStateMap.find(reinterpret_cast<uintptr_t>(winrt::get_abi(element)));
-            if (it != cancellationStateMap.end())
+            std::unique_lock lock(executionContextMutex);
+
+            const auto it = executionContexts.find(winrt::get_abi(element));
+
+            if (it != executionContexts.end())
             {
-                cancellationState = it->second;
+                operation = it->second->operation;
             }
         }
 
-        if (cancellationState)
+        if (operation)
         {
-            cancellationState->store(true, std::memory_order_release);
+            operation.Cancel();
         }
     }
 }
