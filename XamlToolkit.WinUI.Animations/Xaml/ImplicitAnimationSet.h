@@ -23,11 +23,10 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
     struct ImplicitAnimationSet : ImplicitAnimationSetT<ImplicitAnimationSet>
     {
-    public:
         ImplicitAnimationSet();
 
-        winrt::weak_ref<winrt::UIElement> ParentReference() const;
-        void ParentReference(winrt::weak_ref<winrt::UIElement> const& value);
+        winrt::weak_ref<winrt::UIElement> ParentReference() const noexcept;
+        void ParentReference(winrt::weak_ref<winrt::UIElement> const& value) noexcept;
 
         winrt::CompositionAnimationGroup GetCompositionAnimationGroup(winrt::UIElement const& element);
         winrt::ImplicitAnimationCollection GetImplicitAnimationCollection(winrt::UIElement const& element);
@@ -35,9 +34,8 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         wil::untyped_event<winrt::IInspectable> AnimationsChanged;
 
     private:
-        winrt::weak_ref<winrt::UIElement> parent;
-        winrt::IObservableVector<winrt::DependencyObject>::VectorChanged_revoker vectorChangedRevoker;
-        std::unordered_map<void*, winrt::event_token> animationPropertyChangedEventTokens;
+        winrt::weak_ref<winrt::UIElement> _parent;
+        std::unordered_map<void*, winrt::event_token> _itemsEventTokens;
 
         void OnVectorChanged(winrt::IObservableVector<winrt::DependencyObject> const& sender, winrt::IVectorChangedEventArgs const& event);
         void RaiseAnimationsChanged(winrt::IInspectable const& sender, winrt::IInspectable const& e);

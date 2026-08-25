@@ -14,17 +14,17 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
     namespace
     {
-        IImplicitTimeline* AsInplicitTimeline(winrt::DependencyObject const& item)
+        IImplicitTimeline* AsImplicitTimeline(winrt::DependencyObject const& item)
         {
-            auto animationNode = item.try_as<winrt::XamlToolkit::WinUI::Animations::Animation>();
+            const auto animationNode = item.try_as<winrt::XamlToolkit::WinUI::Animations::Animation>();
 
             if (!animationNode)
             {
                 throw winrt::hresult_invalid_argument(L"ImplicitAnimationSet only accepts Animation timelines.");
             }
 
-            auto animationNodeImpl = winrt::get_self<winrt::XamlToolkit::WinUI::Animations::implementation::Animation>(animationNode);
-            auto timeline = dynamic_cast<IImplicitTimeline*>(animationNodeImpl);
+            const auto animationNodeImpl = winrt::get_self<winrt::XamlToolkit::WinUI::Animations::implementation::Animation>(animationNode);
+            const auto timeline = dynamic_cast<IImplicitTimeline*>(animationNodeImpl);
 
             if (!timeline)
             {
@@ -37,17 +37,17 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
 
     ImplicitAnimationSet::ImplicitAnimationSet()
     {
-        vectorChangedRevoker = VectorChanged(winrt::auto_revoke, { this, &ImplicitAnimationSet::OnVectorChanged });
+        VectorChanged(winrt::auto_revoke, { this, &ImplicitAnimationSet::OnVectorChanged });
     }
 
-    winrt::weak_ref<winrt::UIElement> ImplicitAnimationSet::ParentReference() const
+    winrt::weak_ref<winrt::UIElement> ImplicitAnimationSet::ParentReference() const noexcept
     {
-        return parent;
+        return _parent;
     }
 
-    void ImplicitAnimationSet::ParentReference(winrt::weak_ref<winrt::UIElement> const& value)
+    void ImplicitAnimationSet::ParentReference(winrt::weak_ref<winrt::UIElement> const& value) noexcept
     {
-        parent = value;
+        _parent = value;
     }
 
     void ImplicitAnimationSet::OnVectorChanged(winrt::IObservableVector<DependencyObject> const& sender, winrt::IVectorChangedEventArgs const& event)
@@ -55,13 +55,13 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         if (event.CollectionChange() == winrt::CollectionChange::ItemInserted ||
             event.CollectionChange() == winrt::CollectionChange::ItemChanged)
         {
-            auto timeline = AsInplicitTimeline(sender.GetAt(event.Index()));
-            if (auto it = animationPropertyChangedEventTokens.find(timeline); it != animationPropertyChangedEventTokens.end())
+            const auto timeline = AsImplicitTimeline(sender.GetAt(event.Index()));
+            if (const auto it = _itemsEventTokens.find(timeline); it != _itemsEventTokens.end())
             {
                 timeline->AnimationPropertyChanged(it->second);
             }
 
-            animationPropertyChangedEventTokens[timeline] = timeline->AnimationPropertyChanged({ this, &ImplicitAnimationSet::RaiseAnimationsChanged });
+            _itemsEventTokens[timeline] = timeline->AnimationPropertyChanged({ get_weak(), &ImplicitAnimationSet::RaiseAnimationsChanged});
         }
 
         AnimationsChanged.invoke(*this, nullptr);
@@ -74,12 +74,12 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
 
     winrt::CompositionAnimationGroup ImplicitAnimationSet::GetCompositionAnimationGroup(winrt::UIElement const& element)
     {
-        auto visual = winrt::ElementCompositionPreview::GetElementVisual(element);
-        auto animations = visual.Compositor().CreateAnimationGroup();
+        const auto visual = winrt::ElementCompositionPreview::GetElementVisual(element);
+        const auto animations = visual.Compositor().CreateAnimationGroup();
 
         for (const auto& item : *this)
         {
-            auto timeline = AsInplicitTimeline(item);
+            const auto timeline = AsImplicitTimeline(item);
             winrt::hstring key;
             auto animation = timeline->GetAnimation(element, key);
             animations.Add(animation);
@@ -90,15 +90,15 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
 
     winrt::ImplicitAnimationCollection ImplicitAnimationSet::GetImplicitAnimationCollection(winrt::UIElement const& element)
     {
-        auto visual = winrt::ElementCompositionPreview::GetElementVisual(element);
-        auto compositor = visual.Compositor();
-        auto animations = compositor.CreateImplicitAnimationCollection();
+        const auto visual = winrt::ElementCompositionPreview::GetElementVisual(element);
+        const auto compositor = visual.Compositor();
+        const auto animations = compositor.CreateImplicitAnimationCollection();
 
         for (const auto& item : *this)
         {
-            auto timeline = AsInplicitTimeline(item);
+            auto timeline = AsImplicitTimeline(item);
             winrt::hstring key;
-            auto animation = timeline->GetAnimation(element, key);
+            const auto animation = timeline->GetAnimation(element, key);
 
             if (key.empty())
             {
