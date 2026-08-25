@@ -113,7 +113,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         case winrt::XamlToolkit::WinUI::Interactivity::ComparisonConditionType::GreaterThanOrEqual:
         {
             auto message = ResourceHelper::Format(
-                winrt::XamlToolkit::WinUI::Interactivity::ResourceHelper::InvalidOperands(), 
+                ResourceHelper::InvalidOperands(), 
                 TypeDisplayName(leftOperand), 
                 TypeDisplayName(convertedRightOperand), 
                 winrt::to_hstring(operatorType));
@@ -387,7 +387,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         // TODO: Consider introducing an internal interface (e.g. IBindingRefreshable)
         // to allow actions to explicitly refresh their bindings, since C++/WinRT
         // does not support reflection-based binding updates like C#.
-        winrt::XamlToolkit::WinUI::Interactivity::DataBindingHelper::RefreshDataBindingsOnActions(dataTriggerBehavior->Actions());
+        DataBindingHelper::RefreshDataBindingsOnActions(dataTriggerBehavior->Actions());
 
         if (DataTriggerBehavior::Compare(dataTriggerBehavior->Binding(), dataTriggerBehavior->ComparisonCondition(), dataTriggerBehavior->Value()))
         {

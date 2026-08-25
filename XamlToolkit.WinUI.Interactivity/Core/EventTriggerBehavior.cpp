@@ -186,4 +186,3 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         return (parent || (rootVisual && element == rootVisual));
     }
 }
-

@@ -54,7 +54,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
             return winrt::box_value(false);
         }
 
-        auto metadataProvider = winrt::Application::Current().try_as<winrt::Markup::IXamlMetadataProvider>();
+        auto metadataProvider = winrt::Application::Current().try_as<winrt::IXamlMetadataProvider>();
         if (metadataProvider == nullptr)
         {
             // This will happen if there are no XAML files in the project other than App.xaml.

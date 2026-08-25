@@ -124,7 +124,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 		{
 			auto actualType = winrt::get_class_name(object);
 			std::wstring_view expectedType = winrt::name_of<winrt::FrameworkElement>();
-			auto message = ResourceHelper::Format(winrt::XamlToolkit::WinUI::Interactivity::ResourceHelper::InvalidAssociatedObjectExceptionMessage(), actualType, expectedType);
+			auto message = ResourceHelper::Format(ResourceHelper::InvalidAssociatedObjectExceptionMessage(), actualType, expectedType);
 			throw winrt::hresult_error(E_FAIL, message);
 		}
 

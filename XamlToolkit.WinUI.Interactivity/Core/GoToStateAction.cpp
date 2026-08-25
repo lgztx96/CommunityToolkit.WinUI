@@ -76,7 +76,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
                 return winrt::box_value(false);
             }
 
-            return winrt::box_value(winrt::XamlToolkit::WinUI::Interactivity::VisualStateUtilities::GoToState(control, stateName, UseTransitions()));
+            return winrt::box_value(VisualStateUtilities::GoToState(control, stateName, UseTransitions()));
         }
 
         auto element = sender.try_as<winrt::FrameworkElement>();
@@ -85,13 +85,13 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
             return winrt::box_value(false);
         }
 
-        auto resolvedControl = winrt::XamlToolkit::WinUI::Interactivity::VisualStateUtilities::FindNearestStatefulControl(element);
+        auto resolvedControl = VisualStateUtilities::FindNearestStatefulControl(element);
         if (resolvedControl == nullptr)
         {
-            auto message = ResourceHelper::Format(winrt::XamlToolkit::WinUI::Interactivity::ResourceHelper::GoToStateActionTargetHasNoStateGroups(), element.Name());
+            auto message = ResourceHelper::Format(ResourceHelper::GoToStateActionTargetHasNoStateGroups(), element.Name());
             throw winrt::hresult_error(E_FAIL, message);
         }
 
-        return winrt::box_value(winrt::XamlToolkit::WinUI::Interactivity::VisualStateUtilities::GoToState(resolvedControl, stateName, UseTransitions()));
+        return winrt::box_value(VisualStateUtilities::GoToState(resolvedControl, stateName, UseTransitions()));
     }
 }

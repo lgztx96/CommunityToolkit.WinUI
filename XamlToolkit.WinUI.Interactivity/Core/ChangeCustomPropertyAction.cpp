@@ -99,7 +99,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
             auto value = Value();
             auto incomingTypeName = value ? winrt::get_class_name(value) : winrt::hstring{ L"null" };
             auto propertyTypeName = property.Type().Name;
-            auto message = ResourceHelper::Format(winrt::XamlToolkit::WinUI::Interactivity::ResourceHelper::ChangePropertyActionCannotSetValueExceptionMessage(), incomingTypeName, propertyPath, propertyTypeName);
+            auto message = ResourceHelper::Format(ResourceHelper::ChangePropertyActionCannotSetValueExceptionMessage(), incomingTypeName, propertyPath, propertyTypeName);
             throw winrt::hresult_invalid_argument(message);
         }
     }
@@ -108,12 +108,12 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
     {
         if (property == nullptr)
         {
-            auto message = ResourceHelper::Format(winrt::XamlToolkit::WinUI::Interactivity::ResourceHelper::ChangePropertyActionCannotFindPropertyNameExceptionMessage(), propertyPath, targetTypeName);
+            auto message = ResourceHelper::Format(ResourceHelper::ChangePropertyActionCannotFindPropertyNameExceptionMessage(), propertyPath, targetTypeName);
             throw winrt::hresult_invalid_argument(message);
         }
         else if (!property.CanWrite())
         {
-            auto message = ResourceHelper::Format(winrt::XamlToolkit::WinUI::Interactivity::ResourceHelper::ChangePropertyActionPropertyIsReadOnlyExceptionMessage(), propertyPath, targetTypeName);
+            auto message = ResourceHelper::Format(ResourceHelper::ChangePropertyActionPropertyIsReadOnlyExceptionMessage(), propertyPath, targetTypeName);
             throw winrt::hresult_invalid_argument(message);
         }
     }

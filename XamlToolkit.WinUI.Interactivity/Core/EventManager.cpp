@@ -50,7 +50,7 @@ UNREGISTER_EVENT(event_name, type))
         {
             auto typeName = winrt::get_class_name(sender);
             auto message = ResourceHelper::Format(
-                winrt::XamlToolkit::WinUI::Interactivity::ResourceHelper::CannotFindEventNameExceptionMessage(),
+                ResourceHelper::CannotFindEventNameExceptionMessage(),
                 eventName, 
                 typeName);
             throw winrt::hresult_error(E_FAIL, message);

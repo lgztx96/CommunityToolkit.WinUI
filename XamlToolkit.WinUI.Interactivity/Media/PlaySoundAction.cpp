@@ -156,4 +156,3 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 		}
 	}
 }
-
