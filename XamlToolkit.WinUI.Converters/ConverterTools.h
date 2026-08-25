@@ -26,6 +26,11 @@ namespace winrt::XamlToolkit::WinUI::Converters::implementation
 
         static winrt::IInspectable TryConvertValue(winrt::IInspectable const& value, winrt::TypeName const& targetType)
         {
+            if (!value)
+            {
+                return nullptr;
+            }
+
             try
             {
                 return winrt::XamlBindingHelper::ConvertValue(targetType, value);
