@@ -60,14 +60,14 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         return false;
     }
 
-    winrt::fire_and_forget AnimationSet::Start()
+    void AnimationSet::Start()
     {
-        co_await StartAsync();
+        StartAsync();
     }
 
-    winrt::fire_and_forget AnimationSet::Start(winrt::UIElement const& element)
+    void AnimationSet::Start(winrt::UIElement const& element)
     {
-        co_await StartAsync(element);
+        StartAsync(element);
     }
 
     winrt::IAsyncAction AnimationSet::StartAsync()
@@ -95,6 +95,10 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
 
     winrt::IAsyncAction AnimationSet::StartAsync(winrt::UIElement element, std::shared_ptr<ExecutionContext> state)
     {
+        auto cancellation_token = co_await winrt::get_cancellation_token();
+        cancellation_token.enable_propagation();
+        cancellation_token.originate_on_cancel(false);
+
         auto strongThis = get_strong();
 
         auto cleanup = wil::scope_exit([=] 
@@ -122,7 +126,11 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
 
                 if (TryAppendTimelineNode(node, builder, element))
                 {
-                    co_await builder.StartAsync(element);
+                    try
+                    {
+                        co_await builder.StartAsync(element);
+                    }
+                    catch (winrt::hresult_canceled const&) { break; }
                 }
                 else if (auto activity = node.try_as<IActivity>())
                 {
@@ -130,14 +138,16 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
                     {
                         co_await activity.InvokeAsync(element);
                     }
-                    catch (winrt::hresult_canceled)
-                    {
-                        break;
-                    }
+                    catch (winrt::hresult_canceled const&) { break; }
                 }
                 else
                 {
                     throw winrt::hresult_invalid_argument(L"An animation set can only contain timeline nodes or IActivity nodes");
+                }
+
+                if (cancellation_token()) 
+                {
+                    break;
                 }
             }
         }
@@ -165,7 +175,11 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
                 }
             }
 
-            co_await builder.StartAsync(element);
+            try
+            {
+                co_await builder.StartAsync(element);
+            }
+            catch (winrt::hresult_canceled const&) {}
         }
 
 		Completed.invoke(*this, nullptr);

@@ -42,8 +42,8 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
 
 		wil::untyped_event<winrt::IInspectable> Completed;
 
-        winrt::fire_and_forget Start();
-        winrt::fire_and_forget Start(winrt::UIElement const& element);
+        void Start();
+        void Start(winrt::UIElement const& element);
 
         winrt::IAsyncAction StartAsync();
         winrt::IAsyncAction StartAsync(winrt::UIElement const& element);

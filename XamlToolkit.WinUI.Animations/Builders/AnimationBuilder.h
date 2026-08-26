@@ -744,7 +744,8 @@ namespace winrt::XamlToolkit::WinUI::Animations
         {
             winrt::IAsyncAction compositionTask{ nullptr };
             winrt::IAsyncAction xamlTask{ nullptr };
-            auto cancelation_token{ co_await winrt::get_cancellation_token() };
+            auto cancellation_token{ co_await winrt::get_cancellation_token() };
+            cancellation_token.originate_on_cancel(false);
 
             std::vector<std::tuple<winrt::CompositionObject, winrt::hstring>> compositionAnimations;
 
@@ -813,7 +814,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
                 }();
             }
 
-            cancelation_token.callback([=]
+            cancellation_token.callback([&]
             {
                 for (const auto& [target, path] : compositionAnimations)
                 {
