@@ -64,7 +64,7 @@ namespace winrt::XamlToolkit::WinUI::Converters::implementation
         throw hresult_not_implemented();
     }
 
-    bool EmptyObjectToObjectConverter::CheckValueIsEmpty(winrt::IInspectable const& value) const noexcept
+    bool EmptyObjectToObjectConverter::CheckValueIsEmpty(winrt::IInspectable const& value) const
     {
         return !value;
     }
