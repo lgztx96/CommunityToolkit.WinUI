@@ -10,6 +10,7 @@
 #include <winrt/Microsoft.UI.Xaml.Markup.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
+#include <flat_map>
 #endif
 
 namespace winrt

@@ -135,22 +135,99 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
     {
         const auto& name = typeName.Name;
 
-        if (name == winrt::name_of<bool>()) return winrt::box_value(false);
-        if (name == winrt::name_of<int32_t>()) return winrt::box_value(int32_t{});
-        if (name == winrt::name_of<uint32_t>()) return winrt::box_value(uint32_t{});
-        if (name == winrt::name_of<int64_t>()) return winrt::box_value(int64_t{});
-        if (name == winrt::name_of<uint64_t>()) return winrt::box_value(uint64_t{});
-        if (name == winrt::name_of<float>()) return winrt::box_value(float{});
-        if (name == winrt::name_of<double>()) return winrt::box_value(double{});
-        if (name == winrt::name_of<uint8_t>()) return winrt::box_value(uint8_t{});
-        if (name == winrt::name_of<char16_t>()) return winrt::box_value(char16_t{});
-        if (name == winrt::name_of<winrt::hstring>()) return winrt::box_value(winrt::hstring{});
-        if (name == winrt::name_of<winrt::TimeSpan>()) return winrt::box_value(winrt::TimeSpan{});
-        if (name == winrt::name_of<winrt::DateTime>()) return winrt::box_value(winrt::DateTime{});
-        if (name == winrt::name_of<winrt::Point>()) return winrt::box_value(winrt::Point{});
-        if (name == winrt::name_of<winrt::Rect>()) return winrt::box_value(winrt::Rect{});
-        if (name == winrt::name_of<winrt::Size>()) return winrt::box_value(winrt::Size{});
+        static const std::flat_map<std::wstring_view, winrt::PropertyType> type_map
+        {
+            { winrt::name_of<bool>(), winrt::PropertyType::Boolean },
 
-        return nullptr;
+            { winrt::name_of<int32_t>(), winrt::PropertyType::Int32 },
+            { winrt::name_of<uint32_t>(), winrt::PropertyType::UInt32 },
+            { winrt::name_of<int64_t>(), winrt::PropertyType::Int64 },
+            { winrt::name_of<uint64_t>(), winrt::PropertyType::UInt64 },
+
+            { winrt::name_of<float>(), winrt::PropertyType::Single },
+            { winrt::name_of<double>(), winrt::PropertyType::Double },
+
+            { winrt::name_of<uint8_t>(), winrt::PropertyType::UInt8 },
+            { winrt::name_of<char16_t>(), winrt::PropertyType::Char16 },
+
+            { winrt::name_of<winrt::hstring>(), winrt::PropertyType::String },
+
+            { winrt::name_of<winrt::guid>(), winrt::PropertyType::Guid },
+
+            { winrt::name_of<winrt::DateTime>(), winrt::PropertyType::DateTime },
+            { L"DateTime", winrt::PropertyType::DateTime },
+
+            { winrt::name_of<winrt::TimeSpan>(), winrt::PropertyType::TimeSpan },
+            { L"TimeSpan", winrt::PropertyType::TimeSpan },
+
+            { winrt::name_of<winrt::Point>(), winrt::PropertyType::Point },
+            { L"Point", winrt::PropertyType::Point },
+
+            { winrt::name_of<winrt::Rect>(), winrt::PropertyType::Rect },
+            { L"Rect", winrt::PropertyType::Rect },
+
+            { winrt::name_of<winrt::Size>(), winrt::PropertyType::Size },
+            { L"Size", winrt::PropertyType::Size },
+        };
+
+        const auto it = type_map.find(typeName.Name);
+        if (it == type_map.end())
+        {
+            return nullptr;
+        }
+
+        switch (it->second)
+        {
+        case winrt::PropertyType::Boolean:
+            return winrt::box_value(false);
+
+        case winrt::PropertyType::Int32:
+            return winrt::box_value(int32_t{});
+
+        case winrt::PropertyType::UInt32:
+            return winrt::box_value(uint32_t{});
+
+        case winrt::PropertyType::Int64:
+            return winrt::box_value(int64_t{});
+
+        case winrt::PropertyType::UInt64:
+            return winrt::box_value(uint64_t{});
+
+        case winrt::PropertyType::Single:
+            return winrt::box_value(float{});
+
+        case winrt::PropertyType::Double:
+            return winrt::box_value(double{});
+
+        case winrt::PropertyType::UInt8:
+            return winrt::box_value(uint8_t{});
+
+        case winrt::PropertyType::Char16:
+            return winrt::box_value(char16_t{});
+
+        case winrt::PropertyType::String:
+            return winrt::box_value(winrt::hstring{});
+
+        case winrt::PropertyType::Guid:
+            return winrt::box_value(winrt::guid{});
+
+        case winrt::PropertyType::DateTime:
+            return winrt::box_value(winrt::DateTime{});
+
+        case winrt::PropertyType::TimeSpan:
+            return winrt::box_value(winrt::TimeSpan{});
+
+        case winrt::PropertyType::Point:
+            return winrt::box_value(winrt::Point{});
+
+        case winrt::PropertyType::Rect:
+            return winrt::box_value(winrt::Rect{});
+
+        case winrt::PropertyType::Size:
+            return winrt::box_value(winrt::Size{});
+
+        default:
+            return nullptr;
+        }
     }
 }
