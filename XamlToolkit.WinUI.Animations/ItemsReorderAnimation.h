@@ -12,9 +12,9 @@
 
 namespace winrt
 {
-	using namespace Windows::Foundation;
-    using namespace Microsoft::UI::Xaml;
-    using namespace Microsoft::UI::Xaml::Controls;
+	using namespace ::winrt::Windows::Foundation;
+    using namespace ::winrt::Microsoft::UI::Xaml;
+    using namespace ::winrt::Microsoft::UI::Xaml::Controls;
 }
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
