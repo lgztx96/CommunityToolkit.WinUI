@@ -133,8 +133,6 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
     winrt::IInspectable ChangeCustomPropertyAction::GetDefaultValue(winrt::TypeName const& typeName)
     {
-        const auto& name = typeName.Name;
-
         static const std::flat_map<std::wstring_view, winrt::PropertyType> type_map
         {
             { winrt::name_of<bool>(), winrt::PropertyType::Boolean },
