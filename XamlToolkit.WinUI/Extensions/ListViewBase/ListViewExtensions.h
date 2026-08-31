@@ -70,8 +70,8 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
 #pragma region AlternateRows
 	private:
-		static inline const wil::single_threaded_property<winrt::DependencyProperty> EventContextProperty
-			= winrt::DependencyProperty::RegisterAttached(
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> EventContextProperty =
+			winrt::DependencyProperty::RegisterAttached(
 				L"EventContext",
 				winrt::xaml_typename<winrt::IInspectable>(),
 				winrt::xaml_typename<winrt::XamlToolkit::WinUI::ListViewExtensions>(),
@@ -84,15 +84,15 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
 		static void OnAlternateItemTemplatePropertyChanged(winrt::DependencyObject const& sender, winrt::DependencyPropertyChangedEventArgs const& args);
 
-		static inline const wil::single_threaded_property<winrt::DependencyProperty> AlternateColorProperty
-			= winrt::DependencyProperty::RegisterAttached(
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> AlternateColorProperty =
+			winrt::DependencyProperty::RegisterAttached(
 				L"AlternateColor",
 				winrt::xaml_typename<winrt::Brush>(),
 				winrt::xaml_typename<winrt::XamlToolkit::WinUI::ListViewExtensions>(),
 				winrt::PropertyMetadata(nullptr, &ListViewExtensions::OnAlternateColorPropertyChanged));
 
-		static inline const wil::single_threaded_property<winrt::DependencyProperty> AlternateItemTemplateProperty
-			= winrt::DependencyProperty::RegisterAttached(
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> AlternateItemTemplateProperty =
+			winrt::DependencyProperty::RegisterAttached(
 				L"AlternateItemTemplate",
 				winrt::xaml_typename<winrt::DataTemplate>(),
 				winrt::xaml_typename<winrt::XamlToolkit::WinUI::ListViewExtensions>(),
@@ -136,8 +136,8 @@ namespace winrt::XamlToolkit::WinUI::implementation
 	public:
 		static void OnCommandPropertyChanged(winrt::DependencyObject const& sender, winrt::DependencyPropertyChangedEventArgs const& args);
 
-		static inline const wil::single_threaded_property<winrt::DependencyProperty> CommandProperty
-			= winrt::DependencyProperty::RegisterAttached(
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> CommandProperty =
+			winrt::DependencyProperty::RegisterAttached(
 				L"Command",
 				winrt::xaml_typename<winrt::ICommand>(),
 				winrt::xaml_typename<winrt::XamlToolkit::WinUI::ListViewExtensions>(),
@@ -154,8 +154,8 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		}
 
 	private:
-		static inline const wil::single_threaded_property<winrt::DependencyProperty> CommandEventTokenProperty
-			= winrt::DependencyProperty::RegisterAttached(
+		static inline const wil::single_threaded_property<winrt::DependencyProperty> CommandEventTokenProperty =
+			winrt::DependencyProperty::RegisterAttached(
 				L"CommandEventToken",
 				winrt::xaml_typename<winrt::event_token>(),
 				winrt::xaml_typename<winrt::XamlToolkit::WinUI::ListViewExtensions>(),

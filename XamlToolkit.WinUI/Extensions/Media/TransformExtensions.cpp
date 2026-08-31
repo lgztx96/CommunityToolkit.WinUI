@@ -8,19 +8,19 @@
 
 namespace winrt::XamlToolkit::WinUI::implementation
 {
-	Matrix TransformExtensions::GetMatrix(RotateTransform const& transform) noexcept
+	winrt::Matrix TransformExtensions::GetMatrix(winrt::RotateTransform const& transform) noexcept
 	{
-		return MatrixExtensions::RotateAt(winrt::Microsoft::UI::Xaml::Media::MatrixHelper::Identity(), transform.Angle(), transform.CenterX(), transform.CenterY());
+		return MatrixExtensions::RotateAt(winrt::MatrixHelper::Identity(), transform.Angle(), transform.CenterX(), transform.CenterY());
 	}
 
-	Matrix TransformExtensions::GetMatrix(ScaleTransform const& transform) noexcept
+	winrt::Matrix TransformExtensions::GetMatrix(winrt::ScaleTransform const& transform) noexcept
 	{
-		return MatrixExtensions::ScaleAt(winrt::Microsoft::UI::Xaml::Media::MatrixHelper::Identity(), transform.ScaleX(), transform.ScaleY(), transform.CenterX(), transform.CenterY());
+		return MatrixExtensions::ScaleAt(winrt::MatrixHelper::Identity(), transform.ScaleX(), transform.ScaleY(), transform.CenterX(), transform.CenterY());
 	}
 
-	Matrix TransformExtensions::GetMatrix(SkewTransform const& transform) noexcept
+	winrt::Matrix TransformExtensions::GetMatrix(winrt::SkewTransform const& transform) noexcept
 	{
-		Matrix matrix = winrt::Microsoft::UI::Xaml::Media::MatrixHelper::Identity();
+		winrt::Matrix matrix = winrt::MatrixHelper::Identity();
 
 		auto angleX = transform.AngleX();
 		auto angleY = transform.AngleY();
@@ -44,26 +44,31 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		return matrix;
 	}
 
-	Matrix TransformExtensions::GetMatrix(TranslateTransform const& transform) noexcept
+	winrt::Matrix TransformExtensions::GetMatrix(winrt::TranslateTransform const& transform) noexcept
 	{
-		return MatrixExtensions::Translate(MatrixHelper::Identity(), transform.X(), transform.Y());
+		return MatrixExtensions::Translate(winrt::MatrixHelper::Identity(), transform.X(), transform.Y());
 	}
 
-	Matrix TransformExtensions::GetMatrix(Transform const& transform)
+	winrt::Matrix TransformExtensions::GetMatrix(winrt::Transform const& transform)
 	{
-		if (auto rotate = transform.try_as<RotateTransform>()) {
+		if (const auto rotate = transform.try_as<winrt::RotateTransform>()) 
+		{
 			return GetMatrix(rotate);
 		}
-		else if (auto scale = transform.try_as<ScaleTransform>()) {
+		else if (const auto scale = transform.try_as<winrt::ScaleTransform>())
+		{
 			return GetMatrix(scale);
 		}
-		else if (auto skew = transform.try_as<SkewTransform>()) {
+		else if (const auto skew = transform.try_as<winrt::SkewTransform>())
+		{
 			return GetMatrix(skew);
 		}
-		else if (auto translate = transform.try_as<TranslateTransform>()) {
+		else if (const auto translate = transform.try_as<winrt::TranslateTransform>())
+		{
 			return GetMatrix(translate);
 		}
-		else {
+		else 
+		{
 			throw winrt::hresult_invalid_argument(L"unsupported transform type");
 		}
 	}

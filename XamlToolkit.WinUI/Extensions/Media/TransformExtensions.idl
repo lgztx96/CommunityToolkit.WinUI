@@ -1,7 +1,7 @@
 ﻿namespace XamlToolkit.WinUI
 {
     [webhosthidden]
-    static runtimeclass TransformExtensions 
+    static runtimeclass TransformExtensions
     {
         [default_overload]
         static Microsoft.UI.Xaml.Media.Matrix GetMatrix(Microsoft.UI.Xaml.Media.Transform transform);

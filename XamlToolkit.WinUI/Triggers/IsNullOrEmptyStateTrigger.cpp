@@ -79,9 +79,9 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		}
 
 		// Not IObservableMap, try IBindableObservableVector
-		if (const auto valObservableVector = val.try_as<winrt::IBindableObservableVector>())
+		if (const auto valBindableObservableVector = val.try_as<winrt::IBindableObservableVector>())
 		{
-			_containerChangedToken = valObservableVector.VectorChanged({ get_weak(), [this](auto&& source, auto&&) { SetActive(IsNullOrEmpty(source)); } });
+			_containerChangedToken = valBindableObservableVector.VectorChanged({ get_weak(), [this](auto&& source, auto&&) { SetActive(IsNullOrEmpty(source)); } });
 		}
 	}
 
