@@ -34,23 +34,26 @@ namespace winrt
 
 namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 {
-    const wil::single_threaded_property<winrt::DependencyProperty> DataTriggerBehavior::BindingProperty = winrt::DependencyProperty::Register(
-        L"Binding",
-        winrt::xaml_typename<winrt::IInspectable>(),
-        winrt::xaml_typename<class_type>(),
-        winrt::PropertyMetadata(nullptr, &DataTriggerBehavior::OnValueChanged));
+    const wil::single_threaded_property<winrt::DependencyProperty> DataTriggerBehavior::BindingProperty =
+        winrt::DependencyProperty::Register(
+            L"Binding",
+            winrt::xaml_typename<winrt::IInspectable>(),
+            winrt::xaml_typename<class_type>(),
+            winrt::PropertyMetadata(nullptr, &DataTriggerBehavior::OnValueChanged));
 
-    const wil::single_threaded_property<winrt::DependencyProperty> DataTriggerBehavior::ComparisonConditionProperty = winrt::DependencyProperty::Register(
-        L"ComparisonCondition",
-        winrt::xaml_typename<winrt::XamlToolkit::WinUI::Interactivity::ComparisonConditionType>(),
-        winrt::xaml_typename<class_type>(),
-        winrt::PropertyMetadata(winrt::box_value(winrt::XamlToolkit::WinUI::Interactivity::ComparisonConditionType::Equal), &DataTriggerBehavior::OnValueChanged));
+    const wil::single_threaded_property<winrt::DependencyProperty> DataTriggerBehavior::ComparisonConditionProperty =
+        winrt::DependencyProperty::Register(
+            L"ComparisonCondition",
+            winrt::xaml_typename<winrt::XamlToolkit::WinUI::Interactivity::ComparisonConditionType>(),
+            winrt::xaml_typename<class_type>(),
+            winrt::PropertyMetadata(winrt::box_value(winrt::XamlToolkit::WinUI::Interactivity::ComparisonConditionType::Equal), &DataTriggerBehavior::OnValueChanged));
 
-    const wil::single_threaded_property<winrt::DependencyProperty> DataTriggerBehavior::ValueProperty = winrt::DependencyProperty::Register(
-        L"Value",
-        winrt::xaml_typename<winrt::IInspectable>(),
-        winrt::xaml_typename<class_type>(),
-        winrt::PropertyMetadata(nullptr, &DataTriggerBehavior::OnValueChanged));
+    const wil::single_threaded_property<winrt::DependencyProperty> DataTriggerBehavior::ValueProperty =
+        winrt::DependencyProperty::Register(
+            L"Value",
+            winrt::xaml_typename<winrt::IInspectable>(),
+            winrt::xaml_typename<class_type>(),
+            winrt::PropertyMetadata(nullptr, &DataTriggerBehavior::OnValueChanged));
      
     winrt::IInspectable DataTriggerBehavior::Binding() const
     {
@@ -62,13 +65,12 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         SetValue(BindingProperty(), value);
     }
 
-    winrt::XamlToolkit::WinUI::Interactivity::ComparisonConditionType DataTriggerBehavior::ComparisonCondition()
+    ComparisonConditionType DataTriggerBehavior::ComparisonCondition()
     {
-        auto value = GetValue(ComparisonConditionProperty());
-        return winrt::unbox_value_or<winrt::XamlToolkit::WinUI::Interactivity::ComparisonConditionType>(value, winrt::XamlToolkit::WinUI::Interactivity::ComparisonConditionType::Equal);
+        return winrt::unbox_value_or(GetValue(ComparisonConditionProperty()), ComparisonConditionType::Equal);
     }
 
-    void DataTriggerBehavior::ComparisonCondition(winrt::XamlToolkit::WinUI::Interactivity::ComparisonConditionType const& value)
+    void DataTriggerBehavior::ComparisonCondition(ComparisonConditionType const& value)
     {
         SetValue(ComparisonConditionProperty(), winrt::box_value(value));
     }
@@ -85,10 +87,10 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
     bool DataTriggerBehavior::Compare(
         winrt::IInspectable const& leftOperand,
-        winrt::XamlToolkit::WinUI::Interactivity::ComparisonConditionType const& operatorType,
+        ComparisonConditionType const& operatorType,
         winrt::IInspectable const& rightOperand)
     {
-        auto convertedRightOperand = rightOperand;
+        winrt::IInspectable convertedRightOperand{ rightOperand };
         if (leftOperand && rightOperand)
         {
             convertedRightOperand = ConvertRightOperand(leftOperand, rightOperand);
@@ -101,21 +103,21 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
         switch (operatorType)
         {
-        case winrt::XamlToolkit::WinUI::Interactivity::ComparisonConditionType::Equal:
+        case ComparisonConditionType::Equal:
             return leftOperand == convertedRightOperand || (leftOperand && convertedRightOperand && DataTriggerBehavior::ValueToString(leftOperand) == DataTriggerBehavior::ValueToString(convertedRightOperand));
 
-        case winrt::XamlToolkit::WinUI::Interactivity::ComparisonConditionType::NotEqual:
+        case ComparisonConditionType::NotEqual:
             return !(leftOperand == convertedRightOperand || (leftOperand && convertedRightOperand && DataTriggerBehavior::ValueToString(leftOperand) == DataTriggerBehavior::ValueToString(convertedRightOperand)));
 
-        case winrt::XamlToolkit::WinUI::Interactivity::ComparisonConditionType::LessThan:
-        case winrt::XamlToolkit::WinUI::Interactivity::ComparisonConditionType::LessThanOrEqual:
-        case winrt::XamlToolkit::WinUI::Interactivity::ComparisonConditionType::GreaterThan:
-        case winrt::XamlToolkit::WinUI::Interactivity::ComparisonConditionType::GreaterThanOrEqual:
+        case ComparisonConditionType::LessThan:
+        case ComparisonConditionType::LessThanOrEqual:
+        case ComparisonConditionType::GreaterThan:
+        case ComparisonConditionType::GreaterThanOrEqual:
         {
-            auto message = ResourceHelper::Format(
-                ResourceHelper::InvalidOperands(), 
-                TypeDisplayName(leftOperand), 
-                TypeDisplayName(convertedRightOperand), 
+            const auto message = ResourceHelper::Format(
+                ResourceHelper::InvalidOperands(),
+                TypeDisplayName(leftOperand),
+                TypeDisplayName(convertedRightOperand),
                 winrt::to_hstring(operatorType));
 
                 throw winrt::hresult_invalid_argument(message);
@@ -127,23 +129,23 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
     bool DataTriggerBehavior::EvaluateComparable(
         winrt::IInspectable const& leftOperand,
-        winrt::XamlToolkit::WinUI::Interactivity::ComparisonConditionType const& operatorType,
+        ComparisonConditionType const& operatorType,
         winrt::IInspectable const& rightOperand)
     {
-        int comparison = CompareComparable(leftOperand, rightOperand);
+        const int comparison = CompareComparable(leftOperand, rightOperand);
         switch (operatorType)
         {
-        case winrt::XamlToolkit::WinUI::Interactivity::ComparisonConditionType::Equal:
+        case ComparisonConditionType::Equal:
             return comparison == 0;
-        case winrt::XamlToolkit::WinUI::Interactivity::ComparisonConditionType::NotEqual:
+        case ComparisonConditionType::NotEqual:
             return comparison != 0;
-        case winrt::XamlToolkit::WinUI::Interactivity::ComparisonConditionType::LessThan:
+        case ComparisonConditionType::LessThan:
             return comparison < 0;
-        case winrt::XamlToolkit::WinUI::Interactivity::ComparisonConditionType::LessThanOrEqual:
+        case ComparisonConditionType::LessThanOrEqual:
             return comparison <= 0;
-        case winrt::XamlToolkit::WinUI::Interactivity::ComparisonConditionType::GreaterThan:
+        case ComparisonConditionType::GreaterThan:
             return comparison > 0;
-        case winrt::XamlToolkit::WinUI::Interactivity::ComparisonConditionType::GreaterThanOrEqual:
+        case ComparisonConditionType::GreaterThanOrEqual:
             return comparison >= 0;
         }
 
@@ -345,7 +347,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
     winrt::hstring DataTriggerBehavior::TypeDisplayName(winrt::IInspectable const& value)
     {
-        if (value == nullptr)
+        if (!value)
         {
             return L"null";
         }
@@ -360,14 +362,16 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
     winrt::hstring DataTriggerBehavior::ValueToString(winrt::IInspectable const& value)
     {
-        if (value == nullptr)
+        if (!value)
         {
             return {};
         }
+
         if (const auto stringRef = value.try_as<winrt::IReference<winrt::hstring>>())
         {
             return stringRef.Value();
         }
+
         if (const auto stringable = value.try_as<winrt::IStringable>())
         {
             return stringable.ToString();
@@ -378,7 +382,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
     void DataTriggerBehavior::OnValueChanged(winrt::DependencyObject const& dependencyObject, winrt::DependencyPropertyChangedEventArgs const& args)
     {
-        auto dataTriggerBehavior = winrt::get_self<DataTriggerBehavior>(dependencyObject.as<class_type>());
+        const auto dataTriggerBehavior = winrt::get_self<DataTriggerBehavior>(dependencyObject.as<class_type>())->get_strong();
         if (!dataTriggerBehavior->AssociatedObject())
         {
             return;

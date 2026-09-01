@@ -10,12 +10,13 @@
 
 namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 {
-    const wil::single_threaded_property<winrt::DependencyProperty> Interaction::BehaviorsProperty = winrt::DependencyProperty::RegisterAttached(
-        L"Behaviors",
-        winrt::xaml_typename<winrt::XamlToolkit::WinUI::Interactivity::BehaviorCollection>(),
-        winrt::xaml_typename<winrt::XamlToolkit::WinUI::Interactivity::Interaction>(),
-        winrt::PropertyMetadata(nullptr, &Interaction::OnBehaviorsChanged));
-
+    const wil::single_threaded_property<winrt::DependencyProperty> Interaction::BehaviorsProperty =
+        winrt::DependencyProperty::RegisterAttached(
+            L"Behaviors",
+            winrt::xaml_typename<winrt::XamlToolkit::WinUI::Interactivity::BehaviorCollection>(),
+            winrt::xaml_typename<winrt::XamlToolkit::WinUI::Interactivity::Interaction>(),
+            winrt::PropertyMetadata(nullptr, &Interaction::OnBehaviorsChanged));
+        
     winrt::XamlToolkit::WinUI::Interactivity::BehaviorCollection Interaction::GetBehaviors(winrt::DependencyObject const& obj)
     {
         if (obj == nullptr)

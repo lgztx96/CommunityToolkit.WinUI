@@ -1,8 +1,17 @@
 import "IAction.idl";
-import "Media/ControlStoryboardOption.idl";
 
 namespace XamlToolkit.WinUI.Interactivity
 {
+    enum ControlStoryboardOption
+    {
+        Play,
+        Stop,
+        TogglePlayPause,
+        Pause,
+        Resume,
+        SkipToFill
+    };
+
     [webhosthidden]
     runtimeclass ControlStoryboardAction : Microsoft.UI.Xaml.DependencyObject, XamlToolkit.WinUI.Interactivity.IAction
     {

@@ -155,7 +155,8 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
                     // Remove behavior from the associated object
                     auto behaviors = winrt::XamlToolkit::WinUI::Interactivity::Interaction::GetBehaviors(impl->AssociatedObject());
                     
-                    if (uint32_t index; behaviors.IndexOf(behavior, index)) {
+                    if (uint32_t index; behaviors.IndexOf(behavior, index))
+                    {
                         behaviors.RemoveAt(index);
                     }
                 }

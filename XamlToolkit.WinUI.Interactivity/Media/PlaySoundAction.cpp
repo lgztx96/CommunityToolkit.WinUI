@@ -44,22 +44,23 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 		: _queue(winrt::DispatcherQueue::GetForCurrentThread())
 	{}
 
-	const wil::single_threaded_property<winrt::DependencyProperty> PlaySoundAction::SourceProperty = winrt::DependencyProperty::Register(
-		L"Source",
-		winrt::xaml_typename<winrt::hstring>(),
-		winrt::xaml_typename<class_type>(),
-		winrt::PropertyMetadata(winrt::box_value(L"")));
+	const wil::single_threaded_property<winrt::DependencyProperty> PlaySoundAction::SourceProperty =
+		winrt::DependencyProperty::Register(
+			L"Source",
+			winrt::xaml_typename<winrt::hstring>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata(winrt::box_value(L"")));
 
-	const wil::single_threaded_property<winrt::DependencyProperty> PlaySoundAction::VolumeProperty = winrt::DependencyProperty::Register(
-		L"Volume",
-		winrt::xaml_typename<double>(),
-		winrt::xaml_typename<class_type>(),
-		winrt::PropertyMetadata(winrt::box_value(0.5)));
+	const wil::single_threaded_property<winrt::DependencyProperty> PlaySoundAction::VolumeProperty =
+		winrt::DependencyProperty::Register(
+			L"Volume",
+			winrt::xaml_typename<double>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata(winrt::box_value(0.5)));
 
 	winrt::hstring PlaySoundAction::Source() const
 	{
-		auto value = GetValue(SourceProperty());
-		return winrt::unbox_value_or<winrt::hstring>(value, L"");
+		return winrt::unbox_value<winrt::hstring>(GetValue(SourceProperty()));
 	}
 
 	void PlaySoundAction::Source(winrt::hstring const& value)
@@ -69,8 +70,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
 	double PlaySoundAction::Volume() const
 	{
-		auto value = GetValue(VolumeProperty());
-		return winrt::unbox_value_or<double>(value, 0.5);
+		return winrt::unbox_value_or<double>(GetValue(VolumeProperty()), 0.5);
 	}
 
 	void PlaySoundAction::Volume(double value)
@@ -131,10 +131,10 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
 	void PlaySoundAction::ClosePopup()
 	{
-		auto weak = get_weak();
+		const auto weak = get_weak();
 		auto closePopupImpl = [weak]()
 		{
-			if (auto strong = weak.get()) 
+			if (const auto strong = weak.get()) 
 			{
 				if (strong->_popup)
 				{

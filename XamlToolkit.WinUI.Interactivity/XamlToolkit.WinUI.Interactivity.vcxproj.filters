@@ -188,9 +188,6 @@
     <Midl Include="Core\ChangeCustomPropertyAction.idl">
       <Filter>Core</Filter>
     </Midl>
-    <Midl Include="Core\ComparisonConditionType.idl">
-      <Filter>Core</Filter>
-    </Midl>
     <Midl Include="Core\DataTriggerBehavior.idl">
       <Filter>Core</Filter>
     </Midl>
@@ -198,9 +195,6 @@
       <Filter>Core</Filter>
     </Midl>
     <Midl Include="Media\ControlStoryboardAction.idl">
-      <Filter>Media</Filter>
-    </Midl>
-    <Midl Include="Media\ControlStoryboardOption.idl">
       <Filter>Media</Filter>
     </Midl>
     <Midl Include="Media\PlaySoundAction.idl">

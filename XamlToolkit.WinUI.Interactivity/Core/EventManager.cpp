@@ -48,8 +48,8 @@ UNREGISTER_EVENT(event_name, type))
     {
         [[noreturn]] void ThrowCannotFindEvent(std::wstring_view eventName, winrt::Windows::Foundation::IInspectable const& sender)
         {
-            auto typeName = winrt::get_class_name(sender);
-            auto message = ResourceHelper::Format(
+            const auto typeName = winrt::get_class_name(sender);
+            const auto message = ResourceHelper::Format(
                 ResourceHelper::CannotFindEventNameExceptionMessage(),
                 eventName, 
                 typeName);
@@ -73,7 +73,8 @@ UNREGISTER_EVENT(event_name, type))
             EventManager::AddDefaultEvents();
         }
 
-        if (auto iterator = Global::RegisterHandlers.find(eventName); iterator != Global::RegisterHandlers.end())
+        if (const auto iterator = Global::RegisterHandlers.find(eventName); 
+            iterator != Global::RegisterHandlers.end())
         {
             return iterator->second(sender, action);
         }
@@ -91,7 +92,8 @@ UNREGISTER_EVENT(event_name, type))
             EventManager::AddDefaultEvents();
         }
 
-        if (auto iterator = Global::UnregisterHandlers.find(eventName); iterator != Global::UnregisterHandlers.end())
+        if (const auto iterator = Global::UnregisterHandlers.find(eventName); 
+            iterator != Global::UnregisterHandlers.end())
         {
             iterator->second(sender, token);
             return;

@@ -329,9 +329,6 @@
     <Midl Include="Core\ChangeCustomPropertyAction.idl">
       <SubType>Designer</SubType>
     </Midl>
-    <Midl Include="Core\ComparisonConditionType.idl">
-      <SubType>Designer</SubType>
-    </Midl>
     <Midl Include="Core\DataTriggerBehavior.idl">
       <SubType>Designer</SubType>
     </Midl>
@@ -339,9 +336,6 @@
       <SubType>Designer</SubType>
     </Midl>
     <Midl Include="Media\ControlStoryboardAction.idl">
-      <SubType>Designer</SubType>
-    </Midl>
-    <Midl Include="Media\ControlStoryboardOption.idl">
       <SubType>Designer</SubType>
     </Midl>
     <Midl Include="Media\PlaySoundAction.idl">

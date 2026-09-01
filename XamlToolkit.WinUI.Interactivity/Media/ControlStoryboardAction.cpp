@@ -7,23 +7,26 @@
 
 namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 {
-    const wil::single_threaded_property<winrt::DependencyProperty> ControlStoryboardAction::ControlStoryboardOptionProperty = winrt::DependencyProperty::Register(
-        L"ControlStoryboardOption",
-        winrt::xaml_typename<enum ControlStoryboardOption>(),
-        winrt::xaml_typename<class_type>(),
-        winrt::PropertyMetadata(winrt::box_value(ControlStoryboardOption::Play)));
+    const wil::single_threaded_property<winrt::DependencyProperty> ControlStoryboardAction::ControlStoryboardOptionProperty =
+        winrt::DependencyProperty::Register(
+            L"ControlStoryboardOption",
+            winrt::xaml_typename<enum ControlStoryboardOption>(),
+            winrt::xaml_typename<class_type>(),
+            winrt::PropertyMetadata(winrt::box_value(ControlStoryboardOption::Play)));
 
-    const wil::single_threaded_property<winrt::DependencyProperty> ControlStoryboardAction::StoryboardProperty = winrt::DependencyProperty::Register(
-        L"Storyboard",
-        winrt::xaml_typename<winrt::Storyboard>(),
-        winrt::xaml_typename<class_type>(),
-        winrt::PropertyMetadata(nullptr));
+    const wil::single_threaded_property<winrt::DependencyProperty> ControlStoryboardAction::StoryboardProperty =
+        winrt::DependencyProperty::Register(
+            L"Storyboard",
+            winrt::xaml_typename<winrt::Storyboard>(),
+            winrt::xaml_typename<class_type>(),
+            winrt::PropertyMetadata(nullptr));
 
-	const wil::single_threaded_property<winrt::DependencyProperty> ControlStoryboardAction::IsPausedProperty = winrt::DependencyProperty::RegisterAttached(
-        L"IsPaused",
-        winrt::xaml_typename<bool>(),
-        winrt::xaml_typename<winrt::Storyboard>(),
-        winrt::PropertyMetadata(winrt::box_value(false)));
+    const wil::single_threaded_property<winrt::DependencyProperty> ControlStoryboardAction::IsPausedProperty =
+        winrt::DependencyProperty::RegisterAttached(
+            L"IsPaused",
+            winrt::xaml_typename<bool>(),
+            winrt::xaml_typename<winrt::Storyboard>(),
+            winrt::PropertyMetadata(winrt::box_value(false)));
 
     ControlStoryboardOption ControlStoryboardAction::ControlStoryboardOption() const
     {
@@ -58,8 +61,8 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
     winrt::IInspectable ControlStoryboardAction::Execute([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::IInspectable const& parameter) const
     {
-        auto storyboard = Storyboard();
-        if (storyboard == nullptr)
+        const auto storyboard = Storyboard();
+        if (!storyboard)
         {
             return winrt::box_value(false);
         }
@@ -76,7 +79,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
         case ControlStoryboardOption::TogglePlayPause:
         {
-            auto currentState = storyboard.GetCurrentState();
+            const auto currentState = storyboard.GetCurrentState();
             if (currentState == winrt::ClockState::Stopped)
             {
                 SetIsPaused(Storyboard(), false);

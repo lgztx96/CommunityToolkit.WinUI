@@ -53,8 +53,8 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         /// <summary>
         /// Gets or sets the type of comparison to be performed between <see cref="Binding"/> and <see cref="Value"/>. This is a dependency property.
         /// </summary>
-        winrt::XamlToolkit::WinUI::Interactivity::ComparisonConditionType ComparisonCondition();
-        void ComparisonCondition(winrt::XamlToolkit::WinUI::Interactivity::ComparisonConditionType const& value);
+        ComparisonConditionType ComparisonCondition();
+        void ComparisonCondition(ComparisonConditionType const& value);
 
         /// <summary>
         /// Gets or sets the value to be compared with the value of <see cref="Binding"/>. This is a dependency property.
@@ -65,12 +65,12 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
     private:
         static bool Compare(
             winrt::IInspectable const& leftOperand,
-            winrt::XamlToolkit::WinUI::Interactivity::ComparisonConditionType const& operatorType,
+            ComparisonConditionType const& operatorType,
             winrt::IInspectable const& rightOperand);
 
         static bool EvaluateComparable(
             winrt::IInspectable const& leftOperand,
-            winrt::XamlToolkit::WinUI::Interactivity::ComparisonConditionType const& operatorType,
+            ComparisonConditionType const& operatorType,
             winrt::IInspectable const& rightOperand);
 
         static int CompareComparable(winrt::IInspectable const& leftOperand, winrt::IInspectable const& rightOperand);

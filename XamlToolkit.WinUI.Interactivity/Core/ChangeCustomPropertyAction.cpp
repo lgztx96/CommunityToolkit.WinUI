@@ -8,23 +8,26 @@
 
 namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 {
-    const wil::single_threaded_property<winrt::DependencyProperty> ChangeCustomPropertyAction::PropertyNameProperty = winrt::DependencyProperty::Register(
-        L"PropertyName",
-        winrt::xaml_typename<winrt::PropertyPath>(),
-        winrt::xaml_typename<class_type>(),
-        winrt::PropertyMetadata(nullptr));
+    const wil::single_threaded_property<winrt::DependencyProperty> ChangeCustomPropertyAction::PropertyNameProperty =
+        winrt::DependencyProperty::Register(
+            L"PropertyName",
+            winrt::xaml_typename<winrt::PropertyPath>(),
+            winrt::xaml_typename<class_type>(),
+            winrt::PropertyMetadata(nullptr));
 
-    const wil::single_threaded_property<winrt::DependencyProperty> ChangeCustomPropertyAction::TargetObjectProperty = winrt::DependencyProperty::Register(
-        L"TargetObject",
-        winrt::xaml_typename<winrt::IInspectable>(),
-        winrt::xaml_typename<class_type>(),
-        winrt::PropertyMetadata(nullptr));
+    const wil::single_threaded_property<winrt::DependencyProperty> ChangeCustomPropertyAction::TargetObjectProperty =
+        winrt::DependencyProperty::Register(
+            L"TargetObject",
+            winrt::xaml_typename<winrt::IInspectable>(),
+            winrt::xaml_typename<class_type>(),
+            winrt::PropertyMetadata(nullptr));
 
-    const wil::single_threaded_property<winrt::DependencyProperty> ChangeCustomPropertyAction::ValueProperty = winrt::DependencyProperty::Register(
-        L"Value",
-        winrt::xaml_typename<winrt::IInspectable>(),
-        winrt::xaml_typename<class_type>(),
-        winrt::PropertyMetadata(nullptr));
+    const wil::single_threaded_property<winrt::DependencyProperty> ChangeCustomPropertyAction::ValueProperty =
+        winrt::DependencyProperty::Register(
+            L"Value",
+            winrt::xaml_typename<winrt::IInspectable>(),
+            winrt::xaml_typename<class_type>(),
+            winrt::PropertyMetadata(nullptr));
 
     winrt::PropertyPath ChangeCustomPropertyAction::PropertyName() const
     {
@@ -68,8 +71,8 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
             targetObject = sender;
         }
 
-        auto propertyName = PropertyName();
-        if (targetObject == nullptr || propertyName == nullptr)
+        const auto propertyName = PropertyName();
+        if (!targetObject || !propertyName)
         {
             return winrt::box_value(false);
         }
@@ -80,14 +83,14 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
     void ChangeCustomPropertyAction::UpdatePropertyValue(winrt::IInspectable const& targetObject, winrt::hstring const& propertyPath)
     {
-        auto customPropertyProvider = targetObject.try_as<winrt::ICustomPropertyProvider>();
+        const auto customPropertyProvider = targetObject.try_as<winrt::ICustomPropertyProvider>();
         winrt::ICustomProperty property{ nullptr };
         if (customPropertyProvider)
         {
             property = customPropertyProvider.GetCustomProperty(propertyPath);
         }
 
-        auto targetTypeName = customPropertyProvider ? customPropertyProvider.Type().Name : winrt::hstring{ L"Object" };
+        const auto targetTypeName = customPropertyProvider ? customPropertyProvider.Type().Name : L"Object";
         ValidateProperty(targetTypeName, property, propertyPath);
 
         try
@@ -96,32 +99,32 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         }
         catch (winrt::hresult_error const&)
         {
-            auto value = Value();
-            auto incomingTypeName = value ? winrt::get_class_name(value) : winrt::hstring{ L"null" };
-            auto propertyTypeName = property.Type().Name;
-            auto message = ResourceHelper::Format(ResourceHelper::ChangePropertyActionCannotSetValueExceptionMessage(), incomingTypeName, propertyPath, propertyTypeName);
+            const auto value = Value();
+            const auto incomingTypeName = value ? winrt::get_class_name(value) : L"null";
+            const auto propertyTypeName = property.Type().Name;
+            const auto message = ResourceHelper::Format(ResourceHelper::ChangePropertyActionCannotSetValueExceptionMessage(), incomingTypeName, propertyPath, propertyTypeName);
             throw winrt::hresult_invalid_argument(message);
         }
     }
 
     void ChangeCustomPropertyAction::ValidateProperty(winrt::hstring const& targetTypeName, winrt::ICustomProperty const& property, winrt::hstring const& propertyPath)
     {
-        if (property == nullptr)
+        if (!property)
         {
-            auto message = ResourceHelper::Format(ResourceHelper::ChangePropertyActionCannotFindPropertyNameExceptionMessage(), propertyPath, targetTypeName);
+            const auto message = ResourceHelper::Format(ResourceHelper::ChangePropertyActionCannotFindPropertyNameExceptionMessage(), propertyPath, targetTypeName);
             throw winrt::hresult_invalid_argument(message);
         }
         else if (!property.CanWrite())
         {
-            auto message = ResourceHelper::Format(ResourceHelper::ChangePropertyActionPropertyIsReadOnlyExceptionMessage(), propertyPath, targetTypeName);
+            const auto message = ResourceHelper::Format(ResourceHelper::ChangePropertyActionPropertyIsReadOnlyExceptionMessage(), propertyPath, targetTypeName);
             throw winrt::hresult_invalid_argument(message);
         }
     }
 
     winrt::IInspectable ChangeCustomPropertyAction::GetConvertedValue(winrt::ICustomProperty const& property) const
     {
-        auto currentValue = Value();
-        auto propertyType = property.Type();
+        const auto currentValue = Value();
+        const auto propertyType = property.Type();
 
         if (!currentValue)
         {
