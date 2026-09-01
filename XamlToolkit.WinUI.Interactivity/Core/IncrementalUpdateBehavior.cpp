@@ -312,7 +312,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 			// get the cache for this phase
 			{
 				const auto it = std::lower_bound(phases.begin(), phases.end(), phase);
-				const int phaseIndex = static_cast<int>(it - phases.begin());
+				phaseIndex = static_cast<int>(it - phases.begin());
 
 				if (it == phases.end() || *it != phase)
 				{
