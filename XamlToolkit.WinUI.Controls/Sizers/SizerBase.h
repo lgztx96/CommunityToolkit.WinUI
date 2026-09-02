@@ -64,6 +64,10 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
         void SizerBase_PointerPressed([[maybe_unused]] winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e);
 
+        void SizerBase_PointerCanceled([[maybe_unused]] winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e);
+
+        void SizerBase_PointerCaptureLost([[maybe_unused]] winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e);
+
         void SizerBase_PointerExited([[maybe_unused]] winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e);
 
         void SizerBase_PointerEntered([[maybe_unused]] winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e);
@@ -113,6 +117,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         winrt::UIElement::PointerExited_revoker _pointerExitedRevoker;
         winrt::UIElement::PointerPressed_revoker _pointerPressedRevoker;
         winrt::UIElement::PointerReleased_revoker _pointerReleasedRevoker;
+        winrt::UIElement::PointerCanceled_revoker _pointerCanceledRevoker;
+        winrt::UIElement::PointerCaptureLost_revoker _pointerCaptureLostRevoker;
         winrt::UIElement::ManipulationStarted_revoker _manipulationStartedRevoker;
         winrt::UIElement::ManipulationCompleted_revoker _manipulationCompletedRevoker;
         winrt::Control::IsEnabledChanged_revoker _isEnabledChangedRevoker;
