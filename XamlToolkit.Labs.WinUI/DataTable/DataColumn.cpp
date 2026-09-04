@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "winrt_module_imports.h"
 #include "DataColumn.h"
 #if __has_include("DataColumn.g.cpp")
@@ -9,13 +9,13 @@
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
-    winrt::GridLength DataColumn::DesiredWidth() const 
-    { 
+    winrt::GridLength DataColumn::DesiredWidth() const
+    {
         return winrt::unbox_value<winrt::GridLength>(GetValue(DesiredWidthProperty()));
     }
 
-    void DataColumn::DesiredWidth(winrt::GridLength value) 
-    { 
+    void DataColumn::DesiredWidth(winrt::GridLength value)
+    {
         SetValue(DesiredWidthProperty(), winrt::box_value(value));
     }
 
@@ -26,13 +26,29 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
             winrt::xaml_typename<class_type>(),
             winrt::PropertyMetadata(winrt::box_value(winrt::GridLengthHelper::Auto()), &DataColumn::DesiredWidth_PropertyChanged ));
 
-    bool DataColumn::CanResize() const 
-    { 
-        return winrt::unbox_value<bool>(GetValue(CanResizeProperty())); 
+    winrt::Microsoft::UI::Xaml::Style DataColumn::ColumnSizerStyle() const
+    {
+        return GetValue(ColumnSizerStyleProperty).try_as<winrt::Microsoft::UI::Xaml::Style>();
     }
 
-    void DataColumn::CanResize(bool value) 
-    { 
+    void DataColumn::ColumnSizerStyle(winrt::Microsoft::UI::Xaml::Style const& value)
+    {
+        SetValue(ColumnSizerStyleProperty, value);
+    }
+
+    const wil::single_threaded_property<DependencyProperty> DataColumn::ColumnSizerStyleProperty =
+        DependencyProperty::Register(L"ColumnSizerStyle",
+                                     winrt::xaml_typename<winrt::Microsoft::UI::Xaml::Style>(),
+                                     winrt::xaml_typename<class_type>(),
+                                     PropertyMetadata(nullptr));
+
+    bool DataColumn::CanResize() const
+    {
+        return winrt::unbox_value<bool>(GetValue(CanResizeProperty()));
+    }
+
+    void DataColumn::CanResize(bool value)
+    {
         SetValue(CanResizeProperty(), winrt::box_value(value));
     }
 
@@ -50,7 +66,35 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
     winrt::GridLength DataColumn::CurrentWidth() const
     {
-		return _currentWidth;
+        return DesiredWidth();
+    }
+
+    double DataColumn::ActualColumnWidth() const
+    {
+        return _actualColumnWidth;
+    }
+
+    void DataColumn::SetCurrentWidth(double value)
+    {
+        // A user resize resolves Auto/Star columns to pixels. Write that result
+        // back to the dependency property so XAML, bindings, persistence, and
+        // the layout engine all observe the same authoritative value.
+        _isInternalResizeUpdate = true;
+        try
+        {
+            DesiredWidth(GridLengthHelper::FromPixels(value));
+        }
+        catch (...)
+        {
+            _isInternalResizeUpdate = false;
+            throw;
+        }
+        _isInternalResizeUpdate = false;
+    }
+
+    void DataColumn::SetActualColumnWidth(double value)
+    {
+        _actualColumnWidth = value;
     }
 
     void DataColumn::OnApplyTemplate()
@@ -58,15 +102,19 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         if (_columnSizer)
         {
             _columnSizer.TargetControl(nullptr);
+            _columnSizerManipulationStartedRevoker.revoke();
             _columnSizerManipulationDeltaRevoker.revoke();
-			_columnSizerManipulationCompletedRevoker.revoke();
+            _columnSizerManipulationCompletedRevoker.revoke();
         }
 
         _columnSizer = GetTemplateChild(PartColumnSizer).try_as<winrt::XamlToolkit::WinUI::Controls::ContentSizer>();
 
         if (_columnSizer)
         {
-            _columnSizer.TargetControl(*this);
+            // Keep ContentSizer's native manipulation recognizer, but explicitly
+            // disable its automatic FrameworkElement.Width assignment.
+            _columnSizer.TargetControl(nullptr);
+            _columnSizerManipulationStartedRevoker = _columnSizer.ManipulationStarted(winrt::auto_revoke, { this, &DataColumn::ColumnSizer_ManipulationStarted });
             _columnSizerManipulationDeltaRevoker = _columnSizer.ManipulationDelta(winrt::auto_revoke, { this, &DataColumn::ColumnSizer_ManipulationDelta });
             _columnSizerManipulationCompletedRevoker = _columnSizer.ManipulationCompleted(winrt::auto_revoke, { this, &DataColumn::ColumnSizer_ManipulationCompleted });
         }
@@ -80,36 +128,109 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         base_type::OnApplyTemplate();
     }
 
-    void DataColumn::ColumnSizer_ManipulationDelta([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::ManipulationDeltaRoutedEventArgs const& e)
+    void DataColumn::ColumnSizer_ManipulationStarted([[maybe_unused]] winrt::Windows::Foundation::IInspectable const& sender, [[maybe_unused]] ManipulationStartedRoutedEventArgs const& e)
     {
-        ColumnResizedByUserSizer();
+        auto parent = _parent.get();
+        if (parent == nullptr)
+        {
+            parent = winrt::XamlToolkit::WinUI::DependencyObjectEx::FindAscendant<winrt::XamlToolkit::Labs::WinUI::DataTable>(*this);
+            if (parent != nullptr)
+            {
+                _parent = winrt::make_weak(parent);
+            }
+        }
+
+        if (parent == nullptr)
+        {
+            return;
+        }
+
+        auto parentImpl = winrt::get_self<winrt::XamlToolkit::Labs::WinUI::implementation::DataTable>(parent);
+        _resizeStartWidth = parentImpl->BeginColumnResize(*this);
+        _isManipulationResizing = true;
     }
 
-    void DataColumn::ColumnSizer_ManipulationCompleted([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::ManipulationCompletedRoutedEventArgs const& e)
+    void DataColumn::ColumnSizer_ManipulationDelta([[maybe_unused]] winrt::Windows::Foundation::IInspectable const& sender, winrt::ManipulationDeltaRoutedEventArgs const& e)
     {
-        ColumnResizedByUserSizer();
+        auto parent = _parent.get();
+        if (!_isManipulationResizing || parent == nullptr || _columnSizer == nullptr)
+        {
+            return;
+        }
+
+        const auto dragIncrement = _columnSizer.DragIncrement();
+        auto horizontalChange = std::trunc(e.Cumulative().Translation.X / dragIncrement) * dragIncrement;
+        if (FlowDirection() == winrt::FlowDirection::RightToLeft)
+        {
+            horizontalChange *= -1;
+        }
+
+        auto width = _resizeStartWidth + horizontalChange;
+
+        // PART_ColumnSizer is hosted inside this column. If an interactive
+        // resize is allowed to reduce the entire column below the sizer's own
+        // width, the parent clips the sizer and the user cannot drag it back.
+        // Keep this clamp local to pointer resizing so setting DesiredWidth to
+        // zero programmatically retains its existing meaning.
+        const auto interactiveMinWidth = std::max<double>(MinWidth(), _columnSizer.ActualWidth());
+        width = std::max<double>(width, interactiveMinWidth);
+        if (std::isfinite(MaxWidth()))
+        {
+            width = std::min<double>(width, MaxWidth());
+        }
+
+        const auto currentWidth = DesiredWidth();
+        if (currentWidth.GridUnitType != GridUnitType::Pixel || currentWidth.Value != width)
+        {
+            SetCurrentWidth(width);
+        }
     }
 
-    void DataColumn::ColumnResizedByUserSizer()
+    void DataColumn::ColumnSizer_ManipulationCompleted([[maybe_unused]] winrt::Windows::Foundation::IInspectable const& sender, [[maybe_unused]] winrt::ManipulationCompletedRoutedEventArgs const& e)
     {
-        // Update our internal representation to be our size now as a fixed value.
-        _currentWidth = winrt::GridLengthHelper::FromPixels(ActualWidth());
+        _isManipulationResizing = false;
 
-        // Notify the rest of the table to update
         if (auto parent = _parent.get())
         {
-			auto parentImpl = winrt::get_self<winrt::XamlToolkit::Labs::WinUI::implementation::DataTable>(parent);
-            parentImpl->ColumnResized();
+            // Ensure the final persisted width receives a complete layout pass
+            // even when the last manipulation delta was coalesced.
+            winrt::get_self<winrt::XamlToolkit::Labs::WinUI::implementation::DataTable>(parent)->ColumnWidthChanged();
         }
+    }
+
+    void DataColumn::ApplyDesiredWidth([[maybe_unused]] GridLength const& value)
+    {
+        if (!_isInternalResizeUpdate)
+        {
+            InvalidateMeasure();
+        }
+
+        auto parent = _parent.get();
+        if (parent == nullptr)
+        {
+            parent = winrt::XamlToolkit::WinUI::DependencyObjectEx::FindAscendant<winrt::XamlToolkit::Labs::WinUI::DataTable>(*this);
+            if (parent == nullptr)
+            {
+                return;
+            }
+
+            _parent = winrt::make_weak(parent);
+        }
+
+        auto parentImpl = winrt::get_self<winrt::XamlToolkit::Labs::WinUI::implementation::DataTable>(parent);
+        // A changed pixel width is a new measure constraint. TextBlock decides
+        // whether TextTrimming is necessary during Measure, so arranging rows
+        // alone would retain an ellipsis computed for the previous width.
+        parentImpl->ColumnWidthChanged();
     }
 
     void DataColumn::DesiredWidth_PropertyChanged(winrt::DependencyObject const& d, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& e)
     {
-        // If the developer updates the size of the column, update our internal copy
+        // The dependency property is the single source of truth. Its callback
+        // only schedules the required layout work.
         if (auto col = d.try_as<winrt::XamlToolkit::Labs::WinUI::DataColumn>())
         {
-			auto colImpl = winrt::get_self<winrt::XamlToolkit::Labs::WinUI::implementation::DataColumn>(col);
-            colImpl->_currentWidth = col.DesiredWidth();
+            winrt::get_self<winrt::XamlToolkit::Labs::WinUI::implementation::DataColumn>(col)->ApplyDesiredWidth(col.DesiredWidth());
         }
     }
 }

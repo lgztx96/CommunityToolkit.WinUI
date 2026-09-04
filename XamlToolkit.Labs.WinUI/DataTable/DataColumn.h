@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "DataColumn.g.h"
 
@@ -9,16 +9,16 @@
 
 namespace winrt
 {
-	using namespace Windows::Foundation;
-	using namespace Microsoft::UI::Xaml;
-	using namespace Microsoft::UI::Xaml::Input;
+    using namespace Windows::Foundation;
+    using namespace Microsoft::UI::Xaml;
+    using namespace Microsoft::UI::Xaml::Input;
 }
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
     struct DataColumn : DataColumnT<DataColumn>
     {
-		static constexpr auto PartColumnSizer = L"PART_ColumnSizer";
+        static constexpr auto PartColumnSizer = L"PART_ColumnSizer";
 
         DataColumn();
 
@@ -32,31 +32,47 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         static const wil::single_threaded_property<winrt::DependencyProperty> DesiredWidthProperty;
 
+        winrt::Microsoft::UI::Xaml::Style ColumnSizerStyle() const;
+        void ColumnSizerStyle(winrt::Microsoft::UI::Xaml::Style const& value);
+
+        static const wil::single_threaded_property<DependencyProperty> ColumnSizerStyleProperty;
+
         wil::single_threaded_rw_property<double> MaxChildDesiredWidth;
 
         winrt::GridLength CurrentWidth() const;
 
+        double ActualColumnWidth() const;
+
+        void SetCurrentWidth(double value);
+
+        void SetActualColumnWidth(double value);
+
         void OnApplyTemplate();
 
-        void ColumnSizer_ManipulationDelta(winrt::IInspectable const& sender, winrt::ManipulationDeltaRoutedEventArgs const& e);
+        void ColumnSizer_ManipulationStarted(winrt::Windows::Foundation::IInspectable const& sender, winrt::ManipulationStartedRoutedEventArgs const& e);
+
+        void ColumnSizer_ManipulationDelta(winrt::Windows::Foundation::IInspectable const& sender, winrt::ManipulationDeltaRoutedEventArgs const& e);
 
         void ColumnSizer_ManipulationCompleted(winrt::IInspectable const& sender, winrt::ManipulationCompletedRoutedEventArgs const& e);
-
-        void ColumnResizedByUserSizer();
 
     private:
         static void DesiredWidth_PropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 
-        static inline winrt::GridLength StarLength = winrt::GridLength(1, winrt::GridUnitType::Star);
+        void ApplyDesiredWidth(GridLength const& value);
 
-        winrt::GridLength _currentWidth;
+        double _actualColumnWidth{ 0 };
+        bool _isInternalResizeUpdate{ false };
 
         winrt::XamlToolkit::WinUI::Controls::ContentSizer _columnSizer{ nullptr };
 
         winrt::weak_ref<winrt::XamlToolkit::Labs::WinUI::DataTable> _parent;
 
-		winrt::UIElement::ManipulationDelta_revoker _columnSizerManipulationDeltaRevoker;
-		winrt::UIElement::ManipulationCompleted_revoker _columnSizerManipulationCompletedRevoker;
+        winrt::UIElement::ManipulationStarted_revoker _columnSizerManipulationStartedRevoker;
+        winrt::UIElement::ManipulationDelta_revoker _columnSizerManipulationDeltaRevoker;
+        winrt::UIElement::ManipulationCompleted_revoker _columnSizerManipulationCompletedRevoker;
+
+        bool _isManipulationResizing{ false };
+        double _resizeStartWidth{ 0 };
     };
 }
 
