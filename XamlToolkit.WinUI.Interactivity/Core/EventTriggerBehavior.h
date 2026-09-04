@@ -29,11 +29,11 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         /// Identifies the <seealso cref="EventName"/> dependency property.
         /// </summary>
         static const wil::single_threaded_property<winrt::DependencyProperty> EventNameProperty;
+
         /// <summary>
         /// Identifies the <seealso cref="SourceObject"/> dependency property.
         /// </summary>
         static const wil::single_threaded_property<winrt::DependencyProperty> SourceObjectProperty;
-        static const wil::single_threaded_property<winrt::DependencyProperty> ActionsProperty;
 
         EventTriggerBehavior() = default;
 
@@ -76,6 +76,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         winrt::event_token _registeredToken{};
         winrt::event_token _loadedToken{};
         bool _isLoadedEventRegistered{ false };
+        winrt::hstring _currentEventName;
     };
 }
 

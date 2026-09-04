@@ -45,11 +45,11 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         /// </summary>
         winrt::hstring Expression() const
         {
-            return winrt::unbox_value_or<winrt::hstring>(GetValue(ExpressionProperty), L"");
+            return winrt::unbox_value_or<winrt::hstring>(GetValue(ExpressionProperty()), L"");
         }
         void Expression(winrt::hstring const& value)
         {
-            SetValue(ExpressionProperty, winrt::box_value(value));
+            SetValue(ExpressionProperty(), winrt::box_value(value));
         }
 
         /// <summary>

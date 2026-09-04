@@ -3,8 +3,10 @@ import "BehaviorCollection.idl";
 
 namespace XamlToolkit.WinUI.Interactivity
 {
+    [webhosthidden]
     static runtimeclass Interaction
     {
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty BehaviorsProperty{ get; };
 
         static BehaviorCollection GetBehaviors(Microsoft.UI.Xaml.DependencyObject obj);

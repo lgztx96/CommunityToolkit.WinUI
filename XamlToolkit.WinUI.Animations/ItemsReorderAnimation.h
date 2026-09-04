@@ -12,9 +12,9 @@
 
 namespace winrt
 {
-	using namespace Windows::Foundation;
-    using namespace Microsoft::UI::Xaml;
-    using namespace Microsoft::UI::Xaml::Controls;
+	using namespace ::winrt::Windows::Foundation;
+    using namespace ::winrt::Microsoft::UI::Xaml;
+    using namespace ::winrt::Microsoft::UI::Xaml::Controls;
 }
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
@@ -22,11 +22,8 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
     /// <summary>
     /// Provides the ability to assign a reorder animation to a ListViewBase.
     /// </summary>
-    struct ItemsReorderAnimation : ItemsReorderAnimationT<ItemsReorderAnimation>
+    struct ItemsReorderAnimation
     {
-    public:
-        ItemsReorderAnimation() = default;
-
         /// <summary>
         /// Gets the duration of the reorder animation.
         /// </summary>

@@ -4,6 +4,7 @@
 
 #ifdef __INTELLISENSE__
 #include <regex>
+#include <ranges>
 #endif
 
 namespace winrt::XamlToolkit::WinUI::implementation
@@ -13,69 +14,67 @@ namespace winrt::XamlToolkit::WinUI::implementation
         return s.empty() || std::all_of(s.begin(), s.end(), [](wchar_t c) { return std::iswspace(c); });
     }
 
-    // Per-textbox mask state storage
-    struct MaskState
+    static constexpr auto Split(std::wstring_view view, std::wstring_view delim)
     {
-        std::vector<int> EscapedChars;
-        std::wstring EscapedMask;
-        std::unordered_map<wchar_t, std::wstring> RepresentationDictionary;
-        std::wstring OldText;
-        std::wstring DefaultDisplayText;
-        int OldSelectionStart = 0;
-        int OldSelectionLength = 0;
-        winrt::event_token SelectionChangedToken;
-        winrt::event_token TextChangingToken;
-        winrt::event_token PasteToken;
-        winrt::event_token LoadedToken;
-        winrt::event_token GotFocusToken;
-    };
+        return std::views::split(view, delim) 
+            | std::views::transform([](auto&& range) { return std::wstring_view(range); }) 
+            | std::ranges::to<std::vector>();
+    }
 
-    struct WeakTextBoxHash
+    winrt::com_ptr<MaskState> TextBoxExtensions::GetMaskState(winrt::TextBox const& textbox)
     {
-        size_t operator()(winrt::weak_ref<winrt::TextBox> const& wref) const noexcept
+        const auto value = textbox.GetValue(MaskStateProperty());
+        if (!value)
         {
-            if (auto ref = wref.get())
-            {
-                return std::hash<void*>{}(winrt::get_abi(ref));
-            }
-
-            return 0;
+            return nullptr;
         }
-    };
-
-    static std::unordered_map<winrt::weak_ref<winrt::TextBox>, std::unique_ptr<MaskState>, WeakTextBoxHash> _maskStates;
-
-    static MaskState* GetOrCreateMaskState(winrt::TextBox const& textbox)
-    {
-        if (auto it = _maskStates.find(textbox); it != _maskStates.end())
-        {
-            // Verify the weak_ref is still alive; clean up stale entry if not
-            if (auto ref = it->first.get())
-            {
-                return it->second.get();
-            }
-            _maskStates.erase(it);
-        }
-        auto state = std::make_unique<MaskState>();
-        auto ptr = state.get();
-        _maskStates.emplace(textbox, std::move(state));
-        return ptr;
+        return winrt::get_self<MaskState>(value)->get_strong();
     }
 
     void TextBoxExtensions::InitTextBoxMask(winrt::DependencyObject const& d, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& e)
     {
         // TODO: We should think about if we want to adopt this pattern, but have a DiagnosticSupressor to prevent warning for non-braced if that we should set in .editorconfig.
-        auto textbox = d.try_as<winrt::TextBox>();
-        if (!textbox) return;
+        const auto textbox = d.try_as<winrt::TextBox>();
+        if (!textbox)
+        {
+            return;
+        }
 
-        auto state = GetOrCreateMaskState(textbox);
+        auto state = GetMaskState(textbox);
+        if (!state)
+        {
+            state = winrt::make_self<MaskState>();
+            textbox.SetValue(MaskStateProperty(), *state);
+        }
 
-        // Remove old event handlers
-        textbox.SelectionChanged(state->SelectionChangedToken);
-        textbox.TextChanging(state->TextChangingToken);
-        textbox.Paste(state->PasteToken);
-        textbox.Loaded(state->LoadedToken);
-        textbox.GotFocus(state->GotFocusToken);
+        if (state->SelectionChangedToken)
+        {
+            textbox.SelectionChanged(state->SelectionChangedToken);
+            state->SelectionChangedToken = { 0 };
+        }
+
+        if (state->TextChangingToken)
+        {
+            textbox.TextChanging(state->TextChangingToken);
+            state->TextChangingToken = { 0 };
+        }
+
+        if (state->PasteToken)
+        {
+            textbox.Paste(state->PasteToken);
+            state->PasteToken = { 0 };
+        }
+
+        if (state->LoadedToken)
+        {
+            textbox.Loaded(state->LoadedToken);
+        }
+
+        if (state->GotFocusToken)
+        {
+            textbox.GotFocus(state->GotFocusToken);
+            state->GotFocusToken = { 0 };
+        }
 
         // Subscribe to Loaded to initialize mask
         state->LoadedToken = textbox.Loaded(&TextBoxExtensions::Textbox_Loaded);
@@ -83,11 +82,10 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
     void TextBoxExtensions::Textbox_Loaded(winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
     {
-        auto textbox = sender.try_as<winrt::TextBox>();
+        const auto textbox = sender.try_as<winrt::TextBox>();
         if (!textbox) return;
 
-        auto maskValue = GetMask(textbox);
-        std::wstring mask(maskValue);
+        const auto mask = GetMask(textbox);
 
         // In case no value is provided, use it as normal textbox
         if (IsNullOrWhiteSpace(mask))
@@ -96,17 +94,21 @@ namespace winrt::XamlToolkit::WinUI::implementation
         }
 
         auto placeHolderValue = GetMaskPlaceholder(textbox);
-        std::wstring placeHolderStr(placeHolderValue);
-        if (placeHolderStr.empty())
+        if (placeHolderValue.empty())
         {
             throw winrt::hresult_invalid_argument(L"PlaceHolder can't be null or empty");
         }
 
-        auto state = GetOrCreateMaskState(textbox);
+        auto state = GetMaskState(textbox);
+        if (!state)
+        {
+            state = winrt::make_self<MaskState>();
+            textbox.SetValue(MaskStateProperty(), *state);
+        }
         auto& escapedChars = state->EscapedChars;
 
         // Process escape characters
-        std::wstring builder = mask;
+        std::wstring builder{ mask };
         for (int i = 0; i < static_cast<int>(builder.length()) - 1; i++)
         {
             if (builder[i] == EscapeChar)
@@ -118,7 +120,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
         state->EscapedMask = builder;
 
-        wchar_t placeHolder = placeHolderStr[0];
+        wchar_t placeHolder = placeHolderValue[0];
 
         // Build representation dictionary
         std::unordered_map<wchar_t, std::wstring> representationDictionary
@@ -128,57 +130,21 @@ namespace winrt::XamlToolkit::WinUI::implementation
             { AlphaNumericRepresentation.first, std::wstring(AlphaNumericRepresentation.second) }
         };
 
-        auto customMaskValue = GetCustomMask(textbox);
-        std::wstring_view customMaskStr(customMaskValue);
-        if (!customMaskStr.empty())
+        if (auto customMaskValue = GetCustomMask(textbox); !IsNullOrWhiteSpace(customMaskValue))
         {
-            // Split by comma for roles
-            size_t start = 0;
-            size_t end;
-            while ((end = customMaskStr.find(L',', start)) != std::wstring::npos)
+            const auto customRoles = Split(customMaskValue, L",");
+            for (const auto role : customRoles)
             {
-                auto role = customMaskStr.substr(start, end - start);
-                auto colonPos = role.find(L':');
-                if (colonPos == std::wstring::npos)
+                const auto roleValues = Split(role, L":");
+                if (roleValues.size() != 2)
                 {
                     throw winrt::hresult_invalid_argument(L"Invalid CustomMask property");
                 }
 
-                auto keyValue = role.substr(0, colonPos);
-                auto value = role.substr(colonPos + 1);
+                const auto keyValue = roleValues[0];
+                const auto value = roleValues[1];
 
-                // validate regex
-                try
-                {
-                    std::wregex testRegex(value.begin(), value.end());
-                }
-                catch (...)
-                {
-                    throw winrt::hresult_invalid_argument(L"Invalid CustomMask property, regex is not valid");
-                }
-
-                if (keyValue.size() != 1)
-                {
-                    throw winrt::hresult_invalid_argument(L"Invalid CustomMask property, please validate the mask key");
-                }
-
-                representationDictionary[keyValue[0]] = value;
-                start = end + 1;
-            }
-
-            // Last role
-            if (start < customMaskStr.size())
-            {
-                auto role = customMaskStr.substr(start);
-                auto colonPos = role.find(L':');
-                if (colonPos == std::wstring::npos)
-                {
-                    throw winrt::hresult_invalid_argument(L"Invalid CustomMask property");
-                }
-
-                auto keyValue = role.substr(0, colonPos);
-                auto value = role.substr(colonPos + 1);
-
+                // an exception should be throw if the regex is not valid
                 try
                 {
                     std::wregex testRegex(value.begin(), value.end());
@@ -200,24 +166,22 @@ namespace winrt::XamlToolkit::WinUI::implementation
         state->RepresentationDictionary = representationDictionary;
 
         // Build display text with placeholders
-        std::wstring displayTextBuilder = state->EscapedMask;
-        for (size_t i = 0; i < displayTextBuilder.length(); i++)
+        std::wstring displayText = state->EscapedMask;
+        for (size_t i = 0; i < displayText.length(); i++)
         {
             if (std::find(escapedChars.begin(), escapedChars.end(), static_cast<int>(i)) != escapedChars.end())
             {
                 continue;
             }
 
-            for (const auto& pair : representationDictionary)
+            for (const auto& [key, _] : representationDictionary)
             {
-                if (displayTextBuilder[i] == pair.first)
+                if (displayText[i] == key)
                 {
-                    displayTextBuilder[i] = placeHolder;
+                    displayText[i] = placeHolder;
                 }
             }
         }
-
-        std::wstring displayText = displayTextBuilder;
 
         if (textbox.Text().empty())
         {
@@ -225,10 +189,30 @@ namespace winrt::XamlToolkit::WinUI::implementation
         }
         else
         {
-            auto textboxInitialValue = textbox.Text();
+            const auto textboxInitialValue = textbox.Text();
             textbox.Text(displayText);
             int oldSelectionStart = state->OldSelectionStart;
-            SetTextBoxValue(std::wstring_view(textboxInitialValue), textbox, state->EscapedMask, escapedChars, representationDictionary, placeHolder, oldSelectionStart);
+            SetTextBoxValue(textboxInitialValue, textbox, state->EscapedMask, escapedChars, representationDictionary, placeHolder, oldSelectionStart);
+        }
+
+        if (state->TextChangingToken)
+        {
+            textbox.TextChanging(state->TextChangingToken);
+        }
+
+        if (state->SelectionChangedToken)
+        { 
+            textbox.SelectionChanged(state->SelectionChangedToken);
+        }
+
+        if (state->PasteToken)
+        {
+            textbox.Paste(state->PasteToken);
+        }
+
+        if (state->GotFocusToken)
+        {
+            textbox.GotFocus(state->GotFocusToken);
         }
 
         state->TextChangingToken = textbox.TextChanging(&TextBoxExtensions::Textbox_TextChanging);
@@ -242,61 +226,65 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
     void TextBoxExtensions::Textbox_GotFocus_Mask(winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
     {
-        auto textbox = sender.try_as<winrt::TextBox>();
-        if (!textbox) return;
-
-        auto maskValue = GetMask(textbox);
-        auto placeHolderValue = GetMaskPlaceholder(textbox);
-
-        auto it = _maskStates.find(winrt::weak_ref<winrt::TextBox>(textbox));
-        if (it == _maskStates.end()) return;
-        auto state = it->second.get();
-
-        if (IsNullOrWhiteSpace(maskValue) || state->RepresentationDictionary.empty() || placeHolderValue.empty())
+        if (const auto textbox = sender.try_as<winrt::TextBox>())
         {
-            return;
-        }
+            const auto maskValue = GetMask(textbox);
+            const auto placeHolderValue = GetMaskPlaceholder(textbox);
 
-        wchar_t placeHolder = std::wstring(placeHolderValue)[0];
+            const auto state = GetMaskState(textbox);
+            if (!state)
+            { 
+                return;
+            }
 
-        // if the textbox got focus and the textbox is empty (contains only mask) set the textbox cursor at the beginning to simulate normal TextBox behavior if it is empty.
-        // if the textbox has value set the cursor to the first empty mask character
-        auto textboxText = textbox.Text();
-        for (int i = 0; i < static_cast<int>(textboxText.size()); i++)
-        {
-            if (placeHolder == textboxText[i])
+            if (IsNullOrWhiteSpace(maskValue) || state->RepresentationDictionary.empty() || placeHolderValue.empty())
             {
-                textbox.SelectionStart(i);
-                break;
+                return;
+            }
+
+            wchar_t placeHolder = placeHolderValue[0];
+
+            // if the textbox got focus and the textbox is empty (contains only mask) set the textbox cursor at the beginning to simulate normal TextBox behavior if it is empty.
+            // if the textbox has value set the cursor to the first empty mask character
+            const auto textboxText = textbox.Text();
+            for (int i = 0; i < static_cast<int>(textboxText.size()); i++)
+            {
+                if (placeHolder == textboxText[i])
+                {
+                    textbox.SelectionStart(i);
+                    break;
+                }
             }
         }
     }
 
-    winrt::fire_and_forget TextBoxExtensions::Textbox_Paste(winrt::IInspectable const& sender, winrt::TextControlPasteEventArgs const& e)
+    winrt::fire_and_forget TextBoxExtensions::Textbox_Paste(winrt::IInspectable sender, winrt::TextControlPasteEventArgs const& e)
     {
         e.Handled(true);
 
-        auto dataPackageView = winrt::Windows::ApplicationModel::DataTransfer::Clipboard::GetContent();
+        const auto dataPackageView = winrt::Windows::ApplicationModel::DataTransfer::Clipboard::GetContent();
         if (!dataPackageView.Contains(winrt::Windows::ApplicationModel::DataTransfer::StandardDataFormats::Text()))
         {
             co_return;
         }
 
-        auto pasteText = co_await dataPackageView.GetTextAsync();
+        const auto pasteText = co_await dataPackageView.GetTextAsync();
         if (pasteText.empty())
         {
             co_return;
         }
 
-        auto textbox = sender.try_as<winrt::TextBox>();
+        const auto textbox = sender.try_as<winrt::TextBox>();
         if (!textbox) co_return;
 
-        auto maskValue = GetMask(textbox);
-        auto placeHolderValue = GetMaskPlaceholder(textbox);
+        const auto maskValue = GetMask(textbox);
+        const auto placeHolderValue = GetMaskPlaceholder(textbox);
 
-        auto it = _maskStates.find(textbox);
-        if (it == _maskStates.end()) co_return;
-        auto state = it->second.get();
+        const auto state = GetMaskState(textbox);
+        if (!state)
+        {
+            co_return;
+        }
 
         if (IsNullOrWhiteSpace(maskValue) || state->RepresentationDictionary.empty() || placeHolderValue.empty())
         {
@@ -308,8 +296,9 @@ namespace winrt::XamlToolkit::WinUI::implementation
             co_return;
         }
 
+        // to update the textbox text without triggering TextChanging text
         int oldSelectionStart = state->OldSelectionStart;
-        textbox.TextChanging(state->TextChangingToken); // Remove handler temporarily
+        textbox.TextChanging(state->TextChangingToken);
         SetTextBoxValue(pasteText, textbox, state->EscapedMask, state->EscapedChars, state->RepresentationDictionary, placeHolderValue[0], oldSelectionStart);
         state->OldText = textbox.Text();
         state->TextChangingToken = textbox.TextChanging(&TextBoxExtensions::Textbox_TextChanging);
@@ -336,7 +325,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
             wchar_t selectedChar = newValue[i - oldSelectionStart];
 
             // If dynamic character a,9,* or custom
-            auto dictIt = representationDictionary.find(maskChar);
+            const auto dictIt = representationDictionary.find(maskChar);
             if (dictIt != representationDictionary.end() && std::find(escapedChars.begin(), escapedChars.end(), i) == escapedChars.end())
             {
                 std::wregex pattern(dictIt->second);
@@ -357,12 +346,11 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
     void TextBoxExtensions::Textbox_SelectionChanged(winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
     {
-        auto textbox = sender.try_as<winrt::TextBox>();
+        const auto textbox = sender.try_as<winrt::TextBox>();
         if (!textbox) return;
 
-        auto it = _maskStates.find(textbox);
-        if (it == _maskStates.end()) return;
-        auto state = it->second.get();
+        const auto state = GetMaskState(textbox);
+        if (!state) return;
 
         state->OldSelectionStart = textbox.SelectionStart();
         state->OldSelectionLength = textbox.SelectionLength();
@@ -370,16 +358,18 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
     void TextBoxExtensions::Textbox_TextChanging(winrt::TextBox const& textbox, [[maybe_unused]] winrt::TextBoxTextChangingEventArgs const& args)
     {
-        auto it = _maskStates.find(textbox);
-        if (it == _maskStates.end()) return;
-        auto state = it->second.get();
+        const auto state = GetMaskState(textbox);
+        if (!state)
+        { 
+            return;
+        }
 
-        auto escapedMask = state->EscapedMask;
-        auto& escapedChars = state->EscapedChars;
+        const auto& escapedMask = state->EscapedMask;
+        const auto& escapedChars = state->EscapedChars;
 
-        auto& representationDictionary = state->RepresentationDictionary;
-        auto placeHolderValue = GetMaskPlaceholder(textbox);
-        auto& oldText = state->OldText;
+        const auto& representationDictionary = state->RepresentationDictionary;
+        const auto placeHolderValue = GetMaskPlaceholder(textbox);
+        const auto& oldText = state->OldText;
         int oldSelectionStart = state->OldSelectionStart;
         int oldSelectionLength = state->OldSelectionLength;
 
@@ -388,13 +378,13 @@ namespace winrt::XamlToolkit::WinUI::implementation
             return;
         }
 
-        wchar_t placeHolder = std::wstring(placeHolderValue)[0];
+        wchar_t placeHolder = placeHolderValue[0];
         bool isDeleteOrBackspace = false;
         int deleteBackspaceIndex = 0;
 
         // Delete or backspace is triggered
         // if the new length is less than or equal the old text - the old selection length then a delete or backspace is triggered with or without selection and no characters is added
-        auto text = textbox.Text();
+        const auto text = textbox.Text();
         if (text.size() < oldText.size()
             && text.size() <= oldText.size() - oldSelectionLength)
         {
@@ -440,7 +430,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
         // Case change due to Text property is assigned a value (Ex Textbox.Text="value")
         if (textbox.SelectionStart() == 0 && textbox.FocusState() == winrt::FocusState::Unfocused)
         {
-            auto displayText = state->DefaultDisplayText;
+            const auto& displayText = state->DefaultDisplayText;
             if (text.empty())
             {
                 state->OldText = displayText;
@@ -468,7 +458,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
             wchar_t maskChar = escapedMask[newSelectionIndex];
 
-            auto dictIt = representationDictionary.find(maskChar);
+            const auto dictIt = representationDictionary.find(maskChar);
             // If dynamic character a,9,* or custom
             if (dictIt != representationDictionary.end() && std::find(escapedChars.begin(), escapedChars.end(), newSelectionIndex) == escapedChars.end())
             {
@@ -487,6 +477,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
                     }
                     else
                     {
+                        // if change in selection reset to default place holder instead of keeping the old valid to be clear for the user
                         textArray[newSelectionIndex] = placeHolder;
                     }
                 }
@@ -540,7 +531,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
             wchar_t maskChar = mask[i];
 
             // If dynamic character a,9,* or custom
-            auto dictIt = representationDictionary.find(maskChar);
+            const auto dictIt = representationDictionary.find(maskChar);
             if (dictIt != representationDictionary.end() && std::find(escapedChars.begin(), escapedChars.end(), i) == escapedChars.end())
             {
                 return i;

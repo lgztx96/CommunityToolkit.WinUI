@@ -13,6 +13,7 @@ namespace XamlToolkit.WinUI.Media
     /// A blend effect that merges the current builder with an input one
     /// </summary>
     /// <remarks>This effect maps to the Win2D BlendEffect effect</remarks>
+    [webhosthidden]
     [contentproperty("Effects")]
     runtimeclass BlendEffect : PipelineEffect
     {
@@ -21,6 +22,7 @@ namespace XamlToolkit.WinUI.Media
         /// </summary>
         BlendEffect();
 
+        [noexcept]
         XamlToolkit.WinUI.Media.Pipelines.PipelineBuilder Source;
 
 	    Windows.Foundation.Collections.IVector<IPipelineEffect> Effects;
@@ -28,11 +30,13 @@ namespace XamlToolkit.WinUI.Media
         /// <summary>
         /// Gets or sets the blending mode to use (the default mode is Multiply)
         /// </summary>
+        [noexcept]
         ImageBlendMode Mode;
 
         /// <summary>
         /// Gets or sets the placement of the input builder with respect to the current one (the default is Foreground)
         /// </summary>
+        [noexcept]
         Placement Placement;
     };
 }

@@ -39,7 +39,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
             SetValue(TargetObjectProperty(), winrt::box_value(value));
         }
 
-        winrt::IAsyncAction InvokeAsync(winrt::UIElement const& element) override;
+        winrt::IAsyncAction InvokeAsync(winrt::UIElement element) override;
 
         static const wil::single_threaded_property<winrt::DependencyProperty> AnimationProperty;
         static const wil::single_threaded_property<winrt::DependencyProperty> TargetObjectProperty;

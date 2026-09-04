@@ -55,7 +55,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         auto effectiveEasingType = easingType ? easingType.Value() : easingTypeHint;
         auto effectiveEasingMode = easingMode ? easingMode.Value() : easingModeHint;
 
-        for (auto const& element : *this)
+        for (const auto& element : *this)
         {
             if (auto animation = element.try_as<winrt::XamlToolkit::WinUI::Animations::Animation>())
             {

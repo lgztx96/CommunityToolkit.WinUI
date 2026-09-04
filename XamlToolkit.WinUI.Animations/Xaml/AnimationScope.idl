@@ -7,6 +7,7 @@ namespace XamlToolkit.WinUI.Animations
     /// together and to assign shared properties to be applied to all the contained items automatically.
     /// Note: ITimeline is implemented as a C++ interface, not a WinRT interface.
     /// </summary>
+    [webhosthidden]
     runtimeclass AnimationScope : Microsoft.UI.Xaml.DependencyObjectCollection
     {
         /// <summary>
@@ -19,6 +20,7 @@ namespace XamlToolkit.WinUI.Animations
         /// </summary>
         Windows.Foundation.IReference<Windows.Foundation.TimeSpan> Delay;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty DelayProperty{ get; };
 
         /// <summary>
@@ -26,6 +28,7 @@ namespace XamlToolkit.WinUI.Animations
         /// </summary>
         Windows.Foundation.IReference<Windows.Foundation.TimeSpan> Duration;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty DurationProperty{ get; };
 
         /// <summary>
@@ -33,6 +36,7 @@ namespace XamlToolkit.WinUI.Animations
         /// </summary>
         Windows.Foundation.IReference<EasingType> EasingType;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty EasingTypeProperty{ get; };
 
         /// <summary>
@@ -40,6 +44,7 @@ namespace XamlToolkit.WinUI.Animations
         /// </summary>
         Windows.Foundation.IReference<Microsoft.UI.Xaml.Media.Animation.EasingMode> EasingMode;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty EasingModeProperty{ get; };
     }
 }

@@ -211,7 +211,6 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
         // Delay creating composition resources until they're required.
         if (CompositionBrush() == nullptr)
         {
-
             winrt::Microsoft::UI::Composition::CompositionCapabilities compositionCapabilities;
 
             // Abort if effects aren't supported.

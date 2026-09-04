@@ -6,16 +6,19 @@ namespace XamlToolkit.WinUI.Controls
         MaximumValue
     };
 
-    [default_interface]
+    [webhosthidden]
     runtimeclass RangeChangedEventArgs
     {
         RangeChangedEventArgs();
 
-        Double OldValue();
+        [noexcept]
+        Double OldValue{ get; };
 
-        Double NewValue();
+        [noexcept]
+        Double NewValue{ get; };
 
-        RangeSelectorProperty ChangedRangeProperty();
+        [noexcept]
+        RangeSelectorProperty ChangedRangeProperty{ get; };
 
         RangeChangedEventArgs(Double oldValue, Double newValue, RangeSelectorProperty changedRangeProperty);
     }

@@ -62,7 +62,6 @@ namespace winrt::XamlToolkit::WinUI::Converters::implementation
         /// <returns>The value to be passed to the source object.</returns>
         winrt::IInspectable ConvertBack(winrt::IInspectable const& value, winrt::TypeName targetType, winrt::IInspectable const& parameter, winrt::hstring const& language) const;
 
-    protected:
         /// <summary>
         /// Checks value for emptiness.
         /// </summary>

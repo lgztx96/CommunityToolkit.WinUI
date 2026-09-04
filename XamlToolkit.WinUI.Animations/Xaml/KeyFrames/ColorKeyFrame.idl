@@ -5,6 +5,7 @@ namespace XamlToolkit.WinUI.Animations
     /// <summary>
     /// A KeyFrame type for color animations.
     /// </summary>
+    [webhosthidden]
     runtimeclass ColorKeyFrame : KeyFrame
     {
         ColorKeyFrame();
@@ -14,6 +15,7 @@ namespace XamlToolkit.WinUI.Animations
         /// </summary>
         Windows.Foundation.IReference<Windows.UI.Color> Value;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty ValueProperty{ get; };
     }
 }

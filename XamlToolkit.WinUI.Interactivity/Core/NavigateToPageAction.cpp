@@ -13,22 +13,23 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
     {
     }
 
-    const wil::single_threaded_property<winrt::DependencyProperty> NavigateToPageAction::TargetPageProperty = winrt::DependencyProperty::Register(
-        L"TargetPage",
-        winrt::xaml_typename<winrt::hstring>(),
-        winrt::xaml_typename<class_type>(),
-        winrt::PropertyMetadata(nullptr));
+    const wil::single_threaded_property<winrt::DependencyProperty> NavigateToPageAction::TargetPageProperty =
+        winrt::DependencyProperty::Register(
+            L"TargetPage",
+            winrt::xaml_typename<winrt::hstring>(),
+            winrt::xaml_typename<class_type>(),
+            winrt::PropertyMetadata(nullptr));
 
-    const wil::single_threaded_property<winrt::DependencyProperty> NavigateToPageAction::ParameterProperty = winrt::DependencyProperty::Register(
-        L"Parameter",
-        winrt::xaml_typename<winrt::IInspectable>(),
-        winrt::xaml_typename<class_type>(),
-        winrt::PropertyMetadata(nullptr));
+    const wil::single_threaded_property<winrt::DependencyProperty> NavigateToPageAction::ParameterProperty =
+        winrt::DependencyProperty::Register(
+            L"Parameter",
+            winrt::xaml_typename<winrt::IInspectable>(),
+            winrt::xaml_typename<class_type>(),
+            winrt::PropertyMetadata(nullptr));
 
     winrt::hstring NavigateToPageAction::TargetPage() const
     {
-        auto value = GetValue(TargetPageProperty());
-        return winrt::unbox_value_or<winrt::hstring>(value, L"");
+        return winrt::unbox_value_or<winrt::hstring>(GetValue(TargetPageProperty()), L"");
     }
 
     void NavigateToPageAction::TargetPage(winrt::hstring const& value)
@@ -48,14 +49,14 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
     winrt::IInspectable NavigateToPageAction::Execute(winrt::IInspectable const& sender, winrt::IInspectable const& parameter)
     {
-		auto targetPage = TargetPage();
+		const auto targetPage = TargetPage();
         if (targetPage.empty())
         {
             return winrt::box_value(false);
         }
 
-        auto metadataProvider = winrt::Application::Current().try_as<winrt::Markup::IXamlMetadataProvider>();
-        if (metadataProvider == nullptr)
+        const auto metadataProvider = winrt::Application::Current().try_as<winrt::IXamlMetadataProvider>();
+        if (!metadataProvider)
         {
             // This will happen if there are no XAML files in the project other than App.xaml.
             // The markup compiler doesn't bother implementing IXamlMetadataProvider on the app
@@ -63,16 +64,16 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
             return winrt::box_value(false);
         }
 
-        auto xamlType = metadataProvider.GetXamlType(targetPage);
-        if (xamlType == nullptr)
+        const auto xamlType = metadataProvider.GetXamlType(targetPage);
+        if (!xamlType)
         {
             return winrt::box_value(false);
         }
 
         winrt::INavigate navigateElement{ nullptr };
-        if (auto element = sender.try_as<winrt::UIElement>())
+        if (const auto element = sender.try_as<winrt::UIElement>())
         {
-            if (auto xamlRoot = element.XamlRoot())
+            if (const auto xamlRoot = element.XamlRoot())
             {
                 navigateElement = xamlRoot.Content().try_as<winrt::INavigate>();
             }
@@ -82,23 +83,23 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
         // If the sender wasn't an INavigate, then keep looking up the tree from the
         // root we were given for another INavigate.
-        while (senderObject && navigateElement == nullptr)
+        while (senderObject && !navigateElement)
         {
-            navigateElement = senderObject.try_as<winrt::Controls::INavigate>();
-            if (navigateElement == nullptr)
+            navigateElement = senderObject.try_as<winrt::INavigate>();
+            if (!navigateElement)
             {
                 senderObject = _visualTreeHelper ? _visualTreeHelper->GetParent(senderObject) : nullptr;
             }
         }
 
-        if (navigateElement == nullptr)
+        if (!navigateElement)
         {
             return winrt::box_value(false);
         }
 
-        if (auto frame = navigateElement.try_as<winrt::Frame>())
+        if (const auto frame = navigateElement.try_as<winrt::Frame>())
         {
-            auto navigationParameter = Parameter() ? Parameter() : parameter;
+            const auto navigationParameter = Parameter() ? Parameter() : parameter;
             return winrt::box_value(frame.Navigate(xamlType.UnderlyingType(), navigationParameter));
         }
         else

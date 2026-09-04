@@ -543,39 +543,12 @@ namespace winrt::XamlToolkit::WinUI::Animations
             FrameworkLayer layer = FrameworkLayer::Composition);
 
         /// <summary>
-        /// Adds a custom animation based on normalized keyframes to the current schedule.
-        /// </summary>
-        template<typename T, typename TState>
-        AnimationBuilder& NormalizedKeyFrames(
-            winrt::hstring const& property,
-            TState state,
-            std::function<void(INormalizedKeyFrameAnimationBuilder<T>&, TState)> build,
-            std::optional<winrt::TimeSpan> delay = std::nullopt,
-            std::optional<winrt::TimeSpan> duration = std::nullopt,
-            std::optional<RepeatOption> repeatOption = std::nullopt,
-            std::optional<winrt::AnimationDelayBehavior> delayBehavior = std::nullopt,
-            FrameworkLayer layer = FrameworkLayer::Composition);
-
-        /// <summary>
         /// Adds a custom animation based on timed keyframes to the current schedule.
         /// </summary>
         template<typename T>
         AnimationBuilder& TimedKeyFrames(
             winrt::hstring const& property,
             std::function<void(ITimedKeyFrameAnimationBuilder<T>&)> build,
-            std::optional<winrt::TimeSpan> delay = std::nullopt,
-            std::optional<RepeatOption> repeat = std::nullopt,
-            std::optional<winrt::AnimationDelayBehavior> delayBehavior = std::nullopt,
-            FrameworkLayer layer = FrameworkLayer::Composition);
-
-        /// <summary>
-        /// Adds a custom animation based on timed keyframes to the current schedule.
-        /// </summary>
-        template<typename T, typename TState>
-        AnimationBuilder& TimedKeyFrames(
-            winrt::hstring const& property,
-            TState state,
-            std::function<void(ITimedKeyFrameAnimationBuilder<T>&, TState)> build,
             std::optional<winrt::TimeSpan> delay = std::nullopt,
             std::optional<RepeatOption> repeat = std::nullopt,
             std::optional<winrt::AnimationDelayBehavior> delayBehavior = std::nullopt,
@@ -627,7 +600,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
             {
                 winrt::Storyboard storyboard;
                 auto children = storyboard.Children();
-                for (auto const& factory : xamlAnimationFactories)
+                for (const auto& factory : xamlAnimationFactories)
                 {
                     children.Append(factory->GetAnimation(element));
                 }
@@ -731,7 +704,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
 
                     winrt::Storyboard storyboard;
                     auto children = storyboard.Children();
-                    for (auto const& factory : xamlAnimationFactories)
+                    for (const auto& factory : xamlAnimationFactories)
                     {
                         children.Append(factory->GetAnimation(element));
                     }
@@ -754,7 +727,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
                 // considerations regarding the closure to capture the provided callback apply here as well.
                 winrt::Storyboard storyboard;
                 auto children = storyboard.Children();
-                for (auto const& factory : xamlAnimationFactories)
+                for (const auto& factory : xamlAnimationFactories)
                 {
                     children.Append(factory->GetAnimation(element));
                 }
@@ -767,11 +740,12 @@ namespace winrt::XamlToolkit::WinUI::Animations
         /// <summary>
         /// Starts the animations present in the current AnimationBuilder instance.
         /// </summary>
-        winrt::IAsyncAction StartAsync(winrt::UIElement const& element)
+        winrt::IAsyncAction StartAsync(winrt::UIElement element)
         {
             winrt::IAsyncAction compositionTask{ nullptr };
             winrt::IAsyncAction xamlTask{ nullptr };
-            auto cancelation_token{ co_await winrt::get_cancellation_token() };
+            auto cancellation_token{ co_await winrt::get_cancellation_token() };
+            cancellation_token.originate_on_cancel(false);
 
             std::vector<std::tuple<winrt::CompositionObject, winrt::hstring>> compositionAnimations;
 
@@ -822,7 +796,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
                 wil::shared_event completionEvent(wil::EventOptions::ManualReset);
 
                 auto children = storyboard.Children();
-                for (auto const& factory : xamlAnimationFactories)
+                for (const auto& factory : xamlAnimationFactories)
                 {
                     children.Append(factory->GetAnimation(element));
                 }
@@ -840,7 +814,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
                 }();
             }
 
-            cancelation_token.callback([=]
+            cancellation_token.callback([&]
             {
                 for (const auto& [target, path] : compositionAnimations)
                 {

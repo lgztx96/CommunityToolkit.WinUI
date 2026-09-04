@@ -35,14 +35,14 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         /// </summary>
         winrt::IReference<winrt::TimeSpan> Delay() const
         {
-            return GetValue(DelayProperty).try_as<winrt::IReference<winrt::TimeSpan>>();
+            return GetValue(DelayProperty()).try_as<winrt::IReference<winrt::TimeSpan>>();
         }
         /// <summary>
         /// Gets or sets the initial delay before the animation starts.
         /// </summary>
         void Delay(winrt::IReference<winrt::TimeSpan> const& value)
         {
-            SetValue(DelayProperty, winrt::box_value(value));
+            SetValue(DelayProperty(), winrt::box_value(value));
         }
 
         /// <summary>
@@ -50,14 +50,14 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         /// </summary>
         winrt::IReference<winrt::TimeSpan> Duration() const
         {
-            return GetValue(DurationProperty).try_as<winrt::IReference<winrt::TimeSpan>>();
+            return GetValue(DurationProperty()).try_as<winrt::IReference<winrt::TimeSpan>>();
         }
         /// <summary>
         /// Gets or sets the duration for the animation.
         /// </summary>
         void Duration(winrt::IReference<winrt::TimeSpan> const& value)
         {
-            SetValue(DurationProperty, winrt::box_value(value));
+            SetValue(DurationProperty(), winrt::box_value(value));
         }
 
         /// <summary>
@@ -65,14 +65,14 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         /// </summary>
         winrt::IReference<EasingType> EasingType() const
         {
-            return GetValue(EasingTypeProperty).try_as<winrt::IReference<enum EasingType>>();
+            return GetValue(EasingTypeProperty()).try_as<winrt::IReference<enum EasingType>>();
         }
         /// <summary>
         /// Gets or sets the optional easing function type for the animation.
         /// </summary>
         void EasingType(winrt::IReference<enum EasingType> const& value)
         {
-            SetValue(EasingTypeProperty, winrt::box_value(value));
+            SetValue(EasingTypeProperty(), winrt::box_value(value));
         }
 
         /// <summary>
@@ -80,14 +80,14 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         /// </summary>
         winrt::IReference<winrt::EasingMode> EasingMode() const
         {
-            return GetValue(EasingModeProperty).try_as<winrt::IReference<winrt::EasingMode>>();
+            return GetValue(EasingModeProperty()).try_as<winrt::IReference<winrt::EasingMode>>();
         }
         /// <summary>
         /// Gets or sets the optional easing function mode for the animation.
         /// </summary>
         void EasingMode(winrt::IReference<winrt::EasingMode> const& value)
         {
-            SetValue(EasingModeProperty, winrt::box_value(value));
+            SetValue(EasingModeProperty(), winrt::box_value(value));
         }
 
         /// <summary>
@@ -95,14 +95,14 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         /// </summary>
         winrt::XamlToolkit::WinUI::Animations::RepeatOption Repeat()
         {
-            return winrt::unbox_value<winrt::XamlToolkit::WinUI::Animations::RepeatOption>(GetValue(RepeatProperty));
+            return winrt::unbox_value<winrt::XamlToolkit::WinUI::Animations::RepeatOption>(GetValue(RepeatProperty()));
         }
         /// <summary>
         /// Gets or sets the repeat behavior for the animation.
         /// </summary>
         void Repeat(winrt::XamlToolkit::WinUI::Animations::RepeatOption const& value)
         {
-            SetValue(RepeatProperty, winrt::box_value(value));
+            SetValue(RepeatProperty(), winrt::box_value(value));
         }
 
         /// <summary>
@@ -110,14 +110,14 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         /// </summary>
         winrt::AnimationDelayBehavior DelayBehavior()
         {
-            return winrt::unbox_value<winrt::AnimationDelayBehavior>(GetValue(DelayBehaviorProperty));
+            return winrt::unbox_value<winrt::AnimationDelayBehavior>(GetValue(DelayBehaviorProperty()));
         }
         /// <summary>
         /// Gets or sets the delay behavior for the animation.
         /// </summary>
         void DelayBehavior(winrt::AnimationDelayBehavior const& value)
         {
-            SetValue(DelayBehaviorProperty, winrt::box_value(value));
+            SetValue(DelayBehaviorProperty(), winrt::box_value(value));
         }
 
         /// <inheritdoc/>

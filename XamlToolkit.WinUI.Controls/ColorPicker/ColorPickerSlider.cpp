@@ -255,6 +255,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::Primitives::implementation
 		 * This work-around will also cause issues if display scaling changes in the special
 		 * case where cached sizes are required.
 		 */
+		auto strongThis = get_strong();
+
 		auto width = static_cast<int32_t>(ActualWidth());
 		auto height = static_cast<int32_t>(ActualHeight());
 
@@ -269,7 +271,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::Primitives::implementation
 		}
 		else
 		{
-			cachedSize = Size(static_cast<float>(width), static_cast<float>(height));
+			cachedSize = winrt::Size(static_cast<float>(width), static_cast<float>(height));
 		}
 
 		const auto& bitmap = co_await ColorPickerRenderingHelpers::CreateChannelBitmapAsync(

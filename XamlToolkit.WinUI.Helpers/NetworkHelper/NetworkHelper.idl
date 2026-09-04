@@ -5,6 +5,7 @@ namespace XamlToolkit.WinUI.Helpers
     /// <summary>
     /// This class exposes functionality of NetworkInformation through a singleton.
     /// </summary>
+    [webhosthidden]
     runtimeclass NetworkHelper
     {
         NetworkHelper();
@@ -17,6 +18,7 @@ namespace XamlToolkit.WinUI.Helpers
         /// <summary>
         /// Gets instance of <see cref="ConnectionInformation"/>.
         /// </summary>
+        [noexcept]
         ConnectionInformation ConnectionInformation{ get; };
 
         /// <summary>

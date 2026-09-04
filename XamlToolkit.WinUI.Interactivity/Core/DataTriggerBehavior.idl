@@ -1,14 +1,29 @@
 import "Trigger.idl";
-import "Core\ComparisonConditionType.idl";
 
 namespace XamlToolkit.WinUI.Interactivity
 {
+    enum ComparisonConditionType
+    {
+        Equal,
+        NotEqual,
+        LessThan,
+        LessThanOrEqual,
+        GreaterThan,
+        GreaterThanOrEqual
+    };
+
+    [webhosthidden]
     runtimeclass DataTriggerBehavior : Trigger
     {
         DataTriggerBehavior();
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty BindingProperty{ get; };
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ComparisonConditionProperty{ get; };
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ValueProperty{ get; };
 
         Object Binding;

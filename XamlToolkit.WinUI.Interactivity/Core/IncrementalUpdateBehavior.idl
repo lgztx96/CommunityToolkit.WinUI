@@ -2,10 +2,12 @@ import "Behavior.idl";
 
 namespace XamlToolkit.WinUI.Interactivity
 {
+    [webhosthidden]
     runtimeclass IncrementalUpdateBehavior : XamlToolkit.WinUI.Interactivity.Behavior
     {
         IncrementalUpdateBehavior();
 
+	    [noexcept]
 	    static Microsoft.UI.Xaml.DependencyProperty PhaseProperty{ get; };
 
         Int32 Phase;

@@ -25,7 +25,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         return winrt::RepeatBehaviorHelper::FromCount(option.Value);
     }
 
-    void RepeatOptionHelper::ToBehaviorAndCount(RepeatOption const& option, winrt::AnimationIterationBehavior& behavior, int& count)
+    void RepeatOptionHelper::ToBehaviorAndCount(RepeatOption const& option, winrt::AnimationIterationBehavior& behavior, int& count) noexcept
     {
         if (option.Value < 0)
         {
@@ -38,7 +38,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         }
     }
 
-    RepeatOption RepeatOptionHelper::Parse(winrt::hstring const& text)
+    RepeatOption RepeatOptionHelper::CreateFromString(winrt::hstring const& text)
     {
         std::wstring_view sv{ text };
 

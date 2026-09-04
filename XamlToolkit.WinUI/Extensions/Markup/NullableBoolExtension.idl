@@ -3,6 +3,7 @@ namespace XamlToolkit.WinUI
     /// <summary>
     /// Custom <see cref="MarkupExtension"/> which can provide nullable bool values.
     /// </summary>
+    [webhosthidden]
     runtimeclass NullableBoolExtension : Microsoft.UI.Xaml.Markup.MarkupExtension
     {
         NullableBoolExtension();
@@ -10,11 +11,13 @@ namespace XamlToolkit.WinUI
         /// <summary>
         /// Gets or sets a value indicating whether the value of the Boolean is true.  Ignored if <see cref="IsNull"/> is true.
         /// </summary>
+        [noexcept]
         Boolean Value;
 
         /// <summary>
         /// Gets or sets a value indicating whether the value should be null.  Overrides the <see cref="Value"/> property.
         /// </summary>
+        [noexcept]
         Boolean IsNull;
     }
 }

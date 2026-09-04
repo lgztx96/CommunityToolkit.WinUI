@@ -95,8 +95,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 				L"AnchorPoint",
 				winrt::xaml_typename<winrt::hstring>(),
 				winrt::xaml_typename<winrt::XamlToolkit::WinUI::VisualExtensions>(),
-				winrt::PropertyMetadata{ nullptr, &VisualExtensions::OnAnchorPointChanged }
-			);
+				winrt::PropertyMetadata{ nullptr, &VisualExtensions::OnAnchorPointChanged });
 
 		// CenterPoint
 		static inline const wil::single_threaded_property<winrt::DependencyProperty> CenterPointProperty =
@@ -104,8 +103,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 				L"CenterPoint",
 				winrt::xaml_typename<winrt::hstring>(),
 				winrt::xaml_typename<winrt::XamlToolkit::WinUI::VisualExtensions>(),
-				winrt::PropertyMetadata{ nullptr, &VisualExtensions::OnCenterPointChanged }
-			);
+				winrt::PropertyMetadata{ nullptr, &VisualExtensions::OnCenterPointChanged });
 
 		// Offset
 		static inline const wil::single_threaded_property<winrt::DependencyProperty> OffsetProperty =
@@ -113,8 +111,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 				L"Offset",
 				winrt::xaml_typename<winrt::hstring>(),
 				winrt::xaml_typename<winrt::XamlToolkit::WinUI::VisualExtensions>(),
-				winrt::PropertyMetadata{ nullptr, &VisualExtensions::OnOffsetChanged }
-			);
+				winrt::PropertyMetadata{ nullptr, &VisualExtensions::OnOffsetChanged });
 
 		// Translation
 		static inline const wil::single_threaded_property<winrt::DependencyProperty> TranslationProperty =
@@ -122,8 +119,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 				L"Translation",
 				winrt::xaml_typename<winrt::hstring>(),
 				winrt::xaml_typename<winrt::XamlToolkit::WinUI::VisualExtensions>(),
-				winrt::PropertyMetadata{ nullptr, &VisualExtensions::OnTranslationChanged }
-			);
+				winrt::PropertyMetadata{ nullptr, &VisualExtensions::OnTranslationChanged });
 
 		// Opacity
 		static inline const wil::single_threaded_property<winrt::DependencyProperty> OpacityProperty =
@@ -131,8 +127,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 				L"Opacity",
 				winrt::xaml_typename<double>(),
 				winrt::xaml_typename<winrt::XamlToolkit::WinUI::VisualExtensions>(),
-				winrt::PropertyMetadata{ winrt::box_value(std::numeric_limits<double>::quiet_NaN()), &VisualExtensions::OnOpacityChanged }
-			);
+				winrt::PropertyMetadata{ winrt::box_value(std::numeric_limits<double>::quiet_NaN()), &VisualExtensions::OnOpacityChanged });
 
 		// RotationAngle
 		static inline const wil::single_threaded_property<winrt::DependencyProperty> RotationAngleProperty =
@@ -140,8 +135,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 				L"RotationAngle",
 				winrt::xaml_typename<double>(),
 				winrt::xaml_typename<winrt::XamlToolkit::WinUI::VisualExtensions>(),
-				winrt::PropertyMetadata{ winrt::box_value(std::numeric_limits<double>::quiet_NaN()), &VisualExtensions::OnRotationAngleChanged }
-			);
+				winrt::PropertyMetadata{ winrt::box_value(std::numeric_limits<double>::quiet_NaN()), &VisualExtensions::OnRotationAngleChanged });
 
 		// RotationAngleInDegrees
 		static inline const wil::single_threaded_property<winrt::DependencyProperty> RotationAngleInDegreesProperty =
@@ -149,8 +143,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 				L"RotationAngleInDegrees",
 				winrt::xaml_typename<double>(),
 				winrt::xaml_typename<winrt::XamlToolkit::WinUI::VisualExtensions>(),
-				winrt::PropertyMetadata{ winrt::box_value(std::numeric_limits<double>::quiet_NaN()), &VisualExtensions::OnRotationAngleInDegreesChanged }
-			);
+				winrt::PropertyMetadata{ winrt::box_value(std::numeric_limits<double>::quiet_NaN()), &VisualExtensions::OnRotationAngleInDegreesChanged });
 
 		// RotationAxis
 		static inline const wil::single_threaded_property<winrt::DependencyProperty> RotationAxisProperty =
@@ -158,8 +151,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 				L"RotationAxis",
 				winrt::xaml_typename<winrt::hstring>(),
 				winrt::xaml_typename<winrt::XamlToolkit::WinUI::VisualExtensions>(),
-				winrt::PropertyMetadata{ nullptr, &VisualExtensions::OnRotationAxisChanged }
-			);
+				winrt::PropertyMetadata{ nullptr, &VisualExtensions::OnRotationAxisChanged });
 
 		// Scale
 		static inline const wil::single_threaded_property<winrt::DependencyProperty> ScaleProperty =
@@ -167,8 +159,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 				L"Scale",
 				winrt::xaml_typename<winrt::hstring>(),
 				winrt::xaml_typename<winrt::XamlToolkit::WinUI::VisualExtensions>(),
-				winrt::PropertyMetadata{ nullptr, &VisualExtensions::OnScaleChanged }
-			);
+				winrt::PropertyMetadata{ nullptr, &VisualExtensions::OnScaleChanged });
 
 		// Size
 		static inline const wil::single_threaded_property<winrt::DependencyProperty> SizeProperty =
@@ -176,8 +167,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 				L"Size",
 				winrt::xaml_typename<winrt::hstring>(),
 				winrt::xaml_typename<winrt::XamlToolkit::WinUI::VisualExtensions>(),
-				winrt::PropertyMetadata{ nullptr, &VisualExtensions::OnSizeChanged }
-			);
+				winrt::PropertyMetadata{ nullptr, &VisualExtensions::OnSizeChanged });
 
 		// NormalizedCenterPoint
 		static inline const wil::single_threaded_property<winrt::DependencyProperty> NormalizedCenterPointProperty =
@@ -185,48 +175,48 @@ namespace winrt::XamlToolkit::WinUI::implementation
 				L"NormalizedCenterPoint",
 				winrt::xaml_typename<bool>(),
 				winrt::xaml_typename<winrt::XamlToolkit::WinUI::VisualExtensions>(),
-				winrt::PropertyMetadata{ winrt::box_value(false), &VisualExtensions::OnNormalizedCenterPointChanged }
-			);
+				winrt::PropertyMetadata{ winrt::box_value(false), &VisualExtensions::OnNormalizedCenterPointChanged });
+
 	private:
 		static winrt::hstring GetAnchorPointForElement(winrt::UIElement const& element);
 
-		static void SetAnchorPointForElement(winrt::hstring const& value, UIElement const& element);
+		static void SetAnchorPointForElement(winrt::hstring const& value, winrt::UIElement const& element);
 
 		static winrt::hstring GetCenterPointForElement(winrt::UIElement const& element);
 
-		static void SetCenterPointForElement(winrt::hstring const& value, UIElement const& element);
+		static void SetCenterPointForElement(winrt::hstring const& value, winrt::UIElement const& element);
 
 		static winrt::hstring GetOffsetForElement(winrt::UIElement const& element);
 
-		static void SetOffsetForElement(winrt::hstring const& value, UIElement const& element);
+		static void SetOffsetForElement(winrt::hstring const& value, winrt::UIElement const& element);
 
 		static winrt::hstring GetTranslationForElement(winrt::UIElement const& element);
 
-		static void SetTranslationForElement(winrt::hstring const& value, UIElement const& element);
+		static void SetTranslationForElement(winrt::hstring const& value, winrt::UIElement const& element);
 
 		static double GetOpacityForElement(winrt::UIElement const& element);
 
-		static void SetOpacityForElement(double value, UIElement const& element);
+		static void SetOpacityForElement(double value, winrt::UIElement const& element);
 
 		static double GetRotationAngleForElement(winrt::UIElement const& element);
 
-		static void SetRotationAngleForElement(double value, UIElement const& element);
+		static void SetRotationAngleForElement(double value, winrt::UIElement const& element);
 
 		static double GetRotationAngleInDegreesForElement(winrt::UIElement const& element);
 
-		static void SetRotationAngleInDegreesForElement(double value, UIElement const& element);
+		static void SetRotationAngleInDegreesForElement(double value, winrt::UIElement const& element);
 
 		static winrt::hstring GetRotationAxisForElement(winrt::UIElement const& element);
 
-		static void SetRotationAxisForElement(winrt::hstring const& value, UIElement const& element);
+		static void SetRotationAxisForElement(winrt::hstring const& value, winrt::UIElement const& element);
 
 		static winrt::hstring GetScaleForElement(winrt::UIElement const& element);
 
-		static void SetScaleForElement(winrt::hstring const& value, UIElement const& element);
+		static void SetScaleForElement(winrt::hstring const& value, winrt::UIElement const& element);
 
 		static winrt::hstring GetSizeForElement(winrt::UIElement const& element);
 
-		static void SetSizeForElement(winrt::hstring const& value, UIElement const& element);
+		static void SetSizeForElement(winrt::hstring const& value, winrt::UIElement const& element);
 	};
 }
 

@@ -18,7 +18,7 @@ namespace winrt::XamlToolkit::WinUI::Animations
         winrt::Microsoft::UI::Xaml::UIElement Element{ nullptr };
         std::vector<ConnectedAnimationListProperty> ListAnimProperties;
 
-        bool IsListAnimation() const
+        bool IsListAnimation() const noexcept
         {
             return !ListAnimProperties.empty();
         }

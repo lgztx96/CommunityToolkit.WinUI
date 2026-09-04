@@ -26,7 +26,7 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
 
         static winrt::XamlToolkit::WinUI::Helpers::NetworkHelper Instance();
 
-        winrt::XamlToolkit::WinUI::Helpers::ConnectionInformation ConnectionInformation();
+        winrt::XamlToolkit::WinUI::Helpers::ConnectionInformation ConnectionInformation() const noexcept;
 
         wil::untyped_event<winrt::Windows::Foundation::IInspectable> NetworkChanged;
 

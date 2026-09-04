@@ -2,11 +2,15 @@ import "IAction.idl";
 
 namespace XamlToolkit.WinUI.Interactivity
 {
+    [webhosthidden]
     runtimeclass ChangeDependencyPropertyAction : Microsoft.UI.Xaml.DependencyObject, XamlToolkit.WinUI.Interactivity.IAction
     {
         ChangeDependencyPropertyAction();
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty TargetObjectProperty{ get; };
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ValueProperty{ get; };
 
         Microsoft.UI.Xaml.DependencyProperty Property;

@@ -74,7 +74,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		auto children = Children();
 		if (children.Size() == 0)
 		{
-			return Size(0, 0);
+			return winrt::Size(0, 0);
 		}
 
 		auto columnHeights = std::make_unique_for_overwrite<double[]>(numColumns);
@@ -93,7 +93,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		double desiredHeight = std::ranges::max(columnHeightsSpan);
 
-		return Size(static_cast<float>(availableWidth), static_cast<float>(desiredHeight));
+		return winrt::Size(static_cast<float>(availableWidth), static_cast<float>(desiredHeight));
 	}
 
 	winrt::Size StaggeredPanel::ArrangeOverride(winrt::Size finalSize)

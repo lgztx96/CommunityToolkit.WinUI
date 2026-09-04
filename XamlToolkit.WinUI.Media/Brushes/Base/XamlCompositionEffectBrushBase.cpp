@@ -23,6 +23,8 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
 
     winrt::fire_and_forget XamlCompositionEffectBrushBase::OnConnected()
     {
+        auto strongThis = get_strong();
+
         auto lock = co_await _connectedMutex.lock_async();
 
         if (CompositionBrush() == nullptr)
@@ -68,6 +70,8 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
 
     winrt::fire_and_forget XamlCompositionEffectBrushBase::OnEnabledToggled(bool value)
     {
+        auto strongThis = get_strong();
+
         auto lock = co_await _connectedMutex.lock_async();
 
         if (_isEnabled == value)

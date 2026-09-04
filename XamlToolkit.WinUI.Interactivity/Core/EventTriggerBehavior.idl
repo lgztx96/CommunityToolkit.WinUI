@@ -2,11 +2,15 @@ import "Trigger.idl";
 
 namespace XamlToolkit.WinUI.Interactivity
 {
+	[webhosthidden]
 	runtimeclass EventTriggerBehavior : Trigger
     {
         EventTriggerBehavior();
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty EventNameProperty{ get; };
+
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty SourceObjectProperty{ get; };
 
 		String EventName;

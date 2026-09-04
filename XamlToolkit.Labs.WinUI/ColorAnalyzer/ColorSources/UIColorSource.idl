@@ -2,14 +2,14 @@ import "ColorAnalyzer/ColorSources/ColorSource.idl";
 
 namespace XamlToolkit.Labs.WinUI
 {
-    [bindable]
-    [default_interface]
+    [webhosthidden]
     runtimeclass UIColorSource : ColorSource
     {
         UIColorSource();
 
         Microsoft.UI.Xaml.UIElement Source;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty SourceProperty{ get; };
     }
 }

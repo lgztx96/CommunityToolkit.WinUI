@@ -10,6 +10,7 @@ namespace XamlToolkit.WinUI.Media
     /// Brush which blends a <see cref="BitmapImage"/> to the Backdrop in a given mode.
     /// See http://microsoft.github.io/Win2D/html/T_Microsoft_Graphics_Canvas_Effects_BlendEffect.htm.
     /// </summary>
+    [webhosthidden]
     runtimeclass ImageBlendBrush : Microsoft.UI.Xaml.Media.XamlCompositionBrushBase
     {
         /// <summary>
@@ -22,6 +23,7 @@ namespace XamlToolkit.WinUI.Media
         /// </summary>
         Microsoft.UI.Xaml.Media.ImageSource Source;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty SourceProperty{ get; };
 
         /// <summary>
@@ -29,6 +31,7 @@ namespace XamlToolkit.WinUI.Media
         /// </summary>
         Microsoft.UI.Xaml.Media.Stretch Stretch;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty StretchProperty{ get; };
 
         /// <summary>
@@ -36,6 +39,7 @@ namespace XamlToolkit.WinUI.Media
         /// </summary>
         ImageBlendMode Mode;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ModeProperty{ get; };
     };
 }

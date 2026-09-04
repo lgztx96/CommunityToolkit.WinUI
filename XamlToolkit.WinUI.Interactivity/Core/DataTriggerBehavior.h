@@ -19,6 +19,7 @@ namespace winrt
     using namespace Microsoft::UI::Xaml::Data;
     using namespace Microsoft::UI::Xaml::Markup;
     using namespace Windows::Foundation;
+    using namespace Windows::UI::Xaml::Interop;
 }
 
 namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
@@ -52,8 +53,8 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         /// <summary>
         /// Gets or sets the type of comparison to be performed between <see cref="Binding"/> and <see cref="Value"/>. This is a dependency property.
         /// </summary>
-        winrt::XamlToolkit::WinUI::Interactivity::ComparisonConditionType ComparisonCondition();
-        void ComparisonCondition(winrt::XamlToolkit::WinUI::Interactivity::ComparisonConditionType const& value);
+        ComparisonConditionType ComparisonCondition();
+        void ComparisonCondition(ComparisonConditionType const& value);
 
         /// <summary>
         /// Gets or sets the value to be compared with the value of <see cref="Binding"/>. This is a dependency property.
@@ -64,19 +65,19 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
     private:
         static bool Compare(
             winrt::IInspectable const& leftOperand,
-            winrt::XamlToolkit::WinUI::Interactivity::ComparisonConditionType const& operatorType,
+            ComparisonConditionType const& operatorType,
             winrt::IInspectable const& rightOperand);
 
         static bool EvaluateComparable(
             winrt::IInspectable const& leftOperand,
-            winrt::XamlToolkit::WinUI::Interactivity::ComparisonConditionType const& operatorType,
+            ComparisonConditionType const& operatorType,
             winrt::IInspectable const& rightOperand);
 
         static int CompareComparable(winrt::IInspectable const& leftOperand, winrt::IInspectable const& rightOperand);
         static winrt::IInspectable ConvertRightOperand(winrt::IInspectable const& leftOperand, winrt::IInspectable const& rightOperand);
-        static winrt::Windows::UI::Xaml::Interop::TypeName InferTypeName(winrt::IInspectable const& value);
+        static winrt::TypeName InferTypeName(winrt::IInspectable const& value);
         static winrt::hstring TypeDisplayName(winrt::IInspectable const& value);
-        static winrt::hstring TypeDisplayName(winrt::Windows::UI::Xaml::Interop::TypeName const& typeName);
+        static winrt::hstring TypeDisplayName(winrt::TypeName const& typeName);
         static winrt::hstring ValueToString(winrt::IInspectable const& value);
         static void OnValueChanged(winrt::DependencyObject const& dependencyObject, winrt::DependencyPropertyChangedEventArgs const& args);
     };

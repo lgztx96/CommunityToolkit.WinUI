@@ -345,55 +345,25 @@
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal" />
                                 <VisualState x:Name="PointerOver">
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
-                                                                       Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource SubtleFillColorSecondary}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
-                                                                       Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource TextFillColorPrimary}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
                                     <VisualState.Setters>
+                                        <Setter Target="ContentPresenter.Background" Value="{ThemeResource SubtleFillColorSecondary}" />
+                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TextFillColorPrimary}" />
                                         <Setter Target="ContentPresenter.(muxc:AnimatedIcon.State)" Value="PointerOver" />
                                     </VisualState.Setters>
                                 </VisualState>
 
                                 <VisualState x:Name="Pressed">
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
-                                                                       Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource SubtleFillColorTertiary}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
-                                                                       Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource TextFillColorSecondary}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
                                     <VisualState.Setters>
+                                        <Setter Target="ContentPresenter.Background" Value="{ThemeResource SubtleFillColorTertiary}" />
+                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TextFillColorSecondary}" />
                                         <Setter Target="ContentPresenter.(muxc:AnimatedIcon.State)" Value="Pressed" />
                                     </VisualState.Setters>
                                 </VisualState>
 
                                 <VisualState x:Name="Disabled">
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
-                                                                       Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource ControlFillColorDisabled}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
-                                                                       Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource TextFillColorDisabled}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
                                     <VisualState.Setters>
+                                        <Setter Target="ContentPresenter.Background" Value="{ThemeResource ControlFillColorDisabled}" />
+                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TextFillColorDisabled}" />
                                         <!--  DisabledVisual Should be handled by the control, not the animated icon.  -->
                                         <Setter Target="ContentPresenter.(muxc:AnimatedIcon.State)" Value="Normal" />
                                     </VisualState.Setters>
@@ -446,55 +416,25 @@
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal" />
                                 <VisualState x:Name="PointerOver">
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
-                                                                       Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource SubtleFillColorSecondary}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
-                                                                       Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
                                     <VisualState.Setters>
+                                        <Setter Target="ContentPresenter.Background" Value="{ThemeResource SubtleFillColorSecondary}" />
+                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
                                         <Setter Target="ContentPresenter.(muxc:AnimatedIcon.State)" Value="PointerOver" />
                                     </VisualState.Setters>
                                 </VisualState>
 
                                 <VisualState x:Name="Pressed">
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
-                                                                       Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource SubtleFillColorTertiary}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
-                                                                       Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource TextOnAccentFillColorSecondaryBrush}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
                                     <VisualState.Setters>
+                                        <Setter Target="ContentPresenter.Background" Value="{ThemeResource SubtleFillColorTertiary}" />
+                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TextOnAccentFillColorSecondaryBrush}" />
                                         <Setter Target="ContentPresenter.(muxc:AnimatedIcon.State)" Value="Pressed" />
                                     </VisualState.Setters>
                                 </VisualState>
 
                                 <VisualState x:Name="Disabled">
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
-                                                                       Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource ControlFillColorDisabled}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
-                                                                       Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource TextOnAccentFillColorDisabledBrush}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
                                     <VisualState.Setters>
+                                        <Setter Target="ContentPresenter.Background" Value="{ThemeResource ControlFillColorDisabled}" />
+                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TextOnAccentFillColorDisabledBrush}" />
                                         <Setter Target="ContentPresenter.(muxc:AnimatedIcon.State)" Value="Normal" />
                                     </VisualState.Setters>
                                 </VisualState>

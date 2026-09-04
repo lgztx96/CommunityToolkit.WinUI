@@ -2,13 +2,13 @@ import "Adorners/AdornerLayer.idl";
 
 namespace XamlToolkit.Labs.WinUI
 {
+    [webhosthidden]
     unsealed runtimeclass Adorner : Microsoft.UI.Xaml.Controls.ContentControl
     {
         Adorner();
 
+        [noexcept]
         overridable Microsoft.UI.Xaml.UIElement AdornedElement{ get; };
-
-        AdornerLayer AdornerLayer{ get; set; };
 
         overridable void OnAttached();
 

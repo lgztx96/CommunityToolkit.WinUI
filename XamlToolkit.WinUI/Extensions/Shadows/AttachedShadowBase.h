@@ -55,8 +55,8 @@ namespace winrt::XamlToolkit::WinUI::implementation
 				winrt::xaml_typename<class_type>(),
 				winrt::PropertyMetadata(winrt::box_value(12.0), &AttachedShadowBase::OnDependencyPropertyChanged));
 
-		double BlurRadius() const { return winrt::unbox_value<double>(GetValue(BlurRadiusProperty)); }
-		void BlurRadius(double value) const { SetValue(BlurRadiusProperty, winrt::box_value(value)); }
+		double BlurRadius() const { return winrt::unbox_value<double>(GetValue(BlurRadiusProperty())); }
+		void BlurRadius(double value) const { SetValue(BlurRadiusProperty(), winrt::box_value(value)); }
 
 		static inline const wil::single_threaded_property<winrt::DependencyProperty> ColorProperty =
 			winrt::DependencyProperty::Register(
@@ -65,8 +65,8 @@ namespace winrt::XamlToolkit::WinUI::implementation
 				winrt::xaml_typename<class_type>(),
 				winrt::PropertyMetadata(winrt::box_value(winrt::Microsoft::UI::Colors::Black()), &AttachedShadowBase::OnDependencyPropertyChanged));
 
-		winrt::Color Color() const { return winrt::unbox_value<winrt::Color>(GetValue(ColorProperty)); }
-		void Color(winrt::Color value) const { SetValue(ColorProperty, winrt::box_value(value)); }
+		winrt::Color Color() const { return winrt::unbox_value<winrt::Color>(GetValue(ColorProperty())); }
+		void Color(winrt::Color value) const { SetValue(ColorProperty(), winrt::box_value(value)); }
 
 		static inline const wil::single_threaded_property<winrt::DependencyProperty> OffsetProperty =
 			winrt::DependencyProperty::Register(
@@ -75,8 +75,8 @@ namespace winrt::XamlToolkit::WinUI::implementation
 				winrt::xaml_typename<class_type>(),
 				winrt::PropertyMetadata(winrt::box_value(L""), &AttachedShadowBase::OnDependencyPropertyChanged));
 
-		winrt::hstring Offset() const { return winrt::unbox_value<winrt::hstring>(GetValue(OffsetProperty)); }
-		void Offset(winrt::hstring value) const { SetValue(OffsetProperty, winrt::box_value(value)); }
+		winrt::hstring Offset() const { return winrt::unbox_value<winrt::hstring>(GetValue(OffsetProperty())); }
+		void Offset(winrt::hstring value) const { SetValue(OffsetProperty(), winrt::box_value(value)); }
 
 		static inline const wil::single_threaded_property<winrt::DependencyProperty> OpacityProperty =
 			winrt::DependencyProperty::Register(L"Opacity",
@@ -84,8 +84,8 @@ namespace winrt::XamlToolkit::WinUI::implementation
 				winrt::xaml_typename<class_type>(),
 				winrt::PropertyMetadata(winrt::box_value(1.0), &AttachedShadowBase::OnDependencyPropertyChanged));
 
-		double Opacity() const { return winrt::unbox_value<double>(GetValue(OpacityProperty)); }
-		void Opacity(double value) const { SetValue(OpacityProperty, winrt::box_value(value)); }
+		double Opacity() const { return winrt::unbox_value<double>(GetValue(OpacityProperty())); }
+		void Opacity(double value) const { SetValue(OpacityProperty(), winrt::box_value(value)); }
 
 		void ConnectElement(winrt::FrameworkElement const& element);
 

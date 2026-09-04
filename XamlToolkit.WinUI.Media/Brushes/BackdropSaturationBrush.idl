@@ -9,6 +9,7 @@ namespace XamlToolkit.WinUI.Media
     /// <summary>
     /// Brush which applies a SaturationEffect to the Backdrop.
     /// </summary>
+    [webhosthidden]
     runtimeclass BackdropSaturationBrush : XamlCompositionEffectBrushBase
     {
         /// <summary>
@@ -21,6 +22,7 @@ namespace XamlToolkit.WinUI.Media
         /// </summary>
         Double Saturation;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty SaturationProperty{ get; };
     };
 }

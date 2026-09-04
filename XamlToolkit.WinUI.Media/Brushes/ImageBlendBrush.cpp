@@ -11,6 +11,7 @@
 #ifdef __INTELLISENSE__
 #include <winrt/Microsoft.UI.Xaml.Media.Imaging.h>
 #include <winrt/Microsoft.Graphics.Canvas.Effects.h>
+#include <winrt/Windows.Graphics.Effects.h>
 #else
 import winrt.Microsoft.UI.Xaml.Media.Imaging;
 import winrt.Microsoft.Graphics.Canvas.Effects;

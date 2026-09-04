@@ -1,10 +1,13 @@
 namespace XamlToolkit.WinUI
 {
+    [webhosthidden]
     runtimeclass IsNullOrEmptyStateTrigger : Microsoft.UI.Xaml.StateTriggerBase
     {
         IsNullOrEmptyStateTrigger();
 
         Object Value;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ValueProperty{ get; };
     }
 }

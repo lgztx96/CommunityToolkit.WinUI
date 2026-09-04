@@ -11,7 +11,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
             L"Mask",
             winrt::xaml_typename<winrt::hstring>(),
             winrt::xaml_typename<winrt::XamlToolkit::WinUI::TextBoxExtensions>(),
-            winrt::PropertyMetadata(nullptr, &TextBoxExtensions::InitTextBoxMask));
+            winrt::PropertyMetadata(winrt::box_value(L""), &TextBoxExtensions::InitTextBoxMask));
 
     const wil::single_threaded_property<winrt::DependencyProperty> TextBoxExtensions::MaskPlaceholderProperty =
         winrt::DependencyProperty::RegisterAttached(
@@ -25,7 +25,14 @@ namespace winrt::XamlToolkit::WinUI::implementation
             L"CustomMask",
             winrt::xaml_typename<winrt::hstring>(),
             winrt::xaml_typename<winrt::XamlToolkit::WinUI::TextBoxExtensions>(),
-            winrt::PropertyMetadata(nullptr, &TextBoxExtensions::InitTextBoxMask));
+            winrt::PropertyMetadata(winrt::box_value(L""), &TextBoxExtensions::InitTextBoxMask));
+
+    const wil::single_threaded_property<winrt::DependencyProperty> TextBoxExtensions::MaskStateProperty =
+        winrt::DependencyProperty::RegisterAttached(
+            L"MaskState",
+            winrt::xaml_typename<winrt::IInspectable>(),
+            winrt::xaml_typename<winrt::XamlToolkit::WinUI::TextBoxExtensions>(),
+            winrt::PropertyMetadata(nullptr));
 
 #pragma endregion
 

@@ -2,45 +2,54 @@
 
 namespace XamlToolkit.WinUI.Controls.Primitives
 {
-    [default_interface]
+    [webhosthidden]
     runtimeclass ColorPickerSlider : Microsoft.UI.Xaml.Controls.Slider
     {
         ColorPickerSlider();
 
         Windows.UI.Color Color;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ColorProperty{ get; };
 
         XamlToolkit.WinUI.Controls.ColorChannel ColorChannel;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ColorChannelProperty{ get; };
 
         XamlToolkit.WinUI.Controls.ColorRepresentation ColorRepresentation;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ColorRepresentationProperty{ get; };
 
         Microsoft.UI.Xaml.Media.Brush DefaultForeground;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty DefaultForegroundProperty{ get; };
 
         XamlToolkit.WinUI.HsvColor HsvColor;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty HsvColorProperty{ get; };
 
         Boolean IsAlphaMaxForced;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty IsAlphaMaxForcedProperty{ get; };
 
         Boolean IsAutoUpdatingEnabled;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty IsAutoUpdatingEnabledProperty{ get; };
 
         Boolean IsSaturationValueMaxForced;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty IsSaturationValueMaxForcedProperty{ get; };
 
         void UpdateColors();
 
+        [noexcept]
         Windows.UI.Color CheckerBackgroundColor;
     }
 }

@@ -24,7 +24,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         SetValue(DelayProperty(), value);
     }
 
-    winrt::IAsyncAction Activity::InvokeAsync(winrt::UIElement const& element)
+    winrt::IAsyncAction Activity::InvokeAsync(winrt::UIElement element)
     {
         if (auto delay = Delay())
         {

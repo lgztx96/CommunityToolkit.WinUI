@@ -10,28 +10,30 @@
 
 namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 {
-    const wil::single_threaded_property<winrt::DependencyProperty> GoToStateAction::UseTransitionsProperty = winrt::DependencyProperty::Register(
-        L"UseTransitions",
-        winrt::xaml_typename<bool>(),
-        winrt::xaml_typename<class_type>(),
-        winrt::PropertyMetadata(winrt::box_value(true)));
+    const wil::single_threaded_property<winrt::DependencyProperty> GoToStateAction::UseTransitionsProperty =
+        winrt::DependencyProperty::Register(
+            L"UseTransitions",
+            winrt::xaml_typename<bool>(),
+            winrt::xaml_typename<class_type>(),
+            winrt::PropertyMetadata(winrt::box_value(true)));
 
-    const wil::single_threaded_property<winrt::DependencyProperty> GoToStateAction::StateNameProperty = winrt::DependencyProperty::Register(
-        L"StateName",
-        winrt::xaml_typename<winrt::hstring>(),
-        winrt::xaml_typename<class_type>(),
-        winrt::PropertyMetadata(nullptr));
+    const wil::single_threaded_property<winrt::DependencyProperty> GoToStateAction::StateNameProperty =
+        winrt::DependencyProperty::Register(
+            L"StateName",
+            winrt::xaml_typename<winrt::hstring>(),
+            winrt::xaml_typename<class_type>(),
+            winrt::PropertyMetadata(nullptr));
 
-    const wil::single_threaded_property<winrt::DependencyProperty> GoToStateAction::TargetObjectProperty = winrt::DependencyProperty::Register(
-        L"TargetObject",
-        winrt::xaml_typename<winrt::FrameworkElement>(),
-        winrt::xaml_typename<class_type>(),
-        winrt::PropertyMetadata(nullptr));
+    const wil::single_threaded_property<winrt::DependencyProperty> GoToStateAction::TargetObjectProperty =
+        winrt::DependencyProperty::Register(
+            L"TargetObject",
+            winrt::xaml_typename<winrt::FrameworkElement>(),
+            winrt::xaml_typename<class_type>(),
+            winrt::PropertyMetadata(nullptr));
 
     bool GoToStateAction::UseTransitions() const
     {
-        auto value = GetValue(UseTransitionsProperty());
-        return winrt::unbox_value_or<bool>(value, true);
+        return winrt::unbox_value_or<bool>(GetValue(UseTransitionsProperty()), true);
     }
 
     void GoToStateAction::UseTransitions(bool value)
@@ -41,8 +43,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
     winrt::hstring GoToStateAction::StateName() const
     {
-        auto value = GetValue(StateNameProperty());
-        return winrt::unbox_value_or<winrt::hstring>(value, L"");
+        return winrt::unbox_value_or<winrt::hstring>(GetValue(StateNameProperty()), L"");
     }
 
     void GoToStateAction::StateName(winrt::hstring const& value)
@@ -62,7 +63,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
     winrt::IInspectable GoToStateAction::Execute(winrt::IInspectable const& sender, [[maybe_unused]] winrt::IInspectable const& parameter)
     {
-        auto stateName = StateName();
+        const auto stateName = StateName();
         if (stateName.empty())
         {
             return winrt::box_value(false);
@@ -70,28 +71,28 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
         if (ReadLocalValue(GoToStateAction::TargetObjectProperty()) != winrt::DependencyProperty::UnsetValue())
         {
-            auto control = TargetObject().try_as<winrt::Controls::Control>();
-            if (control == nullptr)
+            const auto control = TargetObject().try_as<winrt::Control>();
+            if (!control)
             {
                 return winrt::box_value(false);
             }
 
-            return winrt::box_value(winrt::XamlToolkit::WinUI::Interactivity::VisualStateUtilities::GoToState(control, stateName, UseTransitions()));
+            return winrt::box_value(VisualStateUtilities::GoToState(control, stateName, UseTransitions()));
         }
 
-        auto element = sender.try_as<winrt::FrameworkElement>();
-        if (element == nullptr || !EventTriggerBehavior::IsElementLoaded(element))
+        const auto element = sender.try_as<winrt::FrameworkElement>();
+        if (!element || !EventTriggerBehavior::IsElementLoaded(element))
         {
             return winrt::box_value(false);
         }
 
-        auto resolvedControl = winrt::XamlToolkit::WinUI::Interactivity::VisualStateUtilities::FindNearestStatefulControl(element);
-        if (resolvedControl == nullptr)
+        const auto resolvedControl = VisualStateUtilities::FindNearestStatefulControl(element);
+        if (!resolvedControl)
         {
-            auto message = ResourceHelper::Format(winrt::XamlToolkit::WinUI::Interactivity::ResourceHelper::GoToStateActionTargetHasNoStateGroups(), element.Name());
+            const auto message = ResourceHelper::Format(ResourceHelper::GoToStateActionTargetHasNoStateGroups(), element.Name());
             throw winrt::hresult_error(E_FAIL, message);
         }
 
-        return winrt::box_value(winrt::XamlToolkit::WinUI::Interactivity::VisualStateUtilities::GoToState(resolvedControl, stateName, UseTransitions()));
+        return winrt::box_value(VisualStateUtilities::GoToState(resolvedControl, stateName, UseTransitions()));
     }
 }

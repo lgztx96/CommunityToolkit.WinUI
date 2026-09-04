@@ -9,6 +9,7 @@ namespace XamlToolkit.WinUI.Media
     /// <summary>
     /// A custom <see cref="XamlCompositionBrushBase"/> that's ready to be used with a custom <see cref="PipelineBuilder"/> pipeline.
     /// </summary>
+    [webhosthidden]
     unsealed runtimeclass XamlCompositionEffectBrushBase : Microsoft.UI.Xaml.Media.XamlCompositionBrushBase
     {
         /// <summary>

@@ -11,12 +11,12 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
     ColorSource ColorPaletteSampler::Source() const
     {
-        return GetValue(SourceProperty).try_as<ColorSource>();
+        return GetValue(SourceProperty()).try_as<ColorSource>();
     }
 
     void ColorPaletteSampler::Source(ColorSource const& value)
     {
-        SetValue(SourceProperty, value);
+        SetValue(SourceProperty(), value);
     }
 
     const wil::single_threaded_property<winrt::DependencyProperty> ColorPaletteSampler::SourceProperty =

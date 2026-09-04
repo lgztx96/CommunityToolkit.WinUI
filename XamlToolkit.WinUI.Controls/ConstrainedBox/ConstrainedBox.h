@@ -74,12 +74,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		winrt::XamlToolkit::WinUI::Controls::AspectRatio AspectRatio() const
 		{
-			return GetValue(AspectRatioProperty).try_as<winrt::XamlToolkit::WinUI::Controls::AspectRatio>();
+			return GetValue(AspectRatioProperty()).try_as<winrt::XamlToolkit::WinUI::Controls::AspectRatio>();
 		}
 
 		void AspectRatio(winrt::XamlToolkit::WinUI::Controls::AspectRatio const& value)
 		{
-			SetValue(AspectRatioProperty, winrt::box_value(value));
+			SetValue(AspectRatioProperty(), winrt::box_value(value));
 		}
 
 		winrt::Size MeasureOverride(winrt::Size availableSize);

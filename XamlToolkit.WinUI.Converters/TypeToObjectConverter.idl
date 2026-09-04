@@ -7,6 +7,7 @@ namespace XamlToolkit.WinUI.Converters
     /// <summary>
     /// This class returns an object or another, depending on whether the type of the provided value matches another provided Type.
     /// </summary>
+    [webhosthidden]
     runtimeclass TypeToObjectConverter : Microsoft.UI.Xaml.DependencyObject, Microsoft.UI.Xaml.Data.IValueConverter
     {
         TypeToObjectConverter();
@@ -29,16 +30,22 @@ namespace XamlToolkit.WinUI.Converters
         /// <summary>
         /// Identifies the TrueValue property.
         /// </summary>
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty TrueValueProperty{ get; };
 
         /// <summary>
         /// Identifies the FalseValue property.
         /// </summary>
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty FalseValueProperty{ get; };
 
         /// <summary>
         /// Identifies the Type property.
         /// </summary>
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty TypeProperty{ get; };
     }
 }

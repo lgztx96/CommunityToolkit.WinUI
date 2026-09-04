@@ -2,7 +2,7 @@
 <package>
 	<metadata>
 		<id>XamlToolkit.WinUI.Behaviors.Native</id>
-		<version>0.7.0-alpha</version>
+		<version>0.8.0-alpha</version>
 		<title>XamlToolkit.WinUI.Behaviors.Native</title>
 		<authors>lgztx96</authors>
 		<owners>lgztx96</owners>
@@ -16,8 +16,8 @@
 		<readme>Readme.md</readme>
 		<dependencies>
 			<dependency id="Microsoft.WindowsAppSDK.WinUI" version="1.8.260224000" />
-			<dependency id="XamlToolkit.WinUI.Animations.Native" version="0.7.0-alpha" />
-			<dependency id="XamlToolkit.WinUI.Interactivity.Native" version="0.7.0-alpha" />
+			<dependency id="XamlToolkit.WinUI.Animations.Native" version="0.8.0-alpha" />
+			<dependency id="XamlToolkit.WinUI.Interactivity.Native" version="0.8.0-alpha" />
 		</dependencies>
 	</metadata>
 

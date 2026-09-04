@@ -1,0 +1,25 @@
+﻿import "TransitionHelper/TransitionHelper.idl";
+
+namespace XamlToolkit.Labs.WinUI
+{
+    [webhosthidden]
+    runtimeclass StartTransitionAction : Microsoft.UI.Xaml.DependencyObject, XamlToolkit.WinUI.Interactivity.IAction
+    {
+        StartTransitionAction();
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty TransitionProperty{ get; };
+
+        TransitionHelper Transition;
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty SourceProperty{ get; };
+
+        Microsoft.UI.Xaml.FrameworkElement Source;
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty TargetProperty{ get; };
+
+        Microsoft.UI.Xaml.FrameworkElement Target;
+    }
+}

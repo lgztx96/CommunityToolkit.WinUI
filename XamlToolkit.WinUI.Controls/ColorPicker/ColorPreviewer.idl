@@ -1,15 +1,18 @@
 ﻿namespace XamlToolkit.WinUI.Controls.Primitives
 {
+    [webhosthidden]
     runtimeclass ColorPreviewer : Microsoft.UI.Xaml.Controls.Control
     {
         ColorPreviewer();
 
         XamlToolkit.WinUI.HsvColor HsvColor;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty HsvColorProperty{ get; };
 
         Boolean ShowAccentColors;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ShowAccentColorsProperty{ get; };
 
         event Windows.Foundation.EventHandler<XamlToolkit.WinUI.HsvColor> ColorChangeRequested;

@@ -2,7 +2,7 @@ import "RadialGauge/RadialGauge.idl";
 
 namespace XamlToolkit.WinUI.Controls
 {
-    [default_interface]
+    [webhosthidden]
     runtimeclass RadialGaugeAutomationPeer : Microsoft.UI.Xaml.Automation.Peers.RangeBaseAutomationPeer, Microsoft.UI.Xaml.Automation.Provider.IRangeValueProvider
     {
         RadialGaugeAutomationPeer(XamlToolkit.WinUI.Controls.RadialGauge owner);

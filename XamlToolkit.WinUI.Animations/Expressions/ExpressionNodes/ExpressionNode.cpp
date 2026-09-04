@@ -79,7 +79,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
         compObjToNodeNameMap.reset();
         NodeName.reset();
 
-        for (auto const& child : Children)
+        for (const auto& child : Children)
         {
             child->ClearReferenceInfo();
         }
@@ -110,7 +110,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
         compObjToNodeNameMap = std::map<winrt::CompositionObject, winrt::hstring>{};
         uint32_t paramCount = 0;
 
-        for (auto const& compObj : compositionObjects)
+        for (const auto& compObj : compositionObjects)
         {
             winrt::hstring nodeName = (ParamName.has_value() && !ParamName->empty()) ? *ParamName : CreateUniqueNodeNameFromIndex(paramCount++);
             compObjToNodeNameMap->emplace(compObj, nodeName);
@@ -158,12 +158,12 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
     {
         EnsureReferenceInfo();
 
-        for (auto const& ref : *referenceInfo)
+        for (const auto& ref : *referenceInfo)
         {
             animation.SetReferenceParameter(ref.ParameterName, ref.CompObject);
         }
 
-        for (auto const& [key, value] : constantParameters)
+        for (const auto& [key, value] : constantParameters)
         {
             if (auto boxedBool = value.try_as<winrt::IReference<bool>>())
             {
@@ -220,7 +220,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
             }
         }
 
-        for (auto const& [key, value] : constantParameters)
+        for (const auto& [key, value] : constantParameters)
         {
             if (!constParamMap.contains(key))
             {
@@ -228,7 +228,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
             }
         }
 
-        for (auto const& child : Children)
+        for (const auto& child : Children)
         {
             child->PopulateParameterNodes(constParamMap, referenceNodes);
         }
@@ -290,7 +290,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
 
             {
                 winrt::hstring swizzle;
-                for (auto const& sub : Subchannels)
+                for (const auto& sub : Subchannels)
                 {
                     swizzle = swizzle + sub;
                 }

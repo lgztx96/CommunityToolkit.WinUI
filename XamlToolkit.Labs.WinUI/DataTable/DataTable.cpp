@@ -1,4 +1,4 @@
-﻿#include "pch.h"
+#include "pch.h"
 #include "winrt_module_imports.h"
 #ifdef __INTELLISENSE__
 #include <algorithm>
@@ -191,6 +191,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
 		for (auto& row : Rows())
 		{
+			row.InvalidateMeasure();
 			row.InvalidateArrange();
 		}
 	}
@@ -236,8 +237,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 			fixedWidth += (elements.size() - 1) * ColumnSpacing();
 		}
 
-		// TODO: Handle infinite width?
-		const auto proportionalAmount = proportionalUnits > 0
+		const auto proportionalAmount = proportionalUnits > 0 && std::isfinite(availableSize.Width)
 			? std::max<double>((availableSize.Width - fixedWidth) / proportionalUnits, 0)
 			: 0;
 
@@ -254,15 +254,6 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 			}
 			else
 			{
-				// TODO: Technically this is using 'Auto' on the Header content
-				// What the developer probably intends is it to be adjusted based on the contents of the rows...
-				// To enable this scenario, we'll need to actually measure the contents of the rows for that column
-				// in DataRow and figure out the maximum size to report back and adjust here in some sort of hand-shake
-				// for the layout process... (i.e. get the data in the measure step, use it in the arrange step here,
-				// then invalidate the child arranges [don't re-measure and cause loop]...)
-
-				// For now, we'll just use the header content as a guideline to see if things work.
-
 				// Avoid negative values when columns don't fit `availableSize`. Otherwise the `Size` constructor will throw.
 				column.Measure(Size(std::max<float>(static_cast<float>(availableSize.Width - fixedWidth - autoSized), 0), availableSize.Height));
 
@@ -275,7 +266,25 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
 		UpdateColumnWidths(availableSize.Width);
 
-		return Size(availableSize.Width, static_cast<float>(maxHeight));
+		// Horizontal scrolling requires the panel to report the resolved table width,
+		// not merely the viewport width. Keep the table at least as wide as the
+		// viewport to avoid whole-row shifts when the columns occupy less space, but
+		// allow the desired width to exceed the viewport when columns overflow it.
+		double desiredWidth = 0;
+		for (const auto& column : elements)
+		{
+			desiredWidth += winrt::get_self<winrt::XamlToolkit::Labs::WinUI::implementation::DataColumn>(column)->ActualColumnWidth();
+		}
+		if (elements.size() > 1)
+		{
+			desiredWidth += (elements.size() - 1) * ColumnSpacing();
+		}
+		if (std::isfinite(availableSize.Width))
+		{
+			desiredWidth = std::max<double>(desiredWidth, availableSize.Width);
+		}
+
+		return Size(static_cast<float>(desiredWidth), static_cast<float>(maxHeight));
 	}
 
 	Size DataTable::ArrangeOverride(Size finalSize)

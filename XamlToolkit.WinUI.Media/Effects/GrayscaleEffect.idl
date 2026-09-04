@@ -10,6 +10,7 @@ namespace XamlToolkit.WinUI.Media
     /// A grayscale effect
     /// </summary>
     /// <remarks>This effect maps to the Win2D GrayscaleEffect effect</remarks>
+    [webhosthidden]
 	[default_interface]
     runtimeclass GrayscaleEffect : PipelineEffect
     {

@@ -10,6 +10,7 @@ namespace XamlToolkit.WinUI.Media
     /// <summary>
     /// A base class that extends <see cref="AttachedVisualFactoryBase"/> by leveraging the <see cref="PipelineBuilder"/> APIs.
     /// </summary>
+    [webhosthidden]
     unsealed runtimeclass PipelineVisualFactoryBase : AttachedVisualFactoryBase
     {
         /// <summary>

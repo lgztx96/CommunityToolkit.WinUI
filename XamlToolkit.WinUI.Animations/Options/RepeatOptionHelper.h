@@ -44,7 +44,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         /// <summary>
         /// Gets the AnimationIterationBehavior and count values matching the current RepeatOption value.
         /// </summary>
-        static void ToBehaviorAndCount(RepeatOption const& option, winrt::AnimationIterationBehavior& behavior, int& count);
+        static void ToBehaviorAndCount(RepeatOption const& option, winrt::AnimationIterationBehavior& behavior, int& count) noexcept;
 
         /// <summary>
         /// Parses a <see cref="RepeatOption"/> value from a <see cref="string"/>.
@@ -52,7 +52,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         /// </summary>
         /// <param name="text">The input text to parse.</param>
         /// <returns>The parsed <see cref="RepeatOption"/> value.</returns>
-        static RepeatOption Parse(winrt::hstring const& text);
+        static RepeatOption CreateFromString(winrt::hstring const& text);
     };
 }
 

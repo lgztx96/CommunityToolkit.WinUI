@@ -66,7 +66,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
 
         winrt::XamlToolkit::WinUI::Animations::AnimationBuilder& AppendToBuilder(
             winrt::XamlToolkit::WinUI::Animations::AnimationBuilder& builder,
-            winrt::UIElement parent,
+            winrt::UIElement const& parent,
             std::optional<winrt::TimeSpan> delayHint = std::nullopt,
             std::optional<winrt::TimeSpan> durationHint = std::nullopt,
             std::optional<enum EasingType> easingTypeHint = std::nullopt,
@@ -105,7 +105,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
 
             if (auto target = Target())
             {
-                for (auto const& context : target.EnumerateElementContexts())
+                for (const auto& context : target.EnumerateElementContexts())
                 {
                     appendAnimation(context.Shadow());
                 }

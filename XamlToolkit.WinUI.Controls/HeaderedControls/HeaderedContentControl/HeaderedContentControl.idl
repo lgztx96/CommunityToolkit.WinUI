@@ -1,16 +1,19 @@
 namespace XamlToolkit.WinUI.Controls
 {
-    [default_interface]
+    [webhosthidden]
     unsealed runtimeclass HeaderedContentControl : Microsoft.UI.Xaml.Controls.ContentControl
     {
         HeaderedContentControl();
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty HeaderProperty{ get; };
         Object Header;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty HeaderTemplateProperty{ get; };
         Microsoft.UI.Xaml.DataTemplate HeaderTemplate;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty OrientationProperty{ get; };
         Microsoft.UI.Xaml.Controls.Orientation Orientation;
 

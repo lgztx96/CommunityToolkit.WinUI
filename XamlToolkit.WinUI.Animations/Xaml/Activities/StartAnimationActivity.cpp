@@ -22,7 +22,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
             winrt::xaml_typename<class_type>(),
             winrt::PropertyMetadata(nullptr));
 
-    winrt::IAsyncAction StartAnimationActivity::InvokeAsync(winrt::UIElement const& element)
+    winrt::IAsyncAction StartAnimationActivity::InvokeAsync(winrt::UIElement element)
     {
         auto strongThis = get_strong();
 

@@ -11,18 +11,18 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		static void OnResizeDirectionPropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 
-		GridResizeDirection ResizeDirection() const { return winrt::unbox_value<GridResizeDirection>(GetValue(ResizeDirectionProperty)); }
-		void ResizeDirection(GridResizeDirection const& value) { SetValue(ResizeDirectionProperty, winrt::box_value(value)); }
+		GridResizeDirection ResizeDirection() const { return winrt::unbox_value<GridResizeDirection>(GetValue(ResizeDirectionProperty())); }
+		void ResizeDirection(GridResizeDirection const& value) { SetValue(ResizeDirectionProperty(), winrt::box_value(value)); }
 
 		static const wil::single_threaded_property<winrt::DependencyProperty> ResizeDirectionProperty;
 
-		GridResizeBehavior ResizeBehavior() const { return winrt::unbox_value<GridResizeBehavior>(GetValue(ResizeBehaviorProperty)); }
-		void ResizeBehavior(GridResizeBehavior const& value) { SetValue(ResizeBehaviorProperty, winrt::box_value(value)); }
+		GridResizeBehavior ResizeBehavior() const { return winrt::unbox_value<GridResizeBehavior>(GetValue(ResizeBehaviorProperty())); }
+		void ResizeBehavior(GridResizeBehavior const& value) { SetValue(ResizeBehaviorProperty(), winrt::box_value(value)); }
 
 		static const wil::single_threaded_property<winrt::DependencyProperty> ResizeBehaviorProperty;
 
-		int ParentLevel() const { return winrt::unbox_value<int>(GetValue(ParentLevelProperty)); }
-		void ParentLevel(int value) { SetValue(ParentLevelProperty, winrt::box_value(value)); }
+		int ParentLevel() const { return winrt::unbox_value<int>(GetValue(ParentLevelProperty())); }
+		void ParentLevel(int value) { SetValue(ParentLevelProperty(), winrt::box_value(value)); }
 
 		static const wil::single_threaded_property<winrt::DependencyProperty> ParentLevelProperty;
 

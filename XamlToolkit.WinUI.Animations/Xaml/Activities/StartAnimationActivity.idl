@@ -6,6 +6,7 @@ namespace XamlToolkit.WinUI.Animations
     /// <summary>
     /// An activity that starts a specified animation.
     /// </summary>
+    [webhosthidden]
     runtimeclass StartAnimationActivity : Activity
     {
         StartAnimationActivity();
@@ -15,6 +16,7 @@ namespace XamlToolkit.WinUI.Animations
         /// </summary>
         AnimationSet Animation;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty AnimationProperty{ get; };
 
         /// <summary>
@@ -22,6 +24,7 @@ namespace XamlToolkit.WinUI.Animations
         /// </summary>
 		Microsoft.UI.Xaml.UIElement TargetObject;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty TargetObjectProperty{ get; };
     }
 }

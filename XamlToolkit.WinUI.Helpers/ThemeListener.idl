@@ -1,14 +1,21 @@
 namespace XamlToolkit.WinUI.Helpers
 {
+    [webhosthidden]
     delegate void ThemeChangedHandler(ThemeListener sender);
 
+    [webhosthidden]
     runtimeclass ThemeListener 
     {
         ThemeListener();
         ThemeListener(Microsoft.UI.Dispatching.DispatcherQueue dispatcherQueue);
 
+        [noexcept]
         Microsoft.UI.Xaml.ApplicationTheme CurrentTheme{ get; };
+
+        [noexcept]
         String CurrentThemeName{ get; };
+
+        [noexcept]
         Boolean IsHighContrast{ get; };
 
         event ThemeChangedHandler ThemeChanged;

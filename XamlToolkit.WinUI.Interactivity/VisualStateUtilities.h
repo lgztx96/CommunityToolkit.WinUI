@@ -32,7 +32,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         /// </summary>
         /// <param name="element">The <see cref="FrameworkElement"/> from which to find the nearest stateful control.</param>
         /// <returns>The nearest <see cref="Control"/> that contains visual states; else null.</returns>
-        static winrt::Controls::Control FindNearestStatefulControl(winrt::FrameworkElement const& element);
+        static winrt::Control FindNearestStatefulControl(winrt::FrameworkElement const& element);
 
         /// <summary>
         /// Transitions the control between two states.
@@ -41,7 +41,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         /// <param name="stateName">The state to transition to.</param>
         /// <param name="useTransitions">True to use a <see cref="VisualTransition"/> to transition between states; otherwise, false.</param>
         /// <returns>True if the <paramref name="control"/> is successfully transitioned to the new state; otherwise, false.</returns>
-        static bool GoToState(winrt::Controls::Control const& control, winrt::hstring const& stateName, bool useTransitions);
+        static bool GoToState(winrt::Control const& control, winrt::hstring const& stateName, bool useTransitions);
 
         /// <summary>
         /// Gets the value of the VisualStateManager.VisualStateGroups attached property.

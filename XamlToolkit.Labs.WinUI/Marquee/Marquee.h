@@ -172,15 +172,15 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		}
 
 	public:
-		wil::typed_event<class_type, IInspectable> MarqueeStarted;
+		wil::typed_event<class_type, winrt::IInspectable> MarqueeStarted;
 
-		wil::typed_event<class_type, IInspectable> MarqueeStopped;
+		wil::typed_event<class_type, winrt::IInspectable> MarqueeStopped;
 
-		wil::typed_event<class_type, IInspectable> MarqueeResumed;
+		wil::typed_event<class_type, winrt::IInspectable> MarqueeResumed;
 
-		wil::typed_event<class_type, IInspectable> MarqueePaused;
+		wil::typed_event<class_type, winrt::IInspectable> MarqueePaused;
 
-		wil::typed_event<class_type, IInspectable> MarqueeCompleted;
+		wil::typed_event<class_type, winrt::IInspectable> MarqueeCompleted;
 
 		static inline const wil::single_threaded_property<winrt::DependencyProperty> AutoPlayProperty =
 			winrt::DependencyProperty::Register(

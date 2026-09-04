@@ -2,12 +2,15 @@
 
 namespace XamlToolkit.WinUI
 {
+	[webhosthidden]
 	runtimeclass FontIconExtension : TextIconExtension
     {
         FontIconExtension();
 
+        [noexcept]
         String Glyph;
 
+        [noexcept]
         Microsoft.UI.Xaml.Media.FontFamily FontFamily;
     }
 }

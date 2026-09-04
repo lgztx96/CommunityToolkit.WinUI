@@ -6,9 +6,8 @@
 
 #include "UIElementExtensions.g.h"
 #ifdef __INTELLISENSE__
-
-#include <winrt/Windows::Foundation.h>
-#include <winrt/Windows::Foundation::Numerics.h>
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.Foundation.Numerics.h>
 #include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Microsoft.UI.Composition.h>
 #include <wil/wistd_type_traits.h>
@@ -34,7 +33,6 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
 {
     struct UIElementExtensions
     {
-    public:
         static winrt::fire_and_forget OnVisualFactoryPropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 
         static AttachedVisualFactoryBase GetVisualFactory(winrt::UIElement const& element);

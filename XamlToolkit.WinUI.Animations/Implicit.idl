@@ -5,11 +5,9 @@ namespace XamlToolkit.WinUI.Animations
     /// <summary>
     /// Attached properties to support implicitly triggered animations for UIElement instances.
     /// </summary>
-    [default_interface]
-    runtimeclass Implicit
+    [webhosthidden]
+    static runtimeclass Implicit
     {
-        Implicit();
-
         /// <summary>
         /// Gets the value of the ShowAnimationsProperty property.
         /// </summary>
@@ -43,16 +41,19 @@ namespace XamlToolkit.WinUI.Animations
         /// <summary>
         /// Identifies the ShowAnimationsProperty dependency property.
         /// </summary>
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ShowAnimationsProperty{ get; };
 
         /// <summary>
         /// Identifies the HideAnimationsProperty dependency property.
         /// </summary>
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty HideAnimationsProperty{ get; };
 
         /// <summary>
         /// Identifies the AnimationsProperty dependency property.
         /// </summary>
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty AnimationsProperty{ get; };
     }
 }

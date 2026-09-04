@@ -1,18 +1,21 @@
 namespace XamlToolkit.WinUI.Controls
 {
-    [default_interface]
+    [webhosthidden]
     runtimeclass TokenItemAddingEventArgs 
     {
         TokenItemAddingEventArgs();
 
         TokenItemAddingEventArgs(String token);
 
-        String TokenText;
-
-        Object Item;
-
         Windows.Foundation.Deferral GetDeferral();
 
+        [noexcept]
+        String TokenText;
+
+        [noexcept]
+        Object Item;
+
+        [noexcept]
         Boolean Cancel;
     }
 }

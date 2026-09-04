@@ -2,13 +2,17 @@
 
 namespace XamlToolkit.WinUI.Controls
 {
+    [webhosthidden]
     runtimeclass ColorPickerButton : Microsoft.UI.Xaml.Controls.DropDownButton
     {
         ColorPickerButton();
+
+        [noexcept]
         XamlToolkit.WinUI.Controls.ColorPicker ColorPicker;
 
         Windows.UI.Color SelectedColor;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty SelectedColorProperty{ get; };
     }
 }

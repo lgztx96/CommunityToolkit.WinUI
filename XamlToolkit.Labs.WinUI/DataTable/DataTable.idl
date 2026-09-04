@@ -1,11 +1,13 @@
-﻿namespace XamlToolkit.Labs.WinUI
+namespace XamlToolkit.Labs.WinUI
 {
-	runtimeclass DataTable : Microsoft.UI.Xaml.Controls.Panel
-	{
-		DataTable();
+    [webhosthidden]
+    runtimeclass DataTable : Microsoft.UI.Xaml.Controls.Panel
+    {
+        DataTable();
 
-		Double ColumnSpacing;
+        Double ColumnSpacing;
 
-		static Microsoft.UI.Xaml.DependencyProperty ColumnSpacingProperty{ get; };
-	}
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty ColumnSpacingProperty{ get; };
+    }
 }

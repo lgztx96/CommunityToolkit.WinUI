@@ -24,8 +24,6 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
     /// </summary>
     struct Interaction
     {
-        Interaction() = delete;
-
         /// <summary>
         /// Gets or sets the <see cref="BehaviorCollection"/> associated with a specified object.
         /// </summary>

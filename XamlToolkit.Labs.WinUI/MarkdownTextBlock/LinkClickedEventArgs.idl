@@ -1,12 +1,15 @@
 namespace XamlToolkit.Labs.WinUI
 {
-    [default_interface]
+    [webhosthidden]
     runtimeclass LinkClickedEventArgs
     {
         LinkClickedEventArgs();
         LinkClickedEventArgs(Windows.Foundation.Uri uri);
 
+        [noexcept]
         Windows.Foundation.Uri Uri { get; };
+
+        [noexcept]
         Boolean Handled { get; set; };
     }
 }

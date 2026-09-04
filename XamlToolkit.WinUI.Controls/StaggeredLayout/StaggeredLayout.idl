@@ -6,7 +6,7 @@
         Fill
     };
 
-    [default_interface]
+    [webhosthidden]
     runtimeclass StaggeredLayout : Microsoft.UI.Xaml.Controls.VirtualizingLayout
     {
         StaggeredLayout();
@@ -16,9 +16,16 @@
         Double ColumnSpacing;
         Double RowSpacing;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty DesiredColumnWidthProperty{ get; };
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ColumnSpacingProperty{ get; };
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty RowSpacingProperty{ get; };
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ItemsStretchProperty{ get; };
     }
 }

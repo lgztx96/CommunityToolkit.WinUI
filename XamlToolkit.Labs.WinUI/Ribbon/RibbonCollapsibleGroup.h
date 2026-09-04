@@ -39,72 +39,72 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         winrt::IconSource IconSource() const
         {
-            return GetValue(IconSourceProperty).try_as<winrt::IconSource>();
+            return GetValue(IconSourceProperty()).try_as<winrt::IconSource>();
         }
 
         void IconSource(winrt::IconSource const& value)
         {
-            SetValue(IconSourceProperty, value);
+            SetValue(IconSourceProperty(), value);
         }
 
         static const wil::single_threaded_property<winrt::DependencyProperty> StateProperty;
 
         winrt::Visibility State() const
         {
-            return winrt::unbox_value<winrt::Visibility>(GetValue(StateProperty));
+            return winrt::unbox_value<winrt::Visibility>(GetValue(StateProperty()));
         }
 
         void State(winrt::Visibility const& value)
         {
-            SetValue(StateProperty, winrt::box_value(value));
+            SetValue(StateProperty(), winrt::box_value(value));
         }
 
         static const wil::single_threaded_property<winrt::DependencyProperty> AutoCloseFlyoutProperty;
 
         bool AutoCloseFlyout() const
         {
-            return winrt::unbox_value<bool>(GetValue(AutoCloseFlyoutProperty));
+            return winrt::unbox_value<bool>(GetValue(AutoCloseFlyoutProperty()));
         }
 
         void AutoCloseFlyout(bool value)
         {
-            SetValue(AutoCloseFlyoutProperty, winrt::box_value(value));
+            SetValue(AutoCloseFlyoutProperty(), winrt::box_value(value));
         }
 
         static const wil::single_threaded_property<winrt::DependencyProperty> PriorityProperty;
 
         int Priority() const
         {
-            return winrt::unbox_value<int>(GetValue(PriorityProperty));
+            return winrt::unbox_value<int>(GetValue(PriorityProperty()));
         }
 
         void Priority(int value)
         {
-            SetValue(PriorityProperty, winrt::box_value(value));
+            SetValue(PriorityProperty(), winrt::box_value(value));
         }
 
         static const wil::single_threaded_property<winrt::DependencyProperty> CollapsedAccessKeyProperty;
 
         winrt::hstring CollapsedAccessKey() const
         {
-            return winrt::unbox_value<winrt::hstring>(GetValue(CollapsedAccessKeyProperty));
+            return winrt::unbox_value<winrt::hstring>(GetValue(CollapsedAccessKeyProperty()));
         }
 
         void CollapsedAccessKey(winrt::hstring const& value)
         {
-            SetValue(CollapsedAccessKeyProperty, winrt::box_value(value));
+            SetValue(CollapsedAccessKeyProperty(), winrt::box_value(value));
         }
 
         static const wil::single_threaded_property<winrt::DependencyProperty> RequestedWidthsProperty;
 
         winrt::XamlToolkit::Labs::WinUI::DoubleVector RequestedWidths() const
         {
-            return GetValue(RequestedWidthsProperty).try_as<winrt::XamlToolkit::Labs::WinUI::DoubleVector>();
+            return GetValue(RequestedWidthsProperty()).try_as<winrt::XamlToolkit::Labs::WinUI::DoubleVector>();
         }
 
         void RequestedWidths(winrt::XamlToolkit::Labs::WinUI::DoubleVector const& value)
         {
-            SetValue(RequestedWidthsProperty, value);
+            SetValue(RequestedWidthsProperty(), value);
         }
 
         RibbonCollapsibleGroup();

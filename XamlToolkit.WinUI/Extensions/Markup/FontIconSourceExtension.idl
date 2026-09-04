@@ -2,12 +2,15 @@ import "Extensions/Markup/TextIconExtension.idl";
 
 namespace XamlToolkit.WinUI
 {
+    [webhosthidden]
     runtimeclass FontIconSourceExtension : TextIconExtension
     {
         FontIconSourceExtension();
 
+        [noexcept]
         String Glyph;
 
+        [noexcept]
         Microsoft.UI.Xaml.Media.FontFamily FontFamily;
     }
 }

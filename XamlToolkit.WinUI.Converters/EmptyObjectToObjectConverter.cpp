@@ -14,22 +14,22 @@ namespace winrt::XamlToolkit::WinUI::Converters::implementation
 {
     winrt::IInspectable EmptyObjectToObjectConverter::NotEmptyValue() const
     {
-        return GetValue(NotEmptyValueProperty);
+        return GetValue(NotEmptyValueProperty());
     }
 
     void EmptyObjectToObjectConverter::NotEmptyValue(winrt::IInspectable const& value)
     {
-        SetValue(NotEmptyValueProperty, value);
+        SetValue(NotEmptyValueProperty(), value);
     }
 
     winrt::IInspectable EmptyObjectToObjectConverter::EmptyValue() const
     {
-        return GetValue(EmptyValueProperty);
+        return GetValue(EmptyValueProperty());
     }
 
     void EmptyObjectToObjectConverter::EmptyValue(winrt::IInspectable const& value)
     {
-        SetValue(EmptyValueProperty, value);
+        SetValue(EmptyValueProperty(), value);
     }
 
     const wil::single_threaded_property<winrt::DependencyProperty> EmptyObjectToObjectConverter::NotEmptyValueProperty = winrt::DependencyProperty::Register(
@@ -46,7 +46,7 @@ namespace winrt::XamlToolkit::WinUI::Converters::implementation
         winrt::PropertyMetadata{ nullptr }
     );
 
-    winrt::IInspectable EmptyObjectToObjectConverter::Convert(winrt::IInspectable const& value, [[maybe_unused]] winrt::TypeName targetType, winrt::IInspectable const& parameter, [[maybe_unused]] winrt::hstring const& language) const
+    winrt::IInspectable EmptyObjectToObjectConverter::Convert(winrt::IInspectable const& value, winrt::TypeName targetType, winrt::IInspectable const& parameter, [[maybe_unused]] winrt::hstring const& language) const
     {
         auto isEmpty = CheckValueIsEmpty(value);
 
@@ -56,7 +56,7 @@ namespace winrt::XamlToolkit::WinUI::Converters::implementation
             isEmpty = !isEmpty;
         }
 
-        return ConverterTools::Convert(isEmpty ? EmptyValue() : NotEmptyValue(), targetType);
+        return ConverterTools::TryConvertValue(isEmpty ? EmptyValue() : NotEmptyValue(), targetType);
     }
 
     winrt::IInspectable EmptyObjectToObjectConverter::ConvertBack([[maybe_unused]] winrt::IInspectable const& value, [[maybe_unused]] winrt::TypeName targetType, [[maybe_unused]] winrt::IInspectable const& parameter, [[maybe_unused]] winrt::hstring const& language) const

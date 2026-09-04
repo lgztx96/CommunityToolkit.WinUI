@@ -12,14 +12,18 @@
         LowerRight
     };
 
-    [default_interface]
+    [webhosthidden]
     runtimeclass ImageCropperThumb : Microsoft.UI.Xaml.Controls.Control
     {
         ImageCropperThumb();
         Double X;
         Double Y;
         ThumbPosition Position;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty XProperty{ get; };
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty YProperty{ get; };
     }
 }

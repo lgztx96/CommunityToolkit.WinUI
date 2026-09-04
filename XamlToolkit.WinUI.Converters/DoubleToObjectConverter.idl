@@ -11,6 +11,7 @@ namespace XamlToolkit.WinUI.Converters
     /// Otherwise the logic looks for the value to be GreaterThan or LessThan the specified value.
     /// The ConverterParameter can be used to invert the logic.
     /// </summary>
+    [webhosthidden]
     unsealed runtimeclass DoubleToObjectConverter : Microsoft.UI.Xaml.DependencyObject, Microsoft.UI.Xaml.Data.IValueConverter
     {
         DoubleToObjectConverter();
@@ -43,26 +44,31 @@ namespace XamlToolkit.WinUI.Converters
         /// <summary>
         /// Identifies the TrueValue property.
         /// </summary>
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty TrueValueProperty{ get; };
 
         /// <summary>
         /// Identifies the FalseValue property.
         /// </summary>
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty FalseValueProperty{ get; };
 
         /// <summary>
         /// Identifies the NullValue property.
         /// </summary>
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty NullValueProperty{ get; };
 
         /// <summary>
         /// Identifies the GreaterThan property.
         /// </summary>
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty GreaterThanProperty{ get; };
 
         /// <summary>
         /// Identifies the LessThan property.
         /// </summary>
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty LessThanProperty{ get; };
     }
 }

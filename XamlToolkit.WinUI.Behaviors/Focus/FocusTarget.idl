@@ -3,6 +3,7 @@ namespace XamlToolkit.WinUI.Behaviors
     /// <summary>
     /// A target for the FocusBehavior.
     /// </summary>
+    [webhosthidden]
     runtimeclass FocusTarget : Microsoft.UI.Xaml.DependencyObject
     {
         FocusTarget();
@@ -12,6 +13,7 @@ namespace XamlToolkit.WinUI.Behaviors
         /// </summary>
         Microsoft.UI.Xaml.Controls.Control Control;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ControlProperty { get; };
 
         /// <summary>

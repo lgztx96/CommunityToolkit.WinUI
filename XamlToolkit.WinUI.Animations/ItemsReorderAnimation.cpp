@@ -11,8 +11,8 @@
 
 namespace winrt
 {
-	using namespace Microsoft::UI::Xaml::Hosting;
-	using namespace Microsoft::UI::Composition;
+	using namespace ::winrt::Microsoft::UI::Xaml::Hosting;
+	using namespace ::winrt::Microsoft::UI::Composition;
 }
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
@@ -21,15 +21,15 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         winrt::DependencyProperty::RegisterAttached(
             L"Duration",
             winrt::xaml_typename<winrt::TimeSpan>(),
-            winrt::xaml_typename<class_type>(),
-            nullptr);
+            winrt::xaml_typename<winrt::XamlToolkit::WinUI::Animations::ItemsReorderAnimation>(),
+            winrt::PropertyMetadata(nullptr));
 
     const wil::single_threaded_property<winrt::DependencyProperty> ItemsReorderAnimation::ReorderAnimationProperty = 
         winrt::DependencyProperty::RegisterAttached(
             L"ReorderAnimation",
             winrt::xaml_typename<winrt::ImplicitAnimationCollection>(),
-            winrt::xaml_typename<class_type>(),
-            nullptr);
+            winrt::xaml_typename<winrt::XamlToolkit::WinUI::Animations::ItemsReorderAnimation>(),
+            winrt::PropertyMetadata(nullptr));
 
     winrt::TimeSpan ItemsReorderAnimation::GetDuration(winrt::ListViewBase const& listView)
     {
@@ -52,9 +52,6 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         {
             auto duration = winrt::unbox_value<winrt::TimeSpan>(e.NewValue());
             AssignReorderAnimation(listView, duration);
-
-            listView.ContainerContentChanging({ &ItemsReorderAnimation::OnContainerContentChanging });
-            listView.ChoosingItemContainer({ &ItemsReorderAnimation::OnChoosingItemContainer });
         }
     }
 
@@ -68,6 +65,9 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         {
             animationCollection = compositor.CreateImplicitAnimationCollection();
             listView.SetValue(ReorderAnimationProperty(), animationCollection);
+
+            listView.ContainerContentChanging({ &ItemsReorderAnimation::OnContainerContentChanging });
+            listView.ChoosingItemContainer({ &ItemsReorderAnimation::OnChoosingItemContainer });
         }
 
         if (duration == winrt::TimeSpan{ 0 })

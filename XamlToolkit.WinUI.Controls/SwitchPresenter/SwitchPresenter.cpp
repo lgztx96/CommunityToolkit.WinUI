@@ -20,7 +20,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         // When our Switch's expression changes, re-evaluate.
         if (auto xswitch = d.try_as<class_type>())
         {
-            auto self = winrt::get_self<SwitchPresenter>(xswitch)->get_strong();
+            auto self = winrt::get_self<SwitchPresenter>(xswitch);
             self->EvaluateCases();
         }
     }
@@ -30,7 +30,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         // If our collection somehow changes, we should re-evaluate.
         if (auto xswitch = d.try_as<class_type>())
         {
-			auto self = winrt::get_self<SwitchPresenter>(xswitch)->get_strong();
+			auto self = winrt::get_self<SwitchPresenter>(xswitch);
             self->EvaluateCases();
         }
     }
@@ -50,20 +50,20 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
     void SwitchPresenter::EvaluateCases()
     {
-        if (auto currentCase = CurrentCase())
+        const auto value = Value();
+        const auto currentCase = CurrentCase();
+
+        if (currentCase && currentCase.Value() == value)
         {
-			if (auto value = currentCase.Value(); SwitchHelpers::Equals(value, Value()))
-			{
-                // If the current case we're on already matches our current value,
-                // then we don't have any work to do.
-                return;
-			}
+            // If the current case we're on already matches our current value,
+            // then we don't have any work to do.
+            return;
         }
 
-        auto result = SwitchHelpers::EvaluateCases(SwitchCases(), Value());
+        auto result = SwitchHelpers::EvaluateCases(SwitchCases(), value);
 
         // Only bother changing things around if we actually have a new case. (this should handle prior null case as well)
-        if (result != CurrentCase())
+        if (result != currentCase)
         {
             // If we don't have any cases or default, setting these to null is what we want to be blank again.
             if (auto content = result.Content()) 

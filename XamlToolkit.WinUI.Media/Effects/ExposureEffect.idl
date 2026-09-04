@@ -10,6 +10,7 @@ namespace XamlToolkit.WinUI.Media
     /// An exposure effect
     /// </summary>
     /// <remarks>This effect maps to the Win2D ExposureEffect effect</remarks>
+    [webhosthidden]
     runtimeclass ExposureEffect : PipelineEffect
     {
         /// <summary>
@@ -20,6 +21,7 @@ namespace XamlToolkit.WinUI.Media
         /// <summary>
         /// Gets or sets the amount of exposure to apply to the background (defaults to 0, should be in the [-2, 2] range).
         /// </summary>
+        [noexcept]
         Double Amount;
     };
 }

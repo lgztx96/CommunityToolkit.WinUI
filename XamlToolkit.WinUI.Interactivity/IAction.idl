@@ -3,6 +3,7 @@ namespace XamlToolkit.WinUI.Interactivity
     /// <summary>
     /// Interface implemented by all custom actions.
     /// </summary>
+    [webhosthidden]
     interface IAction
     {
         /// <summary>

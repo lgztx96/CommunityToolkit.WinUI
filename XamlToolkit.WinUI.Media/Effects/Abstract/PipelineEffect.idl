@@ -10,6 +10,7 @@ namespace XamlToolkit.WinUI.Media
     /// <summary>
     /// A base pipeline effect.
     /// </summary>
+    [webhosthidden]
 	unsealed runtimeclass PipelineEffect : Microsoft.UI.Xaml.DependencyObject, IPipelineEffect
     {
         /// <summary>
@@ -20,6 +21,7 @@ namespace XamlToolkit.WinUI.Media
         /// <summary>
         /// Gets or sets a value indicating whether the effect can be animated.
         /// </summary>
+        [noexcept]
         Boolean IsAnimatable;
     };
 }

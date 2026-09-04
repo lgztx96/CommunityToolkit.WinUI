@@ -7,6 +7,7 @@ namespace XamlToolkit.WinUI.Converters
     /// <summary>
     /// Value converter that look up for the source string in the App Resources strings and returns its value, if found.
     /// </summary>
+    [webhosthidden]
     [default_interface]
     runtimeclass ResourceNameToResourceStringConverter : Microsoft.UI.Xaml.Data.IValueConverter
     {

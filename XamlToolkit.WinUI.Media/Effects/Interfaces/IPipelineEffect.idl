@@ -9,6 +9,7 @@ namespace XamlToolkit.WinUI.Media
     /// <summary>
     /// The base interface for all the builder effects to be used in a CompositionBrush.
     /// </summary>
+    [webhosthidden]
     interface IPipelineEffect
     {
         /// <summary>

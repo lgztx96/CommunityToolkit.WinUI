@@ -895,7 +895,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
             T newNode = ExpressionNode::CreateExpressionNode<T>();
             newNode.NodeType = nodeType;
 
-            for (auto const& param : expressionFunctionParams)
+            for (const auto& param : expressionFunctionParams)
             {
                 newNode.AddChild(param.get());
             }

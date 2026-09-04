@@ -7,9 +7,9 @@
 
 namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 {
-    bool VisualStateUtilities::GoToState(winrt::Controls::Control const& control, winrt::hstring const& stateName, bool useTransitions)
+    bool VisualStateUtilities::GoToState(winrt::Control const& control, winrt::hstring const& stateName, bool useTransitions)
     {
-        if (control == nullptr)
+        if (!control)
         {
             throw winrt::hresult_invalid_argument(L"control");
         }
@@ -25,14 +25,14 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
     winrt::IVector<winrt::VisualStateGroup> VisualStateUtilities::GetVisualStateGroups(winrt::FrameworkElement const& element)
     {
-        if (element == nullptr)
+        if (!element)
         {
             throw winrt::hresult_invalid_argument(L"element");
         }
 
         auto visualStateGroups = winrt::VisualStateManager::GetVisualStateGroups(element);
 
-        if (visualStateGroups == nullptr || visualStateGroups.Size() == 0)
+        if (!visualStateGroups || visualStateGroups.Size() == 0)
         {
             int childrenCount = winrt::VisualTreeHelper::GetChildrenCount(element);
             if (childrenCount > 0)
@@ -48,14 +48,14 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         return visualStateGroups;
     }
 
-    winrt::Controls::Control VisualStateUtilities::FindNearestStatefulControl(winrt::FrameworkElement const& element)
+    winrt::Control VisualStateUtilities::FindNearestStatefulControl(winrt::FrameworkElement const& element)
     {
-        if (element == nullptr)
+        if (!element)
         {
             throw winrt::hresult_invalid_argument(L"element");
         }
 
-        auto currentElement = element;
+        winrt::FrameworkElement currentElement{ element };
         auto parent = currentElement.Parent().try_as<winrt::FrameworkElement>();
 
         while (!VisualStateUtilities::HasVisualStateGroupsDefined(currentElement) && VisualStateUtilities::ShouldContinueTreeWalk(parent))
@@ -66,13 +66,13 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
         if (VisualStateUtilities::HasVisualStateGroupsDefined(currentElement))
         {
-            auto templatedParent = winrt::VisualTreeHelper::GetParent(currentElement).try_as<winrt::Controls::Control>();
+            const auto templatedParent = winrt::VisualTreeHelper::GetParent(currentElement).try_as<winrt::Control>();
             if (templatedParent)
             {
                 return templatedParent;
             }
 
-            return currentElement.try_as<winrt::Controls::Control>();
+            return currentElement.try_as<winrt::Control>();
         }
 
         return nullptr;
@@ -85,20 +85,20 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
     bool VisualStateUtilities::ShouldContinueTreeWalk(winrt::FrameworkElement const& element)
     {
-        if (element == nullptr)
+        if (!element)
         {
             return false;
         }
 
-        if (element.try_as<winrt::Controls::UserControl>())
+        if (element.try_as<winrt::UserControl>())
         {
             return false;
         }
 
-        if (element.Parent() == nullptr)
+        if (!element.Parent())
         {
-            auto templatedParent = winrt::VisualTreeHelper::GetParent(element).try_as<winrt::FrameworkElement>();
-            if (templatedParent == nullptr || (templatedParent.try_as<winrt::Control>() == nullptr && templatedParent.try_as<winrt::ContentPresenter>() == nullptr))
+            const auto templatedParent = winrt::VisualTreeHelper::GetParent(element).try_as<winrt::FrameworkElement>();
+            if (!templatedParent || (!templatedParent.try_as<winrt::Control>() && !templatedParent.try_as<winrt::ContentPresenter>()))
             {
                 return false;
             }

@@ -21,8 +21,8 @@ namespace winrt::XamlToolkit::WinUI::Converters::implementation
     {
         StringVisibilityConverter()
         {
-            NotEmptyValue(winrt::box_value(Visibility::Visible));
-            EmptyValue(winrt::box_value(Visibility::Collapsed));
+            NotEmptyValue(winrt::box_value(winrt::Visibility::Visible));
+            EmptyValue(winrt::box_value(winrt::Visibility::Collapsed));
         }
     };
 }

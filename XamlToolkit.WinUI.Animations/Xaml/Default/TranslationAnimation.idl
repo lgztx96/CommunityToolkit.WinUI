@@ -6,6 +6,7 @@ namespace XamlToolkit.WinUI.Animations
     /// <summary>
     /// A translation animation working on the composition layer.
     /// </summary>
+    [webhosthidden]
     [contentproperty("KeyFrames")]
     runtimeclass TranslationAnimation : Animation
     {
@@ -17,6 +18,7 @@ namespace XamlToolkit.WinUI.Animations
         /// <summary>
         /// Gets or sets the implicit trigger target property name.
         /// </summary>
+        [noexcept]
         String ImplicitTarget;
 
         /// <summary>
@@ -24,6 +26,7 @@ namespace XamlToolkit.WinUI.Animations
         /// </summary>
         String To;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty ToProperty{ get; };
 
         /// <summary>
@@ -31,6 +34,7 @@ namespace XamlToolkit.WinUI.Animations
         /// </summary>
         String From;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty FromProperty{ get; };
 
         /// <summary>
@@ -38,6 +42,7 @@ namespace XamlToolkit.WinUI.Animations
         /// </summary>
         Windows.Foundation.Collections.IVector<Vector3KeyFrame> KeyFrames;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty KeyFramesProperty{ get; };
     }
 }

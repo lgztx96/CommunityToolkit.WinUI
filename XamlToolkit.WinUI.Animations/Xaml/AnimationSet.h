@@ -19,8 +19,8 @@
 
 namespace winrt
 {
-    using namespace Windows::Foundation;
-    using namespace Microsoft::UI::Xaml;
+    using namespace ::winrt::Windows::Foundation;
+    using namespace ::winrt::Microsoft::UI::Xaml;
 }
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
@@ -28,60 +28,42 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
     /// <summary>
     /// A collection of animations that can be grouped together.
     /// </summary>
-    struct AnimationSet : AnimationSetT<AnimationSet, winrt::XamlToolkit::WinUI::Animations::IAnimationSetOwner>
+    struct AnimationSet : AnimationSetT<AnimationSet, winrt::cloaked<winrt::XamlToolkit::WinUI::Animations::IAnimationSetOwner>>
     {
-    private:
-        std::unordered_map<uintptr_t, std::shared_ptr<std::atomic<bool>>> cancellationStateMap;
-        std::mutex cancellationStateMapMutex;
-        winrt::weak_ref<winrt::UIElement> parentReference{ nullptr };
-        bool isSequential{ false };
+        struct ExecutionContext { winrt::IAsyncAction operation{ nullptr }; };
 
-        winrt::UIElement GetParent() const
-        {
-            if (auto parent = parentReference.get())
-            {
-                return parent;
-            }
-
-            throw winrt::hresult_access_denied(L"The current AnimationSet object isn't bound to a parent UIElement instance.");
-        }
-
-        static void ThrowArgumentException()
-        {
-            throw winrt::hresult_invalid_argument(L"An animation set can only contain timeline nodes or IActivity nodes");
-        }
-
-        winrt::IAsyncAction StartAsync(winrt::UIElement element, std::shared_ptr<std::atomic<bool>> cancellationState);
-
-    public:
         bool IsSequential() const noexcept;
-        void IsSequential(bool value);
+        void IsSequential(bool value) noexcept;
 
-        winrt::weak_ref<winrt::UIElement> ParentReference() { return parentReference; }
-        void ParentReference(winrt::weak_ref<winrt::UIElement> const& value) { parentReference = value; }
-
-        winrt::UIElement Parent() const noexcept
-        {
-            if (auto strongParent = parentReference.get())
-            {
-                return strongParent;
-            }
-
-            return nullptr;
-        }
+        winrt::UIElement ParentReference() const noexcept { return parentReference.get(); }
+        void ParentReference(winrt::weak_ref<winrt::UIElement> const& value) noexcept { parentReference = value; }
 
         wil::untyped_event<winrt::IInspectable> Started;
 
 		wil::untyped_event<winrt::IInspectable> Completed;
 
-        winrt::fire_and_forget Start();
-        winrt::fire_and_forget Start(winrt::UIElement const& element);
+        void Start();
+        void Start(winrt::UIElement const& element);
 
         winrt::IAsyncAction StartAsync();
         winrt::IAsyncAction StartAsync(winrt::UIElement const& element);
+        winrt::IAsyncAction StartAsync(winrt::UIElement element, std::shared_ptr<ExecutionContext> token);
 
         void Stop();
         void Stop(winrt::UIElement const& element);
+
+    private:
+        winrt::UIElement GetParent() const;
+
+        bool TryAppendTimelineNode(
+            winrt::IInspectable const& node,
+            winrt::XamlToolkit::WinUI::Animations::AnimationBuilder& builder,
+            winrt::UIElement const& element);
+
+        std::unordered_map<void*, std::shared_ptr<ExecutionContext>> executionContexts;
+        std::mutex executionContextMutex;
+        winrt::weak_ref<winrt::UIElement> parentReference{ nullptr };
+        bool isSequential{ false };
     };
 }
 

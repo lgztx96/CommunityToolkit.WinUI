@@ -2,11 +2,12 @@ import "Adorners/Adorner.idl";
 
 namespace XamlToolkit.Labs.WinUI
 {
-    [default_interface]
+    [webhosthidden]
     runtimeclass ResizeElementAdorner : Adorner
     {
         ResizeElementAdorner();
 
+	    [noexcept]
         Microsoft.UI.Xaml.FrameworkElement AdornedElement{ get; };
     }
 }

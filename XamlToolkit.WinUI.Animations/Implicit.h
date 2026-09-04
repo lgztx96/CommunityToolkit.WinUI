@@ -22,11 +22,8 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
     /// <summary>
     /// Attached properties to support implicitly triggered animations for UIElement instances.
     /// </summary>
-    struct Implicit : ImplicitT<Implicit>
+    struct Implicit
     {
-    public:
-        Implicit() = default;
-
         /// <summary>
         /// Gets the value of the ShowAnimationsProperty property.
         /// </summary>

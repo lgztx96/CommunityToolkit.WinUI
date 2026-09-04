@@ -11,6 +11,7 @@ namespace XamlToolkit.WinUI.Media
     /// <summary>
     /// A builder type for <see cref="SpriteVisual"/> instance to apply to UI elements.
     /// </summary>
+    [webhosthidden]
     [contentproperty("Effects")]
     runtimeclass PipelineVisualFactory : PipelineVisualFactoryBase
     {
@@ -22,6 +23,7 @@ namespace XamlToolkit.WinUI.Media
         /// <summary>
         /// Gets or sets the source for the current pipeline (defaults to a <see cref="BackdropSourceExtension"/> with <see cref="AcrylicBackgroundSource.Backdrop"/> source).
         /// </summary>
+	    [noexcept]
         XamlToolkit.WinUI.Media.Pipelines.PipelineBuilder Source;
 
         /// <summary>
@@ -29,6 +31,7 @@ namespace XamlToolkit.WinUI.Media
         /// </summary>
         Windows.Foundation.Collections.IVector<IPipelineEffect> Effects;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty EffectsProperty{ get; };
     };
 }

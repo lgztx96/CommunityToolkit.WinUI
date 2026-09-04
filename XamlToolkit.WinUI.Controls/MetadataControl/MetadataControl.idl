@@ -2,16 +2,21 @@ import "MetadataControl/MetadataItem.idl";
 
 namespace XamlToolkit.WinUI.Controls
 {
+	[webhosthidden]
 	runtimeclass MetadataControl : Microsoft.UI.Xaml.Controls.Control
 	{
 		MetadataControl();
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty SeparatorProperty{ get; };
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty AccessibleSeparatorProperty{ get; };
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty ItemsProperty{ get; };
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty TextBlockStyleProperty{ get; };
 
 		String Separator;

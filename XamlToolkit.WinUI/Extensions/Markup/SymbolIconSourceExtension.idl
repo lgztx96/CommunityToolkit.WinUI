@@ -2,10 +2,12 @@ import "Extensions/Markup/TextIconExtension.idl";
 
 namespace XamlToolkit.WinUI
 {
+    [webhosthidden]
     runtimeclass SymbolIconSourceExtension : TextIconExtension
     {
         SymbolIconSourceExtension();
 
+        [noexcept]
         Microsoft.UI.Xaml.Controls.Symbol Symbol;
     }
 }

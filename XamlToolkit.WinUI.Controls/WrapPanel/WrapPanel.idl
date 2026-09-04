@@ -6,24 +6,34 @@ namespace XamlToolkit.WinUI.Controls
         Last = 1,
     };
 
-    [default_interface]
+    [webhosthidden]
     runtimeclass WrapPanel : Microsoft.UI.Xaml.Controls.Panel
     {
         WrapPanel();
 
         Microsoft.UI.Xaml.Thickness Padding;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty PaddingProperty{ get; };
 
         Double HorizontalSpacing;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty HorizontalSpacingProperty{ get; };
 
         Double VerticalSpacing;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty VerticalSpacingProperty{ get; };
 
         Microsoft.UI.Xaml.Controls.Orientation Orientation;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty OrientationProperty{ get; };
 
         StretchChild StretchChild;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty StretchChildProperty{ get; };
     }
 }

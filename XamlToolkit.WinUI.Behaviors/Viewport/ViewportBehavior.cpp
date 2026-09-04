@@ -81,14 +81,16 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
 
         auto elementRect =
             fe.TransformToVisual(_hostScrollViewer)
-            .TransformBounds(winrt::Rect{
+            .TransformBounds(winrt::Rect
+            {
                 0.0f,
                 0.0f,
                 static_cast<float>(fe.ActualWidth()),
                 static_cast<float>(fe.ActualHeight())
-                });
+            });
 
-        winrt::Rect viewport{
+        winrt::Rect viewport
+        {
             0.0f,
             0.0f,
             static_cast<float>(_hostScrollViewer.ActualWidth()),
@@ -152,8 +154,9 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
                 {
                     // Remove behavior from the associated object
                     auto behaviors = winrt::XamlToolkit::WinUI::Interactivity::Interaction::GetBehaviors(impl->AssociatedObject());
-                    uint32_t index;
-                    if (behaviors.IndexOf(behavior, index)) {
+                    
+                    if (uint32_t index; behaviors.IndexOf(behavior, index))
+                    {
                         behaviors.RemoveAt(index);
                     }
                 }

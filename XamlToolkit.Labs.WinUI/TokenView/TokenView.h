@@ -63,22 +63,22 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
 		bool IsWrapped() const
 		{
-			return winrt::unbox_value<bool>(GetValue(IsWrappedProperty));
+			return winrt::unbox_value<bool>(GetValue(IsWrappedProperty()));
 		}
 
 		void IsWrapped(bool value)
 		{
-			SetValue(IsWrappedProperty, winrt::box_value(value));
+			SetValue(IsWrappedProperty(), winrt::box_value(value));
 		}
 
 		bool CanRemoveTokens() const
 		{
-			return winrt::unbox_value<bool>(GetValue(CanRemoveTokensProperty));
+			return winrt::unbox_value<bool>(GetValue(CanRemoveTokensProperty()));
 		}
 
 		void CanRemoveTokens(bool value)
 		{
-			SetValue(CanRemoveTokensProperty, winrt::box_value(value));
+			SetValue(CanRemoveTokensProperty(), winrt::box_value(value));
 		}
 
 	private:

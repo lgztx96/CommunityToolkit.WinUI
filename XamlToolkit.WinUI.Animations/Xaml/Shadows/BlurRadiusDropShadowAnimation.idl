@@ -6,6 +6,7 @@ namespace XamlToolkit.WinUI.Animations
     /// <summary>
     /// A blur radius animation working on the composition layer.
     /// </summary>
+    [webhosthidden]
     [contentproperty("KeyFrames")]
     runtimeclass BlurRadiusDropShadowAnimation : Animation
     {
@@ -13,18 +14,22 @@ namespace XamlToolkit.WinUI.Animations
 
         XamlToolkit.WinUI.IAttachedShadow Target;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty TargetProperty{ get; };
 
         Windows.Foundation.IReference<Double> To;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty ToProperty{ get; };
 
         Windows.Foundation.IReference<Double> From;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty FromProperty{ get; };
 
         Windows.Foundation.Collections.IVector<ScalarKeyFrame> KeyFrames;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty KeyFramesProperty{ get; };
     }
 }

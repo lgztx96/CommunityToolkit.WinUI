@@ -7,6 +7,7 @@ namespace XamlToolkit.WinUI.Converters
     /// <summary>
     /// This class converts a Visibility enumeration to a boolean value.
     /// </summary>
+    [webhosthidden]
     [default_interface]
     runtimeclass VisibilityToBoolConverter : Microsoft.UI.Xaml.Data.IValueConverter
     {

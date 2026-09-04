@@ -265,7 +265,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		if (rows == 0 || cols == 0)
 		{
 			// Calculate the size & area of all objects in the grid to know how much space we need.
-			auto count = std::max(1, std::accumulate(visible.begin(), visible.end(), 0, [](int sum, auto const& item)
+			auto count = std::max(1, std::accumulate(visible.begin(), visible.end(), 0, [](int sum, const auto& item)
 			{
 				return sum + winrt::Grid::GetRowSpan(item) * winrt::Grid::GetColumnSpan(item);
 			}));

@@ -4,6 +4,7 @@ namespace XamlToolkit.WinUI.Behaviors
     /// <summary>
     /// A custom Trigger that fires whenever a linked AnimationSet starts.
     /// </summary>
+	[webhosthidden]
     [default_interface]
 	runtimeclass AnimationStartedTriggerBehavior : XamlToolkit.WinUI.Interactivity.Trigger
     {

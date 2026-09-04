@@ -250,62 +250,30 @@
                                 <VisualStateGroup x:Name="CommonStates">
                                     <VisualState x:Name="Normal" />
                                     <VisualState x:Name="PointerOver">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_RootGrid" Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SettingsCardBackgroundPointerOver}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_RootGrid" Storyboard.TargetProperty="BorderBrush">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SettingsCardBorderBrushPointerOver}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_HeaderPresenter" Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SettingsCardForegroundPointerOver}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_HeaderIconPresenter" Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SettingsCardForegroundPointerOver}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
                                         <VisualState.Setters>
+                                            <Setter Target="PART_RootGrid.Background" Value="{ThemeResource SettingsCardBackgroundPointerOver}" />
+                                            <Setter Target="PART_RootGrid.BorderBrush" Value="{ThemeResource SettingsCardBorderBrushPointerOver}" />
+                                            <Setter Target="PART_HeaderPresenter.Foreground" Value="{ThemeResource SettingsCardForegroundPointerOver}" />
+                                            <Setter Target="PART_HeaderIconPresenter.Foreground" Value="{ThemeResource SettingsCardForegroundPointerOver}" />
                                             <Setter Target="PART_RootGrid.(muxc:AnimatedIcon.State)" Value="PointerOver" />
                                         </VisualState.Setters>
                                     </VisualState>
                                     <VisualState x:Name="Pressed">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_RootGrid" Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SettingsCardBackgroundPressed}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_RootGrid" Storyboard.TargetProperty="BorderBrush">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SettingsCardBorderBrushPressed}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_HeaderIconPresenter" Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SettingsCardForegroundPressed}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_HeaderPresenter" Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SettingsCardForegroundPressed}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_DescriptionPresenter" Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SettingsCardForegroundPressed}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
                                         <VisualState.Setters>
+                                            <Setter Target="PART_RootGrid.Background" Value="{ThemeResource SettingsCardBackgroundPressed}" />
+                                            <Setter Target="PART_RootGrid.BorderBrush" Value="{ThemeResource SettingsCardBorderBrushPressed}" />
+                                            <Setter Target="PART_HeaderIconPresenter.Foreground" Value="{ThemeResource SettingsCardForegroundPressed}" />
+                                            <Setter Target="PART_HeaderPresenter.Foreground" Value="{ThemeResource SettingsCardForegroundPressed}" />
+                                            <Setter Target="PART_DescriptionPresenter.Foreground" Value="{ThemeResource SettingsCardForegroundPressed}" />
                                             <Setter Target="PART_RootGrid.(muxc:AnimatedIcon.State)" Value="Pressed" />
                                         </VisualState.Setters>
                                     </VisualState>
                                     <VisualState x:Name="Disabled">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ActionIconPresenter" Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SettingsCardForegroundDisabled}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_HeaderIconPresenter" Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SettingsCardForegroundDisabled}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_HeaderPresenter" Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SettingsCardForegroundDisabled}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_DescriptionPresenter" Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SettingsCardForegroundDisabled}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
                                         <VisualState.Setters>
+                                            <Setter Target="PART_ActionIconPresenter.Foreground" Value="{ThemeResource SettingsCardForegroundDisabled}" />
+                                            <Setter Target="PART_HeaderIconPresenter.Foreground" Value="{ThemeResource SettingsCardForegroundDisabled}" />
+                                            <Setter Target="PART_HeaderPresenter.Foreground" Value="{ThemeResource SettingsCardForegroundDisabled}" />
+                                            <Setter Target="PART_DescriptionPresenter.Foreground" Value="{ThemeResource SettingsCardForegroundDisabled}" />
                                             <!--  DisabledVisual Should be handled by the control, not the animated icon.  -->
                                             <Setter Target="PART_RootGrid.(muxc:AnimatedIcon.State)" Value="Normal" />
                                         </VisualState.Setters>

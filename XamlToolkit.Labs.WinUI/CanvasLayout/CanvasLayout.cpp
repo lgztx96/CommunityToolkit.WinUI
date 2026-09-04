@@ -10,26 +10,6 @@
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
-	void CanvasLayout::InitializeForContextCore(winrt::VirtualizingLayoutContext const& context)
-	{
-		base_type::InitializeForContextCore(context);
-
-		if (!context.LayoutState().try_as<ICanvasLayoutState>())
-		{
-			// Store any state we might need since (in theory) the layout could be in use by multiple
-			// elements simultaneously
-			context.LayoutState(winrt::make<CanvasLayoutState>());
-		}
-	}
-
-	void CanvasLayout::UninitializeForContextCore(winrt::VirtualizingLayoutContext const& context)
-	{
-		base_type::UninitializeForContextCore(context);
-
-		// clear any state
-		context.LayoutState(nullptr);
-	}
-
 	winrt::Size CanvasLayout::MeasureOverride(winrt::VirtualizingLayoutContext const& context, [[maybe_unused]] winrt::Size availableSize)
 	{
         int maxWidth = 0;

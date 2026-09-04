@@ -18,7 +18,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
 	winrt::DependencyObject BehaviorCollection::AssociatedObject() const noexcept
 	{
-		if (auto strongRef = _associatedObject.get())
+		if (const auto strongRef = _associatedObject.get())
 		{
 			return strongRef;
 		}
@@ -54,7 +54,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
 	void BehaviorCollection::Detach()
 	{
-		for (auto const& item : _oldCollection)
+		for (const auto& item : _oldCollection)
 		{
 			if (item.AssociatedObject())
 			{
@@ -74,7 +74,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
 		if (collectionChange == winrt::CollectionChange::Reset)
 		{
-			for (auto const& behavior : _oldCollection)
+			for (const auto& behavior : _oldCollection)
 			{
 				if (behavior.AssociatedObject())
 				{
@@ -85,7 +85,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 			_oldCollection.clear();
 			_oldCollection.reserve(Size());
 
-			for (winrt::DependencyObject const& newItem : *this)
+			for (const auto& newItem : *this)
 			{
 				_oldCollection.push_back(VerifiedAttach(newItem));
 			}
@@ -96,7 +96,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 			return;
 		}
 
-		uint32_t const eventIndex = eventArgs.Index();
+		const uint32_t eventIndex = eventArgs.Index();
 		winrt::DependencyObject changedItem{ nullptr };
 
 		if (collectionChange != winrt::CollectionChange::ItemRemoved)
@@ -112,7 +112,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
 		case winrt::CollectionChange::ItemChanged:
 		{
-			auto const& oldItem = _oldCollection[eventIndex];
+			const auto& oldItem = _oldCollection[eventIndex];
 			if (oldItem.AssociatedObject())
 			{
 				oldItem.Detach();
@@ -124,7 +124,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
 		case winrt::CollectionChange::ItemRemoved:
 		{
-			auto const& oldItem = _oldCollection[eventIndex];
+			const auto& oldItem = _oldCollection[eventIndex];
 			if (oldItem.AssociatedObject())
 			{
 				oldItem.Detach();
@@ -146,8 +146,8 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
 	winrt::XamlToolkit::WinUI::Interactivity::IBehavior BehaviorCollection::VerifiedAttach(winrt::DependencyObject const& item)
 	{
-		auto behavior = item.try_as<winrt::XamlToolkit::WinUI::Interactivity::IBehavior>();
-		if (behavior == nullptr)
+		const auto behavior = item.try_as<winrt::XamlToolkit::WinUI::Interactivity::IBehavior>();
+		if (!behavior)
 		{
 			throw winrt::hresult_error(E_FAIL, ResourceHelper::NonBehaviorAddedToBehaviorCollectionExceptionMessage());
 		}
@@ -157,7 +157,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 			throw winrt::hresult_error(E_FAIL, ResourceHelper::DuplicateBehaviorInCollectionExceptionMessage());
 		}
 
-		if (auto strongRef = _associatedObject.get())
+		if (const auto strongRef = _associatedObject.get())
 		{
 			behavior.Attach(strongRef);
 		}

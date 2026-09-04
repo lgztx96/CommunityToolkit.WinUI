@@ -1,20 +1,23 @@
-﻿namespace XamlToolkit.Labs.WinUI
+namespace XamlToolkit.Labs.WinUI
 {
-    [default_interface]
+    [webhosthidden]
     runtimeclass DataColumn : Microsoft.UI.Xaml.Controls.ContentControl
     {
         DataColumn();
 
         Boolean CanResize;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty CanResizeProperty{ get; };
 
         Microsoft.UI.Xaml.GridLength DesiredWidth;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty DesiredWidthProperty{ get; };
 
         Microsoft.UI.Xaml.Style ColumnSizerStyle;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ColumnSizerStyleProperty{ get; };
 
         Double ActualColumnWidth{ get; };

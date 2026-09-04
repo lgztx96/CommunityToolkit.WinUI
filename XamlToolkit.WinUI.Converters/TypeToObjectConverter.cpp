@@ -14,32 +14,32 @@ namespace winrt::XamlToolkit::WinUI::Converters::implementation
 {
     winrt::IInspectable TypeToObjectConverter::TrueValue() const
     {
-        return GetValue(TrueValueProperty);
+        return GetValue(TrueValueProperty());
     }
 
     void TypeToObjectConverter::TrueValue(winrt::IInspectable const& value)
     {
-        SetValue(TrueValueProperty, value);
+        SetValue(TrueValueProperty(), value);
     }
 
     winrt::IInspectable TypeToObjectConverter::FalseValue() const
     {
-        return GetValue(FalseValueProperty);
+        return GetValue(FalseValueProperty());
     }
 
     void TypeToObjectConverter::FalseValue(winrt::IInspectable const& value)
     {
-        SetValue(FalseValueProperty, value);
+        SetValue(FalseValueProperty(), value);
     }
 
     winrt::TypeName TypeToObjectConverter::Type() const
     {
-        return winrt::unbox_value<winrt::TypeName>(GetValue(TypeProperty));
+        return winrt::unbox_value<winrt::TypeName>(GetValue(TypeProperty()));
     }
 
     void TypeToObjectConverter::Type(winrt::TypeName const& value)
     {
-        SetValue(TypeProperty, winrt::box_value(value));
+        SetValue(TypeProperty(), winrt::box_value(value));
     }
 
     const wil::single_threaded_property<winrt::DependencyProperty> TypeToObjectConverter::TrueValueProperty = winrt::DependencyProperty::Register(
@@ -73,7 +73,7 @@ namespace winrt::XamlToolkit::WinUI::Converters::implementation
             typeMatches = !typeMatches;
         }
 
-        return ConverterTools::Convert(typeMatches ? TrueValue() : FalseValue(), targetType);
+        return ConverterTools::TryConvertValue(typeMatches ? TrueValue() : FalseValue(), targetType);
     }
 
     winrt::IInspectable TypeToObjectConverter::ConvertBack([[maybe_unused]] winrt::IInspectable const& value, [[maybe_unused]] winrt::TypeName targetType, [[maybe_unused]] winrt::IInspectable const& parameter, [[maybe_unused]] winrt::hstring const& language) const

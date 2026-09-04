@@ -3,6 +3,7 @@ namespace XamlToolkit.WinUI.Behaviors
     /// <summary>
     /// A collection of FocusTarget.
     /// </summary>
+    [webhosthidden]
     [default_interface]
     runtimeclass FocusTargetList : Microsoft.UI.Xaml.DependencyObjectCollection
     {

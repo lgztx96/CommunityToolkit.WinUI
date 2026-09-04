@@ -1,35 +1,36 @@
 namespace XamlToolkit.Labs.WinUI
 {
-    static runtimeclass ContrastHelper : Microsoft.UI.Xaml.DependencyObject
+    [webhosthidden]
+    static runtimeclass ContrastHelper
     {
         static Windows.UI.Color GetOpponent(Microsoft.UI.Xaml.DependencyObject obj);
-
         static void SetOpponent(Microsoft.UI.Xaml.DependencyObject obj, Windows.UI.Color value);
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty OpponentProperty{ get; };
 
         static Double GetMinRatio(Microsoft.UI.Xaml.DependencyObject obj);
-
         static void SetMinRatio(Microsoft.UI.Xaml.DependencyObject obj, Double value);
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty MinRatioProperty{ get; };
 
         static Double GetContrastRatio(Microsoft.UI.Xaml.DependencyObject obj);
-
         static void SetContrastRatio(Microsoft.UI.Xaml.DependencyObject obj, Double value);
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ContrastRatioProperty{ get; };
 
         static Windows.UI.Color GetOriginalColor(Microsoft.UI.Xaml.DependencyObject obj);
-
         static void SetOriginalColor(Microsoft.UI.Xaml.DependencyObject obj, Windows.UI.Color value);
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty OriginalColorProperty{ get; };
 
         static Double GetOriginalContrastRatio(Microsoft.UI.Xaml.DependencyObject obj);
-
         static void SetOriginalContrastRatio(Microsoft.UI.Xaml.DependencyObject obj, Double value);
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty OriginalContrastRatioProperty{ get; };
     }
 }

@@ -152,10 +152,3 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		}
 	};
 }
-
-namespace winrt::XamlToolkit::WinUI::factory_implementation
-{
-	struct AttachedShadowElementContext : AttachedShadowElementContextT<AttachedShadowElementContext, implementation::AttachedShadowElementContext>
-	{
-	};
-}

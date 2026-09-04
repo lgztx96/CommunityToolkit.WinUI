@@ -6,6 +6,7 @@ namespace XamlToolkit.WinUI.Animations
     /// <summary>
     /// An IActivity which stops the provided AnimationSet when invoked.
     /// </summary>
+    [webhosthidden]
     runtimeclass StopAnimationActivity : Activity
     {
         StopAnimationActivity();
@@ -15,6 +16,7 @@ namespace XamlToolkit.WinUI.Animations
         /// </summary>
         AnimationSet Animation;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty AnimationProperty{ get; };
 
         /// <summary>
@@ -23,6 +25,7 @@ namespace XamlToolkit.WinUI.Animations
         /// </summary>
         Microsoft.UI.Xaml.UIElement TargetObject;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty TargetObjectProperty{ get; };
     }
 }

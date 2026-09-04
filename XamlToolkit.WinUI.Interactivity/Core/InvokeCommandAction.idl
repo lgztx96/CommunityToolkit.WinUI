@@ -2,14 +2,24 @@ import "IAction.idl";
 
 namespace XamlToolkit.WinUI.Interactivity
 {
+    [webhosthidden]
     runtimeclass InvokeCommandAction : Microsoft.UI.Xaml.DependencyObject, XamlToolkit.WinUI.Interactivity.IAction
     {
         InvokeCommandAction();
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty CommandProperty{ get; };
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty CommandParameterProperty{ get; };
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty InputConverterProperty{ get; };
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty InputConverterParameterProperty{ get; };
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty InputConverterLanguageProperty{ get; };
 
         Microsoft.UI.Xaml.Input.ICommand Command;

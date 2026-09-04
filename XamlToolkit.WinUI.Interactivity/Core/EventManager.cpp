@@ -48,9 +48,9 @@ UNREGISTER_EVENT(event_name, type))
     {
         [[noreturn]] void ThrowCannotFindEvent(std::wstring_view eventName, winrt::Windows::Foundation::IInspectable const& sender)
         {
-            auto typeName = winrt::get_class_name(sender);
-            auto message = ResourceHelper::Format(
-                winrt::XamlToolkit::WinUI::Interactivity::ResourceHelper::CannotFindEventNameExceptionMessage(),
+            const auto typeName = winrt::get_class_name(sender);
+            const auto message = ResourceHelper::Format(
+                ResourceHelper::CannotFindEventNameExceptionMessage(),
                 eventName, 
                 typeName);
             throw winrt::hresult_error(E_FAIL, message);
@@ -73,16 +73,10 @@ UNREGISTER_EVENT(event_name, type))
             EventManager::AddDefaultEvents();
         }
 
-        if (auto iterator = Global::RegisterHandlers.find(eventName); iterator != Global::RegisterHandlers.end())
+        if (const auto iterator = Global::RegisterHandlers.find(eventName); 
+            iterator != Global::RegisterHandlers.end())
         {
-            try
-            {
-                return iterator->second(sender, action);
-            }
-            catch (winrt::hresult_no_interface const&)
-            {
-                ThrowCannotFindEvent(eventName, sender);
-            }
+            return iterator->second(sender, action);
         }
 
         ThrowCannotFindEvent(eventName, sender);
@@ -98,17 +92,11 @@ UNREGISTER_EVENT(event_name, type))
             EventManager::AddDefaultEvents();
         }
 
-        if (auto iterator = Global::UnregisterHandlers.find(eventName); iterator != Global::UnregisterHandlers.end())
+        if (const auto iterator = Global::UnregisterHandlers.find(eventName); 
+            iterator != Global::UnregisterHandlers.end())
         {
-            try
-            {
-                iterator->second(sender, token);
-                return;
-            }
-            catch (winrt::hresult_no_interface const&)
-            {
-                ThrowCannotFindEvent(eventName, sender);
-            }
+            iterator->second(sender, token);
+            return;
         }
 
         ThrowCannotFindEvent(eventName, sender);

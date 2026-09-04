@@ -20,24 +20,9 @@ namespace winrt
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
-	struct CanvasLayoutState : winrt::implements<CanvasLayoutState, ICanvasLayoutState>
-	{
-	public:
-		CanvasLayoutState() : FirstRealizedIndex{ -1 }, LayoutRects{ winrt::single_threaded_vector<winrt::Rect>() } { }
-
-		wil::single_threaded_rw_property<int> FirstRealizedIndex;
-		wil::single_threaded_rw_property<winrt::IVector<winrt::Rect>> LayoutRects;
-	};
-
 	struct CanvasLayout : CanvasLayoutT<CanvasLayout>
 	{
 		CanvasLayout() = default;
-
-#pragma region Setup / teardown
-		void InitializeForContextCore(winrt::VirtualizingLayoutContext const& context);
-
-		void UninitializeForContextCore(winrt::VirtualizingLayoutContext const& context);
-#pragma endregion
 
 #pragma region Layout
 		winrt::Size MeasureOverride(winrt::VirtualizingLayoutContext const& context, winrt::Size availableSize);

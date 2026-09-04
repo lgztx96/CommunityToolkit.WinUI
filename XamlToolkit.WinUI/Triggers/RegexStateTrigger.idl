@@ -8,17 +8,24 @@ namespace XamlToolkit.WinUI
         Optimize
     };
 
+    [webhosthidden]
     runtimeclass RegexStateTrigger : Microsoft.UI.Xaml.StateTriggerBase
     {
         RegexStateTrigger();
 
         String Value;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ValueProperty{ get; };
 
         String Expression;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ExpressionProperty{ get; };
 
         RegexOptions Options;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty OptionsProperty{ get; };
     }
 }

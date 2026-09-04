@@ -6,7 +6,8 @@ namespace XamlToolkit.WinUI.Interactivity
     /// <summary>
     /// Interface implemented by all custom triggers.
     /// </summary>
-	interface ITrigger requires IBehavior
+	[webhosthidden]
+	interface ITrigger
     {
         /// <summary>
         /// Gets the collection of actions associated with the behavior.

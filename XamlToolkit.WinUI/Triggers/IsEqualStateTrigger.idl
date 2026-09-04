@@ -1,14 +1,18 @@
 namespace XamlToolkit.WinUI
 {
-    [bindable]
+    [webhosthidden]
     runtimeclass IsEqualStateTrigger : Microsoft.UI.Xaml.StateTriggerBase
     {
         IsEqualStateTrigger();
 
         Object Value;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ValueProperty{ get; };
 
         Object To;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ToProperty{ get; };
     }
 }

@@ -2,12 +2,12 @@
 
 #include "StyleExtensions.g.h"
 #include "ResourceDictionaryExtensions.h"
-#include "StyleExtensionResourceDictionary.h"
 
 #ifdef __INTELLISENSE__
 #include <winrt/Microsoft.UI.Xaml.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
+#include <rpcndr.h>
 #endif
 
 namespace winrt
@@ -17,6 +17,13 @@ namespace winrt
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
+    MIDL_INTERFACE("BE6759D0-57BA-4F6E-A853-7833006BC60D") IStyleExtensionResourceDictionary : ::IUnknown { };
+
+    struct StyleExtensionResourceDictionary : winrt::ResourceDictionaryT<StyleExtensionResourceDictionary, IStyleExtensionResourceDictionary>
+    {
+
+    };
+
     struct StyleExtensions
     {
         static winrt::ResourceDictionary GetResources(winrt::Style const& obj);

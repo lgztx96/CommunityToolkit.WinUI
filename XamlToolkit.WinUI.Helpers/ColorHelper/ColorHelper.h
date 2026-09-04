@@ -26,11 +26,11 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
 
         static winrt::hstring ToHex(winrt::Color const& color);
 
-        static int ToInt(winrt::Color const& color);
+        static int ToInt(winrt::Color const& color) noexcept;
 
-        static HslColor ToHsl(winrt::Color const& color);
+        static HslColor ToHsl(winrt::Color const& color) noexcept;
 
-        static HsvColor ToHsv(winrt::Color const& color);
+        static HsvColor ToHsv(winrt::Color const& color) noexcept;
 
         static winrt::Color FromHsl(double hue, double saturation, double lightness, double alpha = 1.0);
 

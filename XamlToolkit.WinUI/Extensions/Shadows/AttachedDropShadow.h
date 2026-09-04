@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "AttachedDropShadow.g.h"
-#include "common.h"
+#include "../Shadows/TypedResourceKey.h"
 #include "AttachedShadowBase.h"
 
 #ifdef __INTELLISENSE__
@@ -47,7 +47,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
 		void SetElementChildVisual(winrt::XamlToolkit::WinUI::AttachedShadowElementContext const& context);
 
-		CompositionBrush GetShadowMask(winrt::XamlToolkit::WinUI::AttachedShadowElementContext const& context);
+		winrt::CompositionBrush GetShadowMask(winrt::XamlToolkit::WinUI::AttachedShadowElementContext const& context);
 
 	    void OnSizeChanged(winrt::XamlToolkit::WinUI::AttachedShadowElementContext const& context, winrt::Size newSize, winrt::Size previousSize);
 
@@ -62,12 +62,12 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
 		bool IsMasked() const
 		{
-			return winrt::unbox_value<bool>(GetValue(IsMaskedProperty));
+			return winrt::unbox_value<bool>(GetValue(IsMaskedProperty()));
 		}
 
 		void IsMasked(bool value)
 		{
-			SetValue(IsMaskedProperty, winrt::box_value(value));
+			SetValue(IsMaskedProperty(), winrt::box_value(value));
 		}
 
 		static inline const wil::single_threaded_property<winrt::DependencyProperty> CornerRadiusProperty =
@@ -79,12 +79,12 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
 		double CornerRadius() const
 		{
-			return winrt::unbox_value<double>(GetValue(CornerRadiusProperty));
+			return winrt::unbox_value<double>(GetValue(CornerRadiusProperty()));
 		}
 
 		void CornerRadius(double value)
 		{
-			SetValue(CornerRadiusProperty, winrt::box_value(value));
+			SetValue(CornerRadiusProperty(), winrt::box_value(value));
 		}
 
 		static inline const wil::single_threaded_property<winrt::DependencyProperty> CastToProperty =
@@ -96,12 +96,12 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
 		winrt::FrameworkElement CastTo() const
 		{
-			return GetValue(CastToProperty).try_as<winrt::FrameworkElement>();
+			return GetValue(CastToProperty()).try_as<winrt::FrameworkElement>();
 		}
 
 		void CastTo(winrt::FrameworkElement const& value)
 		{
-			SetValue(CastToProperty, value);
+			SetValue(CastToProperty(), value);
 		}
 
 	private:

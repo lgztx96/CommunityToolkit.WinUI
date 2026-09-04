@@ -10,21 +10,22 @@
 
 namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 {
-    const wil::single_threaded_property<winrt::DependencyProperty> Interaction::BehaviorsProperty = winrt::DependencyProperty::RegisterAttached(
-        L"Behaviors",
-        winrt::xaml_typename<winrt::XamlToolkit::WinUI::Interactivity::BehaviorCollection>(),
-        winrt::xaml_typename<winrt::XamlToolkit::WinUI::Interactivity::Interaction>(),
-        winrt::PropertyMetadata(nullptr, &Interaction::OnBehaviorsChanged));
-
+    const wil::single_threaded_property<winrt::DependencyProperty> Interaction::BehaviorsProperty =
+        winrt::DependencyProperty::RegisterAttached(
+            L"Behaviors",
+            winrt::xaml_typename<winrt::XamlToolkit::WinUI::Interactivity::BehaviorCollection>(),
+            winrt::xaml_typename<winrt::XamlToolkit::WinUI::Interactivity::Interaction>(),
+            winrt::PropertyMetadata(nullptr, &Interaction::OnBehaviorsChanged));
+        
     winrt::XamlToolkit::WinUI::Interactivity::BehaviorCollection Interaction::GetBehaviors(winrt::DependencyObject const& obj)
     {
-        if (obj == nullptr)
+        if (!obj)
         {
             throw winrt::hresult_invalid_argument(L"obj");
         }
 
         auto behaviors = obj.GetValue(BehaviorsProperty()).try_as<winrt::XamlToolkit::WinUI::Interactivity::BehaviorCollection>();
-        if (behaviors == nullptr)
+        if (!behaviors)
         {
             behaviors = winrt::make<winrt::XamlToolkit::WinUI::Interactivity::implementation::BehaviorCollection>();
             obj.SetValue(BehaviorsProperty(), behaviors);
@@ -43,7 +44,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         winrt::DependencyObject const& obj,
         winrt::XamlToolkit::WinUI::Interactivity::BehaviorCollection const& value)
     {
-        if (obj == nullptr)
+        if (!obj)
         {
             throw winrt::hresult_invalid_argument(L"obj");
         }
@@ -56,15 +57,15 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         winrt::XamlToolkit::WinUI::Interactivity::ActionCollection const& actions,
         winrt::IInspectable const& parameter)
     {
-        if (actions == nullptr || winrt::Windows::ApplicationModel::DesignMode::DesignModeEnabled())
+        if (!actions || winrt::Windows::ApplicationModel::DesignMode::DesignModeEnabled())
         {
             return winrt::single_threaded_vector<winrt::IInspectable>();
         }
 
         std::vector<winrt::IInspectable> results;
-        for (winrt::DependencyObject const& dependencyObject : actions)
+        for (const auto& dependencyObject : actions)
         {
-            auto action = dependencyObject.as<winrt::XamlToolkit::WinUI::Interactivity::IAction>();
+            const auto action = dependencyObject.as<winrt::XamlToolkit::WinUI::Interactivity::IAction>();
             results.emplace_back(action.Execute(sender, parameter));
         }
 
@@ -75,8 +76,8 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         winrt::DependencyObject const& sender,
         winrt::DependencyPropertyChangedEventArgs const& args)
     {
-        auto oldCollection = args.OldValue().try_as<winrt::XamlToolkit::WinUI::Interactivity::BehaviorCollection>();
-        auto newCollection = args.NewValue().try_as<winrt::XamlToolkit::WinUI::Interactivity::BehaviorCollection>();
+        const auto oldCollection = args.OldValue().try_as<winrt::XamlToolkit::WinUI::Interactivity::BehaviorCollection>();
+        const auto newCollection = args.NewValue().try_as<winrt::XamlToolkit::WinUI::Interactivity::BehaviorCollection>();
 
         if (oldCollection == newCollection)
         {
@@ -98,7 +99,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         winrt::IInspectable const& sender,
         [[maybe_unused]] winrt::RoutedEventArgs const& e)
     {
-        if (auto dependencyObject = sender.try_as<winrt::DependencyObject>())
+        if (const auto dependencyObject = sender.try_as<winrt::DependencyObject>())
         {
             GetBehaviors(dependencyObject).Attach(dependencyObject);
         }
@@ -108,7 +109,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         winrt::IInspectable const& sender,
         [[maybe_unused]] winrt::RoutedEventArgs const& e)
     {
-        if (auto dependencyObject = sender.try_as<winrt::DependencyObject>())
+        if (const auto dependencyObject = sender.try_as<winrt::DependencyObject>())
         {
             GetBehaviors(dependencyObject).Detach();
         }

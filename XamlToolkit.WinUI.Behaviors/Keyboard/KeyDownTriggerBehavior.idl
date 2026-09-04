@@ -2,17 +2,47 @@
 namespace XamlToolkit.WinUI.Behaviors
 {
     /// <summary>
-    /// This behavior listens to a key down event on the associated UIElement when it is loaded and executes an action.
+    /// A behavior that listens to PreviewKeyDown on the associated
+    /// FrameworkElement and executes its actions when the specified key and
+    /// optional modifier keys are pressed. Supports capturing handled events.
     /// </summary>
-	runtimeclass KeyDownTriggerBehavior : XamlToolkit.WinUI.Interactivity.Trigger
+    [webhosthidden]
+    runtimeclass KeyDownTriggerBehavior : XamlToolkit.WinUI.Interactivity.Trigger
     {
         KeyDownTriggerBehavior();
 
         /// <summary>
-        /// Gets or sets the key to listen when the associated object is loaded.
+        /// Gets or sets the key that triggers the behavior.
         /// </summary>
         Windows.System.VirtualKey Key;
 
+        /// <summary>
+        /// Gets or sets the modifier keys that must be pressed together with Key.
+        /// </summary>
+        Windows.System.VirtualKeyModifiers Modifiers;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the behavior should evaluate
+        /// the current modifier key state when matching the Key.
+        /// </summary>
+        Boolean ModifiersEnabled;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the behavior should receive
+        /// PreviewKeyDown events even if they were already handled.
+        /// </summary>
+        Boolean HandledEventsToo;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty KeyProperty { get; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty ModifiersProperty { get; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty ModifiersEnabledProperty { get; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty HandledEventsTooProperty { get; };
     }
 }

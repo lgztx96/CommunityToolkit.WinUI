@@ -111,9 +111,6 @@
     <ClCompile Include="SettingsControls\SettingsCard\SettingsCardAutomationPeer.cpp">
       <Filter>SettingsControls\SettingsCard</Filter>
     </ClCompile>
-    <ClCompile Include="SettingsControls\Helpers\StyleExtensionResourceDictionary.cpp">
-      <Filter>SettingsControls\Helpers</Filter>
-    </ClCompile>
     <ClCompile Include="SettingsControls\Helpers\StyleExtensions.cpp">
       <Filter>SettingsControls\Helpers</Filter>
     </ClCompile>
@@ -282,9 +279,6 @@
     <ClInclude Include="SettingsControls\SettingsCard\SettingsCardAutomationPeer.h">
       <Filter>SettingsControls\SettingsCard</Filter>
     </ClInclude>
-    <ClInclude Include="SettingsControls\Helpers\StyleExtensionResourceDictionary.h">
-      <Filter>SettingsControls\Helpers</Filter>
-    </ClInclude>
     <ClInclude Include="SettingsControls\Helpers\StyleExtensions.h">
       <Filter>SettingsControls\Helpers</Filter>
     </ClInclude>
@@ -354,9 +348,6 @@
     </Midl>
     <Midl Include="SettingsControls\SettingsCard\SettingsCardAutomationPeer.idl">
       <Filter>SettingsControls\SettingsCard</Filter>
-    </Midl>
-    <Midl Include="SettingsControls\Helpers\StyleExtensionResourceDictionary.idl">
-      <Filter>SettingsControls\Helpers</Filter>
     </Midl>
     <Midl Include="SettingsControls\Helpers\StyleExtensions.idl">
       <Filter>SettingsControls\Helpers</Filter>

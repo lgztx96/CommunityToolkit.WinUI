@@ -113,10 +113,11 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         _gradientStop3.Offset(0.482f);
         _gradientStop4.Offset(0.643f);
 
-        _shimmerMaskGradient.ColorStops().Append(_gradientStop1);
-        _shimmerMaskGradient.ColorStops().Append(_gradientStop2);
-        _shimmerMaskGradient.ColorStops().Append(_gradientStop3);
-        _shimmerMaskGradient.ColorStops().Append(_gradientStop4);
+        auto colorStops = _shimmerMaskGradient.ColorStops();
+        colorStops.Append(_gradientStop1);
+        colorStops.Append(_gradientStop2);
+        colorStops.Append(_gradientStop3);
+        colorStops.Append(_gradientStop4);
     }
 
     void Shimmer::SetGradientStopColorsByTheme()

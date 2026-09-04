@@ -19,21 +19,25 @@ namespace XamlToolkit.WinUI
         PhoneNumber
     };
 
+    [webhosthidden]
     static runtimeclass TextBoxExtensions
     {
         // Mask attached properties
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty MaskProperty{ get; };
 
         static String GetMask(Microsoft.UI.Xaml.Controls.TextBox obj);
 
         static void SetMask(Microsoft.UI.Xaml.Controls.TextBox obj, String value);
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty MaskPlaceholderProperty{ get; };
 
         static String GetMaskPlaceholder(Microsoft.UI.Xaml.Controls.TextBox obj);
 
         static void SetMaskPlaceholder(Microsoft.UI.Xaml.Controls.TextBox obj, String value);
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty CustomMaskProperty{ get; };
 
         static String GetCustomMask(Microsoft.UI.Xaml.Controls.TextBox obj);
@@ -41,24 +45,29 @@ namespace XamlToolkit.WinUI
         static void SetCustomMask(Microsoft.UI.Xaml.Controls.TextBox obj, String value);
 
         // Regex attached properties
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty RegexProperty{ get; };
 
         static String GetRegex(Microsoft.UI.Xaml.Controls.TextBox obj);
 
         static void SetRegex(Microsoft.UI.Xaml.Controls.TextBox obj, String value);
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty IsValidProperty{ get; };
 
         static Boolean GetIsValid(Microsoft.UI.Xaml.Controls.TextBox obj);
 
         static void SetIsValid(Microsoft.UI.Xaml.Controls.TextBox obj, Boolean value);
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ValidationModeProperty{ get; };
 
         static ValidationMode GetValidationMode(Microsoft.UI.Xaml.Controls.TextBox obj);
 
         static void SetValidationMode(Microsoft.UI.Xaml.Controls.TextBox obj, ValidationMode value);
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ValidationTypeProperty{ get; };
 
         static ValidationType GetValidationType(Microsoft.UI.Xaml.Controls.TextBox obj);
@@ -66,6 +75,8 @@ namespace XamlToolkit.WinUI
         static void SetValidationType(Microsoft.UI.Xaml.Controls.TextBox obj, ValidationType value);
 
         // SurfaceDial attached properties
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty SurfaceDialOptionsProperty{ get; };
 
         static SurfaceDialOptions GetSurfaceDialOptions(Microsoft.UI.Xaml.Controls.TextBox obj);

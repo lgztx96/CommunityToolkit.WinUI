@@ -105,86 +105,86 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		{ 
 			return GetValue(AutoSuggestBoxStyleProperty()).try_as<winrt::Style>();
 		}
-		void AutoSuggestBoxStyle(winrt::Style const& value) const { SetValue(AutoSuggestBoxStyleProperty, value); }
+		void AutoSuggestBoxStyle(winrt::Style const& value) const { SetValue(AutoSuggestBoxStyleProperty(), value); }
 
 		static const wil::single_threaded_property<winrt::DependencyProperty> AutoSuggestBoxTextBoxStyleProperty;
 
-		winrt::Style AutoSuggestBoxTextBoxStyle() const { return GetValue(AutoSuggestBoxTextBoxStyleProperty).try_as<winrt::Style>(); }
-		void AutoSuggestBoxTextBoxStyle(winrt::Style const& value) const { SetValue(AutoSuggestBoxTextBoxStyleProperty, value); }
+		winrt::Style AutoSuggestBoxTextBoxStyle() const { return GetValue(AutoSuggestBoxTextBoxStyleProperty()).try_as<winrt::Style>(); }
+		void AutoSuggestBoxTextBoxStyle(winrt::Style const& value) const { SetValue(AutoSuggestBoxTextBoxStyleProperty(), value); }
 
 		static const wil::single_threaded_property<winrt::DependencyProperty> TextMemberPathProperty;
 
-		winrt::hstring TextMemberPath() const { return winrt::unbox_value<winrt::hstring>(GetValue(TextMemberPathProperty)); }
-		void TextMemberPath(winrt::hstring const& value) const { SetValue(TextMemberPathProperty, winrt::box_value(value)); }
+		winrt::hstring TextMemberPath() const { return winrt::unbox_value<winrt::hstring>(GetValue(TextMemberPathProperty())); }
+		void TextMemberPath(winrt::hstring const& value) const { SetValue(TextMemberPathProperty(), winrt::box_value(value)); }
 
 		static const wil::single_threaded_property<winrt::DependencyProperty> TokenItemTemplateProperty;
 
-		winrt::DataTemplate TokenItemTemplate() const { return GetValue(TokenItemTemplateProperty).try_as<winrt::DataTemplate>(); }
-		void TokenItemTemplate(winrt::DataTemplate const& value) const { SetValue(TokenItemTemplateProperty, value); }
+		winrt::DataTemplate TokenItemTemplate() const { return GetValue(TokenItemTemplateProperty()).try_as<winrt::DataTemplate>(); }
+		void TokenItemTemplate(winrt::DataTemplate const& value) const { SetValue(TokenItemTemplateProperty(), value); }
 
 		static const wil::single_threaded_property<winrt::DependencyProperty> TokenItemTemplateSelectorProperty;
 
-		winrt::DataTemplateSelector TokenItemTemplateSelector() const { return GetValue(TokenItemTemplateSelectorProperty).try_as<winrt::DataTemplateSelector>(); }
-		void TokenItemTemplateSelector(winrt::DataTemplateSelector const& value) const { SetValue(TokenItemTemplateSelectorProperty, value); }
+		winrt::DataTemplateSelector TokenItemTemplateSelector() const { return GetValue(TokenItemTemplateSelectorProperty()).try_as<winrt::DataTemplateSelector>(); }
+		void TokenItemTemplateSelector(winrt::DataTemplateSelector const& value) const { SetValue(TokenItemTemplateSelectorProperty(), value); }
 
 		static const wil::single_threaded_property<winrt::DependencyProperty> TokenDelimiterProperty;
 
-		winrt::hstring TokenDelimiter() const { return winrt::unbox_value<winrt::hstring>(GetValue(TokenDelimiterProperty)); }
-		void TokenDelimiter(winrt::hstring const& value) const { SetValue(TokenDelimiterProperty, winrt::box_value(value)); }
+		winrt::hstring TokenDelimiter() const { return winrt::unbox_value<winrt::hstring>(GetValue(TokenDelimiterProperty())); }
+		void TokenDelimiter(winrt::hstring const& value) const { SetValue(TokenDelimiterProperty(), winrt::box_value(value)); }
 
 		static const wil::single_threaded_property<winrt::DependencyProperty> TokenSpacingProperty;
 
-		double TokenSpacing() const { return winrt::unbox_value_or(GetValue(TokenSpacingProperty), 0.0); }
-		void TokenSpacing(double value) const { SetValue(TokenSpacingProperty, winrt::box_value(value)); }
+		double TokenSpacing() const { return winrt::unbox_value_or(GetValue(TokenSpacingProperty()), 0.0); }
+		void TokenSpacing(double value) const { SetValue(TokenSpacingProperty(), winrt::box_value(value)); }
 
 		static const wil::single_threaded_property<winrt::DependencyProperty> PlaceholderTextProperty;
 
-		winrt::hstring PlaceholderText() const { return winrt::unbox_value<winrt::hstring>(GetValue(PlaceholderTextProperty)); }
-		void PlaceholderText(winrt::hstring const& value) const { SetValue(PlaceholderTextProperty, winrt::box_value(value)); }
+		winrt::hstring PlaceholderText() const { return winrt::unbox_value<winrt::hstring>(GetValue(PlaceholderTextProperty())); }
+		void PlaceholderText(winrt::hstring const& value) const { SetValue(PlaceholderTextProperty(), winrt::box_value(value)); }
 
 		static const wil::single_threaded_property<winrt::DependencyProperty> QueryIconProperty;
 
-		winrt::IconSource QueryIcon() const { return GetValue(QueryIconProperty).try_as<winrt::IconSource>(); }
-		void QueryIcon(winrt::IconSource const& value) const { SetValue(QueryIconProperty, value); }
+		winrt::IconSource QueryIcon() const { return GetValue(QueryIconProperty()).try_as<winrt::IconSource>(); }
+		void QueryIcon(winrt::IconSource const& value) const { SetValue(QueryIconProperty(), value); }
 
 		static void OnTextPropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 
 		static const wil::single_threaded_property<winrt::DependencyProperty> TextProperty;
 
-		winrt::hstring Text() const { return winrt::unbox_value<winrt::hstring>(GetValue(TextProperty)); }
-		void Text(winrt::hstring const& value) const { SetValue(TextProperty, winrt::box_value(value)); }
+		winrt::hstring Text() const { return winrt::unbox_value<winrt::hstring>(GetValue(TextProperty())); }
+		void Text(winrt::hstring const& value) const { SetValue(TextProperty(), winrt::box_value(value)); }
 
 		static const wil::single_threaded_property<winrt::DependencyProperty> SuggestedItemsSourceProperty;
 
-		winrt::IInspectable SuggestedItemsSource() const { return GetValue(SuggestedItemsSourceProperty); }
-		void SuggestedItemsSource(winrt::IInspectable const& value) const { SetValue(SuggestedItemsSourceProperty, value); }
+		winrt::IInspectable SuggestedItemsSource() const { return GetValue(SuggestedItemsSourceProperty()); }
+		void SuggestedItemsSource(winrt::IInspectable const& value) const { SetValue(SuggestedItemsSourceProperty(), value); }
 
 		static const wil::single_threaded_property<winrt::DependencyProperty> SuggestedItemTemplateProperty;
 
-		winrt::DataTemplate SuggestedItemTemplate() const { return GetValue(SuggestedItemTemplateProperty).try_as<winrt::DataTemplate>(); }
-		void SuggestedItemTemplate(winrt::DataTemplate const& value) const { SetValue(SuggestedItemTemplateProperty, value); }
+		winrt::DataTemplate SuggestedItemTemplate() const { return GetValue(SuggestedItemTemplateProperty()).try_as<winrt::DataTemplate>(); }
+		void SuggestedItemTemplate(winrt::DataTemplate const& value) const { SetValue(SuggestedItemTemplateProperty(), value); }
 
 		static const wil::single_threaded_property<winrt::DependencyProperty> SuggestedItemTemplateSelectorProperty;
 
-		winrt::DataTemplateSelector SuggestedItemTemplateSelector() const { return GetValue(SuggestedItemTemplateSelectorProperty).try_as<winrt::DataTemplateSelector>(); }
-		void SuggestedItemTemplateSelector(winrt::DataTemplateSelector const& value) const { SetValue(SuggestedItemTemplateSelectorProperty, value); }
+		winrt::DataTemplateSelector SuggestedItemTemplateSelector() const { return GetValue(SuggestedItemTemplateSelectorProperty()).try_as<winrt::DataTemplateSelector>(); }
+		void SuggestedItemTemplateSelector(winrt::DataTemplateSelector const& value) const { SetValue(SuggestedItemTemplateSelectorProperty(), value); }
 
 		static const wil::single_threaded_property<winrt::DependencyProperty> SuggestedItemContainerStyleProperty;
 
-		winrt::Style SuggestedItemContainerStyle() const { return GetValue(SuggestedItemContainerStyleProperty).try_as<winrt::Style>(); }
-		void SuggestedItemContainerStyle(winrt::Style const& value) const { SetValue(SuggestedItemContainerStyleProperty, value); }
+		winrt::Style SuggestedItemContainerStyle() const { return GetValue(SuggestedItemContainerStyleProperty()).try_as<winrt::Style>(); }
+		void SuggestedItemContainerStyle(winrt::Style const& value) const { SetValue(SuggestedItemContainerStyleProperty(), value); }
 
 		static const wil::single_threaded_property<winrt::DependencyProperty> TabNavigateBackOnArrowProperty;
 
-		bool TabNavigateBackOnArrow() const { return winrt::unbox_value<bool>(GetValue(TabNavigateBackOnArrowProperty)); }
-		void TabNavigateBackOnArrow(bool value) const { SetValue(TabNavigateBackOnArrowProperty, winrt::box_value(value)); }
+		bool TabNavigateBackOnArrow() const { return winrt::unbox_value<bool>(GetValue(TabNavigateBackOnArrowProperty())); }
+		void TabNavigateBackOnArrow(bool value) const { SetValue(TabNavigateBackOnArrowProperty(), winrt::box_value(value)); }
 
 		static void OnMaximumTokensChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 		
 		static const wil::single_threaded_property<winrt::DependencyProperty> MaximumTokensProperty;
 
-		int32_t MaximumTokens() const { return winrt::unbox_value_or(GetValue(MaximumTokensProperty), 0); }
-		void MaximumTokens(int32_t value) const { SetValue(MaximumTokensProperty, winrt::box_value(value)); }
+		int32_t MaximumTokens() const { return winrt::unbox_value_or(GetValue(MaximumTokensProperty()), 0); }
+		void MaximumTokens(int32_t value) const { SetValue(MaximumTokensProperty(), winrt::box_value(value)); }
 
 		winrt::hstring SelectedTokenText() const
 		{

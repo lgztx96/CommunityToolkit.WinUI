@@ -5,6 +5,7 @@ namespace XamlToolkit.WinUI.Animations
     /// <summary>
     /// A rotation animation working on the composition layer.
     /// </summary>
+    [webhosthidden]
     [contentproperty("KeyFrames")]
     runtimeclass RotationAnimation : Animation
     {
@@ -13,14 +14,17 @@ namespace XamlToolkit.WinUI.Animations
         /// <summary>
         /// Gets or sets the implicit trigger target property name.
         /// </summary>
+        [noexcept]
         String ImplicitTarget;
 
         Windows.Foundation.IReference<Double> To;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty ToProperty{ get; };
 
         Windows.Foundation.IReference<Double> From;
         
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty FromProperty{ get; };
     }
 }

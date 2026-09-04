@@ -1,12 +1,14 @@
 namespace XamlToolkit.Labs.WinUI
 {
-    [default_interface]
+    [webhosthidden]
     runtimeclass Shimmer : Microsoft.UI.Xaml.Controls.Control
     {
         Shimmer();
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty DurationProperty{ get; };
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty IsActiveProperty{ get; };
 
         Windows.Foundation.TimeSpan Duration;

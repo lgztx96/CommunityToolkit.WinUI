@@ -8,13 +8,15 @@ namespace XamlToolkit.WinUI.Media
         CompositionGeometricClip
     };
 
-    [default_interface]
+    [webhosthidden]
     runtimeclass AttachedCardShadow : XamlToolkit.WinUI.AttachedShadowBase
     {
         AttachedCardShadow();
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty CornerRadiusProperty{ get; };
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty InnerContentClipModeProperty{ get; };
 
         Double CornerRadius;

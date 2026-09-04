@@ -2,6 +2,7 @@ import "Adorners/AdornerLayer.idl";
 
 namespace XamlToolkit.Labs.WinUI
 {
+    [webhosthidden]
     [contentproperty("Child")]
     runtimeclass AdornerDecorator : Microsoft.UI.Xaml.Controls.Control
     {
@@ -9,8 +10,7 @@ namespace XamlToolkit.Labs.WinUI
 
         Microsoft.UI.Xaml.UIElement Child{ get; set; };
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ChildProperty{ get; };
-
-        AdornerLayer AdornerLayer{ get; };
     }
 }

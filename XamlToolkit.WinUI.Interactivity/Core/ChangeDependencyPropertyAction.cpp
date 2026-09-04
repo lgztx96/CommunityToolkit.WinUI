@@ -7,17 +7,19 @@
 
 namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 {
-    const wil::single_threaded_property<winrt::DependencyProperty> ChangeDependencyPropertyAction::TargetObjectProperty = winrt::DependencyProperty::Register(
-        L"TargetObject",
-        winrt::xaml_typename<winrt::DependencyObject>(),
-        winrt::xaml_typename<class_type>(),
-        winrt::PropertyMetadata(nullptr));
+    const wil::single_threaded_property<winrt::DependencyProperty> ChangeDependencyPropertyAction::TargetObjectProperty =
+        winrt::DependencyProperty::Register(
+            L"TargetObject",
+            winrt::xaml_typename<winrt::DependencyObject>(),
+            winrt::xaml_typename<class_type>(),
+            winrt::PropertyMetadata(nullptr));
 
-    const wil::single_threaded_property<winrt::DependencyProperty> ChangeDependencyPropertyAction::ValueProperty = winrt::DependencyProperty::Register(
-        L"Value",
-        winrt::xaml_typename<winrt::IInspectable>(),
-        winrt::xaml_typename<class_type>(),
-        winrt::PropertyMetadata(nullptr));
+    const wil::single_threaded_property<winrt::DependencyProperty> ChangeDependencyPropertyAction::ValueProperty =
+        winrt::DependencyProperty::Register(
+            L"Value",
+            winrt::xaml_typename<winrt::IInspectable>(),
+            winrt::xaml_typename<class_type>(),
+            winrt::PropertyMetadata(nullptr));
 
     winrt::IInspectable ChangeDependencyPropertyAction::Value() const
     {
@@ -51,8 +53,8 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
             targetObject = sender.try_as<winrt::DependencyObject>();
         }
 
-        auto poperty = Property();
-        if (targetObject == nullptr || poperty == nullptr)
+        const auto poperty = Property();
+        if (!targetObject || !poperty)
         {
             return winrt::box_value(false);
         }

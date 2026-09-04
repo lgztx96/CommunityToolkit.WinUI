@@ -12,7 +12,7 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
             L"Actions",
             winrt::xaml_typename<winrt::XamlToolkit::WinUI::Interactivity::ActionCollection>(),
             winrt::xaml_typename<class_type>(),
-            winrt::Microsoft::UI::Xaml::PropertyMetadata(nullptr));
+            winrt::PropertyMetadata(nullptr));
 
     winrt::XamlToolkit::WinUI::Interactivity::ActionCollection InvokeActionsActivity::Actions()
     {
@@ -26,7 +26,7 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
         return actionCollection;
     }
 
-    winrt::IAsyncAction InvokeActionsActivity::InvokeAsync(winrt::UIElement const& element)
+    winrt::IAsyncAction InvokeActionsActivity::InvokeAsync(winrt::UIElement element)
     {
         auto strongThis = get_strong();
 		co_await base_type::InvokeAsync(element);

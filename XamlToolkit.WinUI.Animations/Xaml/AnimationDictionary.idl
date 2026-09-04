@@ -5,6 +5,7 @@ namespace XamlToolkit.WinUI.Animations
     /// <summary>
     /// A collection of animations that can be defined from XAML.
     /// </summary>
+    [webhosthidden]
     [default_interface]
     runtimeclass AnimationDictionary : Microsoft.UI.Xaml.DependencyObject, Windows.Foundation.Collections.IVector<AnimationSet>
     {

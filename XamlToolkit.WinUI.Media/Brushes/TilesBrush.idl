@@ -9,6 +9,7 @@ namespace XamlToolkit.WinUI.Media
     /// <summary>
     /// A <see cref="XamlCompositionBrush"/> that displays a tiled image
     /// </summary>
+    [webhosthidden]
     runtimeclass TilesBrush : XamlCompositionEffectBrushBase
     {
         /// <summary>
@@ -21,6 +22,7 @@ namespace XamlToolkit.WinUI.Media
         /// </summary>
         Windows.Foundation.Uri TextureUri;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty TextureUriProperty{ get; };
 
         /// <summary>
@@ -28,6 +30,7 @@ namespace XamlToolkit.WinUI.Media
         /// </summary>
         DpiMode DpiMode;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty DpiModeProperty{ get; };
     };
 }

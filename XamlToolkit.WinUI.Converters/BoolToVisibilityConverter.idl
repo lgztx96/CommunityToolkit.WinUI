@@ -2,6 +2,7 @@ import "BoolToObjectConverter.idl";
 
 namespace XamlToolkit.WinUI.Converters
 {
+    [webhosthidden]
     [default_interface]
     runtimeclass BoolToVisibilityConverter : BoolToObjectConverter
     {

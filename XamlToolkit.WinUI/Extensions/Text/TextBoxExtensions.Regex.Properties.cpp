@@ -11,7 +11,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
             L"Regex",
             winrt::xaml_typename<winrt::hstring>(),
             winrt::xaml_typename<winrt::XamlToolkit::WinUI::TextBoxExtensions>(),
-            winrt::PropertyMetadata(nullptr, &TextBoxExtensions::TextBoxRegexPropertyOnChange));
+            winrt::PropertyMetadata(winrt::box_value(L""), &TextBoxExtensions::TextBoxRegexPropertyOnChange));
 
     const wil::single_threaded_property<winrt::DependencyProperty> TextBoxExtensions::IsValidProperty =
         winrt::DependencyProperty::RegisterAttached(
@@ -33,6 +33,13 @@ namespace winrt::XamlToolkit::WinUI::implementation
             winrt::xaml_typename<XamlToolkit::WinUI::ValidationType>(),
             winrt::xaml_typename<winrt::XamlToolkit::WinUI::TextBoxExtensions>(),
             winrt::PropertyMetadata(winrt::box_value(winrt::XamlToolkit::WinUI::ValidationType::Custom), &TextBoxExtensions::TextBoxRegexPropertyOnChange));
+
+    const wil::single_threaded_property<winrt::DependencyProperty> TextBoxExtensions::RegexStateProperty =
+        winrt::DependencyProperty::RegisterAttached(
+            L"RegexState",
+            winrt::xaml_typename<winrt::IInspectable>(),
+            winrt::xaml_typename<winrt::XamlToolkit::WinUI::TextBoxExtensions>(),
+            winrt::PropertyMetadata(nullptr));
 
 #pragma endregion
 

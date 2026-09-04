@@ -1,5 +1,6 @@
 ﻿namespace XamlToolkit.WinUI.Controls
 {
+	[webhosthidden]
 	runtimeclass UniformGrid : Microsoft.UI.Xaml.Controls.Grid
     {
         UniformGrid();
@@ -9,10 +10,19 @@
         Microsoft.UI.Xaml.Controls.Orientation Orientation;
         Int32 Rows;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty AutoLayoutProperty{ get; };
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ColumnsProperty{ get; };
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty FirstColumnProperty{ get; };
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty OrientationProperty{ get; };
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty RowsProperty{ get; };
 
         [default_overload]

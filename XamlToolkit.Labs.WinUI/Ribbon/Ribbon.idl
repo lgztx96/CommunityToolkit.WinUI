@@ -1,22 +1,32 @@
 namespace XamlToolkit.Labs.WinUI
 {
+	[webhosthidden]
 	[contentproperty("Items")]
 	runtimeclass Ribbon : Microsoft.UI.Xaml.Controls.Control
 	{
 		Ribbon();
 
 		Double ScrollStep;
+
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty ScrollStepProperty{ get; };
 
 		Microsoft.UI.Xaml.Controls.Primitives.FlyoutBase OptionsFlyout;
+
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty OptionsFlyoutProperty{ get; };
 
 		String OptionsAccessibleName;
+
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty OptionsAccessibleNameProperty{ get; };
 
 		String OptionsAccessKey;
+
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty OptionsAccessKeyProperty{ get; };
 
+		[noexcept]
 		Windows.Foundation.Collections.IVector<Microsoft.UI.Xaml.UIElement> Items{ get; };
 	}
 }

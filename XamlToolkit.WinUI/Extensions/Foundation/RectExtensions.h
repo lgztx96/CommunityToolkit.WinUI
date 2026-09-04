@@ -4,6 +4,7 @@
 
 #ifdef __INTELLISENSE__
 #include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Microsoft.UI.Xaml.Media.h>
 #endif
 
@@ -20,7 +21,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
     {
         static bool IntersectsWith(winrt::Rect rect1, winrt::Rect rect2);
 
-        static winrt::Size ToSize(winrt::Rect rect);
+        static winrt::Size ToSize(winrt::Rect rect) noexcept;
 
         static winrt::Rect Transform(winrt::Rect rectangle, winrt::Matrix const& matrix);
     };

@@ -46,24 +46,24 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		double VerticalSpacing() const
 		{
-			return winrt::unbox_value<double>(GetValue(VerticalSpacingProperty));
+			return winrt::unbox_value<double>(GetValue(VerticalSpacingProperty()));
 		}
 
 		void VerticalSpacing(double value)
 		{
-			SetValue(VerticalSpacingProperty, winrt::box_value(value));
+			SetValue(VerticalSpacingProperty(), winrt::box_value(value));
 		}
 
 		static const wil::single_threaded_property<winrt::DependencyProperty> VerticalSpacingProperty;
 
 		winrt::Orientation Orientation() const
 		{
-			return winrt::unbox_value<winrt::Orientation>(GetValue(OrientationProperty));
+			return winrt::unbox_value<winrt::Orientation>(GetValue(OrientationProperty()));
 		}
 
 		void Orientation(winrt::Orientation value)
 		{
-			SetValue(OrientationProperty, winrt::box_value(value));
+			SetValue(OrientationProperty(), winrt::box_value(value));
 		}
 
 		static const wil::single_threaded_property<winrt::DependencyProperty> OrientationProperty;
@@ -136,8 +136,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			winrt::Size ToSize(winrt::Orientation orientation)
 			{
 				return orientation == winrt::Orientation::Horizontal
-					? Size(static_cast<float>(U), static_cast<float>(V))
-					: Size(static_cast<float>(V), static_cast<float>(U));
+					? winrt::Size(static_cast<float>(U), static_cast<float>(V))
+					: winrt::Size(static_cast<float>(V), static_cast<float>(U));
 			}
 		};
 

@@ -3,11 +3,13 @@ import "ITrigger.idl";
 
 namespace XamlToolkit.WinUI.Interactivity
 {
+    [webhosthidden]
     [contentproperty("Actions")]
     unsealed runtimeclass Trigger : Behavior, ITrigger
     {
         Trigger();
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ActionsProperty{ get; };
     }
 }

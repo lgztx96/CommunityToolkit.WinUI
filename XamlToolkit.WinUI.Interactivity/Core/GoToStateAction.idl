@@ -2,12 +2,18 @@ import "IAction.idl";
 
 namespace XamlToolkit.WinUI.Interactivity
 {
+    [webhosthidden]
     runtimeclass GoToStateAction : Microsoft.UI.Xaml.DependencyObject, XamlToolkit.WinUI.Interactivity.IAction
     {
         GoToStateAction();
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty UseTransitionsProperty{ get; };
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty StateNameProperty{ get; };
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty TargetObjectProperty{ get; };
 
         Boolean UseTransitions;

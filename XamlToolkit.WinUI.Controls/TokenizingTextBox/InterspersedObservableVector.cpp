@@ -94,7 +94,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 	bool InterspersedObservableVector::IndexOf(winrt::IInspectable const& value, uint32_t& index) const
 	{
-		for (auto const& [key, val] : _interspersedObjects)
+		for (const auto& [key, val] : _interspersedObjects)
 		{
 			if (val == value)
 			{
@@ -121,7 +121,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	void InterspersedObservableVector::InsertAt(uint32_t outerIndex, winrt::IInspectable const& value)
 	{
 		uint32_t innerIndex = outerIndex;
-		for (auto const& kvp : _interspersedObjects)
+		for (const auto& kvp : _interspersedObjects)
 		{
 			if (kvp.first < outerIndex)
 			{
@@ -213,7 +213,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 	bool InterspersedObservableVector::Contains(winrt::IInspectable const& value) const
 	{
-		for (auto const& [key, val] : _interspersedObjects)
+		for (const auto& [key, val] : _interspersedObjects)
 		{
 			if (val == value)
 			{
@@ -224,7 +224,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		return _itemsSource.IndexOf(value, index);
 	}
 
-	winrt::IVector<winrt::IInspectable> InterspersedObservableVector::ItemsSource() const
+	winrt::IVector<winrt::IInspectable> InterspersedObservableVector::ItemsSource() const noexcept
 	{
 		return _itemsSource;
 	}
@@ -251,7 +251,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	void InterspersedObservableVector::MoveKeysBackward(uint32_t pivot, uint32_t amount)
 	{
 		std::map<uint32_t, winrt::IInspectable> updated;
-		for (auto const& [key, val] : _interspersedObjects)
+		for (const auto& [key, val] : _interspersedObjects)
 		{
 			if (key <= pivot)
 			{
@@ -268,7 +268,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	uint32_t InterspersedObservableVector::ToInnerIndex(uint32_t outerIndex) const
 	{
 		uint32_t offset = 0;
-		for (auto const& [key, val] : _interspersedObjects)
+		for (const auto& [key, val] : _interspersedObjects)
 		{
 			if (key <= outerIndex)
 			{
@@ -281,7 +281,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	uint32_t InterspersedObservableVector::ToOuterIndex(uint32_t innerIndex) const
 	{
 		uint32_t offset = 0;
-		for (auto const& [key, val] : _interspersedObjects)
+		for (const auto& [key, val] : _interspersedObjects)
 		{
 			if (key <= innerIndex + offset)
 			{
@@ -294,7 +294,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	uint32_t InterspersedObservableVector::ToOuterIndexAfterRemoval(uint32_t innerIndexToProject) const
 	{
 		uint32_t projected = innerIndexToProject;
-		for (auto const& [key, val] : _interspersedObjects)
+		for (const auto& [key, val] : _interspersedObjects)
 		{
 			if (projected >= key)
 			{
@@ -314,7 +314,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		uint32_t existing = 0;
 
 		std::vector<uint32_t> keys;
-		for (auto const& kvp : _interspersedObjects)
+		for (const auto& kvp : _interspersedObjects)
 		{
 			keys.push_back(kvp.first);
 		}

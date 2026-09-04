@@ -194,61 +194,6 @@ namespace winrt::XamlToolkit::WinUI::Animations
 	}
 
 	/// <summary>
-	/// Adds a custom animation based on normalized keyframes to the current schedule.
-	/// </summary>
-	/// <typeparam name="T">The type of values to animate.</typeparam>
-	/// <typeparam name="TState">The type of state to pass to the builder.</typeparam>
-	/// <param name="builder">The AnimationBuilder instance.</param>
-	/// <param name="property">The target property to animate.</param>
-	/// <param name="state">The state to pass to the builder.</param>
-	/// <param name="build">The callback to use to construct the custom animation.</param>
-	/// <param name="delay">The optional initial delay for the animation.</param>
-	/// <param name="duration">The animation duration.</param>
-	/// <param name="repeatOption">The repeat option for the animation (defaults to one iteration).</param>
-	/// <param name="delayBehavior">The delay behavior to use (ignored if <paramref name="layer"/> is <see cref="FrameworkLayer.Xaml"/>).</param>
-	/// <param name="layer">The target framework layer to animate.</param>
-	/// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
-	template<typename T, typename TState>
-	inline AnimationBuilder& AnimationBuilder::NormalizedKeyFrames(
-		winrt::hstring const& property,
-		TState state,
-		std::function<void(INormalizedKeyFrameAnimationBuilder<T>&, TState)> build,
-		std::optional<winrt::TimeSpan> delay,
-		std::optional<winrt::TimeSpan> duration,
-		std::optional<RepeatOption> repeatOption,
-		std::optional<winrt::AnimationDelayBehavior> delayBehavior,
-		FrameworkLayer layer)
-	{
-		if (layer == FrameworkLayer::Composition)
-		{
-			auto builder = NormalizedKeyFrameAnimationBuilderComposition<T>(
-				property,
-				delay,
-				duration.value_or(AnimationExtensions::DefaultDuration()),
-				repeatOption.value_or(RepeatOptionHelper::Once()),
-				delayBehavior.value_or(AnimationExtensions::DefaultDelayBehavior()));
-
-			build(builder, state);
-
-			AddCompositionAnimationFactory(builder);
-		}
-		else
-		{
-			auto builder = NormalizedKeyFrameAnimationBuilderXaml<T>(
-				property,
-				delay,
-				duration.value_or(AnimationExtensions::DefaultDuration()),
-				repeatOption.value_or(RepeatOptionHelper::Once()));
-
-			build(builder, state);
-
-			AddXamlAnimationFactory(builder);
-		}
-
-		return *this;
-	}
-
-	/// <summary>
 	/// Adds a custom animation based on timed keyframes to the current schedule.
 	/// </summary>
 	/// <typeparam name="T">The type of values to animate.</typeparam>
@@ -295,56 +240,4 @@ namespace winrt::XamlToolkit::WinUI::Animations
 
 		return *this;
 	}
-
-	/// <summary>
-	/// Adds a custom animation based on timed keyframes to the current schedule.
-	/// </summary>
-	/// <typeparam name="T">The type of values to animate.</typeparam>
-	/// <typeparam name="TState">The type of state to pass to the builder.</typeparam>
-	/// <param name="builder">The AnimationBuilder instance.</param>
-	/// <param name="property">The target property to animate.</param>
-	/// <param name="state">The state to pass to the builder.</param>
-	/// <param name="build">The callback to use to construct the custom animation.</param>
-	/// <param name="delay">The optional initial delay for the animation.</param>
-	/// <param name="repeat">The repeat option for the animation (defaults to one iteration).</param>
-	/// <param name="delayBehavior">The delay behavior to use (ignored if <paramref name="layer"/> is <see cref="FrameworkLayer.Xaml"/>).</param>
-	/// <param name="layer">The target framework layer to animate.</param>
-	/// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
-	template<typename T, typename TState>
-	inline AnimationBuilder& AnimationBuilder::TimedKeyFrames(
-		winrt::hstring const& property,
-		TState state,
-		std::function<void(ITimedKeyFrameAnimationBuilder<T>&, TState)> build,
-		std::optional<TimeSpan> delay,
-		std::optional<RepeatOption> repeatOption,
-		std::optional<winrt::AnimationDelayBehavior> delayBehavior,
-		FrameworkLayer layer)
-	{
-		if (layer == FrameworkLayer::Composition)
-		{
-			auto builder = TimedKeyFrameAnimationBuilderComposition<T>(
-				property,
-				delay,
-				repeatOption.value_or(RepeatOptionHelper::Once()),
-				delayBehavior.value_or(AnimationExtensions::DefaultDelayBehavior()));
-
-			build(builder, state);
-
-			AddCompositionAnimationFactory(builder);
-		}
-		else
-		{
-			auto builder = TimedKeyFrameAnimationBuilderXaml<T>(
-				property,
-				delay,
-				repeatOption.value_or(RepeatOptionHelper::Once()));
-
-			build(builder, state);
-
-			AddXamlAnimationFactory(builder);
-		}
-
-		return *this;
-	}
 }
-

@@ -9,6 +9,7 @@ namespace XamlToolkit.WinUI.Media
     /// <summary>
     /// Brush which applies a SepiaEffect to the Backdrop.
     /// </summary>
+    [webhosthidden]
     runtimeclass BackdropSepiaBrush : XamlCompositionEffectBrushBase
     {
         /// <summary>
@@ -21,6 +22,7 @@ namespace XamlToolkit.WinUI.Media
         /// </summary>
         Double Intensity;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty IntensityProperty{ get; };
     };
 }

@@ -5,6 +5,7 @@ namespace XamlToolkit.WinUI.Animations
     /// <summary>
     /// A KeyFrame type for Vector2 animations.
     /// </summary>
+    [webhosthidden]
     runtimeclass Vector2KeyFrame : KeyFrame
     {
         Vector2KeyFrame();
@@ -14,6 +15,7 @@ namespace XamlToolkit.WinUI.Animations
         /// </summary>
         String Value;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty ValueProperty{ get; };
     }
 }

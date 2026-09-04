@@ -1,13 +1,18 @@
 namespace XamlToolkit.WinUI.Converters
 {
-    unsealed runtimeclass BoolToObjectConverter : Microsoft.UI.Xaml.DependencyObject, [default] Microsoft.UI.Xaml.Data.IValueConverter
+    [webhosthidden]
+    unsealed runtimeclass BoolToObjectConverter : Microsoft.UI.Xaml.DependencyObject, Microsoft.UI.Xaml.Data.IValueConverter
     {
         BoolToObjectConverter();
    
-        IInspectable TrueValue;
+        Object TrueValue;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty TrueValueProperty{ get; };
 
-        IInspectable FalseValue;
+        Object FalseValue;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty FalseValueProperty{ get; };
     }
 }

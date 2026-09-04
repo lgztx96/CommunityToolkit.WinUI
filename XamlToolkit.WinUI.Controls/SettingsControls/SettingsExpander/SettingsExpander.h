@@ -68,40 +68,40 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
         static const wil::single_threaded_property<winrt::DependencyProperty> ItemContainerStyleSelectorProperty;
 
-        winrt::IInspectable Header() { return GetValue(HeaderProperty); }
-        void Header(winrt::IInspectable const& value) { SetValue(HeaderProperty, value); }
+        winrt::IInspectable Header() { return GetValue(HeaderProperty()); }
+        void Header(winrt::IInspectable const& value) { SetValue(HeaderProperty(), value); }
 
-        winrt::IInspectable Description() { return GetValue(DescriptionProperty); }
-        void Description(winrt::IInspectable const& value) { SetValue(DescriptionProperty, value); }
+        winrt::IInspectable Description() { return GetValue(DescriptionProperty()); }
+        void Description(winrt::IInspectable const& value) { SetValue(DescriptionProperty(), value); }
 
-        winrt::IconElement HeaderIcon() { return winrt::unbox_value<winrt::IconElement>(GetValue(HeaderIconProperty)); }
-        void HeaderIcon(winrt::IconElement const& value) { SetValue(HeaderIconProperty, value); }
+        winrt::IconElement HeaderIcon() { return winrt::unbox_value<winrt::IconElement>(GetValue(HeaderIconProperty())); }
+        void HeaderIcon(winrt::IconElement const& value) { SetValue(HeaderIconProperty(), value); }
 
-        winrt::IInspectable Content() { return winrt::unbox_value<winrt::IInspectable>(GetValue(ContentProperty)); }
-        void Content(winrt::IInspectable const& value) { SetValue(ContentProperty, value); }
+        winrt::IInspectable Content() { return winrt::unbox_value<winrt::IInspectable>(GetValue(ContentProperty())); }
+        void Content(winrt::IInspectable const& value) { SetValue(ContentProperty(), value); }
 
-        winrt::UIElement ItemsHeader() { return winrt::unbox_value<winrt::UIElement>(GetValue(ItemsHeaderProperty)); }
-        void ItemsHeader(winrt::UIElement const& value) { SetValue(ItemsHeaderProperty, value); }
+        winrt::UIElement ItemsHeader() { return winrt::unbox_value<winrt::UIElement>(GetValue(ItemsHeaderProperty())); }
+        void ItemsHeader(winrt::UIElement const& value) { SetValue(ItemsHeaderProperty(), value); }
 
-        winrt::UIElement ItemsFooter() { return winrt::unbox_value<winrt::UIElement>(GetValue(ItemsFooterProperty)); }
-        void ItemsFooter(winrt::UIElement const& value) { SetValue(ItemsFooterProperty, value); }
+        winrt::UIElement ItemsFooter() { return winrt::unbox_value<winrt::UIElement>(GetValue(ItemsFooterProperty())); }
+        void ItemsFooter(winrt::UIElement const& value) { SetValue(ItemsFooterProperty(), value); }
 
-        bool IsExpanded() { return winrt::unbox_value<bool>(GetValue(IsExpandedProperty)); }
-        void IsExpanded(bool value) { SetValue(IsExpandedProperty, winrt::box_value(value)); }
+        bool IsExpanded() { return winrt::unbox_value<bool>(GetValue(IsExpandedProperty())); }
+        void IsExpanded(bool value) { SetValue(IsExpandedProperty(), winrt::box_value(value)); }
 
         static void OnItemsConnectedPropertyChanged(winrt::DependencyObject const& dependencyObject, winrt::DependencyPropertyChangedEventArgs const& args);
 
-        winrt::IVector<winrt::IInspectable> Items() { return winrt::unbox_value<winrt::IVector<winrt::IInspectable>>(GetValue(ItemsProperty)); }
-        void Items(winrt::IVector<winrt::IInspectable> const& value) { SetValue(ItemsProperty, value); }
+        winrt::IVector<winrt::IInspectable> Items() { return winrt::unbox_value<winrt::IVector<winrt::IInspectable>>(GetValue(ItemsProperty())); }
+        void Items(winrt::IVector<winrt::IInspectable> const& value) { SetValue(ItemsProperty(), value); }
 
-        winrt::IInspectable ItemsSource() { return GetValue(ItemsSourceProperty); }
-        void ItemsSource(winrt::IInspectable const& value) { SetValue(ItemsSourceProperty, value); }
+        winrt::IInspectable ItemsSource() { return GetValue(ItemsSourceProperty()); }
+        void ItemsSource(winrt::IInspectable const& value) { SetValue(ItemsSourceProperty(), value); }
 
-        winrt::IInspectable ItemTemplate() { return GetValue(ItemTemplateProperty); }
-        void ItemTemplate(winrt::IInspectable const& value) { SetValue(ItemTemplateProperty, value); }
+        winrt::IInspectable ItemTemplate() { return GetValue(ItemTemplateProperty()); }
+        void ItemTemplate(winrt::IInspectable const& value) { SetValue(ItemTemplateProperty(), value); }
 
-        winrt::StyleSelector ItemContainerStyleSelector() { return winrt::unbox_value<winrt::StyleSelector>(GetValue(ItemContainerStyleSelectorProperty)); }
-        void ItemContainerStyleSelector(winrt::StyleSelector const& value) { SetValue(ItemContainerStyleSelectorProperty, value); }
+        winrt::StyleSelector ItemContainerStyleSelector() { return winrt::unbox_value<winrt::StyleSelector>(GetValue(ItemContainerStyleSelectorProperty())); }
+        void ItemContainerStyleSelector(winrt::StyleSelector const& value) { SetValue(ItemContainerStyleSelectorProperty(), value); }
 
         void ItemsRepeater_ElementPrepared(winrt::ItemsRepeater const& sender, winrt::ItemsRepeaterElementPreparedEventArgs const& args);
     };

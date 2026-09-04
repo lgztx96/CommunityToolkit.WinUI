@@ -1,9 +1,11 @@
 namespace XamlToolkit.WinUI.Interactivity
 {
+    [webhosthidden]
     runtimeclass BehaviorCollection : Microsoft.UI.Xaml.DependencyObjectCollection
     {
         BehaviorCollection();
 
+        [noexcept]
         Microsoft.UI.Xaml.DependencyObject AssociatedObject{ get; };
 
         void Attach(Microsoft.UI.Xaml.DependencyObject associatedObject);

@@ -88,11 +88,11 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
                 winrt::xaml_typename<class_type>(),
                 winrt::PropertyMetadata(winrt::box_value(InnerContentClipMode::CompositionGeometricClip), &AttachedShadowBase::OnDependencyPropertyChanged));
 
-        double CornerRadius() const { return winrt::unbox_value<double>(GetValue(CornerRadiusProperty)); }
-        void CornerRadius(double value) const { SetValue(CornerRadiusProperty, winrt::box_value(value)); }
+        double CornerRadius() const { return winrt::unbox_value<double>(GetValue(CornerRadiusProperty())); }
+        void CornerRadius(double value) const { SetValue(CornerRadiusProperty(), winrt::box_value(value)); }
 
-        winrt::XamlToolkit::WinUI::Media::InnerContentClipMode InnerContentClipMode() const { return winrt::unbox_value<winrt::XamlToolkit::WinUI::Media::InnerContentClipMode>(GetValue(InnerContentClipModeProperty)); }
-        void InnerContentClipMode(winrt::XamlToolkit::WinUI::Media::InnerContentClipMode value) const { SetValue(InnerContentClipModeProperty, winrt::box_value(value)); }
+        winrt::XamlToolkit::WinUI::Media::InnerContentClipMode InnerContentClipMode() const { return winrt::unbox_value<winrt::XamlToolkit::WinUI::Media::InnerContentClipMode>(GetValue(InnerContentClipModeProperty())); }
+        void InnerContentClipMode(winrt::XamlToolkit::WinUI::Media::InnerContentClipMode value) const { SetValue(InnerContentClipModeProperty(), winrt::box_value(value)); }
 
         bool SupportsOnSizeChangedEvent() const noexcept { return true; }
 

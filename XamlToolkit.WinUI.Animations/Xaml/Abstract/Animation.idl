@@ -7,6 +7,7 @@ namespace XamlToolkit.WinUI.Animations
     /// A base model representing an animation that can be used in XAML.
     /// Note: ITimeline is implemented as a C++ interface, not a WinRT interface.
     /// </summary>
+    [webhosthidden]
     unsealed runtimeclass Animation : Microsoft.UI.Xaml.DependencyObject
     {
         /// <summary>
@@ -19,6 +20,7 @@ namespace XamlToolkit.WinUI.Animations
         /// </summary>
         Windows.Foundation.IReference<Windows.Foundation.TimeSpan> Delay;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty DelayProperty{ get; };
 
         /// <summary>
@@ -26,6 +28,7 @@ namespace XamlToolkit.WinUI.Animations
         /// </summary>
         Windows.Foundation.IReference<Windows.Foundation.TimeSpan> Duration;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty DurationProperty{ get; };
 
         /// <summary>
@@ -33,6 +36,7 @@ namespace XamlToolkit.WinUI.Animations
         /// </summary>
         Windows.Foundation.IReference<EasingType> EasingType;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty EasingTypeProperty{ get; };
 
         /// <summary>
@@ -40,6 +44,7 @@ namespace XamlToolkit.WinUI.Animations
         /// </summary>
         Windows.Foundation.IReference<Microsoft.UI.Xaml.Media.Animation.EasingMode> EasingMode;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty EasingModeProperty{ get; };
 
         /// <summary>
@@ -47,6 +52,7 @@ namespace XamlToolkit.WinUI.Animations
         /// </summary>
         RepeatOption Repeat;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty RepeatProperty{ get; };
 
         /// <summary>
@@ -54,6 +60,7 @@ namespace XamlToolkit.WinUI.Animations
         /// </summary>
         Microsoft.UI.Composition.AnimationDelayBehavior DelayBehavior;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty DelayBehaviorProperty{ get; };
     }
 }

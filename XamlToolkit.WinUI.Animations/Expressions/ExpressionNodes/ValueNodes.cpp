@@ -24,7 +24,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::Expressions
     template<typename TEnum>
     static winrt::hstring EnumLabel(TEnum value, std::initializer_list<std::pair<TEnum, std::wstring_view>> map)
     {
-        for (auto const& [candidate, label] : map)
+        for (const auto& [candidate, label] : map)
         {
             if (candidate == value)
             {

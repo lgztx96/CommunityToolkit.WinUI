@@ -6,6 +6,7 @@ namespace XamlToolkit.WinUI.Animations
     /// <summary>
     /// A color animation working on a DropShadow.
     /// </summary>
+    [webhosthidden]
     [contentproperty("KeyFrames")]
     runtimeclass ColorDropShadowAnimation : Animation
     {
@@ -13,18 +14,22 @@ namespace XamlToolkit.WinUI.Animations
 
         XamlToolkit.WinUI.IAttachedShadow Target;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty TargetProperty{ get; };
 
         Windows.Foundation.IReference<Windows.UI.Color> To;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty ToProperty{ get; };
 
         Windows.Foundation.IReference<Windows.UI.Color> From;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty FromProperty{ get; };
 
         Windows.Foundation.Collections.IVector<ColorKeyFrame> KeyFrames;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty KeyFramesProperty{ get; };
     }
 }

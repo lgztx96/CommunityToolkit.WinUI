@@ -8,6 +8,7 @@ namespace XamlToolkit.WinUI.Converters
     /// <summary>
     /// This class converts a collection size to visibility.
     /// </summary>
+    [webhosthidden]
     [default_interface]
     runtimeclass CollectionVisibilityConverter : XamlToolkit.WinUI.Converters.EmptyCollectionToObjectConverter
     {

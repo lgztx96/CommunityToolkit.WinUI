@@ -1,9 +1,9 @@
 ﻿namespace XamlToolkit.Labs.WinUI
 {
-    [bindable]
+    [webhosthidden]
     [default_interface]
     runtimeclass MdTableUIElement : Microsoft.UI.Xaml.Controls.Panel
     {
-        MdTableUIElement();
+
     }
 }

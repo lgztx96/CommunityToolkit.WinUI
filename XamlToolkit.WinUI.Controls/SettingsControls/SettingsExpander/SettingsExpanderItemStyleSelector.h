@@ -18,11 +18,11 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
     struct SettingsExpanderItemStyleSelector : SettingsExpanderItemStyleSelectorT<SettingsExpanderItemStyleSelector>
     {
+        SettingsExpanderItemStyleSelector() = default;
+
         wil::single_threaded_rw_property<winrt::Style> DefaultStyle{ nullptr };
 
         wil::single_threaded_rw_property<winrt::Style> ClickableStyle{ nullptr };
-
-        SettingsExpanderItemStyleSelector() = default;
 
         winrt::Style SelectStyleCore(winrt::IInspectable const& item, winrt::DependencyObject const& container);
     };

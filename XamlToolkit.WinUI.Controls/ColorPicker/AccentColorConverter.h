@@ -22,7 +22,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
         static constexpr double ValueDelta = 0.1;
 
-        static winrt::HsvColor GetAccent(winrt::HsvColor hsvColor, int accentStep);
+        static winrt::HsvColor GetAccent(winrt::HsvColor hsvColor, int accentStep) noexcept;
 
         winrt::IInspectable Convert(winrt::IInspectable const& value, winrt::TypeName targetType, winrt::IInspectable const& parameter, winrt::hstring const& language);
 

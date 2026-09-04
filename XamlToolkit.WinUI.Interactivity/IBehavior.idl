@@ -3,6 +3,7 @@ namespace XamlToolkit.WinUI.Interactivity
     /// <summary>
     /// Interface implemented by all custom behaviors.
     /// </summary>
+    [webhosthidden]
     interface IBehavior
     {
         /// <summary>

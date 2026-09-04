@@ -22,21 +22,25 @@
 
 namespace winrt
 {
-    using namespace Windows::Foundation;
-    using namespace Windows::Foundation::Collections;
-    using namespace Microsoft::UI::Xaml;
-    using namespace Microsoft::UI::Xaml::Media;
-    using namespace Microsoft::UI::Xaml::Controls;
+    using namespace ::winrt::Windows::Foundation;
+    using namespace ::winrt::Windows::Foundation::Collections;
+    using namespace ::winrt::Microsoft::UI::Xaml;
+    using namespace ::winrt::Microsoft::UI::Xaml::Media;
+    using namespace ::winrt::Microsoft::UI::Xaml::Controls;
 }
 
 namespace winrt::XamlToolkit::WinUI::Animations::implementation
 {
-    /// <summary>
-    /// A helper class that allows Connected Animations to be enabled through XAML.
-    /// </summary>
-    struct Connected : ConnectedT<Connected>
+    struct ConnectedAnimationPropertiesMap :
+        std::unordered_map<winrt::hstring, ConnectedAnimationProperties>,
+        winrt::implements<ConnectedAnimationPropertiesMap, winrt::IInspectable> { };
+
+    struct ConnectedAnimationElementsMap :
+        std::map<winrt::UIElement, std::vector<winrt::UIElement>>,
+        winrt::implements<ConnectedAnimationElementsMap, winrt::IInspectable> { };
+
+    struct Connected
     {
-    public:
         static winrt::hstring GetKey(winrt::DependencyObject const& obj);
         static void SetKey(winrt::DependencyObject const& obj, winrt::hstring const& value);
 
@@ -80,23 +84,23 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
             winrt::ListViewBase const& listViewBase,
             winrt::hstring const& key);
 
-        static void SetListDataItemForNextConnectedAnimation(
+        static void PrepareListDataItemForNextConnectedAnimation(
             winrt::Frame const& frame,
             winrt::IInspectable const& item);
 
-        static std::map<winrt::hstring, ConnectedAnimationProperties>& GetPageConnectedAnimationProperties(
-            winrt::Page const& page);
+        static winrt::com_ptr<ConnectedAnimationPropertiesMap> GetPageConnectedAnimationProperties(winrt::Page const& page);
 
-        static std::unordered_map<uintptr_t, std::vector<winrt::UIElement>>& GetPageCoordinatedAnimationElements(
-            winrt::Page const& page);
+        static winrt::com_ptr<ConnectedAnimationElementsMap> GetPageCoordinatedAnimationElements(winrt::Page const& page);
 
-        static std::shared_ptr<ConnectedAnimationHelper> GetConnectedAnimationHelper(
-            winrt::Frame const& frame);
+        static winrt::com_ptr<ConnectedAnimationHelper> GetConnectedAnimationHelper(winrt::Frame const& frame);
 
         static const wil::single_threaded_property<winrt::DependencyProperty> KeyProperty;
         static const wil::single_threaded_property<winrt::DependencyProperty> AnchorElementProperty;
         static const wil::single_threaded_property<winrt::DependencyProperty> ListItemKeyProperty;
         static const wil::single_threaded_property<winrt::DependencyProperty> ListItemElementNameProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> ConnectedAnimationHelperProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> PageConnectedAnimationPropertiesProperty;
+        static const wil::single_threaded_property<winrt::DependencyProperty> PageCoordinatedAnimationElementsProperty;
 
     private:
         static void OnKeyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
@@ -106,7 +110,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
 
         static void GetParentFrameAndExecuteAction(
             winrt::FrameworkElement const& element,
-            std::function<void(winrt::Controls::Frame const&)> const& action);
+            std::function<void(winrt::Frame const&)> const& action);
 
         static void AddListViewBaseItemAnimationDetails(
             winrt::Page const& page,

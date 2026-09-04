@@ -44,8 +44,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			}
 
 			auto keysToDelete = _tokens
-				| std::views::filter([](auto const& pair) { return !pair.second.Active(); })
-				| std::views::transform([](auto const& pair) { return pair.first; })
+				| std::views::filter([](const auto& pair) { return !pair.second.Active(); })
+				| std::views::transform([](const auto& pair) { return pair.first; })
 				| std::ranges::to<std::vector>();
 			for (const auto& key : keysToDelete)
 			{
@@ -199,7 +199,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		if (newValue != prefixes)
 		{
-			view->SetValue(PrefixesProperty, winrt::box_value(prefixes));
+			view->SetValue(PrefixesProperty(), winrt::box_value(prefixes));
 		}
 	}
 
@@ -450,7 +450,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		auto toBeAdded = _tokens
 			| std::views::values
-			| std::views::filter([&](auto const& token)
+			| std::views::filter([&](const auto& token)
 			{
 				uint32_t index;
 				return token.Active() && !_visibleTokens.IndexOf(token, index);

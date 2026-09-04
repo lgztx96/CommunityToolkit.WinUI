@@ -14,7 +14,7 @@ namespace winrt::XamlToolkit::WinUI::Converters::implementation
 {
     winrt::IInspectable ResourceNameToResourceStringConverter::Convert(winrt::IInspectable const& value, [[maybe_unused]] winrt::TypeName targetType, [[maybe_unused]] winrt::IInspectable const& parameter, [[maybe_unused]] winrt::hstring const& language) const
     {
-		auto stringValue = ConverterTools::TryConvertToString(value);
+		auto stringValue = ConverterTools::TryConvertValue<winrt::hstring>(value);
         if (!stringValue || stringValue->empty())
         {
             return winrt::box_value(L"");

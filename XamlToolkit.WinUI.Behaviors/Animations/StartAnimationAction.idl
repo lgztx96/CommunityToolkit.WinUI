@@ -4,6 +4,7 @@ namespace XamlToolkit.WinUI.Behaviors
     /// <summary>
     /// An IAction implementation that can trigger a target AnimationSet instance.
     /// </summary>
+    [webhosthidden]
     runtimeclass StartAnimationAction : Microsoft.UI.Xaml.DependencyObject, XamlToolkit.WinUI.Interactivity.IAction
     {
         StartAnimationAction();
@@ -13,6 +14,7 @@ namespace XamlToolkit.WinUI.Behaviors
         /// </summary>
         XamlToolkit.WinUI.Animations.AnimationSet Animation;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty AnimationProperty { get; };
 
         /// <summary>
@@ -20,6 +22,7 @@ namespace XamlToolkit.WinUI.Behaviors
         /// </summary>
         Microsoft.UI.Xaml.UIElement TargetObject;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty TargetObjectProperty { get; };
     }
 }

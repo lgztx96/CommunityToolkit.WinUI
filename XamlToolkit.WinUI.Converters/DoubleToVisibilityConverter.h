@@ -21,9 +21,9 @@ namespace winrt::XamlToolkit::WinUI::Converters::implementation
 	{
 		DoubleToVisibilityConverter()
 		{
-			TrueValue(winrt::box_value(Visibility::Visible));
-			FalseValue(winrt::box_value(Visibility::Collapsed));
-			NullValue(winrt::box_value(Visibility::Collapsed));
+			TrueValue(winrt::box_value(winrt::Visibility::Visible));
+			FalseValue(winrt::box_value(winrt::Visibility::Collapsed));
+			NullValue(winrt::box_value(winrt::Visibility::Collapsed));
 		}
 	};
 }

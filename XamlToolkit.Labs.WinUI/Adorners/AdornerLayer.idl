@@ -1,10 +1,12 @@
 namespace XamlToolkit.Labs.WinUI
 {
+    [webhosthidden]
     [default_interface]
     runtimeclass AdornerLayer : Microsoft.UI.Xaml.Controls.Canvas
     {
         AdornerLayer();
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty XamlProperty{ get; };
 
         static Microsoft.UI.Xaml.UIElement GetXaml(Microsoft.UI.Xaml.FrameworkElement obj);

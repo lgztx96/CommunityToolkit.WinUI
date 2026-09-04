@@ -1,6 +1,6 @@
 ﻿namespace XamlToolkit.WinUI.Controls
 {
-    [bindable]
+    [webhosthidden]
     [default_interface]
     runtimeclass NullToTransparentConverter : Microsoft.UI.Xaml.Data.IValueConverter
     {

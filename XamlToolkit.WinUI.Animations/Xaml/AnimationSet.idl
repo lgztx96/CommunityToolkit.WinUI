@@ -2,17 +2,18 @@ import "Xaml/Interfaces/IActivity.idl";
 
 namespace XamlToolkit.WinUI.Animations
 {
+    [webhosthidden]
     [exclusiveto(AnimationSet)]
     interface IAnimationSetOwner
     {
-        Microsoft.UI.Xaml.UIElement Parent{ get; };
+        Microsoft.UI.Xaml.UIElement ParentReference{ get; };
     }
 
     /// <summary>
     /// A collection of animations that can be grouped together.
     /// </summary>
-    [default_interface]
-    unsealed runtimeclass AnimationSet : Microsoft.UI.Xaml.DependencyObjectCollection
+    [webhosthidden]
+    runtimeclass AnimationSet : Microsoft.UI.Xaml.DependencyObjectCollection
     {
         AnimationSet();
 
@@ -49,6 +50,7 @@ namespace XamlToolkit.WinUI.Animations
         /// <summary>
         /// Gets or sets whether animations are sequential.
         /// </summary>
+        [noexcept]
         Boolean IsSequential;
 
         /// <summary>

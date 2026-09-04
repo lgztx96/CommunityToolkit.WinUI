@@ -108,6 +108,9 @@
     <Filter Include="Styles">
       <UniqueIdentifier>{d99c4fba-6690-4b36-99d2-49c516671813}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TransitionHelper">
+      <UniqueIdentifier>{2e2e0d6c-c7a8-4782-bc11-cf1c0044bd97}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -277,6 +280,33 @@
     <ClCompile Include="GradientSlider\GradientSlider.Input.cpp">
       <Filter>GradientSlider</Filter>
     </ClCompile>
+    <ClCompile Include="TransitionHelper\TransitionHelper.cpp">
+      <Filter>TransitionHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="TransitionHelper\TransitionHelper.AttachedProperty.cpp">
+      <Filter>TransitionHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="TransitionHelper\TransitionHelper.Animation.cpp">
+      <Filter>TransitionHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="TransitionHelper\TransitionHelper.Helpers.cpp">
+      <Filter>TransitionHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="TransitionHelper\TransitionHelper.Logic.cpp">
+      <Filter>TransitionHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="TransitionHelper\TransitionHelper.Properties.cpp">
+      <Filter>TransitionHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="TransitionHelper\TransitionConfig.cpp">
+      <Filter>TransitionHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="TransitionHelper\StartTransitionAction.cpp">
+      <Filter>TransitionHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="TransitionHelper\ReverseTransitionAction.cpp">
+      <Filter>TransitionHelper</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -397,6 +427,18 @@
     </ClInclude>
     <ClInclude Include="wil_cppwinrt_module.h" />
     <ClInclude Include="winrt_module_imports.h" />
+    <ClInclude Include="TransitionHelper\TransitionHelper.h">
+      <Filter>TransitionHelper</Filter>
+    </ClInclude>
+    <ClInclude Include="TransitionHelper\TransitionConfig.h">
+      <Filter>TransitionHelper</Filter>
+    </ClInclude>
+    <ClInclude Include="TransitionHelper\StartTransitionAction.h">
+      <Filter>TransitionHelper</Filter>
+    </ClInclude>
+    <ClInclude Include="TransitionHelper\ReverseTransitionAction.h">
+      <Filter>TransitionHelper</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Midl Include="MarkdownTextBlock\MarkdownTextBlock.idl">
@@ -471,9 +513,22 @@
     <Midl Include="Styles\NavigationViewItemAttach.idl">
       <Filter>Styles</Filter>
     </Midl>
+    <Midl Include="TransitionHelper\TransitionConfig.idl">
+      <Filter>TransitionHelper</Filter>
+    </Midl>
+    <Midl Include="TransitionHelper\TransitionHelper.idl">
+      <Filter>TransitionHelper</Filter>
+    </Midl>
+    <Midl Include="TransitionHelper\StartTransitionAction.idl">
+      <Filter>TransitionHelper</Filter>
+    </Midl>
+    <Midl Include="TransitionHelper\ReverseTransitionAction.idl">
+      <Filter>TransitionHelper</Filter>
+    </Midl>
   </ItemGroup>
   <ItemGroup>
     <None Include="XamlToolkit.Labs.WinUI.def" />
+    <None Include="packages.config" />
     <None Include="MarkdownTextBlock\Highlight\cpp\highlights.scm">
       <Filter>MarkdownTextBlock\Highlight\cpp</Filter>
     </None>
@@ -551,5 +606,9 @@
     <Page Include="Styles\StoreNavigationViewStyle.xaml">
       <Filter>Styles</Filter>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
+    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natstepfilter" />
   </ItemGroup>
 </Project>

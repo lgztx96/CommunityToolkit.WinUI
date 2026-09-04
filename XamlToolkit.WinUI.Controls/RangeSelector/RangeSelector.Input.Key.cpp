@@ -19,7 +19,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         _keyDebounceTimer.Interval(TimeToHideToolTipOnKeyUp);
 
         auto timerTickToken = std::make_shared<winrt::event_token>();
-        *timerTickToken = _keyDebounceTimer.Tick({ get_weak(), [this, timerTickToken](auto const& sender, auto&)
+        *timerTickToken = _keyDebounceTimer.Tick({ get_weak(), [this, timerTickToken](const auto& sender, auto&)
         {
             if (auto timer = sender.template try_as<winrt::DispatcherQueueTimer>())
             {

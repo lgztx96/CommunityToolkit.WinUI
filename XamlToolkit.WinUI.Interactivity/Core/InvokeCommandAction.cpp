@@ -7,35 +7,40 @@
 
 namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 {
-    const wil::single_threaded_property<winrt::DependencyProperty> InvokeCommandAction::CommandProperty = winrt::DependencyProperty::Register(
-        L"Command",
-        winrt::xaml_typename<winrt::ICommand>(),
-        winrt::xaml_typename<class_type>(),
-        winrt::PropertyMetadata(nullptr));
+    const wil::single_threaded_property<winrt::DependencyProperty> InvokeCommandAction::CommandProperty =
+        winrt::DependencyProperty::Register(
+            L"Command",
+            winrt::xaml_typename<winrt::ICommand>(),
+            winrt::xaml_typename<class_type>(),
+            winrt::PropertyMetadata(nullptr));
 
-    const wil::single_threaded_property<winrt::DependencyProperty> InvokeCommandAction::CommandParameterProperty = winrt::DependencyProperty::Register(
-        L"CommandParameter",
-        winrt::xaml_typename<winrt::IInspectable>(),
-        winrt::xaml_typename<class_type>(),
-        winrt::PropertyMetadata(nullptr));
+    const wil::single_threaded_property<winrt::DependencyProperty> InvokeCommandAction::CommandParameterProperty =
+        winrt::DependencyProperty::Register(
+            L"CommandParameter",
+            winrt::xaml_typename<winrt::IInspectable>(),
+            winrt::xaml_typename<class_type>(),
+            winrt::PropertyMetadata(nullptr));
 
-    const wil::single_threaded_property<winrt::DependencyProperty> InvokeCommandAction::InputConverterProperty = winrt::DependencyProperty::Register(
-        L"InputConverter",
-        winrt::xaml_typename<winrt::IValueConverter>(),
-        winrt::xaml_typename<class_type>(),
-        winrt::PropertyMetadata(nullptr));
+    const wil::single_threaded_property<winrt::DependencyProperty> InvokeCommandAction::InputConverterProperty =
+        winrt::DependencyProperty::Register(
+            L"InputConverter",
+            winrt::xaml_typename<winrt::IValueConverter>(),
+            winrt::xaml_typename<class_type>(),
+            winrt::PropertyMetadata(nullptr));
 
-    const wil::single_threaded_property<winrt::DependencyProperty> InvokeCommandAction::InputConverterParameterProperty = winrt::DependencyProperty::Register(
-        L"InputConverterParameter",
-        winrt::xaml_typename<winrt::IInspectable>(),
-        winrt::xaml_typename<class_type>(),
-        winrt::PropertyMetadata(nullptr));
+    const wil::single_threaded_property<winrt::DependencyProperty> InvokeCommandAction::InputConverterParameterProperty =
+        winrt::DependencyProperty::Register(
+            L"InputConverterParameter",
+            winrt::xaml_typename<winrt::IInspectable>(),
+            winrt::xaml_typename<class_type>(),
+            winrt::PropertyMetadata(nullptr));
 
-    const wil::single_threaded_property<winrt::DependencyProperty> InvokeCommandAction::InputConverterLanguageProperty = winrt::DependencyProperty::Register(
-        L"InputConverterLanguage",
-        winrt::xaml_typename<winrt::hstring>(),
-        winrt::xaml_typename<class_type>(),
-        winrt::PropertyMetadata(winrt::box_value(L"")));
+    const wil::single_threaded_property<winrt::DependencyProperty> InvokeCommandAction::InputConverterLanguageProperty =
+        winrt::DependencyProperty::Register(
+            L"InputConverterLanguage",
+            winrt::xaml_typename<winrt::hstring>(),
+            winrt::xaml_typename<class_type>(),
+            winrt::PropertyMetadata(winrt::box_value(L"")));
 
     winrt::ICommand InvokeCommandAction::Command() const
     {
@@ -79,8 +84,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
     winrt::hstring InvokeCommandAction::InputConverterLanguage() const
     {
-        auto value = GetValue(InputConverterLanguageProperty());
-        return winrt::unbox_value_or<winrt::hstring>(value, L"");
+        return winrt::unbox_value<winrt::hstring>(GetValue(InputConverterLanguageProperty()));
     }
 
     void InvokeCommandAction::InputConverterLanguage(winrt::hstring const& value)
@@ -90,8 +94,8 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
     winrt::IInspectable InvokeCommandAction::Execute([[maybe_unused]] winrt::IInspectable const& sender, winrt::IInspectable const& parameter)
     {
-        auto command = Command();
-        if (command == nullptr)
+        const auto command = Command();
+        if (!command)
         {
             return winrt::box_value(false);
         }
@@ -101,7 +105,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         {
             resolvedParameter = CommandParameter();
         }
-        else if (auto converter = InputConverter())
+        else if (const auto converter = InputConverter())
         {
             resolvedParameter = converter.Convert(
                 parameter,

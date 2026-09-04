@@ -2,13 +2,14 @@ import "Xaml/Abstract/KeyFrame.idl";
 
 namespace XamlToolkit.WinUI.Animations
 {
-    [default_interface]
+    [webhosthidden]
     runtimeclass ThicknessKeyFrame 
     {
         ThicknessKeyFrame();
 
         Windows.Foundation.IReference<Microsoft.UI.Xaml.Thickness> Value;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ValueProperty{ get; };
     }
 }

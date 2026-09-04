@@ -1,18 +1,32 @@
 namespace XamlToolkit.WinUI
 {
+    [webhosthidden]
     runtimeclass SurfaceDialOptions : Microsoft.UI.Xaml.DependencyObject
     {
         SurfaceDialOptions();
 
+        [noexcept]
         Windows.UI.Input.RadialControllerMenuKnownIcon Icon;
-        Double StepValue;
-        Boolean EnableHapticFeedback;
-        Double RotationResolutionInDegrees;
-        Double MinValue;
-        Double MaxValue;
-        Boolean EnableTapToNextControl;
-        Boolean EnableMinMaxValue;
 
-        static SurfaceDialOptions Default{ get; };
+        [noexcept]
+        Double StepValue;
+
+        [noexcept]
+        Boolean EnableHapticFeedback;
+
+        [noexcept]
+        Double RotationResolutionInDegrees;
+
+        [noexcept]
+        Double MinValue;
+
+        [noexcept]
+        Double MaxValue;
+
+        [noexcept]
+        Boolean EnableTapToNextControl;
+
+        [noexcept]
+        Boolean EnableMinMaxValue;
     };
 }

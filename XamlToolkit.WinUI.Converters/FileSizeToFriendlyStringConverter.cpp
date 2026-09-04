@@ -21,7 +21,7 @@ namespace winrt::XamlToolkit::WinUI::Converters::implementation
             return winrt::box_value(ToFileSizeString(size.value()));
         }
 
-        return winrt::box_value(winrt::hstring(L""));
+        return winrt::box_value(L"");
     }
 
     winrt::IInspectable FileSizeToFriendlyStringConverter::ConvertBack([[maybe_unused]] winrt::IInspectable const& value, [[maybe_unused]] TypeName targetType, [[maybe_unused]] winrt::IInspectable const& parameter, [[maybe_unused]] winrt::hstring const& language) const

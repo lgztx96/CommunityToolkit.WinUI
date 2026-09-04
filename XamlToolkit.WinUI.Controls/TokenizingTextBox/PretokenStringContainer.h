@@ -32,10 +32,3 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		winrt::hstring ToString() const;
 	};
 }
-
-namespace winrt::XamlToolkit::WinUI::Controls::factory_implementation
-{
-	struct PretokenStringContainer : PretokenStringContainerT<PretokenStringContainer, implementation::PretokenStringContainer>
-	{
-	};
-}

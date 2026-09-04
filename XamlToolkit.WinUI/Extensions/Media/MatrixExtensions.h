@@ -3,49 +3,47 @@
 #include "MatrixExtensions.g.h"
 
 #ifdef __INTELLISENSE__
-#include <winrt/Windows.Foundation.h>
 #include <winrt/Microsoft.UI.Xaml.Media.h>
 #endif
 
 namespace winrt
 {
-    using namespace Windows::Foundation;
-    using namespace Microsoft::UI::Xaml::Media;
+    using namespace ::winrt::Microsoft::UI::Xaml::Media;
 }
 
 namespace winrt::XamlToolkit::WinUI::implementation
 {
     struct MatrixExtensions
     {
-        static bool HasInverse(Matrix const& matrix);
+        static bool HasInverse(winrt::Matrix const& matrix) noexcept;
 
-        static Matrix Multiply(Matrix const& matrix1, Matrix const& matrix2);
+        static winrt::Matrix Multiply(winrt::Matrix const& matrix1, winrt::Matrix const& matrix2) noexcept;
 
-        static Matrix Round(Matrix const& matrix, int decimalsAfterRound);
+        static winrt::Matrix Round(winrt::Matrix const& matrix, int decimalsAfterRound) noexcept;
 
-        static Matrix Rotate(Matrix const& matrix, double angle);
+        static winrt::Matrix Rotate(winrt::Matrix const& matrix, double angle) noexcept;
 
-        static Matrix RotateAt(Matrix const& matrix, double angle, double centerX, double centerY);
+        static winrt::Matrix RotateAt(winrt::Matrix const& matrix, double angle, double centerX, double centerY) noexcept;
 
-        static Matrix Scale(Matrix const& matrix, double scaleX, double scaleY);
+        static winrt::Matrix Scale(winrt::Matrix const& matrix, double scaleX, double scaleY) noexcept;
 
-        static Matrix ScaleAt(Matrix const& matrix, double scaleX, double scaleY, double centerX, double centerY);
+        static winrt::Matrix ScaleAt(winrt::Matrix const& matrix, double scaleX, double scaleY, double centerX, double centerY) noexcept;
 
-        static Matrix Skew(Matrix const& matrix, double skewX, double skewY);
+        static winrt::Matrix Skew(winrt::Matrix const& matrix, double skewX, double skewY) noexcept;
 
-        static Matrix Translate(Matrix const& matrix, double offsetX, double offsetY);
+        static winrt::Matrix Translate(winrt::Matrix const& matrix, double offsetX, double offsetY) noexcept;
 
-        static Matrix CreateRotationRadians(double angle);
+        static winrt::Matrix CreateRotationRadians(double angle) noexcept;
 
-        static Matrix CreateRotationRadians(double angle, double centerX, double centerY);
+        static winrt::Matrix CreateRotationRadians(double angle, double centerX, double centerY) noexcept;
 
-        static Matrix CreateScaling(double scaleX, double scaleY);
+        static winrt::Matrix CreateScaling(double scaleX, double scaleY) noexcept;
 
-        static Matrix CreateScaling(double scaleX, double scaleY, double centerX, double centerY);
+        static winrt::Matrix CreateScaling(double scaleX, double scaleY, double centerX, double centerY) noexcept;
 
-        static Matrix CreateSkewRadians(double skewX, double skewY);
+        static winrt::Matrix CreateSkewRadians(double skewX, double skewY) noexcept;
 
-        static double Round(double value, int decimals);
+        static double Round(double value, int decimals) noexcept;
     };
 }
 

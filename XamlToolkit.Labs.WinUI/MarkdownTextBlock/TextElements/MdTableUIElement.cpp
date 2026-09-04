@@ -50,42 +50,33 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
     }
 
     // Helper method to enumerate FrameworkElements instead of UIElements.
-    winrt::IVectorView<winrt::FrameworkElement> MdTableUIElement::ContentChildren() const
+    std::generator<winrt::FrameworkElement> MdTableUIElement::ContentChildren() const
     {
-        auto children = Children();
-        auto vector = winrt::single_threaded_vector<winrt::FrameworkElement>();
+        const auto children = Children();
         for (uint32_t i = _columnCount + _rowCount; i < children.Size(); i++)
         {
-            vector.Append(children.GetAt(i).try_as<winrt::FrameworkElement>());
+            co_yield children.GetAt(i).try_as<winrt::FrameworkElement>();
         }
-
-        return vector.GetView();
     }
 
     // Helper method to get table vertical edges.
-    winrt::IVectorView<winrt::Rectangle> MdTableUIElement::VerticalLines()
+    std::generator<winrt::Rectangle> MdTableUIElement::VerticalLines() const
     {
-        auto children = Children();
-        auto vector = winrt::single_threaded_vector<winrt::Rectangle>();
+        const auto children = Children();
         for (int i = 2; i < _columnCount + 1; i++)
         {
-            vector.Append(children.GetAt(i).try_as<winrt::Rectangle>());
+            co_yield children.GetAt(i).try_as<winrt::Rectangle>();
         }
-
-        return vector.GetView();
     }
 
     // Helper method to get table horizontal edges.
-    winrt::IVectorView<winrt::Rectangle> MdTableUIElement::HorizontalLines()
+    std::generator<winrt::Rectangle> MdTableUIElement::HorizontalLines() const
     {
-        auto children = Children();
-        auto vector = winrt::single_threaded_vector<winrt::Rectangle>();
+        const auto children = Children();
         for (int i = _columnCount + 1; i < _columnCount + _rowCount; i++)
         {
-            vector.Append(children.GetAt(i).try_as<winrt::Rectangle>());
+            co_yield children.GetAt(i).try_as<winrt::Rectangle>();
         }
-
-        return vector.GetView();
     }
 
     winrt::Size MdTableUIElement::MeasureOverride(winrt::Size availableSize)
@@ -150,7 +141,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
             _rowHeights[rowIndex] = std::max<float>(_rowHeights[rowIndex], child.DesiredSize().Height);
         }
 
-        return winrt::Size(std::reduce(_columnWidths.begin(), _columnWidths.end()) + (_borderThickness * (_columnCount + 1)),
+        return winrt::Size(
+            std::reduce(_columnWidths.begin(), _columnWidths.end()) + (_borderThickness * (_columnCount + 1)),
             std::reduce(_rowHeights.begin(), _rowHeights.end()) + ((_rowCount + 1) * _borderThickness));
     }
 

@@ -9,6 +9,7 @@ namespace XamlToolkit.WinUI.Media
     /// <summary>
     /// A <see cref="XamlCompositionBrush"/> that implements an acrylic effect with customizable parameters
     /// </summary>
+    [webhosthidden]
     runtimeclass AcrylicBrush : XamlCompositionEffectBrushBase
     {
         /// <summary>
@@ -21,6 +22,7 @@ namespace XamlToolkit.WinUI.Media
         /// </summary>
         Double BlurAmount;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty BlurAmountProperty{ get; };
 
         /// <summary>
@@ -28,6 +30,7 @@ namespace XamlToolkit.WinUI.Media
         /// </summary>
         Windows.UI.Color TintColor;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty TintColorProperty{ get; };
 
         /// <summary>
@@ -35,6 +38,7 @@ namespace XamlToolkit.WinUI.Media
         /// </summary>
         Double TintOpacity;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty TintOpacityProperty{ get; };
 
         /// <summary>
@@ -42,6 +46,7 @@ namespace XamlToolkit.WinUI.Media
         /// </summary>
         Windows.Foundation.Uri TextureUri;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty TextureUriProperty{ get; };
     };
 }

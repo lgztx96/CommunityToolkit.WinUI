@@ -25,16 +25,16 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
             std::vector<winrt::MediaFrameSourceGroup> result;
             std::unordered_set<winrt::hstring> deviceIds;
    
-            for (auto const& vd : videoDevices)
+            for (const auto& vd : videoDevices)
             {
                 deviceIds.insert(vd.Id());
             }
 
-            for (auto const& group : groups)
+            for (const auto& group : groups)
             {
 				const auto& sources = group.SourceInfos();
                 bool match = std::any_of(sources.begin(), sources.end(),
-                    [&](auto const& source)
+                    [&](const auto& source)
                     {
                         if (source.SourceKind() != winrt::MediaFrameSourceKind::Color)
                             return false;
@@ -185,8 +185,8 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
 
             for (const auto& kvp : _mediaCapture.FrameSources())
             {
-                auto const& value = kvp.Value();
-                auto const& info = value.Info();
+                const auto& value = kvp.Value();
+                const auto& info = value.Info();
                 if (info.MediaStreamType() == winrt::MediaStreamType::VideoPreview &&
                     info.SourceKind() == winrt::MediaFrameSourceKind::Color)
                 {
@@ -199,8 +199,8 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
             {
                 for (const auto& kvp : _mediaCapture.FrameSources())
                 {
-                    auto const& value = kvp.Value();
-                    auto const& info = value.Info();
+                    const auto& value = kvp.Value();
+                    const auto& info = value.Info();
                     if (info.MediaStreamType() == winrt::MediaStreamType::VideoRecord &&
                         info.SourceKind() == winrt::MediaFrameSourceKind::Color)
                     {
@@ -222,7 +222,7 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
                 return std::ranges::equal(lhs, rhs, [](wchar_t c1, wchar_t c2) { return std::tolower(c1) == std::tolower(c2); });
             };
 
-            for (auto const& fmt : _previewFrameSource.SupportedFormats())
+            for (const auto& fmt : _previewFrameSource.SupportedFormats())
             {
 				auto frameRate = fmt.FrameRate();
                 double fps = static_cast<double>(frameRate.Numerator()) / frameRate.Denominator();
@@ -242,10 +242,10 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
                 co_return CameraHelperResult::NoCompatibleFrameFormatAvailable;
             }
 
-            std::sort(formats.begin(), formats.end(), [](auto const& a, auto const& b)
+            std::sort(formats.begin(), formats.end(), [](const auto& a, const auto& b)
             { 
-                auto const& fa = a.VideoFormat();
-                auto const& fb = b.VideoFormat();
+                const auto& fa = a.VideoFormat();
+                const auto& fb = b.VideoFormat();
                 return fa.Width() * fa.Height() < fb.Width() * fb.Height();
             });
 
@@ -295,7 +295,7 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
             {
                 auto args = winrt::make_self<FrameEventArgs>();
                 args->VideoFrame(vmf.GetVideoFrame());
-                FrameArrived.invoke(*this, *args);
+                FrameArrived.invoke(sender, *args);
             }
         }
     }

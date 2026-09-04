@@ -1,8 +1,10 @@
 
 namespace XamlToolkit.WinUI
 {
+    [webhosthidden]
     static runtimeclass UIElementExtensions
     {
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ClipToBoundsProperty{ get; };
 
         static Boolean GetClipToBounds(Microsoft.UI.Xaml.UIElement element);
@@ -13,6 +15,7 @@ namespace XamlToolkit.WinUI
 
         static Windows.Foundation.Point CoordinatesTo(Microsoft.UI.Xaml.UIElement parent, Microsoft.UI.Xaml.UIElement target);
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty CursorProperty{ get; };
 
         static Microsoft.UI.Input.InputSystemCursorShape GetCursor(Microsoft.UI.Xaml.FrameworkElement obj);
@@ -20,6 +23,7 @@ namespace XamlToolkit.WinUI
         static void SetCursor(Microsoft.UI.Xaml.FrameworkElement obj, Microsoft.UI.Input.InputSystemCursorShape value);
     }
 
+    [webhosthidden]
     interface IAlphaMaskProvider
     {
         Boolean WaitUntilLoaded { get; };
@@ -27,25 +31,29 @@ namespace XamlToolkit.WinUI
         Microsoft.UI.Composition.CompositionBrush GetAlphaMask();
     }
 
+    [webhosthidden]
     runtimeclass AttachedShadowElementContext
     {
-        AttachedShadowElementContext();
-
-        AttachedShadowElementContext(AttachedShadowBase parent, Microsoft.UI.Xaml.FrameworkElement element);
-
+        [noexcept]
         AttachedShadowBase Parent{ get; };
 
+        [noexcept]
         Microsoft.UI.Xaml.FrameworkElement Element{ get; };
 
+        [noexcept]
         Microsoft.UI.Composition.Visual ElementVisual{ get; };
 
+        [noexcept]
         Microsoft.UI.Composition.Compositor Compositor{ get; };
 
+        [noexcept]
         Microsoft.UI.Composition.SpriteVisual SpriteVisual{ get; };
 
+        [noexcept]
         Microsoft.UI.Composition.DropShadow Shadow{ get; };
 
-        Boolean IsInitialized();
+        [noexcept]
+        Boolean IsInitialized{ get; };
 
         Object GetResource(String key);
 
@@ -58,6 +66,7 @@ namespace XamlToolkit.WinUI
         void DisconnectFromElement();
     }
 
+    [webhosthidden]
     interface IAttachedShadow
     {
         Double BlurRadius;
@@ -73,16 +82,21 @@ namespace XamlToolkit.WinUI
         Windows.Foundation.Collections.IIterable<AttachedShadowElementContext> EnumerateElementContexts();
     }
 
+    [webhosthidden]
     unsealed runtimeclass AttachedShadowBase : Microsoft.UI.Xaml.DependencyObject, IAttachedShadow
     {
         AttachedShadowBase();
         
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty BlurRadiusProperty{ get; };
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ColorProperty{ get; };
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty OffsetProperty{ get; };
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty OpacityProperty{ get; };
 
         void ConnectElement(Microsoft.UI.Xaml.FrameworkElement element);
@@ -112,15 +126,18 @@ namespace XamlToolkit.WinUI
         overridable void OnSizeChanged(AttachedShadowElementContext context, Windows.Foundation.Size newSize, Windows.Foundation.Size previousSize);
     }
 
+    [webhosthidden]
     static runtimeclass Effects
     {
         static AttachedShadowBase GetShadow(Microsoft.UI.Xaml.FrameworkElement obj);
 
         static void SetShadow(Microsoft.UI.Xaml.FrameworkElement obj, AttachedShadowBase value);
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ShadowProperty{ get; };
     }
 
+    [webhosthidden]
     struct HslColor
     {
         Double H;
@@ -132,6 +149,7 @@ namespace XamlToolkit.WinUI
         Double A;
     };
 
+    [webhosthidden]
     struct HsvColor
     {
         Double H;

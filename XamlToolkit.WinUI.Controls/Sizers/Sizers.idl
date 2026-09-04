@@ -1,7 +1,6 @@
 ﻿namespace XamlToolkit.WinUI.Controls
 {
-	[bindable]
-	[default_interface]
+    [webhosthidden]
     unsealed runtimeclass SizerBase : Microsoft.UI.Xaml.Controls.Control
     {
         SizerBase();
@@ -12,50 +11,70 @@
         overridable Boolean OnDragVertical(Double verticalChange);
 
         Microsoft.UI.Input.InputSystemCursorShape Cursor;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty CursorProperty{ get; };
 
         Double DragIncrement;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty DragIncrementProperty{ get; };
 
         Double KeyboardIncrement;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty KeyboardIncrementProperty{ get; };
 
         Microsoft.UI.Xaml.Controls.Orientation Orientation;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty OrientationProperty{ get; };
 
         Boolean IsThumbVisible;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty IsThumbVisibleProperty{ get; };
     }
 
-    [bindable]
-    [default_interface]
+    [webhosthidden]
     runtimeclass PropertySizer : SizerBase
     {
         PropertySizer();
 
         Boolean IsDragInverted;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty IsDragInvertedProperty{ get; };
 
         Double Binding;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty BindingProperty{ get; };
 
         Double Minimum;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty MinimumProperty{ get; };
 
         Double Maximum;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty MaximumProperty{ get; };
     }
 
-    [bindable]
-    [default_interface]
+    [webhosthidden]
     runtimeclass ContentSizer : SizerBase
     {
         ContentSizer();
 
         Boolean IsDragInverted;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty IsDragInvertedProperty{ get; };
 
         Microsoft.UI.Xaml.FrameworkElement TargetControl;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty TargetControlProperty{ get; };
     }
 
@@ -79,22 +98,28 @@
         PreviousAndNext
     };
 
-    [bindable]
-    [default_interface]
+    [webhosthidden]
     runtimeclass GridSplitter : SizerBase
     {
         GridSplitter();
 
         GridResizeDirection ResizeDirection;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ResizeDirectionProperty{ get; };
 
         GridResizeBehavior ResizeBehavior;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ResizeBehaviorProperty{ get; };
 
         Int32 ParentLevel;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty ParentLevelProperty{ get; };
     }
 
+    [webhosthidden]
     [default_interface]
     unsealed runtimeclass SizerAutomationPeer : Microsoft.UI.Xaml.Automation.Peers.FrameworkElementAutomationPeer
     {

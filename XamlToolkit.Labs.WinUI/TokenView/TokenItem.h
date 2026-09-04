@@ -48,22 +48,22 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
 		bool IsRemoveable() const
 		{
-			return winrt::unbox_value<bool>(GetValue(IsRemoveableProperty));
+			return winrt::unbox_value<bool>(GetValue(IsRemoveableProperty()));
 		}
 
 		void IsRemoveable(bool value)
 		{
-			SetValue(IsRemoveableProperty, winrt::box_value(value));
+			SetValue(IsRemoveableProperty(), winrt::box_value(value));
 		}
 
 		winrt::IconElement Icon() const
 		{
-			return GetValue(IconProperty).try_as<winrt::IconElement>();
+			return GetValue(IconProperty()).try_as<winrt::IconElement>();
 		}
 
 		void Icon(winrt::IconElement const& value)
 		{
-			SetValue(IconProperty, value);
+			SetValue(IconProperty(), value);
 		}
 
 	private:

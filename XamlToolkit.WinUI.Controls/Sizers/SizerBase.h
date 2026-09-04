@@ -82,28 +82,28 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
         static void OnIsThumbVisiblePropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 
-        CursorEnum Cursor() const { return winrt::unbox_value<CursorEnum>(GetValue(CursorProperty)); }
-        void Cursor(CursorEnum const& value) { SetValue(CursorProperty, winrt::box_value(value)); }
+        CursorEnum Cursor() const { return winrt::unbox_value<CursorEnum>(GetValue(CursorProperty())); }
+        void Cursor(CursorEnum const& value) { SetValue(CursorProperty(), winrt::box_value(value)); }
 
         static const wil::single_threaded_property<winrt::DependencyProperty> CursorProperty;
 
-        double DragIncrement() const { return winrt::unbox_value<double>(GetValue(DragIncrementProperty)); }
-        void DragIncrement(double value) { SetValue(DragIncrementProperty, winrt::box_value(value)); }
+        double DragIncrement() const { return winrt::unbox_value<double>(GetValue(DragIncrementProperty())); }
+        void DragIncrement(double value) { SetValue(DragIncrementProperty(), winrt::box_value(value)); }
 
         static const wil::single_threaded_property<winrt::DependencyProperty> DragIncrementProperty;
 
-        double KeyboardIncrement() const { return winrt::unbox_value<double>(GetValue(KeyboardIncrementProperty)); }
-        void KeyboardIncrement(double value) { SetValue(KeyboardIncrementProperty, winrt::box_value(value)); }
+        double KeyboardIncrement() const { return winrt::unbox_value<double>(GetValue(KeyboardIncrementProperty())); }
+        void KeyboardIncrement(double value) { SetValue(KeyboardIncrementProperty(), winrt::box_value(value)); }
 
         static const wil::single_threaded_property<winrt::DependencyProperty> KeyboardIncrementProperty;
 
-        winrt::Orientation Orientation() const { return winrt::unbox_value<winrt::Orientation>(GetValue(OrientationProperty)); }
-        void Orientation(winrt::Orientation const& value) { SetValue(OrientationProperty, winrt::box_value(value)); }
+        winrt::Orientation Orientation() const { return winrt::unbox_value<winrt::Orientation>(GetValue(OrientationProperty())); }
+        void Orientation(winrt::Orientation const& value) { SetValue(OrientationProperty(), winrt::box_value(value)); }
 
         static const wil::single_threaded_property<winrt::DependencyProperty> OrientationProperty;
 
-        bool IsThumbVisible() const { return winrt::unbox_value<bool>(GetValue(IsThumbVisibleProperty)); }
-        void IsThumbVisible(bool value) { SetValue(IsThumbVisibleProperty, winrt::box_value(value)); }
+        bool IsThumbVisible() const { return winrt::unbox_value<bool>(GetValue(IsThumbVisibleProperty())); }
+        void IsThumbVisible(bool value) { SetValue(IsThumbVisibleProperty(), winrt::box_value(value)); }
 
         static const wil::single_threaded_property<winrt::DependencyProperty> IsThumbVisibleProperty;
 

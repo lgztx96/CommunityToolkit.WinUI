@@ -1,10 +1,30 @@
 #include "pch.h"
 #include "winrt_module_imports.h"
 #include "RichSuggestBox.h"
+#include "../SettingsControls/Helpers/ControlHelper.h"
+#include <winrt/Microsoft.UI.Interop.h>
+#ifdef __INTELLISENSE__
+#include <winrt/Microsoft.Graphics.Display.h>
+#include <winrt/Microsoft.UI.Content.h>
+#include <winrt/Microsoft.UI.Dispatching.h>
+#include <winrt/Microsoft.UI.Windowing.h>
+#else
+import winrt.Microsoft.UI.Content;
+import winrt.Microsoft.UI.Dispatching;
+import winrt.Microsoft.UI.Windowing;
+#endif
+
+namespace winrt
+{
+	using namespace ::winrt::Microsoft::UI;
+	using namespace ::winrt::Microsoft::UI::Content;
+	using namespace ::winrt::Microsoft::UI::Dispatching;
+	using namespace ::winrt::Microsoft::UI::Windowing;
+}
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-	bool RichSuggestBox::IsElementOnScreen([[maybe_unused]] winrt::FrameworkElement const& element, [[maybe_unused]] double offsetX, [[maybe_unused]] double offsetY)
+	bool RichSuggestBox::IsElementOnScreen(winrt::FrameworkElement const& element, double offsetX, double offsetY)
 	{
 		// DisplayInformation only works in UWP. No alternative to get DisplayInformation.ScreenHeightInRawPixels
 		// Or Window position in Window.Current.Bounds
@@ -12,64 +32,66 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		// https://github.com/microsoft/WindowsAppSDK/issues/114
 		// https://github.com/microsoft/microsoft-ui-xaml/issues/4228
 		// TODO: Remove when DisplayInformation.ScreenHeightInRawPixels alternative is available
-//#if !WINAPPSDK
-//		if (CoreWindow::GetForCurrentThread() == nullptr)
-//		{
-//			return true;
-//		}
-//
-//		// Get bounds of element from root of tree
-//		auto point = UIElementExtensions::CoordinatesFrom(element, nullptr);
-//		auto elementBounds = Rect(point.X, point.Y, element.ActualWidth(), element.ActualHeight());
-//
-//		// Apply offset
-//		elementBounds.X += offsetX;
-//		elementBounds.Y += offsetY;
-//
-//		// Get Window position
-//		auto windowBounds = Window::Current().Bounds();
-//
-//		// Offset Element within Window on Screen
-//		elementBounds.X += windowBounds.X;
-//		elementBounds.Y += windowBounds.Y;
-//
-//		// Get Screen DPI info
-//		auto displayInfo = DisplayInformation::GetForCurrentView();
-//		auto scaleFactor = displayInfo.RawPixelsPerViewPixel;
-//		auto displayHeight = displayInfo.ScreenHeightInRawPixels;
-//
-//		// Check if top/bottom are within confines of screen
-//		return RectHelper::GetTop(elementBounds) * scaleFactor >= 0 && RectHelper::GetBottom(elementBounds) * scaleFactor <= displayHeight;
-//#else
-		return true;
-//#endif
+
+		if (winrt::DispatcherQueue::GetForCurrentThread() == nullptr)
+		{
+			return true;
+		}
+
+		auto xamlRoot = element.XamlRoot();
+		auto appWindowId = xamlRoot.ContentIslandEnvironment().AppWindowId();
+
+		HWND hWnd = GetWindowFromWindowId(appWindowId);
+
+		float scaleFactor = GetDpiForWindow(hWnd) / 96.0f;
+
+		// Get bounds of element from root of tree
+		auto point = UIElementExtensions::CoordinatesFrom(element, nullptr);
+		auto elementBounds = winrt::Rect(point.X, point.Y, static_cast<float>(element.ActualWidth()), static_cast<float>(element.ActualHeight()));
+
+		// Apply offset
+		elementBounds.X += static_cast<float>(offsetX);
+		elementBounds.Y += static_cast<float>(offsetY);
+
+		// Get Window position
+		auto appWindow = winrt::AppWindow::GetFromWindowId(appWindowId);
+
+		auto windowPosition = appWindow.Position();
+
+		// Offset Element within Window on Screen
+		elementBounds.X += windowPosition.X / scaleFactor;
+		elementBounds.Y += windowPosition.Y / scaleFactor;
+
+		// Get Screen DPI info
+		auto displayArea = winrt::DisplayArea::GetFromWindowId(
+			appWindowId, winrt::DisplayAreaFallback::Nearest);
+
+		int32_t displayHeight = displayArea.OuterBounds().Height;
+
+		// Check if top/bottom are within confines of screen
+		return winrt::RectHelper::GetTop(elementBounds) * scaleFactor >= 0 
+			&& winrt::RectHelper::GetBottom(elementBounds) * scaleFactor <= displayHeight;
 	}
 
-	bool RichSuggestBox::IsElementInsideWindow([[maybe_unused]] winrt::FrameworkElement const& element, [[maybe_unused]] double offsetX, [[maybe_unused]] double offsetY)
+	bool RichSuggestBox::IsElementInsideWindow(winrt::FrameworkElement const& element, double offsetX, double offsetY)
 	{
-		// THIS IS NOT SUPPORTED IN WINUI3
-//#if !WINAPPSDK
-//		// Get bounds of element from root of tree
-//		auto point = UIElementExtensions::CoordinatesFrom(element, nullptr);
-//		auto elementBounds = Rect(point.X, point.Y, element.ActualWidth(), element.ActualHeight());
-//
-//		// Apply offset
-//		elementBounds.X += offsetX;
-//		elementBounds.Y += offsetY;
-//
-//		// Get size of window itself
-//		auto windowBounds = IsXamlRootAvailable() && element.XamlRoot()
-//			? element.XamlRoot().Size().ToRect()
-//			: ApplicationView::GetForCurrentView().VisibleBounds.ToSize().ToRect(); // Normalize
-//
-//		// Calculate if there's an intersection
-//		RectHelper::Intersect(elementBounds, windowBounds);
-//
-//		// See if we are still fully visible within the Window
-//		return elementBounds.Height >= element.ActualHeight();
-//#else
-		return true;
-//#endif
+		// Get bounds of element from root of tree
+		auto point = UIElementExtensions::CoordinatesFrom(element, nullptr);
+		auto elementBounds = winrt::Rect(point.X, point.Y, static_cast<float>(element.ActualWidth()), static_cast<float>(element.ActualHeight()));
+
+		// Apply offset
+		elementBounds.X += static_cast<float>(offsetX);
+		elementBounds.Y += static_cast<float>(offsetY);
+
+		// Get size of window itself
+		auto windowSize = element.XamlRoot().Size();
+		auto windowBounds = winrt::Rect(0, 0, windowSize.Width, windowSize.Height);
+
+		// Calculate if there's an intersection
+		elementBounds = winrt::RectHelper::Intersect(elementBounds, windowBounds);
+
+		// See if we are still fully visible within the Window
+		return elementBounds.Height >= element.ActualHeight();
 	}
 
 	winrt::hstring RichSuggestBox::EnforcePrefixesRequirements(winrt::hstring const& value)
@@ -81,7 +103,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		std::wstring ret;
 
-		for (auto const& ch : value)
+		for (const auto& ch : value)
 		{
 			if (iswpunct(ch))
 			{

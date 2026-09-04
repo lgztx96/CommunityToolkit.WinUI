@@ -295,261 +295,261 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
         bool IsInteractive() const
         {
-            return winrt::unbox_value<bool>(GetValue(IsInteractiveProperty));
+            return winrt::unbox_value<bool>(GetValue(IsInteractiveProperty()));
         }
 
         void IsInteractive(bool value)
         {
-            SetValue(IsInteractiveProperty, winrt::box_value(value));
+            SetValue(IsInteractiveProperty(), winrt::box_value(value));
         }
 
         double ScaleWidth() const
         {
-            return winrt::unbox_value<double>(GetValue(ScaleWidthProperty));
+            return winrt::unbox_value<double>(GetValue(ScaleWidthProperty()));
         }
 
         void ScaleWidth(double value)
         {
-            SetValue(ScaleWidthProperty, winrt::box_value(value));
+            SetValue(ScaleWidthProperty(), winrt::box_value(value));
         }
 
         double StepSize() const
         {
-            return winrt::unbox_value<double>(GetValue(StepSizeProperty));
+            return winrt::unbox_value<double>(GetValue(StepSizeProperty()));
         }
 
         void StepSize(double value)
         {
-            SetValue(StepSizeProperty, winrt::box_value(value));
+            SetValue(StepSizeProperty(), winrt::box_value(value));
         }
 
         winrt::SolidColorBrush NeedleBrush() const
         {
-            return GetValue(NeedleBrushProperty).try_as<winrt::SolidColorBrush>();
+            return GetValue(NeedleBrushProperty()).try_as<winrt::SolidColorBrush>();
         }
 
         void NeedleBrush(winrt::SolidColorBrush const& value)
         {
-            SetValue(NeedleBrushProperty, value);
+            SetValue(NeedleBrushProperty(), value);
         }
 
         winrt::SolidColorBrush NeedleBorderBrush() const
         {
-            return GetValue(NeedleBorderBrushProperty).try_as<winrt::SolidColorBrush>();
+            return GetValue(NeedleBorderBrushProperty()).try_as<winrt::SolidColorBrush>();
         }
 
         void NeedleBorderBrush(winrt::SolidColorBrush const& value)
         {
-            SetValue(NeedleBorderBrushProperty, value);
+            SetValue(NeedleBorderBrushProperty(), value);
         }
 
         winrt::hstring Unit() const
         {
-            return winrt::unbox_value<winrt::hstring>(GetValue(UnitProperty));
+            return winrt::unbox_value<winrt::hstring>(GetValue(UnitProperty()));
         }
 
         void Unit(winrt::hstring const& value)
         {
-            SetValue(UnitProperty, winrt::box_value(value));
+            SetValue(UnitProperty(), winrt::box_value(value));
         }
 
         winrt::Brush TrailBrush() const
         {
-            return GetValue(TrailBrushProperty).try_as<winrt::Brush>();
+            return GetValue(TrailBrushProperty()).try_as<winrt::Brush>();
         }
 
         void TrailBrush(winrt::Brush const& value)
         {
-            SetValue(TrailBrushProperty, value);
+            SetValue(TrailBrushProperty(), value);
         }
 
         winrt::Brush ScaleBrush() const
         {
-            return GetValue(ScaleBrushProperty).try_as<winrt::Brush>();
+            return GetValue(ScaleBrushProperty()).try_as<winrt::Brush>();
         }
 
         void ScaleBrush(winrt::Brush const& value)
         {
-            SetValue(ScaleBrushProperty, value);
+            SetValue(ScaleBrushProperty(), value);
         }
 
         winrt::SolidColorBrush ScaleTickBrush() const
         {
-            return GetValue(ScaleTickBrushProperty).try_as<winrt::SolidColorBrush>();
+            return GetValue(ScaleTickBrushProperty()).try_as<winrt::SolidColorBrush>();
         }
 
         void ScaleTickBrush(winrt::SolidColorBrush const& value)
         {
-            SetValue(ScaleTickBrushProperty, value);
+            SetValue(ScaleTickBrushProperty(), value);
         }
 
         winrt::SolidColorBrush TickBrush() const
         {
-            return GetValue(TickBrushProperty).try_as<winrt::SolidColorBrush>();
+            return GetValue(TickBrushProperty()).try_as<winrt::SolidColorBrush>();
         }
 
         void TickBrush(winrt::SolidColorBrush const& value)
         {
-            SetValue(TickBrushProperty, value);
+            SetValue(TickBrushProperty(), value);
         }
 
         winrt::hstring ValueStringFormat() const
         {
-            return winrt::unbox_value<winrt::hstring>(GetValue(ValueStringFormatProperty));
+            return winrt::unbox_value<winrt::hstring>(GetValue(ValueStringFormatProperty()));
         }
 
         void ValueStringFormat(winrt::hstring const& value)
         {
-            SetValue(ValueStringFormatProperty, winrt::box_value(value));
+            SetValue(ValueStringFormatProperty(), winrt::box_value(value));
         }
 
         double NeedleLength() const
         {
-            return winrt::unbox_value<double>(GetValue(NeedleLengthProperty));
+            return winrt::unbox_value<double>(GetValue(NeedleLengthProperty()));
         }
 
         void NeedleLength(double value)
         {
-            SetValue(NeedleLengthProperty, winrt::box_value(value));
+            SetValue(NeedleLengthProperty(), winrt::box_value(value));
         }
 
         double NeedleBorderThickness() const
         {
-            return winrt::unbox_value<double>(GetValue(NeedleBorderThicknessProperty));
+            return winrt::unbox_value<double>(GetValue(NeedleBorderThicknessProperty()));
         }
 
         void NeedleBorderThickness(double value)
         {
-            SetValue(NeedleBorderThicknessProperty, winrt::box_value(value));
+            SetValue(NeedleBorderThicknessProperty(), winrt::box_value(value));
         }
 
         double NeedleWidth() const
         {
-            return winrt::unbox_value<double>(GetValue(NeedleWidthProperty));
+            return winrt::unbox_value<double>(GetValue(NeedleWidthProperty()));
         }
 
         void NeedleWidth(double value)
         {
-            SetValue(NeedleWidthProperty, winrt::box_value(value));
+            SetValue(NeedleWidthProperty(), winrt::box_value(value));
         }
 
         double ScalePadding() const
         {
-            return winrt::unbox_value<double>(GetValue(ScalePaddingProperty));
+            return winrt::unbox_value<double>(GetValue(ScalePaddingProperty()));
         }
 
         void ScalePadding(double value)
         {
-            SetValue(ScalePaddingProperty, winrt::box_value(value));
+            SetValue(ScalePaddingProperty(), winrt::box_value(value));
         }
 
         double ScaleTickWidth() const
         {
-            return winrt::unbox_value<double>(GetValue(ScaleTickWidthProperty));
+            return winrt::unbox_value<double>(GetValue(ScaleTickWidthProperty()));
         }
 
         void ScaleTickWidth(double value)
         {
-            SetValue(ScaleTickWidthProperty, winrt::box_value(value));
+            SetValue(ScaleTickWidthProperty(), winrt::box_value(value));
         }
 
         double ScaleTickLength() const
         {
-            return winrt::unbox_value<double>(GetValue(ScaleTickLengthProperty));
+            return winrt::unbox_value<double>(GetValue(ScaleTickLengthProperty()));
         }
 
         void ScaleTickLength(double value)
         {
-            SetValue(ScaleTickLengthProperty, winrt::box_value(value));
+            SetValue(ScaleTickLengthProperty(), winrt::box_value(value));
         }
 
         double ScaleTickCornerRadius() const
         {
-            return winrt::unbox_value<double>(GetValue(ScaleTickCornerRadiusProperty));
+            return winrt::unbox_value<double>(GetValue(ScaleTickCornerRadiusProperty()));
         }
 
         void ScaleTickCornerRadius(double value)
         {
-            SetValue(ScaleTickCornerRadiusProperty, winrt::box_value(value));
+            SetValue(ScaleTickCornerRadiusProperty(), winrt::box_value(value));
         }
 
         int32_t TickSpacing() const
         {
-            return winrt::unbox_value<int32_t>(GetValue(TickSpacingProperty));
+            return winrt::unbox_value<int32_t>(GetValue(TickSpacingProperty()));
         }
         void TickSpacing(int32_t value)
         {
-            SetValue(TickSpacingProperty, winrt::box_value(value));
+            SetValue(TickSpacingProperty(), winrt::box_value(value));
         }
 
         double TickWidth() const
         {
-            return winrt::unbox_value<double>(GetValue(TickWidthProperty));
+            return winrt::unbox_value<double>(GetValue(TickWidthProperty()));
         }
 
         void TickWidth(double value)
         {
-            SetValue(TickWidthProperty, winrt::box_value(value));
+            SetValue(TickWidthProperty(), winrt::box_value(value));
         }
 
         double TickLength() const
         {
-            return winrt::unbox_value<double>(GetValue(TickLengthProperty));
+            return winrt::unbox_value<double>(GetValue(TickLengthProperty()));
         }
 
         void TickLength(double value)
         {
-            SetValue(TickLengthProperty, winrt::box_value(value));
+            SetValue(TickLengthProperty(), winrt::box_value(value));
         }
 
         double TickPadding() const
         {
-            return winrt::unbox_value<double>(GetValue(TickPaddingProperty));
+            return winrt::unbox_value<double>(GetValue(TickPaddingProperty()));
         }
 
         void TickPadding(double value)
         {
-            SetValue(TickPaddingProperty, winrt::box_value(value));
+            SetValue(TickPaddingProperty(), winrt::box_value(value));
         }
 
         double TickCornerRadius() const
         {
-            return winrt::unbox_value<double>(GetValue(TickCornerRadiusProperty));
+            return winrt::unbox_value<double>(GetValue(TickCornerRadiusProperty()));
         }
 
         void TickCornerRadius(double value)
         {
-            SetValue(TickCornerRadiusProperty, winrt::box_value(value));
+            SetValue(TickCornerRadiusProperty(), winrt::box_value(value));
         }
 
         int32_t MinAngle() const
         {
-            return winrt::unbox_value<int32_t>(GetValue(MinAngleProperty));
+            return winrt::unbox_value<int32_t>(GetValue(MinAngleProperty()));
         }
 
         void MinAngle(int32_t value)
         {
-            SetValue(MinAngleProperty, winrt::box_value(value));
+            SetValue(MinAngleProperty(), winrt::box_value(value));
         }
 
         int32_t MaxAngle() const
         {
-            return winrt::unbox_value<int32_t>(GetValue(MaxAngleProperty));
+            return winrt::unbox_value<int32_t>(GetValue(MaxAngleProperty()));
         }
 
         void MaxAngle(int32_t value)
         {
-            SetValue(MaxAngleProperty, winrt::box_value(value));
+            SetValue(MaxAngleProperty(), winrt::box_value(value));
         }
 
         double ValueAngle() const
         {
-            return winrt::unbox_value<double>(GetValue(ValueAngleProperty));
+            return winrt::unbox_value<double>(GetValue(ValueAngleProperty()));
         }
 
         void ValueAngle(double value)
         {
-            SetValue(ValueAngleProperty, winrt::box_value(value));
+            SetValue(ValueAngleProperty(), winrt::box_value(value));
         }
 
 #pragma endregion

@@ -1,7 +1,9 @@
 namespace XamlToolkit.WinUI.Interactivity
 {
+    [webhosthidden]
     delegate void EventAction(Object eventArgs);
 
+    [webhosthidden]
     static runtimeclass EventManager 
     {
         static Windows.Foundation.EventRegistrationToken Register(

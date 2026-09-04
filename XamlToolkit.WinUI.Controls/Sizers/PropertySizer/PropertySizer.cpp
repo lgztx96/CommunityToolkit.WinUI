@@ -75,17 +75,17 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			newSize < Minimum())
 		{
 			// We use SetValue here as that'll update our bound property vs. overwriting the binding itself.
-			SetValue(BindingProperty, winrt::box_value(Minimum()));
+			SetValue(BindingProperty(), winrt::box_value(Minimum()));
 		}
 		else if (ReadLocalValue(MaximumProperty) != winrt::DependencyProperty::UnsetValue() &&
 			newSize > Maximum())
 		{
-			SetValue(BindingProperty, winrt::box_value(Maximum()));
+			SetValue(BindingProperty(), winrt::box_value(Maximum()));
 		}
 		else
 		{
 			// Otherwise, we use the value provided.
-			SetValue(BindingProperty, winrt::box_value(newSize));
+			SetValue(BindingProperty(), winrt::box_value(newSize));
 		}
 
 		// We're always manipulating the value effectively.

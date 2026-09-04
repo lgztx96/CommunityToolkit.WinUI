@@ -11,6 +11,7 @@ namespace XamlToolkit.WinUI.Media
     /// <summary>
     /// A <see cref="Brush"/> that renders a customizable Composition/Win2D effects pipeline
     /// </summary>
+    [webhosthidden]
     [contentproperty("Effects")]
     runtimeclass PipelineBrush : XamlCompositionEffectBrushBase
     {
@@ -22,6 +23,7 @@ namespace XamlToolkit.WinUI.Media
         /// <summary>
         /// Gets or sets the source for the current pipeline.
         /// </summary>
+	    [noexcept]
         XamlToolkit.WinUI.Media.Pipelines.PipelineBuilder Source;
 
         /// <summary>
@@ -29,6 +31,7 @@ namespace XamlToolkit.WinUI.Media
         /// </summary>
         Windows.Foundation.Collections.IVector<IPipelineEffect> Effects;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty EffectsProperty{ get; };
     };
 }

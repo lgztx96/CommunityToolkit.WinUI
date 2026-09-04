@@ -1,0 +1,15 @@
+﻿import "TransitionHelper/TransitionHelper.idl";
+
+namespace XamlToolkit.Labs.WinUI
+{
+    [webhosthidden]
+    runtimeclass ReverseTransitionAction : Microsoft.UI.Xaml.DependencyObject, XamlToolkit.WinUI.Interactivity.IAction
+    {
+        ReverseTransitionAction();
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty TransitionProperty{ get; };
+
+        TransitionHelper Transition;
+    }
+}

@@ -2,9 +2,8 @@
 	<PropertyGroup>
 		<TargetFramework>net8.0-windows10.0.26100.0</TargetFramework>
 		<TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
-		<NoWarn>$(NoWarn);CS0108;CS0114;NU1701</NoWarn>
+		<NoWarn>$(NoWarn);CS0108;CS0114</NoWarn>
 		<UseWinUI>true</UseWinUI>
-		<AssetTargetFallback>$(AssetTargetFallback);native</AssetTargetFallback>
 		<Win2DWarnNoPlatform>false</Win2DWarnNoPlatform>
 		<ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
 	</PropertyGroup>
@@ -14,14 +13,16 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Windows.CsWinRT" />
-		<PackageReference Include="Microsoft.WindowsAppSDK.WinUI" />
+		<PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.3.1" />
+		<PackageReference Include="Microsoft.WindowsAppSDK.WinUI" Version="1.8.260709004" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\XamlToolkit.Labs.WinUI\XamlToolkit.Labs.WinUI.vcxproj" />
 		<ProjectReference Include="..\XamlToolkit.WinUI.Controls\XamlToolkit.WinUI.Controls.Interop.csproj" />
 		<ProjectReference Include="..\XamlToolkit.WinUI.Helpers\XamlToolkit.WinUI.Helpers.Interop.csproj" />
+		<ProjectReference Include="..\XamlToolkit.WinUI.Animations\XamlToolkit.WinUI.Animations.Interop.csproj" />
+		<ProjectReference Include="..\XamlToolkit.WinUI.Interactivity\XamlToolkit.WinUI.Interactivity.Interop.csproj" />
 		<ProjectReference Include="..\XamlToolkit.WinUI\XamlToolkit.WinUI.Interop.csproj" />
 	</ItemGroup>
 </Project>

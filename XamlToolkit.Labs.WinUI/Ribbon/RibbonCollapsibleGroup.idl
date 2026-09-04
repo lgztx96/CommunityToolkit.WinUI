@@ -3,27 +3,39 @@ import "Ribbon/RibbonGroup.idl";
 
 namespace XamlToolkit.Labs.WinUI
 {
-    [default_interface]
+    [webhosthidden]
     runtimeclass RibbonCollapsibleGroup : RibbonGroup
     {
         RibbonCollapsibleGroup();
 
         Microsoft.UI.Xaml.Controls.IconSource IconSource;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty IconSourceProperty{ get; };
 
         Microsoft.UI.Xaml.Visibility State;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty StateProperty{ get; };
 
         Boolean AutoCloseFlyout;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty AutoCloseFlyoutProperty{ get; };
 
         Int32 Priority;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty PriorityProperty{ get; };
 
         String CollapsedAccessKey;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty CollapsedAccessKeyProperty{ get; };
 
         DoubleVector RequestedWidths;
+
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty RequestedWidthsProperty{ get; };
     }
 }

@@ -4,12 +4,11 @@
 
 #ifdef __INTELLISENSE__
 #include <winrt/Windows.Foundation.h>
-#include <winrt/Windows.Foundation.Collections.h>
 #include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Microsoft.UI.Xaml.Controls.h>
 #include <winrt/Microsoft.UI.Xaml.Media.h>
 #include <winrt/Microsoft.UI.Xaml.Shapes.h>
-#include <vector>
+#include <generator>
 #endif
 
 namespace winrt
@@ -19,7 +18,6 @@ namespace winrt
     using namespace Microsoft::UI::Xaml::Shapes;
     using namespace Microsoft::UI::Xaml::Media;
     using namespace Windows::Foundation;
-    using namespace Windows::Foundation::Collections;
 }
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
@@ -28,35 +26,33 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
     {
         MdTableUIElement() : _columnCount(0), _rowCount(0), _borderThickness(0.0f) {}
 
-    private:
+        MdTableUIElement(
+            int columnCount, 
+            int rowCount, 
+            float borderThickness,
+            winrt::Brush const& borderBrush, 
+            winrt::Brush const& headingBrush, 
+            winrt::CornerRadius const& cornerRadius,
+            winrt::Thickness const& tableMargin);
 
+        // Helper method to enumerate FrameworkElements instead of UIElements.
+        std::generator<winrt::FrameworkElement> ContentChildren() const;
+
+        // Helper method to get table vertical edges.
+        std::generator<winrt::Rectangle> VerticalLines() const;
+
+        // Helper method to get table horizontal edges.
+        std::generator<winrt::Rectangle> HorizontalLines() const;
+
+        winrt::Size MeasureOverride(winrt::Size availableSize);
+
+        winrt::Size ArrangeOverride(winrt::Size finalSize);
+
+	private:
         int _columnCount;
         int _rowCount;
         float _borderThickness;
         std::vector<float> _columnWidths;
         std::vector<float> _rowHeights;
-
-    public:
-        MdTableUIElement(int columnCount, int rowCount, float borderThickness, winrt::Brush const& borderBrush, winrt::Brush const& headingBrush, winrt::CornerRadius const& cornerRadius, winrt::Thickness const& tableMargin);
-
-        // Helper method to enumerate FrameworkElements instead of UIElements.
-        winrt::IVectorView<winrt::FrameworkElement> ContentChildren() const;
-
-        // Helper method to get table vertical edges.
-        winrt::IVectorView<winrt::Rectangle> VerticalLines();
-
-        // Helper method to get table horizontal edges.
-        winrt::IVectorView<winrt::Rectangle> HorizontalLines();
-
-        winrt::Size MeasureOverride(winrt::Size availableSize);
-
-        winrt::Size ArrangeOverride(winrt::Size finalSize);
-    };
-}
-
-namespace winrt::XamlToolkit::Labs::WinUI::factory_implementation
-{
-    struct MdTableUIElement : MdTableUIElementT<MdTableUIElement, implementation::MdTableUIElement>
-    {
     };
 }

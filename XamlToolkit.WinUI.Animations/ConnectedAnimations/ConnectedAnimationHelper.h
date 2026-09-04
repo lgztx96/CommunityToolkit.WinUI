@@ -8,16 +8,16 @@
 #include <winrt/Microsoft.UI.Xaml.Controls.h>
 #include <winrt/Microsoft.UI.Xaml.Navigation.h>
 #include <winrt/Microsoft.UI.Xaml.Media.Animation.h>
-#include <map>
+#include <unordered_map>
 #endif
 
 namespace winrt
 {
-    using namespace Windows::Foundation;
-    using namespace Microsoft::UI::Xaml;
-    using namespace Microsoft::UI::Xaml::Controls;
-    using namespace Microsoft::UI::Xaml::Navigation;
-    using namespace Microsoft::UI::Xaml::Media::Animation;
+    using namespace ::winrt::Windows::Foundation;
+    using namespace ::winrt::Microsoft::UI::Xaml;
+    using namespace ::winrt::Microsoft::UI::Xaml::Controls;
+    using namespace ::winrt::Microsoft::UI::Xaml::Navigation;
+    using namespace ::winrt::Microsoft::UI::Xaml::Media::Animation;
 }
 
 namespace winrt::XamlToolkit::WinUI::Animations
@@ -26,19 +26,17 @@ namespace winrt::XamlToolkit::WinUI::Animations
     /// Connected Animation Helper used with the Connected class.
     /// Attaches to Frame navigation events to handle connected animations.
     /// </summary>
-    class ConnectedAnimationHelper
+    struct ConnectedAnimationHelper : winrt::implements<ConnectedAnimationHelper, winrt::IInspectable>
     {
-    public:
         ConnectedAnimationHelper(winrt::Frame const& frame);
 
         void SetParameterForNextFrameNavigation(winrt::IInspectable const& parameter);
 
     private:
-        std::map<winrt::hstring, ConnectedAnimationProperties> previousPageConnectedAnimationProps;
-        winrt::IInspectable nextParameter{ nullptr };
-        winrt::Frame frame{ nullptr };
-        winrt::event_token navigatingToken{};
-        winrt::event_token navigatedToken{};
+        std::unordered_map<winrt::hstring, ConnectedAnimationProperties> _previousPageConnectedAnimationProps;
+        winrt::IInspectable _nextParameter{ nullptr };
+        winrt::Frame::Navigating_revoker _navigatingRevoker;
+        winrt::Frame::Navigated_revoker _navigatedRevoker;
 
         void Frame_Navigating(winrt::IInspectable const& sender, winrt::NavigatingCancelEventArgs const& e);
         void Frame_Navigated(winrt::IInspectable const& sender, winrt::NavigationEventArgs const& e);

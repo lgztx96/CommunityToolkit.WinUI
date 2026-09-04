@@ -43,31 +43,31 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         void OnApplyTemplate();
 
-        winrt::IVector<winrt::UIElement> Items() const { return _items; }
+        winrt::IVector<winrt::UIElement> Items() const noexcept { return _items; }
 
         static const wil::single_threaded_property<winrt::DependencyProperty> ScrollStepProperty;
 
-        double ScrollStep() const { return winrt::unbox_value<double>(GetValue(ScrollStepProperty)); }
+        double ScrollStep() const { return winrt::unbox_value<double>(GetValue(ScrollStepProperty())); }
 
-        void ScrollStep(double value) { SetValue(ScrollStepProperty, winrt::box_value(value)); }
+        void ScrollStep(double value) { SetValue(ScrollStepProperty(), winrt::box_value(value)); }
 
         static const wil::single_threaded_property<winrt::DependencyProperty> OptionsFlyoutProperty;
 
-        winrt::FlyoutBase OptionsFlyout() const { return GetValue(OptionsFlyoutProperty).try_as<winrt::FlyoutBase>(); }
+        winrt::FlyoutBase OptionsFlyout() const { return GetValue(OptionsFlyoutProperty()).try_as<winrt::FlyoutBase>(); }
 
-        void OptionsFlyout(winrt::FlyoutBase const& value) { SetValue(OptionsFlyoutProperty, value); }
+        void OptionsFlyout(winrt::FlyoutBase const& value) { SetValue(OptionsFlyoutProperty(), value); }
 
         static const wil::single_threaded_property<winrt::DependencyProperty> OptionsAccessibleNameProperty;
 
-        winrt::hstring OptionsAccessibleName() const { return winrt::unbox_value<winrt::hstring>(GetValue(OptionsAccessibleNameProperty)); }
+        winrt::hstring OptionsAccessibleName() const { return winrt::unbox_value<winrt::hstring>(GetValue(OptionsAccessibleNameProperty())); }
 
-        void OptionsAccessibleName(winrt::hstring const& value) { SetValue(OptionsAccessibleNameProperty, winrt::box_value(value)); }
+        void OptionsAccessibleName(winrt::hstring const& value) { SetValue(OptionsAccessibleNameProperty(), winrt::box_value(value)); }
 
         static const wil::single_threaded_property<winrt::DependencyProperty> OptionsAccessKeyProperty;
 
-        winrt::hstring OptionsAccessKey() const { return winrt::unbox_value<winrt::hstring>(GetValue(OptionsAccessKeyProperty)); }
+        winrt::hstring OptionsAccessKey() const { return winrt::unbox_value<winrt::hstring>(GetValue(OptionsAccessKeyProperty())); }
 
-        void OptionsAccessKey(winrt::hstring const& value) { SetValue(OptionsAccessKeyProperty, winrt::box_value(value)); }
+        void OptionsAccessKey(winrt::hstring const& value) { SetValue(OptionsAccessKeyProperty(), winrt::box_value(value)); }
 
     private:
         static void OnOptionsFlyoutPropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);

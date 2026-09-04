@@ -2,16 +2,19 @@ import "TokenVIew/TokenItemRemovingEventArgs.idl";
 
 namespace XamlToolkit.Labs.WinUI
 {
+    [webhosthidden]
     unsealed runtimeclass TokenView : Microsoft.UI.Xaml.Controls.ListViewBase
     {
         TokenView();
 
         Boolean IsWrapped;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty IsWrappedProperty{ get; };
 
         Boolean CanRemoveTokens;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty CanRemoveTokensProperty{ get; };
 
         event Windows.Foundation.EventHandler<TokenItemRemovingEventArgs> TokenItemRemoving;

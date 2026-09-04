@@ -136,8 +136,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		if (auto decorator = adornerLayerOrTopMostElement.try_as<winrt::XamlToolkit::Labs::WinUI::AdornerDecorator>())
 		{
 			co_await winrt::XamlToolkit::WinUI::Future::FrameworkElementExtensions::WaitUntilLoadedAsync(decorator);
-
-			co_return decorator.AdornerLayer();
+			auto decoratorImpl = winrt::get_self<AdornerDecorator>(decorator);
+			co_return decoratorImpl->AdornerLayer();
 		}
 		else if (auto layer = adornerLayerOrTopMostElement.try_as<winrt::XamlToolkit::Labs::WinUI::AdornerLayer>())
 		{
@@ -167,14 +167,14 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
 				scroller.Content(nullptr);
 
-				auto layerContainer = winrt::make<AdornerDecorator>();
-				layerContainer.Child(content);
+				auto layerContainer = winrt::make_self<AdornerDecorator>();
+				layerContainer->Child(content);
 
-				scroller.Content(layerContainer);
+				scroller.Content(*layerContainer);
 
-				co_await winrt::XamlToolkit::WinUI::Future::FrameworkElementExtensions::WaitUntilLoadedAsync(layerContainer);
+				co_await winrt::XamlToolkit::WinUI::Future::FrameworkElementExtensions::WaitUntilLoadedAsync(*layerContainer);
 
-				co_return layerContainer.AdornerLayer();
+				co_return layerContainer->AdornerLayer();
 			}
 			// Grid seems like the easiest place for us to inject AdornerLayers automatically at the top-level (if needed) - not sure how common this will be?
 			else if (auto grid = adornerLayerOrTopMostElement.try_as<winrt::Grid>())

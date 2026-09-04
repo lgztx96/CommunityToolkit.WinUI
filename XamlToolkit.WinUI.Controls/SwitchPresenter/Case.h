@@ -15,7 +15,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		winrt::Windows::Foundation::IInspectable Content() const
 		{
-			return GetValue(ContentProperty()).try_as<winrt::Windows::Foundation::IInspectable>();
+			return GetValue(ContentProperty());
 		}
 
 		void Content(winrt::Windows::Foundation::IInspectable const& value)
@@ -49,7 +49,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		winrt::Windows::Foundation::IInspectable Value() const
 		{
-			return GetValue(ValueProperty()).try_as<winrt::Windows::Foundation::IInspectable>();
+			return GetValue(ValueProperty());
 		}
 
 		void Value(winrt::Windows::Foundation::IInspectable const& value)

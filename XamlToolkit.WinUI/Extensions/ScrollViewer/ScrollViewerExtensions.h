@@ -2,6 +2,16 @@
 
 #include "ScrollViewerExtensions.g.h"
 
+#ifdef __INTELLISENSE__
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.UI.Xaml.Interop.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#else
+import winrt.Windows.Foundation;
+import winrt.Windows.UI.Xaml.Interop;
+import winrt.Microsoft.UI.Xaml;
+#endif
+
 namespace winrt
 {
     using namespace Windows::Foundation;
@@ -30,7 +40,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
         /// <returns>The <see cref="Thickness"/> associated with the <see cref="FrameworkElement"/></returns>
         static winrt::Thickness GetVerticalScrollBarMargin(winrt::FrameworkElement const& obj)
         {
-            return winrt::unbox_value<winrt::Thickness>(obj.GetValue(VerticalScrollBarMarginProperty));
+            return winrt::unbox_value<winrt::Thickness>(obj.GetValue(VerticalScrollBarMarginProperty()));
         }
 
         /// <summary>
@@ -40,7 +50,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
         /// <param name="value">The <see cref="Thickness"/> for binding to the <see cref="FrameworkElement"/></param>
         static void SetVerticalScrollBarMargin(winrt::FrameworkElement const& obj, winrt::Thickness const& value)
         {
-            obj.SetValue(VerticalScrollBarMarginProperty, winrt::box_value(value));
+            obj.SetValue(VerticalScrollBarMarginProperty(), winrt::box_value(value));
         }
 
         /// <summary>
@@ -50,7 +60,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
         /// <returns>The <see cref="Thickness"/> associated with the <see cref="FrameworkElement"/></returns>
         static winrt::Thickness GetHorizontalScrollBarMargin(winrt::FrameworkElement const& obj)
         {
-            return winrt::unbox_value<winrt::Thickness>(obj.GetValue(HorizontalScrollBarMarginProperty));
+            return winrt::unbox_value<winrt::Thickness>(obj.GetValue(HorizontalScrollBarMarginProperty()));
         }
 
         /// <summary>
@@ -60,7 +70,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
         /// <param name="value">The <see cref="Thickness"/> for binding to the <see cref="FrameworkElement"/></param>
         static void SetHorizontalScrollBarMargin(winrt::FrameworkElement const& obj, winrt::Thickness const& value)
         {
-            obj.SetValue(HorizontalScrollBarMarginProperty, winrt::box_value(value));
+            obj.SetValue(HorizontalScrollBarMarginProperty(), winrt::box_value(value));
         }
 
     private:

@@ -2,6 +2,7 @@ import "ColorAnalyzer/PaletteSelectors/ColorPaletteSelector.idl";
 
 namespace XamlToolkit.Labs.WinUI
 {
+    [webhosthidden]
     [default_interface]
     runtimeclass AccentColorPaletteSelector : ColorPaletteSelector
     {

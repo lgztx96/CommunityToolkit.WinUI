@@ -5,6 +5,7 @@ namespace XamlToolkit.WinUI.Animations
     /// <summary>
     /// A base model representing a keyframe that can be used in XAML.
     /// </summary>
+    [webhosthidden]
     unsealed runtimeclass KeyFrame : Microsoft.UI.Xaml.DependencyObject
     {
         /// <summary>
@@ -18,6 +19,7 @@ namespace XamlToolkit.WinUI.Animations
         /// </summary>
         Double Key;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty KeyProperty{ get; };
 
         /// <summary>
@@ -26,6 +28,7 @@ namespace XamlToolkit.WinUI.Animations
         /// </summary>
         String Expression;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty ExpressionProperty{ get; };
 
         /// <summary>
@@ -33,6 +36,7 @@ namespace XamlToolkit.WinUI.Animations
         /// </summary>
         Windows.Foundation.IReference<EasingType> EasingType;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty EasingTypeProperty{ get; };
 
         /// <summary>
@@ -40,6 +44,7 @@ namespace XamlToolkit.WinUI.Animations
         /// </summary>
         Windows.Foundation.IReference<Microsoft.UI.Xaml.Media.Animation.EasingMode> EasingMode;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty EasingModeProperty{ get; };
     }
 }

@@ -7,17 +7,19 @@
 #
 namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 {
-	const wil::single_threaded_property<winrt::DependencyProperty> IncrementalUpdateBehavior::PhaseProperty = winrt::DependencyProperty::Register(
-		L"Phase",
-		winrt::xaml_typename<int>(),
-		winrt::xaml_typename<class_type>(),
-		winrt::PropertyMetadata(winrt::box_value(1), &IncrementalUpdateBehavior::OnPhaseChanged));
+	const wil::single_threaded_property<winrt::DependencyProperty> IncrementalUpdateBehavior::PhaseProperty =
+		winrt::DependencyProperty::Register(
+			L"Phase",
+			winrt::xaml_typename<int>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata(winrt::box_value(1), &IncrementalUpdateBehavior::OnPhaseChanged));
 
-	const wil::single_threaded_property<winrt::DependencyProperty> IncrementalUpdateBehavior::IncrementalUpdaterProperty = winrt::DependencyProperty::RegisterAttached(
-		L"IncrementalUpdater",
-		winrt::xaml_typename<winrt::IInspectable>(),
-		winrt::xaml_typename<class_type>(),
-		winrt::PropertyMetadata(nullptr, &IncrementalUpdateBehavior::OnIncrementalUpdaterChanged));
+	const wil::single_threaded_property<winrt::DependencyProperty> IncrementalUpdateBehavior::IncrementalUpdaterProperty =
+		winrt::DependencyProperty::RegisterAttached(
+			L"IncrementalUpdater",
+			winrt::xaml_typename<winrt::IInspectable>(),
+			winrt::xaml_typename<class_type>(),
+			winrt::PropertyMetadata(nullptr, &IncrementalUpdateBehavior::OnIncrementalUpdaterChanged));
 
 	int IncrementalUpdateBehavior::Phase() const
 	{
@@ -31,7 +33,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
 	void IncrementalUpdateBehavior::OnPhaseChanged(winrt::DependencyObject const& sender, winrt::DependencyPropertyChangedEventArgs const& args)
 	{
-		auto behavior = winrt::get_self<IncrementalUpdateBehavior>(sender.as<class_type>())->get_strong();
+		const auto behavior = winrt::get_self<IncrementalUpdateBehavior>(sender.as<class_type>())->get_strong();
 
 		winrt::com_ptr<IncrementalUpdater> incrementalUpdater = behavior->FindUpdater();
 		winrt::FrameworkElement frameworkElement = behavior->AssociatedObject();
@@ -55,14 +57,14 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
 	void IncrementalUpdateBehavior::OnIncrementalUpdaterChanged(winrt::DependencyObject const& sender, winrt::DependencyPropertyChangedEventArgs const& args)
 	{
-		if (args.OldValue())
+		if (const auto oldValue = args.OldValue())
 		{
-			auto incrementalUpdater = winrt::get_self<IncrementalUpdater>(args.OldValue())->get_strong();
+			const auto incrementalUpdater = winrt::get_self<IncrementalUpdater>(oldValue);
 			incrementalUpdater->Detach();
 		}
-		if (args.NewValue())
+		if (const auto newValue = args.NewValue())
 		{
-			auto incrementalUpdater = winrt::get_self<IncrementalUpdater>(args.NewValue())->get_strong();
+			const auto incrementalUpdater = winrt::get_self<IncrementalUpdater>(newValue);
 			incrementalUpdater->Attach(sender);
 		}
 	}
@@ -102,7 +104,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 			if (winrt::ListViewBase listView = parent.try_as<winrt::ListViewBase>())
 			{
 				winrt::com_ptr<IncrementalUpdater> currentUpdater = IncrementalUpdateBehavior::GetIncrementalUpdater(listView);
-				if (currentUpdater == nullptr)
+				if (!currentUpdater)
 				{
 					currentUpdater = winrt::make_self<IncrementalUpdater>();
 
@@ -119,12 +121,12 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 	void IncrementalUpdateBehavior::OnAttached()
 	{
 		Behavior::OnAttached();
-		auto object = AssociatedObject();
-		if (object == nullptr)
+		const auto object = AssociatedObject();
+		if (!object)
 		{
-			auto actualType = winrt::get_class_name(object);
+			const auto actualType = winrt::get_class_name(object);
 			std::wstring_view expectedType = winrt::name_of<winrt::FrameworkElement>();
-			auto message = ResourceHelper::Format(winrt::XamlToolkit::WinUI::Interactivity::ResourceHelper::InvalidAssociatedObjectExceptionMessage(), actualType, expectedType);
+			const auto message = ResourceHelper::Format(ResourceHelper::InvalidAssociatedObjectExceptionMessage(), actualType, expectedType);
 			throw winrt::hresult_error(E_FAIL, message);
 		}
 
@@ -186,7 +188,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 	{
 		winrt::UIElement contentTemplateRoot = e.ItemContainer().ContentTemplateRoot();
 
-		if (auto iter = _elementCache.find(contentTemplateRoot); iter != _elementCache.end())
+		if (const auto iter = _elementCache.find(contentTemplateRoot); iter != _elementCache.end())
 		{
 			const auto& elementCacheRecord = iter->second;
 			if (!e.InRecycleQueue())
@@ -227,12 +229,12 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 	{
 		winrt::UIElement contentTemplateRoot = e.ItemContainer().ContentTemplateRoot();
 
-		if (auto iter = _elementCache.find(contentTemplateRoot); iter != _elementCache.end())
+		if (const auto iter = _elementCache.find(contentTemplateRoot); iter != _elementCache.end())
 		{
 			const auto& elementCacheRecord = iter->second;
 			auto& phases = elementCacheRecord->Phases();
 
-			auto it = std::lower_bound(phases.begin(), phases.end(), (int)e.Phase());
+			const auto it = std::lower_bound(phases.begin(), phases.end(), (int)e.Phase());
 
 			int phaseIndex;
 			if (it != phases.end() && *it == (int)e.Phase())
@@ -253,7 +255,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 				phaseIndex = static_cast<int>(std::distance(phases.begin(), it));
 			}
 
-			auto recordSize = elementCacheRecord->Phases().size();
+			const auto recordSize = elementCacheRecord->Phases().size();
 			if (phaseIndex < static_cast<int>(recordSize))
 			{
 				e.RegisterUpdateCallback(static_cast<uint32_t>(elementCacheRecord->Phases()[phaseIndex]), { this, &IncrementalUpdater::OnContainerContentChangingCallback });
@@ -268,7 +270,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 		{
 			winrt::DependencyObject parent = winrt::VisualTreeHelper::GetParent(ancestor);
 			
-			if (auto item = parent.try_as<winrt::SelectorItem>())
+			if (const auto item = parent.try_as<winrt::SelectorItem>())
 			{
 				return item.ContentTemplateRoot();
 			}
@@ -295,7 +297,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 		{
 			// get the cache for this element
 			ElementCacheRecord* elementCacheRecord;
-			auto iter = _elementCache.find(contentTemplateRoot);
+			const auto iter = _elementCache.find(contentTemplateRoot);
 			if (iter == _elementCache.end())
 			{
 				elementCacheRecord = new ElementCacheRecord();
@@ -309,7 +311,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 			auto& phases = elementCacheRecord->Phases();
 			// get the cache for this phase
 			{
-				auto it = std::lower_bound(phases.begin(), phases.end(), phase);
+				const auto it = std::lower_bound(phases.begin(), phases.end(), phase);
 				phaseIndex = static_cast<int>(it - phases.begin());
 
 				if (it == phases.end() || *it != phase)
@@ -354,9 +356,9 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 				// get the cache for this phase
 				auto& phases = elementCacheRecord->Phases();
 
-				auto it = std::lower_bound(phases.begin(), phases.end(), phase);
+				const auto it = std::lower_bound(phases.begin(), phases.end(), phase);
 
-				int phaseIndex = (it != phases.end() && *it == phase)
+				const int phaseIndex = (it != phases.end() && *it == phase)
 					? static_cast<int>(std::distance(phases.begin(), it))
 					: -1;
 

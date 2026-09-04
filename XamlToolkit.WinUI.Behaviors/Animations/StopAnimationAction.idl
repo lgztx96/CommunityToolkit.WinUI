@@ -4,6 +4,7 @@ namespace XamlToolkit.WinUI.Behaviors
     /// <summary>
     /// An IAction implementation that can stop a target AnimationSet instance.
     /// </summary>
+    [webhosthidden]
     runtimeclass StopAnimationAction : Microsoft.UI.Xaml.DependencyObject, XamlToolkit.WinUI.Interactivity.IAction
     {
         StopAnimationAction();
@@ -13,6 +14,7 @@ namespace XamlToolkit.WinUI.Behaviors
         /// </summary>
         XamlToolkit.WinUI.Animations.AnimationSet Animation;
 
+        [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty AnimationProperty { get; };
     }
 }

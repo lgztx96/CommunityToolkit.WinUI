@@ -7,6 +7,7 @@ namespace XamlToolkit.WinUI.Animations
     /// <summary>
     /// A custom Color animation.
     /// </summary>
+    [webhosthidden]
     [contentproperty("KeyFrames")]
     runtimeclass ColorAnimation : Animation
     {
@@ -15,6 +16,7 @@ namespace XamlToolkit.WinUI.Animations
         /// <summary>
         /// Gets or sets the implicit trigger target property name.
         /// </summary>
+        [noexcept]
         String ImplicitTarget;
 
         /// <summary>
@@ -22,6 +24,7 @@ namespace XamlToolkit.WinUI.Animations
         /// </summary>
         Windows.Foundation.IReference<Windows.UI.Color> To;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty ToProperty{ get; };
 
         /// <summary>
@@ -29,6 +32,7 @@ namespace XamlToolkit.WinUI.Animations
         /// </summary>
         Windows.Foundation.IReference<Windows.UI.Color> From;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty FromProperty{ get; };
 
         /// <summary>
@@ -45,6 +49,7 @@ namespace XamlToolkit.WinUI.Animations
         /// </summary>
         Windows.Foundation.Collections.IVector<ColorKeyFrame> KeyFrames;
 
+		[noexcept]
 		static Microsoft.UI.Xaml.DependencyProperty KeyFramesProperty{ get; };
     }
 }

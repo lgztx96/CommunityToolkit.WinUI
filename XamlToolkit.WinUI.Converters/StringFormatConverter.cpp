@@ -32,7 +32,7 @@ namespace winrt::XamlToolkit::WinUI::Converters::implementation
             return value;
         }
 
-        auto valueStr = ConverterTools::TryConvertToString(value);
+        auto valueStr = ConverterTools::TryConvertValue<winrt::hstring>(value);
 
         if (!valueStr)
         {

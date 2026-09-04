@@ -1,5 +1,6 @@
 namespace XamlToolkit.WinUI.Interactivity
 {
+    [webhosthidden]
     [default_interface]
     runtimeclass ActionCollection : Microsoft.UI.Xaml.DependencyObjectCollection
     {

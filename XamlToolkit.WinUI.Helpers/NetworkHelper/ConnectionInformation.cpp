@@ -56,7 +56,7 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
         auto names = profile.GetNetworkNames();
         if (names && names.Size() > 0)
         {
-            for (auto const& name : names)
+            for (const auto& name : names)
             {
                 _networkNames.push_back(name);
             }
@@ -97,7 +97,7 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
         return _connectionCost && _connectionCost.NetworkCostType() != winrt::Windows::Networking::Connectivity::NetworkCostType::Unrestricted;
     }
 
-    bool ConnectionInformation::IsInternetAvailable() { return _isInternetAvailable; }
+    bool ConnectionInformation::IsInternetAvailable() const noexcept { return _isInternetAvailable; }
 
     winrt::XamlToolkit::WinUI::Helpers::ConnectionType ConnectionInformation::ConnectionType() const noexcept { return _connectionType; }
 
@@ -109,6 +109,6 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
 
     winrt::Windows::Foundation::Collections::IVectorView<winrt::hstring> ConnectionInformation::NetworkNames()
     {
-        return winrt::single_threaded_vector(std::vector<winrt::hstring>(_networkNames)).GetView();
+        return *this;
     }
 }

@@ -171,9 +171,13 @@
     <ClInclude Include="Extensions\async_mutex.h">
       <Filter>Extensions</Filter>
     </ClInclude>
+    <ClInclude Include="Extensions\Foundation\EqualsHelper.h">
+      <Filter>Extensions\Foundation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="XamlToolkit.WinUI.def" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="Triggers\ControlSizeTrigger.idl">
@@ -246,5 +250,21 @@
     <Midl Include="Triggers\UserHandPreferenceStateTrigger.idl">
       <Filter>Triggers</Filter>
     </Midl>
+    <Midl Include="Extensions\Markup\BitmapIconExtension.idl">
+      <Filter>Extensions\Markup</Filter>
+    </Midl>
+    <Midl Include="Extensions\Foundation\PointExtensions.idl">
+      <Filter>Extensions\Foundation</Filter>
+    </Midl>
+    <Midl Include="Extensions\Foundation\SizeExtensions.idl">
+      <Filter>Extensions\Foundation</Filter>
+    </Midl>
+    <Midl Include="Triggers\IsNotEqualStateTrigger.idl">
+      <Filter>Triggers</Filter>
+    </Midl>
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
+    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natstepfilter" />
   </ItemGroup>
 </Project>

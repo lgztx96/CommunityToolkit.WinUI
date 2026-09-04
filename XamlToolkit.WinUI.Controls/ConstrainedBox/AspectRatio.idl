@@ -1,5 +1,6 @@
 namespace XamlToolkit.WinUI.Controls
 {
+    [webhosthidden]
     [createfromstring("XamlToolkit.WinUI.Controls.AspectRatio.ConvertToAspectRatio")]
     runtimeclass AspectRatio : Windows.Foundation.IStringable
     {
@@ -7,11 +8,14 @@ namespace XamlToolkit.WinUI.Controls
 
         AspectRatio(Double ratio);
 
+        [noexcept]
         Double Width{ get; };
 
+        [noexcept]
         Double Height{ get; };
 
-        Double Value();
+        [noexcept]
+        Double Value{ get; };
 
         static AspectRatio ConvertToAspectRatio(String rawString);
     }

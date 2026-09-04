@@ -1,5 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.Windows.SDK.BuildTools.10.0.28000.2526\build\Microsoft.Windows.SDK.BuildTools.props" Condition="Exists('..\packages\Microsoft.Windows.SDK.BuildTools.10.0.28000.2526\build\Microsoft.Windows.SDK.BuildTools.props')" />
+  <Import Project="..\packages\Microsoft.Windows.CppWinRT.3.0.260715.1\build\native\Microsoft.Windows.CppWinRT.props" Condition="Exists('..\packages\Microsoft.Windows.CppWinRT.3.0.260715.1\build\native\Microsoft.Windows.CppWinRT.props')" />
+  <Import Project="..\packages\Microsoft.WindowsAppSDK.WinUI.1.8.260709004\build\native\Microsoft.WindowsAppSDK.WinUI.props" Condition="Exists('..\packages\Microsoft.WindowsAppSDK.WinUI.1.8.260709004\build\native\Microsoft.WindowsAppSDK.WinUI.props')" />
+  <Import Project="..\packages\Microsoft.WindowsAppSDK.Foundation.1.8.260709000\build\native\Microsoft.WindowsAppSDK.Foundation.props" Condition="Exists('..\packages\Microsoft.WindowsAppSDK.Foundation.1.8.260709000\build\native\Microsoft.WindowsAppSDK.Foundation.props')" />
+  <Import Project="..\packages\Microsoft.WindowsAppSDK.InteractiveExperiences.1.8.260708001\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.props" Condition="Exists('..\packages\Microsoft.WindowsAppSDK.InteractiveExperiences.1.8.260708001\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.props')" />
+  <Import Project="..\packages\Microsoft.Windows.SDK.BuildTools.MSIX.1.7.260610101\build\Microsoft.Windows.SDK.BuildTools.MSIX.props" Condition="Exists('..\packages\Microsoft.Windows.SDK.BuildTools.MSIX.1.7.260610101\build\Microsoft.Windows.SDK.BuildTools.MSIX.props')" />
+  <Import Project="..\packages\Microsoft.WindowsAppSDK.Base.1.8.251216001\build\native\Microsoft.WindowsAppSDK.Base.props" Condition="Exists('..\packages\Microsoft.WindowsAppSDK.Base.1.8.251216001\build\native\Microsoft.WindowsAppSDK.Base.props')" />
   <PropertyGroup Label="Globals">
     <CppWinRTOptimized>true</CppWinRTOptimized>
     <CppWinRTRootNamespaceAutoMerge>true</CppWinRTRootNamespaceAutoMerge>
@@ -8,7 +15,7 @@
     <ProjectName>XamlToolkit.WinUI.Interactivity</ProjectName>
     <RootNamespace>XamlToolkit.WinUI.Interactivity</RootNamespace>
     <DefaultLanguage>zh-CN</DefaultLanguage>
-    <MinimumVisualStudioVersion>18.0</MinimumVisualStudioVersion>
+    <MinimumVisualStudioVersion>16.0</MinimumVisualStudioVersion>
     <AppContainerApplication>false</AppContainerApplication>
     <ApplicationType>Windows Store</ApplicationType>
     <ApplicationTypeRevision>10.0</ApplicationTypeRevision>
@@ -65,6 +72,10 @@
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
   <ImportGroup Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
@@ -171,9 +182,6 @@
     <ClInclude Include="Core\ResourceHelper.h">
       <SubType>Code</SubType>
     </ClInclude>
-    <ClInclude Include="Core\TypeConverterHelper.h">
-      <SubType>Code</SubType>
-    </ClInclude>
     <ClInclude Include="Utility\IVisualTreeHelper.h">
       <SubType>Code</SubType>
     </ClInclude>
@@ -258,9 +266,6 @@
     <ClCompile Include="Core\ResourceHelper.cpp">
       <SubType>Code</SubType>
     </ClCompile>
-    <ClCompile Include="Core\TypeConverterHelper.cpp">
-      <SubType>Code</SubType>
-    </ClCompile>
     <ClCompile Include="Utility\WinUIVisualTreeHelper.cpp">
       <SubType>Code</SubType>
     </ClCompile>
@@ -281,6 +286,7 @@
     <None Include="MultilingualResources\Microsoft.Xaml.Interactivity.uk-UA.xlf" />
     <None Include="MultilingualResources\Microsoft.Xaml.Interactivity.zh-CN.xlf" />
     <None Include="MultilingualResources\Microsoft.Xaml.Interactivity.zh-TW.xlf" />
+    <None Include="packages.config" />
     <None Include="XamlToolkit.WinUI.Interactivity.def" />
   </ItemGroup>
   <ItemGroup>
@@ -323,9 +329,6 @@
     <Midl Include="Core\ChangeCustomPropertyAction.idl">
       <SubType>Designer</SubType>
     </Midl>
-    <Midl Include="Core\ComparisonConditionType.idl">
-      <SubType>Designer</SubType>
-    </Midl>
     <Midl Include="Core\DataTriggerBehavior.idl">
       <SubType>Designer</SubType>
     </Midl>
@@ -333,9 +336,6 @@
       <SubType>Designer</SubType>
     </Midl>
     <Midl Include="Media\ControlStoryboardAction.idl">
-      <SubType>Designer</SubType>
-    </Midl>
-    <Midl Include="Media\ControlStoryboardOption.idl">
       <SubType>Designer</SubType>
     </Midl>
     <Midl Include="Media\PlaySoundAction.idl">
@@ -365,15 +365,36 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ItemGroup>
-  	<PackageReference Include="Microsoft.Web.WebView2" />
-  	<PackageReference Include="Microsoft.Windows.CppWinRT" />
-  	<PackageReference Include="Microsoft.Windows.ImplementationLibrary" />
-  	<PackageReference Include="Microsoft.Windows.SDK.BuildTools" />
-  	<PackageReference Include="Microsoft.Windows.SDK.BuildTools.MSIX" />
-  	<PackageReference Include="Microsoft.WindowsAppSDK.Base" />
-  	<PackageReference Include="Microsoft.WindowsAppSDK.Foundation" />
-  	<PackageReference Include="Microsoft.WindowsAppSDK.InteractiveExperiences" />
-  	<PackageReference Include="Microsoft.WindowsAppSDK.WinUI" />
-  </ItemGroup>
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\Microsoft.WindowsAppSDK.Base.1.8.251216001\build\native\Microsoft.WindowsAppSDK.Base.targets" Condition="Exists('..\packages\Microsoft.WindowsAppSDK.Base.1.8.251216001\build\native\Microsoft.WindowsAppSDK.Base.targets')" />
+    <Import Project="..\packages\Microsoft.Windows.ImplementationLibrary.1.0.260126.7\build\native\Microsoft.Windows.ImplementationLibrary.targets" Condition="Exists('..\packages\Microsoft.Windows.ImplementationLibrary.1.0.260126.7\build\native\Microsoft.Windows.ImplementationLibrary.targets')" />
+    <Import Project="..\packages\Microsoft.Windows.SDK.BuildTools.MSIX.1.7.260610101\build\Microsoft.Windows.SDK.BuildTools.MSIX.targets" Condition="Exists('..\packages\Microsoft.Windows.SDK.BuildTools.MSIX.1.7.260610101\build\Microsoft.Windows.SDK.BuildTools.MSIX.targets')" />
+    <Import Project="..\packages\Microsoft.WindowsAppSDK.InteractiveExperiences.1.8.260708001\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.targets" Condition="Exists('..\packages\Microsoft.WindowsAppSDK.InteractiveExperiences.1.8.260708001\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.targets')" />
+    <Import Project="..\packages\Microsoft.WindowsAppSDK.Foundation.1.8.260709000\build\native\Microsoft.WindowsAppSDK.Foundation.targets" Condition="Exists('..\packages\Microsoft.WindowsAppSDK.Foundation.1.8.260709000\build\native\Microsoft.WindowsAppSDK.Foundation.targets')" />
+    <Import Project="..\packages\Microsoft.WindowsAppSDK.WinUI.1.8.260709004\build\native\Microsoft.WindowsAppSDK.WinUI.targets" Condition="Exists('..\packages\Microsoft.WindowsAppSDK.WinUI.1.8.260709004\build\native\Microsoft.WindowsAppSDK.WinUI.targets')" />
+    <Import Project="..\packages\Microsoft.Web.WebView2.1.0.4078.44\build\native\Microsoft.Web.WebView2.targets" Condition="Exists('..\packages\Microsoft.Web.WebView2.1.0.4078.44\build\native\Microsoft.Web.WebView2.targets')" />
+    <Import Project="..\packages\Microsoft.Windows.CppWinRT.3.0.260715.1\build\native\Microsoft.Windows.CppWinRT.targets" Condition="Exists('..\packages\Microsoft.Windows.CppWinRT.3.0.260715.1\build\native\Microsoft.Windows.CppWinRT.targets')" />
+    <Import Project="..\packages\Microsoft.Windows.SDK.BuildTools.10.0.28000.2526\build\Microsoft.Windows.SDK.BuildTools.targets" Condition="Exists('..\packages\Microsoft.Windows.SDK.BuildTools.10.0.28000.2526\build\Microsoft.Windows.SDK.BuildTools.targets')" />
+  </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Missing one or more NuGet package build imports. Restore the required packages to build this project. Missing file: {0}</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.WindowsAppSDK.Base.1.8.251216001\build\native\Microsoft.WindowsAppSDK.Base.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.WindowsAppSDK.Base.1.8.251216001\build\native\Microsoft.WindowsAppSDK.Base.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.WindowsAppSDK.Base.1.8.251216001\build\native\Microsoft.WindowsAppSDK.Base.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.WindowsAppSDK.Base.1.8.251216001\build\native\Microsoft.WindowsAppSDK.Base.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Windows.ImplementationLibrary.1.0.260126.7\build\native\Microsoft.Windows.ImplementationLibrary.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.ImplementationLibrary.1.0.260126.7\build\native\Microsoft.Windows.ImplementationLibrary.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Windows.SDK.BuildTools.MSIX.1.7.260610101\build\Microsoft.Windows.SDK.BuildTools.MSIX.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.SDK.BuildTools.MSIX.1.7.260610101\build\Microsoft.Windows.SDK.BuildTools.MSIX.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Windows.SDK.BuildTools.MSIX.1.7.260610101\build\Microsoft.Windows.SDK.BuildTools.MSIX.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.SDK.BuildTools.MSIX.1.7.260610101\build\Microsoft.Windows.SDK.BuildTools.MSIX.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.WindowsAppSDK.InteractiveExperiences.1.8.260708001\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.WindowsAppSDK.InteractiveExperiences.1.8.260708001\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.WindowsAppSDK.InteractiveExperiences.1.8.260708001\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.WindowsAppSDK.InteractiveExperiences.1.8.260708001\build\native\Microsoft.WindowsAppSDK.InteractiveExperiences.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.WindowsAppSDK.Foundation.1.8.260709000\build\native\Microsoft.WindowsAppSDK.Foundation.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.WindowsAppSDK.Foundation.1.8.260709000\build\native\Microsoft.WindowsAppSDK.Foundation.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.WindowsAppSDK.Foundation.1.8.260709000\build\native\Microsoft.WindowsAppSDK.Foundation.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.WindowsAppSDK.Foundation.1.8.260709000\build\native\Microsoft.WindowsAppSDK.Foundation.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.WindowsAppSDK.WinUI.1.8.260709004\build\native\Microsoft.WindowsAppSDK.WinUI.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.WindowsAppSDK.WinUI.1.8.260709004\build\native\Microsoft.WindowsAppSDK.WinUI.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.WindowsAppSDK.WinUI.1.8.260709004\build\native\Microsoft.WindowsAppSDK.WinUI.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.WindowsAppSDK.WinUI.1.8.260709004\build\native\Microsoft.WindowsAppSDK.WinUI.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Web.WebView2.1.0.4078.44\build\native\Microsoft.Web.WebView2.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Web.WebView2.1.0.4078.44\build\native\Microsoft.Web.WebView2.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Windows.CppWinRT.3.0.260715.1\build\native\Microsoft.Windows.CppWinRT.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.CppWinRT.3.0.260715.1\build\native\Microsoft.Windows.CppWinRT.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Windows.CppWinRT.3.0.260715.1\build\native\Microsoft.Windows.CppWinRT.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.CppWinRT.3.0.260715.1\build\native\Microsoft.Windows.CppWinRT.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Windows.SDK.BuildTools.10.0.28000.2526\build\Microsoft.Windows.SDK.BuildTools.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.SDK.BuildTools.10.0.28000.2526\build\Microsoft.Windows.SDK.BuildTools.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Windows.SDK.BuildTools.10.0.28000.2526\build\Microsoft.Windows.SDK.BuildTools.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.SDK.BuildTools.10.0.28000.2526\build\Microsoft.Windows.SDK.BuildTools.targets'))" />
+  </Target>
 </Project>

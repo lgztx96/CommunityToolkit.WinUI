@@ -133,7 +133,7 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
         co_return effectBrush;
     }
 
-    winrt::IAsyncOperation<winrt::SpriteVisual> PipelineBuilderImpl::AttachAsync(winrt::UIElement const& target, winrt::UIElement const& reference)
+    winrt::IAsyncOperation<winrt::SpriteVisual> PipelineBuilderImpl::AttachAsync(winrt::UIElement target, winrt::UIElement reference)
     {
         auto compositor = winrt::CompositionTarget::GetCompositorForCurrentThread();
 

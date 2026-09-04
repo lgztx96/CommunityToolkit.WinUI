@@ -162,29 +162,29 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			target->UpdateThumbsVisibility();
 		}
 
-		winrt::WriteableBitmap Source() const { return GetValue(SourceProperty).try_as<winrt::WriteableBitmap>(); }
-		void Source(winrt::WriteableBitmap const& value) { SetValue(SourceProperty, value); }
+		winrt::WriteableBitmap Source() const { return GetValue(SourceProperty()).try_as<winrt::WriteableBitmap>(); }
+		void Source(winrt::WriteableBitmap const& value) { SetValue(SourceProperty(), value); }
 
-		winrt::IReference<double> AspectRatio() const { return GetValue(AspectRatioProperty).try_as<winrt::IReference<double>>(); }
-		void AspectRatio(IReference<double> value) { SetValue(AspectRatioProperty, value); }
+		winrt::IReference<double> AspectRatio() const { return GetValue(AspectRatioProperty()).try_as<winrt::IReference<double>>(); }
+		void AspectRatio(IReference<double> value) { SetValue(AspectRatioProperty(), value); }
 
-		CropShape CropShape() const { return winrt::unbox_value<winrt::XamlToolkit::WinUI::Controls::CropShape>(GetValue(CropShapeProperty)); }
-		void CropShape(winrt::XamlToolkit::WinUI::Controls::CropShape value) { SetValue(CropShapeProperty, winrt::box_value(value)); }
+		CropShape CropShape() const { return winrt::unbox_value<winrt::XamlToolkit::WinUI::Controls::CropShape>(GetValue(CropShapeProperty())); }
+		void CropShape(winrt::XamlToolkit::WinUI::Controls::CropShape value) { SetValue(CropShapeProperty(), winrt::box_value(value)); }
 
-		winrt::Brush Mask() const { return GetValue(MaskProperty).try_as<winrt::Brush>(); }
-		void Mask(Brush const& value) { SetValue(MaskProperty, value); }
+		winrt::Brush Mask() const { return GetValue(MaskProperty()).try_as<winrt::Brush>(); }
+		void Mask(Brush const& value) { SetValue(MaskProperty(), value); }
 
-		winrt::Brush Overlay() const { return GetValue(OverlayProperty).try_as<winrt::Brush>(); }
-		void Overlay(Brush const& value) { SetValue(OverlayProperty, value); }
+		winrt::Brush Overlay() const { return GetValue(OverlayProperty()).try_as<winrt::Brush>(); }
+		void Overlay(Brush const& value) { SetValue(OverlayProperty(), value); }
 
-		winrt::Style PrimaryThumbStyle() const { return GetValue(PrimaryThumbStyleProperty).try_as<winrt::Style>(); }
-		void PrimaryThumbStyle(winrt::Style const& value) { SetValue(PrimaryThumbStyleProperty, value); }
+		winrt::Style PrimaryThumbStyle() const { return GetValue(PrimaryThumbStyleProperty()).try_as<winrt::Style>(); }
+		void PrimaryThumbStyle(winrt::Style const& value) { SetValue(PrimaryThumbStyleProperty(), value); }
 
-		winrt::Style SecondaryThumbStyle() const { return GetValue(SecondaryThumbStyleProperty).try_as<winrt::Style>(); }
-		void SecondaryThumbStyle(winrt::Style const& value) { SetValue(SecondaryThumbStyleProperty, value); }
+		winrt::Style SecondaryThumbStyle() const { return GetValue(SecondaryThumbStyleProperty()).try_as<winrt::Style>(); }
+		void SecondaryThumbStyle(winrt::Style const& value) { SetValue(SecondaryThumbStyleProperty(), value); }
 
-		winrt::XamlToolkit::WinUI::Controls::ThumbPlacement ThumbPlacement() const { return winrt::unbox_value<winrt::XamlToolkit::WinUI::Controls::ThumbPlacement>(GetValue(ThumbPlacementProperty)); }
-		void ThumbPlacement(winrt::XamlToolkit::WinUI::Controls::ThumbPlacement value) { SetValue(ThumbPlacementProperty, winrt::box_value(value)); }
+		winrt::XamlToolkit::WinUI::Controls::ThumbPlacement ThumbPlacement() const { return winrt::unbox_value<winrt::XamlToolkit::WinUI::Controls::ThumbPlacement>(GetValue(ThumbPlacementProperty())); }
+		void ThumbPlacement(winrt::XamlToolkit::WinUI::Controls::ThumbPlacement value) { SetValue(ThumbPlacementProperty(), winrt::box_value(value)); }
 
 		static inline const wil::single_threaded_property<winrt::DependencyProperty> AspectRatioProperty =
 			winrt::DependencyProperty::Register(
