@@ -224,6 +224,14 @@
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="pch.h" />
+    <ClInclude Include="SettingsControls\Helpers\TextBlockTemplateSelector.h">
+      <DependentUpon>SettingsControls\Helpers\TextBlockTemplateSelector.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="SettingsControls\SettingsGroup\SettingsGroup.h">
+      <DependentUpon>SettingsControls\SettingsGroup\SettingsGroup.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="wil_cppwinrt_module.h" />
     <ClInclude Include="winrt_module_imports.h" />
     <ClInclude Include="RadialGauge\RadialGauge.h">
@@ -519,11 +527,21 @@
     </ClCompile>
     <ClCompile Include="SettingsControls\Helpers\CornerRadiusConverter.cpp" />
     <ClCompile Include="SettingsControls\Helpers\StyleExtensions.cpp" />
+    <ClCompile Include="SettingsControls\Helpers\TextBlockTemplateSelector.cpp">
+      <DependentUpon>SettingsControls\Helpers\TextBlockTemplateSelector.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="SettingsControls\SettingsCard\SettingsCard.cpp" />
     <ClCompile Include="SettingsControls\SettingsCard\SettingsCardAutomationPeer.cpp" />
     <ClCompile Include="SettingsControls\SettingsExpander\SettingsExpander.cpp" />
     <ClCompile Include="SettingsControls\SettingsExpander\SettingsExpanderAutomationPeer.cpp" />
     <ClCompile Include="SettingsControls\SettingsExpander\SettingsExpanderItemStyleSelector.cpp" />
+    <ClCompile Include="SettingsControls\SettingsGroup\SettingsGroup.Callbacks.cpp" />
+    <ClCompile Include="SettingsControls\SettingsGroup\SettingsGroup.cpp">
+      <DependentUpon>SettingsControls\SettingsGroup\SettingsGroup.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="SettingsControls\SettingsGroup\SettingsGroup.Properties.cpp" />
     <ClCompile Include="Sizers\ContentSizer\ContentSizer.cpp" />
     <ClCompile Include="Sizers\GridSplitter\GridSplitter.cpp" />
     <ClCompile Include="Sizers\PropertySizer\PropertySizer.cpp" />
@@ -731,11 +749,17 @@
     </Midl>
     <Midl Include="SettingsControls\Helpers\CornerRadiusConverter.idl" />
     <Midl Include="SettingsControls\Helpers\StyleExtensions.idl" />
+    <Midl Include="SettingsControls\Helpers\TextBlockTemplateSelector.idl">
+      <SubType>Designer</SubType>
+    </Midl>
     <Midl Include="SettingsControls\SettingsCard\SettingsCard.idl" />
     <Midl Include="SettingsControls\SettingsCard\SettingsCardAutomationPeer.idl" />
     <Midl Include="SettingsControls\SettingsExpander\SettingsExpander.idl" />
     <Midl Include="SettingsControls\SettingsExpander\SettingsExpanderAutomationPeer.idl" />
     <Midl Include="SettingsControls\SettingsExpander\SettingsExpanderItemStyleSelector.idl" />
+    <Midl Include="SettingsControls\SettingsGroup\SettingsGroup.idl">
+      <SubType>Designer</SubType>
+    </Midl>
     <Midl Include="Sizers\Sizers.idl" />
     <Midl Include="StaggeredLayout\StaggeredLayout.idl">
       <DependentUpon>StaggeredLayout\StaggeredLayout.cpp</DependentUpon>
@@ -824,6 +848,7 @@
     <Page Include="Segmented\SegmentedItem.xaml" />
     <Page Include="SettingsControls\SettingsCard\SettingsCard.xaml" />
     <Page Include="SettingsControls\SettingsExpander\SettingsExpander.xaml" />
+    <Page Include="SettingsControls\SettingsGroup\SettingsGroup.xaml" />
     <Page Include="Sizers\SizerBase.xaml" />
     <Page Include="TabbedCommandBar\TabbedCommandBar.xaml" />
     <Page Include="TabbedCommandBar\TabbedCommandBarItem.xaml" />
