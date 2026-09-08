@@ -8,7 +8,7 @@
 
 namespace winrt::XamlToolkit::WinUI::implementation
 {
-    Visual VisualExtensions::GetVisual(winrt::UIElement const& element)
+    winrt::Visual VisualExtensions::GetVisual(winrt::UIElement const& element)
     {
         return winrt::ElementCompositionPreview::GetElementVisual(element);
     }

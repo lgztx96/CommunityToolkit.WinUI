@@ -106,21 +106,14 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
 	winrt::IInspectable AttachedShadowElementContext::AddResource(winrt::hstring const& key, winrt::IInspectable const& resource)
 	{
-		if (_resources.contains(key))
-		{
-			_resources[key] = resource;
-		}
-		else
-		{
-			_resources.emplace(key, resource);
-		}
-
+		_resources.insert_or_assign(key, resource);
 		return resource;
 	}
 
 	winrt::IInspectable AttachedShadowElementContext::GetResource(std::wstring_view key)
 	{
-		if (auto iter = _resources.find(key); iter != _resources.end()) {
+		if (auto iter = _resources.find(key); iter != _resources.end()) 
+		{
 			return iter->second;
 		}
 
@@ -129,10 +122,12 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
 	void AttachedShadowElementContext::ClearAndDisposeResources()
 	{
-		for (auto& [key, value] : _resources)
+		for (const auto& [key, value] : _resources)
 		{
-			if (auto closeAble = value.try_as<winrt::IClosable>())
-				closeAble.Close();
+			if (auto closable = value.try_as<winrt::IClosable>())
+			{
+				closable.Close();
+			}
 		}
 
 		_resources.clear();
@@ -140,8 +135,6 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
 	void AttachedShadowElementContext::RemoveAndDisposeResource(std::wstring_view key)
 	{
-		if (auto iter = _resources.find(key); iter != _resources.end()) {
-			_resources.erase(iter);
-		}
+		_resources.erase(key);
 	}
 }

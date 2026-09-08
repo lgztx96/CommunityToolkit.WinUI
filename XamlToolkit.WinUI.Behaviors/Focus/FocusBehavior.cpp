@@ -80,7 +80,15 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
             return true;
         });
 
-        Stop(Targets());
+        try
+        {
+            Stop(Targets());
+        }
+        catch (winrt::hresult_error&)
+        {
+            // Ignore exceptions during uninitialization
+        }
+
         return true;
     }
 
