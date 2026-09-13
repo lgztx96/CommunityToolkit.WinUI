@@ -206,7 +206,11 @@
                                 </VisualState>
                             </VisualStateGroup>
                             <VisualStateGroup x:Name="OrientationStates">
-                                <VisualState x:Name="Horizontal" />
+                                <VisualState x:Name="Horizontal">
+                                    <VisualState.Setters>
+                                        <Setter Target="ActiveRectangle.Height" Value="4" />
+                                    </VisualState.Setters>
+                                </VisualState>
                                 <VisualState x:Name="Vertical">
                                     <VisualState.Setters>
                                         <Setter Target="ControlGrid.Width" Value="{ThemeResource SliderVerticalWidth}" />

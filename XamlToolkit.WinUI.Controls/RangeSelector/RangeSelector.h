@@ -246,26 +246,26 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         winrt::ToolTip _toolTip{ nullptr };
         winrt::TextBlock _toolTipText{ nullptr };
 
-        winrt::Control::IsEnabledChanged_revoker _isEnabledChangedRevoker;
+        winrt::event_token _isEnabledChangedToken;
 
-        winrt::Thumb::DragCompleted_revoker _minThumbDragCompletedRevoker;
-        winrt::Thumb::DragDelta_revoker _minThumbDragDeltaRevoker;
-        winrt::Thumb::DragStarted_revoker _minThumbDragStartedRevoker;
-        winrt::UIElement::KeyDown_revoker _minThumbKeyDownRevoker;
-        winrt::UIElement::KeyUp_revoker _minThumbKeyUpRevoker;
+        winrt::event_token _minThumbDragCompletedToken;
+        winrt::event_token _minThumbDragDeltaToken;
+        winrt::event_token _minThumbDragStartedToken;
+        winrt::event_token _minThumbKeyDownToken;
+        winrt::event_token _minThumbKeyUpToken;
 
-        winrt::Thumb::DragCompleted_revoker _maxThumbDragCompletedRevoker;
-        winrt::Thumb::DragDelta_revoker _maxThumbDragDeltaRevoker;
-        winrt::Thumb::DragStarted_revoker _maxThumbDragStartedRevoker;
-        winrt::UIElement::KeyDown_revoker _maxThumbKeyDownRevoker;
-        winrt::UIElement::KeyUp_revoker _maxThumbKeyUpRevoker;
+        winrt::event_token _maxThumbDragCompletedToken;
+        winrt::event_token _maxThumbDragDeltaToken;
+        winrt::event_token _maxThumbDragStartedToken;
+        winrt::event_token _maxThumbKeyDownToken;
+        winrt::event_token _maxThumbKeyUpToken;
 
-        winrt::FrameworkElement::SizeChanged_revoker _canvasSizeChangedRevoker;
-        winrt::UIElement::PointerEntered_revoker _canvasPointerEnteredRevoker;
-        winrt::UIElement::PointerPressed_revoker _canvasPointerPressedRevoker;
-        winrt::UIElement::PointerMoved_revoker _canvasPointerMovedRevoker;
-        winrt::UIElement::PointerReleased_revoker _canvasPointerReleasedRevoker;
-        winrt::UIElement::PointerExited_revoker _canvasPointerExitedRevoker;
+        winrt::event_token _canvasSizeChangedToken;
+        winrt::event_token _canvasPointerEnteredToken;
+        winrt::event_token _canvasPointerPressedToken;
+        winrt::event_token _canvasPointerMovedToken;
+        winrt::event_token _canvasPointerReleasedToken;
+		winrt::event_token _canvasPointerExitedToken;
 
         winrt::event<winrt::DragStartedEventHandler> _thumbDragStarted;
         winrt::event<winrt::DragCompletedEventHandler> _thumbDragCompleted;

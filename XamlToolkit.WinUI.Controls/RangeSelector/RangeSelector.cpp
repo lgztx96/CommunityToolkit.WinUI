@@ -67,28 +67,29 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
     {
         if (_minThumb)
         {
-            _minThumbDragCompletedRevoker.revoke();
-            _minThumbDragDeltaRevoker.revoke();
-            _minThumbDragStartedRevoker.revoke();
-            _minThumbKeyUpRevoker.revoke();
+			_minThumb.DragCompleted(_minThumbDragCompletedToken);
+			_minThumb.DragDelta(_minThumbDragDeltaToken);
+			_minThumb.DragStarted(_minThumbDragStartedToken);
+			_minThumb.KeyUp(_minThumbKeyUpToken);
+			_minThumb.KeyDown(_minThumbKeyDownToken);
         }
 
         if (_maxThumb)
         {
-            _maxThumbDragCompletedRevoker.revoke();
-            _maxThumbDragDeltaRevoker.revoke();
-            _maxThumbDragStartedRevoker.revoke();
-            _maxThumbKeyDownRevoker.revoke();
-            _maxThumbKeyUpRevoker.revoke();
+			_maxThumb.DragCompleted(_maxThumbDragCompletedToken);
+			_maxThumb.DragDelta(_maxThumbDragDeltaToken);
+			_maxThumb.DragStarted(_maxThumbDragStartedToken);
+			_maxThumb.KeyUp(_maxThumbKeyUpToken);
+			_maxThumb.KeyDown(_maxThumbKeyDownToken);
         }
 
         if (_containerCanvas)
         {
-            _canvasSizeChangedRevoker.revoke();
-            _canvasPointerPressedRevoker.revoke();
-            _canvasPointerMovedRevoker.revoke();
-            _canvasPointerReleasedRevoker.revoke();
-            _canvasPointerExitedRevoker.revoke();
+			_containerCanvas.SizeChanged(_canvasSizeChangedToken);
+            _containerCanvas.PointerPressed(_canvasPointerPressedToken);
+			_containerCanvas.PointerMoved(_canvasPointerMovedToken);
+			_containerCanvas.PointerReleased(_canvasPointerReleasedToken);
+			_containerCanvas.PointerExited(_canvasPointerExitedToken);
         }
 
         // Need to make sure the values can be set in XAML and don't overwrite each other
@@ -102,37 +103,37 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
         if (_minThumb)
         {
-            _minThumbDragCompletedRevoker = _minThumb.DragCompleted(winrt::auto_revoke, { this, &RangeSelector::Thumb_DragCompleted });
-            _minThumbDragDeltaRevoker = _minThumb.DragDelta(winrt::auto_revoke, { this, &RangeSelector::MinThumb_DragDelta });
-            _minThumbDragStartedRevoker = _minThumb.DragStarted(winrt::auto_revoke, { this, &RangeSelector::MinThumb_DragStarted });
-            _minThumbKeyDownRevoker = _minThumb.KeyDown(winrt::auto_revoke, { this, &RangeSelector::MinThumb_KeyDown });
-            _minThumbKeyUpRevoker = _minThumb.KeyUp(winrt::auto_revoke, { this, &RangeSelector::Thumb_KeyUp });
+            _minThumbDragCompletedToken = _minThumb.DragCompleted({ this, &RangeSelector::Thumb_DragCompleted });
+            _minThumbDragDeltaToken = _minThumb.DragDelta({ this, &RangeSelector::MinThumb_DragDelta });
+            _minThumbDragStartedToken = _minThumb.DragStarted({ this, &RangeSelector::MinThumb_DragStarted });
+            _minThumbKeyDownToken = _minThumb.KeyDown({ this, &RangeSelector::MinThumb_KeyDown });
+            _minThumbKeyUpToken = _minThumb.KeyUp({ this, &RangeSelector::Thumb_KeyUp });
         }
 
         if (_maxThumb)
         {
-            _maxThumbDragCompletedRevoker = _maxThumb.DragCompleted(winrt::auto_revoke, { this, &RangeSelector::Thumb_DragCompleted });
-            _maxThumbDragDeltaRevoker = _maxThumb.DragDelta(winrt::auto_revoke, { this, &RangeSelector::MaxThumb_DragDelta });
-            _maxThumbDragStartedRevoker = _maxThumb.DragStarted(winrt::auto_revoke, { this, &RangeSelector::MaxThumb_DragStarted });
-            _maxThumbKeyDownRevoker = _maxThumb.KeyDown(winrt::auto_revoke, { this, &RangeSelector::MaxThumb_KeyDown });
-            _maxThumbKeyUpRevoker = _maxThumb.KeyUp(winrt::auto_revoke, { this, &RangeSelector::Thumb_KeyUp });
+            _maxThumbDragCompletedToken = _maxThumb.DragCompleted({ this, &RangeSelector::Thumb_DragCompleted });
+            _maxThumbDragDeltaToken = _maxThumb.DragDelta({ this, &RangeSelector::MaxThumb_DragDelta });
+            _maxThumbDragStartedToken = _maxThumb.DragStarted({ this, &RangeSelector::MaxThumb_DragStarted });
+            _maxThumbKeyDownToken = _maxThumb.KeyDown({ this, &RangeSelector::MaxThumb_KeyDown });
+            _maxThumbKeyUpToken = _maxThumb.KeyUp({ this, &RangeSelector::Thumb_KeyUp });
         }
 
         if (_containerCanvas)
         {
-            _canvasSizeChangedRevoker = _containerCanvas.SizeChanged(winrt::auto_revoke, { this, &RangeSelector::ContainerCanvas_SizeChanged });
-            _canvasPointerEnteredRevoker = _containerCanvas.PointerEntered(winrt::auto_revoke, { this, &RangeSelector::ContainerCanvas_PointerEntered });
-            _canvasPointerPressedRevoker = _containerCanvas.PointerPressed(winrt::auto_revoke, { this, &RangeSelector::ContainerCanvas_PointerPressed });
-            _canvasPointerMovedRevoker = _containerCanvas.PointerMoved(winrt::auto_revoke, { this, &RangeSelector::ContainerCanvas_PointerMoved });
-            _canvasPointerReleasedRevoker = _containerCanvas.PointerReleased(winrt::auto_revoke, { this, &RangeSelector::ContainerCanvas_PointerReleased });
-            //_canvasPointerExitedRevoker = _containerCanvas.PointerExited(winrt::auto_revoke, { this, &RangeSelector::ContainerCanvas_PointerExited });
+            _canvasSizeChangedToken = _containerCanvas.SizeChanged({ this, &RangeSelector::ContainerCanvas_SizeChanged });
+            _canvasPointerEnteredToken = _containerCanvas.PointerEntered({ this, &RangeSelector::ContainerCanvas_PointerEntered });
+            _canvasPointerPressedToken = _containerCanvas.PointerPressed({ this, &RangeSelector::ContainerCanvas_PointerPressed });
+            _canvasPointerMovedToken = _containerCanvas.PointerMoved({ this, &RangeSelector::ContainerCanvas_PointerMoved });
+            _canvasPointerReleasedToken = _containerCanvas.PointerReleased({ this, &RangeSelector::ContainerCanvas_PointerReleased });
+            //_canvasPointerExitedToken = _containerCanvas.PointerExited({ this, &RangeSelector::ContainerCanvas_PointerExited });
         }
 
         winrt::VisualStateManager::GoToState(*this, IsEnabled() ? NormalState : DisabledState, false);
 
         winrt::VisualStateManager::GoToState(*this, IsHorizontal() ? HorizontalState : VerticalState, true);
 
-        _isEnabledChangedRevoker = IsEnabledChanged(winrt::auto_revoke, { this, &RangeSelector::RangeSelector_IsEnabledChanged });
+        _isEnabledChangedToken = IsEnabledChanged({ this, &RangeSelector::RangeSelector_IsEnabledChanged });
 
         if (_toolTip == nullptr)
         {
@@ -502,12 +503,46 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         if (auto control = d.try_as<class_type>())
         {
             auto newValue = winrt::unbox_value<winrt::Orientation>(e.NewValue());
+            auto oldValue = winrt::unbox_value<winrt::Orientation>(e.OldValue());
+
+            auto rangeSelector = winrt::get_self<RangeSelector>(control);
+
+            if (oldValue == winrt::Orientation::Horizontal && newValue == winrt::Orientation::Vertical)
+            {
+                if (rangeSelector->_minThumb)
+                {
+                    rangeSelector->_minThumb.ClearValue(Canvas::LeftProperty());
+                }
+                if (rangeSelector->_maxThumb)
+                {
+                    rangeSelector->_maxThumb.ClearValue(Canvas::LeftProperty());
+                }
+                if (rangeSelector->_activeRectangle)
+                {
+                    rangeSelector->_activeRectangle.ClearValue(Canvas::LeftProperty());
+                    rangeSelector->_activeRectangle.ClearValue(FrameworkElement::HeightProperty());
+                }
+			}
+			else if (oldValue == winrt::Orientation::Vertical && newValue == winrt::Orientation::Horizontal)
+			{
+				if (rangeSelector->_minThumb)
+				{
+					rangeSelector->_minThumb.ClearValue(Canvas::TopProperty());
+				}
+				if (rangeSelector->_maxThumb)
+				{
+					rangeSelector->_maxThumb.ClearValue(Canvas::TopProperty());
+				}
+				if (rangeSelector->_activeRectangle)
+				{
+					rangeSelector->_activeRectangle.ClearValue(Canvas::TopProperty());
+                    rangeSelector->_activeRectangle.ClearValue(FrameworkElement::WidthProperty());
+				}
+			}
 
             bool isHorizontal = newValue == winrt::Orientation::Horizontal;
 
             winrt::VisualStateManager::GoToState(control, isHorizontal ? HorizontalState : VerticalState, false);
-
-            auto rangeSelector = winrt::get_self<RangeSelector>(control);
 
             rangeSelector->SyncThumbs();
         }
