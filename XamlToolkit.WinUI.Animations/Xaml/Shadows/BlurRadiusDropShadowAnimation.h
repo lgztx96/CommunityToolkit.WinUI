@@ -23,12 +23,17 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         }
     };
 
-    struct BlurRadiusDropShadowAnimation : BlurRadiusDropShadowAnimationT<BlurRadiusDropShadowAnimation, ShadowAnimationBase<BlurRadiusDropShadowAnimationTraits>>
+    struct BlurRadiusDropShadowAnimation : BlurRadiusDropShadowAnimationT<BlurRadiusDropShadowAnimation, ShadowAnimationBase<BlurRadiusDropShadowAnimationTraits>, IAttachedTimeline>
     {
-        winrt::hstring ExplicitTarget() const noexcept
-        {
-            return L"BlurRadius";
-        }
+        winrt::hstring ExplicitTarget() const noexcept;
+
+        winrt::XamlToolkit::WinUI::Animations::AnimationBuilder& AppendToBuilder(
+            winrt::XamlToolkit::WinUI::Animations::AnimationBuilder& builder,
+            winrt::UIElement const& parent,
+            std::optional<winrt::TimeSpan> delayHint = std::nullopt,
+            std::optional<winrt::TimeSpan> durationHint = std::nullopt,
+            std::optional<enum EasingType> easingTypeHint = std::nullopt,
+            std::optional<winrt::EasingMode> easingModeHint = std::nullopt);
     };
 }
 

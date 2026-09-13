@@ -24,7 +24,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
     /// C++ counterpart for C# ShadowAnimation<TValue, TKeyFrame>.
     /// </summary>
     template<typename TTraits>
-    struct ShadowAnimationBase : public AnimationBase<TTraits>, public IAttachedTimeline
+    struct ShadowAnimationBase : AnimationBase<TTraits>
     {
         using traits_type = TTraits;
         using parsed_value_type = typename traits_type::parsed_value_type;
@@ -55,7 +55,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         }
 
         winrt::XamlToolkit::WinUI::Animations::AnimationBuilder& AppendToBuilder(
-            winrt::XamlToolkit::WinUI::Animations::AnimationBuilder&,
+            [[maybe_unused]] winrt::XamlToolkit::WinUI::Animations::AnimationBuilder& builder,
             [[maybe_unused]] std::optional<winrt::TimeSpan> delayHint = std::nullopt,
             [[maybe_unused]] std::optional<winrt::TimeSpan> durationHint = std::nullopt,
             [[maybe_unused]] std::optional<enum EasingType> easingTypeHint = std::nullopt,
@@ -70,7 +70,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
             std::optional<winrt::TimeSpan> delayHint = std::nullopt,
             std::optional<winrt::TimeSpan> durationHint = std::nullopt,
             std::optional<enum EasingType> easingTypeHint = std::nullopt,
-            std::optional<winrt::EasingMode> easingModeHint = std::nullopt) override
+            std::optional<winrt::EasingMode> easingModeHint = std::nullopt)
         {
             auto explicitTarget = this->ExplicitTarget();
 
