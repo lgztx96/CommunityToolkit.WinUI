@@ -23,7 +23,7 @@ namespace winrt::XamlToolkit::WinUI::Converters::implementation
         }
 
         // Retrieve the format string and use it to format the value.
-        auto formatString = parameter.try_as<winrt::hstring>();
+        const auto formatString = parameter.try_as<winrt::hstring>();
 
         if (!formatString || formatString->empty())
         {
@@ -32,20 +32,25 @@ namespace winrt::XamlToolkit::WinUI::Converters::implementation
             return value;
         }
 
-        auto valueStr = ConverterTools::TryConvertValue<winrt::hstring>(value);
-
-        if (!valueStr)
-        {
-            // If we can't convert the value to a string, return the original value.
-            return value;
-        }
+        const auto formatValue = ConverterTools::TryConvertToFormatValue(value);
 
         try
         {
-			std::wstring_view formatView(*formatString);
-			std::wstring_view valueView(*valueStr);
-            auto formatted = std::vformat(formatView, std::make_wformat_args(valueView));
-            return winrt::box_value(winrt::hstring(formatted));
+            return std::visit([&](auto const& formatValue) -> winrt::IInspectable
+            {
+                using T = std::decay_t<decltype(formatValue)>;
+
+                if constexpr (std::is_same_v<T, std::monostate>)
+                {
+                    return value;
+                }
+                else
+                {
+                    std::wstring_view formatView(*formatString);
+                    auto formatted = std::vformat(formatView, std::make_wformat_args(formatValue));
+                    return winrt::box_value(winrt::hstring(formatted));
+                }
+            }, formatValue);
         }
         catch (...)
         {

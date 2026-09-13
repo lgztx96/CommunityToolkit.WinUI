@@ -2,21 +2,25 @@
 
 #ifdef __INTELLISENSE__
 #include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.UI.Xaml.Interop.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
 #include <array>
 #include <charconv>
 #include <concepts>
+#include <flat_map>
 #include <optional>
 #include <string_view>
 #else
 import std;
 import winrt.Windows.Foundation;
+import winrt.Windows.UI.Xaml.Interop;
 #endif
 
 namespace winrt
 {
 	using namespace ::winrt::Windows::Foundation;
+	using namespace ::winrt::Windows::UI::Xaml::Interop;
 }
 
 namespace winrt::XamlToolkit::WinUI
@@ -729,6 +733,11 @@ namespace winrt::XamlToolkit::WinUI
 				return ValueTypeEquals(leftPv, rightPv, lt);
 			}
 
+			if (leftPv.IsNumericScalar() && rightPv.IsNumericScalar())
+			{
+				return leftPv.GetUInt32() == rightPv.GetUInt32();
+			}
+
 			if (IsNumeric(lt) && IsNumeric(rt))
 			{
 				return NumericEquals(leftPv, lt, rightPv, rt);
@@ -745,6 +754,53 @@ namespace winrt::XamlToolkit::WinUI
 			}
 
 			throw winrt::hresult_not_implemented();
+		}
+
+		static std::optional<bool> BoxedTypeEquals(winrt::IInspectable const& value, winrt::TypeName const& targetType)
+		{
+			if (!value)
+			{
+				return false;
+			}
+
+			static const std::flat_map<std::wstring_view, winrt::PropertyType> type_map
+			{
+				{ winrt::name_of<bool>(), winrt::PropertyType::Boolean },
+				{ winrt::name_of<int32_t>(), winrt::PropertyType::Int32 },
+				{ winrt::name_of<uint32_t>(), winrt::PropertyType::UInt32 },
+				{ winrt::name_of<int64_t>(), winrt::PropertyType::Int64 },
+				{ winrt::name_of<uint64_t>(), winrt::PropertyType::UInt64 },
+				{ winrt::name_of<float>(), winrt::PropertyType::Single },
+				{ winrt::name_of<double>(), winrt::PropertyType::Double },
+				{ winrt::name_of<uint8_t>(), winrt::PropertyType::UInt8 },
+				{ winrt::name_of<char16_t>(), winrt::PropertyType::Char16 },
+				{ winrt::name_of<winrt::hstring>(), winrt::PropertyType::String },
+				{ winrt::name_of<winrt::guid>(), winrt::PropertyType::Guid },
+				{ winrt::name_of<winrt::DateTime>(), winrt::PropertyType::DateTime },
+				{ L"DateTime", winrt::PropertyType::DateTime },
+				{ winrt::name_of<winrt::TimeSpan>(), winrt::PropertyType::TimeSpan },
+				{ L"TimeSpan", winrt::PropertyType::TimeSpan },
+				{ winrt::name_of<winrt::Point>(), winrt::PropertyType::Point },
+				{ L"Point", winrt::PropertyType::Point },
+				{ winrt::name_of<winrt::Rect>(), winrt::PropertyType::Rect },
+				{ L"Rect", winrt::PropertyType::Rect },
+				{ winrt::name_of<winrt::Size>(), winrt::PropertyType::Size },
+				{ L"Size", winrt::PropertyType::Size },
+			};
+
+			if (const auto it = type_map.find(targetType.Name); it != type_map.end())
+			{
+				const auto propertyValue = value.try_as<winrt::IPropertyValue>();
+
+				if (!propertyValue)
+				{
+					return std::nullopt;
+				}
+
+				return propertyValue.Type() == it->second;
+			}
+
+			return winrt::get_class_name(value) == targetType.Name;
 		}
 	};
 }

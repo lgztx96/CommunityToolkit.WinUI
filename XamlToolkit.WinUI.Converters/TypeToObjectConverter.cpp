@@ -65,15 +65,24 @@ namespace winrt::XamlToolkit::WinUI::Converters::implementation
 
     winrt::IInspectable TypeToObjectConverter::Convert(winrt::IInspectable const& value, [[maybe_unused]] winrt::TypeName targetType, winrt::IInspectable const& parameter, [[maybe_unused]] winrt::hstring const& language) const
     {
-        auto typeMatches = value && Type() == winrt::TypeName{ winrt::get_class_name(value) };
+        auto typeMatches = EqualsHelper::BoxedTypeEquals(value, Type());
 
-        // Negate if needed
-        if (ConverterTools::TryParseBool(parameter))
+        if (!typeMatches)
         {
-            typeMatches = !typeMatches;
+            throw winrt::hresult_invalid_argument(winrt::format(
+                    L"The value of type '{}' cannot be compared with target type '{}'.",
+                    value ? winrt::get_class_name(value) : L"<null>",
+                    targetType.Name));
         }
 
-        return ConverterTools::TryConvertValue(typeMatches ? TrueValue() : FalseValue(), targetType);
+        // Negate if needed
+        bool result = *typeMatches;
+        if (ConverterTools::TryParseBool(parameter))
+        {
+            result = !result;
+        }
+
+        return ConverterTools::TryConvertValue(result ? TrueValue() : FalseValue(), targetType);
     }
 
     winrt::IInspectable TypeToObjectConverter::ConvertBack([[maybe_unused]] winrt::IInspectable const& value, [[maybe_unused]] winrt::TypeName targetType, [[maybe_unused]] winrt::IInspectable const& parameter, [[maybe_unused]] winrt::hstring const& language) const
