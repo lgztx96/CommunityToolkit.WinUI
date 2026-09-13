@@ -120,7 +120,6 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
 	void IncrementalUpdateBehavior::OnAttached()
 	{
-		Behavior::OnAttached();
 		const auto object = AssociatedObject();
 		if (!object)
 		{
@@ -130,15 +129,17 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 			throw winrt::hresult_error(E_FAIL, message);
 		}
 
-		_associatedObjectLoadedRevoker = object.Loaded(winrt::auto_revoke, { this, &IncrementalUpdateBehavior::OnAssociatedObjectLoaded });
-		_associatedObjectUnloadedRevoker = object.Unloaded(winrt::auto_revoke, { this, &IncrementalUpdateBehavior::OnAssociatedObjectUnloaded });
+		_associatedObjectLoadedToken = object.Loaded({ this, &IncrementalUpdateBehavior::OnAssociatedObjectLoaded });
+		_associatedObjectUnloadedToken = object.Unloaded({ this, &IncrementalUpdateBehavior::OnAssociatedObjectUnloaded });
 	}
 
 	void IncrementalUpdateBehavior::OnDetaching()
 	{
-		Behavior::OnDetaching();
-		_associatedObjectLoadedRevoker.revoke();
-		_associatedObjectUnloadedRevoker.revoke();
+		if (const auto object = AssociatedObject())
+		{
+			object.Loaded(_associatedObjectLoadedToken);
+			object.Unloaded(_associatedObjectUnloadedToken);
+		}
 		// no need to perform the work that Unloaded would have done - that's just housekeeping on the cache, which is now going away
 	}
 

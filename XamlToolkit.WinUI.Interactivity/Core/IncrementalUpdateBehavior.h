@@ -141,8 +141,8 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
     private:
         winrt::com_ptr<IncrementalUpdater> _updater = nullptr;
-        winrt::FrameworkElement::Loaded_revoker _associatedObjectLoadedRevoker;
-        winrt::FrameworkElement::Unloaded_revoker _associatedObjectUnloadedRevoker;
+        winrt::event_token _associatedObjectLoadedToken;
+        winrt::event_token _associatedObjectUnloadedToken;
     };
 }
 

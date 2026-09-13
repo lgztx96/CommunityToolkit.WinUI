@@ -37,8 +37,6 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
 
     void KeyDownTriggerBehavior::OnAttached()
     {
-        base_type::OnAttached();
-
         if (auto frameworkElement = AssociatedObject().try_as<winrt::FrameworkElement>())
         {
             _previewKeyDownHandler = winrt::box_value(winrt::KeyEventHandler({ this, &KeyDownTriggerBehavior::OnAssociatedObjectPreviewKeyDown }));
@@ -57,8 +55,6 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
 
             _previewKeyDownHandler = nullptr;
         }
-
-        base_type::OnDetaching();
     }
 
     void KeyDownTriggerBehavior::OnAssociatedObjectPreviewKeyDown(winrt::IInspectable const& sender, winrt::KeyRoutedEventArgs const& args)

@@ -56,7 +56,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
 			_associatedObject = associatedObject;
 
-			OnAttached();
+			overridable().OnAttached();
 		}
 
 		/// <summary>
@@ -64,7 +64,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 		/// </summary>
 		void Detach()
 		{
-			OnDetaching();
+			overridable().OnDetaching();
 			_associatedObject = nullptr;
 		}
 

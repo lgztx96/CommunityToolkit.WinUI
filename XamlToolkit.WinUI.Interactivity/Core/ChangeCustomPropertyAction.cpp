@@ -90,7 +90,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
             property = customPropertyProvider.GetCustomProperty(propertyPath);
         }
 
-        const auto targetTypeName = customPropertyProvider ? customPropertyProvider.Type().Name : L"Object";
+        const auto targetTypeName = customPropertyProvider ? customPropertyProvider.Type().Name : winrt::get_class_name(targetObject);
         ValidateProperty(targetTypeName, property, propertyPath);
 
         try

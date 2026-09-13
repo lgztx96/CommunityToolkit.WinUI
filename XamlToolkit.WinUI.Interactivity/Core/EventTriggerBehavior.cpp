@@ -46,14 +46,12 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
     void EventTriggerBehavior::OnAttached()
     {
-        base_type::OnAttached();
         _currentEventName = EventName();
         SetResolvedSource(ComputeResolvedSource());
     }
 
     void EventTriggerBehavior::OnDetaching()
     {
-        base_type::OnDetaching();
         SetResolvedSource(nullptr);
     }
 
