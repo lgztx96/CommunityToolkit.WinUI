@@ -471,8 +471,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			return;
 		}
 
-		auto propertyChangeEventSources = std::vector<std::unique_ptr<event_source_registration>>();
-		_transformPropertyChangeEventSources.emplace(transform, std::move(propertyChangeEventSources));
+		auto& propertyChangeEventSources = _transformPropertyChangeEventSources[transform];
 
 		if (auto rotateTransform = transform.try_as<winrt::RotateTransform>())
 		{
