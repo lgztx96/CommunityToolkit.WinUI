@@ -21,12 +21,12 @@ namespace winrt::XamlToolkit::WinUI::implementation
     {
         RegexStateTrigger();
 
-        winrt::hstring Value() const { return winrt::unbox_value<winrt::hstring>(GetValue(ValueProperty())); }
+        winrt::hstring Value() const { return winrt::unbox_value_or<winrt::hstring>(GetValue(ValueProperty()), L""); }
         void Value(winrt::hstring const& value) const { SetValue(ValueProperty(), winrt::box_value(value)); }
 
         static const wil::single_threaded_property<winrt::DependencyProperty> ValueProperty;
 
-        winrt::hstring Expression() const { return winrt::unbox_value<winrt::hstring>(GetValue(ExpressionProperty())); }
+        winrt::hstring Expression() const { return winrt::unbox_value_or<winrt::hstring>(GetValue(ExpressionProperty()), L""); }
         void Expression(winrt::hstring const& value) const { SetValue(ExpressionProperty(), winrt::box_value(value)); }
 
         static const wil::single_threaded_property<winrt::DependencyProperty> ExpressionProperty;

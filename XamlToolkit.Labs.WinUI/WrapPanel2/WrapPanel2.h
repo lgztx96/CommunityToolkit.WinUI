@@ -165,7 +165,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 			double PortionsSum{ 0.0 };
 			double MaxInAxisSize{ 0.0 };
 			double MaxOffAxisSize{ 0.0 };
-			double MinPortionSize{ std::numeric_limits<double>::quiet_NaN() };
+			double MinPortionSize{ 0.0 };
 			int ItemsCount{ 0 };
 
 			RowSpec() = default;
