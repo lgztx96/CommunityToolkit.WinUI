@@ -3,11 +3,11 @@ namespace XamlToolkit.WinUI.Controls
     [webhosthidden]
     runtimeclass InterspersedObservableVector : IObservableVector<Object>
     {
-        InterspersedObservableVector(Object source);
-
         [noexcept]
         IVector<Object> ItemsSource();
 
         void Insert(UInt32 index, Object value);
+
+        void RemoveItem(Object value);
     }
 }

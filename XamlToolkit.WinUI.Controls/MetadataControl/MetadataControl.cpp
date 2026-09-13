@@ -4,6 +4,7 @@
 #include <winrt/Microsoft.UI.Xaml.Automation.h>
 #include <winrt/Microsoft.UI.Xaml.Automation.Peers.h>
 #include <winrt/Microsoft.UI.Xaml.Documents.h>
+#include <winrt/Microsoft.UI.Xaml.Interop.h>
 #endif
 #include "MetadataControl.h"
 #if __has_include("MetadataControl.g.cpp")
@@ -15,6 +16,7 @@ namespace winrt
 	using namespace Microsoft::UI::Xaml::Documents;
 	using namespace Microsoft::UI::Xaml::Automation;
 	using namespace Microsoft::UI::Xaml::Automation::Peers;
+	using namespace Microsoft::UI::Xaml::Interop;
 }
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
@@ -61,25 +63,55 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 	void MetadataControl::OnMetadataItemsChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e)
 	{
-		if (auto control = d.try_as<class_type>())
+		if (const auto control = d.try_as<class_type>())
 		{
-			auto self = winrt::get_self<MetadataControl>(control)->get_strong();
+			const auto self = winrt::get_self<MetadataControl>(control);
 
-			if (auto oldVec = e.OldValue().try_as<winrt::IObservableVector<winrt::IInspectable>>())
+			if (const auto oldObservableVec = e.OldValue().try_as<winrt::IObservableVector<winrt::IInspectable>>())
 			{
-				self->_vectorChangedRevoker.revoke();
+				oldObservableVec.VectorChanged(self->_vectorChangedToken);
+			}
+			else if (const auto oldBindableVec = e.OldValue().try_as<winrt::IBindableObservableVector>())
+			{
+				oldBindableVec.VectorChanged(self->_vectorChangedToken);
+			}
+			else if (const auto oldCollection = e.OldValue().try_as<winrt::INotifyCollectionChanged>())
+			{
+				oldCollection.CollectionChanged(self->_vectorChangedToken);
 			}
 
-			if (auto newVec = e.NewValue().try_as<winrt::IObservableVector<winrt::IInspectable>>())
+			if (const auto newObservableVec = e.NewValue().try_as<winrt::IObservableVector<winrt::IInspectable>>())
 			{
-				self->_vectorChangedRevoker = newVec.VectorChanged(winrt::auto_revoke, [controlWeak{ winrt::make_weak(control) }](auto&, auto&)
-				{
-					if (auto controlStrong = controlWeak.get()) 
+				self->_vectorChangedToken = newObservableVec.VectorChanged(
+					[weak = winrt::make_weak(control)](auto&&, auto&&)
 					{
-						auto self = winrt::get_self<MetadataControl>(controlStrong)->get_strong();
-						self->Update();
-					}
-				});
+						if (const auto strong = weak.get())
+						{
+							winrt::get_self<MetadataControl>(strong)->Update();
+						}
+					});
+			}
+			else if (const auto newBindableVec = e.NewValue().try_as<winrt::IBindableObservableVector>())
+			{
+				self->_vectorChangedToken = newBindableVec.VectorChanged(
+					[weak = winrt::make_weak(control)](auto&&, auto&&)
+					{
+						if (const auto strong = weak.get())
+						{
+							winrt::get_self<MetadataControl>(strong)->Update();
+						}
+					});
+			}
+			else if (const auto newCollection = e.NewValue().try_as<winrt::INotifyCollectionChanged>())
+			{
+				self->_vectorChangedToken = newCollection.CollectionChanged(
+					[weak = winrt::make_weak(control)](auto&&, auto&&) 
+					{ 
+						if (const auto strong = weak.get())
+						{ 
+							winrt::get_self<MetadataControl>(strong)->Update();
+						}
+					});
 			}
 
 			self->Update();
@@ -88,9 +120,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 	void MetadataControl::OnPropertyChanged(winrt::DependencyObject const& d, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& e)
 	{
-		if (auto control = d.try_as<class_type>())
+		if (const auto control = d.try_as<class_type>())
 		{
-			auto self = winrt::get_self<MetadataControl>(control)->get_strong();
+			const auto self = winrt::get_self<MetadataControl>(control);
 			self->Update();
 		}
 	}
@@ -110,10 +142,10 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			return;
 		}
 
-		auto textInlines = _textContainer.Inlines();
+		const auto textInlines = _textContainer.Inlines();
 		textInlines.Clear();
 
-		auto items = Items();
+		const auto items = Items();
 		if (items == nullptr)
 		{
 			winrt::AutomationProperties::SetName(_textContainer, L"");
@@ -145,12 +177,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 				hyperlink.Foreground(_textContainer.Foreground());
 				hyperlink.Inlines().Append(unitToAppend);
 
-				hyperlink.Click([weakUnit{ winrt::make_weak(unit) }](auto&, auto&)
+				hyperlink.Click([weak{ winrt::make_weak(unit) }](auto&, auto&)
 				{
-					if (auto strongUnit = weakUnit.get())
+					if (const auto strongUnit = weak.get())
 					{
-						auto command = strongUnit.Command();
-						auto parameter = strongUnit.CommandParameter();
+						const auto command = strongUnit.Command();
+						const auto parameter = strongUnit.CommandParameter();
 						if (command.CanExecute(parameter))
 						{
 							command.Execute(parameter);
@@ -161,8 +193,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 				unitToAppend = hyperlink;
 			}
 
-			auto accessibleLabel = unit.AccessibleLabel();
-			auto unitAccessibleLabel = !accessibleLabel.empty() ? accessibleLabel : unit.Label();
+			const auto accessibleLabel = unit.AccessibleLabel();
+			const auto unitAccessibleLabel = !accessibleLabel.empty() ? accessibleLabel : unit.Label();
 			winrt::AutomationProperties::SetName(unitToAppend, unitAccessibleLabel);
 			accessibleString.append(unitAccessibleLabel);
 
@@ -177,7 +209,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	{
 		if (winrt::AutomationPeer::ListenerExists(winrt::AutomationEvents::LiveRegionChanged))
 		{
-			if (auto peer = winrt::FrameworkElementAutomationPeer::FromElement(*this))
+			if (const auto peer = winrt::FrameworkElementAutomationPeer::FromElement(*this))
 			{
 				peer.RaiseAutomationEvent(winrt::AutomationEvents::LiveRegionChanged);
 			}

@@ -184,7 +184,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 				int32_t endCount = maximumTokens > 0 ? maximumTokens : 0;
 				for (auto i = itemSize - 1; i >= endCount; --i)
 				{
-					_innerItemsSource.RemoveAt(i);
+					_innerItemsSource.RemoveItem(_innerItemsSource.GetAt(i));
 				}
 			}
 
@@ -515,10 +515,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 				text && IsNullOrWhiteSpace(text.Text()) && text != _lastTextEdit) 
 			{
 				// We're leaving an inner textbox that's blank, so we'll remove it
-				if (uint32_t index; _innerItemsSource.IndexOf(text, index))
-				{
-					_innerItemsSource.RemoveAt(index);
-				}
+				_innerItemsSource.RemoveItem(text);
 
 				UpdateCurrentTextEdit(_lastTextEdit);
 
@@ -597,10 +594,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			}
 
 			// Remove our textbox
-			if (uint32_t index; _innerItemsSource.IndexOf(edit, index)) 
-			{ 
-				_innerItemsSource.RemoveAt(index);
-			}
+			_innerItemsSource.RemoveItem(edit);
 		}
 
 		// Focus back to our end box as Outlook does.
@@ -648,10 +642,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			}
 		}
 
-		if (uint32_t index; _innerItemsSource.IndexOf(data, index)) 
-		{
-			_innerItemsSource.RemoveAt(index);
-		}
+		_innerItemsSource.RemoveItem(data);
 
 		TokenItemRemoved.invoke(*this, data);
 
@@ -749,8 +740,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 						if (token)
 						{
 							// Force remove the items. No warning and no option to cancel.
-							if (uint32_t index; ttbSelf->_innerItemsSource.IndexOf(token, index))
-								ttbSelf->_innerItemsSource.RemoveAt(index);
+							ttbSelf->_innerItemsSource.RemoveItem(token);
 
 							ttbSelf->TokenItemRemoved.invoke(ttb, token);
 						}

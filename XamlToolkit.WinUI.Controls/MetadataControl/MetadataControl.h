@@ -9,7 +9,6 @@
 #include <winrt/Microsoft.UI.Xaml.Controls.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
-#include <string_view>
 #endif
 
 namespace winrt
@@ -91,7 +90,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		winrt::TextBlock _textContainer;
 
-		winrt::IObservableVector<winrt::IInspectable>::VectorChanged_revoker _vectorChangedRevoker;
+		winrt::event_token _vectorChangedToken;
 	};
 }
 
