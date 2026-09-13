@@ -9,6 +9,8 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
 {
     void AutoSelectBehavior::OnAssociatedObjectLoaded()
     {
-        BehaviorBase::AssociatedObject().SelectAll();
+		const auto associatedObject = BehaviorBase::AssociatedObject();
+        associatedObject.Focus(winrt::FocusState::Programmatic);
+        associatedObject.SelectAll();
     }
 }
