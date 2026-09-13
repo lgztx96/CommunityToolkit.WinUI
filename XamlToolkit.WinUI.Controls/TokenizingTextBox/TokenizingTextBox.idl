@@ -88,6 +88,8 @@ namespace XamlToolkit.WinUI.Controls
 
         Int32 MaximumTokens;
 
+        String SelectedTokenText{ get; };
+
         event Windows.Foundation.TypedEventHandler<Microsoft.UI.Xaml.Controls.AutoSuggestBox, Microsoft.UI.Xaml.Controls.AutoSuggestBoxTextChangedEventArgs> TextChanged;
 
         event Windows.Foundation.TypedEventHandler<Microsoft.UI.Xaml.Controls.AutoSuggestBox, Microsoft.UI.Xaml.Controls.AutoSuggestBoxSuggestionChosenEventArgs> SuggestionChosen;

@@ -3,6 +3,8 @@ namespace XamlToolkit.Labs.WinUI
    [webhosthidden]
    runtimeclass MarkdownThemes : Microsoft.UI.Xaml.DependencyObject
    {
+        MarkdownThemes();
+
         static MarkdownThemes Default { get; };
 
         [noexcept]

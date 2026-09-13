@@ -2,7 +2,7 @@ namespace XamlToolkit.WinUI.Behaviors
 {
     [webhosthidden]
     [contentproperty("Actions")]
-    runtimeclass InvokeActionsActivity : XamlToolkit.WinUI.Animations.Activity
+	runtimeclass InvokeActionsActivity : XamlToolkit.WinUI.Animations.Activity, XamlToolkit.WinUI.Animations.IActivity
     {
         InvokeActionsActivity();
 
