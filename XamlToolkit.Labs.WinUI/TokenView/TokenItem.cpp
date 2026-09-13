@@ -49,13 +49,17 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 	{
 		base_type::OnApplyTemplate();
 
-		_removeButtonClickRevoker.revoke();
+		if (_tokenItemRemoveButton)
+		{
+			_tokenItemRemoveButton.Click(_removeButtonClickToken);
+			_removeButtonClickToken.value = 0;
+		}
 
 		_tokenItemRemoveButton = GetTemplateChild(TokenItemRemoveButtonName).try_as<winrt::ButtonBase>();
 
 		if (_tokenItemRemoveButton)
 		{
-			_tokenItemRemoveButton.Click({ get_weak(), &TokenItem::TokenItemRemoveButton_Click });
+			_removeButtonClickToken = _tokenItemRemoveButton.Click({ get_weak(), &TokenItem::TokenItemRemoveButton_Click });
 		}
 
 		IconChanged();

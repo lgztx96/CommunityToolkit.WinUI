@@ -66,22 +66,22 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		bool _textCompositionActive{ false };
 		std::shared_ptr<RichSuggestQuery> _currentQuery;
 
-		winrt::RichEditBox::SizeChanged_revoker _editBoxSizeChangedRevoker;
-		winrt::RichEditBox::TextChanging_revoker _editBoxTextChangingRevoker;
-		winrt::RichEditBox::TextChanged_revoker _editBoxTextChangedRevoker;
-		winrt::RichEditBox::TextCompositionStarted_revoker _editBoxTextCompositionStartedRevoker;
-		winrt::RichEditBox::TextCompositionChanged_revoker _editBoxTextCompositionChangedRevoker;
-		winrt::RichEditBox::TextCompositionEnded_revoker _editBoxTextCompositionEndedRevoker;
-		winrt::RichEditBox::SelectionChanging_revoker _editBoxSelectionChangingRevoker;
-		winrt::RichEditBox::SelectionChanged_revoker _editBoxSelectionChangedRevoker;
-		winrt::RichEditBox::Paste_revoker _editBoxPasteRevoker;
-		winrt::RichEditBox::PreviewKeyDown_revoker _editBoxPreviewKeyDownRevoker;
+		winrt::event_token _editBoxSizeChangedToken;
+		winrt::event_token _editBoxTextChangingToken;
+		winrt::event_token _editBoxTextChangedToken;
+		winrt::event_token _editBoxTextCompositionStartedToken;
+		winrt::event_token _editBoxTextCompositionChangedToken;
+		winrt::event_token _editBoxTextCompositionEndedToken;
+		winrt::event_token _editBoxSelectionChangingToken;
+		winrt::event_token _editBoxSelectionChangedToken;
+		winrt::event_token _editBoxPasteToken;
+		winrt::event_token _editBoxPreviewKeyDownToken;
 
-		winrt::RichEditBox::ProcessKeyboardAccelerators_revoker _editBoxProcessKeyboardAcceleratorsRevoker;
+		winrt::event_token _editBoxProcessKeyboardAcceleratorsToken;
 
-		winrt::ListViewBase::ItemClick_revoker _listItemClickRevoker;
-		winrt::ListViewBase::SizeChanged_revoker _listSizeChangedRevoker;
-		winrt::ListViewBase::GotFocus_revoker _listGotFocusRevoker;
+		winrt::event_token _listItemClickToken;
+		winrt::event_token _listSizeChangedToken;
+		winrt::event_token _listGotFocusToken;
 
 		winrt::IInspectable _pointerPressedHandler{ nullptr };
 		winrt::IInspectable _pointerMovedHandler{ nullptr };

@@ -51,6 +51,14 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		~ColorPicker();
 
+		static winrt::fire_and_forget final_release(std::unique_ptr<ColorPicker> self)
+		{
+			co_await wil::resume_foreground(self->DispatcherQueue());
+			
+			self->ConnectCallbacks(false);
+			self->ConnectEvents(false);
+		}
+
 		void OnApplyTemplate();
 
 		wil::single_threaded_rw_property<winrt::Color> CheckerBackgroundColor = winrt::Microsoft::UI::ColorHelper::FromArgb(0x19, 0x80, 0x80, 0x80); // Overridden later
@@ -332,7 +340,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		/// </summary>
 		static constexpr int ColorUpdateInterval = 30; // Milliseconds
 
-		int64_t tokenColor;
+		int64_t _colorPropertyChangedToken;
 
 		bool callbacksConnected = false;
 		bool eventsConnected = false;

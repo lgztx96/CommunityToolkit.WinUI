@@ -103,14 +103,14 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
         if (_itemsRepeater)
         {
-            _elementPreparedRevoker.revoke();
+            _itemsRepeater.ElementPrepared(_elementPreparedToken);
         }
 
         _itemsRepeater = GetTemplateChild(PART_ItemsRepeater).try_as<winrt::ItemsRepeater>();
 
         if (_itemsRepeater)
         {
-            _elementPreparedRevoker = _itemsRepeater.ElementPrepared(winrt::auto_revoke, { get_weak(), &SettingsExpander::ItemsRepeater_ElementPrepared });
+            _elementPreparedToken = _itemsRepeater.ElementPrepared({ this, &SettingsExpander::ItemsRepeater_ElementPrepared });
 
             // Update it's source based on our current items properties.
             OnItemsConnectedPropertyChanged(*this, nullptr); // Can't get it to accept type here? (DependencyPropertyChangedEventArgs)EventArgs.Empty

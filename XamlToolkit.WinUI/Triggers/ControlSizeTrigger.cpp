@@ -71,12 +71,14 @@ namespace winrt::XamlToolkit::WinUI::implementation
 	{
 		if (oldValue)
 		{
-			_sizeChangedRevoker.revoke();
+			oldValue.SizeChanged(_sizeChangedToken);
+			_sizeChangedToken = { 0 };
 		}
 
 		if (newValue)
 		{
-			_sizeChangedRevoker = newValue.SizeChanged(winrt::auto_revoke, { this, &ControlSizeTrigger::OnTargetElementSizeChanged });
+			_sizeChangedToken = newValue.SizeChanged({ this, &ControlSizeTrigger::OnTargetElementSizeChanged });
+			_targetElement = newValue;
 		}
 
 		UpdateTrigger();

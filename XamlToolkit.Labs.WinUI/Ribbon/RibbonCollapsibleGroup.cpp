@@ -64,7 +64,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
     {
         if (_collapsedFlyout)
         {
-            _flyoutOpenedRevoker.revoke();
+			_collapsedFlyout.Opened(_flyoutOpenedToken);
         }
 
         if (_collapsedContentContainer)
@@ -80,7 +80,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         if (_collapsedFlyout)
         {
-            _flyoutOpenedRevoker = _collapsedFlyout.Opened(winrt::auto_revoke, { this, &RibbonCollapsibleGroup::OnFlyoutOpened });
+            _flyoutOpenedToken = _collapsedFlyout.Opened({ this, &RibbonCollapsibleGroup::OnFlyoutOpened });
         }
 
         if (_collapsedContentContainer)

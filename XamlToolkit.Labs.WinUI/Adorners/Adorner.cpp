@@ -28,16 +28,16 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
     {
         if (auto oldfe = oldvalue.try_as<winrt::FrameworkElement>())
         {
-            _adornedElementSizeChangedRevoker.revoke();
-            _adornedElementLoadedRevoker.revoke();
-            _adornedElementUnloadedRevoker.revoke();
+            oldfe.SizeChanged(_adornedElementSizeChangedToken);
+            oldfe.Loaded(_adornedElementLoadedToken);
+            oldfe.Unloaded(_adornedElementUnloadedToken);
             // TODO: Should we explicitly detach the WEL here?
         }
 
         if (auto newfe = newvalue.try_as<winrt::FrameworkElement>())
         {
             // Track changes to the AdornedElement's size
-            _adornedElementSizeChangedRevoker = newfe.SizeChanged(winrt::auto_revoke, { this, &Adorner::OnSizeChanged });
+            _adornedElementSizeChangedToken = newfe.SizeChanged({ this, &Adorner::OnSizeChanged });
             // Track changes to the AdornedElement's layout
             // Note: This is pretty spammy, thinking we don't need this?
             /*var weakPropertyChangedListenerLayout = new WeakEventListener<Adorner, object?, object>(this)
@@ -52,10 +52,10 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
             OnLayoutUpdated(nullptr, nullptr);
 
             // Track if AdornedElement is loaded
-            _adornedElementLoadedRevoker = newfe.Loaded(winrt::auto_revoke, { this, &Adorner::OnAdornedElementLoaded });
+            _adornedElementLoadedToken = newfe.Loaded({ this, &Adorner::OnAdornedElementLoaded });
             
             // Track if AdornedElement is unloaded
-            _adornedElementUnloadedRevoker = newfe.Unloaded(winrt::auto_revoke, { this, &Adorner::OnAdornedElementUnloaded });
+            _adornedElementUnloadedToken = newfe.Unloaded({ this, &Adorner::OnAdornedElementUnloaded });
 
             OnAttached();
         }
@@ -63,10 +63,12 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
     void Adorner::OnSizeChanged([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::SizeChangedEventArgs const& e)
     {
-        if (AdornedElement() == nullptr) return;
-        auto size = AdornedElement().ActualSize();
-        Width(size.x);
-        Height(size.y);
+        if (auto adornedElement = AdornedElement())
+        {
+            auto size = adornedElement.ActualSize();
+            Width(size.x);
+            Height(size.y);
+        }
     }
 
     void Adorner::OnLayoutUpdated([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::IInspectable const& e)

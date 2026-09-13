@@ -92,11 +92,11 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         winrt::ButtonBase _incrementButton{ nullptr };
         winrt::IObservableVector<winrt::UIElement> _items{ nullptr };
 
-        winrt::Panel::SizeChanged_revoker _panelSizeChangedRevoker;
-        winrt::ButtonBase::Click_revoker _incrementButtonClickRevoker;
-        winrt::ButtonBase::Click_revoker _decrementButtonClickRevoker;
-        winrt::ScrollViewer::ViewChanged_revoker _scrollViewerViewChangedRevoker;
-        winrt::ScrollViewer::SizeChanged_revoker _scrollViewerSizeChangedRevoker;
+        winrt::event_token _panelSizeChangedToken;
+        winrt::event_token _incrementButtonClickToken;
+        winrt::event_token _decrementButtonClickToken;
+        winrt::event_token _scrollViewerViewChangedToken;
+        winrt::event_token _scrollViewerSizeChangedToken;
     };
 }
 

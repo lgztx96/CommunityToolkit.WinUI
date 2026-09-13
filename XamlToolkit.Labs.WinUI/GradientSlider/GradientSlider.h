@@ -114,12 +114,12 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         wil::untyped_event<winrt::IInspectable> ValueChanged;
 
     private:
-        winrt::FrameworkElement::SizeChanged_revoker _containerCanvasSizeChangedRevoker;
-        winrt::UIElement::PointerEntered_revoker _containerCanvasPointerEnteredRevoker;
-        winrt::UIElement::PointerMoved_revoker _containerCanvasPointerMovedRevoker;
-        winrt::UIElement::PointerExited_revoker _containerCanvasPointerExitedRevoker;
-        winrt::UIElement::PointerPressed_revoker _containerCanvasPointerPressedRevoker;
-        winrt::UIElement::PointerReleased_revoker _containerCanvasPointerReleasedRevoker;
+        winrt::event_token _containerCanvasSizeChangedToken;
+        winrt::event_token _containerCanvasPointerEnteredToken;
+        winrt::event_token _containerCanvasPointerMovedToken;
+        winrt::event_token _containerCanvasPointerExitedToken;
+        winrt::event_token _containerCanvasPointerPressedToken;
+        winrt::event_token _containerCanvasPointerReleasedToken;
 
         winrt::event<winrt::DragStartedEventHandler> _thumbDragStarted;
         winrt::event<winrt::DragCompletedEventHandler> _thumbDragCompleted;

@@ -129,12 +129,12 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		winrt::ButtonBase _tokenViewScrollBackButton{ nullptr };
 		winrt::ButtonBase _tokenViewScrollForwardButton{ nullptr };
 
-		winrt::UIElement::PreviewKeyDown_revoker _previewKeyDownRevoker;
-		winrt::Control::SizeChanged_revoker _sizeChangedRevoker;
-		winrt::FrameworkElement::Loaded_revoker _tokenViewScrollerLoadedRevoker;
-		winrt::ButtonBase::Click_revoker _scrollBackButtonClickRevoker;
-		winrt::ButtonBase::Click_revoker _scrollForwardButtonClickRevoker;
-		winrt::ScrollViewer::ViewChanging_revoker _scrollViewChangingClickRevoker;
+		winrt::event_token _previewKeyDownToken;
+		winrt::event_token _sizeChangedToken;
+		winrt::event_token _tokenViewScrollerLoadedToken;
+		winrt::event_token _scrollBackButtonClickToken;
+		winrt::event_token _scrollForwardButtonClickToken;
+		winrt::event_token _scrollViewChangingClickToken;
 	};
 }
 

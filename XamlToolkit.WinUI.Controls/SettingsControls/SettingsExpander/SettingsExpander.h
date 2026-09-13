@@ -27,8 +27,6 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
     struct SettingsExpander : SettingsExpanderT<SettingsExpander>
     {
         static constexpr auto PART_ItemsRepeater = L"PART_ItemsRepeater";
-        winrt::ItemsRepeater::ElementPrepared_revoker _elementPreparedRevoker;
-        winrt::ItemsRepeater _itemsRepeater;
 
         wil::untyped_event<winrt::Windows::Foundation::IInspectable> Expanded;
 
@@ -104,6 +102,10 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         void ItemContainerStyleSelector(winrt::StyleSelector const& value) { SetValue(ItemContainerStyleSelectorProperty(), value); }
 
         void ItemsRepeater_ElementPrepared(winrt::ItemsRepeater const& sender, winrt::ItemsRepeaterElementPreparedEventArgs const& args);
+
+    private:
+        winrt::event_token _elementPreparedToken;
+        winrt::ItemsRepeater _itemsRepeater{ nullptr };
     };
 }
 

@@ -44,7 +44,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		winrt::IVectorView<winrt::MediaFrameSourceGroup> _frameSourceGroups{ nullptr };
 
-		winrt::ButtonBase::Click_revoker _frameSourceGroupButtonClickRevoker;
+		winrt::event_token _frameSourceGroupButtonClickToken;
 
 		bool IsFrameSourceGroupButtonAvailable() const { return _frameSourceGroups && _frameSourceGroups.Size() > 1; }
 

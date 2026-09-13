@@ -36,12 +36,17 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
             TryStartAnimation();
         }
 
-        _actualThemeChangedRevoker = ActualThemeChanged(winrt::auto_revoke, { this, &Shimmer::OnActualThemeChanged });
+        if (!_actualThemeChangedToken)
+        {
+            _actualThemeChangedToken = ActualThemeChanged({ this, &Shimmer::OnActualThemeChanged });
+        }
     }
 
     void Shimmer::OnUnloaded([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
     {
-        _actualThemeChangedRevoker.revoke();
+        ActualThemeChanged(_actualThemeChangedToken);
+        _actualThemeChangedToken = {};
+
         StopAnimation();
 
         if (_initialized && _shape)

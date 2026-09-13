@@ -26,14 +26,17 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         _border = GetTemplateChild(BorderPartName).try_as<winrt::Border>();
         _colorPicker = GetTemplateChild(ColorPickerPartName).try_as<winrt::Microsoft::UI::Xaml::Controls::ColorPicker>();
 
-        _pointerEnteredRevoker = PointerEntered(winrt::auto_revoke, { this, &GradientSliderThumb::GradientSliderThumb_PointerEntered });
-        _pointerExitedRevoker = PointerExited(winrt::auto_revoke, { this, &GradientSliderThumb::GradientSliderThumb_PointerExited });
-        _pointerPressedRevoker = PointerPressed(winrt::auto_revoke, { this, &GradientSliderThumb::GradientSliderThumb_PointerPressed });
-        _pointerMovedRevoker = PointerMoved(winrt::auto_revoke, { this, &GradientSliderThumb::GradientSliderThumb_PointerMoved });
-        _pointerReleasedRevoker = PointerReleased(winrt::auto_revoke, { this, &GradientSliderThumb::GradientSliderThumb_PointerReleased });
-        _pointerCanceledRevoker = PointerCanceled(winrt::auto_revoke, { this, &GradientSliderThumb::GradientSliderThumb_PointerCanceled });
-        _isEnabledChangedRevoker = IsEnabledChanged(winrt::auto_revoke, { this, &GradientSliderThumb::GradientSliderThumb_IsEnabledChanged });
-        _tappedRevoker = Tapped(winrt::auto_revoke, { this, &GradientSliderThumb::GradientSliderThumb_Tapped });
+        if (!_pointerEnteredToken)
+        {
+            _pointerEnteredToken = PointerEntered({ this, &GradientSliderThumb::GradientSliderThumb_PointerEntered });
+            _pointerExitedToken = PointerExited({ this, &GradientSliderThumb::GradientSliderThumb_PointerExited });
+            _pointerPressedToken = PointerPressed({ this, &GradientSliderThumb::GradientSliderThumb_PointerPressed });
+            _pointerMovedToken = PointerMoved({ this, &GradientSliderThumb::GradientSliderThumb_PointerMoved });
+            _pointerReleasedToken = PointerReleased({ this, &GradientSliderThumb::GradientSliderThumb_PointerReleased });
+            _pointerCanceledToken = PointerCanceled({ this, &GradientSliderThumb::GradientSliderThumb_PointerCanceled });
+            _isEnabledChangedToken = IsEnabledChanged({ this, &GradientSliderThumb::GradientSliderThumb_IsEnabledChanged });
+            _tappedToken = Tapped({ this, &GradientSliderThumb::GradientSliderThumb_Tapped });
+        }
 
         if (_colorPicker)
         {

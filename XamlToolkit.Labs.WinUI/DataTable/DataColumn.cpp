@@ -58,8 +58,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         if (_columnSizer)
         {
             _columnSizer.TargetControl(nullptr);
-            _columnSizerManipulationDeltaRevoker.revoke();
-			_columnSizerManipulationCompletedRevoker.revoke();
+            _columnSizer.ManipulationDelta(_columnSizerManipulationDeltaToken);
+            _columnSizer.ManipulationCompleted(_columnSizerManipulationCompletedToken);
         }
 
         _columnSizer = GetTemplateChild(PartColumnSizer).try_as<winrt::XamlToolkit::WinUI::Controls::ContentSizer>();
@@ -67,8 +67,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         if (_columnSizer)
         {
             _columnSizer.TargetControl(*this);
-            _columnSizerManipulationDeltaRevoker = _columnSizer.ManipulationDelta(winrt::auto_revoke, { this, &DataColumn::ColumnSizer_ManipulationDelta });
-            _columnSizerManipulationCompletedRevoker = _columnSizer.ManipulationCompleted(winrt::auto_revoke, { this, &DataColumn::ColumnSizer_ManipulationCompleted });
+            _columnSizerManipulationDeltaToken = _columnSizer.ManipulationDelta({ this, &DataColumn::ColumnSizer_ManipulationDelta });
+            _columnSizerManipulationCompletedToken = _columnSizer.ManipulationCompleted({ this, &DataColumn::ColumnSizer_ManipulationCompleted });
         }
 
         // Get DataTable parent weak reference for when we manipulate columns.

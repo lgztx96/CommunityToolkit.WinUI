@@ -45,7 +45,16 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         if (_containerCanvas)
         {
-            _containerCanvasSizeChangedRevoker.revoke();
+            _containerCanvas.SizeChanged(_containerCanvasSizeChangedToken);
+
+			if (_placeholderThumb)
+			{
+				_containerCanvas.PointerEntered(_containerCanvasPointerEnteredToken);
+				_containerCanvas.PointerMoved(_containerCanvasPointerMovedToken);
+				_containerCanvas.PointerExited(_containerCanvasPointerExitedToken);
+				_containerCanvas.PointerPressed(_containerCanvasPointerPressedToken);
+				_containerCanvas.PointerReleased(_containerCanvasPointerReleasedToken);
+			}
         }
 
         _containerCanvas = GetTemplateChild(ContainerCanvasPartName).try_as<winrt::Canvas>();
@@ -54,16 +63,16 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         if (_containerCanvas)
         {
-            _containerCanvasSizeChangedRevoker = _containerCanvas.SizeChanged(winrt::auto_revoke, { this, &GradientSlider::ContainerCanvas_SizeChanged });
+            _containerCanvasSizeChangedToken = _containerCanvas.SizeChanged({ this, &GradientSlider::ContainerCanvas_SizeChanged });
         }
 
         if (_placeholderThumb)
         {
-            _containerCanvasPointerEnteredRevoker = _containerCanvas.PointerEntered(winrt::auto_revoke, { this, &GradientSlider::ContainerCanvas_PointerEntered });
-            _containerCanvasPointerMovedRevoker = _containerCanvas.PointerMoved(winrt::auto_revoke, { this, &GradientSlider::ContainerCanvas_PointerMoved });
-            _containerCanvasPointerExitedRevoker = _containerCanvas.PointerExited(winrt::auto_revoke, { this, &GradientSlider::ContainerCanvas_PointerExited });
-            _containerCanvasPointerPressedRevoker = _containerCanvas.PointerPressed(winrt::auto_revoke, { this, &GradientSlider::ContainerCanvas_PointerPressed });
-            _containerCanvasPointerReleasedRevoker = _containerCanvas.PointerReleased(winrt::auto_revoke, { this, &GradientSlider::ContainerCanvas_PointerReleased });
+            _containerCanvasPointerEnteredToken = _containerCanvas.PointerEntered({ this, &GradientSlider::ContainerCanvas_PointerEntered });
+            _containerCanvasPointerMovedToken = _containerCanvas.PointerMoved({ this, &GradientSlider::ContainerCanvas_PointerMoved });
+            _containerCanvasPointerExitedToken = _containerCanvas.PointerExited({ this, &GradientSlider::ContainerCanvas_PointerExited });
+            _containerCanvasPointerPressedToken = _containerCanvas.PointerPressed({ this, &GradientSlider::ContainerCanvas_PointerPressed });
+            _containerCanvasPointerReleasedToken = _containerCanvas.PointerReleased({ this, &GradientSlider::ContainerCanvas_PointerReleased });
 
             _placeholderThumb.Visibility(winrt::Visibility::Collapsed);
         }

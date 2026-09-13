@@ -101,8 +101,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		winrt::ItemsControl _primaryItemsControl{ nullptr };
 		winrt::Button _moreButton{ nullptr };
 
-		int64_t _commandAlignmentChangedToken{ 0 };
-		int64_t _overflowAlignmentChangedToken{ 0 };
+		int64_t _commandAlignmentChangedToken;
+		int64_t _overflowAlignmentChangedToken;
 	};
 }
 

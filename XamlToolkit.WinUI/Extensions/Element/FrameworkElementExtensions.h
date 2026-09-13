@@ -19,8 +19,8 @@ namespace winrt::XamlToolkit::WinUI::implementation
 {
     struct AncestorTracker : winrt::implements<AncestorTracker, winrt::IInspectable>
     {
-        winrt::event_token loadedToken{ 0 };
-        winrt::event_token unloadedToken{ 0 };
+        winrt::event_token loadedToken;
+        winrt::event_token unloadedToken;
     };
 
     struct FrameworkElementExtensions

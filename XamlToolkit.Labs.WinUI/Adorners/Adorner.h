@@ -38,6 +38,17 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         void OnLayoutUpdated(winrt::IInspectable const& sender, winrt::IInspectable const& e);
 
+		static winrt::fire_and_forget final_release(std::unique_ptr<Adorner> self) noexcept
+		{
+			co_await wil::resume_foreground(self->DispatcherQueue());
+            if (const auto element = self->_adornedElement.try_as<winrt::FrameworkElement>())
+			{
+				element.Loaded(self->_adornedElementLoadedToken);
+				element.Unloaded(self->_adornedElementUnloadedToken);
+				element.SizeChanged(self->_adornedElementSizeChangedToken);
+			}
+		}
+
     private:
         void OnAdornedElementChanged(winrt::UIElement const& oldvalue, winrt::UIElement const& newvalue);
 
@@ -47,11 +58,11 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         void OnAdornedElementUnloaded(winrt::IInspectable const& source, winrt::RoutedEventArgs const& eventArgs);
 
-        winrt::UIElement _adornedElement;
+        winrt::UIElement _adornedElement{ nullptr };
 
-        winrt::FrameworkElement::SizeChanged_revoker _adornedElementSizeChangedRevoker;
-        winrt::FrameworkElement::Loaded_revoker _adornedElementLoadedRevoker;
-        winrt::FrameworkElement::Unloaded_revoker _adornedElementUnloadedRevoker;
+        winrt::event_token _adornedElementSizeChangedToken;
+        winrt::event_token _adornedElementLoadedToken;
+        winrt::event_token _adornedElementUnloadedToken;
     };
 }
 

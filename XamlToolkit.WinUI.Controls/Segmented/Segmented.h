@@ -60,7 +60,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		int _internalSelectedIndex = -1;
 		bool _hasLoaded = false;
 
-		winrt::UIElement::PreviewKeyDown_revoker _previewKeyDownRevoker;
+		winrt::event_token _previewKeyDownToken;
 	};
 }
 

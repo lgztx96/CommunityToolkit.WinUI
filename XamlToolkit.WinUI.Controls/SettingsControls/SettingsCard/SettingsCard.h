@@ -174,15 +174,17 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		void IsActionIconVisible(bool value) const { SetValue(IsActionIconVisibleProperty(), winrt::box_value(value)); }
 
 	private:
-		winrt::event_token _pointerEnteredToken{};
-		winrt::event_token _pointerExitedToken{};
-		winrt::event_token _pointerCaptureLostToken{};
-		winrt::event_token _pointerCanceledToken{};
-		winrt::event_token _previewKeyDownToken{};
-		winrt::event_token _previewKeyUpToken{};
+		winrt::VisualStateGroup _contentAlignmentStatesGroup;
 
-		class_type::IsEnabledChanged_revoker _enabledChangedRevoker;
-		winrt::VisualStateGroup::CurrentStateChanged_revoker _currentStateChangedRevoker;
+		winrt::event_token _pointerEnteredToken;
+		winrt::event_token _pointerExitedToken;
+		winrt::event_token _pointerCaptureLostToken;
+		winrt::event_token _pointerCanceledToken;
+		winrt::event_token _previewKeyDownToken;
+		winrt::event_token _previewKeyUpToken;
+
+		winrt::event_token _enabledChangedToken;
+		winrt::event_token _currentStateChangedToken;
 	};
 }
 

@@ -60,7 +60,7 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
         bool _initialized = false;
         bool _disposed = false;
 
-        winrt::MediaFrameReader::FrameArrived_revoker _frameArrivedRevoker;
+        winrt::event_token _frameArrivedToken;
 
         winrt::IAsyncOperation<CameraHelperResult> InitializeMediaCaptureAsync();
 

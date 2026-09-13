@@ -106,7 +106,10 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		CheckInitialVisualState();
 		SetAccessibleContentName();
 
-		_enabledChangedRevoker = IsEnabledChanged(winrt::auto_revoke, { this, &SettingsCard::OnIsEnabledChanged });
+		if (!_enabledChangedToken)
+		{
+			_enabledChangedToken = IsEnabledChanged({ this, &SettingsCard::OnIsEnabledChanged });
+		}
 	}
 
 	void SettingsCard::CheckInitialVisualState()
@@ -115,8 +118,15 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		if (auto contentAlignmentStatesGroup = GetTemplateChild(ContentAlignmentStates).try_as<winrt::VisualStateGroup>())
 		{
+			if (_contentAlignmentStatesGroup)
+			{
+				_contentAlignmentStatesGroup.CurrentStateChanged(_currentStateChangedToken);
+			}
+
 			CheckVerticalSpacingState(contentAlignmentStatesGroup.CurrentState());
-			_currentStateChangedRevoker = contentAlignmentStatesGroup.CurrentStateChanged(winrt::auto_revoke, { this, &SettingsCard::ContentAlignmentStates_Changed });
+			_currentStateChangedToken = contentAlignmentStatesGroup.CurrentStateChanged({ this, &SettingsCard::ContentAlignmentStates_Changed });
+
+			_contentAlignmentStatesGroup = contentAlignmentStatesGroup;
 		}
 
 		CheckHeaderIconState();

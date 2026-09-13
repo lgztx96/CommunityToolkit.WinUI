@@ -46,7 +46,7 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
         void OnAnimationCompleted(winrt::IInspectable const& sender, winrt::IInspectable const& e);
 
         winrt::XamlToolkit::WinUI::Animations::AnimationSet _animationSet{ nullptr };
-        winrt::event_token _completedToken{};
+        winrt::event_token _completedToken;
     };
 }
 

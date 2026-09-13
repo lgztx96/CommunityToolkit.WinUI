@@ -77,7 +77,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
 		winrt::ButtonBase _tokenItemRemoveButton{ nullptr };
 
-		winrt::ButtonBase::Click_revoker _removeButtonClickRevoker;
+		winrt::event_token _removeButtonClickToken;
 	};
 }
 

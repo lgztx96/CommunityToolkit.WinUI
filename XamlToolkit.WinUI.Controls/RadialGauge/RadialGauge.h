@@ -71,9 +71,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         winrt::ContainerVisual _root{ nullptr };
         winrt::CompositionSpriteShape _needle{ nullptr };
 
-        winrt::UIElement::PointerReleased_revoker _pointerReleasedRevoker;
-        winrt::Control::IsEnabledChanged_revoker _isEnabledChangedRevoker;
-        winrt::FrameworkElement::Unloaded_revoker _unloadedRevoker;
+        winrt::event_token _pointerReleasedToken;
+        winrt::event_token _isEnabledChangedToken;
+        winrt::event_token _unloadedToken;
 
         winrt::event_token _tappedToken;
         winrt::event_token _manipulationDeltaToken;

@@ -39,7 +39,7 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
 
         std::mutex _mutex;
         winrt::XamlToolkit::WinUI::Helpers::ConnectionInformation _connectionInformation{ nullptr };
-        winrt::event_token _networkStatusChangedToken{};
+        winrt::event_token _networkStatusChangedToken;
     };
 }
 

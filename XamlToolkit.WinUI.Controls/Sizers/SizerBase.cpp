@@ -55,15 +55,17 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         base_type::OnApplyTemplate();
 
         // Register Events
-        _loadedRevoker = Loaded(winrt::auto_revoke, { this, &SizerBase::SizerBase_Loaded });
-        _pointerEnteredRevoker = PointerEntered(winrt::auto_revoke, { this, &SizerBase::SizerBase_PointerEntered });
-        _pointerExitedRevoker = PointerExited(winrt::auto_revoke, { this, &SizerBase::SizerBase_PointerExited });
-        _pointerPressedRevoker = PointerPressed(winrt::auto_revoke, { this, &SizerBase::SizerBase_PointerPressed });
-        _pointerReleasedRevoker = PointerReleased(winrt::auto_revoke, { this, &SizerBase::SizerBase_PointerReleased });
-        _manipulationStartedRevoker = ManipulationStarted(winrt::auto_revoke, { this, &SizerBase::SizerBase_ManipulationStarted });
-        _manipulationCompletedRevoker = ManipulationCompleted(winrt::auto_revoke, { this, &SizerBase::SizerBase_ManipulationCompleted });
-        _isEnabledChangedRevoker = IsEnabledChanged(winrt::auto_revoke, { this, &SizerBase::SizerBase_IsEnabledChanged });
-
+        if (!_isEnabledChangedToken)
+        {
+            _loadedToken = Loaded({ this, &SizerBase::SizerBase_Loaded });
+            _pointerEnteredToken = PointerEntered({ this, &SizerBase::SizerBase_PointerEntered });
+            _pointerExitedToken = PointerExited({ this, &SizerBase::SizerBase_PointerExited });
+            _pointerPressedToken = PointerPressed({ this, &SizerBase::SizerBase_PointerPressed });
+            _pointerReleasedToken = PointerReleased({ this, &SizerBase::SizerBase_PointerReleased });
+            _manipulationStartedToken = ManipulationStarted({ this, &SizerBase::SizerBase_ManipulationStarted });
+            _manipulationCompletedToken = ManipulationCompleted({ this, &SizerBase::SizerBase_ManipulationCompleted });
+            _isEnabledChangedToken = IsEnabledChanged({ this, &SizerBase::SizerBase_IsEnabledChanged });
+        }
         // Trigger initial state transition based on if we're Enabled or not currently.
         SizerBase_IsEnabledChanged(*this, nullptr);
 
@@ -79,7 +81,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
     void SizerBase::SizerBase_Loaded([[maybe_unused]] winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e)
     {
-        _loadedRevoker.revoke();
+        Loaded(_loadedToken);
 
         overridable().OnLoaded(e);
     }

@@ -139,7 +139,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         winrt::IInspectable _contaionerPointerEventHandler{ nullptr };
         winrt::IInspectable _contaionerKeyEventHandler{ nullptr };
 
-        winrt::Flyout::Opened_revoker _flyoutOpenedRevoker;
+        winrt::event_token _flyoutOpenedToken;
     };
 }
 

@@ -27,10 +27,10 @@ namespace winrt::XamlToolkit::WinUI::implementation
 	{
 		bool _isConnected;
 		std::map<winrt::hstring, winrt::IInspectable, std::less<>> _resources;
-		winrt::FrameworkElement::SizeChanged_revoker _sizeChangedRevoker;
-		winrt::FrameworkElement::Loaded_revoker _loadedRevoker;
-		winrt::FrameworkElement::Unloaded_revoker _unloadedRevoker;
-		winrt::FrameworkElement::LayoutUpdated_revoker _layoutUpdatedRevoker;
+		winrt::event_token _sizeChangedToken;
+		winrt::event_token _loadedToken;
+		winrt::event_token _unloadedToken;
+		winrt::event_token _layoutUpdatedToken;
 
 		wil::single_threaded_rw_property<std::optional<uint64_t>> VisibilityToken;
 

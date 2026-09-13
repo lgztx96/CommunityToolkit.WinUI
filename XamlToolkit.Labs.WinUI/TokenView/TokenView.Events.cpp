@@ -68,35 +68,35 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
     {
         if (_tokenViewScroller)
         {
-            _tokenViewScrollerLoadedRevoker.revoke();
-            _scrollViewChangingClickRevoker.revoke();
+			_tokenViewScroller.Loaded(_tokenViewScrollerLoadedToken);
+			_tokenViewScroller.ViewChanging(_scrollViewChangingClickToken);
         }
 
         if (_tokenViewScrollBackButton)
         {
-            _scrollBackButtonClickRevoker.revoke();
+			_tokenViewScrollBackButton.Click(_scrollBackButtonClickToken);
         }
 
         if (_tokenViewScrollForwardButton)
         {
-            _scrollForwardButtonClickRevoker.revoke();
+			_tokenViewScrollBackButton.Click(_scrollForwardButtonClickToken);
         }
 
         if (_tokenViewScroller)
         {
-            _scrollViewChangingClickRevoker = _tokenViewScroller.ViewChanging(winrt::auto_revoke, { get_weak(), &TokenView::TokenViewScroller_ViewChanging });
+            _scrollViewChangingClickToken = _tokenViewScroller.ViewChanging({ get_weak(), &TokenView::TokenViewScroller_ViewChanging });
             _tokenViewScrollBackButton = winrt::DependencyObjectEx::FindDescendant(_tokenViewScroller, TokenViewScrollBackButtonName).try_as<winrt::ButtonBase>();
             _tokenViewScrollForwardButton = winrt::DependencyObjectEx::FindDescendant(_tokenViewScroller, TokenViewScrollForwardButtonName).try_as<winrt::ButtonBase>();
         }
 
         if (_tokenViewScrollBackButton)
         {
-            _scrollBackButtonClickRevoker = _tokenViewScrollBackButton.Click(winrt::auto_revoke, { get_weak(), &TokenView::ScrollTabBackButton_Click });
+            _scrollBackButtonClickToken = _tokenViewScrollBackButton.Click({ get_weak(), &TokenView::ScrollTabBackButton_Click });
         }
 
         if (_tokenViewScrollForwardButton)
         {
-            _scrollForwardButtonClickRevoker = _tokenViewScrollForwardButton.Click(winrt::auto_revoke, { get_weak(), &TokenView::ScrollTabForwardButton_Click });
+            _scrollForwardButtonClickToken = _tokenViewScrollForwardButton.Click({ get_weak(), &TokenView::ScrollTabForwardButton_Click });
         }
 
         UpdateScrollButtonsVisibility();

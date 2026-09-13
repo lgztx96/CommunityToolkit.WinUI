@@ -58,20 +58,29 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 	{
 		base_type::OnApplyTemplate();
 		SelectedIndex(_internalSelectedIndex);
-		_sizeChangedRevoker = SizeChanged(winrt::auto_revoke, { get_weak(), &TokenView::TokenView_SizeChanged });
+
+		if (!_sizeChangedToken)
+		{
+			_sizeChangedToken = SizeChanged({ this, &TokenView::TokenView_SizeChanged });
+		}
+		
 		if (_tokenViewScroller)
 		{
-			_tokenViewScrollerLoadedRevoker.revoke();
+			_tokenViewScroller.Loaded(_tokenViewScrollerLoadedToken);
 		}
 
 		_tokenViewScroller = GetTemplateChild(TokenViewScrollViewerName).try_as<winrt::ScrollViewer>();
 
 		if (_tokenViewScroller)
 		{
-			_tokenViewScrollerLoadedRevoker = _tokenViewScroller.Loaded(winrt::auto_revoke, { get_weak(), &TokenView::ScrollViewer_Loaded });
+			_tokenViewScrollerLoadedToken = _tokenViewScroller.Loaded({ this, &TokenView::ScrollViewer_Loaded });
 		}
 
-		_previewKeyDownRevoker = PreviewKeyDown(winrt::auto_revoke, { get_weak(), &TokenView::TokenView_PreviewKeyDown });
+		if (!_previewKeyDownToken) 
+		{
+			_previewKeyDownToken = PreviewKeyDown({ this, &TokenView::TokenView_PreviewKeyDown });
+		}
+
 		OnIsWrappedChanged();
 	}
 

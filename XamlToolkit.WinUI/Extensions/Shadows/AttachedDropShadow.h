@@ -36,7 +36,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 		static constexpr TypedResourceKey<CompositionSurfaceBrush> SurfaceBrushResourceKey{ L"SurfaceBrush" };
 		static constexpr TypedResourceKey<CompositionVisualSurface> VisualSurfaceResourceKey{ L"VisualSurface" };
 
-		winrt::FrameworkElement::SizeChanged_revoker _castToSizeChangedRevoker;
+		winrt::event_token _castToSizeChangedToken;
 
 		static void OnCastToPropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 

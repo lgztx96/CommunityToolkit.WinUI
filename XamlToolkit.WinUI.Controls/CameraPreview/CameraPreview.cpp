@@ -76,7 +76,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		if (_frameSourceGroupButton)
 		{
-			_frameSourceGroupButtonClickRevoker.revoke();
+			_frameSourceGroupButton.Click(_frameSourceGroupButtonClickToken);
 		}
 
 		_mediaPlayerElementControl = GetTemplateChild(Preview_MediaPlayerElementControl).try_as<winrt::MediaPlayerElement>();
@@ -84,8 +84,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		if (_frameSourceGroupButton)
 		{
-			_frameSourceGroupButtonClickRevoker =
-				_frameSourceGroupButton.Click(winrt::auto_revoke, { this, &CameraPreview::FrameSourceGroupButton_ClickAsync });
+			_frameSourceGroupButtonClickToken = _frameSourceGroupButton.Click({ this, &CameraPreview::FrameSourceGroupButton_ClickAsync });
 			_frameSourceGroupButton.IsEnabled(false);
 			_frameSourceGroupButton.Visibility(winrt::Visibility::Collapsed);
 		}

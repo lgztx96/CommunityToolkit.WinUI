@@ -29,7 +29,11 @@ namespace winrt::XamlToolkit::WinUI::implementation
 			if (auto element = e.OldValue().try_as<winrt::FrameworkElement>())
 			{
 				winrt::ElementCompositionPreview::SetElementChildVisual(element, nullptr);
-				shadow->_castToSizeChangedRevoker.revoke();
+				if (shadow->_castToSizeChangedToken) 
+				{
+					element.SizeChanged(shadow->_castToSizeChangedToken);
+					shadow->_castToSizeChangedToken = { 0 };
+				}
 			}
 
 			if (auto elementNew = e.NewValue().try_as<winrt::FrameworkElement>())
@@ -72,8 +76,8 @@ namespace winrt::XamlToolkit::WinUI::implementation
 					}
 				}
 
-				shadow->_castToSizeChangedRevoker = elementNew.SizeChanged(
-					winrt::auto_revoke, [shadowWeak(winrt::make_weak(obj))](auto& s, auto& e)
+				shadow->_castToSizeChangedToken = elementNew.SizeChanged(
+					[shadowWeak(winrt::make_weak(obj))](auto& s, auto& e)
 					{
 						if (auto shadow = shadowWeak.get())
 						{
@@ -114,14 +118,20 @@ namespace winrt::XamlToolkit::WinUI::implementation
 			_container.Children().Remove(context.SpriteVisual());
 		}
 
-		if (auto spriteVisual = context.SpriteVisual()) spriteVisual.StopAnimation(L"Size");
+		if (auto spriteVisual = context.SpriteVisual()) 
+		{ 
+			spriteVisual.StopAnimation(L"Size");
+		}
 
-		constSelf->_layoutUpdatedRevoker.revoke();
-
-		if (constSelf->VisibilityToken().has_value())
+		if (const auto element = context.Element()) 
 		{
-			context.Element().UnregisterPropertyChangedCallback(winrt::UIElement::VisibilityProperty(), constSelf->VisibilityToken.value());
-			constSelf->VisibilityToken(std::nullopt);
+			element.LayoutUpdated(constSelf->_layoutUpdatedToken);
+
+			if (constSelf->VisibilityToken().has_value())
+			{
+				element.UnregisterPropertyChangedCallback(winrt::UIElement::VisibilityProperty(), constSelf->VisibilityToken.value());
+				constSelf->VisibilityToken(std::nullopt);
+			}
 		}
 
 		base_type::OnElementContextUninitialized(context);
@@ -134,17 +144,20 @@ namespace winrt::XamlToolkit::WinUI::implementation
 			_container.Children().InsertAtTop(context.SpriteVisual());
 		}
 
-		auto constSelf = winrt::get_self<AttachedShadowElementContext>(context)->get_strong();
-		// Handles size changing and other elements around it updating.
-		constSelf->_layoutUpdatedRevoker = context.Element().LayoutUpdated(winrt::auto_revoke, { get_weak(), &AttachedDropShadow::Element_LayoutUpdated });
-
-		if (auto visibilityToken = constSelf->VisibilityToken())
+		if (const auto element = context.Element())
 		{
-			context.Element().UnregisterPropertyChangedCallback(winrt::UIElement::VisibilityProperty(), visibilityToken.value());
-			constSelf->VisibilityToken(std::nullopt);
-		}
+			auto constSelf = winrt::get_self<AttachedShadowElementContext>(context)->get_strong();
+			// Handles size changing and other elements around it updating.
+			constSelf->_layoutUpdatedToken = element.LayoutUpdated({ get_weak(), &AttachedDropShadow::Element_LayoutUpdated });
 
-		constSelf->VisibilityToken(context.Element().RegisterPropertyChangedCallback(winrt::UIElement::VisibilityProperty(), { get_weak(), &AttachedDropShadow::Element_VisibilityChanged }));
+			if (auto visibilityToken = constSelf->VisibilityToken())
+			{
+				element.UnregisterPropertyChangedCallback(winrt::UIElement::VisibilityProperty(), visibilityToken.value());
+				constSelf->VisibilityToken(std::nullopt);
+			}
+
+			constSelf->VisibilityToken(element.RegisterPropertyChangedCallback(winrt::UIElement::VisibilityProperty(), { get_weak(), &AttachedDropShadow::Element_VisibilityChanged }));
+		}
 	}
 
 	void AttachedDropShadow::Element_LayoutUpdated([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::IInspectable const& e)

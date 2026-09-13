@@ -73,7 +73,10 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			_hasLoaded = true;
 		}
 
-		_previewKeyDownRevoker = PreviewKeyDown(winrt::auto_revoke, { this, &Segmented::Segmented_PreviewKeyDown });
+		if (!_previewKeyDownToken) 
+		{
+			_previewKeyDownToken = PreviewKeyDown({ this, &Segmented::Segmented_PreviewKeyDown });
+		}
 	}
 
 	void Segmented::Segmented_PreviewKeyDown([[maybe_unused]] winrt::IInspectable const& sender, winrt::KeyRoutedEventArgs const& e)

@@ -108,14 +108,14 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         static const wil::single_threaded_property<winrt::DependencyProperty> IsThumbVisibleProperty;
 
     private:
-        winrt::FrameworkElement::Loaded_revoker _loadedRevoker;
-        winrt::UIElement::PointerEntered_revoker _pointerEnteredRevoker;
-        winrt::UIElement::PointerExited_revoker _pointerExitedRevoker;
-        winrt::UIElement::PointerPressed_revoker _pointerPressedRevoker;
-        winrt::UIElement::PointerReleased_revoker _pointerReleasedRevoker;
-        winrt::UIElement::ManipulationStarted_revoker _manipulationStartedRevoker;
-        winrt::UIElement::ManipulationCompleted_revoker _manipulationCompletedRevoker;
-        winrt::Control::IsEnabledChanged_revoker _isEnabledChangedRevoker;
+        winrt::event_token _loadedToken;
+        winrt::event_token _pointerEnteredToken;
+        winrt::event_token _pointerExitedToken;
+        winrt::event_token _pointerPressedToken;
+        winrt::event_token _pointerReleasedToken;
+        winrt::event_token _manipulationStartedToken;
+        winrt::event_token _manipulationCompletedToken;
+        winrt::event_token _isEnabledChangedToken;
 
         bool _appliedTemplate = false;
 

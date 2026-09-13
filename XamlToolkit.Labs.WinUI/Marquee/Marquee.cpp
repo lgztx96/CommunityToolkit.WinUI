@@ -322,7 +322,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		_marqueeStoryboard = CreateMarqueeStoryboardAnimation(start, end, duration, targetProperty);
 
 		// Bind the storyboard completed event
-		_marqueeStoryboard.Completed({ this, &Marquee::StoryBoard_Completed });
+		_storyBoardCompletedRevoker = _marqueeStoryboard.Completed(winrt::auto_revoke, { this, &Marquee::StoryBoard_Completed });
 
 		// NOTE: Can this be optimized to remove or reduce the need for this callback?
 		// Invalidate the segment measures when the transform changes.
@@ -377,8 +377,9 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
 
 		// Add the key frames to the animation
-		animation.KeyFrames().Append(frame1);
-		animation.KeyFrames().Append(frame2);
+		auto keyFrames = animation.KeyFrames();
+		keyFrames.Append(frame1);
+		keyFrames.Append(frame2);
 
 		// Add the double animation to the storyboard
 		marqueeStoryboard.Children().Append(animation);
@@ -413,7 +414,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 			return;
 		}
 
-		auto self = winrt::get_self<Marquee>(control)->get_strong();
+		auto self = winrt::get_self<Marquee>(control);
 
 		auto newBehavior = e.NewValue().try_as<MarqueeBehavior>();
 
@@ -423,7 +424,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		self->UpdateMarquee(false);
 		if (self->AutoPlay())
 		{
-			control.StartMarquee();
+			self->StartMarquee();
 		}
 	}
 
@@ -449,7 +450,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
 		if (self->AutoPlay())
 		{
-			control.StartMarquee();
+			self->StartMarquee();
 		}
 	}
 
@@ -457,7 +458,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 	{
 		if (auto control = d.try_as<class_type>())
 		{
-			auto self = winrt::get_self<Marquee>(control)->get_strong();
+			auto self = winrt::get_self<Marquee>(control);
 
 			// It is always possible to update these properties on the fly.
 			// NOTE: The RepeatBehavior will reset its count though. Can this be fixed?
@@ -465,7 +466,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
 			if (self->AutoPlay())
 			{
-				control.StartMarquee();
+				self->StartMarquee();
 			}
 		}
 	}

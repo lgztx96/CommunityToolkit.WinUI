@@ -122,6 +122,30 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	{
 		base_type::OnApplyTemplate();
 
+		if (_richEditBox)
+		{
+			_richEditBox.SizeChanged(_editBoxSizeChangedToken);
+			_richEditBox.TextChanging(_editBoxTextChangingToken);
+			_richEditBox.TextChanged(_editBoxTextChangedToken);
+			_richEditBox.TextCompositionStarted(_editBoxTextCompositionStartedToken);
+			_richEditBox.TextCompositionChanged(_editBoxTextCompositionChangedToken);
+			_richEditBox.TextCompositionEnded(_editBoxTextCompositionEndedToken);
+			_richEditBox.SelectionChanging(_editBoxSelectionChangingToken);
+			_richEditBox.SelectionChanged(_editBoxSelectionChangedToken);
+			_richEditBox.Paste(_editBoxPasteToken);
+			_richEditBox.PreviewKeyDown(_editBoxPreviewKeyDownToken);
+			_richEditBox.RemoveHandler(winrt::UIElement::PointerMovedEvent(), _pointerMovedHandler);
+			_richEditBox.RemoveHandler(winrt::UIElement::PointerPressedEvent(), _pointerPressedHandler);
+			_richEditBox.ProcessKeyboardAccelerators(_editBoxProcessKeyboardAcceleratorsToken);
+		}
+
+		if (_suggestionsList)
+		{
+			_suggestionsList.ItemClick(_listItemClickToken);
+			_suggestionsList.SizeChanged(_listSizeChangedToken);
+			_suggestionsList.GotFocus(_listGotFocusToken);
+		}
+
 		_suggestionPopup = GetTemplateChild(PartSuggestionsPopup).try_as<winrt::Popup>();
 		_richEditBox = GetTemplateChild(PartRichEditBox).try_as<winrt::RichEditBox>();
 		_suggestionsList = GetTemplateChild(PartSuggestionsList).try_as<winrt::ListViewBase>();
@@ -131,44 +155,26 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		if (_richEditBox)
 		{
-			_editBoxSizeChangedRevoker.revoke();
-			_editBoxTextChangingRevoker.revoke();
-			_editBoxTextChangedRevoker.revoke();
-			_editBoxTextCompositionStartedRevoker.revoke();
-			_editBoxTextCompositionChangedRevoker.revoke();
-			_editBoxTextCompositionEndedRevoker.revoke();
-			_editBoxSelectionChangingRevoker.revoke();
-			_editBoxSelectionChangedRevoker.revoke();
-			_editBoxPasteRevoker.revoke();
-			_editBoxPreviewKeyDownRevoker.revoke();
-			_richEditBox.RemoveHandler(winrt::UIElement::PointerMovedEvent(), _pointerMovedHandler);
-			_richEditBox.RemoveHandler(winrt::UIElement::PointerPressedEvent(), _pointerPressedHandler);
-			_editBoxProcessKeyboardAcceleratorsRevoker.revoke();
-
-			_editBoxSizeChangedRevoker = _richEditBox.SizeChanged(winrt::auto_revoke, { this, &RichSuggestBox::RichEditBox_SizeChanged });
-			_editBoxTextChangingRevoker = _richEditBox.TextChanging(winrt::auto_revoke, { this, &RichSuggestBox::RichEditBox_TextChanging });
-			_editBoxTextChangedRevoker = _richEditBox.TextChanged(winrt::auto_revoke, { this,&RichSuggestBox::RichEditBox_TextChanged });
-			_editBoxTextCompositionStartedRevoker = _richEditBox.TextCompositionStarted(winrt::auto_revoke, { this,&RichSuggestBox::RichEditBox_TextCompositionStarted });
-			_editBoxTextCompositionChangedRevoker = _richEditBox.TextCompositionChanged(winrt::auto_revoke, { this,&RichSuggestBox::RichEditBox_TextCompositionChanged });
-			_editBoxTextCompositionEndedRevoker = _richEditBox.TextCompositionEnded(winrt::auto_revoke, { this,&RichSuggestBox::RichEditBox_TextCompositionEnded });
-			_editBoxSelectionChangingRevoker = _richEditBox.SelectionChanging(winrt::auto_revoke, { this,&RichSuggestBox::RichEditBox_SelectionChanging });
-			_editBoxSelectionChangedRevoker = _richEditBox.SelectionChanged(winrt::auto_revoke, { this,&RichSuggestBox::RichEditBox_SelectionChanged });
-			_editBoxPasteRevoker = _richEditBox.Paste(winrt::auto_revoke, { this, &RichSuggestBox::RichEditBox_Paste });
-			_editBoxPreviewKeyDownRevoker = _richEditBox.PreviewKeyDown(winrt::auto_revoke, { this, &RichSuggestBox::RichEditBox_PreviewKeyDown });
+			_editBoxSizeChangedToken = _richEditBox.SizeChanged({ this, &RichSuggestBox::RichEditBox_SizeChanged });
+			_editBoxTextChangingToken = _richEditBox.TextChanging({ this, &RichSuggestBox::RichEditBox_TextChanging });
+			_editBoxTextChangedToken = _richEditBox.TextChanged({ this,&RichSuggestBox::RichEditBox_TextChanged });
+			_editBoxTextCompositionStartedToken = _richEditBox.TextCompositionStarted({ this,&RichSuggestBox::RichEditBox_TextCompositionStarted });
+			_editBoxTextCompositionChangedToken = _richEditBox.TextCompositionChanged({ this,&RichSuggestBox::RichEditBox_TextCompositionChanged });
+			_editBoxTextCompositionEndedToken = _richEditBox.TextCompositionEnded({ this,&RichSuggestBox::RichEditBox_TextCompositionEnded });
+			_editBoxSelectionChangingToken = _richEditBox.SelectionChanging({ this,&RichSuggestBox::RichEditBox_SelectionChanging });
+			_editBoxSelectionChangedToken = _richEditBox.SelectionChanged({ this,&RichSuggestBox::RichEditBox_SelectionChanged });
+			_editBoxPasteToken = _richEditBox.Paste({ this, &RichSuggestBox::RichEditBox_Paste });
+			_editBoxPreviewKeyDownToken = _richEditBox.PreviewKeyDown({ this, &RichSuggestBox::RichEditBox_PreviewKeyDown });
 			_richEditBox.AddHandler(winrt::UIElement::PointerMovedEvent(), _pointerMovedHandler, true);
 			_richEditBox.AddHandler(winrt::UIElement::PointerPressedEvent(), _pointerPressedHandler, true);
-			_editBoxProcessKeyboardAcceleratorsRevoker = _richEditBox.ProcessKeyboardAccelerators(winrt::auto_revoke, { this, &RichSuggestBox::RichEditBox_ProcessKeyboardAccelerators });
+			_editBoxProcessKeyboardAcceleratorsToken = _richEditBox.ProcessKeyboardAccelerators({ this, &RichSuggestBox::RichEditBox_ProcessKeyboardAccelerators });
 		}
 
 		if (_suggestionsList)
 		{
-			_listItemClickRevoker.revoke();
-			_listSizeChangedRevoker.revoke();
-			_listGotFocusRevoker.revoke();
-
-			_listItemClickRevoker = _suggestionsList.ItemClick(winrt::auto_revoke, { this, &RichSuggestBox::SuggestionsList_ItemClick });
-			_listSizeChangedRevoker = _suggestionsList.SizeChanged(winrt::auto_revoke, { this, &RichSuggestBox::SuggestionsList_SizeChanged });
-			_listGotFocusRevoker = _suggestionsList.GotFocus(winrt::auto_revoke, { this,  &RichSuggestBox::SuggestionList_GotFocus });
+			_listItemClickToken = _suggestionsList.ItemClick({ this, &RichSuggestBox::SuggestionsList_ItemClick });
+			_listSizeChangedToken = _suggestionsList.SizeChanged({ this, &RichSuggestBox::SuggestionsList_SizeChanged });
+			_listGotFocusToken = _suggestionsList.GotFocus({ this,  &RichSuggestBox::SuggestionList_GotFocus });
 		}
 	}
 

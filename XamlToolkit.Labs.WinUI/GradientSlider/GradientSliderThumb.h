@@ -78,14 +78,14 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         void ColorPicker_ColorChanged(winrt::Microsoft::UI::Xaml::Controls::ColorPicker const& sender, winrt::Microsoft::UI::Xaml::Controls::ColorChangedEventArgs const& args);
         void GradientSliderThumb_Tapped(winrt::IInspectable const& sender, winrt::TappedRoutedEventArgs const& e);
 
-        winrt::UIElement::PointerEntered_revoker _pointerEnteredRevoker;
-        winrt::UIElement::PointerExited_revoker _pointerExitedRevoker;
-        winrt::UIElement::PointerPressed_revoker _pointerPressedRevoker;
-        winrt::UIElement::PointerMoved_revoker _pointerMovedRevoker;
-        winrt::UIElement::PointerReleased_revoker _pointerReleasedRevoker;
-        winrt::UIElement::PointerCanceled_revoker _pointerCanceledRevoker;
-        winrt::Control::IsEnabledChanged_revoker _isEnabledChangedRevoker;
-        winrt::UIElement::Tapped_revoker _tappedRevoker;
+        winrt::event_token _pointerEnteredToken;
+        winrt::event_token _pointerExitedToken;
+        winrt::event_token _pointerPressedToken;
+        winrt::event_token _pointerMovedToken;
+        winrt::event_token _pointerReleasedToken;
+        winrt::event_token _pointerCanceledToken;
+        winrt::event_token _isEnabledChangedToken;
+        winrt::event_token _tappedToken;
 
         winrt::event<winrt::DragStartedEventHandler> _dragStarted;
         winrt::event<winrt::DragDeltaEventHandler> _dragDelta;

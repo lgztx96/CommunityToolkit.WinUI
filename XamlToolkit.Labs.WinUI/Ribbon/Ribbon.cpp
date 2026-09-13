@@ -44,11 +44,26 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
     void Ribbon::OnApplyTemplate()
     {
-        _panelSizeChangedRevoker.revoke();
-        _decrementButtonClickRevoker.revoke();
-        _incrementButtonClickRevoker.revoke();
-        _scrollViewerViewChangedRevoker.revoke();
-        _scrollViewerSizeChangedRevoker.revoke();
+		if (_panel)
+		{
+            _panel.SizeChanged(_panelSizeChangedToken);
+		}
+
+        if (_decrementButton) 
+        {
+			_decrementButton.Click(_decrementButtonClickToken);
+        }
+
+        if (_incrementButton)
+        {
+			_incrementButton.Click(_incrementButtonClickToken);
+        }
+
+        if (_scrollViewer)
+        {
+			_scrollViewer.ViewChanged(_scrollViewerViewChangedToken);
+			_scrollViewer.SizeChanged(_scrollViewerSizeChangedToken);
+        }
 
         _panel = GetTemplateChild(PanelTemplatePart).try_as<winrt::Panel>();
         if (_panel)
@@ -59,26 +74,26 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
                 children.Append(item);
             }
 
-            _panelSizeChangedRevoker = _panel.SizeChanged(winrt::auto_revoke, { this, &Ribbon::OnSizeChanged });
+            _panelSizeChangedToken = _panel.SizeChanged({ this, &Ribbon::OnSizeChanged });
         }
 
         _decrementButton = GetTemplateChild(ScrollDecrementButtonTempatePart).try_as<winrt::ButtonBase>();
         if (_decrementButton)
         {
-            _decrementButtonClickRevoker = _decrementButton.Click(winrt::auto_revoke, { this, &Ribbon::OnDecrementScrollViewer });
+            _decrementButtonClickToken = _decrementButton.Click({ this, &Ribbon::OnDecrementScrollViewer });
         }
 
         _incrementButton = GetTemplateChild(ScrollIncrementButtonTempatePart).try_as<winrt::ButtonBase>();
         if (_incrementButton)
         {
-            _incrementButtonClickRevoker = _incrementButton.Click(winrt::auto_revoke, { this, &Ribbon::OnIncrementScrollViewer });
+            _incrementButtonClickToken = _incrementButton.Click({ this, &Ribbon::OnIncrementScrollViewer });
         }
 
         _scrollViewer = GetTemplateChild(ScrollViewerTemplatePart).try_as<winrt::ScrollViewer>();
         if (_scrollViewer)
         {
-            _scrollViewerViewChangedRevoker = _scrollViewer.ViewChanged(winrt::auto_revoke, { this, &Ribbon::OnViewChanged });
-            _scrollViewerSizeChangedRevoker = _scrollViewer.SizeChanged(winrt::auto_revoke, { this, &Ribbon::OnSizeChanged });
+            _scrollViewerViewChangedToken = _scrollViewer.ViewChanged({ this, &Ribbon::OnViewChanged });
+            _scrollViewerSizeChangedToken = _scrollViewer.SizeChanged({ this, &Ribbon::OnSizeChanged });
             UpdateScrollButtonsState();
         }
 

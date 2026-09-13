@@ -217,6 +217,16 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 				winrt::xaml_typename<class_type>(), 
 				winrt::PropertyMetadata(winrt::box_value(MarqueeDirection::Left), &Marquee::DirectionPropertyChanged));
 
+		static winrt::fire_and_forget final_release(std::unique_ptr<Marquee> self) noexcept
+		{
+			co_await wil::resume_foreground(self->DispatcherQueue());
+			self->_loadedRevoker.revoke();
+			self->_unloadedRevoker.revoke();
+			self->_containerSizeChangedRevoker.revoke();
+			self->_segmentSizeChangedRevoker.revoke();
+			self->_storyBoardCompletedRevoker.revoke();
+		}
+
 	private:
 		winrt::FrameworkElement::Loaded_revoker _loadedRevoker;
 		winrt::FrameworkElement::Unloaded_revoker _unloadedRevoker;

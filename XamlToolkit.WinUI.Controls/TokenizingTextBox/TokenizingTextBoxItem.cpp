@@ -463,4 +463,40 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			}
 		}
 	}
+
+	void TokenizingTextBoxItem::DisconnectEvents()
+	{
+		if (_clearButton)
+		{
+			_clearButton.Click(_buttonClickToken);
+		}
+
+		if (_autoSuggestBox)
+		{
+			_autoSuggestBox.Loaded(_autoSuggestBoxLoadedToken);
+			_autoSuggestBox.QuerySubmitted(_autoSuggestBoxQuerySubmittedToken);
+			_autoSuggestBox.SuggestionChosen(_autoSuggestBoxSuggestionChosenToken);
+			_autoSuggestBox.TextChanged(_autoSuggestBoxTextChangedToken);
+			_autoSuggestBox.PointerEntered(_autoSuggestBoxPointerEnteredToken);
+			_autoSuggestBox.PointerExited(_autoSuggestBoxPointerExitedToken);
+			_autoSuggestBox.PointerCanceled(_autoSuggestBoxPointerCanceledToken);
+			_autoSuggestBox.PointerCaptureLost(_autoSuggestBoxPointerCaptureLostToken);
+			_autoSuggestBox.GotFocus(_autoSuggestBoxGotFocusToken);
+			_autoSuggestBox.LostFocus(_autoSuggestBoxLostFocusToken);
+		}
+
+		if (_autoSuggestTextBox)
+		{
+			_autoSuggestTextBox.PreviewKeyDown(_autoSuggestTextBoxPreviewKeyDownToken);
+			_autoSuggestTextBox.TextChanging(_autoSuggestTextBoxTextChangingToken);
+			_autoSuggestTextBox.SelectionChanged(_autoSuggestTextBoxSelectionChangedToken);
+			_autoSuggestTextBox.SelectionChanging(_autoSuggestTextBoxSelectionChangingToken);
+		}
+
+		if (const auto owner = Owner())
+		{
+			owner.TokenItemAdded(_tokenItemAddedToken);
+			owner.TokenItemRemoved(_tokenItemRemovedToken);
+		}
+	}
 }

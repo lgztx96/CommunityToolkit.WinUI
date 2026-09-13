@@ -112,7 +112,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		bool _initialized;
 		bool _animationStarted;
 
-		winrt::FrameworkElement::ActualThemeChanged_revoker _actualThemeChangedRevoker;
+		winrt::event_token _actualThemeChangedToken;
 	};
 }
 

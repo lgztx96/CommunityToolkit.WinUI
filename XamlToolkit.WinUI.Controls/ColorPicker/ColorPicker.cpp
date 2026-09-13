@@ -171,14 +171,14 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		if (connected && !callbacksConnected)
 		{
 			// Add callbacks for dependency properties
-			tokenColor = RegisterPropertyChangedCallback(WinUIColorPicker::ColorProperty(), { this, &ColorPicker::OnColorChanged });
+			_colorPropertyChangedToken = RegisterPropertyChangedCallback(WinUIColorPicker::ColorProperty(), { get_weak(), &ColorPicker::OnColorChanged});
 
 			callbacksConnected = true;
 		}
 		else if (!connected && callbacksConnected)
 		{
 			// Remove callbacks for dependency properties
-			UnregisterPropertyChangedCallback(WinUIColorPicker::ColorProperty(), tokenColor);
+			UnregisterPropertyChangedCallback(WinUIColorPicker::ColorProperty(), _colorPropertyChangedToken);
 
 			callbacksConnected = false;
 		}
@@ -1158,7 +1158,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	{
 		if (updatedRgbColor)
 		{
-			const auto& newColor = updatedRgbColor.value();
+			const auto newColor = updatedRgbColor.value();
 
 			// Clear first to avoid timing issues if it takes longer than the timer interval to set the new color
 			updatedRgbColor.reset();

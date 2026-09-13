@@ -35,6 +35,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		TokenizingTextBoxItem();
 
+		static winrt::fire_and_forget final_release(std::unique_ptr<TokenizingTextBoxItem> self)
+		{
+			co_await wil::resume_foreground(self->DispatcherQueue());
+			self->DisconnectEvents();
+		}
+
 		void OnApplyTemplate();
 
 		wil::typed_event<winrt::XamlToolkit::WinUI::Controls::TokenizingTextBoxItem, winrt::RoutedEventArgs> AutoSuggestTextBoxLoaded;
@@ -128,6 +134,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		void UpdateTokensCounter(TokenizingTextBoxItem& ttbi);
 
 		void UpdateQueryIconVisibility();
+
+		void DisconnectEvents();
 
 	private:
 		static constexpr std::wstring_view PART_ClearButton = L"PART_RemoveButton";

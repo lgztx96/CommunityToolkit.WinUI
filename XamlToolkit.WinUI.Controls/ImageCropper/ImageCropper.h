@@ -370,55 +370,55 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		static std::vector<winrt::DiscreteObjectKeyFrame> GetRectKeyframes(winrt::Rect from, winrt::Rect to, winrt::TimeSpan duration);
 
 		// Top
-		winrt::event_token _topThumbManipulationDeltaToken{};
-		winrt::event_token _topThumbManipulationCompletedToken{};
-		winrt::event_token _topThumbKeyDownToken{};
-		winrt::event_token _topThumbKeyUpToken{};
+		winrt::event_token _topThumbManipulationDeltaToken;
+		winrt::event_token _topThumbManipulationCompletedToken;
+		winrt::event_token _topThumbKeyDownToken;
+		winrt::event_token _topThumbKeyUpToken;
 
 		// Bottom
-		winrt::event_token _bottomThumbManipulationDeltaToken{};
-		winrt::event_token _bottomThumbManipulationCompletedToken{};
-		winrt::event_token _bottomThumbKeyDownToken{};
-		winrt::event_token _bottomThumbKeyUpToken{};
+		winrt::event_token _bottomThumbManipulationDeltaToken;
+		winrt::event_token _bottomThumbManipulationCompletedToken;
+		winrt::event_token _bottomThumbKeyDownToken;
+		winrt::event_token _bottomThumbKeyUpToken;
 
 		// Left
-		winrt::event_token _leftThumbManipulationDeltaToken{};
-		winrt::event_token _leftThumbManipulationCompletedToken{};
-		winrt::event_token _leftThumbKeyDownToken{};
-		winrt::event_token _leftThumbKeyUpToken{};
+		winrt::event_token _leftThumbManipulationDeltaToken;
+		winrt::event_token _leftThumbManipulationCompletedToken;
+		winrt::event_token _leftThumbKeyDownToken;
+		winrt::event_token _leftThumbKeyUpToken;
 
 		// Right
-		winrt::event_token _rightThumbManipulationDeltaToken{};
-		winrt::event_token _rightThumbManipulationCompletedToken{};
-		winrt::event_token _rightThumbKeyDownToken{};
-		winrt::event_token _rightThumbKeyUpToken{};
+		winrt::event_token _rightThumbManipulationDeltaToken;
+		winrt::event_token _rightThumbManipulationCompletedToken;
+		winrt::event_token _rightThumbKeyDownToken;
+		winrt::event_token _rightThumbKeyUpToken;
 
 		// UpperLeft
-		winrt::event_token _upperLeftThumbManipulationDeltaToken{};
-		winrt::event_token _upperLeftThumbManipulationCompletedToken{};
-		winrt::event_token _upperLeftThumbKeyDownToken{};
-		winrt::event_token _upperLeftThumbKeyUpToken{};
+		winrt::event_token _upperLeftThumbManipulationDeltaToken;
+		winrt::event_token _upperLeftThumbManipulationCompletedToken;
+		winrt::event_token _upperLeftThumbKeyDownToken;
+		winrt::event_token _upperLeftThumbKeyUpToken;
 
 		// UpperRight
-		winrt::event_token _upperRightThumbManipulationDeltaToken{};
-		winrt::event_token _upperRightThumbManipulationCompletedToken{};
-		winrt::event_token _upperRightThumbKeyDownToken{};
-		winrt::event_token _upperRightThumbKeyUpToken{};
+		winrt::event_token _upperRightThumbManipulationDeltaToken;
+		winrt::event_token _upperRightThumbManipulationCompletedToken;
+		winrt::event_token _upperRightThumbKeyDownToken;
+		winrt::event_token _upperRightThumbKeyUpToken;
 
 		// LowerLeft
-		winrt::event_token _lowerLeftThumbManipulationDeltaToken{};
-		winrt::event_token _lowerLeftThumbManipulationCompletedToken{};
-		winrt::event_token _lowerLeftThumbKeyDownToken{};
-		winrt::event_token _lowerLeftThumbKeyUpToken{};
+		winrt::event_token _lowerLeftThumbManipulationDeltaToken;
+		winrt::event_token _lowerLeftThumbManipulationCompletedToken;
+		winrt::event_token _lowerLeftThumbKeyDownToken;
+		winrt::event_token _lowerLeftThumbKeyUpToken;
 
 		// LowerRight
-		winrt::event_token _lowerRightThumbManipulationDeltaToken{};
-		winrt::event_token _lowerRightThumbManipulationCompletedToken{};
-		winrt::event_token _lowerRightThumbKeyDownToken{};
-		winrt::event_token _lowerRightThumbKeyUpToken{};
+		winrt::event_token _lowerRightThumbManipulationDeltaToken;
+		winrt::event_token _lowerRightThumbManipulationCompletedToken;
+		winrt::event_token _lowerRightThumbKeyDownToken;
+		winrt::event_token _lowerRightThumbKeyUpToken;
 
-		winrt::event_token _imageCanvasSizeChangedToken{};
-		winrt::event_token _sourceImageManipulationDeltaToken{};
+		winrt::event_token _imageCanvasSizeChangedToken;
+		winrt::event_token _sourceImageManipulationDeltaToken;
 	};
 }
 

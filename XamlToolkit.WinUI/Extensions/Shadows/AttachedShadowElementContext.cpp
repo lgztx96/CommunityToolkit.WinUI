@@ -20,8 +20,8 @@ namespace winrt::XamlToolkit::WinUI::implementation
 
 		_isConnected = true;
 
-		_loadedRevoker = element.Loaded(winrt::auto_revoke, { get_weak(), &AttachedShadowElementContext::OnElementLoaded });
-		_unloadedRevoker = element.Unloaded(winrt::auto_revoke, { get_weak(), &AttachedShadowElementContext::OnElementUnloaded });
+		_loadedToken = element.Loaded({ get_weak(), &AttachedShadowElementContext::OnElementLoaded });
+		_unloadedToken = element.Unloaded({ get_weak(), &AttachedShadowElementContext::OnElementUnloaded });
 		Initialize();
 	}
 
@@ -32,8 +32,8 @@ namespace winrt::XamlToolkit::WinUI::implementation
 			UnInitialize();
 			if (const auto element = Element())
 			{
-				_loadedRevoker.revoke();
-				_unloadedRevoker.revoke();
+				element.Loaded(_loadedToken);
+				element.Unloaded(_unloadedToken);
 			}
 
 			_isConnected = false;
@@ -58,7 +58,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 			SpriteVisual().Shadow(Shadow());
 			if (Parent().as<IAttachedShadowBaseOverrides>().SupportsOnSizeChangedEvent())
 			{
-				_sizeChangedRevoker = element.SizeChanged(winrt::auto_revoke, { get_weak(), &AttachedShadowElementContext::OnElementSizeChanged });
+				_sizeChangedToken = element.SizeChanged({ get_weak(), &AttachedShadowElementContext::OnElementSizeChanged });
 			}
 
 			Parent().as<IAttachedShadowBaseOverrides>().OnElementContextInitialized(*this);
@@ -74,7 +74,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 			if (const auto element = Element())
 			{
 				winrt::ElementCompositionPreview::SetElementChildVisual(element, nullptr);
-				_sizeChangedRevoker.revoke();
+				element.SizeChanged(_sizeChangedToken);
 			}
 
 			Parent().as<IAttachedShadowBaseOverrides>().OnElementContextUninitialized(*this);

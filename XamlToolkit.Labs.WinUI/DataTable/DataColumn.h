@@ -55,8 +55,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         winrt::weak_ref<winrt::XamlToolkit::Labs::WinUI::DataTable> _parent;
 
-		winrt::UIElement::ManipulationDelta_revoker _columnSizerManipulationDeltaRevoker;
-		winrt::UIElement::ManipulationCompleted_revoker _columnSizerManipulationCompletedRevoker;
+		winrt::event_token _columnSizerManipulationDeltaToken;
+        winrt::event_token _columnSizerManipulationCompletedToken;
     };
 }
 

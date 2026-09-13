@@ -29,6 +29,13 @@ namespace winrt::XamlToolkit::WinUI::Controls::Primitives::implementation
 	{
 		ColorPreviewer();
 
+		static winrt::fire_and_forget final_release(std::unique_ptr<ColorPreviewer> self)
+		{
+			co_await wil::resume_foreground(self->DispatcherQueue());
+
+			self->ConnectEvents(false);
+		}
+
 		void OnApplyTemplate();
 
 		wil::untyped_event<winrt::XamlToolkit::WinUI::HsvColor> ColorChangeRequested;
@@ -81,11 +88,11 @@ namespace winrt::XamlToolkit::WinUI::Controls::Primitives::implementation
 		winrt::Border P1PreviewBorder;
 		winrt::Border P2PreviewBorder;
 
-		winrt::event_token checkeredLoadedToken{};
-		winrt::event_token n1PointerPressedToken{};
-		winrt::event_token n2PointerPressedToken{};
-		winrt::event_token p1PointerPressedToken{};
-		winrt::event_token p2PointerPressedToken{};
+		winrt::event_token checkeredLoadedToken;
+		winrt::event_token n1PointerPressedToken;
+		winrt::event_token n2PointerPressedToken;
+		winrt::event_token p1PointerPressedToken;
+		winrt::event_token p2PointerPressedToken;
 	};
 }
 

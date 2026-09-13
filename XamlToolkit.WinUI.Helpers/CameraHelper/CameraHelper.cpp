@@ -140,7 +140,7 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
                 else
                 {
                     _frameReader.AcquisitionMode(winrt::MediaFrameReaderAcquisitionMode::Realtime);
-                    _frameArrivedRevoker = _frameReader.FrameArrived(winrt::auto_revoke, { this, &CameraHelper::Reader_FrameArrived });
+                    _frameArrivedToken = _frameReader.FrameArrived({ this, &CameraHelper::Reader_FrameArrived });
                     auto status = co_await _frameReader.StartAsync();
                     if (status != winrt::MediaFrameReaderStartStatus::Success)
                     {
@@ -276,7 +276,7 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
     {
         if (_frameReader)
         {
-            _frameArrivedRevoker.revoke();
+            _frameReader.FrameArrived(_frameArrivedToken);
             co_await _frameReader.StopAsync();
             _frameReader.Close();
             _frameReader = nullptr;
