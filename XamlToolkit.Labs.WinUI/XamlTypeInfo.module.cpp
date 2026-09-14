@@ -8,6 +8,7 @@
 #include "Adorners/ResizeElement/ResizeElementAdorner.h"
 #include "Adorners/ResizeElement/Thumb/ResizeThumb.h"
 #include "CanvasLayout/CanvasLayout.h"
+#include "CanvasView/CanvasView.h"
 #include "ColorAnalyzer/ColorExtensions.h"
 #include "ColorAnalyzer/ColorPaletteSampler/ColorPaletteSampler.h"
 #include "ColorAnalyzer/ColorSources/ColorSource.h"

@@ -180,6 +180,10 @@
       <DependentUpon>CanvasLayout\CanvasLayout.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="CanvasView\CanvasView.h">
+      <DependentUpon>CanvasView\CanvasView.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="ColorAnalyzer\ColorExtensions.h" />
     <ClInclude Include="ColorAnalyzer\ColorPaletteSampler\ColorPaletteSampler.DBScan.h" />
     <ClInclude Include="ColorAnalyzer\ColorPaletteSampler\ColorPaletteSampler.h">
@@ -386,6 +390,10 @@
     <ClCompile Include="Adorners\ResizeElement\Thumb\ResizeThumb.Properties.cpp" />
     <ClCompile Include="CanvasLayout\CanvasLayout.cpp">
       <DependentUpon>CanvasLayout\CanvasLayout.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="CanvasView\CanvasView.cpp">
+      <DependentUpon>CanvasView\CanvasView.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="ColorAnalyzer\ColorExtensions.cpp" />
@@ -637,6 +645,9 @@
       <SubType>Code</SubType>
     </Midl>
     <Midl Include="CanvasLayout\CanvasLayout.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="CanvasView\CanvasView.idl">
       <SubType>Designer</SubType>
     </Midl>
     <Midl Include="ColorAnalyzer\ColorPaletteSampler\ColorPaletteSampler.idl">

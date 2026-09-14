@@ -111,6 +111,9 @@
     <Filter Include="TransitionHelper">
       <UniqueIdentifier>{2e2e0d6c-c7a8-4782-bc11-cf1c0044bd97}</UniqueIdentifier>
     </Filter>
+    <Filter Include="CanvasView">
+      <UniqueIdentifier>{42667a87-98f8-4e17-a286-9c742571449b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -524,6 +527,9 @@
     </Midl>
     <Midl Include="TransitionHelper\ReverseTransitionAction.idl">
       <Filter>TransitionHelper</Filter>
+    </Midl>
+    <Midl Include="CanvasView\CanvasView.idl">
+      <Filter>CanvasView</Filter>
     </Midl>
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,8 @@
+namespace XamlToolkit.Labs.WinUI
+{
+    [default_interface]
+    runtimeclass CanvasView : Microsoft.UI.Xaml.Controls.ItemsControl
+    {
+        CanvasView();
+    }
+}
