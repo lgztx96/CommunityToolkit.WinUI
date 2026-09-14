@@ -221,11 +221,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	void TokenizingTextBoxItem::AutoSuggestBox_TextChanged(winrt::AutoSuggestBox const& sender, winrt::AutoSuggestBoxTextChangedEventArgs const& args)
 	{
 		auto text = sender.Text();
-		if (text.empty())
-		{
-			return;
-		}
 		auto owner = OwnerAsImpl(Owner());
+
 		if (text != owner->Text())
 		{
 			owner->Text(text); // Update parent text property, if different

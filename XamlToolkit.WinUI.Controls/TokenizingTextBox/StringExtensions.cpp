@@ -15,8 +15,13 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 	std::wstring_view Trim(std::wstring_view sv)
 	{
-		auto first = std::ranges::find_if_not(sv, [](wchar_t c) { return ::iswspace(c); });
-		auto last = std::ranges::find_if_not(sv | std::views::reverse, [](wchar_t c) { return ::iswspace(c); });
-		return sv.substr(first - sv.begin(), sv.end() - last.base());
+		const auto first = std::ranges::find_if_not(sv, [](wchar_t c) { return ::iswspace(c); });
+		if (first == sv.end())
+		{
+			return {};
+		}
+
+		const auto last = std::ranges::find_if_not(sv | std::views::reverse, [](wchar_t c) { return ::iswspace(c); });
+		return sv.substr(first - sv.begin(), last.base() - first);
 	}
 }
