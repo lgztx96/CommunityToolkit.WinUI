@@ -158,9 +158,9 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
             if (const auto propertyProvider = dataItem.try_as<winrt::ICustomPropertyProvider>())
             {
-                if (const auto custom_property = propertyProvider.GetCustomProperty(path))
+                if (const auto customProperty = propertyProvider.GetCustomProperty(path))
                 {
-                    custom_property.SetValue(dataItem, value);
+                    customProperty.SetValue(dataItem, value);
                 }
             }
         }
