@@ -8,8 +8,7 @@ namespace XamlToolkit.WinUI.Converters
     /// Converts a file size in bytes to a more human-readable friendly format.
     /// </summary>
     [webhosthidden]
-    [default_interface]
-    runtimeclass FileSizeToFriendlyStringConverter : Microsoft.UI.Xaml.Data.IValueConverter
+    runtimeclass FileSizeToFriendlyStringConverter : [default] Microsoft.UI.Xaml.Data.IValueConverter
     {
         FileSizeToFriendlyStringConverter();
     }

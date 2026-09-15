@@ -1,7 +1,7 @@
 namespace XamlToolkit.WinUI.Controls
 {
     [webhosthidden]
-    runtimeclass InterspersedObservableVector : IObservableVector<Object>
+    runtimeclass InterspersedObservableVector : [default] IObservableVector<Object>
     {
         [noexcept]
         IVector<Object> ItemsSource();

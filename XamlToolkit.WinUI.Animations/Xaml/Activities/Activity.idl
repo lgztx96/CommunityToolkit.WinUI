@@ -6,7 +6,7 @@ namespace XamlToolkit.WinUI.Animations
     /// A base activity that can be added to an AnimationSet.
     /// </summary>
     [webhosthidden]
-    unsealed runtimeclass Activity : Microsoft.UI.Xaml.DependencyObject, IActivity
+    unsealed runtimeclass Activity : Microsoft.UI.Xaml.DependencyObject, [default] IActivity
     {
         Activity();
 

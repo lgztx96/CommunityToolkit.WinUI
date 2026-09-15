@@ -8,8 +8,7 @@ namespace XamlToolkit.WinUI.Converters
     /// Value converter that applies NOT operator to a bool value.
     /// </summary>
     [webhosthidden]
-    [default_interface]
-    runtimeclass BoolNegationConverter : Microsoft.UI.Xaml.Data.IValueConverter
+    runtimeclass BoolNegationConverter : [default] Microsoft.UI.Xaml.Data.IValueConverter
     {
         BoolNegationConverter();
     }

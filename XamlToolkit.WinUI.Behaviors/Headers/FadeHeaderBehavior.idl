@@ -4,8 +4,7 @@ namespace XamlToolkit.WinUI.Behaviors
     /// Performs an fade animation on a ListView or GridView Header using composition.
     /// </summary>
     [webhosthidden]
-	[default_interface]
-    runtimeclass FadeHeaderBehavior : Microsoft.UI.Xaml.DependencyObject, XamlToolkit.WinUI.Interactivity.IBehavior
+    runtimeclass FadeHeaderBehavior : Microsoft.UI.Xaml.DependencyObject, [default] XamlToolkit.WinUI.Interactivity.IBehavior
     {
         FadeHeaderBehavior();
     }
