@@ -1,0 +1,10 @@
+namespace XamlToolkit.WinUI.Helpers
+{
+    delegate void CompositionRenderingCallback();
+
+    static runtimeclass CompositionTargetHelper
+    {
+        static Windows.Foundation.IAsyncOperation<Boolean>
+            ExecuteAfterCompositionRenderingAsync(CompositionRenderingCallback callback);
+    }
+}

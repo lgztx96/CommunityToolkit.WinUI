@@ -129,6 +129,10 @@
       <DependentUpon>CameraHelper\CameraHelper.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="CompositionTargetHelper.h">
+      <DependentUpon>CompositionTargetHelper.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="NetworkHelper\ConnectionInformation.h">
       <DependentUpon>NetworkHelper\ConnectionInformation.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -160,6 +164,10 @@
   <ItemGroup>
     <ClCompile Include="CameraHelper\CameraHelper.cpp">
       <DependentUpon>CameraHelper\CameraHelper.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="CompositionTargetHelper.cpp">
+      <DependentUpon>CompositionTargetHelper.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="NetworkHelper\ConnectionInformation.cpp">
@@ -202,6 +210,9 @@
   </ItemGroup>
   <ItemGroup>
     <Midl Include="CameraHelper\CameraHelper.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="CompositionTargetHelper.idl">
       <SubType>Designer</SubType>
     </Midl>
     <Midl Include="NetworkHelper\ConnectionInformation.idl">

@@ -8,6 +8,7 @@ import winrt.Windows.Foundation;
 import winrt.Windows.Foundation.Collections;
 import winrt.Windows.System;
 import winrt.Windows.UI.Core;
+import winrt.Microsoft.UI.Dispatching;
 
 #define WINRT_IMPORT_MODULE
 #define WINRT_BASE_H
@@ -15,6 +16,7 @@ import winrt.Windows.UI.Core;
 #include <winrt/Windows.Foundation.Collections.h>
 #include <winrt/Windows.System.h>
 #include <winrt/Windows.UI.Core.h>
+#include <winrt/Microsoft.UI.Dispatching.h>
 
 #include <wil/cppwinrt.h>
 #include <wil/cppwinrt_helpers.h>

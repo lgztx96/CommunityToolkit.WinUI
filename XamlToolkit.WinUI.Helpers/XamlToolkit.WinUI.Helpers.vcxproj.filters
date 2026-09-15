@@ -57,6 +57,7 @@
     <Midl Include="NetworkHelper\NetworkHelper.idl">
       <Filter>NetworkHelper</Filter>
     </Midl>
+    <Midl Include="CompositionTargetHelper.idl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="XamlToolkit.WinUI.Helpers.def" />
