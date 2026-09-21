@@ -19,7 +19,6 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
     private:
         winrt::Paragraph _paragraph;
         MdFlowDocument _flowDocument;
-        MarkdownThemes _themes;
 
     public:
         winrt::TextElement TextElement() const override
@@ -27,10 +26,10 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
             return _paragraph;
         }
 
-        MdQuote(MarkdownThemes const& themes) : _themes(themes)
+        MdQuote(MarkdownTextBlock const& control)
         {
             winrt::InlineUIContainer inlineUIContainer;
-            
+
             winrt::Grid grid;
             winrt::ColumnDefinition column;
             column.Width(winrt::GridLength(1, winrt::GridUnitType::Auto));
@@ -40,25 +39,24 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
             grid.ColumnDefinitions().Append(column);
 
             winrt::Grid bar;
-            auto borderThickness = _themes.QuoteBorderThickness().Left > 0 ? _themes.QuoteBorderThickness().Left : 4;
+            auto borderThickness = control.QuoteBorderThickness().Left > 0 ? control.QuoteBorderThickness().Left : 4;
             bar.Width(borderThickness);
-            if (!_themes.QuoteBorderBrush()) _themes.QuoteBorderBrush(winrt::SolidColorBrush(winrt::Microsoft::UI::Colors::Gray()));
-            bar.Background(_themes.QuoteBorderBrush());
+            bar.Background(control.QuoteBorderBrush());
             bar.SetValue(winrt::Grid::ColumnProperty(), winrt::box_value(0));
             bar.VerticalAlignment(winrt::VerticalAlignment::Stretch);
-            bar.Margin(winrt::Thickness(0, 0, 4, 0));
+            bar.Margin(control.QuoteBarMargin());
             grid.Children().Append(bar);
 
             winrt::Grid rightGrid;
-            rightGrid.Padding(_themes.QuotePadding());
-            rightGrid.Background(_themes.QuoteBackground());
-            rightGrid.CornerRadius(_themes.QuoteCornerRadius());
+            rightGrid.Padding(control.QuotePadding());
+            rightGrid.Background(control.QuoteBackground());
+            rightGrid.CornerRadius(control.QuoteCornerRadius());
             rightGrid.Children().Append(_flowDocument.RichTextBlock());
-            _flowDocument.RichTextBlock().Foreground(_themes.QuoteForeground());
+            _flowDocument.RichTextBlock().Foreground(control.QuoteForeground());
 
             rightGrid.SetValue(winrt::Grid::ColumnProperty(), winrt::box_value(1));
             grid.Children().Append(rightGrid);
-            grid.Margin(_themes.QuoteMargin());
+            grid.Margin(control.QuoteMargin());
 
             inlineUIContainer.Child(grid);
 

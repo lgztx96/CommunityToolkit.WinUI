@@ -14,7 +14,8 @@ namespace winrt
 
 namespace winrt::XamlToolkit::Labs::WinUI
 {
-	struct ListContext {
+	struct ListContext 
+	{
 		bool ordered;
 		bool isTight;
 		size_t nextNumber;
@@ -25,7 +26,8 @@ namespace winrt::XamlToolkit::Labs::WinUI
 			: ordered(ordered), isTight(isTight), nextNumber(startIndex) {}
 	};
 
-	struct TableContext {
+	struct TableContext 
+	{
 		int colCount;
 		int headRowCount;
 		int bodyRowCount;
@@ -41,18 +43,12 @@ namespace winrt::XamlToolkit::Labs::WinUI
 
 	struct WinUIRenderer
 	{
-		MarkdownConfig _config = MarkdownConfig::Default();
-
-		winrt::weak_ref<winrt::XamlToolkit::Labs::WinUI::MarkdownTextBlock> MarkdownTextBlock();
+		winrt::XamlToolkit::Labs::WinUI::MarkdownTextBlock MarkdownTextBlock();
 
 		wil::single_threaded_rw_property<std::shared_ptr<TextElements::MdFlowDocument>> FlowDocument;
 
-		MarkdownConfig Config() const noexcept { return _config; }
-		void Config(MarkdownConfig const& value) { _config = value; }
-
 		WinUIRenderer(
 			std::shared_ptr<TextElements::MdFlowDocument> const& document,
-			MarkdownConfig const& config,
 			winrt::XamlToolkit::Labs::WinUI::MarkdownTextBlock const& markdownTextBlock);
 
 		void Render(std::wstring_view text);
@@ -69,8 +65,6 @@ namespace winrt::XamlToolkit::Labs::WinUI
 		std::vector<ListContext> _listContextStack;
 
 		std::vector<TableContext> _tableContextStack;
-
-		std::vector<std::shared_ptr<TextElements::IAddChild>> _elementCache;
 
 		winrt::weak_ref<winrt::XamlToolkit::Labs::WinUI::MarkdownTextBlock> _markdownTextBlock;
 

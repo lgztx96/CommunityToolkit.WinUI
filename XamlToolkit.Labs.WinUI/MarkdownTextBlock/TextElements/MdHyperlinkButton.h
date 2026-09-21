@@ -27,8 +27,6 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 		std::wstring_view _baseUrl;
 
 	public:
-		//bool IsHtml() const { return _htmlNode; }
-
 		winrt::TextElement TextElement() const override
 		{
 			return _inlineUIContainer;
@@ -40,34 +38,19 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 			Init(url, baseUrl, renderer);
 		}
 
-		//MdHyperlinkButton(std::wstring_view baseUrl)
-		//{
-		//    _baseUrl = baseUrl;
-		//   /* _htmlNode = htmlNode;
-		//    auto url = htmlNode.GetAttributeValue("href", "#");*/
-		//    Init({}, baseUrl);
-		//}
-
 		void Init(std::wstring_view url, std::wstring_view baseUrl, WinUIRenderer* renderer)
 		{
 			_hyperLinkButton.NavigateUri(Extensions::GetUri(url, baseUrl));
 			_hyperLinkButton.Padding(winrt::Thickness(0, 0, 0, 0));
 			_hyperLinkButton.Margin(winrt::Thickness(0, 0, 0, 0));
-			/* if (IsHtml() && _htmlNode)
-			 {
-				 _flowDoc = std::make_unique<MdFlowDocument>(_htmlNode);
-			 }
-			 else if (_linkInline)
-			 {
-				 _flowDoc = std::make_unique<MdFlowDocument>(_linkInline);
-			 }*/
-			_hyperLinkButton.Click([markdownWeak{ renderer->MarkdownTextBlock() }](auto& sender, auto&)
+
+			_hyperLinkButton.Click([weak = winrt::make_weak(renderer->MarkdownTextBlock())](auto& sender, auto&)
 			{
 				if (auto hyperlink = sender.template try_as<winrt::HyperlinkButton>())
 				{
 					auto uri = hyperlink.NavigateUri();
 
-					if (auto markdown = markdownWeak.get())
+					if (auto markdown = weak.get())
 					{
 						auto markdownStrong = winrt::get_self<
 							winrt::XamlToolkit::Labs::WinUI::implementation::MarkdownTextBlock>(markdown)->get_strong();
@@ -83,7 +66,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 			});
 			_flowDoc = std::make_unique<MdFlowDocument>();
 			_inlineUIContainer.Child(_hyperLinkButton);
-			_flowDoc->RichTextBlock().Foreground(renderer->Config().Themes().LinkForeground());
+			_flowDoc->RichTextBlock().Foreground(renderer->MarkdownTextBlock().LinkForeground());
 			_hyperLinkButton.Content(_flowDoc->RichTextBlock());
 		}
 
@@ -93,5 +76,3 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 		}
 	};
 }
-
-

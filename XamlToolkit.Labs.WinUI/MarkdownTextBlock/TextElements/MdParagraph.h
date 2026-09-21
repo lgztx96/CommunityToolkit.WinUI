@@ -26,6 +26,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
     private:
         winrt::Paragraph _paragraph;
         WinUIRenderer* _renderer;
+
     public:
         winrt::TextElement TextElement() const override
         {
@@ -38,11 +39,11 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 
             // Lists are plain Paragraph_s, one per item.
             // This is so that you can select across list items.
-            auto themes = renderer->Config().Themes();
-           
-            if (themes.ParagraphLineHeight() > 0)
+            const auto control = renderer->MarkdownTextBlock();
+
+            if (control.ParagraphLineHeight() > 0)
             {
-                _paragraph.LineHeight(themes.ParagraphLineHeight());
+                _paragraph.LineHeight(control.ParagraphLineHeight());
             }
         }
 
@@ -64,4 +65,3 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
         }
     };
 }
-

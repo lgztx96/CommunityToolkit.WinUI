@@ -1,27 +1,401 @@
-﻿import "MarkdownTextBlock/LinkClickedEventArgs.idl";
-import "MarkdownTextBlock/MarkdownConfig.idl";
+import "MarkdownTextBlock/LinkClickedEventArgs.idl";
 
 namespace XamlToolkit.Labs.WinUI
 {
+    [webhosthidden]
+    interface IImageProvider
+    {
+        Windows.Foundation.IAsyncOperation<Microsoft.UI.Xaml.Controls.Image> GetImage(String url);
+        Boolean ShouldUseThisProvider(String url);
+    }
+
+    [webhosthidden]
+    interface ISVGRenderer
+    {
+        Windows.Foundation.IAsyncOperation<Microsoft.UI.Xaml.Controls.Image> SvgToImage(String svgString);
+    }
+
     [webhosthidden]
     runtimeclass MarkdownTextBlock : Microsoft.UI.Xaml.Controls.Control
     {
         MarkdownTextBlock();
 
-        XamlToolkit.Labs.WinUI.MarkdownConfig Config{ get; set; };
-
         String Text{ get; set; };
-
-        Boolean IsTextSelectionEnabled{ get; set; };
-
-        [noexcept]
-        static Microsoft.UI.Xaml.DependencyProperty ConfigProperty{ get; };
 
         [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty TextProperty{ get; };
 
+        Boolean IsTextSelectionEnabled{ get; set; };
+
         [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty IsTextSelectionEnabledProperty{ get; };
+
+        // ── Configuration ───────────────────────────────────────────────────
+
+        String BaseUrl{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty BaseUrlProperty{ get; };
+
+        XamlToolkit.Labs.WinUI.IImageProvider ImageProvider{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty ImageProviderProperty{ get; };
+
+        XamlToolkit.Labs.WinUI.ISVGRenderer SVGRenderer{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty SVGRendererProperty{ get; };
+
+        // ── Headings ────────────────────────────────────────────────────────
+
+        Double H1FontSize{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty H1FontSizeProperty{ get; };
+
+        Microsoft.UI.Xaml.Media.Brush H1Foreground{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty H1ForegroundProperty{ get; };
+
+        Windows.UI.Text.FontWeight H1FontWeight{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty H1FontWeightProperty{ get; };
+
+        Microsoft.UI.Xaml.Thickness H1Margin{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty H1MarginProperty{ get; };
+
+        Double H2FontSize{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty H2FontSizeProperty{ get; };
+
+        Microsoft.UI.Xaml.Media.Brush H2Foreground{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty H2ForegroundProperty{ get; };
+
+        Windows.UI.Text.FontWeight H2FontWeight{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty H2FontWeightProperty{ get; };
+
+        Microsoft.UI.Xaml.Thickness H2Margin{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty H2MarginProperty{ get; };
+
+        Double H3FontSize{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty H3FontSizeProperty{ get; };
+
+        Microsoft.UI.Xaml.Media.Brush H3Foreground{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty H3ForegroundProperty{ get; };
+
+        Windows.UI.Text.FontWeight H3FontWeight{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty H3FontWeightProperty{ get; };
+
+        Microsoft.UI.Xaml.Thickness H3Margin{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty H3MarginProperty{ get; };
+
+        Double H4FontSize{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty H4FontSizeProperty{ get; };
+
+        Microsoft.UI.Xaml.Media.Brush H4Foreground{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty H4ForegroundProperty{ get; };
+
+        Windows.UI.Text.FontWeight H4FontWeight{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty H4FontWeightProperty{ get; };
+
+        Microsoft.UI.Xaml.Thickness H4Margin{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty H4MarginProperty{ get; };
+
+        Double H5FontSize{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty H5FontSizeProperty{ get; };
+
+        Microsoft.UI.Xaml.Media.Brush H5Foreground{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty H5ForegroundProperty{ get; };
+
+        Windows.UI.Text.FontWeight H5FontWeight{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty H5FontWeightProperty{ get; };
+
+        Microsoft.UI.Xaml.Thickness H5Margin{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty H5MarginProperty{ get; };
+
+        Double H6FontSize{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty H6FontSizeProperty{ get; };
+
+        Microsoft.UI.Xaml.Media.Brush H6Foreground{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty H6ForegroundProperty{ get; };
+
+        Windows.UI.Text.FontWeight H6FontWeight{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty H6FontWeightProperty{ get; };
+
+        Microsoft.UI.Xaml.Thickness H6Margin{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty H6MarginProperty{ get; };
+
+        // ── Inline code ─────────────────────────────────────────────────────
+
+        Microsoft.UI.Xaml.Media.Brush InlineCodeBackground{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty InlineCodeBackgroundProperty{ get; };
+
+        Microsoft.UI.Xaml.Media.Brush InlineCodeForeground{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty InlineCodeForegroundProperty{ get; };
+
+        Microsoft.UI.Xaml.Media.Brush InlineCodeBorderBrush{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty InlineCodeBorderBrushProperty{ get; };
+
+        Microsoft.UI.Xaml.Thickness InlineCodeBorderThickness{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty InlineCodeBorderThicknessProperty{ get; };
+
+        Microsoft.UI.Xaml.CornerRadius InlineCodeCornerRadius{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty InlineCodeCornerRadiusProperty{ get; };
+
+        Microsoft.UI.Xaml.Thickness InlineCodePadding{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty InlineCodePaddingProperty{ get; };
+
+        Double InlineCodeFontSize{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty InlineCodeFontSizeProperty{ get; };
+
+        Windows.UI.Text.FontWeight InlineCodeFontWeight{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty InlineCodeFontWeightProperty{ get; };
+
+        // ── Bold ────────────────────────────────────────────────────────────
+
+        Windows.UI.Text.FontWeight BoldFontWeight{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty BoldFontWeightProperty{ get; };
+
+        // ── Code blocks ─────────────────────────────────────────────────────
+
+        Microsoft.UI.Xaml.Media.Brush CodeBlockBackground{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty CodeBlockBackgroundProperty{ get; };
+
+        Microsoft.UI.Xaml.Media.Brush CodeBlockBorderBrush{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty CodeBlockBorderBrushProperty{ get; };
+
+        Microsoft.UI.Xaml.Thickness CodeBlockBorderThickness{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty CodeBlockBorderThicknessProperty{ get; };
+
+        Microsoft.UI.Xaml.Thickness CodeBlockPadding{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty CodeBlockPaddingProperty{ get; };
+
+        Microsoft.UI.Xaml.Thickness CodeBlockMargin{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty CodeBlockMarginProperty{ get; };
+
+        Microsoft.UI.Xaml.CornerRadius CodeBlockCornerRadius{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty CodeBlockCornerRadiusProperty{ get; };
+
+        Microsoft.UI.Xaml.Media.FontFamily CodeBlockFontFamily{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty CodeBlockFontFamilyProperty{ get; };
+
+        Microsoft.UI.Xaml.Media.Brush CodeBlockForeground{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty CodeBlockForegroundProperty{ get; };
+
+        // ── Horizontal rule ─────────────────────────────────────────────────
+
+        Microsoft.UI.Xaml.Media.Brush HorizontalRuleBrush{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty HorizontalRuleBrushProperty{ get; };
+
+        Double HorizontalRuleThickness{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty HorizontalRuleThicknessProperty{ get; };
+
+        Microsoft.UI.Xaml.Thickness HorizontalRuleMargin{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty HorizontalRuleMarginProperty{ get; };
+
+        // ── Links ───────────────────────────────────────────────────────────
+
+        Microsoft.UI.Xaml.Media.Brush LinkForeground{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty LinkForegroundProperty{ get; };
+
+        // ── Paragraphs and lists ────────────────────────────────────────────
+
+        Microsoft.UI.Xaml.Thickness ParagraphMargin{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty ParagraphMarginProperty{ get; };
+
+        Double ParagraphLineHeight{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty ParagraphLineHeightProperty{ get; };
+
+        Double ListBulletSpacing{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty ListBulletSpacingProperty{ get; };
+
+        Double ListGutterWidth{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty ListGutterWidthProperty{ get; };
+
+        // ── Block quotes ────────────────────────────────────────────────────
+
+        Microsoft.UI.Xaml.Media.Brush QuoteBackground{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty QuoteBackgroundProperty{ get; };
+
+        Microsoft.UI.Xaml.Media.Brush QuoteBorderBrush{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty QuoteBorderBrushProperty{ get; };
+
+        Microsoft.UI.Xaml.Thickness QuoteBorderThickness{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty QuoteBorderThicknessProperty{ get; };
+
+        Microsoft.UI.Xaml.Media.Brush QuoteForeground{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty QuoteForegroundProperty{ get; };
+
+        Microsoft.UI.Xaml.Thickness QuoteMargin{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty QuoteMarginProperty{ get; };
+
+        Microsoft.UI.Xaml.Thickness QuotePadding{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty QuotePaddingProperty{ get; };
+
+        Microsoft.UI.Xaml.Thickness QuoteBarMargin{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty QuoteBarMarginProperty{ get; };
+
+        Microsoft.UI.Xaml.CornerRadius QuoteCornerRadius{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty QuoteCornerRadiusProperty{ get; };
+
+        // ── Images ──────────────────────────────────────────────────────────
+
+        Double ImageMaxWidth{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty ImageMaxWidthProperty{ get; };
+
+        Double ImageMaxHeight{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty ImageMaxHeightProperty{ get; };
+
+        Microsoft.UI.Xaml.Media.Stretch ImageStretch{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty ImageStretchProperty{ get; };
+
+        // ── Tables ──────────────────────────────────────────────────────────
+
+        Microsoft.UI.Xaml.Media.Brush TableHeadingBackground{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty TableHeadingBackgroundProperty{ get; };
+
+        Microsoft.UI.Xaml.Media.Brush TableBorderBrush{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty TableBorderBrushProperty{ get; };
+
+        Double TableBorderThickness{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty TableBorderThicknessProperty{ get; };
+
+        Microsoft.UI.Xaml.Thickness TableCellPadding{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty TableCellPaddingProperty{ get; };
+
+        Microsoft.UI.Xaml.Thickness TableMargin{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty TableMarginProperty{ get; };
+
+        Microsoft.UI.Xaml.CornerRadius TableCornerRadius{ get; set; };
+
+        [noexcept]
+        static Microsoft.UI.Xaml.DependencyProperty TableCornerRadiusProperty{ get; };
 
         event Windows.Foundation.EventHandler<LinkClickedEventArgs> OnLinkClicked;
     }

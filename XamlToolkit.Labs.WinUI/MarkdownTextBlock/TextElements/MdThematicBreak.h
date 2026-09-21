@@ -33,16 +33,15 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
             return _paragraph;
         }
 
-        MdThematicBreak(MarkdownThemes const& themes)
+        MdThematicBreak(MarkdownTextBlock const& control)
         {
             winrt::InlineUIContainer inlineUIContainer;
             winrt::Line line;
             line.Stretch(winrt::Stretch::Fill);
-            line.Stroke(themes.HorizontalRuleBrush()
-                ? themes.HorizontalRuleBrush() : themes.BorderBrush());
+            line.Stroke(control.HorizontalRuleBrush());
             line.X2(1.0);
-            line.StrokeThickness(themes.HorizontalRuleThickness());
-            line.Margin(themes.HorizontalRuleMargin());
+            line.StrokeThickness(control.HorizontalRuleThickness());
+            line.Margin(control.HorizontalRuleMargin());
             inlineUIContainer.Child(line);
             _paragraph.Inlines().Append(inlineUIContainer);
         }

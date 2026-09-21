@@ -25,15 +25,15 @@ namespace winrt::XamlToolkit::Labs::WinUI
 {
 	WinUIRenderer::WinUIRenderer(
 		std::shared_ptr<TextElements::MdFlowDocument> const& document,
-		MarkdownConfig const& config, winrt::XamlToolkit::Labs::WinUI::MarkdownTextBlock const& markdownTextBlock)
-		: _config(config), FlowDocument(document), _markdownTextBlock(markdownTextBlock)
+		winrt::XamlToolkit::Labs::WinUI::MarkdownTextBlock const& markdownTextBlock)
+		: FlowDocument(document), _markdownTextBlock(markdownTextBlock)
 	{
 
 	}
 
-	winrt::weak_ref<winrt::XamlToolkit::Labs::WinUI::MarkdownTextBlock> WinUIRenderer::MarkdownTextBlock()
+	winrt::XamlToolkit::Labs::WinUI::MarkdownTextBlock WinUIRenderer::MarkdownTextBlock()
 	{
-		return _markdownTextBlock;
+		return _markdownTextBlock.get();
 	}
 
 	void WinUIRenderer::AddChildToCurrent(IAddChild* child)
@@ -103,7 +103,6 @@ namespace winrt::XamlToolkit::Labs::WinUI
 	{
 		_inlineStack.clear();
 		_containerStack.clear();
-		_elementCache.clear();
 
 		FlowDocument()->RichTextBlock().Blocks().Clear();
 	}
@@ -157,7 +156,7 @@ namespace winrt::XamlToolkit::Labs::WinUI
 			break;
 		case MD_BLOCK_QUOTE:
 		{
-			auto quote = std::make_shared<TextElements::MdQuote>(renderer->Config().Themes());
+			auto quote = std::make_shared<TextElements::MdQuote>(renderer->MarkdownTextBlock());
 			renderer->BeginBlock(quote);
 			break;
 		}
@@ -196,16 +195,20 @@ namespace winrt::XamlToolkit::Labs::WinUI
 		case MD_BLOCK_H:
 		{
 			auto hDetail = static_cast<const MD_BLOCK_H_DETAIL*>(detail);
-			auto heading = std::make_shared<TextElements::MdHeading>(hDetail->level, renderer->Config());
+			auto heading = std::make_shared<TextElements::MdHeading>(hDetail->level, renderer->MarkdownTextBlock());
 			renderer->BeginInlineContainer(heading);
 			break;
 		}
 		case MD_BLOCK_CODE:
 		{
-			auto isDarkMode = Application::Current().RequestedTheme() == ApplicationTheme::Dark;
+			// ActualTheme, not Application::Current().RequestedTheme(): hosts theme the app by setting
+			// ElementTheme on a root element (the Gallery does exactly that), which never touches the
+			// app-level theme. ActualTheme resolves the effective theme through the tree, so it picks
+			// up an inherited ElementTheme.Dark and the token palette follows the theme.
+			auto isDarkMode = renderer->MarkdownTextBlock().ActualTheme() == ElementTheme::Dark;
 			auto codeDetail = static_cast<const MD_BLOCK_CODE_DETAIL*>(detail);
 			std::wstring_view language{ codeDetail->lang.text, codeDetail->lang.size };
-			auto codeBlock = std::make_shared<TextElements::MdCodeBlock>(language, renderer->Config(), isDarkMode);
+			auto codeBlock = std::make_shared<TextElements::MdCodeBlock>(language, renderer->MarkdownTextBlock(), isDarkMode);
 			renderer->BeginInlineContainer(codeBlock);
 			break;
 		}
@@ -225,7 +228,7 @@ namespace winrt::XamlToolkit::Labs::WinUI
 				tableDetail->col_count,
 				tableDetail->head_row_count,
 				tableDetail->body_row_count,
-				renderer->Config().Themes());
+				renderer->MarkdownTextBlock());
 
 			renderer->BeginBlock(table);
 			renderer->_currentRow = 0;
@@ -257,7 +260,7 @@ namespace winrt::XamlToolkit::Labs::WinUI
 			}
 
 			bool isHeader = (type == MD_BLOCK_TH);
-			auto cell = std::make_shared<TextElements::MdTableCell>(align, isHeader, renderer->_currentColumn, renderer->_currentRow, renderer->Config().Themes());
+			auto cell = std::make_shared<TextElements::MdTableCell>(align, isHeader, renderer->_currentColumn, renderer->_currentRow, renderer->MarkdownTextBlock());
 
 			renderer->BeginBlock(cell);
 
@@ -266,7 +269,7 @@ namespace winrt::XamlToolkit::Labs::WinUI
 		}
 		case MD_BLOCK_HR:
 		{
-			TextElements::MdThematicBreak hr(renderer->Config().Themes());
+			TextElements::MdThematicBreak hr(renderer->MarkdownTextBlock());
 			renderer->AddInlineLeaf(&hr);
 			break;
 		}
@@ -355,7 +358,7 @@ namespace winrt::XamlToolkit::Labs::WinUI
 		case MD_SPAN_STRONG:
 		{
 			auto emphasis = std::make_shared<TextElements::MdEmphasisInline>();
-			emphasis->SetBold(renderer->Config().Themes().BoldFontWeight());
+			emphasis->SetBold(renderer->MarkdownTextBlock().BoldFontWeight());
 			renderer->BeginInlineContainer(emphasis);
 			break;
 		}
@@ -372,11 +375,11 @@ namespace winrt::XamlToolkit::Labs::WinUI
 			std::wstring_view url{ spanADetail->href.text , spanADetail->href.size };
 			if (spanADetail->is_autolink) {
 
-				auto autoLink = std::make_shared<TextElements::MdAutolinkInline>(url, renderer->Config().BaseUrl(), renderer);
+				auto autoLink = std::make_shared<TextElements::MdAutolinkInline>(url, renderer->MarkdownTextBlock().BaseUrl(), renderer);
 				renderer->BeginInlineContainer(autoLink);
 			}
 			else {
-				auto hyperlink = std::make_shared<TextElements::MdHyperlinkNode>(url, renderer->Config().BaseUrl(), renderer);
+				auto hyperlink = std::make_shared<TextElements::MdHyperlinkNode>(url, renderer->MarkdownTextBlock().BaseUrl(), renderer);
 				renderer->BeginInlineContainer(hyperlink);
 			}
 			break;
@@ -384,16 +387,15 @@ namespace winrt::XamlToolkit::Labs::WinUI
 		case MD_SPAN_IMG:
 		{
 			auto imgDetail = static_cast<const MD_SPAN_IMG_DETAIL*>(detail);
-			auto uri = Extensions::GetUri(std::wstring_view{ imgDetail->src.text, imgDetail->src.size }, renderer->Config().BaseUrl());
-			auto image = std::make_shared<TextElements::MdImage>(uri, renderer->Config());
+			auto uri = Extensions::GetUri(std::wstring_view{ imgDetail->src.text, imgDetail->src.size }, renderer->MarkdownTextBlock().BaseUrl());
+			auto image = std::make_shared<TextElements::MdImage>(uri, renderer->MarkdownTextBlock());
 			renderer->AddInlineLeaf(image.get());
-			renderer->_elementCache.emplace_back(image);
 			renderer->_lastImage = image;
 			break;
 		}
 		case MD_SPAN_CODE:
 		{
-			auto inlineCode = std::make_shared<TextElements::MdInlineCode>(renderer->Config());
+			auto inlineCode = std::make_shared<TextElements::MdInlineCode>(renderer->MarkdownTextBlock());
 			renderer->BeginInlineContainer(inlineCode);
 			break;
 		}
@@ -412,7 +414,7 @@ namespace winrt::XamlToolkit::Labs::WinUI
 		{
 			auto wikiDetail = static_cast<const struct MD_SPAN_WIKILINK*>(detail);
 			auto link = std::wstring_view{ wikiDetail->target.text, wikiDetail->target.size };
-			auto autoLink = std::make_shared<TextElements::MdAutolinkInline>(link, renderer->Config().BaseUrl(), renderer);
+			auto autoLink = std::make_shared<TextElements::MdAutolinkInline>(link, renderer->MarkdownTextBlock().BaseUrl(), renderer);
 			renderer->BeginInlineContainer(autoLink);
 			break;
 		}

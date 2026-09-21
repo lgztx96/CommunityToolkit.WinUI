@@ -22,7 +22,6 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
         std::wstring_view _baseUrl;
 
     public:
-       // bool IsHtml() const { return _htmlNode; }
         wil::typed_event<winrt::Hyperlink, winrt::HyperlinkClickEventArgs> ClickEvent;
 
         winrt::TextElement TextElement() const override
@@ -33,18 +32,15 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
         MdHyperlink(std::wstring_view url, std::wstring_view baseUrl, WinUIRenderer* renderer)
         {
             _baseUrl = baseUrl;
-            // auto url = htmlNode.GetAttributeValue("href", "#");
-            // _htmlNode = htmlNode;
-
             _hyperlink.NavigateUri(Extensions::GetUri(url, baseUrl));
-            _hyperlink.Foreground(renderer->Config().Themes().LinkForeground());
-            _hyperlink.Click([markdownWeak{ renderer->MarkdownTextBlock() }](auto& sender, auto&)
+            _hyperlink.Foreground(renderer->MarkdownTextBlock().LinkForeground());
+            _hyperlink.Click([weak = winrt::make_weak(renderer->MarkdownTextBlock())](auto& sender, auto&)
                 {
                     if (auto hyperlink = sender.template try_as<winrt::Hyperlink>())
                     {
                         auto uri = hyperlink.NavigateUri();
 
-                        if (auto markdown = markdownWeak.get())
+                        if (auto markdown = weak.get())
                         {
                             auto markdownStrong = winrt::get_self<
                                 winrt::XamlToolkit::Labs::WinUI::implementation::MarkdownTextBlock>(markdown)->get_strong();

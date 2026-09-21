@@ -447,17 +447,11 @@
     <Midl Include="MarkdownTextBlock\MarkdownTextBlock.idl">
       <Filter>MarkdownTextBlock</Filter>
     </Midl>
-    <Midl Include="MarkdownTextBlock\MarkdownConfig.idl">
-      <Filter>MarkdownTextBlock</Filter>
-    </Midl>
     <Midl Include="MarkdownTextBlock\LinkClickedEventArgs.idl">
       <Filter>MarkdownTextBlock</Filter>
     </Midl>
     <Midl Include="MarkdownTextBlock\TextElements\MdTableUIElement.idl">
       <Filter>MarkdownTextBlock\TextElements</Filter>
-    </Midl>
-    <Midl Include="MarkdownTextBlock\MarkdownThemes.idl">
-      <Filter>MarkdownTextBlock</Filter>
     </Midl>
     <Midl Include="TokenView\TokenItemRemovingEventArgs.idl">
       <Filter>TokenView</Filter>

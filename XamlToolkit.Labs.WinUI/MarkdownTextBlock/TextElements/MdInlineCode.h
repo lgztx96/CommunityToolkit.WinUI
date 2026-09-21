@@ -4,7 +4,6 @@
 #pragma once
 
 #include "IAddChild.h"
-#include <MarkdownTextBlock/MarkdownConfig.h>
 
 #ifdef __INTELLISENSE__
 #include <winrt/Microsoft.UI.Xaml.h>
@@ -26,7 +25,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
     {
         winrt::InlineUIContainer _inlineContainer;
         winrt::TextBlock _textBlock;
-        MarkdownConfig _config;
+        MarkdownTextBlock _control;
 
     public:
         winrt::TextElement TextElement() const override
@@ -34,25 +33,25 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
             return _inlineContainer;
         }
 
-		MdInlineCode(XamlToolkit::Labs::WinUI::MarkdownConfig const& config) : _config(config) { }
+		MdInlineCode(XamlToolkit::Labs::WinUI::MarkdownTextBlock const& control) : _control(control) { }
 
-        void Enter() override 
+        void Enter() override
         {
             winrt::Border border;
             border.VerticalAlignment(winrt::VerticalAlignment::Bottom);
-            border.Background(_config.Themes().InlineCodeBackground());
-            border.BorderBrush(_config.Themes().InlineCodeBorderBrush());
-            border.BorderThickness(_config.Themes().InlineCodeBorderThickness());
-            border.CornerRadius(_config.Themes().InlineCodeCornerRadius());
-            border.Padding(_config.Themes().InlineCodePadding());
+            border.Background(_control.InlineCodeBackground());
+            border.BorderBrush(_control.InlineCodeBorderBrush());
+            border.BorderThickness(_control.InlineCodeBorderThickness());
+            border.CornerRadius(_control.InlineCodeCornerRadius());
+            border.Padding(_control.InlineCodePadding());
             winrt::CompositeTransform3D transform;
             transform.TranslateY(4.0);
             border.Transform3D(transform);
 
-            _textBlock.FontSize(_config.Themes().InlineCodeFontSize());
-            _textBlock.Foreground(_config.Themes().InlineCodeForeground());
-            _textBlock.FontWeight(_config.Themes().InlineCodeFontWeight());
-            _textBlock.IsTextSelectionEnabled(true);
+            _textBlock.FontSize(_control.InlineCodeFontSize());
+            _textBlock.Foreground(_control.InlineCodeForeground());
+            _textBlock.FontWeight(_control.InlineCodeFontWeight());
+            _textBlock.IsTextSelectionEnabled(_control.IsTextSelectionEnabled());
             border.Child(_textBlock);
             _inlineContainer.Child(border);
 		}
@@ -66,4 +65,3 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
         }
     };
 }
-

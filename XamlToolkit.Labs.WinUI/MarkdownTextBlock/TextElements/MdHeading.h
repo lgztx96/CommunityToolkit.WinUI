@@ -4,7 +4,6 @@
 #pragma once
 
 #include "IAddChild.h"
-#include <MarkdownTextBlock/MarkdownConfig.h>
 
 #ifdef __INTELLISENSE__
 #include <winrt/Microsoft.UI.Xaml.h>
@@ -20,82 +19,76 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 {
     class MdHeading final : public IAddChild
     {
-    private:
-        winrt::Paragraph _paragraph;
-        MarkdownConfig _config;
-
     public:
-        //bool IsHtml() const { return _htmlNode; }
-
         winrt::TextElement TextElement() const override
         {
             return _paragraph;
         }
 
-        MdHeading(MarkdownConfig const& config) : _config(config)
+        MdHeading(MarkdownTextBlock const& control)
         {
             auto level = 1;
-            _paragraph.FontSize([](int level, const auto& config)
+            _paragraph.FontSize([](int level, const auto& control)
             {
                 switch (level)
                 {
                 case 1:
-                    return config.Themes().H1FontSize();
+                    return control.H1FontSize();
                 case 2:
-                    return config.Themes().H2FontSize();
+                    return control.H2FontSize();
                 case 3:
-                    return config.Themes().H3FontSize();
+                    return control.H3FontSize();
                 case 4:
-                    return config.Themes().H4FontSize();
+                    return control.H4FontSize();
                 case 5:
-                    return config.Themes().H5FontSize();
+                    return control.H5FontSize();
                 default:
-                    return config.Themes().H6FontSize();
+                    return control.H6FontSize();
                 }  
-            }(level, _config));
+            }(level, control));
 
-            _paragraph.Foreground([](int level, const auto& config)
+            _paragraph.Foreground([](int level, const auto& control)
             {
                 switch (level)
                 {
                 case 1:
-                    return config.Themes().H1Foreground();
+                    return control.H1Foreground();
                 case 2:
-                    return config.Themes().H2Foreground();
+                    return control.H2Foreground();
                 case 3:
-                    return config.Themes().H3Foreground();
+                    return control.H3Foreground();
                 case 4:
-                    return config.Themes().H4Foreground();
+                    return control.H4Foreground();
                 case 5:
-                    return config.Themes().H5Foreground();
+                    return control.H5Foreground();
                 default:
-                    return config.Themes().H6Foreground();
+                    return control.H6Foreground();
                 }
-            }(level, _config));
+            }(level, control));
 
-            _paragraph.FontWeight([](int level, const auto& config)
+            _paragraph.FontWeight([](int level, const auto& control)
             {
                 switch (level)
                 {
                 case 1:
-                    return config.Themes().H1FontWeight();
+                    return control.H1FontWeight();
                 case 2:
-                    return config.Themes().H2FontWeight();
+                    return control.H2FontWeight();
                 case 3:
-                    return config.Themes().H3FontWeight();
+                    return control.H3FontWeight();
                 case 4:
-                    return config.Themes().H4FontWeight();
+                    return control.H4FontWeight();
                 case 5:
-                    return config.Themes().H5FontWeight();
+                    return control.H5FontWeight();
                 default:
-                    return config.Themes().H6FontWeight();
+                    return control.H6FontWeight();
                 }
-            }(level, _config));
+            }(level, control));
         }
 
-        MdHeading(int level, MarkdownConfig const& config) : _config(config)
+        MdHeading(int level, MarkdownTextBlock const& control)
         {
-            std::string align = ""; //_htmlNode.GetAttributeValue("align", "left");
+            std::string align{ "left" }; // _htmlNode.GetAttributeValue("align", "left");
 
             _paragraph.TextAlignment([&]
             {
@@ -112,82 +105,82 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
             }());
 
             //auto level = level;// int.Parse(htmlNode.Name.Substring(1));
-            _paragraph.FontSize([](int level, const auto& config)
+            _paragraph.FontSize([](int level, const auto& control)
             {
                 switch (level)
                 {
                 case 1:
-                    return config.Themes().H1FontSize();
+                    return control.H1FontSize();
                 case 2:
-                    return config.Themes().H2FontSize();
+                    return control.H2FontSize();
                 case 3:
-                    return config.Themes().H3FontSize();
+                    return control.H3FontSize();
                 case 4:
-                    return config.Themes().H4FontSize();
+                    return control.H4FontSize();
                 case 5:
-                    return config.Themes().H5FontSize();
+                    return control.H5FontSize();
                 default:
-                    return config.Themes().H6FontSize();
+                    return control.H6FontSize();
                 }
-            }(level, _config));
+            }(level, control));
 
-            _paragraph.Foreground([](int level, const auto& config)
+            _paragraph.Foreground([](int level, const auto& control)
             {
                 switch (level)
                 {
                 case 1:
-                    return config.Themes().H1Foreground();
+                    return control.H1Foreground();
                 case 2:
-                    return config.Themes().H2Foreground();
+                    return control.H2Foreground();
                 case 3:
-                    return config.Themes().H3Foreground();
+                    return control.H3Foreground();
                 case 4:
-                    return config.Themes().H4Foreground();
+                    return control.H4Foreground();
                 case 5:
-                    return config.Themes().H5Foreground();
+                    return control.H5Foreground();
                 default:
-                    return config.Themes().H6Foreground();
+                    return control.H6Foreground();
                 }
-            }(level, _config));
+            }(level, control));
 
-            _paragraph.FontWeight([](int level, const auto& config)
+            _paragraph.FontWeight([](int level, const auto& control)
                 {
                 switch (level)
                 {
                 case 1:
-                    return config.Themes().H1FontWeight();
+                    return control.H1FontWeight();
                 case 2:
-                    return config.Themes().H2FontWeight();
+                    return control.H2FontWeight();
                 case 3:
-                    return config.Themes().H3FontWeight();
+                    return control.H3FontWeight();
                 case 4:
-                    return config.Themes().H4FontWeight();
+                    return control.H4FontWeight();
                 case 5:
-                    return config.Themes().H5FontWeight();
+                    return control.H5FontWeight();
                 default:
-                    return config.Themes().H6FontWeight();
+                    return control.H6FontWeight();
                 }
-            }(level, _config));
+            }(level, control));
 
-            _paragraph.Margin([](int level, const auto& config) 
+            _paragraph.Margin([](int level, const auto& control) 
             {
                 switch (level)
                 {
                 case 1:
-                    return config.Themes().H1Margin();
+                    return control.H1Margin();
                 case 2:
-                    return config.Themes().H2Margin();
+                    return control.H2Margin();
                 case 3:
-                    return config.Themes().H3Margin();
+                    return control.H3Margin();
                 case 4:
-                    return config.Themes().H4Margin();
+                    return control.H4Margin();
                     break;
                 case 5:
-                    return config.Themes().H5Margin();
+                    return control.H5Margin();
                 default:
-                    return config.Themes().H6Margin();
+                    return control.H6Margin();
                 }
-            }(level, _config));
+            }(level, control));
         }
 
         void AddChild(IAddChild* child) override
@@ -197,6 +190,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
                 _paragraph.Inlines().Append(inlineChild);
             }
         }
+
+    private:
+        winrt::Paragraph _paragraph;
     };
 }
-

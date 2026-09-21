@@ -20,21 +20,16 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
             return _paragraph;
         }
 
-        MdTable(int columnCount, int headRowCount, int bodyRowCount, MarkdownThemes const& themes)
+        MdTable(int columnCount, int headRowCount, int bodyRowCount, MarkdownTextBlock const& control)
         {
-            if (!themes.TableBorderBrush()) 
-            {
-                themes.TableBorderBrush(themes.BorderBrush());
-            }
-
             _tableElement = winrt::make<winrt::XamlToolkit::Labs::WinUI::implementation::MdTableUIElement>(
                 columnCount,
                 headRowCount + bodyRowCount,
-                themes.TableBorderThickness(), 
-                themes.TableBorderBrush(),
-                themes.TableHeadingBackground(),
-                themes.CornerRadius(),
-                themes.TableMargin()
+                static_cast<float>(control.TableBorderThickness()),
+                control.TableBorderBrush(),
+                control.TableHeadingBackground(),
+                control.TableCornerRadius(),
+                control.TableMargin()
             );
 
             winrt::InlineUIContainer inlineUIContainer;

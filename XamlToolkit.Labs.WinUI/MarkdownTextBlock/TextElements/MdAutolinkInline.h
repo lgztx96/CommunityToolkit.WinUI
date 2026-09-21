@@ -35,14 +35,14 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 		MdAutolinkInline(std::wstring_view url, std::wstring_view baseUrl, WinUIRenderer* renderer)
 		{
 			_hyperlink.NavigateUri(Extensions::GetUri(url, baseUrl));
-			_hyperlink.Foreground(renderer->Config().Themes().LinkForeground());
-			_hyperlink.Click([markdownWeak{ renderer->MarkdownTextBlock() }](auto& sender, auto&)
+			_hyperlink.Foreground(renderer->MarkdownTextBlock().LinkForeground());
+			_hyperlink.Click([weak = winrt::make_weak(renderer->MarkdownTextBlock())](auto& sender, auto&)
 				{
 					if (auto hyperlink = sender.template try_as<Hyperlink>())
 					{
 						auto uri = hyperlink.NavigateUri();
 
-						if (auto markdown = markdownWeak.get())
+						if (auto markdown = weak.get())
 						{
 							auto markdownStrong = winrt::get_self<
 								winrt::XamlToolkit::Labs::WinUI::implementation::MarkdownTextBlock>(markdown)->get_strong();
@@ -62,8 +62,9 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 		{
 			try
 			{
-				if (auto text = dynamic_cast<const MdInlineText*>(child)) {
-					_hyperlink.Inlines().Append(text->TextElement().as<Run>());
+				if (auto text = dynamic_cast<const MdInlineText*>(child)) 
+				{
+					_hyperlink.Inlines().Append(text->TextElement().as<winrt::Run>());
 				}
 			}
 			catch (const winrt::hresult_error& ex)

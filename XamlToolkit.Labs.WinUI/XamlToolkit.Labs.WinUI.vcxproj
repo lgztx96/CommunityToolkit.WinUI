@@ -252,10 +252,6 @@
     <ClInclude Include="MarkdownTextBlock\DefaultSVGRenderer.h" />
     <ClInclude Include="MarkdownTextBlock\Highlight\ISyntaxHighlighter.h" />
     <ClInclude Include="MarkdownTextBlock\LinkClickedEventArgs.h" />
-    <ClInclude Include="MarkdownTextBlock\MarkdownConfig.h">
-      <DependentUpon>MarkdownTextBlock\MarkdownConfig.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
     <ClInclude Include="MarkdownTextBlock\MarkdownTextBlock.h">
       <DependentUpon>MarkdownTextBlock\MarkdownTextBlock.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -289,10 +285,6 @@
     <ClInclude Include="MarkdownTextBlock\TextElements\MdTableRow.h" />
     <ClInclude Include="MarkdownTextBlock\TextElements\MdTaskListCheckBox.h" />
     <ClInclude Include="MarkdownTextBlock\TextElements\MdThematicBreak.h" />
-    <ClInclude Include="MarkdownTextBlock\MarkdownThemes.h">
-      <DependentUpon>MarkdownTextBlock\MarkdownThemes.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
     <ClInclude Include="MarkdownTextBlock\TextElements\MdTableUIElement.h">
       <DependentUpon>MarkdownTextBlock\TextElements\MdTableUIElement.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -508,10 +500,6 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="MarkdownTextBlock\LinkClickedEventArgs.cpp" />
-    <ClCompile Include="MarkdownTextBlock\MarkdownConfig.cpp">
-      <DependentUpon>MarkdownTextBlock\MarkdownConfig.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
     <ClCompile Include="MarkdownTextBlock\MarkdownTextBlock.cpp">
       <DependentUpon>MarkdownTextBlock\MarkdownTextBlock.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -521,10 +509,6 @@
     </ClCompile>
     <ClCompile Include="MarkdownTextBlock\Renderer\WinUIRenderer.cpp" />
     <ClCompile Include="MarkdownTextBlock\TextElements\MdTableUIElement.cpp" />
-    <ClCompile Include="MarkdownTextBlock\MarkdownThemes.cpp">
-      <DependentUpon>MarkdownTextBlock\MarkdownThemes.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
     <ClCompile Include="Marquee\Marquee.cpp">
       <SubType>Code</SubType>
     </ClCompile>
@@ -699,16 +683,10 @@
       <SubType>Code</SubType>
     </Midl>
     <Midl Include="MarkdownTextBlock\LinkClickedEventArgs.idl" />
-    <Midl Include="MarkdownTextBlock\MarkdownConfig.idl">
-      <SubType>Designer</SubType>
-    </Midl>
     <Midl Include="MarkdownTextBlock\MarkdownTextBlock.idl">
       <SubType>Designer</SubType>
     </Midl>
     <Midl Include="MarkdownTextBlock\TextElements\MdTableUIElement.idl" />
-    <Midl Include="MarkdownTextBlock\MarkdownThemes.idl">
-      <SubType>Designer</SubType>
-    </Midl>
     <Midl Include="Marquee\Marquee.idl">
       <DependentUpon>Marquee\Marquee.cpp</DependentUpon>
       <SubType>Code</SubType>

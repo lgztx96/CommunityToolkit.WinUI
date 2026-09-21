@@ -44,14 +44,14 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
         {
             // Lists are plain Paragraph_s, one per item.
             // This is so that you can select across list items.
-            auto themes = _renderer->Config().Themes();
+            const auto control = _renderer->MarkdownTextBlock();
 
-            if (themes.ParagraphLineHeight() > 0)
+            if (control.ParagraphLineHeight() > 0)
             {
-                _paragraph.LineHeight(themes.ParagraphLineHeight());
+                _paragraph.LineHeight(control.ParagraphLineHeight());
             }
 
-            double bulletSpacing = themes.ListBulletSpacing();
+            double bulletSpacing = control.ListBulletSpacing();
             if (bulletSpacing < 0)
             {
                 throw winrt::hresult_invalid_argument(L"ListBulletSpacing cannot be negative");
@@ -62,10 +62,10 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
             bulletRun.Text(bullet + spacing);
             _paragraph.Inlines().Append(bulletRun);
 
-            winrt::Thickness margin = themes.ParagraphMargin();
-            if (bulletCount > 1) 
+            winrt::Thickness margin = control.ParagraphMargin();
+            if (bulletCount > 1)
             {
-                margin.Left += themes.ListGutterWidth();
+                margin.Left += control.ListGutterWidth();
             }
 
             _paragraph.Margin(margin);
@@ -73,7 +73,6 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 
         void SetTaskListMask(wchar_t mask)
         {
-            auto themes = _renderer->Config().Themes();
 			MdTaskListCheckBox checkBox(mask);
             _paragraph.Inlines().Append(checkBox.TextElement().as<winrt::InlineUIContainer>());
             winrt::Run spacingRun;
@@ -113,5 +112,3 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
         }
     };
 }
-
-
