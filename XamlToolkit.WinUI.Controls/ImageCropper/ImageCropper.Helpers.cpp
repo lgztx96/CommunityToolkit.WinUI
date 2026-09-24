@@ -27,7 +27,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
 	static constexpr double ThresholdValue = 0.001;
 
-	winrt::IAsyncAction ImageCropper::CropImageAsync(winrt::WriteableBitmap const& writeableBitmap, winrt::IRandomAccessStream const& stream, Rect croppedRect, BitmapFileFormat bitmapFileFormat)
+	winrt::IAsyncAction ImageCropper::CropImageAsync(winrt::WriteableBitmap writeableBitmap, winrt::IRandomAccessStream stream, Rect croppedRect, BitmapFileFormat bitmapFileFormat)
 	{
 		croppedRect.X = std::max<float>(croppedRect.X, 0);
 		croppedRect.Y = std::max<float>(croppedRect.Y, 0);
@@ -62,7 +62,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		co_await bitmapEncoder.FlushAsync();
 	}
 
-	winrt::IAsyncAction ImageCropper::CropImageWithShapeAsync(winrt::WriteableBitmap const& writeableBitmap, winrt::IRandomAccessStream const& stream, Rect croppedRect, BitmapFileFormat bitmapFileFormat, Controls::CropShape cropShape)
+	winrt::IAsyncAction ImageCropper::CropImageWithShapeAsync(winrt::WriteableBitmap writeableBitmap, winrt::IRandomAccessStream stream, Rect croppedRect, BitmapFileFormat bitmapFileFormat, Controls::CropShape cropShape)
 	{
 		auto device = winrt::CanvasDevice::GetSharedDevice();
 		auto clipGeometry = CreateClipGeometry(device, cropShape, winrt::Size(croppedRect.Width, croppedRect.Height));
@@ -82,13 +82,14 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		winrt::CanvasCommandList markCommandList(device);
 
 		auto markDrawingSession = markCommandList.CreateDrawingSession();
-		markDrawingSession.FillGeometry(clipGeometry, winrt::Windows::UI::Colors::Black());
+		markDrawingSession.FillGeometry(clipGeometry, winrt::Microsoft::UI::Colors::Black());
 
 		winrt::AlphaMaskEffect alphaMaskEffect;
 		alphaMaskEffect.Source(sourceBitmap);
 		alphaMaskEffect.AlphaMask(markCommandList);
 
 		drawingSession.DrawImage(alphaMaskEffect);
+		drawingSession.Close();
 
 		auto pixelBytes = offScreen.GetPixelBytes();
 		auto bitmapEncoder = co_await winrt::BitmapEncoder::CreateAsync(GetEncoderId(bitmapFileFormat), stream);

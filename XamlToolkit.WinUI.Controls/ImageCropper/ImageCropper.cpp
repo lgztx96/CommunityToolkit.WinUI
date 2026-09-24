@@ -368,20 +368,24 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		Source(writeableBitmap);
 	}
 
-	winrt::IAsyncAction ImageCropper::SaveAsync(winrt::IRandomAccessStream const& stream, winrt::BitmapFileFormat bitmapFileFormat, bool keepRectangularOutput)
+	winrt::IAsyncAction ImageCropper::SaveAsync(winrt::IRandomAccessStream stream, winrt::BitmapFileFormat bitmapFileFormat, bool keepRectangularOutput)
 	{
-		if (Source() == nullptr)
+		auto strongThis = get_strong();
+
+		const auto source = Source();
+		if (!source)
 		{
 			co_return;
 		}
 
-		if (keepRectangularOutput || CropShape() == CropShape::Rectangular)
+		const auto cropShape = CropShape();
+		if (keepRectangularOutput || cropShape == CropShape::Rectangular)
 		{
-			co_await CropImageAsync(Source(), stream, _currentCroppedRect, bitmapFileFormat);
+			co_await CropImageAsync(source, stream, _currentCroppedRect, bitmapFileFormat);
 			co_return;
 		}
 
-		co_await CropImageWithShapeAsync(Source(), stream, _currentCroppedRect, bitmapFileFormat, CropShape());
+		co_await CropImageWithShapeAsync(source, stream, _currentCroppedRect, bitmapFileFormat, cropShape);
 	}
 
 	void ImageCropper::Reset()

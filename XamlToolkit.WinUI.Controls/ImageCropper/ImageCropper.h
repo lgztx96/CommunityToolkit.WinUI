@@ -91,7 +91,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		winrt::IAsyncAction LoadImageFromFile(winrt::StorageFile const& imageFile);
 
 		winrt::IAsyncAction SaveAsync(
-			winrt::IRandomAccessStream const& stream, 
+			winrt::IRandomAccessStream stream, 
 			winrt::BitmapFileFormat bitmapFileFormat, 
 			bool keepRectangularOutput = false);
 
@@ -317,9 +317,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		winrt::Point SelectionAreaCenter();
 
-		static winrt::IAsyncAction CropImageAsync(winrt::WriteableBitmap const& writeableBitmap, winrt::IRandomAccessStream const& stream, Rect croppedRect, BitmapFileFormat bitmapFileFormat);
+		static winrt::IAsyncAction CropImageAsync(winrt::WriteableBitmap writeableBitmap, winrt::IRandomAccessStream stream, Rect croppedRect, BitmapFileFormat bitmapFileFormat);
 
-		static winrt::IAsyncAction CropImageWithShapeAsync(winrt::WriteableBitmap const& writeableBitmap, winrt::IRandomAccessStream const& stream, Rect croppedRect, BitmapFileFormat bitmapFileFormat, winrt::XamlToolkit::WinUI::Controls::CropShape cropShape);
+		static winrt::IAsyncAction CropImageWithShapeAsync(winrt::WriteableBitmap writeableBitmap, winrt::IRandomAccessStream stream, Rect croppedRect, BitmapFileFormat bitmapFileFormat, winrt::XamlToolkit::WinUI::Controls::CropShape cropShape);
 
 		static winrt::CanvasGeometry CreateClipGeometry(winrt::ICanvasResourceCreator resourceCreator, winrt::XamlToolkit::WinUI::Controls::CropShape cropShape, Size croppedSize);
 
