@@ -148,8 +148,8 @@
         <!--  Paragraph / list properties  -->
         <Setter Property="ParagraphMargin" Value="0,8,0,8" />
         <Setter Property="ParagraphLineHeight" Value="0" />
-        <Setter Property="ListBulletSpacing" Value="4" />
-        <Setter Property="ListGutterWidth" Value="32" />
+        <Setter Property="ListBulletSpacing" Value="3" />
+        <Setter Property="ListGutterWidth" Value="3" />
 
         <!--  Quote properties  -->
         <Setter Property="QuoteBackground" Value="{ThemeResource MarkdownTextBlockQuoteBackground}" />
