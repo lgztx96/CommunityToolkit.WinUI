@@ -75,15 +75,17 @@ namespace winrt::XamlToolkit::Labs::WinUI
 		_inlineStack.emplace_back(inlineContainer);
 	}
 
-	void WinUIRenderer::EndInlineContainer()
+	std::shared_ptr<TextElements::IAddChild> WinUIRenderer::EndInlineContainer()
 	{
-		if (_inlineStack.empty()) return;
+		if (_inlineStack.empty()) return nullptr;
 
 		std::shared_ptr<TextElements::IAddChild> top = _inlineStack.back();
 		top->Leave();
 		_inlineStack.pop_back();
 
 		AddChildToCurrent(top.get());
+
+		return top;
 	}
 
 	void WinUIRenderer::AddInlineLeaf(TextElements::IAddChild* leaf)
@@ -406,6 +408,20 @@ namespace winrt::XamlToolkit::Labs::WinUI
 			renderer->BeginInlineContainer(emphasis);
 			break;
 		}
+		case MD_SPAN_SUPERSCRIPT:
+		{
+			auto emphasis = std::make_shared<TextElements::MdEmphasisInline>();
+			emphasis->SetSuperscript();
+			renderer->BeginInlineContainer(emphasis);
+			break;
+		}
+		case MD_SPAN_SUBSCRIPT:
+		{
+			auto emphasis = std::make_shared<TextElements::MdEmphasisInline>();
+			emphasis->SetSubscript();
+			renderer->BeginInlineContainer(emphasis);
+			break;
+		}
 		case MD_SPAN_LATEXMATH:
 			break;
 		case MD_SPAN_LATEXMATH_DISPLAY:
@@ -436,6 +452,8 @@ namespace winrt::XamlToolkit::Labs::WinUI
 		case MD_SPAN_A:
 		case MD_SPAN_CODE:
 		case MD_SPAN_DEL:
+		case MD_SPAN_SUPERSCRIPT:
+		case MD_SPAN_SUBSCRIPT:
 		case MD_SPAN_WIKILINK:
 			renderer->EndInlineContainer();
 			break;
@@ -519,7 +537,7 @@ namespace winrt::XamlToolkit::Labs::WinUI
 		MD_PARSER parser
 		{
 			.abi_version = 0,
-			.flags = MD_DIALECT_GITHUB | MD_FLAG_WIKILINKS,
+			.flags = MD_FLAG_PERMISSIVEAUTOLINKS | MD_FLAG_TABLES | MD_FLAG_STRIKETHROUGH | MD_FLAG_TASKLISTS | MD_FLAG_WIKILINKS | MD_FLAG_SUPERSCRIPTS | MD_FLAG_SUBSCRIPTS,
 			.enter_block = EnterBlockCallback,
 			.leave_block = LeaveBlockCallback,
 			.enter_span = EnterSpanCallback,

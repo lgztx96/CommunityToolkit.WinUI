@@ -97,7 +97,7 @@ namespace winrt::XamlToolkit::Labs::WinUI
 
 		void AdvanceListNumberIfOrdered();
 
-		void EndInlineContainer();
+		std::shared_ptr<TextElements::IAddChild> EndInlineContainer();
 
 		void AddInlineLeaf(TextElements::IAddChild* leaf);
 

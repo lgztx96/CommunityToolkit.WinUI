@@ -22,8 +22,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
     class MdFlowDocument final : public IAddChild
     {
     private:
-        //HtmlNode _htmlNode;
-        RichTextBlock _richTextBlock;
+        winrt::RichTextBlock _richTextBlock;
 
     public:
         winrt::TextElement TextElement() const override
@@ -31,22 +30,10 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
             throw winrt::hresult_not_implemented();
         }
 
-        winrt::RichTextBlock RichTextBlock()
+        winrt::RichTextBlock RichTextBlock() const noexcept
         {
             return _richTextBlock;
         }
-
-        bool IsHtml()
-        {
-            // return _htmlNode;
-        };
-
-        MdFlowDocument() = default;
-
-        //MdFlowDocument(HtmlNode node)
-        //{
-        //    _htmlNode = node;
-        //}
 
         void AddChild(IAddChild* child) override
         {
