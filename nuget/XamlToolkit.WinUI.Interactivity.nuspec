@@ -26,11 +26,13 @@
 		<file target="build\net8.0-windows10.0.26100.0\XamlToolkit.WinUI.Interactivity.Native.targets"      src="XamlToolkit.WinUI.Interactivity.Managed.targets" />
 
 		<file target="lib\native\XamlToolkit.WinUI.Interactivity.winmd"                              src="..\x64\Release\XamlToolkit.WinUI.Interactivity\XamlToolkit.WinUI.Interactivity.winmd" />
+		<file target="lib\native\XamlToolkit.WinUI.Interactivity.pri"							     src="..\x64\Release\XamlToolkit.WinUI.Interactivity\XamlToolkit.WinUI.Interactivity.pri" />
 
 		<file target="runtimes\win-x86\native\XamlToolkit.WinUI.Interactivity.dll"                   src="..\Release\XamlToolkit.WinUI.Interactivity\XamlToolkit.WinUI.Interactivity.dll" />
 		<file target="runtimes\win-x64\native\XamlToolkit.WinUI.Interactivity.dll"                   src="..\x64\Release\XamlToolkit.WinUI.Interactivity\XamlToolkit.WinUI.Interactivity.dll" />
 		<file target="runtimes\win-arm64\native\XamlToolkit.WinUI.Interactivity.dll"                 src="..\arm64\Release\XamlToolkit.WinUI.Interactivity\XamlToolkit.WinUI.Interactivity.dll" />
 
 		<file target="lib\net8.0-windows10.0.26100.0\XamlToolkit.WinUI.Interactivity.Interop.dll" src="..\dotnet\XamlToolkit.WinUI.Interactivity\bin\Release\net8.0-windows10.0.26100.0\XamlToolkit.WinUI.Interactivity.Interop.dll" />
+		<file target="lib\net8.0-windows10.0.26100.0\XamlToolkit.WinUI.Interactivity.Interop.pri" src="..\dotnet\XamlToolkit.WinUI.Interactivity\bin\Release\net8.0-windows10.0.26100.0\XamlToolkit.WinUI.Interactivity.pri" />
 	</files>
 </package>
