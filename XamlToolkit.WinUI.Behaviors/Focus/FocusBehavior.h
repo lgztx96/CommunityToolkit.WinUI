@@ -14,10 +14,10 @@
 
 namespace winrt
 {
-    using namespace Microsoft::UI::Xaml;
-    using namespace Microsoft::UI::Xaml::Controls;
-    using namespace Microsoft::UI::Dispatching;
-    using namespace Windows::Foundation;
+    using namespace ::winrt::Microsoft::UI::Xaml;
+    using namespace ::winrt::Microsoft::UI::Xaml::Controls;
+    using namespace ::winrt::Microsoft::UI::Dispatching;
+    using namespace ::winrt::Windows::Foundation;
 }
 
 namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
@@ -36,21 +36,15 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
         /// <summary>
         /// Gets or sets the ordered list of controls which should receive the focus when the associated object is loaded.
         /// </summary>
-        winrt::XamlToolkit::WinUI::Behaviors::FocusTargetList Targets();
+        winrt::XamlToolkit::WinUI::Behaviors::FocusTargetList Targets() const;
         void Targets(winrt::XamlToolkit::WinUI::Behaviors::FocusTargetList const& value);
 
         /// <summary>
         /// Gets or sets the timeout before the FocusBehavior stops trying to set the focus to a control with
         /// a higher priority.
         /// </summary>
-        winrt::TimeSpan FocusEngagementTimeout() const
-        {
-            return winrt::unbox_value<winrt::TimeSpan>(GetValue(FocusEngagementTimeoutProperty()));
-        }
-        void FocusEngagementTimeout(winrt::TimeSpan const& value)
-        {
-            SetValue(FocusEngagementTimeoutProperty(), winrt::box_value(value));
-        }
+        winrt::TimeSpan FocusEngagementTimeout() const;
+        void FocusEngagementTimeout(winrt::TimeSpan const& value);
 
         static const wil::single_threaded_property<winrt::DependencyProperty> TargetsProperty;
         static const wil::single_threaded_property<winrt::DependencyProperty> FocusEngagementTimeoutProperty;
@@ -71,7 +65,7 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
         static void OnTargetsPropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& args);
 
         void ApplyFocus();
-        void Stop(winrt::XamlToolkit::WinUI::Behaviors::FocusTargetList const& targets);
+        void Stop();
         void OnControlLoaded(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
         void OnTargetControlChanged(winrt::IInspectable const& sender, winrt::IInspectable const& e);
         void OnContainerContentChanging(winrt::ListViewBase const& sender, winrt::ContainerContentChangingEventArgs const& args);

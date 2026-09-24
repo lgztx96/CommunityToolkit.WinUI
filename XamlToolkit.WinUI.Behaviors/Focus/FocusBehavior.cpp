@@ -35,7 +35,7 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
         Targets(list);
     }
 
-    winrt::XamlToolkit::WinUI::Behaviors::FocusTargetList FocusBehavior::Targets()
+    winrt::XamlToolkit::WinUI::Behaviors::FocusTargetList FocusBehavior::Targets() const
     {
         return GetValue(TargetsProperty()).try_as<winrt::XamlToolkit::WinUI::Behaviors::FocusTargetList>();
     }
@@ -45,23 +45,33 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
         SetValue(TargetsProperty(), value);
     }
 
+    winrt::TimeSpan FocusBehavior::FocusEngagementTimeout() const
+    {
+        return winrt::unbox_value<winrt::TimeSpan>(GetValue(FocusEngagementTimeoutProperty()));
+    }
+
+    void FocusBehavior::FocusEngagementTimeout(winrt::TimeSpan const& value)
+    {
+        SetValue(FocusEngagementTimeoutProperty(), winrt::box_value(value));
+    }
+
     void FocusBehavior::OnAssociatedObjectLoaded()
     {
         std::erase_if(_controlChangedTokens, [](auto& pair) 
         {
-            if (auto target = pair.first.get())
+            if (const auto target = pair.first.get())
             {
                 target.ControlChanged(pair.second);
             }
             return true;
         });
 
-        auto targets = Targets();
+        const auto targets = Targets();
         for (uint32_t i = 0; i < targets.Size(); i++)
         {
-            if (auto target = targets.GetAt(i).try_as<winrt::XamlToolkit::WinUI::Behaviors::FocusTarget>())
+            if (const auto target = targets.GetAt(i).try_as<winrt::XamlToolkit::WinUI::Behaviors::FocusTarget>())
             {
-                auto token = target.ControlChanged({ this, &FocusBehavior::OnTargetControlChanged });
+                const auto token = target.ControlChanged({ this, &FocusBehavior::OnTargetControlChanged });
                 _controlChangedTokens.emplace_back(target, token);
             }
         }
@@ -73,37 +83,29 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
     {
         std::erase_if(_controlChangedTokens, [](auto& pair)
         {
-            if (auto target = pair.first.get())
+            if (const auto target = pair.first.get())
             {
                 target.ControlChanged(pair.second);
             }
             return true;
         });
 
-        try
-        {
-            Stop(Targets());
-        }
-        catch (winrt::hresult_error&)
-        {
-            // Ignore exceptions during uninitialization
-        }
+        Stop();
 
         return true;
     }
 
     void FocusBehavior::OnTargetsPropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& args)
     {
-        if (auto behavior = d.try_as<winrt::XamlToolkit::WinUI::Behaviors::FocusBehavior>())
+        if (const auto behavior = d.try_as<winrt::XamlToolkit::WinUI::Behaviors::FocusBehavior>())
         {
-            auto impl = winrt::get_self<FocusBehavior>(behavior);
+            const auto impl = winrt::get_self<FocusBehavior>(behavior);
 
-            if (args.OldValue())
+            if (const auto oldValue = args.OldValue())
             {
-                auto oldTargets = args.OldValue().try_as<winrt::XamlToolkit::WinUI::Behaviors::FocusTargetList>();
-                if (oldTargets)
+                if (const auto oldTargets = oldValue.try_as<winrt::XamlToolkit::WinUI::Behaviors::FocusTargetList>())
                 {
-                    impl->Stop(oldTargets);
+                    impl->Stop();
                 }
             }
 
@@ -113,7 +115,7 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
 
     void FocusBehavior::ApplyFocus()
     {
-        auto targets = Targets();
+        const auto targets = Targets();
         if (targets.Size() == 0)
         {
             return;
@@ -121,7 +123,7 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
 
         std::erase_if(_controlLoadedTokens, [](auto& pair)
         {
-            if (auto control = pair.first.get())
+            if (const auto control = pair.first.get())
             {
                 control.Loaded(pair.second);
             }
@@ -130,7 +132,7 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
 
         std::erase_if(_containerContentChangingTokens, [](auto& pair)
         {
-            if (auto listView = pair.first.get())
+            if (const auto listView = pair.first.get())
             {
                 listView.ContainerContentChanging(pair.second);
             }
@@ -157,9 +159,9 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
                     break;
                 }
 
-                if (auto listViewBase = control.try_as<winrt::ListViewBase>())
+                if (const auto listViewBase = control.try_as<winrt::ListViewBase>())
                 {
-                    auto token = listViewBase.ContainerContentChanging({ this, &FocusBehavior::OnContainerContentChanging });
+                    const auto token = listViewBase.ContainerContentChanging({ this, &FocusBehavior::OnContainerContentChanging });
                     _containerContentChangingTokens.emplace_back(listViewBase, token);
                     hasListViewBaseControl = true;
                 }
@@ -167,14 +169,14 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
             else
             {
                 allLoaded = false;
-                auto token = control.Loaded({ this, &FocusBehavior::OnControlLoaded });
+                const auto token = control.Loaded({ this, &FocusBehavior::OnControlLoaded });
                 _controlLoadedTokens.emplace_back(control, token);
             }
         }
 
         if (focusedControlIndex == 0 || (!hasListViewBaseControl && allLoaded))
         {
-            Stop(targets);
+            Stop();
         }
         else if (focusedControlIndex > 0)
         {
@@ -186,7 +188,7 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
         }
     }
 
-    void FocusBehavior::Stop([[maybe_unused]] winrt::XamlToolkit::WinUI::Behaviors::FocusTargetList const& targets)
+    void FocusBehavior::Stop()
     {
         if (_timer.IsRunning())
         {
@@ -195,7 +197,7 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
 
         std::erase_if(_controlLoadedTokens, [](auto& pair)
         {
-            if (auto control = pair.first.get())
+            if (const auto control = pair.first.get())
             {
                 control.Loaded(pair.second);
             }
@@ -204,7 +206,7 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
 
         std::erase_if(_containerContentChangingTokens, [](auto& pair) 
         {
-            if (auto listView = pair.first.get())
+            if (const auto listView = pair.first.get())
             {
                 listView.ContainerContentChanging(pair.second);
             }
@@ -231,7 +233,7 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
     {
         std::erase_if(_containerContentChangingTokens, [&sender](auto& pair)
         {
-            if (auto listView = pair.first.get())
+            if (const auto listView = pair.first.get())
             {
                 if (listView == sender)
                 {
@@ -249,6 +251,6 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
     void FocusBehavior::OnEngagementTimerTick([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::IInspectable const& e)
     {
         ApplyFocus();
-        Stop(Targets());
+        Stop();
     }
 }
