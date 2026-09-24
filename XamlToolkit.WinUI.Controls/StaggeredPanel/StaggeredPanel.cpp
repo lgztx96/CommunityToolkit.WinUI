@@ -52,7 +52,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		double availableHeight = availableSize.Height - padding.Top - padding.Bottom;
 
 		_columnWidth = std::min<double>(DesiredColumnWidth(), availableWidth);
-		int numColumns = std::max<int>(1, static_cast<int>(std::floor(availableWidth / _columnWidth)));
+		double columns = std::floor(availableWidth / _columnWidth);
+		int numColumns = std::max<int>(1, std::isfinite(columns) ? static_cast<int>(columns) : 1);
 
 		// adjust for column spacing on all columns expect the first
 		double totalWidth = _columnWidth + ((numColumns - 1) * (_columnWidth + ColumnSpacing()));
@@ -77,8 +78,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			return winrt::Size(0, 0);
 		}
 
-		auto columnHeights = std::make_unique_for_overwrite<double[]>(numColumns);
-		auto itemsPerColumn = std::make_unique_for_overwrite<double[]>(numColumns);
+		auto columnHeights = std::make_unique<double[]>(numColumns);
+		auto itemsPerColumn = std::make_unique<double[]>(numColumns);
 		auto columnHeightsSpan = std::span{ columnHeights.get(), static_cast<size_t>(numColumns) };
 		for (int i = 0; i < static_cast<int>(children.Size()); i++)
 		{
@@ -100,7 +101,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	{
 		double horizontalOffset = Padding().Left;
 		double verticalOffset = Padding().Top;
-		int numColumns = std::max<int>(1, static_cast<int>(std::floor(finalSize.Width / _columnWidth)));
+		double columns = std::floor(finalSize.Width / _columnWidth);
+		int numColumns = std::max<int>(1, std::isfinite(columns) ? static_cast<int>(columns) : 1);
 
 		// adjust for horizontal spacing on all columns expect the first
 		double totalWidth = _columnWidth + ((numColumns - 1) * (_columnWidth + ColumnSpacing()));
@@ -121,8 +123,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			horizontalOffset += (finalSize.Width - totalWidth) / 2;
 		}
 
-		auto columnHeights = std::make_unique_for_overwrite<double[]>(numColumns);
-		auto itemsPerColumn = std::make_unique_for_overwrite<double[]>(numColumns);
+		auto columnHeights = std::make_unique<double[]>(numColumns);
+		auto itemsPerColumn = std::make_unique<double[]>(numColumns);
 
 		auto columnSpacing = ColumnSpacing();
 		auto rowSpacing = RowSpacing();
