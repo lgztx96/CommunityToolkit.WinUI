@@ -188,6 +188,7 @@ public:
 		{"constant.macro", L"#DCDCAA"},           // C++
 
 		{"module", L"#c8c8c8"},                   // C++
+		{"tag", L"#569CD6"},                      // XML element name
 		{"embedded", L"#9CDCFE"},                 // XML, Bash
 		{"markup", L"#D4D4D4"},                   // XML
 		{"markup.raw", L"#CE9178"},               // XML
@@ -218,86 +219,87 @@ public:
 
 	static inline const std::unordered_map<std::string_view, std::wstring_view> HighlightLightTheme = 
 	{
-		{"default", L"#383A42"},                 // default text color (dark gray)
+		{"default", L"#24292E"},                      // default text color
 
 		// Comments: C#, C++, XML, Bash, JSON
-		{"comment", L"#A0A1A7"},                 // gray
+		{"comment", L"#6A737D"},                      // C#, C++, XML, Bash, JSON
 
 		// Keywords: C#, C++, XML, Bash
-		{"keyword", L"#A626A4"},                 // magenta
-		{"keyword.modifier", L"#A626A4"},        // modifier keyword
-		{"keyword.exception", L"#A626A4"},       // exception keyword
-		{"keyword.operator", L"#A626A4"},        // operator keyword
-		{"keyword.directive", L"#A0A1A7"},       // preprocessor directive
-		{"keyword.import", L"#A0A1A7"},          // import/include
-		{"keyword.type", L"#A626A4"},            // type keyword
-		{"keyword.return", L"#A626A4"},          // return keyword
-		{"keyword.conditional", L"#A626A4"},     // if/else
-		{"keyword.repeat", L"#A626A4"},          // for/while
-		{"keyword.conditional.ternary", L"#A626A4"}, // ternary operator
+		{"keyword", L"#D73A49"},                      // C#, C++, XML, Bash
+		{"keyword.modifier", L"#D73A49"},             // C++
+		{"keyword.exception", L"#D73A49"},            // C++
+		{"keyword.operator", L"#D73A49"},             // C++
+		{"keyword.directive", L"#D73A49"},            // C++
+		{"keyword.import", L"#D73A49"},               // C++
+		{"keyword.type", L"#D73A49"},                 // C++
+		{"keyword.return", L"#D73A49"},               // C++
+		{"keyword.conditional", L"#D73A49"},          // C++
+		{"keyword.repeat", L"#D73A49"},               // C++
+		{"keyword.conditional.ternary", L"#D73A49"},  // C++
 
 		// Types: C#, C++, XML, Bash
-		{"type", L"#0B61A4"},                    // blue (type name, deeper for readability)
-		{"type.builtin", L"#0B61A4"},            // built-in type
-		{"type.definition", L"#0B61A4"},         // type definition
+		{"type", L"#005CC5"},                         // C#, C++, XML
+		{"type.builtin", L"#D73A49"},                 // C#, C++
+		{"type.definition", L"#005CC5"},              // C++
 
 		// Functions: C#, C++, XML, Bash
-		{"function", L"#4078F2"},                // bright blue
-		{"function.method", L"#4078F2"},         // method name
-		{"function.call", L"#4078F2"},           // function call
-		{"function.builtin", L"#4078F2"},        // built-in function
-		{"constructor", L"#4078F2"},             // constructor
+		{"function", L"#005CC5"},                     // C#, C++, Bash
+		{"function.method", L"#005CC5"},              // C++
+		{"function.call", L"#005CC5"},                // C++
+		{"function.builtin", L"#005CC5"},             // C++
+		{"constructor", L"#005CC5"},                  // C++
 
 		// Variables: C#, C++, XML, Bash
-		{"variable", L"#986801"},                // brown
-		{"variable.member", L"#986801"},         // member variable
-		{"property", L"#986801"},                // property/attribute
+		{"variable", L"#E36209"},                     // C#, C++
+		{"variable.member", L"#24292E"},              // C++
+		{"property", L"#24292E"},                     // C++, XML, Bash
 
 		// Operators: C#, C++, XML, Bash, JSON
-		{"operator", L"#383A42"},                // default text color
+		{"operator", L"#24292E"},                     // C#, C++, XML, Bash
 
-		{"punctuation.delimiter", L"#383A42"},   // punctuation (comma, semicolon)
-		{"punctuation.bracket", L"#383A42"},     // brackets, parentheses
+		{"punctuation.delimiter", L"#24292E"},        // C#, C++, XML
+		{"punctuation.bracket", L"#24292E"},          // C#, C++, XML
 
-		{"number", L"#D19A66"},                  // orange
-		{"boolean", L"#0184BC"},                 // blue
+		{"number", L"#005CC5"},                       // C#, C++, XML, Bash, JSON
+		{"boolean", L"#005CC5"},                      // C++
 
-		{"string", L"#50A14F"},                  // green
-		{"character", L"#50A14F"},               // character literal
-		{"string.special", L"#C18401"},          // special string (e.g. XML attr)
-		{"string.special.symbol", L"#C18401"},   // special symbol
+		{"string", L"#032F62"},                       // C#, C++, XML, Bash, JSON
+		{"character", L"#032F62"},                    // C++
+		{"string.special", L"#6F42C1"},               // XML
+		{"string.special.symbol", L"#6F42C1"},        // XML
 
-		{"constant", L"#986801"},                // constant (brown)
-		{"constant.builtin", L"#0184BC"},        // built-in constants (blue)
-		{"constant.macro", L"#A626A4"},          // macro (magenta)
+		{"constant", L"#005CC5"},                     // C++, Bash
+		{"constant.builtin", L"#005CC5"},             // C#, C++, JSON, Bash
+		{"constant.macro", L"#005CC5"},               // C++
 
-		{"module", L"#4078F2"},                  // module name (strong blue)
-		{"embedded", L"#2B70E3"},                // embedded content (slightly darker blue)
-		{"markup", L"#383A42"},                  // markup text
-		{"markup.raw", L"#50A14F"},              // raw markup (green)
-		{"markup.heading", L"#E45649"},          // heading (red)
-		{"error", L"#E45649"},                   // error (red)
+		{"module", L"#005CC5"},                       // C++
+		{"tag", L"#22863A"},                          // XML element name
+		{"embedded", L"#24292E"},                     // XML, Bash
+		{"markup", L"#24292E"},                       // XML
+		{"markup.raw", L"#032F62"},                   // XML
+		{"markup.heading", L"#005CC5"},               // XML
+		{"error", L"#B31D28"},                        // XML
 
-		{"string.raw", L"#50A14F"},              // raw string
-		{"string.heredoc", L"#50A14F"},          // heredoc
-		{"heredoc_body", L"#50A14F"},            // heredoc body
-		{"heredoc_start", L"#50A14F"},           // heredoc start
-		{"function_definition", L"#4078F2"},     // function definition
-		{"command_name", L"#4078F2"},            // command name
-		{"variable_name", L"#986801"},           // variable name
-		{"keyword.control", L"#A626A4"},         // control keyword
-		{"keyword.special", L"#A626A4"},         // special keyword
-		{"file_descriptor", L"#D19A66"},         // file descriptor (orange)
-		{"command_substitution", L"#4078F2"},    // command substitution
-		{"process_substitution", L"#4078F2"},    // process substitution
-		{"expansion", L"#986801"},               // variable expansion
-		{"comment.block", L"#A0A1A7"},           // block comment
-		{"comment.line", L"#A0A1A7"},            // line comment
+		{"string.raw", L"#032F62"},                   // Bash
+		{"string.heredoc", L"#032F62"},               // Bash
+		{"heredoc_body", L"#032F62"},                 // Bash
+		{"heredoc_start", L"#032F62"},                // Bash
+		{"function_definition", L"#005CC5"},          // Bash
+		{"command_name", L"#005CC5"},                 // Bash
+		{"variable_name", L"#E36209"},                // Bash
+		{"keyword.control", L"#D73A49"},              // Bash
+		{"keyword.special", L"#D73A49"},              // Bash
+		{"file_descriptor", L"#005CC5"},              // Bash
+		{"command_substitution", L"#005CC5"},         // Bash
+		{"process_substitution", L"#005CC5"},         // Bash
+		{"expansion", L"#E36209"},                    // Bash
+		{"comment.block", L"#6A737D"},                // Bash
+		{"comment.line", L"#6A737D"},                 // Bash
 
-		{"string.special.key", L"#986801"},      // JSON key
+		{"string.special.key", L"#005CC5"},           // JSON
 
-		{"property.accessor", L"#A626A4"},       // MIDL3 get/set
-		{"attribute", L"#A626A4"}                // MIDL3 attribute name
+		{"property.accessor", L"#005CC5"},            // MIDL3 get/set
+		{"attribute", L"#6F42C1"},                    // attribute name
 	};
 };
 
