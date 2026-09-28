@@ -274,6 +274,7 @@
     <ClInclude Include="MarkdownTextBlock\TextElements\MdHyperlinkNode.h" />
     <ClInclude Include="MarkdownTextBlock\TextElements\MdImage.h" />
     <ClInclude Include="MarkdownTextBlock\TextElements\MdInlineCode.h" />
+    <ClInclude Include="MarkdownTextBlock\TextElements\MdInlineCodeBox.h" />
     <ClInclude Include="MarkdownTextBlock\TextElements\MdInlineText.h" />
     <ClInclude Include="MarkdownTextBlock\TextElements\MdLineBreak.h" />
     <ClInclude Include="MarkdownTextBlock\TextElements\MdList.h" />

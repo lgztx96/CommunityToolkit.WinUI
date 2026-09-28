@@ -31,10 +31,14 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
         bool _isItalic;
         bool _isStrikeThrough;
         bool _isUnderline;
+        bool _isSubscript;
+        bool _isSuperscript;
+        winrt::FontWeight _boldFontWeight{ winrt::FontWeights::Bold() };
 
     public:
 
-		MdEmphasisInline() : _isBold(false), _isItalic(false), _isStrikeThrough(false), _isUnderline(false)
+		MdEmphasisInline() : _isBold(false), _isItalic(false), _isStrikeThrough(false), _isUnderline(false),
+            _isSubscript(false), _isSuperscript(false)
         {
 		}
 
@@ -47,17 +51,24 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
         {
             try
             {
-                if (auto inlineText = dynamic_cast<const MdInlineText*>(child))
+                if (auto emphasisInline = dynamic_cast<const MdEmphasisInline*>(child))
                 {
-                    _span.Inlines().Append(inlineText->TextElement().as<winrt::Run>());
-                }
-                else if (auto emphasisInline = dynamic_cast<const MdEmphasisInline*>(child))
-                {
-                    if (emphasisInline->_isBold) { SetBold(); }
+                    // Nested emphasis is merged into this span instead of being nested inside it,
+                    // so the flags (and the weight configured for bold) have to carry over.
+                    if (emphasisInline->_isBold) { SetBold(emphasisInline->_boldFontWeight); }
                     if (emphasisInline->_isItalic) { SetItalic(); }
                     if (emphasisInline->_isStrikeThrough) { SetStrikeThrough(); }
                     if (emphasisInline->_isUnderline) { SetUnderline(); }
+                    if (emphasisInline->_isSubscript) { SetSubscript(); }
+                    if (emphasisInline->_isSuperscript) { SetSuperscript(); }
+
                     _span.Inlines().Append(emphasisInline->_span);
+                }
+                else if (auto inlineChild = child->TextElement().try_as<winrt::Inline>())
+                {
+                    // Anything else an emphasis can hold (text runs, code, links, images, line
+                    // breaks) is a plain inline as far as XAML is concerned.
+                    _span.Inlines().Append(inlineChild);
                 }
             }
             catch (const winrt::hresult_error& ex)
@@ -68,7 +79,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
 
         void SetBold(std::optional<winrt::FontWeight> const& fontWeight = std::nullopt)
         {
-            _span.FontWeight(fontWeight ? *fontWeight : winrt::FontWeights::Bold());
+            _boldFontWeight = fontWeight ? *fontWeight : winrt::FontWeights::Bold();
+            _span.FontWeight(_boldFontWeight);
             _isBold = true;
         }
 
@@ -95,11 +107,13 @@ namespace winrt::XamlToolkit::Labs::WinUI::TextElements
         void SetSubscript()
         {
             _span.SetValue(winrt::Typography::VariantsProperty(), winrt::box_value(winrt::FontVariants::Subscript));
+            _isSubscript = true;
         }
 
         void SetSuperscript()
         {
             _span.SetValue(winrt::Typography::VariantsProperty(), winrt::box_value(winrt::FontVariants::Superscript));
+            _isSuperscript = true;
         }
     };
 }

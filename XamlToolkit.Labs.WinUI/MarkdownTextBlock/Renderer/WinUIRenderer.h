@@ -73,6 +73,8 @@ namespace winrt::XamlToolkit::Labs::WinUI
 
 		std::shared_ptr<TextElements::IAddChild> Top();
 
+		bool IsWithinHyperlink() const noexcept;
+
 		void WriteBlock(TextElements::IAddChild* block);
 
 		void WriteInline(TextElements::IAddChild* span);

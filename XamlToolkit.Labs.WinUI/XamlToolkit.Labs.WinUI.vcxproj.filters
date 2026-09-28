@@ -364,6 +364,9 @@
     <ClInclude Include="MarkdownTextBlock\TextElements\MdInlineCode.h">
       <Filter>MarkdownTextBlock\TextElements</Filter>
     </ClInclude>
+    <ClInclude Include="MarkdownTextBlock\TextElements\MdInlineCodeBox.h">
+      <Filter>MarkdownTextBlock\TextElements</Filter>
+    </ClInclude>
     <ClInclude Include="MarkdownTextBlock\TextElements\MdInlineText.h">
       <Filter>MarkdownTextBlock\TextElements</Filter>
     </ClInclude>

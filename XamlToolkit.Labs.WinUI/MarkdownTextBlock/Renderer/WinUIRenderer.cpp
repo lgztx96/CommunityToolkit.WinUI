@@ -10,6 +10,7 @@
 #include <MarkdownTextBlock/TextElements/MdHyperlinkNode.h>
 #include <MarkdownTextBlock/TextElements/MdImage.h>
 #include <MarkdownTextBlock/TextElements/MdInlineCode.h>
+#include <MarkdownTextBlock/TextElements/MdInlineCodeBox.h>
 #include <MarkdownTextBlock/TextElements/MdInlineText.h>
 #include <MarkdownTextBlock/TextElements/MdLineBreak.h>
 #include <MarkdownTextBlock/TextElements/MdList.h>
@@ -397,8 +398,16 @@ namespace winrt::XamlToolkit::Labs::WinUI
 		}
 		case MD_SPAN_CODE:
 		{
-			auto inlineCode = std::make_shared<TextElements::MdInlineCode>(renderer->MarkdownTextBlock());
-			renderer->BeginInlineContainer(inlineCode);
+			if (renderer->IsWithinHyperlink()) 
+			{
+				auto inlineCode = std::make_shared<TextElements::MdInlineCode>(renderer->MarkdownTextBlock());
+				renderer->BeginInlineContainer(inlineCode);
+			}
+			else 
+			{
+				auto inlineCodeBox = std::make_shared<TextElements::MdInlineCodeBox>(renderer->MarkdownTextBlock());
+				renderer->BeginInlineContainer(inlineCodeBox);
+			}
 			break;
 		}
 		case MD_SPAN_DEL:
@@ -555,6 +564,21 @@ namespace winrt::XamlToolkit::Labs::WinUI
 		if (!_inlineStack.empty()) return _inlineStack.back();
 		if (!_containerStack.empty()) return _containerStack.back();
 		return nullptr;
+	}
+
+	bool WinUIRenderer::IsWithinHyperlink() const noexcept
+	{
+		// Answering from the stack keeps this in sync with the open containers, and covers nesting
+		// (e.g. [`code`](url) inside emphasis) without a separate counter to maintain.
+		for (const auto& element : _inlineStack)
+		{
+			if (dynamic_cast<TextElements::MdHyperlinkNode*>(element.get()))
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	void WinUIRenderer::WriteBlock(TextElements::IAddChild* obj)
