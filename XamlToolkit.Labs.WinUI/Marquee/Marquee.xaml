@@ -20,12 +20,8 @@
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="MarqueeStateGroup">
                                 <VisualState x:Name="MarqueeActive" />
-                                <VisualState x:Name="MarqueeStopped">
-                                    <VisualState.Setters>
-                                        <Setter Target="MarqueeTransform.X" Value="0.0" />
-                                        <Setter Target="MarqueeTransform.Y" Value="0.0" />
-                                    </VisualState.Setters>
-                                </VisualState>
+                                <VisualState x:Name="MarqueePaused" />
+                                <VisualState x:Name="MarqueeStopped" />
                             </VisualStateGroup>
                             <VisualStateGroup x:Name="DirectionStateGroup">
                                 <VisualState x:Name="Leftwards">
