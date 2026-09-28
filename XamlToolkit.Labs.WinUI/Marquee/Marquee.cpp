@@ -3,6 +3,7 @@
 #ifdef __INTELLISENSE__
 #include <chrono>
 #include <cmath>
+#include <utility>
 #endif
 #include "Marquee.h"
 #if __has_include("Marquee.g.cpp")
@@ -309,7 +310,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		// Swap the start and end to inverse direction for right or upwards
 		if (IsDirectionInverse())
 		{
-			(start, end) = (end, start);
+			std::swap(start, end);
 		}
 
 		// The second segment of text should be hidden if the marquee is not in looping mode
