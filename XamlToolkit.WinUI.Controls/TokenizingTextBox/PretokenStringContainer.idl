@@ -8,6 +8,7 @@ namespace XamlToolkit.WinUI.Controls
 		Boolean IsLast{ get; };
 	}
 
+	[bindable]
 	[webhosthidden]
 	[default_interface]
 	runtimeclass PretokenStringContainer : Microsoft.UI.Xaml.DependencyObject, Windows.Foundation.IStringable, ITokenStringContainer
