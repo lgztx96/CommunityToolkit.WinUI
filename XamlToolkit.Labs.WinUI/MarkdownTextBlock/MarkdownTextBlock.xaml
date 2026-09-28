@@ -121,7 +121,6 @@
         <Setter Property="InlineCodeBorderThickness" Value="1" />
         <Setter Property="InlineCodeCornerRadius" Value="2" />
         <Setter Property="InlineCodePadding" Value="4,1,4,0" />
-        <Setter Property="InlineCodeFontSize" Value="13" />
         <Setter Property="InlineCodeFontWeight" Value="Normal" />
 
         <!--  Bold  -->

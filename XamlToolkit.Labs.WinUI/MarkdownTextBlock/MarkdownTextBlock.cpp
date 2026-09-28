@@ -56,7 +56,6 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 	MTB_THEME_DP(InlineCodeBorderThickness, winrt::Thickness, winrt::box_value(winrt::Thickness{ 0, 0, 0, 0 }))
 	MTB_THEME_DP(InlineCodeCornerRadius, winrt::CornerRadius, winrt::box_value(winrt::CornerRadius{ 0, 0, 0, 0 }))
 	MTB_THEME_DP(InlineCodePadding, winrt::Thickness, winrt::box_value(winrt::Thickness{ 0, 0, 0, 0 }))
-	MTB_THEME_DP(InlineCodeFontSize, double, winrt::box_value(0.0))
 	MTB_THEME_DP(InlineCodeFontWeight, winrt::FontWeight, winrt::box_value(winrt::FontWeight{ 400 }))
 
 	MTB_THEME_DP(BoldFontWeight, winrt::FontWeight, winrt::box_value(winrt::FontWeight{ 400 }))

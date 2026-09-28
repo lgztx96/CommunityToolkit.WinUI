@@ -156,7 +156,6 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         static const wil::single_threaded_property<winrt::DependencyProperty> InlineCodeBorderThicknessProperty;
         static const wil::single_threaded_property<winrt::DependencyProperty> InlineCodeCornerRadiusProperty;
         static const wil::single_threaded_property<winrt::DependencyProperty> InlineCodePaddingProperty;
-        static const wil::single_threaded_property<winrt::DependencyProperty> InlineCodeFontSizeProperty;
         static const wil::single_threaded_property<winrt::DependencyProperty> InlineCodeFontWeightProperty;
 
         winrt::Brush InlineCodeBackground() const { return ReadValue<winrt::Brush>(GetValue(InlineCodeBackgroundProperty())); }
@@ -171,8 +170,6 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         void InlineCodeCornerRadius(winrt::CornerRadius const& value) { SetValue(InlineCodeCornerRadiusProperty(), winrt::box_value(value)); }
         winrt::Thickness InlineCodePadding() const { return winrt::unbox_value<winrt::Thickness>(GetValue(InlineCodePaddingProperty())); }
         void InlineCodePadding(winrt::Thickness const& value) { SetValue(InlineCodePaddingProperty(), winrt::box_value(value)); }
-        double InlineCodeFontSize() const { return winrt::unbox_value<double>(GetValue(InlineCodeFontSizeProperty())); }
-        void InlineCodeFontSize(double value) { SetValue(InlineCodeFontSizeProperty(), winrt::box_value(value)); }
         winrt::FontWeight InlineCodeFontWeight() const { return winrt::unbox_value<winrt::FontWeight>(GetValue(InlineCodeFontWeightProperty())); }
         void InlineCodeFontWeight(winrt::FontWeight const& value) { SetValue(InlineCodeFontWeightProperty(), winrt::box_value(value)); }
 

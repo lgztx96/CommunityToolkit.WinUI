@@ -201,11 +201,6 @@ namespace XamlToolkit.Labs.WinUI
         [noexcept]
         static Microsoft.UI.Xaml.DependencyProperty InlineCodePaddingProperty{ get; };
 
-        Double InlineCodeFontSize{ get; set; };
-
-        [noexcept]
-        static Microsoft.UI.Xaml.DependencyProperty InlineCodeFontSizeProperty{ get; };
-
         Windows.UI.Text.FontWeight InlineCodeFontWeight{ get; set; };
 
         [noexcept]
