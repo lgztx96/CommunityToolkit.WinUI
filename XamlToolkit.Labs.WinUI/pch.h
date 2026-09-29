@@ -14,6 +14,7 @@
 // STL headers must be included before import std; to avoid redefinition errors
 #include <cassert>
 #include <deque>
+#include <fstream>
 #include <functional>
 #include <map>
 #include <mutex>

@@ -35,11 +35,27 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         winrt::IRandomAccessStream stream{ nullptr };
 
-        if (uri.SchemeName() == L"file") {
-            auto file = co_await winrt::StorageFile::GetFileFromPathAsync(uri.AbsoluteUri());
-            stream = co_await file.OpenAsync(winrt::FileAccessMode::Read);
+        if (uri.SchemeName() == L"file") 
+        {
+            auto path = uri.RawUri();
+            if (std::ifstream fs{ path.data(), std::ios::binary | std::ios::ate })
+            {
+                const auto size = fs.tellg();
+                std::vector<uint8_t> data;
+                data.resize(static_cast<size_t>(size));
+
+                fs.seekg(0, std::ios::beg);
+
+                fs.read(reinterpret_cast<char*>(data.data()), static_cast<std::streamsize>(data.size()));
+                stream = winrt::Windows::Storage::Streams::InMemoryRandomAccessStream();
+                winrt::Windows::Storage::Streams::DataWriter writer{ stream };
+                writer.WriteBytes(winrt::array_view<uint8_t>(data.data(), data.data() + data.size()));
+                co_await writer.StoreAsync();
+                stream.Seek(0);
+            }
         }
-        else {
+        else 
+        {
             stream = co_await winrt::RandomAccessStreamReference::CreateFromUri(uri).OpenReadAsync();
         }
 
@@ -48,10 +64,9 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         auto bytes = pixelData.DetachPixelData();
 
         winrt::InMemoryRandomAccessStream randomAccessStream;
-        winrt::DataWriter writer;
+        winrt::DataWriter writer{ randomAccessStream };
         writer.WriteBytes(bytes);
-
-        co_await randomAccessStream.WriteAsync(writer.DetachBuffer());
+        co_await writer.StoreAsync();
         randomAccessStream.Seek(0);
         co_return randomAccessStream;
     }
