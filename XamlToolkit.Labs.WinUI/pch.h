@@ -15,6 +15,7 @@
 #include <cassert>
 #include <deque>
 #include <fstream>
+#include <filesystem>
 #include <functional>
 #include <map>
 #include <mutex>

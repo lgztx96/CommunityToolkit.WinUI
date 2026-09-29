@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <cmath>
 #include <fstream>
+#include <filesystem>
 #include <optional>
 #include <winrt/Windows.Web.Http.h>
 #include <winrt/Windows.Storage.Streams.h>
@@ -422,8 +423,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			}
 			else if (scheme == L"file")
 			{
-				auto path = uri.RawUri();
-				if (std::ifstream fs{ path.data(), std::ios::binary | std::ios::ate})
+				std::filesystem::path filePath{ uri.Path().data() + 1 };
+				if (std::ifstream fs{ filePath, std::ios::binary | std::ios::ate})
 				{
 					const auto size = fs.tellg();
 					if (size <= 0)

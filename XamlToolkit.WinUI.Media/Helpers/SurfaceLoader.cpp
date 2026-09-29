@@ -167,12 +167,12 @@ namespace winrt::XamlToolkit::WinUI::Media::Helpers
 		// Load the bitmap with the appropriate settings
 		winrt::CanvasBitmap bitmap{ nullptr };
 
-		auto loadBitmap = [&](std::optional<float> targetDpi) -> 
+		auto loadBitmap = [&](std::optional<float> targetDpi) ->
 			winrt::IAsyncOperation<winrt::CanvasBitmap>
 		{
 			if (uri.SchemeName() == L"file")
 			{
-				auto filePath = uri.RawUri();
+				std::wstring filePath{ uri.Path().data() + 1 };
 
 				if (targetDpi)
 				{

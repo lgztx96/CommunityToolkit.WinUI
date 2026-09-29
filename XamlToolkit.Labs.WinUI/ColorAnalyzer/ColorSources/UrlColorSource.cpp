@@ -37,8 +37,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         if (uri.SchemeName() == L"file") 
         {
-            auto path = uri.RawUri();
-            if (std::ifstream fs{ path.data(), std::ios::binary | std::ios::ate })
+            std::filesystem::path filePath{ uri.Path().data() + 1 };
+            if (std::ifstream fs{ filePath, std::ios::binary | std::ios::ate })
             {
                 const auto size = fs.tellg();
                 std::vector<uint8_t> data;
