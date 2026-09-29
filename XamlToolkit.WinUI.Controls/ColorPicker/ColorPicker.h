@@ -53,10 +53,20 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		static winrt::fire_and_forget final_release(std::unique_ptr<ColorPicker> self)
 		{
-			co_await wil::resume_foreground(self->DispatcherQueue());
-			
-			self->ConnectCallbacks(false);
-			self->ConnectEvents(false);
+			try 
+			{
+				co_await wil::resume_foreground(self->DispatcherQueue());
+
+				self->ConnectCallbacks(false);
+				self->ConnectEvents(false);
+			}
+			catch (winrt::hresult_error const& e)
+			{
+				if (e.code() != RPC_E_WRONG_THREAD)
+				{
+					throw;
+				}
+			}
 		}
 
 		void OnApplyTemplate();
