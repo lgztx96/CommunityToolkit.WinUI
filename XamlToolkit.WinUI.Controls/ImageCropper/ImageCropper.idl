@@ -29,6 +29,8 @@
 
         Windows.Foundation.IAsyncAction LoadImageFromFile(Windows.Storage.StorageFile imageFile);
 
+        Windows.Foundation.IAsyncAction LoadImageFromUri(Windows.Foundation.Uri uri);
+
         Windows.Foundation.IAsyncAction SaveAsync(
             Windows.Storage.Streams.IRandomAccessStream stream,
             BitmapFileFormat bitmapFileFormat,

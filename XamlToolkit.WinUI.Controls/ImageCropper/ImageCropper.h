@@ -90,6 +90,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		winrt::IAsyncAction LoadImageFromFile(winrt::StorageFile const& imageFile);
 
+		winrt::IAsyncAction LoadImageFromUri(winrt::Uri const& imageUri);
+
 		winrt::IAsyncAction SaveAsync(
 			winrt::IRandomAccessStream stream, 
 			winrt::BitmapFileFormat bitmapFileFormat, 

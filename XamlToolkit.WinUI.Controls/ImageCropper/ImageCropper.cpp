@@ -3,7 +3,10 @@
 #ifdef __INTELLISENSE__
 #include <algorithm>
 #include <cmath>
+#include <fstream>
 #include <optional>
+#include <winrt/Windows.Web.Http.h>
+#include <winrt/Windows.Storage.Streams.h>
 #endif
 #include "ImageCropper.h"
 #if __has_include("ImageCropper.g.cpp")
@@ -366,6 +369,101 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		co_await writeableBitmap.SetSourceAsync(stream);
 
 		Source(writeableBitmap);
+	}
+
+	winrt::IAsyncAction ImageCropper::LoadImageFromUri(winrt::Uri const& uri)
+	{
+		auto strongThis = get_strong();
+
+		std::vector<uint8_t> imageData;
+		const auto scheme = uri.SchemeName();
+
+		try
+		{
+			if (scheme == L"http" || scheme == L"https")
+			{
+				winrt::Windows::Web::Http::HttpClient httpClient;
+
+				auto response = co_await httpClient.GetAsync(uri);
+
+				if (!response.IsSuccessStatusCode())
+				{
+					co_return;
+				}
+
+				auto buffer = co_await response.Content().ReadAsBufferAsync();
+
+				imageData.resize(buffer.Length());
+
+				if (!imageData.empty())
+				{
+					auto reader = winrt::Windows::Storage::Streams::DataReader::FromBuffer(buffer);
+					reader.ReadBytes(winrt::array_view<uint8_t>(imageData.data(), imageData.data() + imageData.size()));
+				}
+			}
+			else if (scheme == L"ms-appx")
+			{
+				auto file = co_await winrt::StorageFile::GetFileFromApplicationUriAsync(uri);
+
+				if (!file) 
+				{
+					co_return;
+				}
+
+				auto buffer = co_await winrt::FileIO::ReadBufferAsync(file);
+
+				imageData.resize(buffer.Length());
+
+				if (!imageData.empty())
+				{
+					auto reader = winrt::Windows::Storage::Streams::DataReader::FromBuffer(buffer);
+					reader.ReadBytes(winrt::array_view<uint8_t>(imageData.data(), imageData.data() + imageData.size()));
+				}
+			}
+			else if (scheme == L"file")
+			{
+				auto path = uri.RawUri();
+				if (std::ifstream fs{ path.data(), std::ios::binary | std::ios::ate})
+				{
+					const auto size = fs.tellg();
+					if (size <= 0)
+						co_return;
+
+					imageData.resize(static_cast<size_t>(size));
+
+					fs.seekg(0, std::ios::beg);
+
+					if (!fs.read(reinterpret_cast<char*>(imageData.data()), static_cast<std::streamsize>(imageData.size())))
+					{
+						co_return;
+					}
+				}
+			}
+
+			if (imageData.empty()) 
+			{
+				co_return;
+			}
+
+			winrt::Windows::Storage::Streams::InMemoryRandomAccessStream stream;
+
+			winrt::Windows::Storage::Streams::DataWriter writer{ stream };
+			writer.WriteBytes(winrt::array_view<uint8_t>(imageData.data(), imageData.data() + imageData.size()));
+
+			co_await writer.StoreAsync();
+
+			stream.Seek(0);
+
+			winrt::WriteableBitmap writeableBitmap(1, 1);
+
+			co_await writeableBitmap.SetSourceAsync(stream);
+
+			Source(writeableBitmap);
+		}
+		catch (const winrt::hresult_error&)
+		{
+			// TODO: Load error image
+		}
 	}
 
 	winrt::IAsyncAction ImageCropper::SaveAsync(winrt::IRandomAccessStream stream, winrt::BitmapFileFormat bitmapFileFormat, bool keepRectangularOutput)
