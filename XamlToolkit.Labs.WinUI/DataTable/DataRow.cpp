@@ -187,7 +187,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 						childElement.Measure(availableSize);
 
 						// TODO: Do we want this to ever shrink back?
-						auto& prev = colImpl->MaxChildDesiredWidth;
+						const double prev = colImpl->MaxChildDesiredWidth;
 						colImpl->MaxChildDesiredWidth = std::max<double>(colImpl->MaxChildDesiredWidth, childElement.DesiredSize().Width);
 						if (colImpl->MaxChildDesiredWidth != prev)
 						{
