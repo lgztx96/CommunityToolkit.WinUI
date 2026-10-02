@@ -26,8 +26,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
 		void DataRow_Unloaded(winrt::Windows::Foundation::IInspectable const& sender, RoutedEventArgs const& e);
 
-		winrt::Panel _parentPanel{ nullptr };
-		winrt::XamlToolkit::Labs::WinUI::DataTable _parentTable{ nullptr };
+		winrt::weak_ref<winrt::Panel> _parentPanel;
+		winrt::weak_ref<winrt::XamlToolkit::Labs::WinUI::DataTable> _parentTable;
 
 		bool _isTreeView{ false };
 	};

@@ -48,7 +48,36 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 			});
 	}
 
-	std::set<winrt::XamlToolkit::Labs::WinUI::DataRow>& DataTable::Rows() { return _rows; }
+	void DataTable::RegisterRow(winrt::XamlToolkit::Labs::WinUI::DataRow const& row)
+	{
+		_rows.insert_or_assign(winrt::get_abi(row), winrt::make_weak(row));
+	}
+
+	void DataTable::UnregisterRow(winrt::XamlToolkit::Labs::WinUI::DataRow const& row)
+	{
+		_rows.erase(winrt::get_abi(row));
+	}
+
+	std::vector<winrt::XamlToolkit::Labs::WinUI::DataRow> DataTable::Rows()
+	{
+		std::vector<winrt::XamlToolkit::Labs::WinUI::DataRow> rows;
+		rows.reserve(_rows.size());
+		for (auto iterator = _rows.begin(); iterator != _rows.end();)
+		{
+			if (auto row = iterator->second.get())
+			{
+				rows.push_back(std::move(row));
+				++iterator;
+			}
+			else
+			{
+				iterator = _rows.erase(iterator);
+			}
+		}
+		// Callers invalidate a stable snapshot; layout callbacks may register
+		// or unregister rows without invalidating this iteration.
+		return rows;
+	}
 
 	double DataTable::ColumnWidth(uint32_t index) const
 	{

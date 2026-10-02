@@ -7,7 +7,7 @@
 #include <winrt/Microsoft.UI.Xaml.h>
 #include <wil/wistd_type_traits.h>
 #include <wil/cppwinrt_authoring.h>
-#include <set>
+#include <unordered_map>
 #include <vector>
 #endif
 
@@ -26,8 +26,9 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		// TODO: We should cache this result and update if column properties change
 		bool IsAnyColumnAuto();
 
-		// TODO: Check with Sergio if there's a better structure here, as I don't need a Dictionary like ConditionalWeakTable
-		std::set<winrt::XamlToolkit::Labs::WinUI::DataRow>& Rows();
+		void RegisterRow(winrt::XamlToolkit::Labs::WinUI::DataRow const& row);
+		void UnregisterRow(winrt::XamlToolkit::Labs::WinUI::DataRow const& row);
+		std::vector<winrt::XamlToolkit::Labs::WinUI::DataRow> Rows();
 
 		double ColumnWidth(uint32_t index) const;
 
@@ -51,7 +52,9 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		void DataTable_Loaded(winrt::Windows::Foundation::IInspectable const& sender, winrt::RoutedEventArgs const& e);
 		void UpdateColumnWidths(double availableWidth);
 
-		std::set<winrt::XamlToolkit::Labs::WinUI::DataRow> _rows;
+		// Measurement can register a row that never reaches Loaded/Unloaded.
+		// The header must observe rows without owning their visual lifetimes.
+		std::unordered_map<void*, winrt::weak_ref<winrt::XamlToolkit::Labs::WinUI::DataRow>> _rows;
 		std::vector<double> _columnWidths;
 		double _layoutWidth{ 0 };
 		bool _isFreezingColumnWidths{ false };
