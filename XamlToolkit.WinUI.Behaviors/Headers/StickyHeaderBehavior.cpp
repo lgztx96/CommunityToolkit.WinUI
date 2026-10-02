@@ -10,7 +10,7 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
 {
 	void StickyHeaderBehavior::Show()
 	{
-		if (_headerVisual && _scrollViewer && _animationProperties)
+		if (_headerVisual && _scrollViewer.get() && _animationProperties)
 		{
 			_animationProperties.InsertScalar(L"OffsetY", 0.0f);
 		}

@@ -29,7 +29,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 		/// </summary>
 		winrt::DependencyObject AssociatedObject() const noexcept
 		{
-			return _associatedObject;
+			return _associatedObject.get();
 		}
 
 		/// <summary>
@@ -39,12 +39,12 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 		/// <exception cref="global::System.ArgumentNullException"><paramref name="associatedObject"/> is null.</exception>
 		void Attach(winrt::DependencyObject const& associatedObject)
 		{
-			if (associatedObject == _associatedObject || winrt::DesignMode::DesignModeEnabled())
+			if (associatedObject == AssociatedObject() || winrt::DesignMode::DesignModeEnabled())
 			{
 				return;
 			}
 
-			if (_associatedObject)
+			if (AssociatedObject())
 			{
 				throw winrt::hresult_error(E_FAIL, ResourceHelper::CannotAttachBehaviorMultipleTimesExceptionMessage());
 			}
@@ -65,7 +65,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 		void Detach()
 		{
 			overridable().OnDetaching();
-			_associatedObject = nullptr;
+			_associatedObject = {};
 		}
 
 		/// <summary>
@@ -85,7 +85,8 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 		virtual void OnDetaching() {}
 
 	private:
-		winrt::DependencyObject _associatedObject{ nullptr };
+		// The element owns its behavior collection; the reverse edge must not own the element.
+		winrt::weak_ref<winrt::DependencyObject> _associatedObject;
     };
 }
 

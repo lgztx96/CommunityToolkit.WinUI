@@ -39,7 +39,7 @@ namespace winrt::XamlToolkit::WinUI::Behaviors
         /// <summary>
         /// The ScrollViewer associated with the ListViewBase control.
         /// </summary>
-        winrt::ScrollViewer _scrollViewer{ nullptr };
+        winrt::weak_ref<winrt::ScrollViewer> _scrollViewer;
 
         /// <summary>
         /// The CompositionPropertySet associated with the ScrollViewer.
@@ -75,6 +75,19 @@ namespace winrt::XamlToolkit::WinUI::Behaviors
             return true;
         }
 
+        void OnAssociatedObjectLoaded() override
+        {
+            _isUnloaded = false;
+            AssignAnimation();
+        }
+
+        void OnAssociatedObjectUnloaded() override
+        {
+            _isUnloaded = true;
+            // Detach animation resources, but keep the behavior available for a later Loaded.
+            RemoveAnimation();
+        }
+
         /// <summary>
         /// Uses Composition API to get the UIElement and sets an ExpressionAnimation.
         /// </summary>
@@ -84,6 +97,7 @@ namespace winrt::XamlToolkit::WinUI::Behaviors
         /// <returns>true if the assignment was successful; otherwise, false.</returns>
         virtual bool AssignAnimation()
         {
+            if (_isUnloaded) return false;
             StopAnimation();
 
             // Double-check that we have an element associated with us (we should) and that it has size
@@ -92,13 +106,14 @@ namespace winrt::XamlToolkit::WinUI::Behaviors
                 return false;
             }
 
-            if (!_scrollViewer)
+            auto scrollViewer = _scrollViewer.get();
+            if (!scrollViewer)
             {
-                // TODO: We probably want checks which provide better guidance if we detect we're not attached correctly?
-                _scrollViewer = FindAscendant<winrt::ScrollViewer>(static_cast<D*>(this)->AssociatedObject());
+                scrollViewer = FindAscendant<winrt::ScrollViewer>(static_cast<D*>(this)->AssociatedObject());
+                _scrollViewer = scrollViewer;
             }
 
-            if (!_scrollViewer)
+            if (!scrollViewer)
             {
                 return false;
             }
@@ -118,7 +133,7 @@ namespace winrt::XamlToolkit::WinUI::Behaviors
 
             if (!_scrollProperties)
             {
-                _scrollProperties = winrt::ElementCompositionPreview::GetScrollViewerManipulationPropertySet(_scrollViewer);
+                _scrollProperties = winrt::ElementCompositionPreview::GetScrollViewerManipulationPropertySet(scrollViewer);
             }
 
             if (!_scrollProperties)
@@ -138,7 +153,7 @@ namespace winrt::XamlToolkit::WinUI::Behaviors
 
             // TODO: Not sure if we need to provide an option to turn these events off, as FadeHeaderBehavior didn't use these two, unlike QuickReturn/Sticky did...
             _sizeChangedRevoker = static_cast<D*>(this)->AssociatedObject().SizeChanged(winrt::auto_revoke, { this, &HeaderBehaviorBase::OnScrollHeaderSizeChanged });
-            _gotFocusRevoker = _scrollViewer.GotFocus(winrt::auto_revoke, { this, &HeaderBehaviorBase::OnScrollViewerGotFocus });
+            _gotFocusRevoker = scrollViewer.GotFocus(winrt::auto_revoke, { this, &HeaderBehaviorBase::OnScrollViewerGotFocus });
 
             if (!_animationProperties)
             {
@@ -162,9 +177,15 @@ namespace winrt::XamlToolkit::WinUI::Behaviors
             _gotFocusRevoker.revoke();
 
             StopAnimation();
+            _headerVisual = nullptr;
+            _animationProperties = nullptr;
+            _scrollProperties = nullptr;
+            _scrollViewer = {};
         }
 
     private:
+        bool _isUnloaded{ false };
+
         void OnScrollHeaderSizeChanged([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::SizeChangedEventArgs const& e)
         {
             AssignAnimation();
