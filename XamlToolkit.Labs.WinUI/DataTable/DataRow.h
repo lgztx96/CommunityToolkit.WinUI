@@ -22,14 +22,13 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 	private:
 		winrt::Panel InitializeParentHeaderConnection();
 
-		double GetTreePadding();
+		void DataRow_Unloaded(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
 
-		void DataRow_Unloaded(winrt::Windows::Foundation::IInspectable const& sender, RoutedEventArgs const& e);
-
-		winrt::weak_ref<winrt::Panel> _parentPanel;
-		winrt::weak_ref<winrt::XamlToolkit::Labs::WinUI::DataTable> _parentTable;
+		winrt::Panel _parentPanel{ nullptr };
+		winrt::XamlToolkit::Labs::WinUI::DataTable _parentTable{ nullptr };
 
 		bool _isTreeView{ false };
+		double _treePadding{ 0.0 };
 	};
 }
 
