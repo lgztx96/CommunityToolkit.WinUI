@@ -1,7 +1,7 @@
 namespace XamlToolkit.Labs.WinUI
 {
-	[webhosthidden]
-	runtimeclass DataTable : Microsoft.UI.Xaml.Controls.Panel
+    [webhosthidden]
+    runtimeclass DataTable : Microsoft.UI.Xaml.Controls.Panel
     {
         DataTable();
 
