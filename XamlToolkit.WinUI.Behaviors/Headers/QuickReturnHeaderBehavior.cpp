@@ -10,7 +10,7 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
 {
     void QuickReturnHeaderBehavior::Show()
     {
-        if (_headerVisual && _scrollViewer && _animationProperties)
+        if (_headerVisual && _scrollViewer.get() && _animationProperties)
         {
             _animationProperties.InsertScalar(L"OffsetY", 0.0f);
         }
@@ -22,7 +22,8 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
         {
             _animationProperties.InsertScalar(L"OffsetY", 0.0f);
 
-            _viewChangedRevoker = _scrollViewer.ViewChanged(winrt::auto_revoke, { this, &QuickReturnHeaderBehavior::OnViewChanged });
+            auto scrollViewer = _scrollViewer.get();
+            _viewChangedRevoker = scrollViewer.ViewChanged(winrt::auto_revoke, { this, &QuickReturnHeaderBehavior::OnViewChanged });
 
             auto compositor = _animationProperties.Compositor();
             auto expressionAnimation = compositor.CreateExpressionAnimation(L"max(min(animationProps.OffsetY, -scrollProps.Translation.Y), 0)");
@@ -63,20 +64,22 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
 
     void QuickReturnHeaderBehavior::OnViewChanged([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::ScrollViewerViewChangedEventArgs const& e)
     {
-        if (!_animationProperties || !_scrollViewer) return;
+        auto scrollViewer = _scrollViewer.get();
+        auto header = AssociatedObject();
+        if (!_animationProperties || !scrollViewer || !header) return;
 
-        double headerHeight = AssociatedObject().ActualHeight();
-        if (_headerPosition + headerHeight < _scrollViewer.VerticalOffset())
+        double headerHeight = header.ActualHeight();
+        if (_headerPosition + headerHeight < scrollViewer.VerticalOffset())
         {
             // scrolling down: move header down, so it is just above screen
-            _headerPosition = _scrollViewer.VerticalOffset() - headerHeight;
+            _headerPosition = scrollViewer.VerticalOffset() - headerHeight;
             _animationProperties.InsertScalar(L"OffsetY", static_cast<float>(_headerPosition));
         }
-        else if (_headerPosition > _scrollViewer.VerticalOffset())
+        else if (_headerPosition > scrollViewer.VerticalOffset())
         {
             // scrolling up: move header up, align with top border.
             // the expression animation makes sure it never really is shown below border, so no lag effect!
-            _headerPosition = _scrollViewer.VerticalOffset();
+            _headerPosition = scrollViewer.VerticalOffset();
             _animationProperties.InsertScalar(L"OffsetY", static_cast<float>(_headerPosition));
         }
     }
