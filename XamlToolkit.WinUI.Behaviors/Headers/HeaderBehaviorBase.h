@@ -72,6 +72,12 @@ namespace winrt::XamlToolkit::WinUI::Behaviors
         virtual bool Uninitialize() override
         {
             RemoveAnimation();
+
+			_scrollViewer = nullptr;
+			_headerVisual = nullptr;
+            _scrollProperties = nullptr;
+			_animationProperties = nullptr;
+
             return true;
         }
 
@@ -86,8 +92,9 @@ namespace winrt::XamlToolkit::WinUI::Behaviors
         {
             StopAnimation();
 
+			auto associatedObject = static_cast<D*>(this)->AssociatedObject();
             // Double-check that we have an element associated with us (we should) and that it has size
-            if (!static_cast<D*>(this)->AssociatedObject() || static_cast<D*>(this)->AssociatedObject().RenderSize().Height == 0)
+            if (!associatedObject || associatedObject.RenderSize().Height == 0)
             {
                 return false;
             }
@@ -95,7 +102,7 @@ namespace winrt::XamlToolkit::WinUI::Behaviors
             if (!_scrollViewer)
             {
                 // TODO: We probably want checks which provide better guidance if we detect we're not attached correctly?
-                _scrollViewer = FindAscendant<winrt::ScrollViewer>(static_cast<D*>(this)->AssociatedObject());
+                _scrollViewer = FindAscendant<winrt::ScrollViewer>(associatedObject);
             }
 
             if (!_scrollViewer)
@@ -103,7 +110,7 @@ namespace winrt::XamlToolkit::WinUI::Behaviors
                 return false;
             }
 
-            auto itemsControl = FindAscendant<winrt::ItemsControl>(static_cast<D*>(this)->AssociatedObject());
+            auto itemsControl = FindAscendant<winrt::ItemsControl>(associatedObject);
             if (itemsControl && itemsControl.ItemsPanelRoot())
             {
                 // This appears to be important to force the items within the ScrollViewer of an ItemsControl behind our header element.
@@ -113,7 +120,7 @@ namespace winrt::XamlToolkit::WinUI::Behaviors
             {
                 // If we're not part of a collection panel, then we're probably just in the ScrollViewer,
                 // And we should ensure our 'header' element is on top of any other content within the ScrollViewer.
-                winrt::Canvas::SetZIndex(static_cast<D*>(this)->AssociatedObject(), CanvasZIndexMax);
+                winrt::Canvas::SetZIndex(associatedObject, CanvasZIndexMax);
             }
 
             if (!_scrollProperties)
@@ -128,7 +135,7 @@ namespace winrt::XamlToolkit::WinUI::Behaviors
 
             if (!_headerVisual)
             {
-                _headerVisual = winrt::ElementCompositionPreview::GetElementVisual(static_cast<D*>(this)->AssociatedObject());
+                _headerVisual = winrt::ElementCompositionPreview::GetElementVisual(associatedObject);
             }
 
             if (!_headerVisual)
@@ -137,7 +144,7 @@ namespace winrt::XamlToolkit::WinUI::Behaviors
             }
 
             // TODO: Not sure if we need to provide an option to turn these events off, as FadeHeaderBehavior didn't use these two, unlike QuickReturn/Sticky did...
-            _sizeChangedRevoker = static_cast<D*>(this)->AssociatedObject().SizeChanged(winrt::auto_revoke, { this, &HeaderBehaviorBase::OnScrollHeaderSizeChanged });
+            _sizeChangedRevoker = associatedObject.SizeChanged(winrt::auto_revoke, { this, &HeaderBehaviorBase::OnScrollHeaderSizeChanged });
             _gotFocusRevoker = _scrollViewer.GotFocus(winrt::auto_revoke, { this, &HeaderBehaviorBase::OnScrollViewerGotFocus });
 
             if (!_animationProperties)
@@ -173,7 +180,8 @@ namespace winrt::XamlToolkit::WinUI::Behaviors
         void OnScrollViewerGotFocus(winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
         {
             auto scroller = sender.try_as<winrt::ScrollViewer>();
-            if (!scroller || !static_cast<D*>(this)->AssociatedObject()) return;
+			auto associatedObject = static_cast<D*>(this)->AssociatedObject();
+            if (!scroller || !associatedObject) return;
 
             auto focusedElement = winrt::FocusManager::GetFocusedElement(scroller.XamlRoot());
             if (!focusedElement) return;
@@ -187,9 +195,9 @@ namespace winrt::XamlToolkit::WinUI::Behaviors
             }
 
             auto point = element.TransformToVisual(scroller).TransformPoint(winrt::Point{ 0, 0 });
-            if (point.Y < static_cast<D*>(this)->AssociatedObject().ActualHeight())
+            if (point.Y < associatedObject.ActualHeight())
             {
-                scroller.ChangeView(nullptr, scroller.VerticalOffset() - (static_cast<D*>(this)->AssociatedObject().ActualHeight() - point.Y), nullptr, false);
+                scroller.ChangeView(nullptr, scroller.VerticalOffset() - (associatedObject.ActualHeight() - point.Y), nullptr, false);
             }
         }
 

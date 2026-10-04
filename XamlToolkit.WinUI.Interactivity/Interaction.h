@@ -20,6 +20,15 @@ namespace winrt
 namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 {
     /// <summary>
+    /// Tracks the load and unload event subscriptions registered for the <see cref="BehaviorCollection"/> of an element.
+    /// </summary>
+    struct BehaviorTracker : winrt::implements<BehaviorTracker, winrt::IInspectable>
+    {
+        winrt::event_token loadedToken;
+        winrt::event_token unloadedToken;
+    };
+
+    /// <summary>
     /// Defines a <see cref="BehaviorCollection"/> attached property and provides a method for executing an <seealso cref="ActionCollection"/>.
     /// </summary>
     struct Interaction
@@ -69,6 +78,18 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         static void FrameworkElement_Unloaded(
             winrt::IInspectable const& sender,
             winrt::RoutedEventArgs const& e);
+
+        /// <summary>
+        /// Gets the <see cref="BehaviorTracker"/> associated with a specified element.
+        /// </summary>
+        /// <param name="element">The <see cref="FrameworkElement"/> from which to retrieve the <see cref="BehaviorTracker"/>.</param>
+        /// <returns>The <see cref="BehaviorTracker"/> of the element, or null when none has been created.</returns>
+        static winrt::com_ptr<BehaviorTracker> GetBehaviorTracker(winrt::FrameworkElement const& element);
+
+        /// <summary>
+        /// Identifies the internal <see cref="BehaviorTracker"/> property.
+        /// </summary>
+        static const wil::single_threaded_property<winrt::DependencyProperty> BehaviorTrackerProperty;
     };
 }
 

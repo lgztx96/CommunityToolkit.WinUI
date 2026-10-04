@@ -382,8 +382,9 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
     void DataTriggerBehavior::OnValueChanged(winrt::DependencyObject const& dependencyObject, winrt::DependencyPropertyChangedEventArgs const& args)
     {
-        const auto dataTriggerBehavior = winrt::get_self<DataTriggerBehavior>(dependencyObject.as<class_type>())->get_strong();
-        if (!dataTriggerBehavior->AssociatedObject())
+        const auto dataTriggerBehavior = winrt::get_self<DataTriggerBehavior>(dependencyObject.as<class_type>());
+		auto associatedObject = dataTriggerBehavior->AssociatedObject();
+        if (!associatedObject)
         {
             return;
         }
@@ -395,7 +396,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 
         if (DataTriggerBehavior::Compare(dataTriggerBehavior->Binding(), dataTriggerBehavior->ComparisonCondition(), dataTriggerBehavior->Value()))
         {
-            implementation::Interaction::ExecuteActions(dataTriggerBehavior->AssociatedObject(), dataTriggerBehavior->Actions(), args);
+            implementation::Interaction::ExecuteActions(associatedObject, dataTriggerBehavior->Actions(), args);
         }
     }
 }

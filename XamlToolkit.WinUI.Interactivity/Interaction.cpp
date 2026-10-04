@@ -16,7 +16,25 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
             winrt::xaml_typename<winrt::XamlToolkit::WinUI::Interactivity::BehaviorCollection>(),
             winrt::xaml_typename<winrt::XamlToolkit::WinUI::Interactivity::Interaction>(),
             winrt::PropertyMetadata(nullptr, &Interaction::OnBehaviorsChanged));
+
+    const wil::single_threaded_property<winrt::DependencyProperty> Interaction::BehaviorTrackerProperty =
+        winrt::DependencyProperty::RegisterAttached(
+            L"BehaviorTracker",
+            winrt::xaml_typename<winrt::IInspectable>(),
+            winrt::xaml_typename<winrt::XamlToolkit::WinUI::Interactivity::Interaction>(),
+            winrt::PropertyMetadata(nullptr));
         
+    winrt::com_ptr<BehaviorTracker> Interaction::GetBehaviorTracker(winrt::FrameworkElement const& element)
+    {
+        const auto value = element.GetValue(BehaviorTrackerProperty());
+        if (!value)
+        {
+            return nullptr;
+        }
+
+        return winrt::get_self<BehaviorTracker>(value)->get_strong();
+    }
+
     winrt::XamlToolkit::WinUI::Interactivity::BehaviorCollection Interaction::GetBehaviors(winrt::DependencyObject const& obj)
     {
         if (!obj)
@@ -30,11 +48,25 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
             behaviors = winrt::make<winrt::XamlToolkit::WinUI::Interactivity::implementation::BehaviorCollection>();
             obj.SetValue(BehaviorsProperty(), behaviors);
 
-            //if (auto frameworkElement = obj.try_as<winrt::FrameworkElement>())
-            //{
-            //    frameworkElement.Loaded({ &Interaction::FrameworkElement_Loaded });
-            //    frameworkElement.Unloaded({ &Interaction::FrameworkElement_Unloaded });
-            //}
+            if (const auto frameworkElement = obj.try_as<winrt::FrameworkElement>())
+            {
+                auto tracker = GetBehaviorTracker(frameworkElement);
+                if (!tracker)
+                {
+                    tracker = winrt::make_self<BehaviorTracker>();
+                    frameworkElement.SetValue(BehaviorTrackerProperty(), *tracker);
+                }
+
+                if (!tracker->loadedToken)
+                {
+                    tracker->loadedToken = frameworkElement.Loaded(&Interaction::FrameworkElement_Loaded);
+                }
+
+                if (frameworkElement.IsLoaded())
+                {
+                    FrameworkElement_Loaded(frameworkElement, nullptr);
+                }
+            }
         }
 
         return behaviors;
@@ -99,9 +131,17 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         winrt::IInspectable const& sender,
         [[maybe_unused]] winrt::RoutedEventArgs const& e)
     {
-        if (const auto dependencyObject = sender.try_as<winrt::DependencyObject>())
+        if (const auto frameworkElement = sender.try_as<winrt::FrameworkElement>())
         {
-            GetBehaviors(dependencyObject).Attach(dependencyObject);
+            GetBehaviors(frameworkElement).Attach(frameworkElement);
+
+            if (const auto tracker = GetBehaviorTracker(frameworkElement))
+            {
+                if (!tracker->unloadedToken)
+                {
+                    tracker->unloadedToken = frameworkElement.Unloaded(&Interaction::FrameworkElement_Unloaded);
+                }
+            }
         }
     }
 
@@ -109,9 +149,22 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         winrt::IInspectable const& sender,
         [[maybe_unused]] winrt::RoutedEventArgs const& e)
     {
-        if (const auto dependencyObject = sender.try_as<winrt::DependencyObject>())
+        if (const auto frameworkElement = sender.try_as<winrt::FrameworkElement>())
         {
-            GetBehaviors(dependencyObject).Detach();
+            if (const auto tracker = GetBehaviorTracker(frameworkElement))
+            {
+                if (tracker->unloadedToken)
+                {
+                    frameworkElement.Unloaded(tracker->unloadedToken);
+                    tracker->unloadedToken = { 0 };
+                }
+            }
+            
+            if (const auto behaviors = frameworkElement.GetValue(BehaviorsProperty())
+                .try_as<winrt::XamlToolkit::WinUI::Interactivity::BehaviorCollection>())
+            {
+                behaviors.Detach();
+            }
         }
     }
 }

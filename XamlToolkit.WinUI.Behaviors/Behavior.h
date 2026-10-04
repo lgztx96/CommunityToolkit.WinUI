@@ -22,7 +22,7 @@ namespace winrt::XamlToolkit::WinUI::Behaviors
         /// </summary>
         winrt::DependencyObject AssociatedObject() const noexcept
         {
-            return _associatedObject;
+            return _associatedObject.get();
         }
 
         /// <summary>
@@ -32,12 +32,12 @@ namespace winrt::XamlToolkit::WinUI::Behaviors
         /// <exception cref="global::System.ArgumentNullException"><paramref name="associatedObject"/> is null.</exception>
         void Attach(winrt::DependencyObject const& associatedObject)
         {
-            if (associatedObject == _associatedObject)
+            if (associatedObject == AssociatedObject())
             {
                 return;
             }
 
-            if (_associatedObject)
+            if (AssociatedObject())
             {
                 throw winrt::hresult_error(E_FAIL, L"Cannot attach behavior multiple times.");
             }
@@ -78,8 +78,7 @@ namespace winrt::XamlToolkit::WinUI::Behaviors
         virtual void OnDetaching() = 0;
 
     private:
-
-        winrt::DependencyObject _associatedObject{ nullptr };
+        winrt::weak_ref<winrt::DependencyObject> _associatedObject{ nullptr };
     };
 
 }

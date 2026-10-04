@@ -148,7 +148,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
     void EventTriggerBehavior::OnEventNameChanged(winrt::DependencyObject const& dependencyObject, winrt::DependencyPropertyChangedEventArgs const& args)
     {
         const auto behavior = winrt::get_self<EventTriggerBehavior>(dependencyObject.as<class_type>());
-        if (behavior->AssociatedObject() == nullptr || behavior->_resolvedSource == nullptr)
+        if (!behavior->AssociatedObject() || !behavior->_resolvedSource)
         {
             return;
         }

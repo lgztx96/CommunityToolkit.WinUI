@@ -10,7 +10,7 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
     void AnimationStartedTriggerBehavior::OnAttached()
     {
         base_type::OnAttached();
-        SetResolvedCollection(this->AssociatedObject().try_as<winrt::XamlToolkit::WinUI::Animations::AnimationSet>());
+        SetResolvedCollection(AssociatedObject().try_as<winrt::XamlToolkit::WinUI::Animations::AnimationSet>());
     }
 
     void AnimationStartedTriggerBehavior::OnDetaching()
