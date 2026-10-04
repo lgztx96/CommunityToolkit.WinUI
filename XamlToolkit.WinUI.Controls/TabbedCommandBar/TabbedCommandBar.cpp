@@ -4,6 +4,7 @@
 #if __has_include("TabbedCommandBar.g.cpp")
 #include "TabbedCommandBar.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
@@ -14,6 +15,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		SelectionChanged({ this, &TabbedCommandBar::SelectedItemChanged });
 		Loaded({ this, &TabbedCommandBar::TabbedCommandBar_Loaded });
+		XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+	}
+
+	TabbedCommandBar::~TabbedCommandBar()
+	{
+		XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
 	}
 
 	void TabbedCommandBar::OnApplyTemplate()
@@ -66,8 +73,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		// Register a new visibility PropertyChangedcallback for the
 		// currently selected item
 		_previousSelectedItem = item;
-		_visibilityChangedToken =
-			_previousSelectedItem.RegisterPropertyChangedCallback(winrt::UIElement::VisibilityProperty(), { this, &TabbedCommandBar::SelectedItemVisibilityChanged });
+		_visibilityChangedToken = _previousSelectedItem.RegisterPropertyChangedCallback(winrt::UIElement::VisibilityProperty(), { this, &TabbedCommandBar::SelectedItemVisibilityChanged });
 
 		// Set the TabbedCommandBar background and start the transition animation
 		if (_tabChangedStoryboard) _tabChangedStoryboard.Begin();

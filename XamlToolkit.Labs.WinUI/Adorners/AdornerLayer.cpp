@@ -7,6 +7,7 @@
 #if __has_include("AdornerLayer.g.cpp")
 #include "AdornerLayer.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 #include "AdornerDecorator.h"
 #include "../XamlToolkit.WinUI/common.h"
 #include "Adorner.h"
@@ -24,6 +25,12 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 	AdornerLayer::AdornerLayer()
 	{
 		SizeChanged({ this, &AdornerLayer::AdornerLayer_SizeChanged });
+		XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+	}
+
+	AdornerLayer::~AdornerLayer()
+	{
+		XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
 	}
 
 	void AdornerLayer::AdornerLayer_SizeChanged([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::SizeChangedEventArgs const& e)

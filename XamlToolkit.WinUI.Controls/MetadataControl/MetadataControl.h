@@ -27,6 +27,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		MetadataControl();
 
+		~MetadataControl();
+
 		void OnApplyTemplate();
 
 		static const wil::single_threaded_property<winrt::DependencyProperty> SeparatorProperty;

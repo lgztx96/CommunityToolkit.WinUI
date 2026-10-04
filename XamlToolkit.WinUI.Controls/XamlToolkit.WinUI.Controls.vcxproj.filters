@@ -77,6 +77,9 @@
     <Filter Include="DockPanel">
       <UniqueIdentifier>{842ad735-50fc-4e31-8cf8-815aecd6c10c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Diagnostics">
+      <UniqueIdentifier>{1f6c0a24-7c53-4a8e-9d0b-5e2a3b64c9d1}</UniqueIdentifier>
+    </Filter>
     <Filter Include="TokenizingTextBox">
       <UniqueIdentifier>{27ddcce2-44d4-4b7f-aba1-fc4da6db3352}</UniqueIdentifier>
     </Filter>
@@ -267,6 +270,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Diagnostics\ToolkitProfilerTracing.h">
+      <Filter>Diagnostics</Filter>
+    </ClInclude>
     <ClInclude Include="ImageCropper\AnimatedGif.h">
       <Filter>ImageCropper</Filter>
     </ClInclude>

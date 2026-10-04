@@ -4,6 +4,7 @@
 #if __has_include("BehaviorCollection.g.cpp")
 #include "BehaviorCollection.g.cpp"
 #endif
+#include "Diagnostics/ToolkitProfilerTracing.h"
 
 #include "Core/ResourceHelper.h"
 
@@ -12,9 +13,14 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 	BehaviorCollection::BehaviorCollection()
 	{
 		VectorChanged({ this, &BehaviorCollection::OnVectorChanged });
+		XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
 	}
 
-	BehaviorCollection::~BehaviorCollection() { Detach(); }
+	BehaviorCollection::~BehaviorCollection()
+	{
+		XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
+		Detach();
+	}
 
 	winrt::DependencyObject BehaviorCollection::AssociatedObject() const noexcept
 	{

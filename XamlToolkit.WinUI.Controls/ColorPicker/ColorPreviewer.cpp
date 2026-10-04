@@ -7,6 +7,7 @@
 #if __has_include("Primitives.ColorPreviewer.g.cpp")
 #include "Primitives.ColorPreviewer.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 #include "ColorPickerRenderingHelpers.h"
 #include "AccentColorConverter.h"
 
@@ -39,6 +40,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::Primitives::implementation
 	ColorPreviewer::ColorPreviewer()
 	{
 		DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
+		XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+	}
+
+	ColorPreviewer::~ColorPreviewer()
+	{
+		XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
 	}
 
 	void ColorPreviewer::ConnectEvents(bool connected)

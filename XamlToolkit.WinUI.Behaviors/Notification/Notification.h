@@ -29,7 +29,9 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
     /// </summary>
     struct Notification : NotificationT<Notification>
     {
-        Notification() = default;
+        Notification();
+
+        ~Notification();
 
         /// <summary>
         /// Gets or sets the notification title.

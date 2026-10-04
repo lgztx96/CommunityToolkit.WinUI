@@ -22,6 +22,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	{
 		StaggeredPanel();
 
+		~StaggeredPanel();
+
 		winrt::Size MeasureOverride(winrt::Size availableSize);
 
 		winrt::Size ArrangeOverride(winrt::Size finalSize);

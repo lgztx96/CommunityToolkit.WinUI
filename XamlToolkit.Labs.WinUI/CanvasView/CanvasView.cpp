@@ -4,6 +4,7 @@
 #if __has_include("CanvasView.g.cpp")
 #include "CanvasView.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 
 #ifdef __INTELLISENSE__
 #include <winrt/Microsoft.UI.Xaml.Data.h>
@@ -32,6 +33,12 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
             <ItemsPanelTemplate xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
                 <Canvas/>
             </ItemsPanelTemplate>)").as<winrt::ItemsPanelTemplate>());
+        XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+    }
+
+    CanvasView::~CanvasView()
+    {
+        XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
     }
 
     winrt::DependencyObject CanvasView::GetContainerForItemOverride()

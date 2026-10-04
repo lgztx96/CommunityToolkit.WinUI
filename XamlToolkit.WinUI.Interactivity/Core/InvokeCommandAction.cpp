@@ -4,9 +4,20 @@
 #if __has_include("InvokeCommandAction.g.cpp")
 #include "InvokeCommandAction.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 
 namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 {
+    InvokeCommandAction::InvokeCommandAction()
+    {
+        XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+    }
+
+    InvokeCommandAction::~InvokeCommandAction()
+    {
+        XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
+    }
+
     const wil::single_threaded_property<winrt::DependencyProperty> InvokeCommandAction::CommandProperty =
         winrt::DependencyProperty::Register(
             L"Command",

@@ -35,6 +35,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
         EqualPanel();
 
+        ~EqualPanel();
+
         winrt::Size MeasureOverride(winrt::Size availableSize);
 
         winrt::Size ArrangeOverride(winrt::Size finalSize);

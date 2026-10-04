@@ -21,7 +21,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
 	struct DockPanel : DockPanelT<DockPanel>
 	{
-		DockPanel() = default;
+		DockPanel();
+
+		~DockPanel();
 
 		winrt::Size ArrangeOverride(winrt::Size finalSize);
 

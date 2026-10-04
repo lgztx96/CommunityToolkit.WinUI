@@ -26,7 +26,9 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
     /// </summary>
     struct ChangeDependencyPropertyAction : ChangeDependencyPropertyActionT<ChangeDependencyPropertyAction>
     {
-        ChangeDependencyPropertyAction() = default;
+        ChangeDependencyPropertyAction();
+
+        ~ChangeDependencyPropertyAction();
 
         /// <summary>
         /// Identifies the <seealso cref="TargetObject"/> dependency property.

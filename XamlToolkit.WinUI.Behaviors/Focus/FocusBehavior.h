@@ -33,6 +33,8 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
     {
         FocusBehavior();
 
+        ~FocusBehavior();
+
         /// <summary>
         /// Gets or sets the ordered list of controls which should receive the focus when the associated object is loaded.
         /// </summary>

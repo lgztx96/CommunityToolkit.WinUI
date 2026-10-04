@@ -4,9 +4,20 @@
 #if __has_include("ConstrainedBox.g.cpp")
 #include "ConstrainedBox.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
+    ConstrainedBox::ConstrainedBox() : _propertyUpdating(false)
+    {
+        XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+    }
+
+    ConstrainedBox::~ConstrainedBox()
+    {
+        XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
+    }
+
     const wil::single_threaded_property<winrt::DependencyProperty> ConstrainedBox::ScaleXProperty =
         winrt::DependencyProperty::Register(
             L"ScaleX",

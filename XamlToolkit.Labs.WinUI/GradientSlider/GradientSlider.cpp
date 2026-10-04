@@ -11,6 +11,7 @@
 #if __has_include("GradientSlider.g.cpp")
 #include "GradientSlider.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
@@ -37,6 +38,12 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         stops.Append(whiteStop);
 
         GradientStops(stops);
+        XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+    }
+
+    GradientSlider::~GradientSlider()
+    {
+    	XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
     }
 
     void GradientSlider::OnApplyTemplate()

@@ -109,6 +109,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         RibbonCollapsibleGroup();
 
+        ~RibbonCollapsibleGroup();
+
         void OnApplyTemplate();
 
     private:

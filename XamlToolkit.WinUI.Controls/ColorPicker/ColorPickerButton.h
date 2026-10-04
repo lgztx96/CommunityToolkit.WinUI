@@ -25,6 +25,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	{
 		ColorPickerButton();
 
+		~ColorPickerButton();
+
 		void OnApplyTemplate();
 
 		wil::single_threaded_rw_property<winrt::XamlToolkit::WinUI::Controls::ColorPicker> ColorPicker;

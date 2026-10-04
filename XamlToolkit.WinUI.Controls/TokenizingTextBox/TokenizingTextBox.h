@@ -55,6 +55,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		TokenizingTextBox();
 
+		~TokenizingTextBox();
+
 		static bool IsShiftPressed();
 
 		static bool IsControlPressed();

@@ -22,7 +22,9 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
     /// </summary>
     struct InvokeActionsActivity : InvokeActionsActivityT<InvokeActionsActivity>
     {
-        InvokeActionsActivity() = default;
+        InvokeActionsActivity();
+
+        ~InvokeActionsActivity();
 
         /// <summary>
         /// Identifies the Actions dependency property.

@@ -4,6 +4,7 @@
 #if __has_include("ActionCollection.g.cpp")
 #include "ActionCollection.g.cpp"
 #endif
+#include "Diagnostics/ToolkitProfilerTracing.h"
 #include "Core/ResourceHelper.h"
 
 namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
@@ -11,6 +12,12 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
     ActionCollection::ActionCollection()
     {
         VectorChanged({ this, &ActionCollection::OnVectorChanged });
+        XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+    }
+
+    ActionCollection::~ActionCollection()
+    {
+        XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
     }
 
     void ActionCollection::OnVectorChanged(

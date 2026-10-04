@@ -8,6 +8,9 @@
     <Filter Include="Generated Files">
       <UniqueIdentifier>{926ab91d-31b4-48c3-b9a4-e681349f27f0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Diagnostics">
+      <UniqueIdentifier>{9d1f6b03-84c2-4e57-9a3d-6b8c0e2f4a17}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Core">
       <UniqueIdentifier>{d0db4d87-51b4-45a6-acaf-2a342781f175}</UniqueIdentifier>
     </Filter>
@@ -108,6 +111,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Diagnostics\ToolkitProfilerTracing.h">
+      <Filter>Diagnostics</Filter>
+    </ClInclude>
     <ClInclude Include="pch.h" />
     <ClInclude Include="Behavior.h" />
     <ClInclude Include="ActionCollection.h" />

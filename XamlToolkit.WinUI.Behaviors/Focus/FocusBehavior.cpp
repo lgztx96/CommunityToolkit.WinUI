@@ -10,6 +10,7 @@
 #if __has_include("FocusBehavior.g.cpp")
 #include "FocusBehavior.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 
 namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
 {
@@ -33,6 +34,12 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
         _timer.Tick({ this, &FocusBehavior::OnEngagementTimerTick });
         auto list = winrt::make<winrt::XamlToolkit::WinUI::Behaviors::implementation::FocusTargetList>();
         Targets(list);
+        XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+    }
+
+    FocusBehavior::~FocusBehavior()
+    {
+        XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
     }
 
     winrt::XamlToolkit::WinUI::Behaviors::FocusTargetList FocusBehavior::Targets() const

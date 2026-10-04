@@ -4,6 +4,7 @@
 #if __has_include("TabbedCommandBarItem.g.cpp")
 #include "TabbedCommandBarItem.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
@@ -11,6 +12,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	{
 		DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
 		DefaultStyleResourceUri(winrt::Uri(L"ms-appx:///XamlToolkit.WinUI.Controls/Themes/Generic.xaml"));
+		XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+	}
+
+	TabbedCommandBarItem::~TabbedCommandBarItem()
+	{
+		XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
 	}
 
 	void TabbedCommandBarItem::OnApplyTemplate()
@@ -32,7 +39,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			{
 				if (auto item = sender.template try_as<class_type>())
 				{
-					auto self = winrt::get_self<TabbedCommandBarItem>(item)->get_strong();
+					auto self = winrt::get_self<TabbedCommandBarItem>(item);
 					self->_primaryItemsControl.HorizontalAlignment(winrt::unbox_value<winrt::HorizontalAlignment>(sender.GetValue(dp)));
 				}
 			});
@@ -52,7 +59,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			{
 				if (auto item = sender.template try_as<class_type>())
 				{
-					auto self = winrt::get_self<TabbedCommandBarItem>(item)->get_strong();
+					auto self = winrt::get_self<TabbedCommandBarItem>(item);
 					self->_moreButton.HorizontalAlignment(winrt::unbox_value<winrt::HorizontalAlignment>(sender.GetValue(dp)));
 				}
 			});

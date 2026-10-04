@@ -26,6 +26,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		TabbedCommandBarItem();
 
+		~TabbedCommandBarItem();
+
 		void OnApplyTemplate();
 
 		static inline const wil::single_threaded_property<winrt::DependencyProperty> HeaderProperty =

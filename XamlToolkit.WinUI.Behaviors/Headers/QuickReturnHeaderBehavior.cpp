@@ -5,9 +5,20 @@
 #if __has_include("QuickReturnHeaderBehavior.g.cpp")
 #include "QuickReturnHeaderBehavior.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 
 namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
 {
+    QuickReturnHeaderBehavior::QuickReturnHeaderBehavior()
+    {
+        XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+    }
+
+    QuickReturnHeaderBehavior::~QuickReturnHeaderBehavior()
+    {
+        XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
+    }
+
     void QuickReturnHeaderBehavior::Show()
     {
         if (_headerVisual && _scrollViewer && _animationProperties)

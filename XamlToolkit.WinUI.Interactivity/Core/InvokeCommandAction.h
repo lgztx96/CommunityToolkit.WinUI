@@ -26,7 +26,9 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
     /// </summary>
     struct InvokeCommandAction : InvokeCommandActionT<InvokeCommandAction>
     {
-        InvokeCommandAction() = default;
+        InvokeCommandAction();
+
+        ~InvokeCommandAction();
 
         /// <summary>
         /// Identifies the <seealso cref="Command"/> dependency property.

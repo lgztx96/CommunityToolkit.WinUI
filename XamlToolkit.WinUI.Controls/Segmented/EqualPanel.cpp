@@ -9,6 +9,7 @@
 #if __has_include("EqualPanel.g.cpp")
 #include "EqualPanel.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
@@ -47,6 +48,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	EqualPanel::EqualPanel()
 	{
 		RegisterPropertyChangedCallback(winrt::FrameworkElement::HorizontalAlignmentProperty(), { this, &EqualPanel::OnAlignmentChanged });
+		XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+	}
+
+	EqualPanel::~EqualPanel()
+	{
+		XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
 	}
 
 	winrt::Size EqualPanel::MeasureOverride(winrt::Size availableSize)

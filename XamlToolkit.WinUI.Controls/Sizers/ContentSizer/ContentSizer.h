@@ -9,6 +9,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	{
 		ContentSizer();
 
+		~ContentSizer();
+
 		bool IsDragInverted() const { return winrt::unbox_value<bool>(GetValue(IsDragInvertedProperty())); }
 		void IsDragInverted(bool value) { SetValue(IsDragInvertedProperty(), winrt::box_value(value)); }
 

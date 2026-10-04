@@ -7,9 +7,20 @@
 #if __has_include("GoToStateAction.g.cpp")
 #include "GoToStateAction.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 
 namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 {
+    GoToStateAction::GoToStateAction()
+    {
+        XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+    }
+
+    GoToStateAction::~GoToStateAction()
+    {
+        XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
+    }
+
     const wil::single_threaded_property<winrt::DependencyProperty> GoToStateAction::UseTransitionsProperty =
         winrt::DependencyProperty::Register(
             L"UseTransitions",

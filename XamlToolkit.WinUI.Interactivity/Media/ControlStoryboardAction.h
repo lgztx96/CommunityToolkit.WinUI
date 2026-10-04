@@ -24,7 +24,9 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
     /// </summary>
     struct ControlStoryboardAction : ControlStoryboardActionT<ControlStoryboardAction>
     {
-        ControlStoryboardAction() = default;
+        ControlStoryboardAction();
+
+        ~ControlStoryboardAction();
 
         /// <summary>
         /// Identifies the <seealso cref="ControlStoryboardOption"/> dependency property.

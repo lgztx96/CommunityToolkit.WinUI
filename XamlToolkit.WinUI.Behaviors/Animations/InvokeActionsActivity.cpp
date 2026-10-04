@@ -4,9 +4,20 @@
 #if __has_include("InvokeActionsActivity.g.cpp")
 #include "InvokeActionsActivity.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 
 namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
 {
+	InvokeActionsActivity::InvokeActionsActivity()
+	{
+		XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+	}
+
+	InvokeActionsActivity::~InvokeActionsActivity()
+	{
+		XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
+	}
+
     const wil::single_threaded_property<winrt::DependencyProperty> InvokeActionsActivity::ActionsProperty =
         winrt::DependencyProperty::Register(
             L"Actions",

@@ -42,6 +42,7 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
     struct StackedNotificationsBehavior : StackedNotificationsBehaviorT<StackedNotificationsBehavior>, BehaviorBase<StackedNotificationsBehavior, winrt::InfoBar>
     {
         StackedNotificationsBehavior();
+        ~StackedNotificationsBehavior();
 
         /// <summary>
         /// Show notification using text as the Message of the notification.

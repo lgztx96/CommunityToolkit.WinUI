@@ -9,6 +9,7 @@
 #if __has_include("RadialGauge.g.cpp")
 #include "RadialGauge.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 #include "RadialGaugeAutomationPeer.h"
 
 namespace winrt
@@ -34,6 +35,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		LargeChange(10);
 
 		SetKeyboardAccelerators();
+		XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+	}
+
+	RadialGauge::~RadialGauge()
+	{
+		XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
 	}
 
 	void RadialGauge::RadialGauge_Unloaded([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)

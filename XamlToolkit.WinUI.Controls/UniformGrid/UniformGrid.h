@@ -29,7 +29,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
     struct UniformGrid : UniformGridT<UniformGrid>
     {
-		UniformGrid() = default;
+		UniformGrid();
+
+		~UniformGrid();
 
         winrt::Size MeasureOverride(winrt::Size availableSize);
 

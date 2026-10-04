@@ -4,6 +4,7 @@
 #if __has_include("TokenizingTextBoxItem.g.cpp")
 #include "TokenizingTextBoxItem.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 #include "../XamlToolkit.WinUI/common.h"
 #include "TokenizingTextBox.h"
 #include "StringExtensions.h"
@@ -37,6 +38,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		// TODO: only add these if token?
 		RightTapped({ this, &TokenizingTextBoxItem::TokenizingTextBoxItem_RightTapped });
 		KeyDown({ this, &TokenizingTextBoxItem::TokenizingTextBoxItem_KeyDown });
+		XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+	}
+
+	TokenizingTextBoxItem::~TokenizingTextBoxItem()
+	{
+		XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
 	}
 
 	void TokenizingTextBoxItem::OnApplyTemplate()

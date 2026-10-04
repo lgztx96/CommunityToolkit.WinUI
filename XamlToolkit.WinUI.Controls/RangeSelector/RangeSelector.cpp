@@ -9,6 +9,7 @@
 #if __has_include("RangeSelector.g.cpp")
 #include "RangeSelector.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
@@ -61,6 +62,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
     RangeSelector::RangeSelector()
     {
         DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
+        XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+    }
+
+    RangeSelector::~RangeSelector()
+    {
+    	XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
     }
 
     void RangeSelector::OnApplyTemplate()

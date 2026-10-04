@@ -4,6 +4,7 @@
 #if __has_include("Shimmer.g.cpp")
 #include "Shimmer.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 
 #ifdef __INTELLISENSE__
 #include <winrt/XamlToolkit.WinUI.h>
@@ -16,6 +17,12 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
         Loaded({ this, &Shimmer::OnLoaded });
         Unloaded({ this, &Shimmer::OnUnloaded });
+        XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+    }
+
+    Shimmer::~Shimmer()
+    {
+        XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
     }
 
     void Shimmer::OnApplyTemplate()

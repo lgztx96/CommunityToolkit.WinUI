@@ -20,7 +20,9 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
     struct DataTable : DataTableT<DataTable>
     {
-        DataTable() = default;
+        DataTable();
+
+        ~DataTable();
 
         // TODO: We should cache this result and update if column properties change
         bool IsAnyColumnAuto();

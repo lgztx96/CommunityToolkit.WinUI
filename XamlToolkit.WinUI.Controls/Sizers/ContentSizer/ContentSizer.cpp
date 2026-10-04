@@ -4,6 +4,7 @@
 #if __has_include("ContentSizer.g.cpp")
 #include "ContentSizer.g.cpp"
 #endif
+#include "../../Diagnostics/ToolkitProfilerTracing.h"
 #include "../XamlToolkit.WinUI/common.h"
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
@@ -25,6 +26,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	ContentSizer::ContentSizer() : _currentSize(0.0)
 	{
 		DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
+		XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+	}
+
+	ContentSizer::~ContentSizer()
+	{
+		XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
 	}
 
 	void ContentSizer::OnLoaded([[maybe_unused]] winrt::RoutedEventArgs const& e)

@@ -10,9 +10,20 @@
 #if __has_include("DataTable.g.cpp")
 #include "DataTable.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
+	DataTable::DataTable()
+	{
+		XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+	}
+
+	DataTable::~DataTable()
+	{
+		XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
+	}
+
     bool DataTable::IsAnyColumnAuto()
     {
         auto children = Children();

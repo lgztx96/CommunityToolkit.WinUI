@@ -5,9 +5,20 @@
 #if __has_include("FadeHeaderBehavior.g.cpp")
 #include "FadeHeaderBehavior.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 
 namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
 {
+	FadeHeaderBehavior::FadeHeaderBehavior()
+	{
+		XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+	}
+
+	FadeHeaderBehavior::~FadeHeaderBehavior()
+	{
+		XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
+	}
+
 	bool FadeHeaderBehavior::AssignAnimation()
 	{
 		if (HeaderBehaviorBase<FadeHeaderBehavior>::AssignAnimation())

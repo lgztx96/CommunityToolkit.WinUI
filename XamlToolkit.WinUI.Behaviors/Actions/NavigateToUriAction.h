@@ -22,7 +22,9 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
     /// </summary>
     struct NavigateToUriAction : NavigateToUriActionT<NavigateToUriAction>
     {
-        NavigateToUriAction() = default;
+        NavigateToUriAction();
+
+        ~NavigateToUriAction();
 
         /// <summary>
         /// Gets or sets the Uniform Resource Identifier (URI) to navigate to when the object is clicked.

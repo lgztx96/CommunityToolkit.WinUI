@@ -24,7 +24,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	struct WrapPanel : WrapPanelT<WrapPanel>
 	{
 	public:
-		WrapPanel() = default;
+		WrapPanel();
+
+		~WrapPanel();
 
 		winrt::Size MeasureOverride(winrt::Size availableSize);
 

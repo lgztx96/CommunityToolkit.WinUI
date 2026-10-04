@@ -32,6 +32,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	public:
 		HeaderedContentControl();
 
+		~HeaderedContentControl();
+
 		void OnApplyTemplate();
 
 		static inline const wil::single_threaded_property<winrt::DependencyProperty> HeaderProperty =

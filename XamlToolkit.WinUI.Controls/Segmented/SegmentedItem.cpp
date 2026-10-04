@@ -7,6 +7,7 @@
 #if __has_include("SegmentedItem.g.cpp")
 #include "SegmentedItem.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
@@ -29,6 +30,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	{
 		DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
 		RegisterPropertyChangedCallback(winrt::UIElement::VisibilityProperty(), { this, &SegmentedItem::OnVisibilityChanged });
+		XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+	}
+
+	SegmentedItem::~SegmentedItem()
+	{
+		XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
 	}
 
 	void SegmentedItem::OnApplyTemplate()

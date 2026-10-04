@@ -68,6 +68,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		LayoutTransformControl();
 
+		~LayoutTransformControl();
+
 		/// <summary>
 		/// Called whenever the control's template changes.
 		/// </summary>

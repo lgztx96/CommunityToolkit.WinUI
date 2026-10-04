@@ -24,7 +24,9 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
     /// </summary>
     struct FocusTarget : FocusTargetT<FocusTarget>
     {
-        FocusTarget() = default;
+        FocusTarget();
+
+        ~FocusTarget();
 
         /// <summary>
         /// Gets or sets the control that will receive the focus.

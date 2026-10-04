@@ -84,6 +84,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		ImageCropper();
 
+		~ImageCropper();
+
 		void OnApplyTemplate();
 
 		winrt::Size MeasureOverride(winrt::Size availableSize);

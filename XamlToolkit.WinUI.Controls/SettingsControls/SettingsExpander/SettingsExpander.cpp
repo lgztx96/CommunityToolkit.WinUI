@@ -4,6 +4,7 @@
 #if __has_include("SettingsExpander.g.cpp")
 #include "SettingsExpander.g.cpp"
 #endif
+#include "../../Diagnostics/ToolkitProfilerTracing.h"
 #include "SettingsExpanderAutomationPeer.h"
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
@@ -94,6 +95,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
     {
         DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
         Items(winrt::single_threaded_vector<winrt::IInspectable>());
+        XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+    }
+
+    SettingsExpander::~SettingsExpander()
+    {
+        XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
     }
 
     void SettingsExpander::OnApplyTemplate()

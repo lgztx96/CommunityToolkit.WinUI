@@ -22,6 +22,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
     {
         Adorner();
 
+        ~Adorner();
+
         winrt::UIElement AdornedElement() const noexcept;
 
         void AdornedElement(winrt::UIElement const& value);

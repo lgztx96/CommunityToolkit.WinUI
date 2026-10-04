@@ -10,7 +10,9 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
     /// </summary>
     struct StickyHeaderBehavior : StickyHeaderBehaviorT<StickyHeaderBehavior>, HeaderBehaviorBase<StickyHeaderBehavior>
     {
-        StickyHeaderBehavior() = default;
+        StickyHeaderBehavior();
+
+        ~StickyHeaderBehavior();
 
         /// <summary>
         /// Show the header

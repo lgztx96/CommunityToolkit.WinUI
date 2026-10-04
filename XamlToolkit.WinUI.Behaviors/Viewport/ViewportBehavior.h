@@ -27,7 +27,9 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
     /// </summary>
     struct ViewportBehavior : ViewportBehaviorT<ViewportBehavior>, BehaviorBase<ViewportBehavior, winrt::FrameworkElement>
     {
-        ViewportBehavior() = default;
+        ViewportBehavior();
+
+        ~ViewportBehavior();
 
         /// <summary>
         /// Gets a value indicating whether associated element is in the ScrollViewer viewport

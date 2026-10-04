@@ -22,6 +22,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         DataColumn();
 
+        ~DataColumn();
+
         bool CanResize() const;
         void CanResize(bool value);
 
@@ -38,6 +40,10 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         void OnApplyTemplate();
 
+        void DataColumn_Loaded(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
+
+        void DataColumn_Unloaded(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
+
         void ColumnSizer_ManipulationDelta(winrt::IInspectable const& sender, winrt::ManipulationDeltaRoutedEventArgs const& e);
 
         void ColumnSizer_ManipulationCompleted(winrt::IInspectable const& sender, winrt::ManipulationCompletedRoutedEventArgs const& e);
@@ -46,6 +52,12 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
     private:
         static void DesiredWidth_PropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
+
+        // Attaches (and, on unload, detaches) the column sizer: its TargetControl points back at this
+        // column, so the pair has to be broken while the column can still be released.
+        void AttachColumnSizer();
+
+        void DetachColumnSizer();
 
         static inline winrt::GridLength StarLength = winrt::GridLength(1, winrt::GridUnitType::Star);
 

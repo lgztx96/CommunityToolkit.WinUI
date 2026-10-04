@@ -4,6 +4,7 @@
 #if __has_include("TokenItem.g.cpp")
 #include "TokenItem.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 #include "TokenItemRemovingEventArgs.h"
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
@@ -43,6 +44,12 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 	TokenItem::TokenItem()
 	{
 		DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
+		XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+	}
+
+	TokenItem::~TokenItem()
+	{
+		XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
 	}
 
 	void TokenItem::OnApplyTemplate()

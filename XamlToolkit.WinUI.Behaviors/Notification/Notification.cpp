@@ -4,6 +4,7 @@
 #if __has_include("Notification.g.cpp")
 #include "Notification.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 
 namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
 {
@@ -18,6 +19,16 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
         ContentTemplate = 1 << 4,
         ActionButton = 1 << 5
     };
+
+    Notification::Notification()
+    {
+        XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+    }
+
+    Notification::~Notification()
+    {
+        XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
+    }
 
     const wil::single_threaded_property<winrt::DependencyProperty> Notification::TitleProperty =
         winrt::DependencyProperty::Register(

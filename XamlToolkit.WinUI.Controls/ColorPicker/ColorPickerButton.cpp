@@ -4,6 +4,7 @@
 #if __has_include("ColorPickerButton.g.cpp")
 #include "ColorPickerButton.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 #include "ColorPickerRenderingHelpers.h"
 #include "ColorPicker.h"
 
@@ -36,6 +37,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
         // Workaround for https://github.com/microsoft/microsoft-ui-xaml/issues/3502
         DefaultStyleResourceUri(winrt::Uri(L"ms-appx:///XamlToolkit.WinUI.Controls/Themes/Generic.xaml"));
+        XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+    }
+
+    ColorPickerButton::~ColorPickerButton()
+    {
+    	XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
     }
 
     void ColorPickerButton::OnApplyTemplate()

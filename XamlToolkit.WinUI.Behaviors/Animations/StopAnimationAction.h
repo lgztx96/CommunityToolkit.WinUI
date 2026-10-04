@@ -23,7 +23,9 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
     /// </summary>
     struct StopAnimationAction : StopAnimationActionT<StopAnimationAction>
     {
-        StopAnimationAction() = default;
+        StopAnimationAction();
+
+        ~StopAnimationAction();
 
         /// <summary>
         /// Gets or sets the linked AnimationSet instance to stop.

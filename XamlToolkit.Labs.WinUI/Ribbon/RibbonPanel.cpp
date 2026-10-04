@@ -10,9 +10,20 @@
 #if __has_include("RibbonPanel.g.cpp")
 #include "RibbonPanel.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
+    RibbonPanel::RibbonPanel()
+    {
+        XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+    }
+
+    RibbonPanel::~RibbonPanel()
+    {
+        XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
+    }
+
     winrt::Size RibbonPanel::MeasureOverride(winrt::Size availableSize)
     {
         // We try to limit the layout changes if the parent scrollviewer is sending values with small changes.

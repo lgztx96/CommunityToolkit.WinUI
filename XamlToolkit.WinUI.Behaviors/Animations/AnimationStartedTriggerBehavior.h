@@ -19,7 +19,9 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
     /// </summary>
     struct AnimationStartedTriggerBehavior : AnimationStartedTriggerBehaviorT<AnimationStartedTriggerBehavior>
     {
-        AnimationStartedTriggerBehavior() = default;
+        AnimationStartedTriggerBehavior();
+
+        ~AnimationStartedTriggerBehavior();
 
         /// <summary>
         /// Called after the behavior is attached to the AssociatedObject.

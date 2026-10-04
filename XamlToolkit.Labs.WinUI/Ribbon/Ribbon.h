@@ -41,6 +41,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         Ribbon();
 
+        ~Ribbon();
+
         void OnApplyTemplate();
 
         winrt::IVector<winrt::UIElement> Items() const noexcept { return _items; }

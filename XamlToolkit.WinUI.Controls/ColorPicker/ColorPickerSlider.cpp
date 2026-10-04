@@ -7,6 +7,7 @@
 #if __has_include("Primitives.ColorPickerSlider.g.cpp")
 #include "Primitives.ColorPickerSlider.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 #include "ColorPickerRenderingHelpers.h"
 
 namespace winrt::XamlToolkit::WinUI::Controls::Primitives::implementation
@@ -79,6 +80,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::Primitives::implementation
 	ColorPickerSlider::ColorPickerSlider()
 	{
 		DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
+		XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+	}
+
+	ColorPickerSlider::~ColorPickerSlider()
+	{
+		XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
 	}
 
 	/***************************************************************************************

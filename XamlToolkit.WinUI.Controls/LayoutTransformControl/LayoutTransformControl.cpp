@@ -9,6 +9,7 @@
 #if __has_include("LayoutTransformControl.g.cpp")
 #include "LayoutTransformControl.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 
 namespace winrt
 {
@@ -44,6 +45,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		// Disable layout rounding because its rounding of values confuses things.
 		UseLayoutRounding(false);
+		XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+	}
+
+	LayoutTransformControl::~LayoutTransformControl()
+	{
+		XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
 	}
 
 	/// <summary>

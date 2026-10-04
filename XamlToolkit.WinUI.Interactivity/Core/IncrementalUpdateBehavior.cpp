@@ -4,9 +4,20 @@
 #if __has_include("IncrementalUpdateBehavior.g.cpp")
 #include "IncrementalUpdateBehavior.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 #
 namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 {
+	IncrementalUpdateBehavior::IncrementalUpdateBehavior()
+	{
+		XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+	}
+
+	IncrementalUpdateBehavior::~IncrementalUpdateBehavior()
+	{
+		XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
+	}
+
 	const wil::single_threaded_property<winrt::DependencyProperty> IncrementalUpdateBehavior::PhaseProperty =
 		winrt::DependencyProperty::Register(
 			L"Phase",

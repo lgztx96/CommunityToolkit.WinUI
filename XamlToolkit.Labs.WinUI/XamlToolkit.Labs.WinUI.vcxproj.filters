@@ -12,6 +12,9 @@
     <Filter Include="Themes">
       <UniqueIdentifier>{784c3e52-fb0d-493f-baec-8ac506eeec14}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Diagnostics">
+      <UniqueIdentifier>{5b2d7c41-9e13-4a6f-8c07-2d4f6a91b3e8}</UniqueIdentifier>
+    </Filter>
     <Filter Include="MarkdownTextBlock">
       <UniqueIdentifier>{866a6f12-2e10-415e-8dad-fbe6363cd721}</UniqueIdentifier>
     </Filter>
@@ -313,6 +316,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Diagnostics\ToolkitProfilerTracing.h">
+      <Filter>Diagnostics</Filter>
+    </ClInclude>
     <ClInclude Include="MarkdownTextBlock\TextElements\IAddChild.h">
       <Filter>MarkdownTextBlock\TextElements</Filter>
     </ClInclude>

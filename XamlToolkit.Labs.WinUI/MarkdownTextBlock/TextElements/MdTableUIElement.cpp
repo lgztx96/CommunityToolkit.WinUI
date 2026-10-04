@@ -9,10 +9,18 @@
 #if __has_include("MdTableUIElement.g.cpp")
 #include "MdTableUIElement.g.cpp"
 #endif
+#include "../../Diagnostics/ToolkitProfilerTracing.h"
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
+    MdTableUIElement::~MdTableUIElement()
+    {
+        XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
+    }
+
+    // Delegates to the default constructor, which is where the creation is reported from.
     MdTableUIElement::MdTableUIElement(int columnCount, int rowCount, float borderThickness, winrt::Brush const& borderBrush, winrt::Brush const& headingBrush, winrt::CornerRadius const& cornerRadius, winrt::Thickness const& tableMargin)
+        : MdTableUIElement()
     {
         _columnCount = columnCount;
         _rowCount = rowCount;

@@ -22,7 +22,9 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
     /// </summary>
     struct AutoSelectBehavior : AutoSelectBehaviorT<AutoSelectBehavior>, BehaviorBase<AutoSelectBehavior, winrt::TextBox>
     {
-        AutoSelectBehavior() = default;
+        AutoSelectBehavior();
+
+        ~AutoSelectBehavior();
 
     protected:
         /// <summary>

@@ -4,6 +4,7 @@
 #if __has_include("SwitchPresenter.g.cpp")
 #include "SwitchPresenter.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 #include "SwitchHelpers.h"
 #include "CaseCollection.h"
 
@@ -13,6 +14,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
     {
         SwitchCases(winrt::make<implementation::CaseCollection>());
 		Loaded({ this, &SwitchPresenter::SwitchPresenter_Loaded });
+        XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+    }
+
+    SwitchPresenter::~SwitchPresenter()
+    {
+    	XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
     }
 
     void SwitchPresenter::OnValuePropertyChanged(winrt::DependencyObject const& d, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& e)

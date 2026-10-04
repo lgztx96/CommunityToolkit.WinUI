@@ -7,6 +7,7 @@
 #if __has_include("DataTriggerBehavior.g.cpp")
 #include "DataTriggerBehavior.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 
 namespace winrt
 {
@@ -34,6 +35,16 @@ namespace winrt
 
 namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 {
+    DataTriggerBehavior::DataTriggerBehavior()
+    {
+        XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+    }
+
+    DataTriggerBehavior::~DataTriggerBehavior()
+    {
+        XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
+    }
+
     const wil::single_threaded_property<winrt::DependencyProperty> DataTriggerBehavior::BindingProperty =
         winrt::DependencyProperty::Register(
             L"Binding",

@@ -32,7 +32,9 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
     /// </summary>
     struct KeyDownTriggerBehavior : KeyDownTriggerBehaviorT<KeyDownTriggerBehavior>
     {
-        KeyDownTriggerBehavior() = default;
+        KeyDownTriggerBehavior();
+
+        ~KeyDownTriggerBehavior();
 
         /// <summary>
         /// Gets or sets the key that triggers the behavior.

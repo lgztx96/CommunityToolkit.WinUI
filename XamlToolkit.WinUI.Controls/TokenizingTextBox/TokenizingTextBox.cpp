@@ -10,6 +10,7 @@
 #if __has_include("TokenizingTextBox.g.cpp")
 #include "TokenizingTextBox.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 #include "TokenizingTextBoxItem.h"
 #include "PretokenStringContainer.h"
 #include "TokenizingTextBoxAutomationPeer.h"
@@ -168,6 +169,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		ItemClick({ this, &TokenizingTextBox::TokenizingTextBox_ItemClick });
 
 		_dispatcherQueue = DispatcherQueue();
+		XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+	}
+
+	TokenizingTextBox::~TokenizingTextBox()
+	{
+		XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
 	}
 
 	void TokenizingTextBox::ItemsSource_PropertyChanged([[maybe_unused]] winrt::DependencyObject const& sender, [[maybe_unused]] winrt::DependencyProperty const& dp)

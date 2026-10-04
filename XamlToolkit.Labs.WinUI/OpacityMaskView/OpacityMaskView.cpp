@@ -4,6 +4,7 @@
 #if __has_include("OpacityMaskView.g.cpp")
 #include "OpacityMaskView.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 
 namespace winrt
 {
@@ -16,6 +17,12 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
     OpacityMaskView::OpacityMaskView()
     {
         DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
+        XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+    }
+
+    OpacityMaskView::~OpacityMaskView()
+    {
+    	XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
     }
 
     const wil::single_threaded_property<winrt::DependencyProperty> OpacityMaskView::OpacityMaskProperty =

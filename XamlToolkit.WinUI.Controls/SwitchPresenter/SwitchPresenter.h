@@ -93,6 +93,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		SwitchPresenter();
 
+		~SwitchPresenter();
+
 		void OnApplyTemplate();
 
 	private:

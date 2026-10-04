@@ -9,7 +9,9 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
     /// </summary>
     struct FocusTargetList : FocusTargetListT<FocusTargetList>
     {
-        FocusTargetList() = default;
+        FocusTargetList();
+
+        ~FocusTargetList();
     };
 }
 

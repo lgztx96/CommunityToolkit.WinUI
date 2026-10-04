@@ -36,6 +36,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
 		Shimmer();
 
+		~Shimmer();
+
 		void OnApplyTemplate();
 
 		static void PropertyChanged(winrt::DependencyObject const& s, winrt::DependencyPropertyChangedEventArgs e);

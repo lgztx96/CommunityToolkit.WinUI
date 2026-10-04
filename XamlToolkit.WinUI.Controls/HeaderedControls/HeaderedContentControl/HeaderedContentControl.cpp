@@ -4,12 +4,19 @@
 #if __has_include("HeaderedContentControl.g.cpp")
 #include "HeaderedContentControl.g.cpp"
 #endif
+#include "../../Diagnostics/ToolkitProfilerTracing.h"
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
     HeaderedContentControl::HeaderedContentControl()
     {
         DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
+        XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+    }
+
+    HeaderedContentControl::~HeaderedContentControl()
+    {
+    	XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
     }
 
     void HeaderedContentControl::OnApplyTemplate()

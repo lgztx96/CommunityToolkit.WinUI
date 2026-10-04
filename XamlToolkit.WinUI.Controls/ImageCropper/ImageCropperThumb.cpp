@@ -4,6 +4,7 @@
 #if __has_include("ImageCropperThumb.g.cpp")
 #include "ImageCropperThumb.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
@@ -13,6 +14,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         RenderTransform(_layoutTransform);
         ManipulationMode(winrt::ManipulationModes::TranslateX | winrt::ManipulationModes::TranslateY);
         SizeChanged({ get_weak(), &ImageCropperThumb::ImageCropperThumb_SizeChanged });
+        XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+    }
+
+    ImageCropperThumb::~ImageCropperThumb()
+    {
+        XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
     }
 
     void ImageCropperThumb::OnApplyTemplate()

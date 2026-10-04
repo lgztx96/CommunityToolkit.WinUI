@@ -4,9 +4,20 @@
 #if __has_include("ControlStoryboardAction.g.cpp")
 #include "ControlStoryboardAction.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 
 namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 {
+	ControlStoryboardAction::ControlStoryboardAction()
+	{
+		XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+	}
+
+	ControlStoryboardAction::~ControlStoryboardAction()
+	{
+		XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
+	}
+
     const wil::single_threaded_property<winrt::DependencyProperty> ControlStoryboardAction::ControlStoryboardOptionProperty =
         winrt::DependencyProperty::Register(
             L"ControlStoryboardOption",

@@ -33,6 +33,8 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         /// </summary>
         NavigateToPageAction();
 
+        ~NavigateToPageAction();
+
         /// <summary>
         /// Identifies the <seealso cref="TargetPage"/> dependency property.
         /// </summary>

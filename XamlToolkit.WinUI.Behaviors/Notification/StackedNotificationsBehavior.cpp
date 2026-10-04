@@ -7,6 +7,7 @@
 #if __has_include("StackedNotificationsBehavior.g.cpp")
 #include "StackedNotificationsBehavior.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 
 namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
 {
@@ -14,6 +15,12 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
     {
         _dismissTimer = winrt::DispatcherQueue::GetForCurrentThread().CreateTimer();
         _dismissTimer.Tick({ this, &StackedNotificationsBehavior::OnTimerTick });
+        XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+    }
+
+    StackedNotificationsBehavior::~StackedNotificationsBehavior()
+    {
+    	XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
     }
 
     bool StackedNotificationsBehavior::Initialize()

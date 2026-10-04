@@ -33,6 +33,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
 		ResizeElementAdorner();
 
+		~ResizeElementAdorner();
+
 		winrt::FrameworkElement AdornedElement() const noexcept
 		{
 			return base_type::AdornedElement().try_as<winrt::FrameworkElement>();

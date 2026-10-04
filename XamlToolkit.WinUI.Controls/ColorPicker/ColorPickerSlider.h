@@ -28,6 +28,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::Primitives::implementation
     {
         ColorPickerSlider();
 
+        ~ColorPickerSlider();
+
         void UpdateColors();
 
         wil::single_threaded_rw_property<winrt::Color> CheckerBackgroundColor = winrt::Microsoft::UI::ColorHelper::FromArgb(0x19, 0x80, 0x80, 0x80);

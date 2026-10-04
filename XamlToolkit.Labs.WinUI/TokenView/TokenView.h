@@ -43,6 +43,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		
 		TokenView();
 
+		~TokenView();
+
 		wil::untyped_event<winrt::XamlToolkit::Labs::WinUI::TokenItemRemovingEventArgs> TokenItemRemoving;
 
 		winrt::DependencyObject GetContainerForItemOverride() { return winrt::make<TokenItem>(); }

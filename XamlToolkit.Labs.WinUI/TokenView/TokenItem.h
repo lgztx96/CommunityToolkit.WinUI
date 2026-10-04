@@ -32,6 +32,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
 		TokenItem();
 
+		~TokenItem();
+
 		void OnApplyTemplate();
 
 		void OnContentChanged(winrt::IInspectable const& oldContent, winrt::IInspectable const& newContent);

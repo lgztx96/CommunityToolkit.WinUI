@@ -4,9 +4,20 @@
 #if __has_include("AnimationStartedTriggerBehavior.g.cpp")
 #include "AnimationStartedTriggerBehavior.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 
 namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
 {
+    AnimationStartedTriggerBehavior::AnimationStartedTriggerBehavior()
+    {
+        XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+    }
+
+    AnimationStartedTriggerBehavior::~AnimationStartedTriggerBehavior()
+    {
+        XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
+    }
+
     void AnimationStartedTriggerBehavior::OnAttached()
     {
         base_type::OnAttached();

@@ -80,6 +80,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		CameraPreview();
 
+		~CameraPreview();
+
 		winrt::fire_and_forget OnApplyTemplate();
 
 	private:

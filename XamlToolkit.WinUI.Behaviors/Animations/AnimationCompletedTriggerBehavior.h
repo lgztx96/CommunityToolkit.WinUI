@@ -19,7 +19,9 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
     /// </summary>
     struct AnimationCompletedTriggerBehavior : AnimationCompletedTriggerBehaviorT<AnimationCompletedTriggerBehavior>
     {
-        AnimationCompletedTriggerBehavior() = default;
+        AnimationCompletedTriggerBehavior();
+
+        ~AnimationCompletedTriggerBehavior();
 
         /// <summary>
         /// Called after the behavior is attached to the AssociatedObject.

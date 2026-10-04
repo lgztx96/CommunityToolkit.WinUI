@@ -29,7 +29,8 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
     /// </summary>
     struct DataTriggerBehavior : DataTriggerBehaviorT<DataTriggerBehavior, winrt::XamlToolkit::WinUI::Interactivity::implementation::Trigger>
     {
-        DataTriggerBehavior() = default;
+        DataTriggerBehavior();
+        ~DataTriggerBehavior();
 
         /// <summary>
         /// Identifies the <seealso cref="Binding"/> dependency property.

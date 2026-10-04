@@ -4,6 +4,7 @@
 #if __has_include("Ribbon.g.cpp")
 #include "Ribbon.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
@@ -40,6 +41,12 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
         _items = winrt::single_threaded_observable_vector<winrt::UIElement>();
         _items.VectorChanged({ this, &Ribbon::OnItemsVectorChanged });
+        XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+    }
+
+    Ribbon::~Ribbon()
+    {
+    	XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
     }
 
     void Ribbon::OnApplyTemplate()

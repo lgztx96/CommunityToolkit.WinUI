@@ -1,6 +1,7 @@
 #pragma once
 
 #include "MdTableUIElement.g.h"
+#include "../../Diagnostics/ToolkitProfilerTracing.h"
 
 #ifdef __INTELLISENSE__
 #include <winrt/Windows.Foundation.h>
@@ -24,7 +25,12 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
     struct MdTableUIElement : MdTableUIElementT<MdTableUIElement>
     {
-        MdTableUIElement() : _columnCount(0), _rowCount(0), _borderThickness(0.0f) {}
+        MdTableUIElement() : _columnCount(0), _rowCount(0), _borderThickness(0.0f)
+        {
+            XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+        }
+
+        ~MdTableUIElement();
 
         MdTableUIElement(
             int columnCount, 

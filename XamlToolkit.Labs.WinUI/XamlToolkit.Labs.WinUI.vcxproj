@@ -155,6 +155,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Diagnostics\ToolkitProfilerTracing.h" />
     <ClInclude Include="Adorners\Adorner.h">
       <DependentUpon>Adorners\Adorner.cpp</DependentUpon>
       <SubType>Code</SubType>

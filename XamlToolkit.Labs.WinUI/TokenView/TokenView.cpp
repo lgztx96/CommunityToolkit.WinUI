@@ -4,6 +4,7 @@
 #if __has_include("TokenView.g.cpp")
 #include "TokenView.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 #include "../ControlHelpers.h"
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
@@ -47,6 +48,12 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		// Container Generation Hooks
 		//RegisterPropertyChangedCallback(winrt::ItemsControl::ItemsSourceProperty(), { get_weak(), &TokenView::ItemsSource_PropertyChanged });
 		RegisterPropertyChangedCallback(winrt::Selector::SelectedIndexProperty(), { get_weak(), &TokenView::SelectedIndex_PropertyChanged });
+		XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+	}
+
+	TokenView::~TokenView()
+	{
+		XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
 	}
 
 	bool TokenView::IsItemItsOwnContainerOverride(winrt::IInspectable const& item)

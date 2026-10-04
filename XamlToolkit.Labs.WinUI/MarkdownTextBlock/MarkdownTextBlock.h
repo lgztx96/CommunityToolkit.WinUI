@@ -35,6 +35,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         MarkdownTextBlock();
 
+        ~MarkdownTextBlock();
+
         wil::untyped_event<winrt::XamlToolkit::Labs::WinUI::LinkClickedEventArgs> OnLinkClicked;
 
         bool RaiseLinkClickedEvent(winrt::Uri const& uri);

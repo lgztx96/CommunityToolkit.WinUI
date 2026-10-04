@@ -21,6 +21,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	{
 		HeaderedItemsControl();
 
+		~HeaderedItemsControl();
+
 		static void OnFooterChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 
 		static void OnHeaderChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);

@@ -55,6 +55,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
     public:
         GradientSlider();
 
+        ~GradientSlider();
+
         void OnApplyTemplate();
 
         winrt::GradientStopCollection GradientStops() const;

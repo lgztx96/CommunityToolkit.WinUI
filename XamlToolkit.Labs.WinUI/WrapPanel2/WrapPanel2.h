@@ -24,6 +24,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 	{
 		WrapPanel2();
 
+		~WrapPanel2();
+
 		winrt::Size MeasureOverride(winrt::Size availableSize);
 
 		winrt::Size ArrangeOverride(winrt::Size finalSize);

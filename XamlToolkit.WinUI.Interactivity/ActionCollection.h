@@ -26,6 +26,8 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         /// </summary>
         ActionCollection();
 
+        ~ActionCollection();
+
     private:
         void OnVectorChanged(
             winrt::IObservableVector<winrt::DependencyObject> const& sender,

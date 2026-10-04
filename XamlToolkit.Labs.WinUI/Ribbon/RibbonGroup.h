@@ -18,6 +18,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
     {
         RibbonGroup();
 
+        ~RibbonGroup();
+
         virtual void OnApplyTemplate();
 
         static const wil::single_threaded_property<winrt::DependencyProperty> ContentProperty;

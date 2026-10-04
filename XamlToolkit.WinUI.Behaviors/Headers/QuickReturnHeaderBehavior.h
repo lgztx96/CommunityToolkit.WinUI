@@ -22,7 +22,9 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
     /// </summary>
     struct QuickReturnHeaderBehavior : QuickReturnHeaderBehaviorT<QuickReturnHeaderBehavior>, HeaderBehaviorBase<QuickReturnHeaderBehavior>
     {
-        QuickReturnHeaderBehavior() = default;
+        QuickReturnHeaderBehavior();
+
+        ~QuickReturnHeaderBehavior();
 
         /// <summary>
         /// Show the header

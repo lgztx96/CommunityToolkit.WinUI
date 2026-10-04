@@ -23,7 +23,9 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
     /// </summary>
     struct StartAnimationAction : StartAnimationActionT<StartAnimationAction>
     {
-        StartAnimationAction() = default;
+        StartAnimationAction();
+
+        ~StartAnimationAction();
 
         /// <summary>
         /// Gets or sets the linked AnimationSet instance to invoke.

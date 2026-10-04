@@ -111,6 +111,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+<ClInclude Include="Diagnostics\ToolkitProfilerTracing.h" />
     <ClInclude Include="ActionCollection.h">
       <DependentUpon>ActionCollection.idl</DependentUpon>
       <SubType>Code</SubType>

@@ -7,6 +7,7 @@
 #if __has_include("RibbonCollapsibleGroup.g.cpp")
 #include "RibbonCollapsibleGroup.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 #include "DoubleVector.h"
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
@@ -58,6 +59,12 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
         _contaionerPointerEventHandler = winrt::box_value(winrt::PointerEventHandler({ this, &RibbonCollapsibleGroup::OnFlyoutPointerReleased }));
         _contaionerKeyEventHandler = winrt::box_value(winrt::KeyEventHandler({ this, &RibbonCollapsibleGroup::OnFlyoutKeyUp }));
+        XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+    }
+
+    RibbonCollapsibleGroup::~RibbonCollapsibleGroup()
+    {
+    	XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
     }
 
     void RibbonCollapsibleGroup::OnApplyTemplate()

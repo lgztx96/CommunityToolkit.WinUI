@@ -30,6 +30,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	{
 		Segmented();
 
+		~Segmented();
+
 		static const wil::single_threaded_property<winrt::DependencyProperty> OrientationProperty;
 
 		winrt::Microsoft::UI::Xaml::Controls::Orientation Orientation() const;

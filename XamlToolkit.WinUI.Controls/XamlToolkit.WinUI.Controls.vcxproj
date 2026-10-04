@@ -186,6 +186,7 @@
       <DependentUpon>ConstrainedBox\ConstrainedBox.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="Diagnostics\ToolkitProfilerTracing.h" />
     <ClInclude Include="DockPanel\DockPanel.h">
       <DependentUpon>DockPanel\DockPanel.idl</DependentUpon>
       <SubType>Code</SubType>

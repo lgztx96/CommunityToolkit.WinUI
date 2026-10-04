@@ -8,6 +8,7 @@
 #if __has_include("RichSuggestBox.g.cpp")
 #include "RichSuggestBox.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 #include "../../XamlToolkit.WinUI/common.h"
 
 namespace winrt
@@ -31,6 +32,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		_pointerPressedHandler = winrt::box_value(winrt::PointerEventHandler({ this, &RichSuggestBox::RichEditBox_OnPointerPressed }));
 		_pointerMovedHandler = winrt::box_value(winrt::PointerEventHandler({ this, &RichSuggestBox::RichEditBox_OnPointerMoved }));
+		XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+	}
+
+	RichSuggestBox::~RichSuggestBox()
+	{
+		XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
 	}
 
 	void RichSuggestBox::ClearUndoRedoSuggestionHistory()

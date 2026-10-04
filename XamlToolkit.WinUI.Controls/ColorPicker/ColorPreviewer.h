@@ -29,6 +29,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::Primitives::implementation
 	{
 		ColorPreviewer();
 
+		~ColorPreviewer();
+
 		static winrt::fire_and_forget final_release(std::unique_ptr<ColorPreviewer> self)
 		{
 			co_await wil::resume_foreground(self->DispatcherQueue());

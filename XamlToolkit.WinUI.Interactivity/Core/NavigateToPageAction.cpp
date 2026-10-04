@@ -5,12 +5,19 @@
 #if __has_include("NavigateToPageAction.g.cpp")
 #include "NavigateToPageAction.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 
 namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 {
     NavigateToPageAction::NavigateToPageAction()
         : _visualTreeHelper(std::make_unique<winrt::XamlToolkit::WinUI::Interactivity::WinUIVisualTreeHelper>())
     {
+        XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+    }
+
+    NavigateToPageAction::~NavigateToPageAction()
+    {
+    	XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
     }
 
     const wil::single_threaded_property<winrt::DependencyProperty> NavigateToPageAction::TargetPageProperty =

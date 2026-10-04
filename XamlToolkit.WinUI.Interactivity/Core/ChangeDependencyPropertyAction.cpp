@@ -4,6 +4,7 @@
 #if __has_include("ChangeDependencyPropertyAction.g.cpp")
 #include "ChangeDependencyPropertyAction.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 
 namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 {
@@ -20,6 +21,16 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
             winrt::xaml_typename<winrt::IInspectable>(),
             winrt::xaml_typename<class_type>(),
             winrt::PropertyMetadata(nullptr));
+
+    ChangeDependencyPropertyAction::ChangeDependencyPropertyAction()
+    {
+        XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+    }
+
+    ChangeDependencyPropertyAction::~ChangeDependencyPropertyAction()
+    {
+        XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
+    }
 
     winrt::IInspectable ChangeDependencyPropertyAction::Value() const
     {

@@ -5,9 +5,20 @@
 #if __has_include("StickyHeaderBehavior.g.cpp")
 #include "StickyHeaderBehavior.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 
 namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
 {
+	StickyHeaderBehavior::StickyHeaderBehavior()
+	{
+		XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+	}
+
+	StickyHeaderBehavior::~StickyHeaderBehavior()
+	{
+		XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
+	}
+
 	void StickyHeaderBehavior::Show()
 	{
 		if (_headerVisual && _scrollViewer && _animationProperties)

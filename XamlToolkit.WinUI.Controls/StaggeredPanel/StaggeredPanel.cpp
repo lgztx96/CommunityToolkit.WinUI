@@ -9,6 +9,7 @@
 #if __has_include("StaggeredPanel.g.cpp")
 #include "StaggeredPanel.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
@@ -43,6 +44,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	StaggeredPanel::StaggeredPanel()
 	{
 		RegisterPropertyChangedCallback(winrt::FrameworkElement::HorizontalAlignmentProperty(), { this, &StaggeredPanel::OnHorizontalAlignmentChanged });
+		XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+	}
+
+	StaggeredPanel::~StaggeredPanel()
+	{
+		XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
 	}
 
 	winrt::Size StaggeredPanel::MeasureOverride(winrt::Size availableSize)

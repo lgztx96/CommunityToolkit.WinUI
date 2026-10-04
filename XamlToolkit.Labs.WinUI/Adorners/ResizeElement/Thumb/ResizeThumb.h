@@ -28,6 +28,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 	{
 		ResizeThumb();
 
+		~ResizeThumb();
+
 		void OnApplyTemplate();
 
 		void OnManipulationStarting(winrt::ManipulationStartingRoutedEventArgs const& e);

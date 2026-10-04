@@ -137,7 +137,9 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         /// </summary>
         void OnDetaching() override;
 
-        IncrementalUpdateBehavior() = default;
+        IncrementalUpdateBehavior();
+
+        ~IncrementalUpdateBehavior();
 
     private:
         winrt::com_ptr<IncrementalUpdater> _updater = nullptr;

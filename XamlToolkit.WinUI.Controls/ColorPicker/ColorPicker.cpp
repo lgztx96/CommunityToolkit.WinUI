@@ -4,6 +4,7 @@
 #if __has_include("ColorPicker.g.cpp")
 #include "ColorPicker.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 
 #include "ColorToHexConverter.h"
 #include "ColorPickerRenderingHelpers.h"
@@ -72,6 +73,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		StartDispatcherQueueTimer();
 		RegisterPropertyChangedCallback(WinUIColorPicker::IsColorChannelTextInputVisibleProperty(), { this, &ColorPicker::OnPanelVisibilityChanged });
 		RegisterPropertyChangedCallback(WinUIColorPicker::IsColorSpectrumVisibleProperty(), { this,&ColorPicker::OnPanelVisibilityChanged });
+		XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
 	}
 
 	/// <summary>
@@ -79,6 +81,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	/// </summary>
 	ColorPicker::~ColorPicker()
 	{
+		XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
 		StopDispatcherQueueTimer();
 	}
 

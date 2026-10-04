@@ -60,6 +60,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
         RangeSelector();
 
+        ~RangeSelector();
+
         void OnApplyTemplate();
 
         wil::untyped_event<winrt::XamlToolkit::WinUI::Controls::RangeChangedEventArgs> ValueChanged;

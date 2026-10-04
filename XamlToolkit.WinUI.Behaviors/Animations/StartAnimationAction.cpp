@@ -4,9 +4,20 @@
 #if __has_include("StartAnimationAction.g.cpp")
 #include "StartAnimationAction.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 
 namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
 {
+    StartAnimationAction::StartAnimationAction()
+    {
+        XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+    }
+
+    StartAnimationAction::~StartAnimationAction()
+    {
+        XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
+    }
+
     const wil::single_threaded_property<winrt::DependencyProperty> StartAnimationAction::AnimationProperty =
         winrt::DependencyProperty::Register(
             L"Animation",

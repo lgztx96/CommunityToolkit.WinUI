@@ -7,10 +7,21 @@
 #if __has_include("DockPanel.g.cpp")
 #include "DockPanel.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 #include "../XamlToolkit.WinUI/common.h"
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
+	DockPanel::DockPanel()
+	{
+		XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+	}
+
+	DockPanel::~DockPanel()
+	{
+		XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
+	}
+
 	const wil::single_threaded_property<winrt::DependencyProperty> DockPanel::DockProperty =
 		winrt::DependencyProperty::RegisterAttached(
 			L"Dock",

@@ -20,7 +20,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
 	struct ConstrainedBox : ConstrainedBoxT<ConstrainedBox>
 	{
-		ConstrainedBox() : _propertyUpdating(false) {}
+		ConstrainedBox();
+
+		~ConstrainedBox();
 
 		static const wil::single_threaded_property<winrt::DependencyProperty> ScaleXProperty;
 

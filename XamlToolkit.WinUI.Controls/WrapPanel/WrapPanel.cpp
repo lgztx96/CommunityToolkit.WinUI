@@ -7,9 +7,20 @@
 #if __has_include("WrapPanel.g.cpp")
 #include "WrapPanel.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
+	WrapPanel::WrapPanel()
+	{
+		XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+	}
+
+	WrapPanel::~WrapPanel()
+	{
+		XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
+	}
+
     const wil::single_threaded_property<winrt::DependencyProperty> WrapPanel::HorizontalSpacingProperty =
         winrt::DependencyProperty::Register(
             L"HorizontalSpacing",

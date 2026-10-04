@@ -21,6 +21,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 	{
 		AdornerLayer();
 
+		~AdornerLayer();
+
 		static void RemoveAdorner(winrt::XamlToolkit::Labs::WinUI::AdornerLayer const& layer, winrt::UIElement const& adornerXaml);
 
 		static winrt::IAsyncOperation<winrt::XamlToolkit::Labs::WinUI::AdornerLayer> GetAdornerLayerAsync(winrt::FrameworkElement const& adornedElement);

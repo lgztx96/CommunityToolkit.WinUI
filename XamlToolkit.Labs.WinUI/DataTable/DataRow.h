@@ -15,6 +15,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 	{
 		DataRow();
 
+		~DataRow();
+
 		winrt::Size MeasureOverride(winrt::Size availableSize);
 
 		winrt::Size ArrangeOverride(winrt::Size finalSize);

@@ -67,6 +67,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 	public:
 		Marquee();
 
+		~Marquee();
+
 		void OnApplyTemplate();
 
 		void StartMarquee();

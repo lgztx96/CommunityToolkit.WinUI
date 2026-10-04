@@ -57,6 +57,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		SettingsCard();
 
+		~SettingsCard();
+
 		void OnApplyTemplate();
 
 		void CheckInitialVisualState();

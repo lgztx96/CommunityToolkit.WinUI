@@ -4,6 +4,7 @@
 #if __has_include("HeaderedTreeView.g.cpp")
 #include "HeaderedTreeView.g.cpp"
 #endif
+#include "../../Diagnostics/ToolkitProfilerTracing.h"
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
@@ -11,6 +12,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	{
 		DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
 		DefaultStyleResourceUri(winrt::Uri(L"ms-appx:///XamlToolkit.WinUI.Controls/Themes/Generic.xaml"));
+		XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+	}
+
+	HeaderedTreeView::~HeaderedTreeView()
+	{
+		XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
 	}
 
 	void HeaderedTreeView::OnFooterChanged([[maybe_unused]] winrt::IInspectable const& oldValue, [[maybe_unused]] winrt::IInspectable const& newValue) {}

@@ -7,6 +7,7 @@
 #if __has_include("ResizeThumb.g.cpp")
 #include "ResizeThumb.g.cpp"
 #endif
+#include "../../../Diagnostics/ToolkitProfilerTracing.h"
 #include "../XamlToolkit.WinUI/common.h"
 #include "TargetControlResizedEventArgs.h"
 
@@ -16,6 +17,12 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
     {
         DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
         Loaded({ this, &ResizeThumb::ResizeThumb_Loaded });
+        XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+    }
+
+    ResizeThumb::~ResizeThumb()
+    {
+        XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
     }
 
     void ResizeThumb::ResizeThumb_Loaded([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)

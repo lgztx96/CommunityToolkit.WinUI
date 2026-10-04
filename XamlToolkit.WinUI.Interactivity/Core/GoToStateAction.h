@@ -27,7 +27,9 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
     /// </remarks>
     struct GoToStateAction : GoToStateActionT<GoToStateAction>
     {
-        GoToStateAction() = default;
+        GoToStateAction();
+
+        ~GoToStateAction();
 
         /// <summary>
         /// Identifies the <seealso cref="UseTransitions"/> dependency property.

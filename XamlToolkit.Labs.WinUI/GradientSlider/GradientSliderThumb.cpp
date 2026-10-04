@@ -4,6 +4,7 @@
 #if __has_include("GradientSliderThumb.g.cpp")
 #include "GradientSliderThumb.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
@@ -17,6 +18,12 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         , _lastPosition(0, 0)
     {
         DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
+        XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+    }
+
+    GradientSliderThumb::~GradientSliderThumb()
+    {
+        XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
     }
 
     void GradientSliderThumb::OnApplyTemplate()

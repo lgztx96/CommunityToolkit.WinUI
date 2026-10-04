@@ -46,6 +46,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         /// </summary>
         CanvasView();
 
+        ~CanvasView();
+
         winrt::DependencyObject GetContainerForItemOverride();
 
         bool IsItemItsOwnContainerOverride(winrt::IInspectable const& item);

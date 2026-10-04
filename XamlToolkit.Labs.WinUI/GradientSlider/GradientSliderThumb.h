@@ -39,6 +39,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         GradientSliderThumb();
 
+        ~GradientSliderThumb();
+
         void OnApplyTemplate();
 
         winrt::GradientStop GradientStop() const

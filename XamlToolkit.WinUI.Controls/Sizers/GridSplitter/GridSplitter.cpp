@@ -7,6 +7,7 @@
 #if __has_include("GridSplitter.g.cpp")
 #include "GridSplitter.g.cpp"
 #endif
+#include "../../Diagnostics/ToolkitProfilerTracing.h"
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
@@ -38,6 +39,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		, _resizeBehavior(GridResizeBehavior::BasedOnAlignment)
 	{
 		DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
+		XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+	}
+
+	GridSplitter::~GridSplitter()
+	{
+		XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
 	}
 
 	void GridSplitter::OnResizeDirectionPropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e)

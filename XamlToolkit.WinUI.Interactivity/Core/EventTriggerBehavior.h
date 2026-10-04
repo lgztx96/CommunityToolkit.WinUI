@@ -35,7 +35,9 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         /// </summary>
         static const wil::single_threaded_property<winrt::DependencyProperty> SourceObjectProperty;
 
-        EventTriggerBehavior() = default;
+        EventTriggerBehavior();
+
+        ~EventTriggerBehavior();
 
         /// <summary>
         /// Gets or sets the name of the event to listen for. This is a dependency property.

@@ -97,6 +97,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	public:
 		RichSuggestBox();
 
+		~RichSuggestBox();
+
 		void ClearUndoRedoSuggestionHistory();
 
 		void Clear();

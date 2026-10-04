@@ -4,6 +4,7 @@
 #if __has_include("MarkdownTextBlock.g.cpp")
 #include "MarkdownTextBlock.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
@@ -158,6 +159,12 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
 		Loaded(&MarkdownTextBlock::OnLoaded);
 		Unloaded(&MarkdownTextBlock::OnUnloaded);
+		XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+	}
+
+	MarkdownTextBlock::~MarkdownTextBlock()
+	{
+		XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
 	}
 
 	void MarkdownTextBlock::OnApplyTemplate()

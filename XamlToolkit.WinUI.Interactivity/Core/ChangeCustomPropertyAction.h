@@ -29,7 +29,9 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
     /// </summary>
     struct ChangeCustomPropertyAction : ChangeCustomPropertyActionT<ChangeCustomPropertyAction>
     {
-        ChangeCustomPropertyAction() = default;
+        ChangeCustomPropertyAction();
+
+        ~ChangeCustomPropertyAction();
 
         /// <summary>
         /// Identifies the <seealso cref="PropertyName"/> dependency property.

@@ -18,7 +18,9 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
     {
         static constexpr winrt::Size GroupAvailableSize{ std::numeric_limits<float>::infinity(), std::numeric_limits<float>::infinity() };
 
-        RibbonPanel() = default;
+        RibbonPanel();
+
+        ~RibbonPanel();
 
         winrt::Size MeasureOverride(winrt::Size availableSize);
 

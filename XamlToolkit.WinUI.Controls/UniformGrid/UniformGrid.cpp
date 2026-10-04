@@ -10,9 +10,20 @@
 #if __has_include("UniformGrid.g.cpp")
 #include "UniformGrid.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
+	UniformGrid::UniformGrid()
+	{
+		XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+	}
+
+	UniformGrid::~UniformGrid()
+	{
+		XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
+	}
+
 	const wil::single_threaded_property<winrt::DependencyProperty> UniformGrid::AutoLayoutProperty =
 		winrt::DependencyProperty::RegisterAttached(
 			L"AutoLayout",

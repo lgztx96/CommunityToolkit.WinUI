@@ -4,6 +4,7 @@
 #if __has_include("NavigateToUriAction.g.cpp")
 #include "NavigateToUriAction.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 
 #ifdef __INTELLISENSE__
 #include <winrt/Windows.System.h>
@@ -11,6 +12,16 @@
 
 namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
 {
+    NavigateToUriAction::NavigateToUriAction()
+    {
+        XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+    }
+
+    NavigateToUriAction::~NavigateToUriAction()
+    {
+        XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
+    }
+
     const wil::single_threaded_property<winrt::DependencyProperty> NavigateToUriAction::NavigateUriProperty =
         winrt::DependencyProperty::Register(
             L"NavigateUri",

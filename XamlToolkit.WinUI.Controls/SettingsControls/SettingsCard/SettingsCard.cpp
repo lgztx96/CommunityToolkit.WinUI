@@ -4,6 +4,7 @@
 #if __has_include("SettingsCard.g.cpp")
 #include "SettingsCard.g.cpp"
 #endif
+#include "../../Diagnostics/ToolkitProfilerTracing.h"
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
@@ -92,6 +93,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		fontIcon.Glyph(L"\ue974");
 		fontIcon.MirroredWhenRightToLeft(true);
 		ActionIcon(fontIcon);
+		XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+	}
+
+	SettingsCard::~SettingsCard()
+	{
+		XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
 	}
 
 	void SettingsCard::OnApplyTemplate()

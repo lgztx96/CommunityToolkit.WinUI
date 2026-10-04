@@ -41,6 +41,8 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
         /// </summary>
         PlaySoundAction();
 
+        ~PlaySoundAction();
+
         /// <summary>
         /// Identifies the <seealso cref="Source"/> dependency property.
         /// </summary>

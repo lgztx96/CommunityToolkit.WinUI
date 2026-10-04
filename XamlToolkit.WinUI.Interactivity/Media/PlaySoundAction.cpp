@@ -7,6 +7,7 @@
 #if __has_include("PlaySoundAction.g.cpp")
 #include "PlaySoundAction.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 
 namespace
 {
@@ -42,7 +43,14 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
 {
 	PlaySoundAction::PlaySoundAction()
 		: _queue(winrt::DispatcherQueue::GetForCurrentThread())
-	{}
+	{
+		XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+	}
+
+	PlaySoundAction::~PlaySoundAction()
+	{
+		XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
+	}
 
 	const wil::single_threaded_property<winrt::DependencyProperty> PlaySoundAction::SourceProperty =
 		winrt::DependencyProperty::Register(

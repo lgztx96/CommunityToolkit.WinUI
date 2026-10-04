@@ -9,6 +9,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	{
 		GridSplitter();
 
+		~GridSplitter();
+
 		static void OnResizeDirectionPropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 
 		GridResizeDirection ResizeDirection() const { return winrt::unbox_value<GridResizeDirection>(GetValue(ResizeDirectionProperty())); }

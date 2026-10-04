@@ -30,6 +30,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		SegmentedItem();
 
+		~SegmentedItem();
+
 		void OnApplyTemplate();
 
 		void OnVisibilityChanged(winrt::DependencyObject const& sender, winrt::DependencyProperty const& dp);

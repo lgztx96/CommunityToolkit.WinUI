@@ -8,6 +8,7 @@
 #if __has_include("WrapPanel2.g.cpp")
 #include "WrapPanel2.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 
 namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
@@ -15,6 +16,12 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
     {
         RegisterPropertyChangedCallback(winrt::FrameworkElement::HorizontalAlignmentProperty(), &WrapPanel2::OnAlignmentPropertyChanged);
         RegisterPropertyChangedCallback(winrt::FrameworkElement::VerticalAlignmentProperty(), &WrapPanel2::OnAlignmentPropertyChanged);
+        XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+    }
+
+    WrapPanel2::~WrapPanel2()
+    {
+    	XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
     }
 
     const wil::single_threaded_property<winrt::DependencyProperty> WrapPanel2::LayoutLengthProperty =

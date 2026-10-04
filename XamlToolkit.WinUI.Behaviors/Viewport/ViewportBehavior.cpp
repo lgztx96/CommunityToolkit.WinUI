@@ -5,9 +5,20 @@
 #if __has_include("ViewportBehavior.g.cpp")
 #include "ViewportBehavior.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 
 namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
 {
+    ViewportBehavior::ViewportBehavior()
+    {
+        XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+    }
+
+    ViewportBehavior::~ViewportBehavior()
+    {
+        XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
+    }
+
     const wil::single_threaded_property<winrt::DependencyProperty> ViewportBehavior::IsInViewportProperty =
         winrt::DependencyProperty::Register(
             L"IsInViewport",

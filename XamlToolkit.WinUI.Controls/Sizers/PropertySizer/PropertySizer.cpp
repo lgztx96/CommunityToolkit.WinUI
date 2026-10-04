@@ -4,6 +4,7 @@
 #if __has_include("PropertySizer.g.cpp")
 #include "PropertySizer.g.cpp"
 #endif
+#include "../../Diagnostics/ToolkitProfilerTracing.h"
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
@@ -38,6 +39,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	PropertySizer::PropertySizer() : _currentSize(0.0)
 	{
 		DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
+		XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+	}
+
+	PropertySizer::~PropertySizer()
+	{
+		XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
 	}
 
 	void PropertySizer::OnDragStarting()

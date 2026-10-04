@@ -10,7 +10,9 @@ namespace winrt::XamlToolkit::WinUI::Behaviors::implementation
     /// </summary>
     struct FadeHeaderBehavior : FadeHeaderBehaviorT<FadeHeaderBehavior>, HeaderBehaviorBase<FadeHeaderBehavior>
     {
-        FadeHeaderBehavior() = default;
+        FadeHeaderBehavior();
+
+        ~FadeHeaderBehavior();
 
     protected:
         /// <summary>

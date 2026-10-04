@@ -29,6 +29,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		TabbedCommandBar();
 
+		~TabbedCommandBar();
+
 		void OnApplyTemplate();
 
 	private:

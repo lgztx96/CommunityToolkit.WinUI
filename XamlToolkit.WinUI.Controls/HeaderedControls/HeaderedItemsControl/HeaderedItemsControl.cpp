@@ -4,12 +4,19 @@
 #if __has_include("HeaderedItemsControl.g.cpp")
 #include "HeaderedItemsControl.g.cpp"
 #endif
+#include "../../Diagnostics/ToolkitProfilerTracing.h"
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
     HeaderedItemsControl::HeaderedItemsControl()
     {
         DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
+        XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+    }
+
+    HeaderedItemsControl::~HeaderedItemsControl()
+    {
+    	XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
     }
 
 	void HeaderedItemsControl::OnFooterChanged([[maybe_unused]] winrt::IInspectable const& oldValue, [[maybe_unused]] winrt::IInspectable const& newValue) {}

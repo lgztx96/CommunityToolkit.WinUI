@@ -10,6 +10,7 @@
 #if __has_include("MetadataControl.g.cpp")
 #include "MetadataControl.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 
 namespace winrt
 {
@@ -53,6 +54,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	{
 		DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
 		ActualThemeChanged({ this, &MetadataControl::OnActualThemeChanged });
+		XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+	}
+
+	MetadataControl::~MetadataControl()
+	{
+		XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
 	}
 
 	void MetadataControl::OnApplyTemplate()

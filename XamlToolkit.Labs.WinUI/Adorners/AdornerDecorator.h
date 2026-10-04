@@ -44,6 +44,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         AdornerDecorator();
 
+        ~AdornerDecorator();
+
         void OnApplyTemplate();
     };
 }

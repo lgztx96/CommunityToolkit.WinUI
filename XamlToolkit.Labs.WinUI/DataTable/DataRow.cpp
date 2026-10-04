@@ -9,6 +9,7 @@
 #if __has_include("DataRow.g.cpp")
 #include "DataRow.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 #include "../../XamlToolkit.WinUI/common.h"
 #include "DataTable.h"
 
@@ -17,6 +18,12 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
     DataRow::DataRow()
     {
 		Unloaded({ this, &DataRow::DataRow_Unloaded });
+		XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+    }
+
+    DataRow::~DataRow()
+    {
+    	XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
     }
 
     void DataRow::DataRow_Unloaded([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)

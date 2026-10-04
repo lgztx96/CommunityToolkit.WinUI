@@ -34,6 +34,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
         SettingsExpander();
 
+        ~SettingsExpander();
+
         void OnApplyTemplate();
 
         void SetAccessibleName();

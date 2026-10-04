@@ -20,6 +20,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	{
 		HeaderedTreeView();
 
+		~HeaderedTreeView();
+
 		static void OnFooterChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 
 		static void OnHeaderChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);

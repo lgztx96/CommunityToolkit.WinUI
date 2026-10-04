@@ -12,6 +12,7 @@
 #if __has_include("ImageCropper.g.cpp")
 #include "ImageCropper.g.cpp"
 #endif
+#include "../Diagnostics/ToolkitProfilerTracing.h"
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
@@ -20,6 +21,12 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
 
 		_maskAreaGeometryGroup.FillRule(winrt::FillRule::EvenOdd);
+		XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
+	}
+
+	ImageCropper::~ImageCropper()
+	{
+		XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
 	}
 
 	/// <summary>

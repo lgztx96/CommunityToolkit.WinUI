@@ -41,6 +41,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
         ImageCropperThumb();
 
+        ~ImageCropperThumb();
+
         void OnApplyTemplate();
 
         void UpdatePosition();

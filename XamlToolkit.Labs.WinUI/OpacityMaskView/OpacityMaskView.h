@@ -25,6 +25,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
     {
         OpacityMaskView();
 
+        ~OpacityMaskView();
+
         winrt::UIElement OpacityMask() const;
 
         void OpacityMask(winrt::UIElement const& value);

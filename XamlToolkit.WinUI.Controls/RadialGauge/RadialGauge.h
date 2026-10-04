@@ -83,6 +83,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	public:
 		RadialGauge();
 
+		~RadialGauge();
+
 		void OnApplyTemplate();
 
 		double NormalizedMinAngle() const { return  _normalizedMinAngle; }
