@@ -159,6 +159,9 @@
     <ClCompile Include="ImageCropper\ImageCropperThumb.cpp">
       <Filter>ImageCropper</Filter>
     </ClCompile>
+    <ClCompile Include="ImageCropper\AnimatedGif.cpp">
+      <Filter>ImageCropper</Filter>
+    </ClCompile>
     <ClCompile Include="ImageCropper\ImageCropper.Helpers.cpp">
       <Filter>ImageCropper</Filter>
     </ClCompile>
@@ -264,6 +267,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
+    <ClInclude Include="ImageCropper\AnimatedGif.h">
+      <Filter>ImageCropper</Filter>
+    </ClInclude>
     <ClInclude Include="SettingsControls\Helpers\ControlHelper.h">
       <Filter>SettingsControls\Helpers</Filter>
     </ClInclude>

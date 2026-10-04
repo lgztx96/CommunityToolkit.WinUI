@@ -30,7 +30,7 @@
                             VerticalAlignment="{TemplateBinding VerticalAlignment}"
                             CornerRadius="{TemplateBinding CornerRadius}">
                             <Canvas x:Name="PART_ImageCanvas">
-                                <Image x:Name="PART_SourceImage" Source="{TemplateBinding Source}" />
+                                <Image x:Name="PART_SourceImage" />
                                 <Path x:Name="PART_MaskAreaPath" Fill="{TemplateBinding Mask}" />
                                 <Path
                                     x:Name="PART_OverlayAreaPath"

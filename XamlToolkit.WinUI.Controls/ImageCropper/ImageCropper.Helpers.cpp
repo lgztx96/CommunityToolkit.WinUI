@@ -27,57 +27,70 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
 	static constexpr double ThresholdValue = 0.001;
 
-	winrt::IAsyncAction ImageCropper::CropImageAsync(winrt::WriteableBitmap writeableBitmap, winrt::IRandomAccessStream stream, Rect croppedRect, BitmapFileFormat bitmapFileFormat)
+	static winrt::BitmapBounds GetBitmapBounds(winrt::Rect const& croppedRect, uint32_t pixelWidth, uint32_t pixelHeight)
 	{
-		croppedRect.X = std::max<float>(croppedRect.X, 0);
-		croppedRect.Y = std::max<float>(croppedRect.Y, 0);
+		const auto left = static_cast<uint32_t>(std::floor(std::max<float>(croppedRect.X, 0)));
+		const auto top = static_cast<uint32_t>(std::floor(std::max<float>(croppedRect.Y, 0)));
+		const auto right = std::min<uint32_t>(static_cast<uint32_t>(std::ceil(croppedRect.X + croppedRect.Width)), pixelWidth);
+		const auto bottom = std::min<uint32_t>(static_cast<uint32_t>(std::ceil(croppedRect.Y + croppedRect.Height)), pixelHeight);
 
-		auto left = static_cast<uint32_t>(std::floor(croppedRect.X));
-		auto top = static_cast<uint32_t>(std::floor(croppedRect.Y));
-		auto right = static_cast<uint32_t>(std::ceil(croppedRect.X + croppedRect.Width));
-		auto bottom = static_cast<uint32_t>(std::ceil(croppedRect.Y + croppedRect.Height));
+		return winrt::BitmapBounds
+		{
+			.X = left,
+			.Y = top,
+			.Width = right > left ? right - left : 0,
+			.Height = bottom > top ? bottom - top : 0
+		};
+	}
 
-		auto imgWidth = static_cast<uint32_t>(writeableBitmap.PixelWidth());
-		auto imgHeight = static_cast<uint32_t>(writeableBitmap.PixelHeight());
+	winrt::IAsyncAction ImageCropper::CropImageAsync(winrt::IRandomAccessStream sourceStream, winrt::IRandomAccessStream stream, Rect croppedRect, BitmapFileFormat bitmapFileFormat)
+	{
+		sourceStream.Seek(0);
 
-		right = std::min<uint32_t>(right, imgWidth);
-		bottom = std::min<uint32_t>(bottom, imgHeight);
+		const auto decoder = co_await winrt::BitmapDecoder::CreateAsync(sourceStream);
+		const auto frame = co_await decoder.GetFrameAsync(0);
 
-		auto x = left;
-		auto y = top;
-		auto width = right - left;
-		auto height = bottom - top;
+		const auto bounds = GetBitmapBounds(croppedRect, frame.OrientedPixelWidth(), frame.OrientedPixelHeight());
 
-		auto buffer = writeableBitmap.PixelBuffer();
+		winrt::BitmapTransform transform;
+		transform.Bounds(bounds);
+
+		const auto pixelData = co_await frame.GetPixelDataAsync(
+			winrt::BitmapPixelFormat::Bgra8,
+			winrt::BitmapAlphaMode::Premultiplied,
+			transform,
+			winrt::ExifOrientationMode::RespectExifOrientation,
+			winrt::ColorManagementMode::ColorManageToSRgb);
+
+		const auto bytes = pixelData.DetachPixelData();
 
 		const auto& bitmapEncoder = co_await winrt::BitmapEncoder::CreateAsync(GetEncoderId(bitmapFileFormat), stream);
-		bitmapEncoder.SetPixelData(winrt::BitmapPixelFormat::Bgra8, winrt::BitmapAlphaMode::Premultiplied, imgWidth, imgHeight, 96.0, 96.0, { buffer.data(), buffer.Length() });
-		bitmapEncoder.BitmapTransform().Bounds(winrt::BitmapBounds
-		{
-			.X = x,
-			.Y = y,
-			.Width = width,
-			.Height = height
-		});
+		bitmapEncoder.SetPixelData(winrt::BitmapPixelFormat::Bgra8, winrt::BitmapAlphaMode::Premultiplied, bounds.Width, bounds.Height, 96.0, 96.0, bytes);
 		co_await bitmapEncoder.FlushAsync();
 	}
 
-	winrt::IAsyncAction ImageCropper::CropImageWithShapeAsync(winrt::WriteableBitmap writeableBitmap, winrt::IRandomAccessStream stream, Rect croppedRect, BitmapFileFormat bitmapFileFormat, Controls::CropShape cropShape)
+	winrt::IAsyncAction ImageCropper::CropImageWithShapeAsync(winrt::IRandomAccessStream croppedRegion, winrt::IRandomAccessStream stream, BitmapFileFormat bitmapFileFormat, Controls::CropShape cropShape)
 	{
 		auto device = winrt::CanvasDevice::GetSharedDevice();
-		auto clipGeometry = CreateClipGeometry(device, cropShape, winrt::Size(croppedRect.Width, croppedRect.Height));
+
+		// WinUI3/Win2D bug: switch back to CanvasBitmap once it works.
+		auto sourceBitmap = co_await winrt::CanvasVirtualBitmap::LoadAsync(device, croppedRegion);
+		if (sourceBitmap == nullptr)
+		{
+			co_return;
+		}
+
+		const auto croppedSize = sourceBitmap.SizeInPixels();
+		const auto croppedWidth = static_cast<float>(croppedSize.Width);
+		const auto croppedHeight = static_cast<float>(croppedSize.Height);
+
+		auto clipGeometry = CreateClipGeometry(device, cropShape, winrt::Size(croppedWidth, croppedHeight));
 		if (clipGeometry == nullptr)
 		{
 			co_return;
 		}
 
-		// WinUI3/Win2D bug: switch back to CanvasBitmap once it works.
-		winrt::CanvasVirtualBitmap sourceBitmap{ nullptr };
-		winrt::InMemoryRandomAccessStream randomAccessStream;
-		co_await CropImageAsync(writeableBitmap, randomAccessStream, croppedRect, bitmapFileFormat);
-		sourceBitmap = co_await winrt::CanvasVirtualBitmap::LoadAsync(device, randomAccessStream);
-
-		winrt::CanvasRenderTarget offScreen(device, croppedRect.Width, croppedRect.Height, 96.0f);
+		winrt::CanvasRenderTarget offScreen(device, croppedWidth, croppedHeight, 96.0f);
 		auto drawingSession = offScreen.CreateDrawingSession();
 		winrt::CanvasCommandList markCommandList(device);
 

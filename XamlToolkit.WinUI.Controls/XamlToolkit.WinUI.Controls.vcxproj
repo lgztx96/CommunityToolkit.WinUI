@@ -202,6 +202,7 @@
       <DependentUpon>HeaderedControls\HeaderedTreeView\HeaderedTreeView.cpp</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="ImageCropper\AnimatedGif.h" />
     <ClInclude Include="ImageCropper\ImageCropper.h">
       <DependentUpon>ImageCropper\ImageCropper.cpp</DependentUpon>
       <SubType>Code</SubType>
@@ -443,6 +444,7 @@
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="ImageCropper\ImageCropper.Events.cpp" />
+    <ClCompile Include="ImageCropper\AnimatedGif.cpp" />
     <ClCompile Include="ImageCropper\ImageCropper.Helpers.cpp" />
     <ClCompile Include="ImageCropper\ImageCropper.Logic.cpp" />
     <ClCompile Include="ImageCropper\ImageCropperThumb.cpp">

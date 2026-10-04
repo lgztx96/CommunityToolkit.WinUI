@@ -1,15 +1,14 @@
 #include "pch.h"
 #include "winrt_module_imports.h"
+#include <shcore.h>
 #ifdef __INTELLISENSE__
 #include <algorithm>
 #include <cmath>
-#include <fstream>
-#include <filesystem>
 #include <optional>
-#include <winrt/Windows.Web.Http.h>
 #include <winrt/Windows.Storage.Streams.h>
 #endif
 #include "ImageCropper.h"
+#include "AnimatedGif.h"
 #if __has_include("ImageCropper.g.cpp")
 #include "ImageCropper.g.cpp"
 #endif
@@ -26,7 +25,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	/// <summary>
 	/// Gets the internally used aspect ratio, rather than the user-provided value. Adjusted to handle crop shape and invalid values.
 	/// </summary>
-	double ImageCropper::ActualAspectRatio()
+	double ImageCropper::ActualAspectRatio() const
 	{
 		std::optional<double> aspectRatio;
 		switch (CropShape())
@@ -118,6 +117,11 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		_lowerRightThumb = GetTemplateChild(LowerRightThumbPartName).try_as<Controls::ImageCropperThumb>();
 		HookUpEvents();
 		UpdateThumbsVisibility();
+
+		if (_sourceImage)
+		{
+			_sourceImage.Source(_displayImage);
+		}
 	}
 
 	void ImageCropper::HookUpEvents()
@@ -332,8 +336,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 	winrt::Size ImageCropper::MeasureOverride(winrt::Size availableSize)
 	{
-		auto source = Source();
-		if (source == nullptr || source.PixelWidth() == 0 || source.PixelHeight() == 0)
+		const auto pixelSize = _sourcePixelSize;
+		if (pixelSize.Width == 0 || pixelSize.Height == 0)
 		{
 			return base_type::MeasureOverride(availableSize);
 		}
@@ -342,16 +346,16 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		{
 			if (!std::isinf(availableSize.Width))
 			{
-				availableSize.Height = availableSize.Width / source.PixelWidth() * source.PixelHeight();
+				availableSize.Height = availableSize.Width / pixelSize.Width * pixelSize.Height;
 			}
 			else if (!std::isinf(availableSize.Height))
 			{
-				availableSize.Width = availableSize.Height / source.PixelHeight() * source.PixelWidth();
+				availableSize.Width = availableSize.Height / pixelSize.Height * pixelSize.Width;
 			}
 			else
 			{
-				availableSize.Width = static_cast<float>(source.PixelWidth());
-				availableSize.Height = static_cast<float>(source.PixelHeight());
+				availableSize.Width = pixelSize.Width;
+				availableSize.Height = pixelSize.Height;
 			}
 
 			base_type::MeasureOverride(availableSize);
@@ -361,130 +365,129 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		return base_type::MeasureOverride(availableSize);
 	}
 
-	winrt::IAsyncAction ImageCropper::LoadImageFromFile(winrt::StorageFile const& imageFile)
+	winrt::IAsyncOperation<winrt::IRandomAccessStream> ImageCropper::OpenSourceStreamAsync(winrt::Uri const& uri)
 	{
-		auto strongThis = get_strong();
+		if (uri.SchemeName() == L"file")
+		{
+			const auto path = winrt::Uri::UnescapeComponent(uri.Path());
+			if (path.size() < 2 || path.data()[0] != L'/')
+			{
+				co_return nullptr;
+			}
 
-		const auto writeableBitmap = winrt::WriteableBitmap(1, 1);
-		const auto& stream = co_await imageFile.OpenReadAsync();
-		co_await writeableBitmap.SetSourceAsync(stream);
+			const std::wstring localPath{ path.data() + 1, path.size() - 1 };
 
-		Source(writeableBitmap);
+			winrt::IRandomAccessStream stream{ nullptr };
+			winrt::check_hresult(::CreateRandomAccessStreamOnFile(
+				localPath.c_str(),
+				STGM_READ,
+				winrt::guid_of<winrt::IRandomAccessStream>(),
+				winrt::put_abi(stream)));
+
+			co_return stream;
+		}
+
+		winrt::IRandomAccessStream stream = co_await winrt::RandomAccessStreamReference::CreateFromUri(uri).OpenReadAsync();
+
+		co_return stream;
 	}
 
-	winrt::IAsyncAction ImageCropper::LoadImageFromUri(winrt::Uri const& uri)
+	void ImageCropper::SetSourceImage(winrt::BitmapImage const& displayImage, winrt::Size const& pixelSize)
 	{
-		auto strongThis = get_strong();
+		_displayImage = displayImage;
+		_sourcePixelSize = pixelSize;
 
-		std::vector<uint8_t> imageData;
-		const auto scheme = uri.SchemeName();
-
-		try
+		if (_sourceImage)
 		{
-			if (scheme == L"http" || scheme == L"https")
-			{
-				winrt::Windows::Web::Http::HttpClient httpClient;
-
-				auto response = co_await httpClient.GetAsync(uri);
-
-				if (!response.IsSuccessStatusCode())
-				{
-					co_return;
-				}
-
-				auto buffer = co_await response.Content().ReadAsBufferAsync();
-
-				imageData.resize(buffer.Length());
-
-				if (!imageData.empty())
-				{
-					auto reader = winrt::Windows::Storage::Streams::DataReader::FromBuffer(buffer);
-					reader.ReadBytes(winrt::array_view<uint8_t>(imageData.data(), imageData.data() + imageData.size()));
-				}
-			}
-			else if (scheme == L"ms-appx")
-			{
-				auto file = co_await winrt::StorageFile::GetFileFromApplicationUriAsync(uri);
-
-				if (!file) 
-				{
-					co_return;
-				}
-
-				auto buffer = co_await winrt::FileIO::ReadBufferAsync(file);
-
-				imageData.resize(buffer.Length());
-
-				if (!imageData.empty())
-				{
-					auto reader = winrt::Windows::Storage::Streams::DataReader::FromBuffer(buffer);
-					reader.ReadBytes(winrt::array_view<uint8_t>(imageData.data(), imageData.data() + imageData.size()));
-				}
-			}
-			else if (scheme == L"file")
-			{
-				std::filesystem::path filePath{ uri.Path().data() + 1 };
-				if (std::ifstream fs{ filePath, std::ios::binary | std::ios::ate})
-				{
-					const auto size = fs.tellg();
-					if (size <= 0)
-						co_return;
-
-					imageData.resize(static_cast<size_t>(size));
-
-					fs.seekg(0, std::ios::beg);
-
-					if (!fs.read(reinterpret_cast<char*>(imageData.data()), static_cast<std::streamsize>(imageData.size())))
-					{
-						co_return;
-					}
-				}
-			}
-
-			if (imageData.empty()) 
-			{
-				co_return;
-			}
-
-			winrt::Windows::Storage::Streams::InMemoryRandomAccessStream stream;
-
-			winrt::Windows::Storage::Streams::DataWriter writer{ stream };
-			writer.WriteBytes(winrt::array_view<uint8_t>(imageData.data(), imageData.data() + imageData.size()));
-
-			co_await writer.StoreAsync();
-
-			stream.Seek(0);
-
-			winrt::WriteableBitmap writeableBitmap(1, 1);
-
-			co_await writeableBitmap.SetSourceAsync(stream);
-
-			Source(writeableBitmap);
+			_sourceImage.Source(displayImage);
 		}
-		catch (const winrt::hresult_error&)
+
+		InvalidateMeasure();
+		UpdateCropShape();
+		InitImageLayout();
+	}
+
+	void ImageCropper::UnhookSourceEvents()
+	{
+		if (_displayImage)
 		{
-			// TODO: Load error image
+			_displayImage.ImageOpened(_sourceImageOpenedToken);
+			_displayImage.ImageFailed(_sourceImageFailedToken);
+			_displayImage = nullptr;
 		}
+	}
+
+	void ImageCropper::SourceImage_Opened(winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e)
+	{
+		const auto displayImage = sender.try_as<winrt::BitmapImage>();
+		if (!displayImage || displayImage != _displayImage)
+		{
+			return;
+		}
+
+		const winrt::Size pixelSize(
+			static_cast<float>(displayImage.PixelWidth()),
+			static_cast<float>(displayImage.PixelHeight()));
+
+		if (pixelSize.Width < MinCropSize().Width || pixelSize.Height < MinCropSize().Height)
+		{
+			SetSourceImage(nullptr, winrt::Size(0, 0));
+			return;
+		}
+
+		SetSourceImage(displayImage, pixelSize);
+	}
+
+	void ImageCropper::SourceImage_Failed(winrt::IInspectable const& sender, [[maybe_unused]] winrt::ExceptionRoutedEventArgs const& e)
+	{
+		if (sender.try_as<winrt::BitmapImage>() != _displayImage)
+		{
+			return;
+		}
+
+		SetSourceImage(nullptr, winrt::Size(0, 0));
 	}
 
 	winrt::IAsyncAction ImageCropper::SaveAsync(winrt::IRandomAccessStream stream, winrt::BitmapFileFormat bitmapFileFormat, bool keepRectangularOutput)
 	{
 		auto strongThis = get_strong();
-
-		const auto source = Source();
-		if (!source)
+		auto source = Source();
+		if (!_sourcePixelSize.Width || !source)
 		{
 			co_return;
 		}
 
 		const auto cropShape = CropShape();
-		if (keepRectangularOutput || cropShape == CropShape::Rectangular)
+		const auto rectangular = keepRectangularOutput || cropShape == CropShape::Rectangular;
+
+		// The source is opened again here, so only the cropped region ever gets decoded.
+		const auto sourceStream = co_await OpenSourceStreamAsync(source);
+		if (!sourceStream)
 		{
-			co_await CropImageAsync(source, stream, _currentCroppedRect, bitmapFileFormat);
 			co_return;
 		}
 
-		co_await CropImageWithShapeAsync(source, stream, _currentCroppedRect, bitmapFileFormat, cropShape);
+		if (rectangular)
+		{
+			// A source that carries more than one frame keeps all of them, each cropped by the same rectangle.
+			if (bitmapFileFormat == BitmapFileFormat::Gif)
+			{
+				const auto cropped = AnimatedGif::TryCrop(sourceStream, stream, _currentCroppedRect);
+
+				if (cropped)
+				{
+					co_return;
+				}
+			}
+
+			co_await CropImageAsync(sourceStream, stream, _currentCroppedRect, bitmapFileFormat);
+			co_return;
+		}
+
+		winrt::InMemoryRandomAccessStream croppedRegion;
+		co_await CropImageAsync(sourceStream, croppedRegion, _currentCroppedRect, bitmapFileFormat);
+		croppedRegion.Seek(0);
+		co_await CropImageWithShapeAsync(croppedRegion, stream, bitmapFileFormat, cropShape);
 	}
 
 	void ImageCropper::Reset()

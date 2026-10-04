@@ -17,9 +17,9 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
 	void ImageCropper::InitImageLayout(bool animate)
 	{
-		if (auto source = Source())
+		if (_sourcePixelSize.Width > 0 && _sourcePixelSize.Height > 0)
 		{
-			_restrictedCropRect = winrt::Rect(0, 0, static_cast<float>(source.PixelWidth()), static_cast<float>(source.PixelHeight()));
+			_restrictedCropRect = winrt::Rect(0, 0, _sourcePixelSize.Width, _sourcePixelSize.Height);
 			if (IsValidRect(_restrictedCropRect))
 			{
 				_currentCroppedRect = KeepAspectRatio() ? GetUniformRect(_restrictedCropRect, ActualAspectRatio()) : _restrictedCropRect;
@@ -562,7 +562,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 	bool ImageCropper::TryUpdateAspectRatio()
 	{
-		if (KeepAspectRatio() == false || Source() == nullptr || IsValidRect(_restrictedSelectRect) == false)
+		if (KeepAspectRatio() == false || _sourcePixelSize.Width == 0 || IsValidRect(_restrictedSelectRect) == false)
 		{
 			return false;
 		}
@@ -648,7 +648,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			break;
 		}
 
-		if (Source() == nullptr)
+		if (_sourcePixelSize.Width == 0)
 		{
 			cornerThumbsVisibility = otherThumbsVisibility = winrt::Visibility::Collapsed;
 		}

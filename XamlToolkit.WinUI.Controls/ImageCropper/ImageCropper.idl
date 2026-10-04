@@ -27,10 +27,6 @@
     {
         ImageCropper();
 
-        Windows.Foundation.IAsyncAction LoadImageFromFile(Windows.Storage.StorageFile imageFile);
-
-        Windows.Foundation.IAsyncAction LoadImageFromUri(Windows.Foundation.Uri uri);
-
         Windows.Foundation.IAsyncAction SaveAsync(
             Windows.Storage.Streams.IRandomAccessStream stream,
             BitmapFileFormat bitmapFileFormat,
@@ -49,7 +45,7 @@
         [noexcept]
         Windows.Foundation.Rect CroppedRegion{ get; };
 
-        Microsoft.UI.Xaml.Media.Imaging.WriteableBitmap Source;
+        Windows.Foundation.Uri Source;
 
         Windows.Foundation.IReference<Double> AspectRatio;
 

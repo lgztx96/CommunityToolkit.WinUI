@@ -2,6 +2,7 @@
 #include "winrt_module_imports.h"
 #ifdef __INTELLISENSE__
 #include <algorithm>
+#include <winrt/Microsoft.UI.Input.h>
 #endif
 #include "ImageCropper.h"
 
@@ -193,7 +194,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 	void ImageCropper::ImageCanvas_SizeChanged([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::SizeChangedEventArgs const& e)
 	{
-		if (Source() == nullptr)
+		if (_sourcePixelSize.Width == 0)
 		{
 			return;
 		}

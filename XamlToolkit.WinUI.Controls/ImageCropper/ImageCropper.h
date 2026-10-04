@@ -88,10 +88,6 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		winrt::Size MeasureOverride(winrt::Size availableSize);
 
-		winrt::IAsyncAction LoadImageFromFile(winrt::StorageFile const& imageFile);
-
-		winrt::IAsyncAction LoadImageFromUri(winrt::Uri const& imageUri);
-
 		winrt::IAsyncAction SaveAsync(
 			winrt::IRandomAccessStream stream, 
 			winrt::BitmapFileFormat bitmapFileFormat, 
@@ -110,18 +106,24 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		static void OnSourceChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e)
 		{
 			auto target = winrt::get_self<ImageCropper>(d.as<class_type>())->get_strong();
-			if (auto bitmap = e.NewValue().try_as<winrt::WriteableBitmap>())
-			{
-				if (bitmap.PixelWidth() < target->MinCropSize().Width || bitmap.PixelHeight() < target->MinCropSize().Height)
-				{
-					target->Source(nullptr);
-					throw winrt::hresult_invalid_argument(L"The resolution of the image is too small!");
-				}
-			}
 
-			target->InvalidateMeasure();
-			target->UpdateCropShape();
-			target->InitImageLayout();
+			target->UnhookSourceEvents();
+			target->SetSourceImage(nullptr, winrt::Size(0, 0));
+
+			if (const auto uri = e.NewValue().try_as<winrt::Uri>())
+			{
+				// The Uri is handed to a BitmapImage as-is and the XAML pipeline loads it, so the displayed
+				// image and its measured size always come from the same decode.
+				winrt::BitmapImage displayImage;
+				displayImage.UriSource(uri);
+
+				target->SetSourceImage(displayImage, winrt::Size(0, 0));
+
+				target->_sourceImageOpenedToken =
+					displayImage.ImageOpened({ target->get_weak(), &ImageCropper::SourceImage_Opened });
+				target->_sourceImageFailedToken =
+					displayImage.ImageFailed({ target->get_weak(), &ImageCropper::SourceImage_Failed });
+			}
 		}
 
 		static void OnAspectRatioChanged(
@@ -164,8 +166,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			target->UpdateThumbsVisibility();
 		}
 
-		winrt::WriteableBitmap Source() const { return GetValue(SourceProperty()).try_as<winrt::WriteableBitmap>(); }
-		void Source(winrt::WriteableBitmap const& value) { SetValue(SourceProperty(), value); }
+		winrt::Uri Source() const { return GetValue(SourceProperty()).try_as<winrt::Uri>(); }
+		void Source(winrt::Uri const& value) { SetValue(SourceProperty(), value); }
 
 		winrt::IReference<double> AspectRatio() const { return GetValue(AspectRatioProperty()).try_as<winrt::IReference<double>>(); }
 		void AspectRatio(IReference<double> value) { SetValue(AspectRatioProperty(), value); }
@@ -198,7 +200,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		static inline const wil::single_threaded_property<winrt::DependencyProperty> SourceProperty =
 			winrt::DependencyProperty::Register(
 				L"Source", 
-				winrt::xaml_typename<winrt::WriteableBitmap>(),
+				winrt::xaml_typename<winrt::Uri>(),
 				winrt::xaml_typename<class_type>(), 
 				winrt::PropertyMetadata(nullptr, &ImageCropper::OnSourceChanged));
 
@@ -287,7 +289,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		bool KeepAspectRatio() { return ActualAspectRatio() > 0; }
 
-		double ActualAspectRatio();
+		double ActualAspectRatio() const;
 
 		winrt::Size MinCropSize();
 
@@ -296,6 +298,13 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		void HookUpEvents();
 
 		void UnhookEvents();
+
+		// The image is an implementation detail of the control; only the Uri is public.
+		void SetSourceImage(winrt::BitmapImage const& displayImage, winrt::Size const& pixelSize);
+
+		void UnhookSourceEvents();
+
+		winrt::IAsyncOperation<winrt::IRandomAccessStream> OpenSourceStreamAsync(winrt::Uri const& uri);
 
 		void InitImageLayout(bool animate = false);
 
@@ -319,9 +328,11 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		winrt::Point SelectionAreaCenter();
 
-		static winrt::IAsyncAction CropImageAsync(winrt::WriteableBitmap writeableBitmap, winrt::IRandomAccessStream stream, Rect croppedRect, BitmapFileFormat bitmapFileFormat);
+		// Only the cropped region is decoded, so a large source never has to be materialized in full.
+		static winrt::IAsyncAction CropImageAsync(winrt::IRandomAccessStream sourceStream, winrt::IRandomAccessStream stream, Rect croppedRect, BitmapFileFormat bitmapFileFormat);
 
-		static winrt::IAsyncAction CropImageWithShapeAsync(winrt::WriteableBitmap writeableBitmap, winrt::IRandomAccessStream stream, Rect croppedRect, BitmapFileFormat bitmapFileFormat, winrt::XamlToolkit::WinUI::Controls::CropShape cropShape);
+		// croppedRegion already holds the cropped bitmap; this only applies the shape mask.
+		static winrt::IAsyncAction CropImageWithShapeAsync(winrt::IRandomAccessStream croppedRegion, winrt::IRandomAccessStream stream, BitmapFileFormat bitmapFileFormat, winrt::XamlToolkit::WinUI::Controls::CropShape cropShape);
 
 		static winrt::CanvasGeometry CreateClipGeometry(winrt::ICanvasResourceCreator resourceCreator, winrt::XamlToolkit::WinUI::Controls::CropShape cropShape, Size croppedSize);
 
@@ -356,6 +367,10 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		void ImageCropperThumb_ManipulationDelta(winrt::IInspectable const& sender, winrt::ManipulationDeltaRoutedEventArgs const& e);
 
 		void SourceImage_ManipulationDelta(winrt::IInspectable const& sender, winrt::ManipulationDeltaRoutedEventArgs const& e);
+
+		void SourceImage_Opened(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
+
+		void SourceImage_Failed(winrt::IInspectable const& sender, winrt::ExceptionRoutedEventArgs const& e);
 
 		void ImageCanvas_SizeChanged(winrt::IInspectable const& sender, winrt::SizeChangedEventArgs const& e);
 
@@ -421,6 +436,13 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		winrt::event_token _imageCanvasSizeChangedToken;
 		winrt::event_token _sourceImageManipulationDeltaToken;
+
+		// The displayed image, subscribed to so the size is known once it has decoded. Data is decoded
+		// from the source Uri again when saving, which is why no pixels are kept here.
+		winrt::BitmapImage _displayImage{ nullptr };
+		winrt::Size _sourcePixelSize{ 0, 0 };
+		winrt::event_token _sourceImageOpenedToken;
+		winrt::event_token _sourceImageFailedToken;
 	};
 }
 
