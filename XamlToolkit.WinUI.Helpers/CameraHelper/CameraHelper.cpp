@@ -15,6 +15,11 @@ namespace winrt
 
 namespace winrt::XamlToolkit::WinUI::Helpers::implementation
 {
+    winrt::fire_and_forget CameraHelper::final_release(std::unique_ptr<CameraHelper> self)
+    {
+        co_await self->CleanUpAsync();
+    }
+
     winrt::IAsyncOperation<winrt::IVectorView<winrt::MediaFrameSourceGroup>> CameraHelper::GetFrameSourceGroupsAsync()
     {
         if (!_frameSourceGroups)

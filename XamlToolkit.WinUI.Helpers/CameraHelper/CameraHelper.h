@@ -27,6 +27,8 @@ namespace winrt::XamlToolkit::WinUI::Helpers::implementation
     {
         CameraHelper() = default;
 
+        static winrt::fire_and_forget final_release(std::unique_ptr<CameraHelper> self);
+
         winrt::MediaFrameSourceGroup FrameSourceGroup() const;
 
         void FrameSourceGroup(winrt::MediaFrameSourceGroup const& value);
