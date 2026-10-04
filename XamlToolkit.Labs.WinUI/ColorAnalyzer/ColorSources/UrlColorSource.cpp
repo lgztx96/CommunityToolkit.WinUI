@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "winrt_module_imports.h"
+#include <shcore.h>
 #include "UrlColorSource.h"
 #if __has_include("UrlColorSource.g.cpp")
 #include "UrlColorSource.g.cpp"
@@ -37,22 +38,19 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         if (uri.SchemeName() == L"file") 
         {
-            std::filesystem::path filePath{ uri.Path().data() + 1 };
-            if (std::ifstream fs{ filePath, std::ios::binary | std::ios::ate })
+            const auto path = winrt::Uri::UnescapeComponent(uri.Path());
+            if (path.size() < 2 || path.data()[0] != L'/')
             {
-                const auto size = fs.tellg();
-                std::vector<uint8_t> data;
-                data.resize(static_cast<size_t>(size));
-
-                fs.seekg(0, std::ios::beg);
-
-                fs.read(reinterpret_cast<char*>(data.data()), static_cast<std::streamsize>(data.size()));
-                stream = winrt::Windows::Storage::Streams::InMemoryRandomAccessStream();
-                winrt::Windows::Storage::Streams::DataWriter writer{ stream };
-                writer.WriteBytes(winrt::array_view<uint8_t>(data.data(), data.data() + data.size()));
-                co_await writer.StoreAsync();
-                stream.Seek(0);
+                co_return nullptr;
             }
+
+            const std::wstring localPath{ path.data() + 1, path.size() - 1 };
+
+            winrt::check_hresult(::CreateRandomAccessStreamOnFile(
+                localPath.c_str(),
+                STGM_READ,
+                winrt::guid_of<winrt::IRandomAccessStream>(),
+                winrt::put_abi(stream)));
         }
         else 
         {
