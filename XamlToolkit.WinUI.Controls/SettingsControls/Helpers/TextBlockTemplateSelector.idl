@@ -1,0 +1,9 @@
+namespace XamlToolkit.WinUI.Controls
+{
+    [default_interface] runtimeclass TextBlockTemplateSelector : Microsoft.UI.Xaml.Controls.DataTemplateSelector
+    {
+        TextBlockTemplateSelector();
+
+        Microsoft.UI.Xaml.DataTemplate TextBlockTemplate { get; set; };
+    }
+}
