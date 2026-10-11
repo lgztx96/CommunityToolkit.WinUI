@@ -23,8 +23,6 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         StartTransitionAction() = default;
 
         static const wil::single_threaded_property<winrt::DependencyProperty> TransitionProperty;
-        static const wil::single_threaded_property<winrt::DependencyProperty> SourceProperty;
-        static const wil::single_threaded_property<winrt::DependencyProperty> TargetProperty;
 
         winrt::XamlToolkit::Labs::WinUI::TransitionHelper Transition() const
         {
@@ -38,25 +36,29 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         winrt::FrameworkElement Source() const
         {
-            return GetValue(SourceProperty()).try_as<winrt::FrameworkElement>();
+            return _source.get();
         }
 
         void Source(winrt::FrameworkElement const& value)
         {
-            SetValue(SourceProperty(), value);
+            _source = value;
         }
 
         winrt::FrameworkElement Target() const
         {
-            return GetValue(TargetProperty()).try_as<winrt::FrameworkElement>();
+            return _target.get();
         }
 
         void Target(winrt::FrameworkElement const& value)
         {
-            SetValue(TargetProperty(), value);
+            _target = value;
         }
 
         winrt::IInspectable Execute(winrt::IInspectable const& sender, winrt::IInspectable const& parameter) const;
+
+    private:
+        winrt::weak_ref<winrt::FrameworkElement> _source{ nullptr };
+        winrt::weak_ref<winrt::FrameworkElement> _target{ nullptr };
     };
 }
 

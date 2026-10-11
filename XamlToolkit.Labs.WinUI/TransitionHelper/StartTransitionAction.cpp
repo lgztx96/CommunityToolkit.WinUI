@@ -15,20 +15,6 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
             winrt::xaml_typename<class_type>(),
             winrt::PropertyMetadata(nullptr));
 
-    const wil::single_threaded_property<winrt::DependencyProperty> StartTransitionAction::SourceProperty =
-        winrt::DependencyProperty::Register(
-            L"Source",
-            winrt::xaml_typename<winrt::FrameworkElement>(),
-            winrt::xaml_typename<class_type>(),
-            winrt::PropertyMetadata(nullptr));
-
-    const wil::single_threaded_property<winrt::DependencyProperty> StartTransitionAction::TargetProperty =
-        winrt::DependencyProperty::Register(
-            L"Target",
-            winrt::xaml_typename<winrt::FrameworkElement>(),
-            winrt::xaml_typename<class_type>(),
-            winrt::PropertyMetadata(nullptr));
-
     winrt::IInspectable StartTransitionAction::Execute(
         [[maybe_unused]] winrt::IInspectable const& sender, 
         [[maybe_unused]] winrt::IInspectable const& parameter) const
