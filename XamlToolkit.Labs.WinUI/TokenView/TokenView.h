@@ -55,6 +55,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
 		void PrepareContainerForItemOverride(winrt::DependencyObject const& element, winrt::IInspectable const& item);
 
+		void ClearContainerForItemOverride(winrt::DependencyObject const& element, winrt::IInspectable const& item);
+
 		virtual void OnIsWrappedPropertyChanged(bool oldValue, bool newValue);
 
 		virtual void OnCanRemoveTokensPropertyChanged(bool oldValue, bool newValue);
@@ -92,7 +94,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
 		void SelectedIndex_PropertyChanged(winrt::DependencyObject const& sender, winrt::DependencyProperty const& dp);
 
-		void OnCanRemoveTokensChanged() {}
+		void OnCanRemoveTokensChanged();
 
 #pragma region Events
 		void TokenView_SizeChanged(winrt::IInspectable const& sender, winrt::SizeChangedEventArgs const& e);

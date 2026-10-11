@@ -97,19 +97,35 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
 		if (auto tokenItem = element.try_as<winrt::XamlToolkit::Labs::WinUI::TokenItem>())
 		{
-			//auto tokenLoadedToken = std::make_shared<winrt::event_token>();
-			//*tokenLoadedToken = tokenItem.Loaded([=](auto& s, auto& e) { tokenItem.Loaded(*tokenLoadedToken); Token_Loaded(s, e); });
+			auto itemSelf = winrt::get_self<TokenItem>(tokenItem);
 
-			tokenItem.Removing({ get_weak(), &TokenView::Token_Removing });
+			itemSelf->Removing(itemSelf->_removingToken);
+			itemSelf->_removingToken = itemSelf->Removing({ get_weak(), &TokenView::Token_Removing });
 
-			if (!tokenItem.IsRemoveable() && tokenItem.ReadLocalValue(TokenItem::IsRemoveableProperty()) == winrt::DependencyProperty::UnsetValue())
+			if (itemSelf->_isRemoveableSetByView ||
+				(!itemSelf->IsRemoveable() && itemSelf->ReadLocalValue(TokenItem::IsRemoveableProperty()) == winrt::DependencyProperty::UnsetValue()))
 			{
-				winrt::Binding isRemovableBinding;
-				isRemovableBinding.Source(*this);
-				isRemovableBinding.Path(winrt::PropertyPath(L"CanRemoveTokens"));
-				isRemovableBinding.Mode(winrt::BindingMode::OneWay);
+				itemSelf->_isRemoveableSetByView = true;
+				itemSelf->IsRemoveable(CanRemoveTokens());
+			}
+		}
+	}
 
-				tokenItem.SetBinding(TokenItem::IsRemoveableProperty(), isRemovableBinding);
+	void TokenView::ClearContainerForItemOverride(winrt::DependencyObject const& element, winrt::IInspectable const& item)
+	{
+		base_type::ClearContainerForItemOverride(element, item);
+
+		if (auto tokenItem = element.try_as<winrt::XamlToolkit::Labs::WinUI::TokenItem>())
+		{
+			auto itemSelf = winrt::get_self<TokenItem>(tokenItem);
+
+			itemSelf->Removing(itemSelf->_removingToken);
+			itemSelf->_removingToken = {};
+
+			if (itemSelf->_isRemoveableSetByView)
+			{
+				itemSelf->_isRemoveableSetByView = false;
+				itemSelf->ClearValue(TokenItem::IsRemoveableProperty());
 			}
 		}
 	}

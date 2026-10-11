@@ -68,6 +68,10 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 			SetValue(IconProperty(), value);
 		}
 
+		winrt::event_token _removingToken;
+
+		bool _isRemoveableSetByView{ false };
+
 	private:
 		void TokenItemRemoveButton_Click(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
 

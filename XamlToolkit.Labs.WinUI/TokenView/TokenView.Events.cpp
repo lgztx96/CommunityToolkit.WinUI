@@ -79,7 +79,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         if (_tokenViewScrollForwardButton)
         {
-			_tokenViewScrollBackButton.Click(_scrollForwardButtonClickToken);
+			_tokenViewScrollForwardButton.Click(_scrollForwardButtonClickToken);
         }
 
         if (_tokenViewScroller)
@@ -138,14 +138,6 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         UpdateScrollButtonsVisibility();
     }
 
-    //void TokenView::Token_Loaded(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e)
-    //{
-    //    if (auto token = sender.try_as<winrt::XamlToolkit::Labs::WinUI::TokenItem>())
-    //    {
-    //        token.Loaded -= Token_Loaded;
-    //    }
-    //}
-
     void TokenView::OnIsWrappedChanged()
     {
         if (_tokenViewScroller)
@@ -157,6 +149,24 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
             else
             {
                 _tokenViewScroller.HorizontalScrollBarVisibility(winrt::ScrollBarVisibility::Hidden);
+            }
+        }
+    }
+
+    void TokenView::OnCanRemoveTokensChanged()
+    {
+        const auto items = Items();
+
+        for (int32_t i = 0; i < static_cast<int32_t>(items.Size()); ++i)
+        {
+            if (auto tokenItem = ContainerFromIndex(i).try_as<winrt::XamlToolkit::Labs::WinUI::TokenItem>())
+            {
+                auto itemSelf = winrt::get_self<TokenItem>(tokenItem);
+
+                if (itemSelf->_isRemoveableSetByView)
+                {
+                    itemSelf->IsRemoveable(CanRemoveTokens());
+                }
             }
         }
     }
