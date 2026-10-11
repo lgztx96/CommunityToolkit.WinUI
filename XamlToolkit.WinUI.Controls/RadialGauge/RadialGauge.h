@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RadialGauge.g.h"
+#include <microsoft.ui.xaml.hosting.referencetracker.h>
 
 #ifdef __INTELLISENSE__
 #include <winrt/Windows.Foundation.h>
@@ -36,7 +37,7 @@ namespace winrt
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-	struct RadialGauge : RadialGaugeT<RadialGauge>
+	struct RadialGauge : RadialGaugeT<RadialGauge, ::IReferenceTrackerExtension>
 	{
 		// States
 	private:

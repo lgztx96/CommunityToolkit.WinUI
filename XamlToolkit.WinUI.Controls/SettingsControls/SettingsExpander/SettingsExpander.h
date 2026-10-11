@@ -1,6 +1,7 @@
 #pragma once
 
 #include "SettingsExpander.g.h"
+#include <microsoft.ui.xaml.hosting.referencetracker.h>
 
 #ifdef __INTELLISENSE__
 #include <winrt/Windows.Foundation.Collections.h>
@@ -24,7 +25,7 @@ namespace winrt
 
 namespace winrt::XamlToolkit::WinUI::Controls::implementation
 {
-    struct SettingsExpander : SettingsExpanderT<SettingsExpander>
+    struct SettingsExpander : SettingsExpanderT<SettingsExpander, ::IReferenceTrackerExtension>
     {
         static constexpr auto PART_ItemsRepeater = L"PART_ItemsRepeater";
 
