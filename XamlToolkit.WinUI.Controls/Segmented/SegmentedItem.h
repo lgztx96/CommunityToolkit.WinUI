@@ -34,7 +34,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		void OnApplyTemplate();
 
-		void OnVisibilityChanged(winrt::DependencyObject const& sender, winrt::DependencyProperty const& dp);
+		static void OnVisibilityChanged(winrt::DependencyObject const& sender, winrt::DependencyProperty const& dp);
 
 		void OnContentChanged(winrt::IInspectable const& oldContent, winrt::IInspectable const& newContent);
 

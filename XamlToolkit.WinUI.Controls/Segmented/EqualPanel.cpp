@@ -47,7 +47,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 	EqualPanel::EqualPanel()
 	{
-		RegisterPropertyChangedCallback(winrt::FrameworkElement::HorizontalAlignmentProperty(), { this, &EqualPanel::OnAlignmentChanged });
+		RegisterPropertyChangedCallback(winrt::FrameworkElement::HorizontalAlignmentProperty(), &EqualPanel::OnAlignmentChanged);
 		XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
 	}
 
@@ -161,14 +161,19 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		return finalSize;
 	}
 
-	void EqualPanel::OnAlignmentChanged([[maybe_unused]] winrt::DependencyObject const& sender, [[maybe_unused]] winrt::DependencyProperty const& dp)
+	void EqualPanel::OnAlignmentChanged(winrt::DependencyObject const& sender, [[maybe_unused]] winrt::DependencyProperty const& dp)
 	{
-		InvalidateMeasure();
+		if (auto panel = sender.try_as<winrt::UIElement>())
+		{
+			panel.InvalidateMeasure();
+		}
 	}
 
 	void EqualPanel::OnEqualPanelPropertyChanged(winrt::DependencyObject const& d, [[maybe_unused]] winrt::DependencyPropertyChangedEventArgs const& e)
 	{
-		if (auto panel = d.try_as<class_type>())
+		if (auto panel = d.try_as<winrt::UIElement>())
+		{
 			panel.InvalidateMeasure();
+		}
 	}
 }

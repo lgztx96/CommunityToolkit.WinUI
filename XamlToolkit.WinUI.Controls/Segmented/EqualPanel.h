@@ -41,7 +41,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
         winrt::Size ArrangeOverride(winrt::Size finalSize);
 
-        void OnAlignmentChanged(winrt::DependencyObject const& sender, winrt::DependencyProperty const& dp);
+        static void OnAlignmentChanged(winrt::DependencyObject const& sender, winrt::DependencyProperty const& dp);
 
         static void OnEqualPanelPropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
 

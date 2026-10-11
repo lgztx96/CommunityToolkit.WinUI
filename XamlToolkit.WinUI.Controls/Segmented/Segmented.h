@@ -38,7 +38,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		void Orientation(winrt::Microsoft::UI::Xaml::Controls::Orientation const& value) const;
 
-		void PrepareContainerForItemOverride(winrt::DependencyObject const& element, winrt::IInspectable const& item);
+		void PrepareContainerForItemOverride(winrt::DependencyObject const& element, winrt::IInspectable const& item) const;
 
 		winrt::DependencyObject GetContainerForItemOverride();
 
@@ -46,7 +46,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		void OnApplyTemplate();
 
-		void Segmented_PreviewKeyDown(winrt::IInspectable const& sender, winrt::KeyRoutedEventArgs const& e);
+		static void Segmented_PreviewKeyDown(winrt::IInspectable const& sender, winrt::KeyRoutedEventArgs const& e);
 
 		void OnItemsChanged(winrt::IInspectable const& e);
 
@@ -54,15 +54,13 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		winrt::XamlToolkit::WinUI::Controls::SegmentedItem GetCurrentContainerItem();
 
-		void OnSelectedIndexChanged(winrt::DependencyObject const& sender, winrt::DependencyProperty const& dp);
+		static void OnSelectedIndexChanged(winrt::DependencyObject const& sender, winrt::DependencyProperty const& dp);
 
 		static void OnOrientationChanged(winrt::DependencyObject const& sender, winrt::DependencyPropertyChangedEventArgs const& dp);
 
 	private:
 		int _internalSelectedIndex = -1;
 		bool _hasLoaded = false;
-
-		winrt::event_token _previewKeyDownToken;
 	};
 }
 

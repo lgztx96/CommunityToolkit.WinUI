@@ -18,7 +18,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			winrt::xaml_typename<class_type>(),
 			winrt::PropertyMetadata(nullptr, [](auto& d, auto& e)
 			{
-				auto self = winrt::get_self<SegmentedItem>(d.template as<class_type>())->get_strong();
+				auto self = winrt::get_self<SegmentedItem>(d.template as<class_type>());
 				self->OnIconPropertyChanged(winrt::unbox_value<winrt::IconElement>(e.OldValue()), winrt::unbox_value<winrt::IconElement>(e.NewValue()));
 			}));
 
@@ -29,7 +29,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	SegmentedItem::SegmentedItem()
 	{
 		DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
-		RegisterPropertyChangedCallback(winrt::UIElement::VisibilityProperty(), { this, &SegmentedItem::OnVisibilityChanged });
+		RegisterPropertyChangedCallback(winrt::UIElement::VisibilityProperty(), &SegmentedItem::OnVisibilityChanged);
 		XAMLTOOLKIT_TRACE_OBJECT_CREATED(winrt::name_of<class_type>());
 	}
 
@@ -44,11 +44,13 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		UpdateVisualStates();
 	}
 
-	void SegmentedItem::OnVisibilityChanged([[maybe_unused]] winrt::DependencyObject const& sender, [[maybe_unused]] winrt::DependencyProperty const& dp)
+	void SegmentedItem::OnVisibilityChanged(winrt::DependencyObject const& sender, [[maybe_unused]] winrt::DependencyProperty const& dp)
 	{
 		// If the parent is a Segmented control with an EqualPanel,
 		// we need to invalidate measure to update the layout.
-		if (auto segmented = Parent().try_as<winrt::XamlToolkit::WinUI::Controls::Segmented>())
+		const auto frameworkElement = sender.try_as<winrt::FrameworkElement>();
+
+		if (auto segmented = frameworkElement.Parent().try_as<winrt::XamlToolkit::WinUI::Controls::Segmented>())
 		{
 			if (auto panel = segmented.ItemsPanelRoot().try_as<winrt::Panel>())
 			{
