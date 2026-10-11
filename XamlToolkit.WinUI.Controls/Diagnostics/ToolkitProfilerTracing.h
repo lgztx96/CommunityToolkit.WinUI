@@ -36,10 +36,10 @@
 //         Object      - runtime class name
 //         Instance    - object address, used to match creation and destruction
 //         ThreadId    - thread that emitted the event
-//         LiveObjects - outstanding instances in the current module
 //
-// Lifetime duration is determined from the timestamps of the creation and destruction events.
-// Avoid adding user data such as URIs, paths, or text to event payloads.
+// Whether an object was released is determined by matching the creation and destruction events on
+// Instance; their timestamps give the lifetime duration. Avoid adding user data such as URIs, paths,
+// or text to event payloads.
 
 #include <cstdint>
 #include <string_view>
@@ -67,8 +67,6 @@ namespace winrt::XamlToolkit::WinUI::Diagnostics
 
 			return provider;
 		}
-
-		inline volatile long long g_liveObjects{ 0 };
 	}
 
 	struct ToolkitProfilerTracing
@@ -88,8 +86,7 @@ namespace winrt::XamlToolkit::WinUI::Diagnostics
 				TraceLoggingLevel(WINEVENT_LEVEL_INFO),
 				TraceLoggingCountedWideString(objectName.data(), static_cast<std::uint16_t>(objectName.size()), "Object"),
 				TraceLoggingPointer(instance, "Instance"),
-				TraceLoggingUInt32(GetCurrentThreadId(), "ThreadId"),
-				TraceLoggingInt64(InterlockedIncrement64(&details::g_liveObjects), "LiveObjects"));
+				TraceLoggingUInt32(GetCurrentThreadId(), "ThreadId"));
 		}
 
 		static void ObjectDestroyed(std::wstring_view objectName, void const* instance) noexcept
@@ -100,8 +97,7 @@ namespace winrt::XamlToolkit::WinUI::Diagnostics
 				TraceLoggingLevel(WINEVENT_LEVEL_INFO),
 				TraceLoggingCountedWideString(objectName.data(), static_cast<std::uint16_t>(objectName.size()), "Object"),
 				TraceLoggingPointer(instance, "Instance"),
-				TraceLoggingUInt32(GetCurrentThreadId(), "ThreadId"),
-				TraceLoggingInt64(InterlockedDecrement64(&details::g_liveObjects), "LiveObjects"));
+				TraceLoggingUInt32(GetCurrentThreadId(), "ThreadId"));
 		}
 	};
 }
