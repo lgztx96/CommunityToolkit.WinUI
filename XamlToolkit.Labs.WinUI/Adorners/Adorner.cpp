@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "winrt_module_imports.h"
 #include "Adorner.h"
+#include "AdornerLayer.h"
 #if __has_include("Adorner.g.cpp")
 #include "Adorner.g.cpp"
 #endif
@@ -64,7 +65,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
             // Track if AdornedElement is unloaded
             _adornedElementUnloadedToken = newfe.Unloaded({ this, &Adorner::OnAdornedElementUnloaded });
 
-            OnAttached();
+            overridable().OnAttached();
         }
     }
 
@@ -97,19 +98,24 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
     {
         if (AdornerLayer() == nullptr) return;
 
-        OnAttached();
+        overridable().OnAttached();
     }
 
     void Adorner::OnAdornedElementUnloaded([[maybe_unused]] winrt::IInspectable const& source, [[maybe_unused]] winrt::RoutedEventArgs const& eventArgs)
     {
         if (AdornerLayer() == nullptr) return;
 
-        OnDetaching();
+        overridable().OnDetaching();
 
         // TODO: Need to evaluate lifecycle a bit more, right now AdornerLayer (via attached property) mostly constrols the lifecycle
         // We could use private WeakReference to AdornedElement to re-listen for Loaded event and still remove/re-add via those
         // We just like to have the harder reference while we're active to make binding/interaction for Adorner implementer easier in XAML...
         //// AdornerLayer.RemoveAdorner(AdornerLayer, this);        
+        if (auto element = _adornedElement.try_as<winrt::FrameworkElement>())
+        {
+            implementation::AdornerLayer::RemoveAdorner(AdornerLayer(), *this);
+            implementation::AdornerLayer::AttachAdornerOnLoad(element);
+        }
     }
 
     void Adorner::UpdateLayout()

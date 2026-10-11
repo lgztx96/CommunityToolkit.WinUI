@@ -52,12 +52,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		{
 			if (!fe.IsLoaded() || fe.Parent() == nullptr)
 			{
-				auto loadedToken = std::make_shared<winrt::event_token>();
-				*loadedToken = fe.Loaded([=](auto& s, auto& e)
-				{
-					s.template as<winrt::FrameworkElement>().Loaded(*loadedToken);
-					XamlPropertyFrameworkElement_Loaded(s, e);
-				});
+				AttachAdornerOnLoad(fe);
 			}
 			else if (auto adorner = args.NewValue().try_as<winrt::UIElement>())
 			{
@@ -142,13 +137,20 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
 		if (auto decorator = adornerLayerOrTopMostElement.try_as<winrt::XamlToolkit::Labs::WinUI::AdornerDecorator>())
 		{
-			co_await winrt::XamlToolkit::WinUI::Future::FrameworkElementExtensions::WaitUntilLoadedAsync(decorator);
+			if (!co_await winrt::XamlToolkit::WinUI::Future::FrameworkElementExtensions::WaitUntilLoadedAsync(decorator))
+			{
+				co_return nullptr;
+			}
+
 			auto decoratorImpl = winrt::get_self<AdornerDecorator>(decorator);
 			co_return decoratorImpl->AdornerLayer();
 		}
 		else if (auto layer = adornerLayerOrTopMostElement.try_as<winrt::XamlToolkit::Labs::WinUI::AdornerLayer>())
 		{
-			co_await winrt::XamlToolkit::WinUI::Future::FrameworkElementExtensions::WaitUntilLoadedAsync(layer);
+			if (!co_await winrt::XamlToolkit::WinUI::Future::FrameworkElementExtensions::WaitUntilLoadedAsync(layer))
+			{
+				co_return nullptr;
+			}
 
 			// If we just have an adorner layer now, we're done!
 			co_return layer;
@@ -179,7 +181,10 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
 				scroller.Content(*layerContainer);
 
-				co_await winrt::XamlToolkit::WinUI::Future::FrameworkElementExtensions::WaitUntilLoadedAsync(*layerContainer);
+				if (!co_await winrt::XamlToolkit::WinUI::Future::FrameworkElementExtensions::WaitUntilLoadedAsync(*layerContainer))
+				{
+					co_return nullptr;
+				}
 
 				co_return layerContainer->AdornerLayer();
 			}
@@ -194,13 +199,26 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 				winrt::Grid::SetColumnSpan(adornerLayer, grid.ColumnDefinitions().Size());
 				grid.Children().Append(adornerLayer);
 
-				co_await winrt::XamlToolkit::WinUI::Future::FrameworkElementExtensions::WaitUntilLoadedAsync(adornerLayer);
+				if (!co_await winrt::XamlToolkit::WinUI::Future::FrameworkElementExtensions::WaitUntilLoadedAsync(adornerLayer))
+				{
+					co_return nullptr;
+				}
 
 				co_return adornerLayer;
 			}
 		}
 
 		co_return nullptr;
+	}
+
+	void AdornerLayer::AttachAdornerOnLoad(winrt::FrameworkElement const& element)
+	{
+		auto loadedToken = std::make_shared<winrt::event_token>();
+		*loadedToken = element.Loaded([=](auto& s, auto& e)
+		{
+			s.template as<winrt::FrameworkElement>().Loaded(*loadedToken);
+			XamlPropertyFrameworkElement_Loaded(s, e);
+		});
 	}
 
 	void AdornerLayer::AttachAdorner(winrt::XamlToolkit::Labs::WinUI::AdornerLayer const& layer, winrt::FrameworkElement const& adornedElement, winrt::UIElement const& adornerXaml)
@@ -226,7 +244,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
 	void AdornerLayer::RemoveAdorner(winrt::XamlToolkit::Labs::WinUI::AdornerLayer const& layer, winrt::UIElement const& adornerXaml)
 	{
-		if (auto adorner = XamlToolkit::WinUI::DependencyObjectEx::FindAscendantOrSelf<winrt::XamlToolkit::Labs::WinUI::Adorner>(adornerXaml))
+		if (auto adorner = winrt::XamlToolkit::WinUI::DependencyObjectEx::FindAscendantOrSelf<winrt::XamlToolkit::Labs::WinUI::Adorner>(adornerXaml))
 		{
 			auto adornerImpl = winrt::get_self<Adorner>(adorner);
 			adornerImpl->AdornedElement(nullptr);

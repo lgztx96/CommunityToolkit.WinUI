@@ -19,10 +19,6 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
     struct AdornerDecorator : AdornerDecoratorT<AdornerDecorator>
     {
-    private:
-        static constexpr std::wstring_view PartAdornerLayer = L"AdornerLayer";
-
-    public:
         winrt::UIElement Child() const
         {
             return GetValue(ChildProperty()).try_as<winrt::UIElement>();
@@ -47,6 +43,9 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         ~AdornerDecorator();
 
         void OnApplyTemplate();
+
+    private:
+        static constexpr std::wstring_view PartAdornerLayer = L"AdornerLayer";
     };
 }
 

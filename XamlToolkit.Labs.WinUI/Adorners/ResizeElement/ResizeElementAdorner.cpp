@@ -22,7 +22,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
     void ResizeElementAdorner::OnApplyTemplate()
     {
-        OnDetaching();
+        overridable().OnDetaching();
 
         TopThumbPart = GetTemplateChild(TopThumbPartName).try_as<winrt::XamlToolkit::Labs::WinUI::ResizeThumb>();
         BottomThumbPart = GetTemplateChild(BottomThumbPartName).try_as<winrt::XamlToolkit::Labs::WinUI::ResizeThumb>();
@@ -38,7 +38,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         {
             // Guard this incase we're getting removed from the visual tree...
             // Not sure if this is a bug in the Adorner lifecycle or not or specific to how we've set this up here.
-            OnAttached();
+            overridable().OnAttached();
         }
     }
 
@@ -81,8 +81,6 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
     void ResizeElementAdorner::OnDetaching()
     {
-        base_type::OnDetaching();
-
         std::array<winrt::XamlToolkit::Labs::WinUI::ResizeThumb, 8> parts =
         {
             TopThumbPart,

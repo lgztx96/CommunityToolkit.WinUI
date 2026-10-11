@@ -25,6 +25,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
 		static void RemoveAdorner(winrt::XamlToolkit::Labs::WinUI::AdornerLayer const& layer, winrt::UIElement const& adornerXaml);
 
+		static void AttachAdornerOnLoad(winrt::FrameworkElement const& element);
+
 		static winrt::IAsyncOperation<winrt::XamlToolkit::Labs::WinUI::AdornerLayer> GetAdornerLayerAsync(winrt::FrameworkElement const& adornedElement);
 
 		static const wil::single_threaded_property<winrt::DependencyProperty> XamlProperty;

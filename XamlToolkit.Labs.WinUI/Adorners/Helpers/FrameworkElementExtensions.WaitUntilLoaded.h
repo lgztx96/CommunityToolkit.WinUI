@@ -28,11 +28,17 @@ namespace winrt::XamlToolkit::WinUI::Future
 				completionEvent.SetEvent();
 			});
 
+			winrt::Microsoft::UI::Xaml::FrameworkElement::Unloaded_revoker unloadedRevoker;
+			unloadedRevoker = element.Unloaded(winrt::auto_revoke, [completionEvent](auto&&...)
+			{
+				completionEvent.SetEvent();
+			});
+
 			co_await winrt::resume_on_signal(completionEvent.get());
 
 			co_await wil::resume_foreground(element.DispatcherQueue());
 
-			co_return true;
+			co_return element.IsLoaded() && element.Parent();
 		}
 	};
 }

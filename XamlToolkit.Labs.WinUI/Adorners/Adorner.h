@@ -20,6 +20,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
     struct Adorner : AdornerT<Adorner>
     {
+        friend struct AdornerLayer;
+
         Adorner();
 
         ~Adorner();
