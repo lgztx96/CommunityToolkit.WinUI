@@ -71,7 +71,11 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		void PrepareContainerForItemOverride(winrt::DependencyObject const& element, winrt::IInspectable const& item);
 
+		void ClearContainerForItemOverride(winrt::DependencyObject const& element, winrt::IInspectable const& item);
+
 		void ItemsSource_PropertyChanged(winrt::DependencyObject const& sender, winrt::DependencyProperty const& dp);
+
+		void DisplayMemberPath_PropertyChanged(winrt::DependencyObject const& sender, winrt::DependencyProperty const& dp);
 
 		void TokenizingTextBox_ItemClick(winrt::IInspectable const& sender, winrt::ItemClickEventArgs const& e);
 
@@ -182,7 +186,11 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		void TabNavigateBackOnArrow(bool value) const { SetValue(TabNavigateBackOnArrowProperty(), winrt::box_value(value)); }
 
 		static void OnMaximumTokensChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
-		
+
+		static void OnAutoSuggestBoxAppearanceChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e);
+
+		void UpdateItemsAutoSuggestBoxAppearance(winrt::DependencyProperty const& property);
+
 		static const wil::single_threaded_property<winrt::DependencyProperty> MaximumTokensProperty;
 
 		int32_t MaximumTokens() const { return winrt::unbox_value_or(GetValue(MaximumTokensProperty()), 0); }

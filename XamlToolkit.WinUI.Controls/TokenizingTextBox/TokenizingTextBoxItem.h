@@ -67,17 +67,19 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			SetValue(ClearButtonStyleProperty(), value);
 		}
 
-		static const wil::single_threaded_property<winrt::DependencyProperty> OwnerProperty;
-
 		winrt::XamlToolkit::WinUI::Controls::TokenizingTextBox Owner() const
 		{
-			return GetValue(OwnerProperty()).try_as<winrt::XamlToolkit::WinUI::Controls::TokenizingTextBox>();
+			return _owner.get();
 		}
 
 		void Owner(winrt::XamlToolkit::WinUI::Controls::TokenizingTextBox const& value)
 		{
-			SetValue(OwnerProperty(), value);
+			_owner = value;
 		}
+
+		void UpdateAutoSuggestBoxAppearance(winrt::DependencyProperty const& property);
+
+		void UpdateAutoSuggestBoxAppearance();
 
 	private:
 		void ClearButton_Click(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
@@ -175,6 +177,10 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		winrt::event_token _tokenItemAddedToken;
 		winrt::event_token _tokenItemRemovedToken;
+
+		winrt::weak_ref<winrt::XamlToolkit::WinUI::Controls::TokenizingTextBox> _owner{ nullptr };
+
+		winrt::IconSourceElement _queryIconElement{ nullptr };
 	};
 }
 

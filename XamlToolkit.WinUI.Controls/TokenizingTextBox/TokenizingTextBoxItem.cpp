@@ -24,13 +24,6 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			winrt::xaml_typename<class_type>(),
 			winrt::PropertyMetadata{ winrt::box_value(winrt::Visibility::Collapsed) });
 
-	const wil::single_threaded_property<winrt::DependencyProperty> TokenizingTextBoxItem::OwnerProperty =
-		winrt::DependencyProperty::Register(
-			L"Owner",
-			winrt::xaml_typename<winrt::XamlToolkit::WinUI::Controls::TokenizingTextBox>(),
-			winrt::xaml_typename<class_type>(),
-			winrt::PropertyMetadata{ nullptr });
-
 	TokenizingTextBoxItem::TokenizingTextBoxItem()
 	{
 		DefaultStyleKey(winrt::box_value(winrt::xaml_typename<class_type>()));
@@ -136,33 +129,101 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			{
 				// We need to set our initial text in all cases.
 				_autoSuggestBox.Text(str.Text());
+			}
 
-				// We only set/bind some properties on the last textbox to mimic the autosuggestbox look
-				if (str.IsLast())
+			// The template doesn't bind the owner's appearance onto the AutoSuggestBox: push it in code.
+			UpdateAutoSuggestBoxAppearance();
+		}
+	}
+
+	void TokenizingTextBoxItem::UpdateAutoSuggestBoxAppearance()
+	{
+		for (auto const& property : {
+			TokenizingTextBox::AutoSuggestBoxStyleProperty(),
+			winrt::ItemsControl::DisplayMemberPathProperty(),
+			TokenizingTextBox::SuggestedItemTemplateProperty(),
+			TokenizingTextBox::SuggestedItemsSourceProperty(),
+			TokenizingTextBox::PlaceholderTextProperty(),
+			TokenizingTextBox::TextMemberPathProperty(),
+			TokenizingTextBox::QueryIconProperty() })
+		{
+			UpdateAutoSuggestBoxAppearance(property);
+		}
+	}
+
+	void TokenizingTextBoxItem::UpdateAutoSuggestBoxAppearance(winrt::DependencyProperty const& property)
+	{
+		if (!_autoSuggestBox)
+		{
+			return;
+		}
+
+		auto owner = Owner();
+
+		if (property == TokenizingTextBox::AutoSuggestBoxStyleProperty())
+		{
+			_autoSuggestBox.Style(owner.AutoSuggestBoxStyle());
+		}
+
+		if (property == winrt::ItemsControl::DisplayMemberPathProperty())
+		{
+			_autoSuggestBox.DisplayMemberPath(owner.DisplayMemberPath());
+		}
+
+		if (property == TokenizingTextBox::SuggestedItemTemplateProperty())
+		{
+			_autoSuggestBox.ItemTemplate(owner.SuggestedItemTemplate());
+		}
+
+		if (property == TokenizingTextBox::SuggestedItemsSourceProperty())
+		{
+			_autoSuggestBox.ItemsSource(owner.SuggestedItemsSource());
+		}
+
+		if (property == TokenizingTextBox::PlaceholderTextProperty())
+		{
+			_autoSuggestBox.PlaceholderText(owner.PlaceholderText());
+		}
+
+		if (property == TokenizingTextBox::TextMemberPathProperty())
+		{
+			_autoSuggestBox.TextMemberPath(owner.TextMemberPath());
+		}
+
+		// Only the last textbox mimics the owner's autosuggestbox look.
+		if (property == TokenizingTextBox::QueryIconProperty())
+		{
+			if (auto str = Content().try_as<ITokenStringContainer>(); str && str.IsLast())
+			{
+				auto queryIcon = owner.QueryIcon();
+
+				// Workaround for https://github.com/microsoft/microsoft-ui-xaml/issues/2568
+				if (auto fis = queryIcon.try_as<FontIconSource>(); fis &&
+					fis.ReadLocalValue(winrt::FontIconSource::FontSizeProperty()) == winrt::DependencyProperty::UnsetValue())
 				{
-					auto owner = Owner();
-					// Workaround for https://github.com/microsoft/microsoft-ui-xaml/issues/2568
-					if (auto fis = owner.QueryIcon().try_as<FontIconSource>(); fis &&
-						fis.ReadLocalValue(winrt::FontIconSource::FontSizeProperty()) == winrt::DependencyProperty::UnsetValue())
+					// This can be expensive, could we optimize?
+					// Also, this is changing the FontSize on the IconSource (which could be shared?)
+					if (auto value = FrameworkElementEx::TryFindResource(owner, winrt::box_value(L"TokenizingTextBoxIconFontSize")))
 					{
-						// This can be expensive, could we optimize?
-						// Also, this is changing the FontSize on the IconSource (which could be shared?)
-						if (auto value = FrameworkElementEx::TryFindResource(owner, winrt::box_value(L"TokenizingTextBoxIconFontSize")))
-						{
-							fis.FontSize(winrt::unbox_value_or<double>(value, 16));
-						}
+						fis.FontSize(winrt::unbox_value_or<double>(value, 16));
+					}
+				}
+
+				if (queryIcon)
+				{
+					// Keep one IconSourceElement and update its IconSource, so re-applying leaves
+					// the AutoSuggestBox's QueryIcon unchanged.
+					if (!_queryIconElement)
+					{
+						_queryIconElement = winrt::IconSourceElement();
 					}
 
-					winrt::Binding iconBinding;
-					iconBinding.Source(owner);
-					iconBinding.Path(winrt::PropertyPath(L"QueryIcon"));
-					winrt::RelativeSource relativeSource;
-					relativeSource.Mode(winrt::RelativeSourceMode::TemplatedParent);
-					iconBinding.RelativeSource(relativeSource);
-
-					winrt::IconSourceElement iconSourceElement;
-					iconSourceElement.SetBinding(winrt::IconSourceElement::IconSourceProperty(), iconBinding);
-					_autoSuggestBox.QueryIcon(iconSourceElement);
+					_queryIconElement.IconSource(queryIcon);
+					_autoSuggestBox.QueryIcon(_queryIconElement);
+				}
+				else
+				{
+					_autoSuggestBox.QueryIcon(nullptr);
 				}
 			}
 		}
@@ -187,7 +248,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		{
 			co_await owner->AddTokenAsync(chosenItem); // TODO: Need to pass index?
 			sender.Text(L"");
-			Owner().Text(L"");
+			owner->Text(L"");
 			sender.Focus(winrt::FocusState::Programmatic);
 		}
 	}
@@ -295,6 +356,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 	void TokenizingTextBoxItem::AutoSuggestBox_GotFocus([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::RoutedEventArgs const& e) const
 	{
 		auto owner = OwnerAsImpl(Owner());
+
 		// Verify if the usual behavior of clearing token selection is required
 		if (owner->PauseTokenClearOnFocus == false && !TokenizingTextBox::IsShiftPressed())
 		{
@@ -309,6 +371,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 	void TokenizingTextBoxItem::OnASBLoaded([[maybe_unused]] winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e)
 	{
+		UpdateAutoSuggestBoxAppearance();
 		UpdateQueryIconVisibility();
 		UpdateTokensCounter(*this);
 

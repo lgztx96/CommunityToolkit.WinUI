@@ -305,15 +305,9 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:TokenizingTextBoxItem">
-                    <AutoSuggestBox Name="PART_AutoSuggestBox"
-                                    DisplayMemberPath="{Binding Path=Owner.DisplayMemberPath, RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                                    ItemTemplate="{Binding Path=Owner.SuggestedItemTemplate, RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                                    ItemsSource="{Binding Path=Owner.SuggestedItemsSource, RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                                    PlaceholderText="{Binding Path=Owner.PlaceholderText, RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                                    Style="{Binding Path=Owner.AutoSuggestBoxStyle, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                    <AutoSuggestBox Name="PART_AutoSuggestBox"                                   
                                     Text="{Binding Text, Mode=TwoWay}"
                                     TextBoxStyle="{StaticResource TokenizingTextBoxTextBoxStyle}"
-                                    TextMemberPath="{Binding Path=Owner.TextMemberPath, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                     UpdateTextOnSelect="False" />
                 </ControlTemplate>
             </Setter.Value>

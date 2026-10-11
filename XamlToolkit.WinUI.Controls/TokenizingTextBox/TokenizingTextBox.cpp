@@ -43,7 +43,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			L"AutoSuggestBoxStyle",
 			winrt::xaml_typename<winrt::Style>(),
 			winrt::xaml_typename<class_type>(),
-			winrt::PropertyMetadata{ nullptr });
+			winrt::PropertyMetadata{ nullptr, &TokenizingTextBox::OnAutoSuggestBoxAppearanceChanged });
 
 	const wil::single_threaded_property<winrt::DependencyProperty> TokenizingTextBox::AutoSuggestBoxTextBoxStyleProperty =
 		winrt::DependencyProperty::Register(
@@ -57,7 +57,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			L"TextMemberPath",
 			winrt::xaml_typename<winrt::hstring>(),
 			winrt::xaml_typename<class_type>(),
-			winrt::PropertyMetadata{ nullptr });
+			winrt::PropertyMetadata{ nullptr, &TokenizingTextBox::OnAutoSuggestBoxAppearanceChanged });
 
 	const wil::single_threaded_property<winrt::DependencyProperty> TokenizingTextBox::TokenItemTemplateProperty =
 		winrt::DependencyProperty::Register(
@@ -92,14 +92,14 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			L"PlaceholderText",
 			winrt::xaml_typename<winrt::hstring>(),
 			winrt::xaml_typename<class_type>(),
-			winrt::PropertyMetadata{ winrt::box_value(L"") });
+			winrt::PropertyMetadata{ winrt::box_value(L""), &TokenizingTextBox::OnAutoSuggestBoxAppearanceChanged });
 
 	const wil::single_threaded_property<winrt::DependencyProperty> TokenizingTextBox::QueryIconProperty =
 		winrt::DependencyProperty::Register(
 			L"QueryIcon",
 			winrt::xaml_typename<winrt::IconSource>(),
 			winrt::xaml_typename<class_type>(),
-			winrt::PropertyMetadata{ nullptr });
+			winrt::PropertyMetadata{ nullptr, &TokenizingTextBox::OnAutoSuggestBoxAppearanceChanged });
 
 	const wil::single_threaded_property<winrt::DependencyProperty> TokenizingTextBox::TextProperty =
 		winrt::DependencyProperty::Register(
@@ -113,14 +113,14 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			L"SuggestedItemsSource",
 			winrt::xaml_typename<winrt::IInspectable>(),
 			winrt::xaml_typename<class_type>(),
-			winrt::PropertyMetadata{ nullptr });
+			winrt::PropertyMetadata{ nullptr, &TokenizingTextBox::OnAutoSuggestBoxAppearanceChanged });
 
 	const wil::single_threaded_property<winrt::DependencyProperty> TokenizingTextBox::SuggestedItemTemplateProperty =
 		winrt::DependencyProperty::Register(
 			L"SuggestedItemTemplate",
 			winrt::xaml_typename<winrt::DataTemplate>(),
 			winrt::xaml_typename<class_type>(),
-			winrt::PropertyMetadata{ nullptr });
+			winrt::PropertyMetadata{ nullptr, &TokenizingTextBox::OnAutoSuggestBoxAppearanceChanged });
 
 	const wil::single_threaded_property<winrt::DependencyProperty> TokenizingTextBox::SuggestedItemTemplateSelectorProperty =
 		winrt::DependencyProperty::Register(
@@ -163,6 +163,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		// TODO: Do we want to support ItemsSource better? Need to investigate how that works with adding...
 		RegisterPropertyChangedCallback(ItemsControl::ItemsSourceProperty(), { this, &TokenizingTextBox::ItemsSource_PropertyChanged });
+		RegisterPropertyChangedCallback(ItemsControl::DisplayMemberPathProperty(), { this, &TokenizingTextBox::DisplayMemberPath_PropertyChanged });
 		PreviewKeyDown({ this, &TokenizingTextBox::TokenizingTextBox_PreviewKeyDown });
 		PreviewKeyUp({ this, &TokenizingTextBox::TokenizingTextBox_PreviewKeyUp });
 		CharacterReceived({ this, &TokenizingTextBox::TokenizingTextBox_CharacterReceived });
@@ -463,29 +464,38 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		if (auto tokenItem = element.try_as<winrt::XamlToolkit::WinUI::Controls::TokenizingTextBoxItem>())
 		{
-			auto itemSelf = winrt::get_self<TokenizingTextBoxItem>(tokenItem)->get_strong();
+			auto itemSelf = winrt::get_self<TokenizingTextBoxItem>(tokenItem);
 			itemSelf->Owner(*this);
 
 			itemSelf->ContentTemplateSelector(TokenItemTemplateSelector());
 			itemSelf->ContentTemplate(TokenItemTemplate());
 
 			itemSelf->ClearClicked(itemSelf->_clearClickedToken);
-			itemSelf->ClearClicked({ this, &TokenizingTextBox::TokenizingTextBoxItem_ClearClicked });
+			itemSelf->_clearClickedToken = itemSelf->ClearClicked({ this, &TokenizingTextBox::TokenizingTextBoxItem_ClearClicked });
 
 			itemSelf->ClearAllAction(itemSelf->_clearAllActionToken);
-			itemSelf->ClearAllAction({ this, &TokenizingTextBox::TokenizingTextBoxItem_ClearAllAction });
+			itemSelf->_clearAllActionToken = itemSelf->ClearAllAction({ this, &TokenizingTextBox::TokenizingTextBoxItem_ClearAllAction });
 
 			itemSelf->GotFocus(itemSelf->_gotFocusToken);
-			itemSelf->GotFocus({ this, &TokenizingTextBox::TokenizingTextBoxItem_GotFocus });
+			itemSelf->_gotFocusToken = itemSelf->GotFocus({ this, &TokenizingTextBox::TokenizingTextBoxItem_GotFocus });
 
 			itemSelf->LostFocus(itemSelf->_lostFocusToken);
-			itemSelf->LostFocus({ this, &TokenizingTextBox::TokenizingTextBoxItem_LostFocus });
+			itemSelf->_lostFocusToken = itemSelf->LostFocus({ this, &TokenizingTextBox::TokenizingTextBoxItem_LostFocus });
 
 			winrt::MenuFlyout menuFlyout;
 			winrt::MenuFlyoutItem removeMenuItem;
 			removeMenuItem.Text(L"Remove");
-			removeMenuItem.Click({ get_weak(), [this, tokenItem](auto&, auto&) { TokenizingTextBoxItem_ClearClicked(tokenItem, nullptr); } });
-			menuFlyout.Items().Append(removeMenuItem);
+			auto weakItem = winrt::make_weak(tokenItem);
+			removeMenuItem.Click({ get_weak(), [this, weakItem](auto&, auto&)
+			{
+				if (auto tokenItem = weakItem.get())
+				{
+					TokenizingTextBoxItem_ClearClicked(tokenItem, nullptr);
+				}
+			} });
+
+			auto menuItems = menuFlyout.Items();
+			menuItems.Append(removeMenuItem);
 
 			if (ControlHelpers::IsXamlRootAvailable() && XamlRoot())
 			{
@@ -495,9 +505,26 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			winrt::MenuFlyoutItem selectAllMenuItem;
 			selectAllMenuItem.Text(L"Select all");
 			selectAllMenuItem.Click({ get_weak(), [this](auto&, auto&) { SelectAllTokensAndText(); } });
-			menuFlyout.Items().Append(selectAllMenuItem);
+			menuItems.Append(selectAllMenuItem);
 
 			itemSelf->ContextFlyout(menuFlyout);
+		}
+	}
+
+	void TokenizingTextBox::ClearContainerForItemOverride(winrt::DependencyObject const& element, winrt::IInspectable const& item)
+	{
+		base_type::ClearContainerForItemOverride(element, item);
+
+		if (auto tokenItem = element.try_as<winrt::XamlToolkit::WinUI::Controls::TokenizingTextBoxItem>())
+		{
+			auto itemSelf = winrt::get_self<TokenizingTextBoxItem>(tokenItem);
+
+			itemSelf->ClearClicked(itemSelf->_clearClickedToken);
+			itemSelf->ClearAllAction(itemSelf->_clearAllActionToken);
+			itemSelf->GotFocus(itemSelf->_gotFocusToken);
+			itemSelf->LostFocus(itemSelf->_lostFocusToken);
+
+			itemSelf->ContextFlyout(nullptr);
 		}
 	}
 
@@ -753,6 +780,32 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 						}
 					}
 				}
+			}
+		}
+	}
+
+	void TokenizingTextBox::OnAutoSuggestBoxAppearanceChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e)
+	{
+		if (auto ttb = d.try_as<class_type>())
+		{
+			winrt::get_self<TokenizingTextBox>(ttb)->UpdateItemsAutoSuggestBoxAppearance(e.Property());
+		}
+	}
+
+	void TokenizingTextBox::DisplayMemberPath_PropertyChanged([[maybe_unused]] winrt::DependencyObject const& sender, winrt::DependencyProperty const& dp)
+	{
+		UpdateItemsAutoSuggestBoxAppearance(dp);
+	}
+
+	void TokenizingTextBox::UpdateItemsAutoSuggestBoxAppearance(winrt::DependencyProperty const& property)
+	{
+		const auto items = Items();
+
+		for (int32_t i = 0; i < static_cast<int32_t>(items.Size()); ++i)
+		{
+			if (auto tokenItem = ContainerFromIndex(i).try_as<winrt::XamlToolkit::WinUI::Controls::TokenizingTextBoxItem>())
+			{
+				winrt::get_self<TokenizingTextBoxItem>(tokenItem)->UpdateAutoSuggestBoxAppearance(property);
 			}
 		}
 	}
