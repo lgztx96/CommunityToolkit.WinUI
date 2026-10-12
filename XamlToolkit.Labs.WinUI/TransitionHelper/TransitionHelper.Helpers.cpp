@@ -113,6 +113,69 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		return result;
 	}
 
+	TransitionHelper::WeakAnimatedElements TransitionHelper::ToWeakAnimatedElements(AnimatedElements<winrt::UIElement> const& elements)
+	{
+		WeakAnimatedElements result;
+
+		for (const auto& [id, element] : elements.ConnectedElements)
+		{
+			result.ConnectedElements.insert_or_assign(id, element);
+		}
+
+		for (const auto& [id, coordinated] : elements.CoordinatedElements)
+		{
+			auto& target = result.CoordinatedElements[id];
+			target.reserve(coordinated.size());
+			for (const auto& element : coordinated)
+			{
+				target.push_back(element);
+			}
+		}
+
+		result.IndependentElements.reserve(elements.IndependentElements.size());
+		for (const auto& element : elements.IndependentElements)
+		{
+			result.IndependentElements.push_back(element);
+		}
+
+		return result;
+	}
+
+	TransitionHelper::AnimatedElements<winrt::UIElement> TransitionHelper::ResolveAnimatedElements(WeakAnimatedElements const& elements)
+	{
+		AnimatedElements<winrt::UIElement> result;
+
+		for (const auto& [id, element] : elements.ConnectedElements)
+		{
+			if (auto strong = element.get())
+			{
+				result.ConnectedElements.insert_or_assign(id, strong);
+			}
+		}
+
+		for (const auto& [id, coordinated] : elements.CoordinatedElements)
+		{
+			auto& target = result.CoordinatedElements[id];
+			for (const auto& element : coordinated)
+			{
+				if (auto strong = element.get())
+				{
+					target.push_back(strong);
+				}
+			}
+		}
+
+		for (const auto& element : elements.IndependentElements)
+		{
+			if (auto strong = element.get())
+			{
+				result.IndependentElements.push_back(strong);
+			}
+		}
+
+		return result;
+	}
+
 	void TransitionHelper::ToggleVisualState(winrt::UIElement const& element, VisualStateToggleMethod method, bool visible)
 	{
 		if (!element) return;

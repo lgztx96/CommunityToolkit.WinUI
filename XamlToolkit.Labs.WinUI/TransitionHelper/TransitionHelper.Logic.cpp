@@ -27,19 +27,22 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 			ToggleVisualState(target, TargetToggleMethod, isTargetState);
 			RestoreAnimatedElements(TargetAnimatedElements());
 		}
+
+		ClearResolvedAnimatedElements();
 	}
 
-	winrt::IAsyncAction TransitionHelper::InitControlsStateAsync(bool forceUpdateAnimatedElements)
+	winrt::IAsyncAction TransitionHelper::InitControlsStateAsync(winrt::FrameworkElement const& source, winrt::FrameworkElement const& target, bool forceUpdateAnimatedElements)
 	{
 		auto maxZIndex = std::max(_sourceZIndex, _targetZIndex) + 1;
-		winrt::Canvas::SetZIndex(IsTargetState() ? _source : _target, maxZIndex);
+		winrt::Canvas::SetZIndex(IsTargetState() ? source : target, maxZIndex);
 
-		co_await winrt::when_all(InitControlStateAsync(_source), InitControlStateAsync(_target));
+		co_await winrt::when_all(InitControlStateAsync(source), InitControlStateAsync(target));
 
 		if (forceUpdateAnimatedElements)
 		{
 			_sourceAnimatedElements.reset();
 			_targetAnimatedElements.reset();
+			ClearResolvedAnimatedElements();
 		}
 	}
 
@@ -71,8 +74,13 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 	{
 		auto strongThis = get_strong();
 
-		IsNotNullAndIsInVisualTree(_source, L"Source");
-		IsNotNullAndIsInVisualTree(_target, L"Target");
+		auto source = Source();
+		auto target = Target();
+
+		IsNotNullAndIsInVisualTree(source, L"Source");
+		IsNotNullAndIsInVisualTree(target, L"Target");
+
+		auto clearResolvedElements = wil::scope_exit([this] { ClearResolvedAnimatedElements(); });
 
 		if (IsAnimating())
 		{
@@ -93,7 +101,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		else
 		{
 			_currentAnimationGroupController.reset();
-			co_await InitControlsStateAsync(forceUpdateAnimatedElements);
+			co_await InitControlsStateAsync(source, target, forceUpdateAnimatedElements);
 		}
 
 		_currentAnimationCancellationTokenSource.emplace();
@@ -104,7 +112,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
 		auto animationCancelToken = _currentAnimationCancellationTokenSource->get_token();
 
-		co_await AnimateControlsImpAsync(reversed ? ReverseDuration() : Duration(), reversed, animationCancelToken);
+		co_await AnimateControlsImpAsync(reversed ? ReverseDuration() : Duration(), reversed, animationCancelToken, source, target);
 		if (animationCancelToken.is_canceled())
 		{
 			co_return;
@@ -114,7 +122,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		RestoreState(!reversed);
 	}
 
-	winrt::IAsyncAction TransitionHelper::AnimateControlsImpAsync(winrt::TimeSpan duration, bool reversed, concurrency::cancellation_token token)
+	winrt::IAsyncAction TransitionHelper::AnimateControlsImpAsync(winrt::TimeSpan duration, bool reversed, concurrency::cancellation_token token, winrt::FrameworkElement source, winrt::FrameworkElement target)
 	{
 		if (!_currentAnimationGroupController.has_value())
 		{
@@ -136,43 +144,44 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 					}
 				}
 
-				auto sourceCoord = _sourceAnimatedElements->CoordinatedElements.find(id);
-				auto targetCoord = _targetAnimatedElements->CoordinatedElements.find(id);
-				auto sourceCoordinated = sourceCoord != _sourceAnimatedElements->CoordinatedElements.end()
+				auto sourceCoord = SourceAnimatedElements().CoordinatedElements.find(id);
+				auto targetCoord = TargetAnimatedElements().CoordinatedElements.find(id);
+				auto sourceCoordinated = sourceCoord != SourceAnimatedElements().CoordinatedElements.end()
 					? std::span{ sourceCoord->second } : std::span<winrt::UIElement>{};
 
-				auto targetCoordinated = targetCoord != _targetAnimatedElements->CoordinatedElements.end()
+				auto targetCoordinated = targetCoord != TargetAnimatedElements().CoordinatedElements.end()
 					? std::span{ targetCoord->second } : std::span<winrt::UIElement>{};
 
 				BuildConnectedAnimationController(
 					_currentAnimationGroupController.value(),
 					sourceElement, targetIt->second,
+					source, target,
 					sourceCoordinated, targetCoordinated,
 					duration, animationConfig);
 			}
 		}
 
-		std::vector<winrt::UIElement> sourceIndependent = _sourceAnimatedElements->IndependentElements;
-		std::vector<winrt::UIElement> targetIndependent = _targetAnimatedElements->IndependentElements;
-		for (const auto& [id, element] : _sourceAnimatedElements->ConnectedElements)
+		std::vector<winrt::UIElement> sourceIndependent = SourceAnimatedElements().IndependentElements;
+		std::vector<winrt::UIElement> targetIndependent = TargetAnimatedElements().IndependentElements;
+		for (const auto& [id, element] : SourceAnimatedElements().ConnectedElements)
 		{
-			if (!_targetAnimatedElements->ConnectedElements.contains(id))
+			if (!TargetAnimatedElements().ConnectedElements.contains(id))
 			{
 				sourceIndependent.push_back(element);
-				auto coordIt = _sourceAnimatedElements->CoordinatedElements.find(id);
-				if (coordIt != _sourceAnimatedElements->CoordinatedElements.end())
+				auto coordIt = SourceAnimatedElements().CoordinatedElements.find(id);
+				if (coordIt != SourceAnimatedElements().CoordinatedElements.end())
 				{
 					sourceIndependent.insert(sourceIndependent.end(), coordIt->second.begin(), coordIt->second.end());
 				}
 			}
 		}
-		for (const auto& [id, element] : _targetAnimatedElements->ConnectedElements)
+		for (const auto& [id, element] : TargetAnimatedElements().ConnectedElements)
 		{
-			if (!_sourceAnimatedElements->ConnectedElements.contains(id))
+			if (!SourceAnimatedElements().ConnectedElements.contains(id))
 			{
 				targetIndependent.push_back(element);
-				auto coordIt = _targetAnimatedElements->CoordinatedElements.find(id);
-				if (coordIt != _targetAnimatedElements->CoordinatedElements.end())
+				auto coordIt = TargetAnimatedElements().CoordinatedElements.find(id);
+				if (coordIt != TargetAnimatedElements().CoordinatedElements.end())
 				{
 					targetIndependent.insert(targetIndependent.end(), coordIt->second.begin(), coordIt->second.end());
 				}
@@ -205,6 +214,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		KeyFrameAnimationGroupController& controller,
 		winrt::UIElement const& source,
 		winrt::UIElement const& target,
+		winrt::FrameworkElement const& sourceRoot,
+		winrt::FrameworkElement const& targetRoot,
 		std::span<winrt::UIElement> sourceCoordinated,
 		std::span<winrt::UIElement> targetCoordinated,
 		winrt::TimeSpan duration,
@@ -270,10 +281,10 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 			std::move(targetScaleFactory),
 			std::move(targetOpacityFactory));
 
-		if (!sourceCoordinated.empty() && _target)
+		if (!sourceCoordinated.empty() && targetRoot)
 		{
-			auto targetControlBounds = winrt::Rect{ 0, 0, static_cast<float>(_target.ActualWidth()), static_cast<float>(_target.ActualHeight()) };
-			auto targetTransformedBounds = _target.TransformToVisual(_source).TransformBounds(targetControlBounds);
+			auto targetControlBounds = winrt::Rect{ 0, 0, static_cast<float>(targetRoot.ActualWidth()), static_cast<float>(targetRoot.ActualHeight()) };
+			auto targetTransformedBounds = targetRoot.TransformToVisual(sourceRoot).TransformBounds(targetControlBounds);
 
 			for (const auto& element : sourceCoordinated)
 			{
@@ -295,7 +306,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 					std::move(sourceScaleCopy),
 					std::move(sourceOpacityCopy));
 
-				auto initialLocation = element.TransformToVisual(_source).TransformPoint({});
+				auto initialLocation = element.TransformToVisual(sourceRoot).TransformPoint({});
 				auto clipResult = GetTargetClip(
 					winrt::float2{ static_cast<float>(initialLocation.X), static_cast<float>(initialLocation.Y) },
 					coordinatedSize, coordinatedCenterPoint,
@@ -311,10 +322,10 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 			}
 		}
 
-		if (!targetCoordinated.empty() && _source)
+		if (!targetCoordinated.empty() && sourceRoot)
 		{
-			auto sourceControlBounds = winrt::Rect{ 0, 0, static_cast<float>(_source.ActualWidth()), static_cast<float>(_source.ActualHeight()) };
-			auto sourceTransformedBounds = _source.TransformToVisual(_target).TransformBounds(sourceControlBounds);
+			auto sourceControlBounds = winrt::Rect{ 0, 0, static_cast<float>(sourceRoot.ActualWidth()), static_cast<float>(sourceRoot.ActualHeight()) };
+			auto sourceTransformedBounds = sourceRoot.TransformToVisual(targetRoot).TransformBounds(sourceControlBounds);
 			auto targetScaleInverse = GetInverseScale(sourceTargetScale);
 
 			for (const auto& element : targetCoordinated)
@@ -337,7 +348,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 					std::move(targetScaleCopy),
 					std::move(targetOpacityCopy));
 
-				auto initialLocation = element.TransformToVisual(_target).TransformPoint({});
+				auto initialLocation = element.TransformToVisual(targetRoot).TransformPoint({});
 				auto clipResult = GetTargetClip(
 					winrt::float2{ static_cast<float>(initialLocation.X), static_cast<float>(initialLocation.Y) },
 					coordinatedSize, coordinatedCenterPoint,

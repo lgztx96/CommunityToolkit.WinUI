@@ -11,18 +11,18 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 {
 	winrt::FrameworkElement TransitionHelper::Source() const
 	{
-		return _source;
+		return _source.get();
 	}
 
 	void TransitionHelper::Source(winrt::FrameworkElement const& value)
 	{
-		if (_source == value)
+		if (_source.get() == value)
 		{
 			return;
 		}
 
 		bool needReset = IsAnimating() || IsTargetState();
-		if (IsAnimating() && _source)
+		if (IsAnimating() && _source.get())
 		{
 			Stop();
 			RestoreAnimatedElements(SourceAnimatedElements());
@@ -32,6 +32,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		_source = value;
 		_sourceZIndex = value ? winrt::Canvas::GetZIndex(value) : -1;
 		_sourceAnimatedElements.reset();
+		_resolvedSourceAnimatedElements.reset();
 		if (needReset)
 		{
 			Reset(true);
@@ -40,18 +41,18 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
 	winrt::FrameworkElement TransitionHelper::Target() const
 	{
-		return _target;
+		return _target.get();
 	}
 
 	void TransitionHelper::Target(winrt::FrameworkElement const& value)
 	{
-		if (_target == value)
+		if (_target.get() == value)
 		{
 			return;
 		}
 
 		bool needReset = IsAnimating() || IsTargetState();
-		if (IsAnimating() && _target)
+		if (IsAnimating() && _target.get())
 		{
 			Stop();
 			RestoreAnimatedElements(TargetAnimatedElements());
@@ -61,6 +62,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		_target = value;
 		_targetZIndex = value ? winrt::Canvas::GetZIndex(value) : -1;
 		_targetAnimatedElements.reset();
+		_resolvedTargetAnimatedElements.reset();
 
 		if (needReset)
 		{

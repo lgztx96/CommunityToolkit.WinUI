@@ -48,6 +48,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 			std::vector<T> IndependentElements;
 		};
 
+		using WeakAnimatedElements = AnimatedElements<winrt::weak_ref<winrt::UIElement>>;
+
 		TransitionHelper() = default;
 
 		winrt::XamlToolkit::Labs::WinUI::TransitionConfig DefaultConfig() const;
@@ -243,15 +245,17 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
 #pragma region Logic
 		void RestoreState(bool isTargetState);
-		winrt::IAsyncAction InitControlsStateAsync(bool forceUpdateAnimatedElements = false);
+		winrt::IAsyncAction InitControlsStateAsync(winrt::FrameworkElement const& source, winrt::FrameworkElement const& target, bool forceUpdateAnimatedElements = false);
 		winrt::IAsyncAction InitControlStateAsync(winrt::FrameworkElement element);
 		winrt::IAsyncAction AnimateControlsAsync(bool reversed, bool forceUpdateAnimatedElements);
-		winrt::IAsyncAction AnimateControlsImpAsync(winrt::TimeSpan duration, bool reversed, concurrency::cancellation_token token);
+		winrt::IAsyncAction AnimateControlsImpAsync(winrt::TimeSpan duration, bool reversed, concurrency::cancellation_token token, winrt::FrameworkElement source, winrt::FrameworkElement target);
 
 		void BuildConnectedAnimationController(
 			KeyFrameAnimationGroupController& controller,
 			winrt::UIElement const& source,
 			winrt::UIElement const& target,
+			winrt::FrameworkElement const& sourceRoot,
+			winrt::FrameworkElement const& targetRoot,
 			std::span<winrt::UIElement> sourceCoordinated,
 			std::span<winrt::UIElement> targetCoordinated,
 			winrt::TimeSpan duration,
@@ -325,6 +329,10 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 #pragma region Helpers
 		static AnimatedElements<winrt::UIElement> GetAnimatedElements(winrt::DependencyObject const& parent);
 
+		static WeakAnimatedElements ToWeakAnimatedElements(AnimatedElements<winrt::UIElement> const& elements);
+
+		static AnimatedElements<winrt::UIElement> ResolveAnimatedElements(WeakAnimatedElements const& elements);
+
 		static void ToggleVisualState(winrt::UIElement const& element, VisualStateToggleMethod method, bool visible);
 
 		static void RestoreAnimatedElements(AnimatedElements<winrt::UIElement> const& elements);
@@ -360,32 +368,50 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 #pragma endregion
 
 	private:
-		const AnimatedElements<winrt::UIElement>& SourceAnimatedElements()
+		AnimatedElements<winrt::UIElement>& SourceAnimatedElements()
 		{
 			if (!_sourceAnimatedElements)
 			{
-				_sourceAnimatedElements.emplace(GetAnimatedElements(Source()));
+				_sourceAnimatedElements.emplace(ToWeakAnimatedElements(GetAnimatedElements(Source())));
 			}
 
-			return *_sourceAnimatedElements;
+			if (!_resolvedSourceAnimatedElements)
+			{
+				_resolvedSourceAnimatedElements.emplace(ResolveAnimatedElements(*_sourceAnimatedElements));
+			}
+
+			return *_resolvedSourceAnimatedElements;
 		}
 
-		const AnimatedElements<winrt::UIElement>& TargetAnimatedElements()
+		AnimatedElements<winrt::UIElement>& TargetAnimatedElements()
 		{
 			if (!_targetAnimatedElements)
 			{
-				_targetAnimatedElements.emplace(GetAnimatedElements(Target()));
+				_targetAnimatedElements.emplace(ToWeakAnimatedElements(GetAnimatedElements(Target())));
 			}
 
-			return *_targetAnimatedElements;
+			if (!_resolvedTargetAnimatedElements)
+			{
+				_resolvedTargetAnimatedElements.emplace(ResolveAnimatedElements(*_targetAnimatedElements));
+			}
+
+			return *_resolvedTargetAnimatedElements;
 		}
 
-		winrt::FrameworkElement _source{ nullptr };
-		winrt::FrameworkElement _target{ nullptr };
+		void ClearResolvedAnimatedElements()
+		{
+			_resolvedSourceAnimatedElements.reset();
+			_resolvedTargetAnimatedElements.reset();
+		}
+
+		winrt::weak_ref<winrt::FrameworkElement> _source{ nullptr };
+		winrt::weak_ref<winrt::FrameworkElement> _target{ nullptr };
 		int32_t _sourceZIndex{ -1 };
 		int32_t _targetZIndex{ -1 };
-		std::optional<AnimatedElements<winrt::UIElement>> _sourceAnimatedElements;
-		std::optional<AnimatedElements<winrt::UIElement>> _targetAnimatedElements;
+		std::optional<WeakAnimatedElements> _sourceAnimatedElements;
+		std::optional<WeakAnimatedElements> _targetAnimatedElements;
+		std::optional<AnimatedElements<winrt::UIElement>> _resolvedSourceAnimatedElements;
+		std::optional<AnimatedElements<winrt::UIElement>> _resolvedTargetAnimatedElements;
 
 		std::optional<concurrency::cancellation_token_source> _currentAnimationCancellationTokenSource;
 		std::optional<KeyFrameAnimationGroupController> _currentAnimationGroupController;
