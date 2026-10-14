@@ -62,6 +62,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
             _pointerExitedToken = PointerExited({ this, &SizerBase::SizerBase_PointerExited });
             _pointerPressedToken = PointerPressed({ this, &SizerBase::SizerBase_PointerPressed });
             _pointerReleasedToken = PointerReleased({ this, &SizerBase::SizerBase_PointerReleased });
+            _pointerCanceledToken = PointerCanceled({ this, &SizerBase::SizerBase_PointerCanceled });
+            _pointerCaptureLostToken = PointerCaptureLost({ this, &SizerBase::SizerBase_PointerCaptureLost });
             _manipulationStartedToken = ManipulationStarted({ this, &SizerBase::SizerBase_ManipulationStarted });
             _manipulationCompletedToken = ManipulationCompleted({ this, &SizerBase::SizerBase_ManipulationCompleted });
             _isEnabledChangedToken = IsEnabledChanged({ this, &SizerBase::SizerBase_IsEnabledChanged });
@@ -215,6 +217,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
     void SizerBase::SizerBase_PointerReleased([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::PointerRoutedEventArgs const& e)
     {
+        ReleasePointerCapture(e.Pointer());
         _pressed = false;
 
         if (IsEnabled())
@@ -226,10 +229,34 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
     void SizerBase::SizerBase_PointerPressed([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::PointerRoutedEventArgs const& e)
     {
         _pressed = true;
+        CapturePointer(e.Pointer());
 
         if (IsEnabled())
         {
             winrt::VisualStateManager::GoToState(*this, PointerOverState, true);
+        }
+    }
+
+    void SizerBase::SizerBase_PointerCanceled([[maybe_unused]] winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e)
+    {
+        ReleasePointerCapture(e.Pointer());
+        _pressed = false;
+        _dragging = false;
+
+        if (IsEnabled())
+        {
+            winrt::VisualStateManager::GoToState(*this, _pointerEntered ? PointerOverState : NormalState, true);
+        }
+    }
+
+    void SizerBase::SizerBase_PointerCaptureLost([[maybe_unused]] winrt::IInspectable const& sender, [[maybe_unused]] winrt::PointerRoutedEventArgs const& e)
+    {
+        _pressed = false;
+        _dragging = false;
+
+        if (IsEnabled())
+        {
+            winrt::VisualStateManager::GoToState(*this, _pointerEntered ? PointerOverState : NormalState, true);
         }
     }
 

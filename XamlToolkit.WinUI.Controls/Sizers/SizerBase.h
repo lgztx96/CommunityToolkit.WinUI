@@ -64,6 +64,10 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
         void SizerBase_PointerPressed([[maybe_unused]] winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e);
 
+        void SizerBase_PointerCanceled([[maybe_unused]] winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e);
+
+        void SizerBase_PointerCaptureLost([[maybe_unused]] winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e);
+
         void SizerBase_PointerExited([[maybe_unused]] winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e);
 
         void SizerBase_PointerEntered([[maybe_unused]] winrt::IInspectable const& sender, winrt::PointerRoutedEventArgs const& e);
@@ -113,6 +117,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         winrt::event_token _pointerExitedToken;
         winrt::event_token _pointerPressedToken;
         winrt::event_token _pointerReleasedToken;
+        winrt::event_token _pointerCanceledToken;
+        winrt::event_token _pointerCaptureLostToken;
         winrt::event_token _manipulationStartedToken;
         winrt::event_token _manipulationCompletedToken;
         winrt::event_token _isEnabledChangedToken;
