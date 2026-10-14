@@ -6,6 +6,11 @@
 		<PlatformToolset>v145</PlatformToolset>
 		<UseCrtSDKReference>false</UseCrtSDKReference>
         <UseCrtSDKReferenceStaticWarning>false</UseCrtSDKReferenceStaticWarning>
+
+        <!-- Use one repository-level vcpkg manifest for all native Toolkit projects. -->
+        <VcpkgEnableManifest>true</VcpkgEnableManifest>
+        <VcpkgManifestInstall>true</VcpkgManifestInstall>
+        <VcpkgManifestRoot>$(MSBuildThisFileDirectory)</VcpkgManifestRoot>
     </PropertyGroup>
 
 	<ItemDefinitionGroup>
