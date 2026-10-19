@@ -508,9 +508,13 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 					maxTokensCounter.Text(winrt::format(L"{}/{}", currentTokens, maxTokens));
 					maxTokensCounter.Visibility(winrt::Visibility::Visible);
 
-					maxTokensCounter.Foreground((static_cast<int>(currentTokens) >= maxTokens)
-						? Application::Current().Resources().TryLookup(winrt::box_value(L"SystemFillColorCriticalBrush")).as<winrt::SolidColorBrush>()
-						: Application::Current().Resources().TryLookup(winrt::box_value(L"TextFillColorSecondaryBrush")).as<winrt::SolidColorBrush>());
+					if (auto textBox = DependencyObjectEx::FindDescendant<winrt::TextBox>(_autoSuggestBox))
+					{
+						winrt::VisualStateManager::GoToState(textBox,
+							static_cast<int>(currentTokens) >= maxTokens
+								? TokenizingTextBox::PART_MaxReachedState
+								: L"Default", false);
+					}
 				}
 			};
 
