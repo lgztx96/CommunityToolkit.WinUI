@@ -30,6 +30,7 @@ namespace winrt::XamlToolkit::WinUI::Interactivity::implementation
     struct DataTriggerBehavior : DataTriggerBehaviorT<DataTriggerBehavior, winrt::XamlToolkit::WinUI::Interactivity::implementation::Trigger>
     {
         DataTriggerBehavior();
+
         ~DataTriggerBehavior();
 
         /// <summary>

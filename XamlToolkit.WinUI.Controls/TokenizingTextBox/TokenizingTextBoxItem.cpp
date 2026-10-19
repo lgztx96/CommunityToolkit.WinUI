@@ -39,6 +39,22 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
 	}
 
+	winrt::fire_and_forget TokenizingTextBoxItem::final_release(std::unique_ptr<TokenizingTextBoxItem> self)
+	{
+		try 
+		{
+			co_await wil::resume_foreground(self->DispatcherQueue());
+			self->DisconnectEvents();
+		}
+		catch (winrt::hresult_error const& e)
+		{
+			if (e.code() != RPC_E_WRONG_THREAD)
+			{
+				throw;
+			}
+		}
+	}
+
 	void TokenizingTextBoxItem::OnApplyTemplate()
 	{
 		base_type::OnApplyTemplate();

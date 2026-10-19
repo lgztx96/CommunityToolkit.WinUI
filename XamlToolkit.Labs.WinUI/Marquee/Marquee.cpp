@@ -33,6 +33,26 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 		XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
 	}
 
+	winrt::fire_and_forget Marquee::final_release(std::unique_ptr<Marquee> self)
+	{
+		try
+		{
+			co_await wil::resume_foreground(self->DispatcherQueue());
+			self->_loadedRevoker.revoke();
+			self->_unloadedRevoker.revoke();
+			self->_containerSizeChangedRevoker.revoke();
+			self->_segmentSizeChangedRevoker.revoke();
+			self->_storyBoardCompletedRevoker.revoke();
+		}
+		catch (winrt::hresult_error const& e)
+		{
+			if (e.code() != RPC_E_WRONG_THREAD)
+			{
+				throw;
+			}
+		}
+	}
+
 	void Marquee::OnApplyTemplate()
 	{
 		base_type::OnApplyTemplate();

@@ -37,11 +37,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
 		~TokenizingTextBoxItem();
 
-		static winrt::fire_and_forget final_release(std::unique_ptr<TokenizingTextBoxItem> self)
-		{
-			co_await wil::resume_foreground(self->DispatcherQueue());
-			self->DisconnectEvents();
-		}
+		static winrt::fire_and_forget final_release(std::unique_ptr<TokenizingTextBoxItem> self);
 
 		void OnApplyTemplate();
 

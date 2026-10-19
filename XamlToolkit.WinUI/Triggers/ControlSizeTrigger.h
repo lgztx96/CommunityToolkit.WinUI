@@ -24,17 +24,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
     {
         ControlSizeTrigger() = default;
 
-        static winrt::fire_and_forget final_release(std::unique_ptr<ControlSizeTrigger> self) noexcept 
-        {
-			co_await wil::resume_foreground(self->DispatcherQueue());
-			if (self->_sizeChangedToken)
-			{
-				if (const auto targetElement = self->_targetElement.get())
-				{
-					targetElement.SizeChanged(self->_sizeChangedToken);
-				}
-			}
-        }
+        static winrt::fire_and_forget final_release(std::unique_ptr<ControlSizeTrigger> self);
 
         bool CanTrigger() const { return winrt::unbox_value<bool>(GetValue(CanTriggerProperty())); }
         void CanTrigger(bool value) const { SetValue(CanTriggerProperty(), winrt::box_value(value)); }

@@ -20,6 +20,27 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
     }
 
+    winrt::fire_and_forget Adorner::final_release(std::unique_ptr<Adorner> self)
+    {
+        try
+        {
+            co_await wil::resume_foreground(self->DispatcherQueue());
+            if (const auto element = self->_adornedElement.try_as<winrt::FrameworkElement>())
+            {
+                element.Loaded(self->_adornedElementLoadedToken);
+                element.Unloaded(self->_adornedElementUnloadedToken);
+                element.SizeChanged(self->_adornedElementSizeChangedToken);
+            }
+        }
+        catch (winrt::hresult_error const& e)
+        {
+            if (e.code() != RPC_E_WRONG_THREAD)
+            {
+                throw;
+            }
+        }
+    }
+
     winrt::UIElement Adorner::AdornedElement() const noexcept
     {
         return _adornedElement;

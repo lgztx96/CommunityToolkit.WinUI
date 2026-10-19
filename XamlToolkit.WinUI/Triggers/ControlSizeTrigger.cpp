@@ -49,6 +49,28 @@ namespace winrt::XamlToolkit::WinUI::implementation
 			winrt::xaml_typename<class_type>(),
 			winrt::PropertyMetadata(nullptr, &ControlSizeTrigger::OnTargetElementPropertyChanged));
 
+	winrt::fire_and_forget ControlSizeTrigger::final_release(std::unique_ptr<ControlSizeTrigger> self)
+	{
+		try
+		{
+			co_await wil::resume_foreground(self->DispatcherQueue());
+			if (self->_sizeChangedToken)
+			{
+				if (const auto targetElement = self->_targetElement.get())
+				{
+					targetElement.SizeChanged(self->_sizeChangedToken);
+				}
+			}
+		}
+		catch (winrt::hresult_error const& e)
+		{
+			if (e.code() != RPC_E_WRONG_THREAD)
+			{
+				throw;
+			}
+		}
+	}
+
 	void ControlSizeTrigger::OnTargetElementPropertyChanged(winrt::DependencyObject const& d, winrt::DependencyPropertyChangedEventArgs const& e)
 	{
 		auto self = winrt::get_self<ControlSizeTrigger>(d.as<class_type>())->get_strong();

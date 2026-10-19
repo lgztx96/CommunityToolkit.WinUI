@@ -48,6 +48,23 @@ namespace winrt::XamlToolkit::WinUI::Controls::Primitives::implementation
 		XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
 	}
 
+	winrt::fire_and_forget ColorPreviewer::final_release(std::unique_ptr<ColorPreviewer> self)
+	{
+		try
+		{
+			co_await wil::resume_foreground(self->DispatcherQueue());
+
+			self->ConnectEvents(false);
+		}
+		catch (winrt::hresult_error const& e)
+		{
+			if (e.code() != RPC_E_WRONG_THREAD)
+			{
+				throw;
+			}
+		}
+	}
+
 	void ColorPreviewer::ConnectEvents(bool connected)
 	{
 		if (connected && !eventsConnected)
