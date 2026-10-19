@@ -47,11 +47,12 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         auto element = AdornedElement();
         if (element == nullptr)
         {
-            if (auto baseElement = base_type::AdornedElement())
-            {
-                throw winrt::hresult_no_interface(
-                    winrt::format(L"AdornedElement {} is not of type FrameworkElement", winrt::get_class_name(baseElement)).c_str());
-            }
+            auto baseElement = base_type::AdornedElement();
+            throw winrt::hresult_no_interface(
+                std::format(
+                    L"AdornedElement {} is not of type {}",
+                    baseElement ? winrt::get_class_name(baseElement) : L"null",
+                    winrt::name_of<winrt::FrameworkElement>()).c_str());
         }
 
         std::array<winrt::XamlToolkit::Labs::WinUI::ResizeThumb, 8> parts =
@@ -70,7 +71,7 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
         {
             if (const auto& part = parts[i])
             {
-                part.TargetControl(AdornedElement());
+                part.TargetControl(element);
                 _thumbTokens[i] = part.TargetControlResized({ this, &ResizeElementAdorner::OnTargetControlResized });
             }
         }
