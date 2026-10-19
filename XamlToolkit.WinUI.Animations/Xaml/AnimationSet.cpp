@@ -93,7 +93,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
         return operation;
     }
 
-    winrt::IAsyncAction AnimationSet::StartAsync(winrt::UIElement element, std::shared_ptr<ExecutionContext> state)
+    winrt::IAsyncAction AnimationSet::StartAsync(winrt::UIElement element, std::weak_ptr<ExecutionContext> state)
     {
         auto cancellation_token = co_await winrt::get_cancellation_token();
         cancellation_token.enable_propagation();
@@ -103,13 +103,16 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
 
         auto cleanup = wil::scope_exit([=] 
         {
-            std::unique_lock lock(strongThis->executionContextMutex);
-
-            auto it = strongThis->executionContexts.find(winrt::get_abi(element));
-
-            if (it != strongThis->executionContexts.end() && it->second == state)
+            if (auto locked = state.lock())
             {
-                strongThis->executionContexts.erase(it);
+                std::unique_lock lock(strongThis->executionContextMutex);
+
+                auto it = strongThis->executionContexts.find(winrt::get_abi(element));
+
+                if (it != strongThis->executionContexts.end() && it->second == locked)
+                {
+                    strongThis->executionContexts.erase(it);
+                }
             }
         });
 

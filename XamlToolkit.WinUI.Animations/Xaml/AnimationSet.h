@@ -47,7 +47,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
 
         winrt::IAsyncAction StartAsync();
         winrt::IAsyncAction StartAsync(winrt::UIElement const& element);
-        winrt::IAsyncAction StartAsync(winrt::UIElement element, std::shared_ptr<ExecutionContext> token);
+        winrt::IAsyncAction StartAsync(winrt::UIElement element, std::weak_ptr<ExecutionContext> token);
 
         void Stop();
         void Stop(winrt::UIElement const& element);
