@@ -91,7 +91,7 @@ namespace winrt::XamlToolkit::WinUI::Media::Animations::implementation
 
         effect_type Target(this const auto& self)
         {
-            return self.GetValue(TargetProperty()).try_as<effect_type>();
+            return self.GetValue(TargetProperty()).template try_as<effect_type>();
         }
 
         void Target(this const auto& self, effect_type const& value)
@@ -121,7 +121,7 @@ namespace winrt::XamlToolkit::WinUI::Media::Animations::implementation
 
         winrt::IVector<keyframe_type> KeyFrames(this const auto& self)
         {
-            auto keyFrames = self.GetValue(KeyFramesProperty()).try_as<winrt::IVector<keyframe_type>>();
+            auto keyFrames = self.GetValue(KeyFramesProperty()).template try_as<winrt::IVector<keyframe_type>>();
 
             if (!keyFrames)
             {

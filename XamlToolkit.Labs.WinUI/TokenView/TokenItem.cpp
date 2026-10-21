@@ -35,8 +35,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 				if (auto tokenItem = d.template try_as<winrt::XamlToolkit::Labs::WinUI::TokenItem>())
 				{
 					auto self = winrt::get_self<TokenItem>(tokenItem)->get_strong();
-					auto oldValue = e.OldValue().try_as<winrt::IconElement>();
-					auto newValue = e.NewValue().try_as<winrt::IconElement>();
+					auto oldValue = e.OldValue().template try_as<winrt::IconElement>();
+					auto newValue = e.NewValue().template try_as<winrt::IconElement>();
 					self->OnIconPropertyChanged(oldValue, newValue);
 				}
 			}));

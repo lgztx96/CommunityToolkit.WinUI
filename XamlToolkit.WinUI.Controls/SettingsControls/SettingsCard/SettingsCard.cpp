@@ -16,7 +16,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			winrt::PropertyMetadata(nullptr, [](auto&& d, auto&& e)
 			{
 				auto self = winrt::get_self<SettingsCard>(d.template as<winrt::XamlToolkit::WinUI::Controls::SettingsCard>())->get_strong();
-				self->OnHeaderPropertyChanged(e.OldValue().as<winrt::IInspectable>(), e.NewValue().as<winrt::IInspectable>());
+				self->OnHeaderPropertyChanged(e.OldValue().template as<winrt::IInspectable>(), e.NewValue().template as<winrt::IInspectable>());
 			}));
 
 	const wil::single_threaded_property<winrt::DependencyProperty> SettingsCard::DescriptionProperty =
@@ -27,7 +27,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			winrt::PropertyMetadata(nullptr, [](auto&& d, auto&& e)
 			{
 				auto self = winrt::get_self<SettingsCard>(d.template as<winrt::XamlToolkit::WinUI::Controls::SettingsCard>())->get_strong();
-				self->OnDescriptionPropertyChanged(e.OldValue().as<winrt::IInspectable>(), e.NewValue().as<winrt::IInspectable>());
+				self->OnDescriptionPropertyChanged(e.OldValue().template as<winrt::IInspectable>(), e.NewValue().template as<winrt::IInspectable>());
 			}));
 
 	const wil::single_threaded_property<winrt::DependencyProperty> SettingsCard::HeaderIconProperty =
@@ -38,7 +38,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			winrt::PropertyMetadata(nullptr, [](auto&& d, auto&& e)
 			{
 				auto self = winrt::get_self<SettingsCard>(d.template as<winrt::XamlToolkit::WinUI::Controls::SettingsCard>())->get_strong();
-				self->OnHeaderIconPropertyChanged(e.OldValue().as<winrt::IconElement>(), e.NewValue().as<winrt::IconElement>());
+				self->OnHeaderIconPropertyChanged(e.OldValue().template as<winrt::IconElement>(), e.NewValue().template as<winrt::IconElement>());
 			}));
 
 	const wil::single_threaded_property<winrt::DependencyProperty> SettingsCard::ActionIconProperty =
@@ -63,7 +63,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			winrt::PropertyMetadata(winrt::box_value(false), [](auto&& d, auto&& e)
 			{
 				auto self = winrt::get_self<SettingsCard>(d.template as<winrt::XamlToolkit::WinUI::Controls::SettingsCard>())->get_strong();
-				self->OnIsClickEnabledPropertyChanged(e.OldValue().as<bool>(), e.NewValue().as<bool>());
+				self->OnIsClickEnabledPropertyChanged(e.OldValue().template as<bool>(), e.NewValue().template as<bool>());
 			}));
 
 	const wil::single_threaded_property<winrt::DependencyProperty> SettingsCard::ContentAlignmentProperty =
@@ -81,7 +81,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 			winrt::PropertyMetadata(winrt::box_value(true), [](auto&& d, auto&& e)
 			{
 				auto self = winrt::get_self<SettingsCard>(d.template as<winrt::XamlToolkit::WinUI::Controls::SettingsCard>())->get_strong();
-				self->OnIsActionIconVisiblePropertyChanged(e.OldValue().as<bool>(), e.NewValue().as<bool>());
+				self->OnIsActionIconVisiblePropertyChanged(e.OldValue().template as<bool>(), e.NewValue().template as<bool>());
 			}));
 
 	SettingsCard::SettingsCard()

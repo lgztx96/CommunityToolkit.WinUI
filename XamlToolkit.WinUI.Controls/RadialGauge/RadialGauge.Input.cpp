@@ -44,7 +44,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         // Small step
         AddKeyboardAccelerator(winrt::VirtualKeyModifiers::None, winrt::VirtualKey::Left, [](auto&, auto& kaea)
         {
-            if (auto gauge = kaea.Element().try_as<winrt::XamlToolkit::WinUI::Controls::RadialGauge>())
+            if (auto gauge = kaea.Element().template try_as<winrt::XamlToolkit::WinUI::Controls::RadialGauge>())
             {
                 gauge.Value(std::max(gauge.Minimum(), gauge.Value() - std::max(gauge.StepSize(), gauge.SmallChange())));
                 kaea.Handled(true);
@@ -53,7 +53,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
         AddKeyboardAccelerator(winrt::VirtualKeyModifiers::None, winrt::VirtualKey::Up, [](auto&, auto& kaea)
         {
-            if (auto gauge = kaea.Element().try_as<winrt::XamlToolkit::WinUI::Controls::RadialGauge>())
+            if (auto gauge = kaea.Element().template try_as<winrt::XamlToolkit::WinUI::Controls::RadialGauge>())
             {
                 gauge.Value(std::min(gauge.Maximum(), gauge.Value() + std::max(gauge.StepSize(), gauge.SmallChange())));
                 kaea.Handled(true);
@@ -62,7 +62,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
         AddKeyboardAccelerator(winrt::VirtualKeyModifiers::None, winrt::VirtualKey::Right, [](auto&, auto& kaea)
         {
-            if (auto gauge = kaea.Element().try_as<winrt::XamlToolkit::WinUI::Controls::RadialGauge>())
+            if (auto gauge = kaea.Element().template try_as<winrt::XamlToolkit::WinUI::Controls::RadialGauge>())
             {
                 gauge.Value(std::min(gauge.Maximum(), gauge.Value() + std::max(gauge.StepSize(), gauge.SmallChange())));
                 kaea.Handled(true);
@@ -71,7 +71,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
         AddKeyboardAccelerator(winrt::VirtualKeyModifiers::None, winrt::VirtualKey::Down, [](auto&, auto& kaea)
         {
-            if (auto gauge = kaea.Element().try_as<winrt::XamlToolkit::WinUI::Controls::RadialGauge>())
+            if (auto gauge = kaea.Element().template try_as<winrt::XamlToolkit::WinUI::Controls::RadialGauge>())
             {
                 gauge.Value(std::max(gauge.Minimum(), gauge.Value() - std::max(gauge.StepSize(), gauge.SmallChange())));
                 kaea.Handled(true);
@@ -81,7 +81,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
         // Large step
         AddKeyboardAccelerator(winrt::VirtualKeyModifiers::Control, winrt::VirtualKey::Left, [](auto&, auto& kaea)
         {
-            if (auto gauge = kaea.Element().try_as<winrt::XamlToolkit::WinUI::Controls::RadialGauge>())
+            if (auto gauge = kaea.Element().template try_as<winrt::XamlToolkit::WinUI::Controls::RadialGauge>())
             {
                 gauge.Value(std::max(gauge.Minimum(), gauge.Value() - std::max(gauge.StepSize(), gauge.LargeChange())));
                 kaea.Handled(true);
@@ -90,7 +90,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
         AddKeyboardAccelerator(winrt::VirtualKeyModifiers::Control, winrt::VirtualKey::Up, [](auto&, auto& kaea)
         {
-            if (auto gauge = kaea.Element().try_as<winrt::XamlToolkit::WinUI::Controls::RadialGauge>())
+            if (auto gauge = kaea.Element().template try_as<winrt::XamlToolkit::WinUI::Controls::RadialGauge>())
             {
                 gauge.Value(std::min(gauge.Maximum(), gauge.Value() + std::max(gauge.StepSize(), gauge.LargeChange())));
                 kaea.Handled(true);
@@ -99,7 +99,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
         AddKeyboardAccelerator(winrt::VirtualKeyModifiers::Control, winrt::VirtualKey::Right, [](auto&, auto& kaea)
         {
-            if (auto gauge = kaea.Element().try_as<winrt::XamlToolkit::WinUI::Controls::RadialGauge>())
+            if (auto gauge = kaea.Element().template try_as<winrt::XamlToolkit::WinUI::Controls::RadialGauge>())
             {
                 gauge.Value(std::min(gauge.Maximum(), gauge.Value() + std::max(gauge.StepSize(), gauge.LargeChange())));
                 kaea.Handled(true);
@@ -108,7 +108,7 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 
         AddKeyboardAccelerator(winrt::VirtualKeyModifiers::Control, winrt::VirtualKey::Down, [](auto&, auto& kaea)
         {
-            if (auto gauge = kaea.Element().try_as<winrt::XamlToolkit::WinUI::Controls::RadialGauge>())
+            if (auto gauge = kaea.Element().template try_as<winrt::XamlToolkit::WinUI::Controls::RadialGauge>())
             {
                 gauge.Value(std::max(gauge.Minimum(), gauge.Value() - std::max(gauge.StepSize(), gauge.LargeChange())));
                 kaea.Handled(true);
