@@ -12,7 +12,6 @@
 		</Reference>
 		<ReferenceCopyLocalPaths Include="$(MSBuildThisFileDirectory)..\..\runtimes\win-$(WinUIToolkitPlatform)\native\XamlToolkit.Labs.WinUI.dll" />
 		<ReferenceCopyLocalPaths Include="$(MSBuildThisFileDirectory)..\..\lib\native\XamlToolkit.Labs.WinUI.pri" />
-		<SDKReference Include="Microsoft.VCLibs.Desktop, Version=14.0" />
 	</ItemGroup>
 
 </Project>

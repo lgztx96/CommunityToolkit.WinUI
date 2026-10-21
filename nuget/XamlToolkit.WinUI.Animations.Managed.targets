@@ -25,7 +25,6 @@
 
 	<ItemGroup>
 		<WindowsMetadataReference Include="$(WinUIToolkitWinMDPath)" Implementation="$(WinUIToolkitWinMDImplementationDllName)" />
-		<SDKReference Include="Microsoft.VCLibs.Desktop, Version=14.0" />
 	</ItemGroup>
 
 	<Target Name="WinUIToolkitWarnNoPlatform" BeforeTargets="BeforeBuild" Condition="'$(WinUIToolkitPlatform)' == '' and '$(WinUIToolkitWarnNoPlatform)' == 'true'">
