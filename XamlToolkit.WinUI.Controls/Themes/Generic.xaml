@@ -2,6 +2,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="ms-appx:///XamlToolkit.WinUI.Controls/SettingsControls/SettingsCard/SettingsCard.xaml" />
         <ResourceDictionary Source="ms-appx:///XamlToolkit.WinUI.Controls/SettingsControls/SettingsExpander/SettingsExpander.xaml" />
+        <ResourceDictionary Source="ms-appx:///XamlToolkit.WinUI.Controls/SettingsControls/SettingsGroup/SettingsGroup.xaml" />
         <ResourceDictionary Source="ms-appx:///XamlToolkit.WinUI.Controls/Segmented/Segmented.xaml" />
         <ResourceDictionary Source="ms-appx:///XamlToolkit.WinUI.Controls/Segmented/SegmentedItem.xaml" />
         <ResourceDictionary Source="ms-appx:///XamlToolkit.WinUI.Controls/Sizers/SizerBase.xaml" />

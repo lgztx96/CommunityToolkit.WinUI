@@ -1,0 +1,25 @@
+namespace XamlToolkit.WinUI.Controls
+{
+    [default_interface] runtimeclass SettingsGroup : Microsoft.UI.Xaml.Controls.Control
+    {
+        SettingsGroup();
+
+        static Microsoft.UI.Xaml.DependencyProperty RootGridCornerRadiusProperty { get; };
+        Microsoft.UI.Xaml.CornerRadius RootGridCornerRadius { get; set; };
+
+        static Microsoft.UI.Xaml.DependencyProperty ItemsProperty { get; };
+        Windows.Foundation.Collections.IObservableVector<Object> Items { get; set; };
+
+        static Microsoft.UI.Xaml.DependencyProperty ContentProperty { get; };
+        Object Content { get; set; };
+
+        static Microsoft.UI.Xaml.DependencyProperty HeaderIconProperty { get; };
+        Microsoft.UI.Xaml.Controls.IconElement HeaderIcon { get; set; };
+
+        static Microsoft.UI.Xaml.DependencyProperty HeaderProperty { get; };
+        Object Header { get; set; };
+
+        static Microsoft.UI.Xaml.DependencyProperty DescriptionProperty { get; };
+        Object Description { get; set; };
+    }
+}
