@@ -115,6 +115,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
 
         wil::untyped_event<winrt::IInspectable> ValueChanged;
 
+        void Refresh();
+
     private:
         winrt::event_token _containerCanvasSizeChangedToken;
         winrt::event_token _containerCanvasPointerEnteredToken;

@@ -46,6 +46,8 @@ namespace winrt::XamlToolkit::Labs::WinUI::implementation
     	XAMLTOOLKIT_TRACE_OBJECT_DESTROYED(winrt::name_of<class_type>());
     }
 
+    void GradientSlider::Refresh() { RefreshThumbs(); }
+
     void GradientSlider::OnApplyTemplate()
     {
         base_type::OnApplyTemplate();
