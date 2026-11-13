@@ -1,0 +1,7 @@
+namespace XamlToolkit.WinUI.Converters
+{
+    [default_interface] runtimeclass ItemsCountToCornerRadiusConverter : Microsoft.UI.Xaml.Data.IValueConverter
+    {
+        ItemsCountToCornerRadiusConverter();
+    }
+}
