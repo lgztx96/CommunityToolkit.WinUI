@@ -289,8 +289,8 @@ namespace winrt::XamlToolkit::WinUI::Controls::implementation
 		}
 
 		// TO DO: Replace with _radialGauge->_root = container.GetVisual();
-		auto hostVisual = winrt::ElementCompositionPreview::GetElementVisual(container);
-		auto root = hostVisual.Compositor().CreateContainerVisual();
+		auto compositor = winrt::CompositionTarget::GetCompositorForCurrentThread();
+		auto root = compositor.CreateContainerVisual();
 		winrt::ElementCompositionPreview::SetElementChildVisual(container, root);
 		radialGauge->_root = root;
 		//

@@ -221,9 +221,9 @@ namespace winrt::XamlToolkit::WinUI::Media::Pipelines
 
     PipelineBuilderImpl PipelineBuilderImpl::FromUIElement(winrt::UIElement const& element)
     {
-        return PipelineBuilderImpl([element]() -> winrt::IAsyncOperation<winrt::CompositionBrush>
+        return PipelineBuilderImpl([]() -> winrt::IAsyncOperation<winrt::CompositionBrush>
         {
-            auto compositor = winrt::ElementCompositionPreview::GetElementVisual(element).Compositor();
+            auto compositor = winrt::CompositionTarget::GetCompositorForCurrentThread();
             co_return compositor.CreateBackdropBrush();
         });
     }

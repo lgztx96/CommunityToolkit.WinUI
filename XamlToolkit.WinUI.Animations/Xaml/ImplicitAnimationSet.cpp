@@ -74,8 +74,8 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
 
     winrt::CompositionAnimationGroup ImplicitAnimationSet::GetCompositionAnimationGroup(winrt::UIElement const& element)
     {
-        const auto visual = winrt::ElementCompositionPreview::GetElementVisual(element);
-        const auto animations = visual.Compositor().CreateAnimationGroup();
+        const auto compositor = winrt::CompositionTarget::GetCompositorForCurrentThread();
+        const auto animations = compositor.CreateAnimationGroup();
 
         for (const auto& item : *this)
         {

@@ -11,6 +11,7 @@
 
 namespace winrt
 {
+	using namespace ::winrt::Microsoft::UI::Xaml::Media;
 	using namespace ::winrt::Microsoft::UI::Xaml::Hosting;
 	using namespace ::winrt::Microsoft::UI::Composition;
 }
@@ -57,8 +58,7 @@ namespace winrt::XamlToolkit::WinUI::Animations::implementation
 
     void ItemsReorderAnimation::AssignReorderAnimation(winrt::ListViewBase const& listView, winrt::TimeSpan const& duration)
     {
-        auto visual = winrt::ElementCompositionPreview::GetElementVisual(listView);
-        auto compositor = visual.Compositor();
+        auto compositor = winrt::CompositionTarget::GetCompositorForCurrentThread();
         auto animationCollection = listView.GetValue(ReorderAnimationProperty()).try_as<winrt::ImplicitAnimationCollection>();
 
         if (!animationCollection)

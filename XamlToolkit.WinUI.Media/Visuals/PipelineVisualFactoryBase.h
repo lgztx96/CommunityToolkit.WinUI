@@ -43,7 +43,8 @@ namespace winrt::XamlToolkit::WinUI::Media::implementation
         /// </summary>
         winrt::IAsyncOperation<winrt::Visual> GetAttachedVisualAsync(winrt::UIElement const& element) override
         {
-            auto visual = winrt::ElementCompositionPreview::GetElementVisual(element).Compositor().CreateSpriteVisual();
+            auto compositor = winrt::CompositionTarget::GetCompositorForCurrentThread();
+            auto visual = compositor.CreateSpriteVisual();
             auto brush = co_await OnPipelineRequested().BuildAsync();
             visual.Brush(brush);
             co_return visual;

@@ -11,6 +11,7 @@
 
 namespace winrt
 {
+	using namespace ::winrt::Microsoft::UI::Xaml::Media;
 	using namespace ::winrt::Microsoft::UI::Xaml::Controls;
 }
 
@@ -47,7 +48,7 @@ namespace winrt::XamlToolkit::WinUI::implementation
 				}
 				else
 				{
-					auto compositor = winrt::ElementCompositionPreview::GetElementVisual(shadow->CastTo()).Compositor();
+					auto compositor = winrt::CompositionTarget::GetCompositorForCurrentThread();
 					shadow->_container = compositor.CreateContainerVisual();
 
 					winrt::ElementCompositionPreview::SetElementChildVisual(elementNew, shadow->_container);
